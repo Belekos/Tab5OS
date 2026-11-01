@@ -41,8 +41,6 @@ Deux files applicatives fixes de 8 Kio en PSRAM. Le pilote USB utilise 4 Kio RX 
 
 Le service redirige stdout/stderr à l'initialisation vers un VFS de diagnostic dédié, afin d'éviter la duplication USB secondaire configurée dans le SDK. Ce VFS et le wrapper `Tab5DebugSerial` conservent l'UART0 et utilisent le même miroir borné, actif uniquement en Débogage. Aucun remplacement récursif de `esp_log_set_vprintf`.
 
-La vérification hôte compile le namespace de production du service avec des doubles de pilotes, NVS et FreeRTOS, et le vrai parseur de commandes : branchement/débranchement, changement Debug/Données, absence de consommation RX par le diagnostic en mode Données, files saturées, écritures partielles, envoi 512 Kio, annulation, erreurs de mémoire/sauvegarde, binaire, réglages invalides, annulation de lecture et référence FIFO indépendante. Les unités sont aussi compilées avec le véritable SDK ESP32-P4. Voir `tools/verification/serial-backend-0826.json` et `serial-syntax-0826.json`.
-
 **Pas de test physique réalisé** : compatibilité du câble/port PC, RS485, débit soutenu, coexistence radio et états de veille restent à vérifier sur la tablette. Une connexion USB détectée indique la présence du bus USB, pas une confirmation du programme distant.
 
 Sources primaires : [HAL RS485 officiel M5Stack](https://github.com/m5stack/M5Tab5-UserDemo/blob/main/platforms/tab5/main/hal/components/hal_rs485.cpp), [console ESP-IDF 5.5.4](https://github.com/espressif/esp-idf/blob/v5.5.4/components/esp_vfs_console/vfs_console.c). Les en-têtes installés du SDK P4 3.3.9 confirment `CONFIG_USJ_ENABLE_USB_SERIAL_JTAG` et `CONFIG_ESP_CONSOLE_SECONDARY_USB_SERIAL_JTAG` ; le routage physique USB-A/USB-C et son schéma officiel sont référencés dans `STOCKAGE_USB.md`.

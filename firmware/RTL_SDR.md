@@ -55,8 +55,4 @@ L’exemple fourni par l’utilisateur, [tab5-devos — devos_adsb.c](https://gi
 
 ## Vérification et limites
 
-Les essais sont dans `tools/sdr-tests-0826`. Les tests worker couvrent 2 048 entrées, le CSV complet, les erreurs, le changement à chaud, le balayage et 2 000 cycles de réception. Les tests USB conservent les 2 000 cycles, annulations, débranchements, épuisements DMA et bornes de copie, avec une assertion supplémentaire vérifiant l’absence de sommeil après une fin immédiate de transfert.
-
 Le test UI exécute le code de production avec LVGL, Focus, TextInput et UiStyle réels. Il couvre les pages de 24 entrées, la dernière entrée 2 048, les états Recevoir/Appliquer/Arrêter, les champs numériques, le changement d’unité avec saisie en attente, la sélection visible, le rechargement d’une grande sauvegarde et les hauteurs réduites par le clavier. Il effectue également 100 ouvertures/fermetures. Le test DSP conserve les signaux FM synthétiques et les mesures introduits en 0.8.25.
-
-Les rapports `tools/verification/sdr-*-0826.json` identifient les sources exécutées et les frontières simulées. Ces essais et la compilation cible ne remplacent pas une mesure physique de réception, de sensibilité RF, de débit USB, de latence tactile ou de mémoire DMA sur Tab5.

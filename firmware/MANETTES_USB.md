@@ -89,8 +89,6 @@ La vitesse USB n’ajoute pas le Bluetooth et n’est pas nécessaire au simple 
 - 59 assertions avec LVGL réel sur les réglages, associations et annulations.
 - Navigation OS, répétition, absence de répétition de validation, changements de contexte, débordement du compteur de temps, pont Python et 4 000 lectures sans consommation ; décodage du vrai module Python.
 
-Rapports : `tools/verification/gamepad-history-0824.json`, `gamepad-0824.json`, `gamepad-pipeline-0824.json`, `gamepad-settings-0824.json`, `gamepad-navigation-0824.json`.
-
 Les tests sont exécutés sur ordinateur, avec le protocole et le code de production ; ils ne mesurent pas la SRAM réelle du Tab5. Les paquets sont des fixtures documentées, **pas des captures de la manette de l’utilisateur**. Le branchement physique, les hubs et les variantes de firmware restent à tester sur l’appareil.
 
 Sur le Tab5 : brancher directement en HID, ouvrir **Réglages → Interface → Manette**, vérifier les commandes et les associer si nécessaire ; lancer ensuite le jeu. Refaire l’essai après déconnexion/reconnexion puis en XInput. Comparer le branchement direct et le hub avec le mode USB compatible hubs après redémarrage si nécessaire.

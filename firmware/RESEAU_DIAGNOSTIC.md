@@ -38,14 +38,7 @@ clients HTTP/TCP/UDP. Leurs verrous coordonnent les transferts et la mémoire ;
 ils ne décident pas du trajet de chaque paquet. Le code ELF partage aussi la
 mémoire de l'OS : son ABI n'est pas un bac à sable de sécurité.
 
-La 0.8.19 corrige une omission de ce verrou : une nouvelle session est refusée
-lorsque le réseau est désactivé, y compris si la désactivation intervient
-pendant l'attente du verrou. Les clients déjà ouverts doivent toujours surveiller
-l'interrupteur et se fermer. Les tests `tools/network-gate-tests` couvrent ces
-transitions et la conservation du mutex par son propriétaire. Ce correctif
-n'installe ni route VPN ni filtrage des paquets.
-
-La 0.8.19 appliquait aussi ce refus aux commandes internes de l'OS : après avoir bloqué les clients, la connexion, l'arrêt du Wi-Fi et le partage direct ne pouvaient plus acquérir le verrou. La 0.8.20 réserve une acquisition distincte à ces transitions internes, tout en attendant la libération des clients existants. Les recherches différées ou échouées publient désormais leur état au lieu de laisser une liste vide trompeuse. Si le pilote refuse l'arrêt du partage, le serveur se ferme et l'OS conserve la transition en attente jusqu'à l'arrêt réel ; il ne lance pas de connexion concurrente. Les tests reproduisent les trois échecs de la 0.8.19, puis contrôlent la correction avec le pilote simulé ; ils ne constituent pas un essai radio sur le Tab5. Le rapport `tools/verification/wifi-transitions-0820.json` conserve cette validation historique ; la réexécution sur les sources courantes figure dans `tools/verification/wifi-transitions-0821.json` et [VERIFICATION.md](VERIFICATION.md).
+La 0.8.19 appliquait aussi ce refus aux commandes internes de l'OS : après avoir bloqué les clients, la connexion, l'arrêt du Wi-Fi et le partage direct ne pouvaient plus acquérir le verrou. La 0.8.20 réserve une acquisition distincte à ces transitions internes, tout en attendant la libération des clients existants. Les recherches différées ou échouées publient désormais leur état au lieu de laisser une liste vide trompeuse. Si le pilote refuse l'arrêt du partage, le serveur se ferme et l'OS conserve la transition en attente jusqu'à l'arrêt réel ; il ne lance pas de connexion concurrente. Les tests reproduisent les trois échecs de la 0.8.19, puis contrôlent la correction avec le pilote simulé ; ils ne constituent pas un essai radio sur le Tab5.
 
 ### MicroLink v2
 

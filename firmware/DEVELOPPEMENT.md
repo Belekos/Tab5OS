@@ -28,7 +28,7 @@ Un script ne peut pas supposer que tous les modules de MicroPython pour ESP32 st
 
 ## Un premier ELF
 
-Ouvrir un terminal dans `Tab5OS_Arduino_v0.8.39_Ecriture`. Avec la chaîne GCC Espressif installée :
+Ouvrir un terminal dans `Tab5OS_Arduino_v0.8.53`. Avec la chaîne GCC Espressif installée :
 
 ```text
 python tools/native-apps/build.py tools/native-apps/examples/pattern.c --toolchain CHEMIN/esp-rv32/2601/bin -o pattern.app.elf
@@ -73,18 +73,9 @@ Ne pas appeler LVGL depuis un worker de réseau ou de stockage. Produire un rés
 
 ## Vérifier une modification
 
-Les commandes ci-dessous se lancent depuis la racine de la livraison :
-
-```text
-python tools/sdk-tests/run.py --clang-bin CHEMIN/esp-clang/bin
-python tools/usb-gamepad-tests/run_host.py Tab5OS_Arduino_v0.8.39_Ecriture
-python tools/audit_publication.py
-```
-
-Les deux premiers bancs utilisent MSVC 2022 sur Windows pour leurs tests natifs. Ils ne flashent rien. Les scripts de tests propres aux fonctionnalités sont dans `tools/*-tests`. Après modification d'une bibliothèque SD ou d'un pack, régénérer les ressources par les outils documentés dans [COMPILATION.md](COMPILATION.md) ; ne pas livrer un firmware avec des empreintes d'une autre version.
+Recompiler avec le [guide de compilation](COMPILATION.md). Après une modification de ressources SD, régénérer les fichiers concernés avec les scripts documentés.
 
 Pour un essai matériel, relever la version, les périphériques, l'application ouverte, la mémoire avant/après et la séquence exacte. Répéter les ouvertures/fermetures et annulations, puis un retrait de support à un point prévu par l'interface. Une compilation seule ne valide ni la stabilité matérielle ni les besoins SRAM maximaux.
-
 
 ## ABI ELF 6 — canevas et images
 

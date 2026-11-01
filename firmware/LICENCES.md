@@ -1,6 +1,6 @@
 # Licences et provenance — état préparatoire 0.8.22
 
-Les notices des composants tiers sont conservées dans leurs dossiers. [LICENCES-manifest.json](LICENCES-manifest.json) donne leurs chemins et empreintes, produits par `python tools/audit_publication.py`. Cet inventaire décrit les fichiers fournis ; il n'attribue pas une nouvelle licence aux auteurs.
+Les notices des composants tiers sont conservées dans leurs dossiers. [LICENCES-manifest.json](LICENCES-manifest.json) donne leurs chemins et empreintes. Cet inventaire décrit les fichiers fournis ; il n'attribue pas une nouvelle licence aux auteurs.
 
 **Aucun fichier de licence principale n'a été trouvé pour les parties propres à Tab5OS.** Son titulaire doit choisir les conditions de redistribution avant de présenter le dépôt comme un projet open source sous une licence déterminée. La préparation du dépôt et de sa documentation ne constitue pas ce choix.
 

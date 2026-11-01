@@ -32,4 +32,4 @@ Les opérations utilisent le journal de récupération existant : une interrupti
 
 ## Vérifications et limites
 
-Les suites automatisées conservées utilisent un système SD simulé et couvrent : import sans exécution, paquet avec `__init__`, dépendances mip isolées, projets, copie répétée, conflits et fichiers personnels, source de catalogue modifiée, `.mpy`, protection des modules système, échec réseau et interruption du commit. Seuls les passages explicitement consignés dans VERIFICATION.md constituent des validations de la version courante. L’ergonomie tactile, les performances et la reprise après retrait physique de la SD restent à vérifier sur Tab5.
+Les suites automatisées conservées utilisent un système SD simulé et couvrent : import sans exécution, paquet avec `__init__`, dépendances mip isolées, projets, copie répétée, conflits et fichiers personnels, source de catalogue modifiée, `.mpy`, protection des modules système, échec réseau et interruption du commit. L’ergonomie tactile, les performances et la reprise après retrait physique de la SD restent à vérifier sur Tab5.

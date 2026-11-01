@@ -20,20 +20,6 @@ La tâche USB dispose d’une pile de 4 Kio et d’un transfert de 2 Kio. La ré
 
 Une annulation ou une réponse incomplète après le premier octet envoyé invalide le canal jusqu’à une reconnexion physique. Aucun travail n’est renvoyé automatiquement : une première transmission partielle pourrait déjà avoir été traitée par l’imprimante. La génération de connexion empêche également de poursuivre sur une autre imprimante branchée pendant le rendu.
 
-## Vérifications reproductibles
-
-```sh
-python3 tools/usb-format-tests-0839/run.py
-python3 tools/usb-ipp-tests-0839/run.py
-python3 tools/usb-ipp-tests-0839/target_syntax.py /path/to/compile_commands.json
-```
-
-Les tests hôtes compilent le contrôleur de stockage, la routine de formatage brut et le pilote d’impression de production avec substitution des inclusions matérielles. Ils utilisent ASan/UBSan ; LSan n’est pas disponible dans cet environnement. Les doubles déterministes couvrent notamment le support inconnu, les fichiers ouverts, les confirmations périmées, les annulations, les retraits, les allocations refusées, les erreurs d’écriture, les réponses HTTP fragmentées et la quarantaine du canal. Les entrées FatFS sont simulées : les assertions ne prouvent pas qu’un volume réel a été créé. Le nombre élevé d’assertions du formatage inclut la vérification octet par octet des zones effacées.
-
-Les rapports et empreintes se trouvent dans `tools/verification/usb-format-0839.json`, `usb-ipp-0839.json` et `usb-target-0839.json`. Le dernier vérifie les types et la syntaxe avec le compilateur P4 et les en-têtes du SDK de la base de compilation fournie ; il ne remplace pas l’édition de liens complète.
-
-**Aucun périphérique physique n’a été testé pendant ce développement.** À vérifier sur Tab5 : création et remontage FAT/FAT32 d’un support de test sans données utiles, retrait en attente et en écriture, refus du sommeil pendant le formatage, découverte d’une imprimante 7/1/4, capacités PWG Raster, impression effective et récupération après débranchement. Aucune mesure de débit ou de compatibilité matérielle n’est déduite des mocks.
-
 ## Sources techniques primaires
 
 - [FatFS — f_mkfs](https://elm-chan.org/fsw/ff/doc/mkfs.html) : formats, tampon borné, partitionnement du volume physique et options de création.

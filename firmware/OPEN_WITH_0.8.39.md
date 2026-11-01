@@ -19,7 +19,3 @@ if len(sys.argv) > 1:
 Le fichier n’est ni importé comme code ni inséré dans un préambule Python. Le chemin est transmis comme une valeur distincte ; les espaces, accents et apostrophes n’exigent aucun échappement. Une application Python déjà active reste active tant que son remplacement n’a pas été confirmé. Choisir le même script avec un autre document propose aussi ce remplacement.
 
 Les associations ordinaires de l’explorateur ne sont pas modifiées par ce choix. Un script ou un ELF doit lire l’argument pour ouvrir le document ; le lanceur ne transforme pas automatiquement son format.
-
-## Vérifications
-
-`tools/open-with-tests-0839` exécute les branches de construction et de routage de production sur LVGL hôte, ainsi que le moteur MicroPython complet pour contrôler `sys.argv`, les caractères Unicode, la ponctuation et l’absence d’argument résiduel entre deux exécutions. Le stockage, les applications natives et le sélecteur de fichiers sont simulés dans les tests de routage. Ces tests ne remplacent pas une vérification sur la Tab5.

@@ -1,6 +1,6 @@
 # Extensions possibles pour Tab5OS
 
-État actualisé pour la 0.8.19, le 10 octobre 2026. Priorité : fiabilité des outils et fonctionnement autonome. Lire NOUVEAUTES_v0.8.19.md et VERIFICATION.md. Les développements plus larges ci-dessous restent des possibilités.
+État actualisé pour la 0.8.19, le 10 octobre 2026. Priorité : fiabilité des outils et fonctionnement autonome. Les développements plus larges ci-dessous restent des possibilités.
 
 Le terminal enrichi et l’application Pentest font partie de la 0.8.19. Le VPN et Tor restent à intégrer ; leur évaluation et les limites de supervision réseau figurent dans [RESEAU_DIAGNOSTIC.md](RESEAU_DIAGNOSTIC.md).
 
@@ -12,7 +12,7 @@ Le transfert vers une carte externe, son flashage et la vérification de son bro
 
 ## Jeux et émulateurs
 
-GB, GBC, NES, Master System/Game Gear et Maze3D étaient déjà fournis. GBA, SNES, MegaDrive et Doom restent proposés ; Quake et Duke Nukem 3D sont retirés en 0.8.16. BINAIRES.md décrit les formats, limites de mémoire, commandes et données nécessaires ; VERIFICATION.md sépare les essais sur ordinateur de la validation matérielle restante.
+GB, GBC, NES, Master System/Game Gear et Maze3D étaient déjà fournis. GBA, SNES, MegaDrive et Doom restent proposés ; Quake et Duke Nukem 3D sont retirés en 0.8.16. BINAIRES.md décrit les formats, limites de mémoire, commandes et données nécessaires.
 
 Les formats PAPP amont ne sont pas chargés directement : les moteurs sont portés vers l’ABI Tab5OS. Ils utilisent l’affichage, le son, le stockage et les entrées de l’OS. La fluidité, les jeux à puces particulières, les mods et les périphériques supplémentaires demandent encore une validation sur Tab5.
 
@@ -54,7 +54,7 @@ Source : [ReadyMail](https://github.com/mobizt/ReadyMail).
 
 ## Navigateur Internet — hors distribution principale
 
-Le navigateur intégré en 0.8.14 est retiré en 0.8.16. Les services réseau des autres outils restent disponibles ; le périmètre courant est décrit dans NOUVEAUTES_v0.8.19.md.
+Le navigateur intégré en 0.8.14 est retiré en 0.8.16. Les services réseau des autres outils restent disponibles.
 
 Un navigateur équivalent à Chromium/Firefox, exécutant les sites modernes et leurs applications JavaScript, n’est pas un objectif réaliste dans les 32 Mio partagés de cette Tab5. Un rendu distant est une autre architecture, avec une dépendance au réseau et au serveur. Pour Wikipédia, un rendu local HTML limité est une étape beaucoup plus ciblée.
 

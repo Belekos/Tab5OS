@@ -8,7 +8,7 @@ The build downloads pinned external Arduino dependencies, including ESP8266Audio
 
 This repository therefore contains **sources and publication documents, not precompiled firmware or ELF applications**. No decoder has been removed or replaced as part of preparing the repository.
 
-See [publication audit](docs/publication/AUDIT_PUBLICATION_0.8.53.md), [linked symbol evidence](docs/publication/linked-audio-symbols.txt), [license inventory](docs/publication/licence-audit.json), and the original [third-party manifest](firmware/LICENCES-manifest.json). These are technical findings and bounded license review, not a legal guarantee about every possible use.
+See the [third-party notices](firmware/LICENCES.md) and [third-party manifest](firmware/LICENCES-manifest.json). The notices in each component directory remain authoritative for that component.
 
 ## Français
 

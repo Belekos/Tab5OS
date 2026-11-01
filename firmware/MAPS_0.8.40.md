@@ -29,23 +29,9 @@ Les révisions de repères changent seulement après une modification des lieux,
 `cities.json`, placé avec l’index et son `README.txt`, enregistre l’URL, la date de conversion, les nombres d’enregistrements, la version Unicode et les SHA-256 de l’archive source, du générateur, de la table de normalisation et de l’index. Le ZIP source utilisé a pour SHA-256 `5e1bf5a85957fd65602dd66fb02d3bdcffd3eaa377204769c5035487f57d95bc` ; l’index livré a pour SHA-256 `681a41de79c9e6d2374f5f8d704790f8b54ed4fb72abdf371c212f59ed1cf18d`.
 
 ```sh
-python3 tools/maps-gazetteer/build.py cities1000.zip \
-  Tab5OS_Arduino_v0.8.40_Ecriture/sdcard/System/maps/gazetteer/cities.t5geo \
-  --fold-header Tab5OS_Arduino_v0.8.40_Ecriture/Tab5GeoFold.h
+python3 build/resources/build_gazetteer.py cities1000.zip \
+  Tab5OS_Arduino_v0.8.53/sdcard/System/maps/gazetteer/cities.t5geo \
+  --fold-header Tab5OS_Arduino_v0.8.53/Tab5GeoFold.h
 ```
 
 Le générateur ne télécharge rien. Remplacer l’index SD lorsque l’OS est arrêté ou le support éjecté. Toute modification du générateur ou de la normalisation impose de reconstruire ensemble l’index et `Tab5GeoFold.h`.
-
-## Vérification reproductible
-
-```sh
-python3 tools/maps-tests-0840/run.py --build /tmp/maps-host --final
-python3 tools/maps-tests-0840/generator.py --build /tmp/maps-generator \
-  --source cities1000.zip --final
-python3 tools/maps-tests-0840/target.py --sdk-root /path/to/build_0840 \
-  --build /tmp/maps-p4 --final
-```
-
-Les rapports `tools/verification/maps-0840.json`, `maps-generator-0840.json` et `maps-target-0840.json` lient chaque résultat aux empreintes des sources. Les tests hôtes ASan/UBSan exécutent le cœur de recherche directement et les méthodes de requête/worker/repères extraites textuellement du code de production. Seules les frontières FreeRTOS, réseau, fichier et API Mesh sont adaptées à l’hôte ; la base livrée est réellement lue. Ils couvrent noms multilingues, classement, coordonnées, entrées corrompues, E/S en erreur, absence de SD, concurrence de remplacement/annulation, quinze cycles de fermeture/réouverture et échecs d’allocation. Les allocations PSRAM suivies doivent revenir à zéro. Les 18 455 cas de normalisation comparent le générateur Python et le code C++ ; la reconstruction depuis l’archive officielle doit reproduire exactement le SHA-256 de l’index.
-
-La compilation isolée du module utilise le GCC officiel ESP32-P4 et les en-têtes M5Stack/Arduino réels. Les tailles de pile fournies sont des cadres statiques de fonctions, pas une mesure complète du niveau d’eau de la tâche. Aucun délai SD, radio Meshtastic ou comportement matériel n’est présenté comme mesuré sur une tablette physique.

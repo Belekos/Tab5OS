@@ -10,8 +10,6 @@ La saisie garde une résolution d'un hertz en interne ; les petits pas disponibl
 
 Les flèches du clavier tactile éditent maintenant le champ actif même quand le clavier a pris le focus. Tous les caractères, y compris ceux avant le point et le signe, peuvent être atteints. Les boutons moins/plus sont alignés sur les champs ; boutons, états pressés et onglets utilisent les couleurs du thème. Les petits transferts USB ne sont plus abandonnés pour l'audio.
 
-Le test `tools/sdr-tests/run_dsp.py` rejoue des signaux I/Q quantifiés identiques avec le DSP original 0.8.24 et le nouveau : le cas de FM centrée peu modulée passe de 12,17 à 46,46 dB de rapport signal/distorsion ; les composantes repliées du multiplex synthétique passent de -30,52 à -91,77 dBc. Ce sont des mesures sur signaux synthétiques, pas des performances radio garanties. Il vérifie également la déviation de 75 kHz, des décalages de ±20 kHz, plusieurs amplitudes, la désaccentuation et l'équivalence exacte des blocs courts/impairs avec un flux continu.
-
 L’application reste un récepteur local USB. La version 0.8.24 conserve la clé ouverte pendant les changements de fréquence, de démodulation et de canal d’entrée : il n’est plus nécessaire d’arrêter puis de relancer la réception.
 
 ## Prise en main
@@ -55,12 +53,6 @@ Le seuil en dBFS repère l’énergie autour du canal réglé sur au moins deux 
 - Les changements de fréquence ne recréent ni la tâche, ni le pilote, ni les buffers. Le DSP audio est remis à zéro lors du changement. Les sorties audio sont réclamées/libérées avec le propriétaire SDR et ne sont pas reprises à un autre lecteur de force.
 - La fin normale, l’absence de clé, l’échec de débit, le refus de réglage, l’échec USB et les échecs d’allocation suivent les chemins de nettoyage. Le pilote contrôle aussi la taille réelle retournée avant de copier un transfert et refuse une interface dont le seul endpoint appartient à un autre réglage alternatif.
 - Limitation USB explicite : un transfert de contrôle EP0 bloqué ne peut pas être annulé par halt/flush dans le SDK utilisé. Son buffer DMA doit rester vivant jusqu’au callback de fin ou à la déconnexion. L’application indique de débrancher la clé ; elle ne réinitialise pas le bus partagé avec les disques et manettes. Il est dangereux de présenter cette rétention nécessaire comme une fuite corrigée par une libération forcée.
-
-## Vérification
-
-`tools/sdr-tests/run.py`, `run_ui.py` et `run_usb.py` exécutent les sources de production (seuls les includes matériels sont remplacés sur ordinateur). Les modèles et le DSP sont réels ; l’interface utilise LVGL et les composants de focus/édition/thème réels. Les frontières USB/RTOS/audio et stockage sont simulées pour injecter les pannes.
-
-Les rapports `tools/verification/sdr-*-0825.json` détaillent les empreintes des sources, les essais et leurs limites : 2000 cycles worker, 2000 cycles adaptateur USB, 100 réouvertures UI, pénuries de mémoire, refus de fréquence, changement à chaud, scans bornés, pause/reprise, durée de vie DMA, clavier décimal, axes et sauvegardes échouées. Ils ne mesurent pas la SRAM restante d’une tablette ni la qualité RF ou audio d’une clé réelle. Le test matériel doit relever la mémoire avant réception, pendant réception/balayage, puis après arrêt et fermeture, en répétant ces actions et en débranchant la clé pendant la lecture.
 
 ## Références de conception
 

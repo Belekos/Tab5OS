@@ -28,8 +28,6 @@ Les modes remplacer, ajouter, soustraire et intersection permettent de composer 
 
 Avec **Remplissage**, choisir la zone et le type : couleur unie, dégradé linéaire ou radial, hachures, damier ou points. Densité, direction et taille de motif adaptent le résultat. **Arrêter aux contours** et le seuil associé limitent la propagation sur les bords détectés. Les calculs longs peuvent être annulés ; une allocation refusée laisse l’image intacte.
 
-Les contrôles actuels sont décrits dans [NOUVEAUTES_v0.8.40.md](NOUVEAUTES_v0.8.40.md) et `tools/drawing-tests-0840/README.md`. Les résultats .35 cités plus loin restent historiques.
-
 ## Relief
 
 Le mode **Relief** de Remplissage ombre les couleurs déjà présentes sur le calque, en conservant leur transparence ; il ne peint pas avec la couleur de premier plan. Il simule une surface éclairée et ne produit pas de maillage 3D.

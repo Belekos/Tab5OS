@@ -16,5 +16,3 @@ La mémorisation optionnelle de la dernière position et du zoom reste effectué
 - Compilation de `Tab5Map.cpp` avec le vrai SDK ESP32-P4. Frame de `downloadSearch` : 240 octets contre 768 en .25 ; frame du worker : 928 contre 656, car la requête accepte désormais 96 caractères UTF-8 sans troncature. Il s'agit de frames individuelles, pas d'une borne complète de la chaîne TLS.
 
 Le reset matériel signalé lors d'une recherche n'a pas été reproduit sur une tablette dans cet environnement. Cette version supprime les allocations redondantes et réduit le document JSON, ajoute l'annulation et la validation, et journalise `[STACK] map-search-before` / `map-search-after` pour mesurer la marge de pile pendant une vraie recherche. Elle ne prétend pas identifier une cause matérielle unique sans trace de reset.
-
-Rapports reproductibles : `tools/verification/maps-search-0826.json` et `maps-target-0826.json`. Bancs : `tools/maps-tests-0826/run.py` et `target.py`. Les frontières Wi-Fi, TLS et microSD ne sont pas simulées par le banc d'interface.

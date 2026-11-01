@@ -150,8 +150,6 @@ L'allocateur du moteur Git est limité à 8 Mio de PSRAM, sans repli vers la SRA
 
 Le `pull` exige un arbre de travail propre pour appliquer une avancée directe de la branche courante. Un état déjà à jour ou une branche locale uniquement en avance est indiqué explicitement ; une divergence ou une branche amont supprimée sur le serveur est refusée sans déplacer la branche locale. Les fusions, rebase, changements de branche, sous-modules, LFS, dépôts avec alternates et worktrees liés ne sont pas pris en charge. Les racines des volumes ne peuvent pas devenir des dépôts. Le transport Git par SSH n'est pas pris en charge par ce moteur ; la commande SSH du terminal est distincte.
 
-Les rapports de vérification accompagnent les sources dans `tools/verification`. Les tests sur hôte ne remplacent pas une validation sur la tablette avec sa carte SD, son disque USB et son réseau.
-
 ## Corrections 0.8.26
 
 `git`, `git help`, `git --help` et `git --version` répondent sans démarrer de tâche Git ni initialiser TLS. Les commandes locales ne réservent plus le budget TLS et n’initialisent plus son générateur aléatoire. Le transport réseau libère chaque socket une seule fois, y compris si la création de la session TLS manque de mémoire. Les compteurs de pile sur l’appareil restent la référence pour les limites matérielles.

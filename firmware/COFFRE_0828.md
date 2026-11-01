@@ -16,12 +16,4 @@ Le chargement des identifiants conserve le comportement de la 0.8.27 : un échec
 
 Les phases du coffre sont détaillées dans le contexte RTC. Après un redémarrage permettant sa conservation, consulter **Réglages → Système → Informations système → Avant le reset (contexte)**. Ces phases indiquent le dernier travail observé. Aucun PIN, mot de passe, identifiant, nom de fichier ou URL n’est enregistré dans les détails du coffre ou de Git, et ces marqueurs n’écrivent pas sur la SD.
 
-Les rapports courants se trouvent dans `tools/verification` :
-
-- `vault-0828.json` : 1 116 assertions sur les opérations réelles, dont 95 points d’injection d’erreurs et 40 pour la récupération.
-- `vault-reopen-0828.json` : 32 sessions de banques altérées puis réparées ; 675 assertions par version, aucune reprise implicite de lecture côté interface avec les sources actuelles.
-- `vault-buffers-0828.json` : 16 435 contrôles par version sur les dispositions de tampon, les refus d’allocation, l’effacement et les fichiers altérés. La contrepreuve utilise les sources livrées de la 0.8.27 et un allocateur volontairement défavorable.
-- `credential-ui-0828.json` : parcours LVGL sous AddressSanitizer, fermeture/réouverture, interactions de clavier, états désactivés et changement de PIN.
-- `vault-target-0828.json` : compilation des unités concernées avec les paramètres réels ESP32-P4.
-
 Les interfaces NVS, fichiers et RTOS nécessaires aux essais sur ordinateur sont simulées. Les tests ne mesurent pas la pile libre ni l’alimentation réelle de la tablette. Le test physique reste nécessaire pour confirmer le retour utilisateur.

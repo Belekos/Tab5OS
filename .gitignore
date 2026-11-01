@@ -20,7 +20,7 @@ build-environment/
 *.pem
 *.key
 # Generated duplicate SD payloads
-firmware/Tab5OS_Arduino_v0.8.53_Ecriture/sdcard/Factory/
+firmware/Tab5OS_Arduino_v0.8.53/sdcard/Factory/
 # Logs and rendered test intermediates
 *.log
 *.ppm

@@ -44,12 +44,6 @@ Le seuil en dBFS repère l’énergie autour du canal réglé sur au moins deux 
 - La fin normale, l’absence de clé, l’échec de débit, le refus de réglage, l’échec USB et les échecs d’allocation suivent les chemins de nettoyage. Le pilote contrôle aussi la taille réelle retournée avant de copier un transfert et refuse une interface dont le seul endpoint appartient à un autre réglage alternatif.
 - Limitation USB explicite : un transfert de contrôle EP0 bloqué ne peut pas être annulé par halt/flush dans le SDK utilisé. Son buffer DMA doit rester vivant jusqu’au callback de fin ou à la déconnexion. L’application indique de débrancher la clé ; elle ne réinitialise pas le bus partagé avec les disques et manettes. Il est dangereux de présenter cette rétention nécessaire comme une fuite corrigée par une libération forcée.
 
-## Vérification
-
-`tools/sdr-tests/run.py`, `run_ui.py` et `run_usb.py` exécutent les sources de production (seuls les includes matériels sont remplacés sur ordinateur). Les modèles et le DSP sont réels ; l’interface utilise LVGL et les composants de focus/édition/thème réels. Les frontières USB/RTOS/audio et stockage sont simulées pour injecter les pannes.
-
-Les rapports `tools/verification/sdr-*-0824.json` détaillent les empreintes des sources, les essais et leurs limites : 2000 cycles worker, 2000 cycles adaptateur USB, 100 réouvertures UI, pénuries de mémoire, refus de fréquence, changement à chaud, scans bornés, pause/reprise, durée de vie DMA, clavier décimal, axes et sauvegardes échouées. Ils ne mesurent pas la SRAM restante d’une tablette ni la qualité RF ou audio d’une clé réelle. Le test matériel doit relever la mémoire avant réception, pendant réception/balayage, puis après arrêt et fermeture, en répétant ces actions et en débranchant la clé pendant la lecture.
-
 ## Références de conception
 
 Les pratiques fréquence/pas, axes réglables, scan et mémoires se sont appuyées sur le [manuel officiel SDR++](https://www.sdrpp.org/manual.pdf). Le choix entre tuner et entrée directe suit les guides du fabricant [RTL-SDR Blog V4](https://www.rtl-sdr.com/v4/) et [Blog V3](https://www.rtl-sdr.com/rtl-sdr-blog-v-3-dongles-user-guide/). Ce sont des références ergonomiques et matérielles, pas une intégration du programme SDR++.

@@ -59,7 +59,6 @@ L'accueil configurable ne transforme pas toutes les fonctions du firmware en ex�
 
 Le catalogue d'applications est distinct du catalogue **Modules et projets**, destiné aux bibliothèques MicroPython et aux projets pour d'autres cartes. Voir MICROPYTHON_BIBLIOTHEQUES.md.
 
-
 ## Dessin (0.8.35)
 
 Dessin est intégré au firmware, avec la police, les contrôles et la palette de l’OS. Il se lance depuis l’accueil ou avec **Ouvrir avec… → Dessin** sur une image dans l’explorateur. Un projet T5I ouvre directement Dessin. L’ancienne application ELF n’est plus nécessaire.

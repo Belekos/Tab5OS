@@ -79,8 +79,6 @@ Les allocations de session sont plafonnées à 512 Kio en PSRAM sans repli SRAM.
 
 La pile du terminal n'est pas agrandie pour toutes les commandes. SSH est refusé si le minimum de pile libre signalé par FreeRTOS est inférieur à 8 Kio, notamment sous des scripts ou substitutions très imbriqués. Relancer directement la commande contourne cette profondeur, sans supprimer la protection. `tasks` affiche les mesures réelles de pile ; `memory` affiche les espaces et les plus grands blocs disponibles.
 
-Les rapports `tools/verification/ssh-0822.json` et `ssh-target-0822.json` distinguent les échanges SSH/SFTP réellement effectués sur boucle locale du PC, la compilation avec le SDK P4 et les mesures qui exigent une tablette. Le banc final utilise mbedTLS 3.6.5, commit `ffb280bb63c78bfec1e1ab55040671768c85c923` du sous-module ESP-IDF 5.5.4, comme le SDK cible core 3.3.9. La configuration Windows, les allocateurs et le matériel restent différents : les binaires ne sont pas identiques. L'essai initial avec mbedTLS 3.6.6/ESP-IDF 5.5.5 est conservé séparément dans `ssh-0822-mbedtls366.json`. Les tests PC ne sont pas une mesure de SRAM physique ni une certification de sécurité.
-
 Sources officielles : <https://libssh2.org/>, <https://github.com/libssh2/libssh2>, <https://libssh2.org/license.html>.
 
 ## English usage summary

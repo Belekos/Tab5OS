@@ -17,12 +17,3 @@ L'écran verrouillé propose **Coffre inaccessible ?**. Cette page précise les 
 Elle supprime le trousseau appareil et son PIN (`device3`, `pin4` dans l'espace NVS `tab5keys`). Les fichiers chiffrés ordinaires, sauvegardes de clés portables et l'ancien coffre à mot de passe ne sont pas supprimés. Le dossier `/System/Secrets` est renommé vers un dossier unique `/System/Secrets-retired-…` avant la suppression des clés. Les identifiants y restent chiffrés et deviennent inaccessibles après cette opération ; leur conservation n'est pas une promesse de récupération sans le maître supprimé. Les fichiers chiffrés avec les clés de fichiers restent récupérables uniquement avec la sauvegarde de la clé correspondante.
 
 Une marque NVS `reset4` bloque l'ouverture pendant une récupération interrompue. Répéter la même action reprend l'archivage/suppression ; aucun ancien dossier de récupération n'est écrasé. La carte SD doit être disponible. Une erreur de carte ou d'écriture n'efface pas les clés avant l'archivage. Une nouvelle utilisation impose un nouveau PIN et crée un coffre vide.
-
-## Vérification
-
-- `tools/vault-tests-0826/run.py` : unités de production complètes avec mbedTLS 3.6.5 et environnement de variables réels ; FS/NVS/RTOS simulés. 1 097 assertions, 95 erreurs injectées sur l'écriture des identifiants, 40 positions d'erreur sur la récupération, 50 cycles sauvegarde/réouverture. L'ajout d'un PIN à un coffre .25 conserve exactement le maître, l'identifiant et les identifiants enregistrés. Les accès par variables restent fermés avant création du PIN et après corruption des banques. Les preuves .25 sont conservées séparément.
-- `tools/vault-tests-0826/run_target.py` : compilation ESP32-P4 et cadres de pile des quatre unités.
-- `tools/credential-tests-0826/run_credentials.py` : méthodes UI de production, vrai LVGL 9.6 et TextInput, backend simulé ; PIN obligatoire, réauthentification, récupération volontaire, transitions différées, 200 cycles sauvegarde/fermeture et géométrie dans les 14 langues.
-
-Les formats chiffrés existants, la dérivation PBKDF2 portable à 600 000 tours et les sauvegardes locales demeurent compatibles. Aucun test logiciel ne remplace un essai de coupure d'alimentation, de retrait physique de carte ou d'extraction matérielle de la flash. Le PIN est un contrôle d'accès local ; le maître reste en NVS interne.
-

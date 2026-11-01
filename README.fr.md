@@ -1,57 +1,40 @@
 # Tab5OS
 
-**Écrire, dessiner et programmer sur M5Stack Tab5.**
+**Un environnement nomade pour M5Stack Tab5.**
 
-[English](README.md) · [Installation](docs/INSTALL_FR.md) · [Compilation](docs/BUILD.md) · [Galerie](docs/screenshots/README.fr.md) · [Évolutions 0.8.53](RELEASE_NOTES.md)
+[English](README.md) · [Installation](docs/INSTALL_FR.md) · [Galerie](docs/screenshots/README.fr.md)
 
-![Aperçus de l’interface Tab5OS](docs/screenshots/cover-fr.png)
+![Aperçus de l'interface Tab5OS](docs/screenshots/cover-fr.png)
 
-Tab5OS est un firmware graphique pour le **M5Stack Tab5 / ESP32-P4**. Il réunit documents, création, fichiers, médias et applications programmables dans une interface utilisable au doigt, au clavier USB et à la souris.
+Tab5OS réunit écriture, dessin, lecture, médias, cartes et outils de développement sur le **M5Stack Tab5 / ESP32-P4**. Son interface graphique s'utilise au doigt, avec un clavier USB et une souris. Documents et applications peuvent être conservés sur microSD ou support USB.
 
-Ce dépôt contient les **sources 0.8.53** et leur documentation de publication. Les visuels sont des **rendus LVGL sur ordinateur**, avec des données de démonstration ; ce ne sont pas des captures d’une tablette physique. Leur [provenance](docs/screenshots/manifest.json) est fournie.
+## Ce que l'on peut faire
 
-## Les outils
-
-| Usage | Fonctions |
+| Usage | Outils |
 | --- | --- |
-| Écrire et lire | Éditeur de texte/code, ebooks et ressources Wikipédia locales |
-| Dessiner | Calques, sélections, pinceaux, texte, remplissages, historique et projets T5I ; export BMP/JPEG |
-| Gérer les fichiers | Explorateur SD/USB, actions contextuelles et choix de l’application d’ouverture |
-| Écouter et explorer | Lecture multimédia, webradio, cartes en ligne/hors ligne et repères |
-| Programmer | Terminal, outils Git, MicroPython et applications natives ELF |
-| Connecter et personnaliser | Meshtastic, outils USB, RTL-SDR, réveil, thèmes et 14 langues d’interface |
+| Écrire et lire | Éditeur de texte/code, ebooks et Wikipédia hors ligne avec ses archives locales |
+| Dessiner | Pinceaux, calques, sélections, formes, texte, transformations, annuler/rétablir et projets T5I ; export BMP/JPEG |
+| Gérer et partager les fichiers | Explorateur SD/USB, actions contextuelles, « Ouvrir avec » et partage local depuis le navigateur d'un ordinateur |
+| Écouter et regarder | Lecteur multimédia et webradio |
+| Explorer | Cartes en ligne/hors ligne, recherche de lieux et repères |
+| Programmer et se connecter | Terminal, Git, MicroPython, applications natives ELF, outils série, commandes SSH distantes et SFTP |
+| Communiquer | Discussion IRC et Meshtastic avec une radio externe compatible |
+| Imprimer et protéger ses documents | Impression IPP, imprimantes USB prises en charge, chiffrement de fichiers et coffre avec accès par PIN |
+| Jouer | Sources de Doom, Maze3D et d'émulateurs Game Boy/Color, NES, Sega 8 bits, GBA, SNES et Mega Drive |
+| Personnaliser | Thèmes, langues d'interface, raccourcis d'applications, calculatrice et réveil ; RTL-SDR avec un récepteur USB compatible |
 
-L’accueil natif comprend Explorateur, Éditeur, eBook, Média, Cartes, Calculatrice, Réglages, Terminal, Réveil, RTL-SDR, Dessin et Meshtastic. Le bandeau accueille jusqu’à **dix raccourcis natifs, ELF ou Python sans défilement**. Les applications externes sont découvertes dans les emplacements SD/USB pris en charge.
+Les outils intégrés et les applications externes ELF/Python se retrouvent dans l'accueil et le bandeau personnalisable. Les applications externes et les contenus hors ligne nécessitent leurs fichiers sur le support de stockage ; les ROMs et les données de jeux commerciaux ne sont pas fournies.
 
-Meshtastic demande une radio externe compatible ; RTL-SDR demande un récepteur USB compatible. Les ELF doivent cibler l’ABI Tab5OS et partagent l’espace mémoire du firmware : ils ne sont pas isolés comme des processus.
+## Aperçus de l'interface
+
+La couverture et la [galerie](docs/screenshots/README.fr.md) présentent des **rendus LVGL sur ordinateur**, avec des données de démonstration. Ils illustrent l'interface ; ce ne sont pas des captures d'un Tab5 physique.
 
 ## Installer ou mettre à jour
 
-Consulter le [guide d’installation](docs/INSTALL_FR.md). Il distingue deux usages :
+Suivre le [guide d'installation](docs/INSTALL_FR.md), y compris la préparation des ressources microSD correspondantes.
 
-- **Tab5OS déjà installé :** utiliser le BIN applicatif OTA depuis la mise à jour intégrée pour conserver NVS et table de partitions.
-- **Première installation :** utiliser l’image P4 fusionnée uniquement si le remplacement du contenu de la Flash interne est voulu.
+- **Tab5OS déjà installé :** installer le BIN applicatif OTA depuis la mise à jour intégrée.
+- **Première installation :** utiliser l'image P4 fusionnée. Elle remplace le contenu de la Flash interne, y compris les réglages.
+- **MicroSD déjà utilisée :** sauvegarder ses fichiers personnels et suivre la mise à jour des ressources sans remplacer tout le dossier `/System`.
 
-Les ressources microSD de la même version sont nécessaires aux applications externes, polices, langues et données hors ligne. Ne pas remplacer tout le dossier `/System` d’une carte contenant des réglages personnels.
-
-**État de publication :** ce dépôt contient les sources. Il ne propose pas de firmware ou d’ELF précompilé et n’annonce pas une fiche Tab5OS déjà disponible dans M5Burner. Le choix de licence du code propre et la compatibilité des licences des composants audio liés restent à résoudre. Voir [NOTICE.md](NOTICE.md) et l’[audit de publication](docs/publication/AUDIT_PUBLICATION_0.8.53.md).
-
-## Compiler et parcourir les sources
-
-Le projet existant est conservé sous [`firmware/`](firmware/), avec ses chemins relatifs. Le sketch courant se trouve dans [`firmware/Tab5OS_Arduino_v0.8.53_Ecriture`](firmware/Tab5OS_Arduino_v0.8.53_Ecriture/).
-
-La compilation vérifiée utilise M5Stack Arduino **3.3.9 / ESP-IDF 5.5.4**, GCC RISC-V **14.2.0**, LVGL **9.6.0**, M5Unified **0.2.23** et M5GFX **0.2.30**. Les scripts fournis préparent les adaptations isolées des dépendances nécessaires au firmware. Le [guide de compilation](docs/BUILD.md) donne la séquence exacte.
-
-Le [plan du dépôt](docs/REPOSITORY_LAYOUT.md) explique les exclusions : binaires, ELF/map de débogage, Factory dupliquée et volumineux journaux historiques. Les sources, notices tierces et recettes de compilation conservent leurs octets d’origine ; le [manifeste](docs/publication/source-manifest.json) permet de les comparer à l’archive vérifiée.
-
-## Vérifications
-
-La livraison 0.8.53 a passé la compilation complète ESP32-P4 et les tests hôtes ciblés. Son image applicative liée mesurait 6 113 184 octets, avec 440 416 octets de marge OTA. DATA+BSS internes occupaient 91 508 octets, soit 2 620 octets de moins que la 0.8.52. Ces chiffres décrivent les sections liées, pas la mémoire libre en fonctionnement.
-
-Le [compte rendu](firmware/VERIFICATION.md) distingue les contrôles exécutés, une ancienne attente de test de pagination déjà incorrecte et les essais matériels restants. Aucun test sur Tab5 physique ni import M5Burner n’est revendiqué pour cette préparation. Le [protocole sur appareil](firmware/TESTS_TAB5_0.8.53.md) couvre entrées, raccourcis, mémoire et périphériques.
-
-## Participer
-
-Voir [CONTRIBUTING.md](CONTRIBUTING.md). Pour un défaut, préciser version, révision matérielle, périphériques et étapes de reproduction ; joindre les diagnostics utiles sans mot de passe, PIN ou clé. La stabilité et la conservation des données passent avant les nouvelles fonctions.
-
-Les composants tiers conservent leurs propres licences. Aucune licence unique n’est attribuée à tout l’arbre ; voir [NOTICE.md](NOTICE.md).
+**Disponibles ici : les sources 0.8.53. Le firmware précompilé, le paquet SD complet et la fiche Tab5OS dans M5Burner ne sont pas encore publiés.**

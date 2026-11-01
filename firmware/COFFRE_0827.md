@@ -12,14 +12,6 @@ Les clés de chiffrement restent accessibles lorsque le PIN est correct mais que
 
 La lecture des banques rend la main entre les blocs déchiffrés et vérifie que la session n'a pas été verrouillée. Le format chiffré, les clés, les PIN existants et la dérivation des sauvegardes portables restent compatibles.
 
-## Contrôles effectués
-
-- `tools/vault-tests-0827/run_reopen.py` exécute les mêmes 32 sessions de banques altérées puis réparées sur la 0.8.26 conservée et la 0.8.27. Il compile les unités réelles et mbedTLS 3.6.5 avec AddressSanitizer ; seuls NVS, FS et les tâches sont simulés. Chaque version passe 675 assertions de conservation/accès. La 0.8.26 effectue 33 792 opérations FS supplémentaires dans les appels qui suivent le préchargement raté et expose 1 408 fois un succès pendant ce chargement. La 0.8.27 ramène ces deux compteurs à zéro. Cette contrepreuve établit le défaut logiciel, pas la cause certaine du redémarrage physique.
-- `tools/credential-tests-0827/run_credentials.py` utilise les méthodes réelles de fermeture, redimensionnement, disposition et les branches coffre de l'ouverture, ainsi que la fonction OS réelle de routage du clavier et son callback de suppression du champ. Sur LVGL 9.6 avec AddressSanitizer : 13 335 assertions, 96 cycles de déverrouillage vers Clés/Identifiants/Fichier chiffré avec champ PIN actif et timers LVGL, 200 cycles de sauvegarde/fermeture, vérification de Réessayer différé et des 14 langues. Aucun accès mémoire invalide détecté sur ces parcours ; le backend et les périphériques restent simulés dans ce test UI.
-- `tools/vault-tests-0827/run.py` passe 1 116 assertions sur les unités complètes avec mbedTLS : fautes NVS/FS, formats historiques, changement de PIN, récupération, absence de carte, banques de zéro octet et continuité des marqueurs worker/interface. Le résultat figure dans `tools/verification/vault-0827.json`.
-- `tools/runtime-env-tests-0827/run.py` passe 3 078 assertions sur l'environnement et le shell (dont 1 000 cycles de verrouillage), les callbacks Git/libgit2 et le module Python livré. Le coffre est simulé à cette frontière ; la cryptographie est vérifiée séparément ci-dessus.
-- `tools/vault-tests-0827/run_target.py` compile les quatre unités pour l'ESP32-P4 : cadre propre du worker PIN 192 octets sur sa pile de 16 Kio ; cadre maximal du cœur de chiffrement 752 octets. Ces nombres ne mesurent pas la pile cumulée SDK, le temps SD réel ni la marge matérielle.
-
 ## Si le redémarrage persiste
 
 Un marqueur RTC dédié conserve la dernière phase observée du parcours PIN appareil : `unlock`, `auth`, `preload`, `await-ui`, `ui-rebuild`, puis `ready` une fois l'interface prête. La fermeture utilisateur termine correctement la continuation, y compris si le worker est encore actif. Le chemin API sans interface termine au retour du worker. Les marqueurs n'enregistrent aucun PIN, identifiant, secret ou adresse et n'écrivent pas sur la SD.

@@ -855,17 +855,6 @@ Un port TCP ouvert indique qu’une connexion a été acceptée ; cela ne prouve
 
 L’application **Pentest** offre des opérations d’audit et un rapport exportable dans une interface dédiée. Les détails de supervision, de VPN et de Tor figurent dans [RESEAU_DIAGNOSTIC.md](RESEAU_DIAGNOSTIC.md).
 
-## Vérification reproductible
-
-Sous Windows, dans un environnement développeur MSVC :
-
-```text
-python tools/terminal-tests/run.py Tab5OS_Arduino_v0.8.28_Ecriture
-python tools/network-tests/run_shell.py Tab5OS_Arduino_v0.8.28_Ecriture
-```
-
-Le premier test couvre l'entrée/sortie, les compositions, guillemets, statuts, annulations, débordements, l'absence de carte SD, le tampon circulaire UTF-8 et la libération des allocations après 2 000 sessions puis 2 000 commandes répétées. Le second réexécute les commandes et chemins SD/USB existants avec le moteur actuel. Les couches de fichiers de test remplacent uniquement l'environnement système ; le parseur et les commandes sont ceux du firmware.
-
 ## SSH, SFTP et tâches
 
 help ssh décrit les commandes distantes, la confiance explicite dans la clé du serveur et les fichiers de clés ou de mot de passe. help sftp décrit la liste et les transferts de fichiers sans écrasement implicite. Les exemples complets, les formats de clés, les délais et les limites figurent dans [SSH.md](SSH.md). Cette version exécute des commandes distantes et leurs tubes ; elle ne fournit pas encore de terminal interactif VT/PTY.

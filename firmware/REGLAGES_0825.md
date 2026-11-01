@@ -8,9 +8,3 @@ Les cartes s'ajustent maintenant à leur contenu. Les lignes réservent au moins
 - **Coffre de mots de passe** : une entrée directe dans Réglages, distincte des clés de chiffrement.
 
 Le bouton mobile des interrupteurs possède un contour de deux pixels, visible à l'arrêt et à l'activation. Son contour reste visible si un thème personnalisé lui donne la même couleur que le fond de l'interrupteur. Les quatre couleurs configurables des interrupteurs et le réglage d'arrondi sont conservés. L'aperçu de thème utilise la même règle.
-
-## Vérification
-
-`tools/settings-tests/run_layout.py` exécute la création actuelle de Réglages avec LVGL 9.6, la police distribuée à 24 pixels et les 14 packs linguistiques. Les appels métier et callbacks vers le matériel sont simulés ; le test concerne la construction, les styles et la géométrie. Il vérifie les limites de chaque ligne et carte, les cibles tactiles, les rapports de manette longs, les informations de partage et les transitions 1216 → 1280 → 1216 pixels.
-
-`tools/ui-tests/run.py` vérifie aussi les contours des interrupteurs sur des couleurs noires, blanches, grises et bleues, dans les deux états et pour trois arrondis, ainsi que l'aperçu de thème réel. Ces contrôles sont exécutés sur ordinateur et ne constituent pas un essai physique de la tablette.

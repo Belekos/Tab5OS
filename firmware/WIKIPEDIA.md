@@ -8,8 +8,6 @@ Les articles restent chargés par fenêtres de 32 Kio. Une page contient au plus
 
 La hauteur du texte est mesurée sur le véritable widget LVGL, après la mise en forme arabe/persane. Les tests de rendu emploient les polices livrées, y compris les replis japonais et coréen. Les couleurs des liens et du bouton d'illustrations suivent la palette de l'OS.
 
-Les contrôles `tools/wikipedia-tests/run_flow.py` reproduisent la régression sur les sources 0.8.21, puis vérifient le lecteur courant : composition, tableaux, liens, cellules longues, manque de mémoire et ouvertures/fermetures répétées. Le décodage des images est remplacé par un widget de hauteur fixe dans ce test de composition ; il ne simule pas la tablette physique.
-
 ## Lecture et recherche
 
 Les résultats remplissent chaque page en continu : copies enregistrées, archives ZIM puis résultats en ligne. Une seule copie locale ne repousse plus tous les résultats suivants sur une autre page. Les reliquats et le curseur des deux sources sont conservés en revenant à la page précédente ; les titres répétés sont filtrés sur les 32 dernières pages.
@@ -32,7 +30,7 @@ L'index de liens est lu par blocs de 512 octets et reprend à son dernier curseu
 
 Un cache JSON endommagé ne bloque plus à lui seul la lecture. Le nettoyage du cache reste limité aux noms de fichiers produits par le lecteur. Le chargement des illustrations respecte l'annulation, refuse les index trop volumineux et s'arrête en cas de mémoire insuffisante.
 
-Ces changements conservent les limites préexistantes de taille des articles et des décodeurs. Ils ne garantissent pas la compatibilité de chaque archive Kiwix. Les tests sur ordinateur comprennent un article synthétique de 3 420 046 octets en brut, XZ et Zstandard, avec erreurs de lecture, annulation et manque de mémoire. Voir VERIFICATION.md et `tools/wikipedia-tests/README.md` pour leur portée. La fluidité sur le Tab5 et vos archives réelles restent à vérifier.
+Ces changements conservent les limites préexistantes de taille des articles et des décodeurs. Ils ne garantissent pas la compatibilité de chaque archive Kiwix. Les tests sur ordinateur comprennent un article synthétique de 3 420 046 octets en brut, XZ et Zstandard, avec erreurs de lecture, annulation et manque de mémoire.  La fluidité sur le Tab5 et vos archives réelles restent à vérifier.
 
 ## Utilisation des archives
 
@@ -56,7 +54,7 @@ Le pied de page dépassait de dix pixels la limite de la surface graphique. Sa c
 
 Les blocs Zstandard à grande fenêtre sont décodés en C++ par blocs, jusqu’à la fin de l’article demandé. Un tampon contigu conserve l’historique nécessaire et est libéré aussitôt. Le cas Sodium de l’archive française nopic 2026-05 passe avec un budget de 1,5 Mio sur ordinateur, pour un pic suivi de 1 059 419 octets. La limite du tampon de compatibilité reste de 8 Mio. Une erreur restante indique la demande, la PSRAM libre et le plus grand bloc libre. Le test physique de votre édition reste nécessaire.
 
-Mettre à jour le firmware, en plus des ressources SD : le décodeur est dans le firmware. Voir VERIFICATION.md. Aucun effacement des archives n’est requis.
+Mettre à jour le firmware, en plus des ressources SD : le décodeur est dans le firmware.  Aucun effacement des archives n’est requis.
 
 ## Téléchargement et actualisation en 0.8.12
 

@@ -1,3 +1,0 @@
-#pragma once
-#define CONFIG_IDF_TARGET_ESP32P4 1
-#define CONFIG_CACHE_L2_CACHE_SIZE (256U*1024U)

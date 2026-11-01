@@ -1,17 +1,14 @@
-Tab5OS 0.8.53 — M5Stack Tab5 / ESP32-P4
+Tab5OS 0.8.53 - M5Stack Tab5 / ESP32-P4
 
-Version 0.8.53 starts from the delivered 0.8.52. It fixes Explorer menu hover and image quick actions, improves alarm and drawing icons, adds explicit Meshtastic virtual-keyboard access, supports built-in/ELF/Python sidebar shortcuts and reduces permanent internal-memory usage. Existing user data, settings and partitions are preserved. See RAPPORT_FONCTIONNEL_0.8.53.md and TESTS_TAB5_0.8.53.md. Physical tablet validation remains necessary.
+The English installation guide is docs/INSTALL_EN.md at the repository root:
+https://github.com/Belekos/Tab5OS/blob/main/docs/INSTALL_EN.md
 
-The left tree contains folders only. SD and mounted USB storage appear as tree roots; USB is absent when no volume is mounted. On the first Explorer visit, the SD root is open, or USB when SD is absent. Navigation stays in memory while the OS is running, including after leaving and returning to Explorer.
+This repository contains source code and partial SD resources. Precompiled firmware, a complete SD package and a Tab5OS M5Burner listing are not yet published. The sketch's sdcard folder alone is not a complete installation package.
 
-Clicking a left-hand folder shows its contents on the right. On the right, a single click selects without changing the displayed directory; a double click opens a folder or file. Opening a right-hand folder also reveals and focuses that folder in the left tree. Ctrl/Shift, long press and multiple selection remain available. Folder expansion arrows appear only after subfolders have been detected by bounded background work.
+For an existing Tab5OS installation, use the application OTA image with the built-in updater and update the matching SD resources. Back up personal files and follow the resource repair/update procedure without replacing the entire /System directory.
 
-The toolbar uses icons for sorting and search. Rename and Delete belong to Edit. Git is one contextual submenu for the selected folder, and its shortcut is only shown for a Git folder. The menu bar no longer contains a separate Git or Navigation dropdown.
+A merged first-install image replaces the internal P4 Flash, including settings and internal data. Never write the application-only OTA image at address 0x0.
 
-New default file and folder names and shipped script filenames are English. Interface translations remain available. Existing personal files and configured paths are not automatically renamed; documented compatibility paths remain usable.
-
-Update firmware and SD resources together following LISEZ_MOI.md. Preserve personal data and settings; do not overwrite the whole System folder. Use MicroPython/update_sd.py for the shipped resource repair/update utility. Drawing is built in; Pentest needs its SD ELF file. Copy System/maps/gazetteer for offline place search (about 38 MB). The GeoNames data covers populated places above 1,000 inhabitants and administrative seats; it is not an address or exhaustive POI database. Map tiles remain a separate resource. The gazetteer is read in bounded pages and is not scanned at boot.
-
-The file firmware/Tab5OS_v0.8.53.bin is an application OTA image. Install it through the Tab5OS update function; do not flash it at address 0x0 as a merged full-flash image. Its SHA-256 is listed in firmware/SHA256.txt.
-
-The complete ESP32-P4 build and final firmware verification passed. VERIFICATION.md records current tests and build evidence separately from historical results. No physical 0.8.53 test is claimed.
+Project presentation: ../README.md
+Compilation: ../docs/BUILD.md
+Changes in this version: ../RELEASE_NOTES.md

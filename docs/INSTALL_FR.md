@@ -1,55 +1,60 @@
 # Installer Tab5OS 0.8.53 sur M5Stack Tab5
 
-**Disponibilité :** ce dépôt de sources ne fournit ni firmware à télécharger ni paquet SD complet. Les procédures ci-dessous décrivent les formats vérifiés de la 0.8.53, à utiliser lorsqu’une livraison redistribuable sera publiée. Aucune fiche M5Burner n’est annoncée en ligne. Voir [NOTICE.md](../NOTICE.md).
+**Disponibilité :** ce dépôt fournit actuellement les sources. Le firmware précompilé, le paquet SD complet et la fiche Tab5OS dans M5Burner ne sont pas encore publiés. Les noms d'images ci-dessous correspondent aux formats préparés ; ce ne sont pas des liens de téléchargement.
 
-Cette livraison vise le **Tab5 avec ESP32-P4 et 32 Mio de PSRAM**. Elle utilise la cible de compilation M5Stack `prev3`, une Flash de 16 Mio et le mode DIO. Ce n’est pas un firmware ESP32-S3, ESP32-C6 ou un système Linux. Le firmware du coprocesseur C6 n’est pas inclus ni modifié par ces fichiers. Les autres révisions matérielles restent à vérifier ; ce constat ne constitue pas un verrou logiciel supplémentaire.
+Ce firmware vise le **M5Stack Tab5 / ESP32-P4 avec 32 Mio de PSRAM et 16 Mio de Flash**. Il n'installe ni ne remplace le firmware du coprocesseur ESP32-C6.
 
-## Choisir le fichier adapté
+## Choisir la méthode
 
-| Situation | Fichier | Méthode |
+| Situation | Image | Méthode |
 | --- | --- | --- |
-| Tab5OS déjà installé, données et paramètres à conserver | `firmware/Tab5OS_0.8.53_OTA.bin` | Mise à jour depuis Tab5OS |
-| Première installation sur un appareil sans données à conserver | `firmware/Tab5OS_0.8.53_initial_install_16MB.bin` | Image fusionnée, écrite à `0x0` |
+| Tab5OS déjà installé | `Tab5OS_0.8.53_OTA.bin` | Mise à jour intégrée |
+| Première installation | `Tab5OS_0.8.53_initial_install_16MB.bin` | Image fusionnée écrite à `0x0` |
 
-**L’image d’installation initiale remplace les 16 Mio de Flash du P4, y compris NVS, paramètres et données internes. Ne pas l’utiliser pour mettre à jour une installation personnelle.** La microSD n’est pas incluse dans cette image. Sauvegarder ses fichiers avant toute préparation ; ne pas formater une carte contenant des données à conserver.
+**L'image d'installation initiale remplace toute la Flash du P4, y compris les réglages et données internes. Pour une installation existante, utiliser l'image OTA.** Aucune des deux images ne contient les ressources microSD.
 
-Dans un paquet de firmware, les empreintes figurent dans `SHA256SUMS.txt` et `python3 verify_package.py` contrôle les images sans accéder à un appareil. Ces fichiers du paquet binaire ne sont pas inclus dans ce dépôt de sources.
+Avant l'installation, sauvegarder ses documents, réglages et clés de chiffrement selon les besoins. Maintenir l'alimentation pendant l'écriture du firmware. Lorsqu'un paquet binaire est disponible, contrôler ses fichiers avec les empreintes SHA-256 fournies.
 
-## Mise à jour depuis Tab5OS
+## Mettre à jour une installation existante
 
-1. Copier `Tab5OS_0.8.53_OTA.bin` sur la microSD, dans un emplacement libre choisi.
-2. Dans l’Explorateur, sélectionner ce fichier puis **Actions → Installer un firmware**.
-3. Utiliser **Vérifier** et comparer l’empreinte affichée à `SHA256SUMS.txt`. Le descriptif technique embarqué du SDK n’est pas un nom de version fiable ; l’empreinte identifie précisément cette livraison.
-4. Utiliser **Installer**. Attendre la réussite, puis **Redémarrer**. Ne pas interrompre l’alimentation pendant l’écriture.
-5. Actualiser les ressources SD avec la procédure ci-dessous.
+1. Copier l'image OTA correspondante sur la microSD.
+2. Dans l'Explorateur, la sélectionner puis choisir **Actions → Installer un firmware**.
+3. Utiliser **Vérifier** et comparer le SHA-256 affiché à l'empreinte du paquet.
+4. Utiliser **Installer**, attendre la réussite, puis **Redémarrer**.
+5. Actualiser les ressources SD selon la procédure ci-dessous.
 
-Ce parcours écrit l’application dans l’autre partition OTA. Il ne remplace ni la table de partitions ni NVS. Le BIN OTA seul ne doit jamais être écrit à `0x0`.
+Cette méthode écrit l'application dans l'autre partition OTA et conserve la table de partitions ainsi que NVS. Ne jamais écrire le BIN OTA à l'adresse `0x0`.
 
 ## Première installation avec M5Burner
 
-Utiliser une version de M5Burner prenant en charge **Tab5 / ESP32-P4**, et l’entrée Tab5OS publiée par le propriétaire du projet. Les pages de publication et la reconnaissance effective du paquet par M5Burner nécessitent encore une validation dans le service ; aucun flash matériel n’a été exécuté lors de sa préparation.
+Ces étapes s'appliquent lorsque la fiche Tab5OS et le paquet SD complet sont publiés.
 
-1. Préparer la microSD et vérifier les sauvegardes nécessaires. Pour une carte neuve en FAT32, copier à sa racine le **contenu** du dossier `sdcard` de la livraison correspondante. Ne pas copier seulement l’archive ZIP.
-2. Connecter le Tab5 par son port USB-C avec un câble de données. Maintenir Reset environ deux secondes, jusqu’au clignotement rapide de la LED verte, puis relâcher : c’est le mode de téléchargement décrit par M5Stack.
-3. Dans M5Burner, choisir l’entrée **Tab5OS 0.8.53**, l’appareil Tab5 et son port série. Le paquet d’installation correspond à une image fusionnée écrite à `0x0` ; le bootloader P4 est déjà intégré à `0x2000`.
-4. Lancer l’installation initiale uniquement après avoir accepté le remplacement des données internes décrit plus haut. Ne pas ajouter une opération séparée d’effacement complet.
-5. Après la réussite du transfert, redémarrer avec la microSD préparée. Régler la langue et le Wi-Fi dans Tab5OS. Aucun identifiant Wi-Fi personnel n’est contenu dans l’image distribuée.
+1. Préparer une microSD FAT32. Copier à sa racine le **contenu** du dossier `sdcard` du paquet complet.
+2. Connecter le port USB-C du Tab5 avec un câble de données. Maintenir Reset environ deux secondes, jusqu'au clignotement rapide de la LED verte, puis relâcher pour entrer en mode téléchargement.
+3. Dans M5Burner, choisir **Tab5OS 0.8.53**, l'appareil Tab5 et son port série.
+4. Écrire l'image fusionnée d'installation initiale à `0x0`. Son bootloader P4 est déjà intégré à `0x2000` ; aucun effacement complet séparé n'est nécessaire.
+5. Redémarrer avec la carte préparée, puis régler la langue et le Wi-Fi dans Tab5OS.
 
-Si l’entrée M5Burner n’est pas encore publique, ce dossier est une préparation de publication, pas une preuve de mise en ligne. Le champ `Github` doit pointer vers le dépôt réellement créé avant publication.
+Utiliser une version de M5Burner prenant en charge Tab5 / ESP32-P4. L'import M5Burner et le démarrage physique du paquet préparé n'ont pas été testés.
 
-## Ressources microSD
+## Préparer ou actualiser la microSD
 
-Une nouvelle installation utilise les ressources de la **même version 0.8.53** : langues, polices, claviers, modules Python, applications externes et index local des villes. Elles sont livrées séparément du firmware. Les applications essentielles intégrées restent accessibles sans SD, mais les fonctions dépendant de fichiers externes sont alors limitées.
+Utiliser un **paquet de ressources complet correspondant à la version 0.8.53**. Le dossier `firmware/Tab5OS_Arduino_v0.8.53/sdcard` du dépôt est partiel : il ne contient pas les applications compilées ni certaines ressources générées. Le copier seul ne constitue pas une installation complète.
 
-Pour une carte déjà utilisée, **ne pas écraser l’ensemble de `/System`**. Sauvegarder les personnalisations, copier `/Factory/Tab5OS-0.8.53`, actualiser les modules de réparation listés dans [`LISEZ_MOI.md`](../firmware/LISEZ_MOI.md), puis ouvrir `/MicroPython/update_sd.py` et utiliser **Réparer et mettre à jour**. L’option **Restaurer les fichiers modifiés** remplace volontairement des personnalisations et ne constitue pas la mise à jour normale. La procédure complète du dépôt fait foi.
+Le paquet complet apporte applications ELF/Python, langues, polices, claviers et ressources hors ligne. Archives Wikipédia, tuiles cartographiques et données de jeux peuvent demander une préparation séparée. Les outils essentiels intégrés restent accessibles sans carte.
 
-## Périmètre de validation
+Pour une carte neuve, copier le contenu du dossier `sdcard` du paquet complet à sa racine. Pour une carte déjà utilisée :
 
-Les deux fichiers sont issus de la compilation ESP32-P4 vérifiée de la 0.8.53. L’intégrité de l’application, le contenu de l’image fusionnée, les offsets, la table de partitions, son MD5 et le CRC de sélection OTA sont contrôlés. Les zones NVS, app1, SPIFFS et coredump de cette image d’usine sont remplies de `0xFF` ; aucun export de tablette personnelle n’a servi à sa construction.
+1. Sauvegarder les fichiers personnels, modules adaptés, réglages, clés, archives Wikipédia, données de jeux et sauvegardes.
+2. Copier le dossier `sdcard/Factory/Tab5OS-0.8.53` du paquet vers `/Factory/Tab5OS-0.8.53` sur la carte.
+3. Actualiser `MicroPython/lib/tab5factory.py`, `tab5workshop.py`, `tab5fs.py`, `tab5gui.py`, `tab5ui.py`, `tab5apps.py` et `MicroPython/update_sd.py` depuis le paquet, après avoir conservé leurs éventuelles adaptations.
+4. Redémarrer, ouvrir `/MicroPython/update_sd.py` dans l'Explorateur et choisir **Réparer et mettre à jour**.
+5. Redémarrer à nouveau pour charger les langues, polices et dispositions de clavier actualisées.
 
-Aucun essai d’import M5Burner ni de démarrage physique n’est revendiqué. Voir les vérifications du projet et [`TESTS_TAB5_0.8.53.md`](../firmware/TESTS_TAB5_0.8.53.md) avant d’annoncer une validation matérielle.
+**Ne pas remplacer tout le dossier `/System`.** L'action distincte **Restaurer les fichiers modifiés** remplace volontairement les ressources personnalisées. Le réglage de restauration des fichiers manquants ne recrée que les petites ressources absentes ; il n'actualise pas les fichiers existants et ne fournit pas toutes les données externes.
 
-Références officielles : [M5Burner](https://docs.m5stack.com/en/uiflow/m5burner/intro), [mode de téléchargement Tab5](https://docs.m5stack.com/en/uiflow2/Tab5/program), [publication](https://docs.m5stack.com/en/uiflow/m5burner/publish).
+## Installer depuis les sources
 
+Le [guide de compilation](BUILD.md) décrit les dépendances, les scripts et les fichiers produits. Compiler le firmware ne crée pas automatiquement un paquet SD complet ni une image d'installation initiale.
 
-Table de partitions : la table effective est `tools/partitions/default_16MB.csv` dans le SDK ; le sketch ne contient pas `partitions.csv`. Voir les [précisions de compilation](BUILD.md).
+Références officielles : [M5Burner](https://docs.m5stack.com/en/uiflow/m5burner/intro) · [Mode de téléchargement Tab5](https://docs.m5stack.com/en/uiflow2/Tab5/program).

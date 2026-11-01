@@ -37,5 +37,3 @@ Les commandes de modification visent la sélection explicite. Sans sélection, u
 ## Noms et validation
 
 Les noms de fichiers et dossiers proposés par défaut sont en anglais, quelle que soit la langue d’affichage. Les fichiers personnels existants et les chemins configurés ne sont pas renommés automatiquement. Les anciens noms reconnus restent des chemins de compatibilité lorsqu’ils sont nécessaires.
-
-[VERIFICATION.md](VERIFICATION.md) distingue les essais des sources finales, les contrôles d’intégrité et les rapports historiques. Les tests sur ordinateur ne mesurent pas la fluidité ni les délais de stockage du Tab5 physique.

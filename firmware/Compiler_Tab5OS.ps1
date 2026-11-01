@@ -14,7 +14,7 @@ if ($SketchPath) {
     $AppName = Split-Path -Leaf $AppPath
 } else {
     $Candidates = @(Get-ChildItem -LiteralPath $PSScriptRoot -Directory | Where-Object {
-        $_.Name -match '^Tab5OS_Arduino_v\d+\.\d+\.\d+_Ecriture$' -and
+        $_.Name -match '^Tab5OS_Arduino_v\d+\.\d+\.\d+$' -and
         (Test-Path -LiteralPath (Join-Path $_.FullName ($_.Name + '.ino')))
     })
     if ($Candidates.Count -ne 1) {
@@ -23,7 +23,7 @@ if ($SketchPath) {
     $AppPath = $Candidates[0].FullName
     $AppName = $Candidates[0].Name
 }
-if ($AppName -notmatch '^Tab5OS_Arduino_v(\d+\.\d+\.\d+)_Ecriture$' -or
+if ($AppName -notmatch '^Tab5OS_Arduino_v(\d+\.\d+\.\d+)$' -or
     -not (Test-Path -LiteralPath (Join-Path $AppPath ($AppName + '.ino')))) {
     throw 'The selected directory is not a complete Tab5OS sketch.'
 }
@@ -124,39 +124,39 @@ try {
     Copy-Item -LiteralPath (Join-Path $AppPath 'lv_conf.h') -Destination (Join-Path $LibrariesDir 'lv_conf.h') -Force
     # Apply the same bounded Arabic allocation fix as the delivered firmware,
     # using a verified separate library copy. The installed library is unchanged.
-    $LvglHelper = Join-Path $PSScriptRoot 'tools\build_clang\prepare_lvgl.py'
+    $LvglHelper = Join-Path $PSScriptRoot 'build\build_clang\prepare_lvgl.py'
     $LvglSource = Join-Path $LibrariesDir 'lvgl'
     $LvglWork = Join-Path $BuildEnv 'lvgl-patched'
     if (-not (Get-Command python -ErrorAction SilentlyContinue)) { throw 'Python 3 is required to prepare the isolated LVGL library.' }
     & python $LvglHelper --source $LvglSource --work $LvglWork
     if ($LASTEXITCODE -ne 0) { throw 'Could not prepare the verified LVGL Arabic allocation fix.' }
     $LvglLibrary = Join-Path $LvglWork 'dependencies\lvgl'
-    $JpegHelper = Join-Path $PSScriptRoot 'tools\build_linux\prepare_m5gfx_jpeg.py'
+    $JpegHelper = Join-Path $PSScriptRoot 'build\build_linux\prepare_m5gfx_jpeg.py'
     $JpegSource = Join-Path $LibrariesDir 'M5GFX'
     $JpegWork = Join-Path $BuildEnv 'm5gfx-jpeg-patched'
     & python $JpegHelper --source $JpegSource --work $JpegWork
     if ($LASTEXITCODE -ne 0) { throw 'Could not prepare the verified JPEG decoder fixes.' }
     $M5GfxLibrary = Join-Path $JpegWork 'dependencies\M5GFX'
-    $SpeakerHelper = Join-Path $PSScriptRoot 'tools\build_linux\prepare_m5unified_audio.py'
+    $SpeakerHelper = Join-Path $PSScriptRoot 'build\build_linux\prepare_m5unified_audio.py'
     $SpeakerSource = Join-Path $LibrariesDir 'M5Unified'
     $SpeakerWork = Join-Path $BuildEnv 'm5unified-audio-patched'
     & python $SpeakerHelper --source $SpeakerSource --work $SpeakerWork
     if ($LASTEXITCODE -ne 0) { throw 'Could not prepare the verified M5Unified audio startup fix.' }
     $M5UnifiedLibrary = Join-Path $SpeakerWork 'dependencies\M5Unified'
-    $FsHelper = Join-Path $PSScriptRoot 'tools\build_linux\prepare_fs_errno.py'
+    $FsHelper = Join-Path $PSScriptRoot 'build\build_linux\prepare_fs_errno.py'
     $FsSource = Join-Path $CoreDir 'libraries\FS'
     $FsWork = Join-Path $BuildEnv 'fs-errno-patched'
     & python $FsHelper $FsSource $FsWork
     if ($LASTEXITCODE -ne 0) { throw 'Could not prepare the verified filesystem errno backport.' }
     $FsLibrary = Join-Path $FsWork 'dependencies\FS'
-    $DsiHelper = Join-Path $PSScriptRoot 'tools\build_linux\prepare_dsi_cache_safe.py'
+    $DsiHelper = Join-Path $PSScriptRoot 'build\build_linux\prepare_dsi_cache_safe.py'
     $DsiSdk = Join-Path $DataDir 'packages\m5stack\tools\esp32p4_es-libs\3.3.9'
     $DsiCompiler = Join-Path $DataDir 'packages\m5stack\tools\esp-rv32\2601\bin\riscv32-esp-elf-gcc.exe'
     $DsiWork = Join-Path $BuildEnv 'dsi-cache-safe-patched'
     $DsiArchivesJson = & python $DsiHelper --sdk-root $DsiSdk --gcc $DsiCompiler --work $DsiWork
     if ($LASTEXITCODE -ne 0) { throw 'Could not prepare cache-safe native DSI/DW-GDMA units.' }
     $DsiArchives = @($DsiArchivesJson | ConvertFrom-Json)
-    $HeapProbeHelper = Join-Path $PSScriptRoot 'tools\build_linux\verify_heap_probe.py'
+    $HeapProbeHelper = Join-Path $PSScriptRoot 'build\build_linux\verify_heap_probe.py'
     $HeapProbeLog = Join-Path $LogsDir 'heap-probe-sdk.json'
     $HeapProbeJson = & python $HeapProbeHelper --sdk-root $DsiSdk --output $HeapProbeLog
     $HeapProbeDefine = '-DTAB5_HEAP_PROBE_PINNED=0'

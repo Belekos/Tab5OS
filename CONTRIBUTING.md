@@ -1,18 +1,16 @@
 # Contributing
 
-Please discuss a substantial change before starting a broad refactor. Tab5OS prioritizes stability, predictable resource use and preservation of user files and settings.
+Tab5OS prioritizes stability, predictable resource use and preservation of user files and settings. Discuss substantial changes before starting a broad refactor.
 
 For bug reports, include:
 
 - Tab5OS version and Tab5 hardware revision, if known.
-- Connected USB devices, SD format and the app involved.
-- Minimal steps, expected behavior and observed behavior.
-- Relevant serial diagnostics or a non-personal example file.
+- Connected peripherals, storage format and affected application.
+- Reproduction steps, expected behavior and observed behavior.
+- Relevant diagnostics or a sample file without personal information.
 
-Never include passwords, Wi-Fi credentials, PINs, encryption keys or private documents.
+Do not include passwords, Wi-Fi credentials, PINs, encryption keys or private documents.
 
-For code changes, preserve the existing app and resource lifecycles, use the SDK/LVGL facilities where suitable, keep UI text translatable and build with the pinned toolchain. State what was actually tested and distinguish host tests from device tests. Do not claim that native ELF code is isolated from the firmware.
+For code changes, preserve existing application lifecycles, make UI text translatable and follow the [build guide](docs/BUILD.md). State which checks were performed and distinguish computer tests from physical-device tests. External native applications share memory with the firmware.
 
-Read [NOTICE.md](NOTICE.md) before contributing or redistributing. The first-party license has not yet been selected, and the combined audio binary has a separate license compatibility question. No contributor license agreement is imposed by this document.
-
-For build details, see [docs/BUILD.md](docs/BUILD.md). Existing engineering notes are retained in [firmware/CONTRIBUTING.md](firmware/CONTRIBUTING.md).
+Read [NOTICE.md](NOTICE.md) for licensing information. Application APIs and examples are described in [firmware/DEVELOPPEMENT.md](firmware/DEVELOPPEMENT.md).

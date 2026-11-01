@@ -27,13 +27,3 @@ Les ressources temporaires sont libérées à une étape définie : fin, annulat
 Les documents, modifications non enregistrées et historiques d’édition appartiennent à leur application. La collecte générale ne les détruit pas. Atelier Image possède son propre propriétaire mémoire ; sa mise en arrière-plan conserve le document et son historique, tout en libérant explicitement son aperçu dérivé, qui sera reconstruit à la reprise. Le changement de page actualise le propriétaire visible avant la préparation du nouvel écran. Les callbacks de Cartes, de l’explorateur et des médias gardent aussi une protection de leur page sous un panneau d’outils.
 
 Les échecs de bas niveau de `malloc` restent journalisés. Ils ne déclenchent aucune collecte différée : l’appelant peut déjà avoir réduit une allocation facultative, récupéré autrement ou annulé. Une opération qui doit récupérer de la mémoire passe par `reserveRecovering()` avec son budget encore pertinent.
-
-## Vérification
-
-| Rapport | Portée |
-| --- | --- |
-| [memory-0833.json](tools/verification/memory-0833.json) | Gestionnaire de production : domaines SRAM/PSRAM/DMA, fragmentation, propriétaires protégés, réservations concurrentes, demandes worker, retrait différé des piles, 400 cycles de réservation et 400 changements de propriétaire. |
-| [memory-regression-0833.json](tools/verification/memory-regression-0833.json) | Cinq scénarios identiques exécutés avec les sources exactes de la 0.8.32 puis de la 0.8.33 ; corps réels du service Arduino et du callback d’échec d’allocation. |
-| [memory-integration-0833.json](tools/verification/memory-integration-0833.json) | Routage du propriétaire visible et enregistrement des callbacks extraits du sketch : 11 scénarios de propriétaire et 9 scénarios de cache, dont les pages recouvertes par les outils. |
-
-Ces essais utilisent AddressSanitizer et UndefinedBehaviorSanitizer. Les compteurs de tas et les frontières matérielles sont simulés ; ils ne mesurent pas la SRAM physique, le débit de rendu ou la latence tactile du P4. Les empreintes des sources et les limites figurent dans chaque rapport. Les documents `NOUVEAUTES_v0.8.31.md`, `NOUVEAUTES_v0.8.32.md` et les audits datés décrivent leurs versions historiques, pas la politique courante.
