@@ -56,7 +56,7 @@
         },
         {
           "path": "Tab5OS_Arduino_v0.8.53/src/tab5ssh/MBEDTLS_BACKPORTS.md",
-          "sha256": "4901e507801fd2e4856acd7cd7db9788e1f6216212f88e8614ea9c545aa57d22"
+          "sha256": "e88133309a0e66209b259b174c506562122e1b8481a01007450ae1b3398e6bf5"
         }
       ]
     },
@@ -361,29 +361,6 @@
         {
           "path": "Tab5OS_Arduino_v0.8.53/tools/native-apps/snes/core/UPSTREAM.txt",
           "sha256": "2258a31c93f7683295e57dd031bbc281771cbac91facfed476931f0314b138a7"
-        }
-      ]
-    },
-    {
-      "component": "ESP-IDF FatFs host regression sources",
-      "directory": "tools/usb-format-tests-0840/upstream",
-      "licenseLabel": "FatFs permissive notice; ESP-IDF per-file notices retained",
-      "notices": [
-        {
-          "path": "tools/usb-format-tests-0840/upstream/PROVENANCE.json",
-          "sha256": "58e191cc83daa5276dc5dd0492a38ed11ae287e820332adacbf44fa433b777b5"
-        },
-        {
-          "path": "tools/usb-format-tests-0840/upstream/ff.c",
-          "sha256": "b6511bc0102f42b941897cd9f96f75206b6851fedbebc6dcb17c220cb1d4bede"
-        },
-        {
-          "path": "tools/usb-format-tests-0840/upstream/ffunicode.c",
-          "sha256": "f2e03e97fccd9d7b0614b48ee02b7e49fb21c5196d3ff77ba5d8e4558a064d5d"
-        },
-        {
-          "path": "tools/usb-format-tests-0840/upstream/diskio.c",
-          "sha256": "733c3b78d9fd605a7caa6d9912b6d84ba5d0f8614b80fd38eebe91416e8fbd4b"
         }
       ]
     },

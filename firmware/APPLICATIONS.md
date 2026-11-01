@@ -4,7 +4,7 @@ Tab5OS réunit des outils intégrés et des applications ELF ou Python installé
 
 ## Applications ELF
 
-Télécharger le [paquet SD complet](../downloads/Tab5OS_0.8.53_SD.zip), puis copier son contenu à la racine de la microSD. Les exécutables sont aussi disponibles dans [sdcard/Applications](Tab5OS_Arduino_v0.8.53/sdcard/Applications/). Copier les ressources SD suivant le [guide d'installation](../docs/INSTALL_FR.md), puis ouvrir **Apps ELF** ou sélectionner un fichier dans l'Explorateur et choisir **Ouvrir avec**.
+Télécharger et décompresser le [paquet SD complet](../downloads/Tab5OS_0.8.53_SD.zip). Sur une carte neuve, copier le **contenu du dossier `sdcard`** à la racine de la microSD. Pour une carte déjà utilisée, suivre la [procédure de mise à jour](../docs/INSTALL_FR.md#actualiser-une-microsd-existante). Les exécutables sont aussi disponibles dans [sdcard/Applications](Tab5OS_Arduino_v0.8.53/sdcard/Applications/). Copier les ressources SD suivant le [guide d'installation](../docs/INSTALL_FR.md), puis ouvrir **Apps ELF** ou sélectionner un fichier dans l'Explorateur et choisir **Ouvrir avec**.
 
 | Application | Exécutable | Fichier à ouvrir |
 | --- | --- | --- |

@@ -1,24 +1,19 @@
-# Tab5 0.8.41 static memory changes
+# Tab5OS memory layout
 
 The vendored algorithms and licenses remain unchanged. These local changes keep
 immutable lookup data in flash rather than internal SRAM:
 
 - `tab5git/src/util/hash/sha1dc/ubc_check.{c,h}`: make `sha1_dvs` const in both
   declaration and definition. All uses in `sha1.c` only read the table. Collision
-  detection and safe hashing stay enabled. The 0.8.40 ELF used 11,352 DRAM bytes.
+  detection and safe hashing stay enabled.
 - `xz/xz_crc32.c` and `xz/xz_crc64.c`: replace runtime table construction with
   const tables in the adjacent generated headers, using exactly the original
   reflected polynomials (0xEDB88320 and 0xC96C5795D7870F42). The public init
   functions remain as no-ops for source compatibility. This removes 3,072 BSS
   bytes. There are no allocator calls or new initialization failure paths.
 
-Validation: `tools/memory-layout-tests-0841/run_static.py` checks every generated
-CRC entry independently, standard/incremental CRC vectors, production XZ
-decompression with CRC32/CRC64, standard SHA-1 cases, and two upstream SHA-mbles
-collision fixtures with safe hashing both enabled and disabled. Host tests use
-ASan/UBSan and the aligned SHA-1 input path used on RISC-V. The final ESP32-P4 ELF
-must place all three symbols in flash read-only sections before the target SRAM
-gain is claimed. No TCM, LP RAM or task stack is relocated by these changes.
+The tables remain in flash read-only sections. No TCM, LP RAM or task stack is
+relocated by these changes.
 
 ## Physical banks and allocator figures
 
@@ -49,6 +44,3 @@ Errors are also cached so a failed metadata read cannot cause repeated I/O.
 The UI marks the size unavailable on failure. Bootloader/OTA integrity checking
 is unchanged; this helper is only an informational size query.
 
-`tools/firmware-footprint-tests-0841` covers caching, malformed header bounds,
-SDK failures, and target ABI compilation. Host boundary mocks are not a
-physical-device test of the SDK or the flash bus.

@@ -31,6 +31,4 @@ modified locally. `COPYING` preserves the upstream BSD-3-Clause license.
 
 The OS uses session allocation callbacks with a strict PSRAM budget. Internal
 mbedTLS allocations use the existing SDK allocator and OS crypto admission
-budget. No global allocator is replaced by the command. Test reports under
-`tools/verification` separate actual native mbedTLS/SSH exchanges, ESP32-P4
-object compilation, and the still-required physical-device measurements.
+budget. No global allocator is replaced by the command.

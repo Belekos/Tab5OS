@@ -1,10 +1,10 @@
-# Moteur raster d’Atelier Image
+# Moteur raster de Dessin
 
-`image_core.c` est le moteur C réellement compilé dans l’application ELF. Il ne dépend ni de LVGL, ni d’un écran, ni d’un système de fichiers : l’hôte fournit allocation/libération, transferts de fichiers et coopération avec l’ordonnanceur.
+`image_core.c` est le moteur C compilé dans le firmware pour Dessin et réutilisé par l’exemple ELF de ce dossier. Il ne dépend ni de LVGL, ni d’un écran, ni d’un système de fichiers : l’hôte fournit allocation/libération, transferts de fichiers et coopération avec l’ordonnanceur.
 
 ## Représentation et limites
 
-Les pixels sont RGBA non prémultipliés (`0xAABBGGRR`). Chaque calque contient un tableau de pixels, un nom de 23 octets, une opacité de 0 à 255 et un état visible/masqué. L’image accepte jusqu’à 8 calques et 1024 pixels par dimension ; la somme des pixels des calques reste inférieure à 8 Mio, avec 64 Kio réservés aux métadonnées et à l’allocateur. Ainsi, 1024 × 1024 convient à un calque et 512 × 512 à sept calques. La limite effective dépend également de la mémoire disponible.
+Les pixels sont RGBA non prémultipliés (`0xAABBGGRR`). Chaque calque contient un tableau de pixels, un nom de 23 octets, une opacité de 0 à 255 et un état visible/masqué. L’image accepte jusqu’à 8 calques et 8192 pixels par dimension ; la somme des pixels des calques reste inférieure à 8 Mio, avec 64 Kio réservés aux métadonnées et à l’allocateur. Ainsi, 1024 × 1024 convient à un calque et 512 × 512 à sept calques. La limite effective dépend également de la mémoire disponible.
 
 L’historique conserve au plus 16 états et 8 Mio. Les états les plus anciens sont libérés quand la limite ou une allocation l’exige. Il n’y a pas de nombre fixe garanti d’annulations : une grande image en conserve moins. Les transformations réutilisent le dernier état d’annulation comme source afin d’éviter une troisième copie de l’image.
 
