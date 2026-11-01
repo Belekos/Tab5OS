@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Classic Vinyl HD",
+      "style": "US/1930",
+      "url": "https://icecast.walmradio.com:8443/classic",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "CLASSIC HITS RADIO 70 80 DiscoFunk ModernSoul Boogie",
+      "style": "US/1970s",
+      "url": "https://radiopanther.radiolebowski.com/play",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 192
+    },
+    {
+      "name": "WALM - Old Time Radio",
+      "style": "US/78",
+      "url": "https://icecast.walmradio.com:8443/otr",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Adroit Jazz Underground",
+      "style": "US/avant-garde",
+      "url": "https://icecast.walmradio.com:8443/jazz",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "Radio Paradise Main Mix (EU) 320k AAC",
+      "style": "US/california",
+      "url": "http://stream-uk1.radioparadise.com/aac-320",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 320
+    },
+    {
+      "name": "WALM 2 HD",
+      "style": "US/choral",
+      "url": "https://icecast.walmradio.com:8443/walm2",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "Christmas Vinyl HD",
+      "style": "US/christian",
+      "url": "https://icecast.walmradio.com:8443/christmas",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "101 SMOOTH JAZZ",
+      "style": "US/easy listening",
+      "url": "http://jking.cdnstream1.com/b22139_128mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    }
+  ]
+}

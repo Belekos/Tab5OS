@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Spot Radio",
+      "style": "PR/adult contemporary",
+      "url": "https://c9.radioboss.fm/stream/141",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "AZ Rock",
+      "style": "PR/alfa",
+      "url": "http://cassini.shoutca.st:9300/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Casa Pueblo",
+      "style": "PR/community news",
+      "url": "http://s1.voscast.com:9906/;stream1523840050300/1",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 48
+    },
+    {
+      "name": "WUNO 630 \"Noti Uno\" San Juan",
+      "style": "PR/information",
+      "url": "http://68.235.35.243:9027/;stream.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "WALO 1240 \"Radio Oriental\" Humacao",
+      "style": "PR/local news",
+      "url": "http://68.235.35.243:9031/stream?type=.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Hot 102",
+      "style": "PR/mainstream",
+      "url": "https://server7.servistreaming.com/proxy/hot?mp=%2Fstream%3Ftype%3D.mp3&_=1",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 96
+    },
+    {
+      "name": "WUPR Éxitos 1530",
+      "style": "PR/misc",
+      "url": "https://exitos1530.radioca.st/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 185
+    },
+    {
+      "name": "Fidelity 95.7 fm PR",
+      "style": "PR/Radio",
+      "url": "https://server7.servistreaming.com/proxy/fidelity?mp=%2Fstream%3Ftype%3D.mp3&_=1",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    }
+  ]
+}

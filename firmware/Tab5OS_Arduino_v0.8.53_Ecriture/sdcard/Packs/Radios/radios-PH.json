@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Budots FM 98.9",
+      "style": "PH/budots",
+      "url": "https://stream-171.zeno.fm/2uhuu5hvzqzuv?zs=oGfN_quRRSyJUGCfzxagdw",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Christmas Radio Philippines - Powered By www.amfmph.net",
+      "style": "PH/christmas music",
+      "url": "https://us1.amfmph.com/ssl/christmasradio?mp=/stream&1641738050672",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "Pinoy Rap Radio",
+      "style": "PH/filipino",
+      "url": "https://stream.zeno.fm/0cdp55nqam0uv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Wild FM Manila",
+      "style": "PH/music",
+      "url": "https://stream-31.zeno.fm/2ss1hgnu6hhvv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Bombo Radyo Iloilo",
+      "style": "PH/news",
+      "url": "https://stream.zenolive.com/gzudz59nz9duv",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 64
+    },
+    {
+      "name": "Barangay LS 97.1 Manila",
+      "style": "PH/opm",
+      "url": "http://28093.live.streamtheworld.com:3690/MORFM_S01AAC_SC",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "98.3 Love Radio Dagupan",
+      "style": "PH/pop",
+      "url": "https://loveradiodagupan.radioca.st/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 96
+    },
+    {
+      "name": "Star FM Manila",
+      "style": "PH/Radio",
+      "url": "https://stream-13.zeno.fm/g1pmt17nz9duv",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 96
+    }
+  ]
+}

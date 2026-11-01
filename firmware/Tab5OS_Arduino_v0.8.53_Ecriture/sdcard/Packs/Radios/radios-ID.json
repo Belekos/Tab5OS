@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "RDI 97.1 FM",
+      "style": "ID/dangdut",
+      "url": "http://202.147.199.99:8000/;stream/1",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "I-Radio Jakarta",
+      "style": "ID/indonesia",
+      "url": "http://stream.radiojar.com/4ywdgup3bnzuv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "TraxFM Jakarta",
+      "style": "ID/misc",
+      "url": "https://stream.radiojar.com/rrqf78p3bnzuv.mp3",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 0
+    },
+    {
+      "name": "elshinta jakarta",
+      "style": "ID/news",
+      "url": "https://stream-ssl.arenastreaming.com:8000/jakarta",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Suara Giri 98.4 FM",
+      "style": "ID/pop",
+      "url": "http://streaming.girifm.com:8010/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Dangdut 97.1 FM Jakarta",
+      "style": "ID/Radio",
+      "url": "http://202.147.199.99:8000/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Wijaya FM 103.5 FM Surabaya",
+      "style": "ID/undefined",
+      "url": "http://wijayafm.onlivestreaming.net:9880/stream?",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "Retjo Buntung 99.4 FM",
+      "style": "ID/yogyakarta",
+      "url": "http://45.64.97.82:9940/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    }
+  ]
+}

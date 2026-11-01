@@ -1,0 +1,43 @@
+{
+  "source": "verified release 0.8.41, sketch renamed 0.8.42 before audit",
+  "sourceZipSha256": "01389322d10ae80b668ce369b2586e41831af03e3e407ecd3d60da62dd2667ff",
+  "physicalDeviceTested": false,
+  "files": {
+    "Tab5Storage.cpp": {
+      "sha256": "d4b5e8dd2de307b93cba7fab811eabcfd6ecb6926eaca4eec407d980406d79e9",
+      "bytes": 5986
+    },
+    "Tab5VolumeFS.cpp": {
+      "sha256": "ca7b1c7e5f9cf99706171399b905e37738930cc5ef74140924d5b67af55c1e78",
+      "bytes": 6015
+    },
+    "Tab5AtomicFile.h": {
+      "sha256": "67369d2a48555937c3b5349b52bcca12cedc6f29a0500c3993c21c5ceb476567",
+      "bytes": 1538
+    },
+    "WriterStorage.cpp": {
+      "sha256": "ad41bbd1ef1dbd106b1b461283c60e2f883c773460356fe988e6b3749ddcbddc",
+      "bytes": 6796
+    },
+    "Tab5FileOperation.cpp": {
+      "sha256": "f81d2d460957a89afa49cb0df1d884c4c2fa07ebaab4960cb9c708c002e2c543",
+      "bytes": 17388
+    },
+    "Tab5UsbStorage.cpp": {
+      "sha256": "e4031fd07ad1abba8ceaeaa120fd21a5465783f630451e25a47a96c2f2f47682",
+      "bytes": 9542
+    },
+    "Tab5Secrets.cpp": {
+      "sha256": "cf5487d353b029ae1beb4688eaa08b93b4daf8f35926fe1bd18a5638c7f43add",
+      "bytes": 11123
+    },
+    "Tab5KeyStore.cpp": {
+      "sha256": "b90db29c9697b655813b0f53578a0c32ba6a3d381504a5a824f1e5cf95eec14b",
+      "bytes": 24911
+    },
+    "Tab5VaultCore.cpp": {
+      "sha256": "d2d350429325ac0f6f05c64fcc8e3f87ea082d29afcb157030d6bbf32ab97a34",
+      "bytes": 8241
+    }
+  }
+}

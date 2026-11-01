@@ -1,0 +1,469 @@
+{
+  "stations": 600,
+  "countries": 75,
+  "codecs": {
+    "MP3": 447,
+    "AAC": 57,
+    "AAC+": 96
+  },
+  "snapshot_sha256": "49eae460223b67655cd010c7e236270d7aa185741a20599f01b7d119876d12b7",
+  "retrieved_utc": "2026-10-14T22:42:30.992945+00:00",
+  "packs": [
+    {
+      "file": "radios-internet.json",
+      "stations": 600,
+      "bytes": 124444,
+      "sha256": "4219dc0d655dd9d7035155308d0d26fb6b7ba983b41ad24f07e42d2c96b4971c"
+    },
+    {
+      "file": "radios-AR.json",
+      "stations": 8,
+      "bytes": 1834,
+      "sha256": "fe8517fbdf0306f5eaf7ff604b63230ab1fd006fb87ea2306eeb3ddd9f532b39"
+    },
+    {
+      "file": "radios-AT.json",
+      "stations": 8,
+      "bytes": 1625,
+      "sha256": "5a1a016b7415b823ad9b2ba1eb740a1298aebca707e5df6583017a656d31b878"
+    },
+    {
+      "file": "radios-AU.json",
+      "stations": 8,
+      "bytes": 1673,
+      "sha256": "d87deab33ab09725f151b9ef8b5083f1e8d18aecdb44babd660d5e617af2e5d6"
+    },
+    {
+      "file": "radios-BD.json",
+      "stations": 8,
+      "bytes": 1755,
+      "sha256": "a0da4c76cdea9488a43e88d3cd6a0206dfaa212f325a55d3fd7bbe30180039bb"
+    },
+    {
+      "file": "radios-BE.json",
+      "stations": 8,
+      "bytes": 1633,
+      "sha256": "2b9ebfa057e8da12504286f83f5a6c679823f63b006c6a37203a6f5dbc5fc928"
+    },
+    {
+      "file": "radios-BG.json",
+      "stations": 8,
+      "bytes": 1631,
+      "sha256": "a7fa4a34a540b91b194b7c8d7242297c4e325dbc1e1992a18b2ec79d68a2e262"
+    },
+    {
+      "file": "radios-BR.json",
+      "stations": 8,
+      "bytes": 1828,
+      "sha256": "b853b4a64c6c60b367924fd5795e5b76a4cf5870632d74ccac9f564953f83078"
+    },
+    {
+      "file": "radios-CA.json",
+      "stations": 8,
+      "bytes": 1776,
+      "sha256": "ff8f6970bb859a7b64964bbb08e2bfb08da1f704af909c4feb9d14867a3649d4"
+    },
+    {
+      "file": "radios-CH.json",
+      "stations": 8,
+      "bytes": 1691,
+      "sha256": "7601dad673c512e92bedfec526965886e540c5492d82eed2450a16e1d38ddb0a"
+    },
+    {
+      "file": "radios-CL.json",
+      "stations": 8,
+      "bytes": 1640,
+      "sha256": "382a5d93cf60eadedac90c0a24b0f02ff82be5bbf63a818b4997a96107c71f30"
+    },
+    {
+      "file": "radios-CN.json",
+      "stations": 8,
+      "bytes": 1587,
+      "sha256": "8cb43f928c1a2a72d5e73d7b2210f3eb6e4d8692f35468d14e5a6b974b826e45"
+    },
+    {
+      "file": "radios-CO.json",
+      "stations": 8,
+      "bytes": 1944,
+      "sha256": "a026883b3367e57629a0d5e5e66d8e27e6c46505f48fbd118a454ac01bb29084"
+    },
+    {
+      "file": "radios-CR.json",
+      "stations": 8,
+      "bytes": 1764,
+      "sha256": "6d3f1a202942678881222cf162397658ce657aeaecebffb23c984805e83a618f"
+    },
+    {
+      "file": "radios-CU.json",
+      "stations": 8,
+      "bytes": 1767,
+      "sha256": "5974ed0b4b9076d0845e435db60e660e9ec5fd71e7d56befce7b60b65c71e094"
+    },
+    {
+      "file": "radios-CZ.json",
+      "stations": 8,
+      "bytes": 1628,
+      "sha256": "713f3213b6dad586835880c0b03eb50c83051776d6057ecec8106cc08dcd0924"
+    },
+    {
+      "file": "radios-DE.json",
+      "stations": 8,
+      "bytes": 1701,
+      "sha256": "c4d2f7af498dc5e9e72f554c54046b877af3d0352fd29d045424aaa0af927d7c"
+    },
+    {
+      "file": "radios-DK.json",
+      "stations": 8,
+      "bytes": 1534,
+      "sha256": "20d39792589d1358d36aa0b4a6a9b789a9d49b638be778a2a8d59bc6d9ae7d48"
+    },
+    {
+      "file": "radios-DO.json",
+      "stations": 8,
+      "bytes": 1703,
+      "sha256": "56fce9dbb28e03d974ac2f21a54418949ccb04537a701a141e85047054d61405"
+    },
+    {
+      "file": "radios-DZ.json",
+      "stations": 8,
+      "bytes": 1666,
+      "sha256": "cc99af6d9a10ff06e9c7df61ed4e2243942cc1f591c99230c2d3624d1de6ca9a"
+    },
+    {
+      "file": "radios-EC.json",
+      "stations": 8,
+      "bytes": 1683,
+      "sha256": "1737c654bd4aa3e16f3d378658d3918e620f09db77dd02d4ccc8e51fa0a73d30"
+    },
+    {
+      "file": "radios-EE.json",
+      "stations": 8,
+      "bytes": 1580,
+      "sha256": "5a34c703eac82e86067ee30c7ad86e42e2b032937e997668e7f9962104e054bf"
+    },
+    {
+      "file": "radios-EG.json",
+      "stations": 8,
+      "bytes": 2023,
+      "sha256": "d984c803a72664dc8e6c4b1d4f31b4d966d5bfb8a176002379f1ad91629de949"
+    },
+    {
+      "file": "radios-ES.json",
+      "stations": 8,
+      "bytes": 1708,
+      "sha256": "b5af9332de26187bf7d655718a209b78e78e84591dd238e92651725d480ee108"
+    },
+    {
+      "file": "radios-FI.json",
+      "stations": 8,
+      "bytes": 1657,
+      "sha256": "fd2b088ec393717da812a8a114c0b1870b24ca21ee7836dcd08cfd5c91508012"
+    },
+    {
+      "file": "radios-FR.json",
+      "stations": 8,
+      "bytes": 1592,
+      "sha256": "e3961d4be876f25f1ec4922d32beadb103e0f8f071e88e9b5d140ceafe30c1d3"
+    },
+    {
+      "file": "radios-GB.json",
+      "stations": 8,
+      "bytes": 1609,
+      "sha256": "b3cf5ff4d99ed26b18478fe456219e5254eb09faa87b301d72b4c31bc09dd599"
+    },
+    {
+      "file": "radios-GH.json",
+      "stations": 8,
+      "bytes": 1779,
+      "sha256": "f690d4e503f49dfdb1bcf0baf1699e77308b6300a3e986daba70d372e692a277"
+    },
+    {
+      "file": "radios-GR.json",
+      "stations": 8,
+      "bytes": 1549,
+      "sha256": "80f916bb5118473be3d2abd789caba0dc3e24c0815172cd000d2a6ece683304e"
+    },
+    {
+      "file": "radios-HR.json",
+      "stations": 8,
+      "bytes": 1542,
+      "sha256": "588c7539e855b97af528da8e55e8a2cdd4e1ff07ef0e3614aa492062e73a6348"
+    },
+    {
+      "file": "radios-HU.json",
+      "stations": 8,
+      "bytes": 1656,
+      "sha256": "5b873593f5c702a043e1b353b167c4d804fa42b787d997597ec3bd29890b1a84"
+    },
+    {
+      "file": "radios-ID.json",
+      "stations": 8,
+      "bytes": 1610,
+      "sha256": "869b58a3c4b1397c140d8b75f97f77d2f6ceea8bbb6645e292b7353a5889ad68"
+    },
+    {
+      "file": "radios-IE.json",
+      "stations": 8,
+      "bytes": 1590,
+      "sha256": "41fc8afb3ec4b286ef5be821c506a0693c2796c651a0da42438f69f4391f9af0"
+    },
+    {
+      "file": "radios-IL.json",
+      "stations": 8,
+      "bytes": 1752,
+      "sha256": "8d0f1ed79e17195e8e6165d8a9f860d94ebba000be972febb73a3dd6443bdc9b"
+    },
+    {
+      "file": "radios-IN.json",
+      "stations": 8,
+      "bytes": 1672,
+      "sha256": "706fc3b4bd84862f035a57add8d86a4de0041edcfba54760399cbb45493976ae"
+    },
+    {
+      "file": "radios-IS.json",
+      "stations": 8,
+      "bytes": 1631,
+      "sha256": "59f660cab3381428f8dab1d0b5d85285e3327167b6ba390de752f67e189ca5d5"
+    },
+    {
+      "file": "radios-IT.json",
+      "stations": 8,
+      "bytes": 1606,
+      "sha256": "a6cbf40813ef3a6714bd50e6b0816127ff55dc44bb91c17efc6aeba60b555c2b"
+    },
+    {
+      "file": "radios-JP.json",
+      "stations": 8,
+      "bytes": 1683,
+      "sha256": "bc179c574e4e3f23a1c3cf0883c4298d87b934df82a97a4426bd05a12a2a5d07"
+    },
+    {
+      "file": "radios-KE.json",
+      "stations": 8,
+      "bytes": 1558,
+      "sha256": "2bca2e0ed7edc75a783afed72ec909280f6bde714f16d070ec968c3787d1c415"
+    },
+    {
+      "file": "radios-KR.json",
+      "stations": 8,
+      "bytes": 1589,
+      "sha256": "08e633d12073b71c0a78247067faf235f25ff57829e48210e2dbde32c568c013"
+    },
+    {
+      "file": "radios-LB.json",
+      "stations": 8,
+      "bytes": 1629,
+      "sha256": "01ff76fbc781776491fe60da6f258551ab937d829e9fe11466a849893685c488"
+    },
+    {
+      "file": "radios-LK.json",
+      "stations": 8,
+      "bytes": 1808,
+      "sha256": "c3d5a610c6459798d840cda11b8f594fa5832e5f2c88b40747f4d7106d812264"
+    },
+    {
+      "file": "radios-LT.json",
+      "stations": 8,
+      "bytes": 1590,
+      "sha256": "05bacf78bf136db737377076284194802c7dcc7945ab70d65f6e14a1be233dcd"
+    },
+    {
+      "file": "radios-LV.json",
+      "stations": 8,
+      "bytes": 1676,
+      "sha256": "b5e1ba6d6db55dd367120ea15d463acd867721f1b1ab61fc1cd092dbfe810a45"
+    },
+    {
+      "file": "radios-MA.json",
+      "stations": 8,
+      "bytes": 1679,
+      "sha256": "004d5118f7c588896555b40791fb64ee003a7e6704f5950f6308e2de72722f5f"
+    },
+    {
+      "file": "radios-MX.json",
+      "stations": 8,
+      "bytes": 2151,
+      "sha256": "d71798f1f8f158f93a1a08ea36cc76091dd7ea7f3f5eacfe6f0287bcfed78c00"
+    },
+    {
+      "file": "radios-MY.json",
+      "stations": 8,
+      "bytes": 1673,
+      "sha256": "eb0ecce37aa2187ab402aeabd08540f776d26d88976edae069586178b52a4aca"
+    },
+    {
+      "file": "radios-NG.json",
+      "stations": 8,
+      "bytes": 1623,
+      "sha256": "3de5f84663b85e2253e8d32404f6e1524e2afae17bf61a504508e969412949f5"
+    },
+    {
+      "file": "radios-NL.json",
+      "stations": 8,
+      "bytes": 1673,
+      "sha256": "43946c0068cb4650942b4a1fadf5dca3473fcffd1b07df9a0f1f7c6c88cf7326"
+    },
+    {
+      "file": "radios-NO.json",
+      "stations": 8,
+      "bytes": 1639,
+      "sha256": "761a20a4082f44f46d33755190a553f6c734709ee166041a9ac6527236a5e427"
+    },
+    {
+      "file": "radios-NP.json",
+      "stations": 8,
+      "bytes": 1664,
+      "sha256": "cb6f2b629453747306b10784cbb01657fff6ffb26d95a2d75090a0bb3e456023"
+    },
+    {
+      "file": "radios-NZ.json",
+      "stations": 8,
+      "bytes": 1696,
+      "sha256": "32259bcb58636a126d681172c474c2cf5c9f312bd005dcfe348a0a4a3ec50adb"
+    },
+    {
+      "file": "radios-PE.json",
+      "stations": 8,
+      "bytes": 1838,
+      "sha256": "9ca09ba4a09967c44e57e77cea5b5da36b7b281fa8fff7d6bc8abe6995558bf6"
+    },
+    {
+      "file": "radios-PH.json",
+      "stations": 8,
+      "bytes": 1711,
+      "sha256": "94b92df6927a926c083f661df38cc9d2d7823c7e95db1ccb807d50146cab63a9"
+    },
+    {
+      "file": "radios-PK.json",
+      "stations": 8,
+      "bytes": 1619,
+      "sha256": "ba5d6fbabb31052e3065a21a0a8500e3cb3ce6ad2094ac5d17d83ef812405299"
+    },
+    {
+      "file": "radios-PL.json",
+      "stations": 8,
+      "bytes": 1591,
+      "sha256": "2f3bab2f9f41e96fcf6d7089fa3213a450b618ded1f8a935b5b291f821c02a65"
+    },
+    {
+      "file": "radios-PR.json",
+      "stations": 8,
+      "bytes": 1715,
+      "sha256": "48970f6a110b2f2e56536edfadd43c4e9d2c8c05a67468b573ed17d4204eb39a"
+    },
+    {
+      "file": "radios-PT.json",
+      "stations": 8,
+      "bytes": 1581,
+      "sha256": "6a4675785d03ee06fecd2e32c1c5b1a06daea724c90b28a4e2d3258d280a6771"
+    },
+    {
+      "file": "radios-RO.json",
+      "stations": 8,
+      "bytes": 1597,
+      "sha256": "9460652789afdcb0e1246a03f6657e1d2b8327aceaa390261eac63480787444b"
+    },
+    {
+      "file": "radios-RS.json",
+      "stations": 8,
+      "bytes": 1567,
+      "sha256": "42df6aa4df41a188d6e2af7d2bd6d0504dc1303fbcca1e1555678c91b2488492"
+    },
+    {
+      "file": "radios-RU.json",
+      "stations": 8,
+      "bytes": 1690,
+      "sha256": "45e8c95e6f40d5a91768cc94f67f6d0b5967c13f564d8ef630d5b841dcba77ad"
+    },
+    {
+      "file": "radios-SA.json",
+      "stations": 8,
+      "bytes": 1764,
+      "sha256": "2d4934c8567e0acf3a15171c36e6acdcfeeb911a8b988961518e331829a6014b"
+    },
+    {
+      "file": "radios-SE.json",
+      "stations": 8,
+      "bytes": 1796,
+      "sha256": "a09a9ed3535385392d7cab221dd279dbde6f55e519d36f9e5fb9d752de2ebeca"
+    },
+    {
+      "file": "radios-SG.json",
+      "stations": 8,
+      "bytes": 1782,
+      "sha256": "14e07d2fe23acb11e46d3e7e1005fb7ada94aff4308f847912021bec1b7b6592"
+    },
+    {
+      "file": "radios-SK.json",
+      "stations": 8,
+      "bytes": 1624,
+      "sha256": "e5bc37d8f4513ce02beb4ec4b1518be3a2b633a0c7250b82bf566d234da34a6d"
+    },
+    {
+      "file": "radios-SN.json",
+      "stations": 8,
+      "bytes": 1602,
+      "sha256": "df908cf611171ff0a7d6f0080400aacdfce319684589514ce6daf9b108412f12"
+    },
+    {
+      "file": "radios-TH.json",
+      "stations": 8,
+      "bytes": 1724,
+      "sha256": "182ae3a761985723bb17fecebf131403d5a3ef1835644cc2f0052d1b46e5f2cc"
+    },
+    {
+      "file": "radios-TN.json",
+      "stations": 8,
+      "bytes": 1593,
+      "sha256": "481be39b1219cf28aa45dac38273a084fa6104816f064fec63bec466b45b0a13"
+    },
+    {
+      "file": "radios-TR.json",
+      "stations": 8,
+      "bytes": 1618,
+      "sha256": "6b8b79c2db395e3cd4b4d1010ab065167a01da84c652bbddacf6b1649f10f89b"
+    },
+    {
+      "file": "radios-TW.json",
+      "stations": 8,
+      "bytes": 1580,
+      "sha256": "77e9a19e11712cb1f0dadaf2b10a5cb8708a3300be385c530e6f5ea41757b89e"
+    },
+    {
+      "file": "radios-TZ.json",
+      "stations": 8,
+      "bytes": 1568,
+      "sha256": "4775d08d5ee7368e72c0f4fa050c873fab2296c368b1bac7289107e6abd47e89"
+    },
+    {
+      "file": "radios-UA.json",
+      "stations": 8,
+      "bytes": 1632,
+      "sha256": "a465fa3e8c5423daa9863260ad7eae14f5a807d3c3a8233c4d42b9965d330655"
+    },
+    {
+      "file": "radios-UG.json",
+      "stations": 8,
+      "bytes": 1591,
+      "sha256": "ff88c031fd7b3ab66a08660599d05425c68bb0a57855e14c450638f6fda27048"
+    },
+    {
+      "file": "radios-US.json",
+      "stations": 8,
+      "bytes": 1690,
+      "sha256": "b92a57d81ced5e569fa7859964595619ab91cdd41cf390d1b3c01f6fd22d342f"
+    },
+    {
+      "file": "radios-VN.json",
+      "stations": 8,
+      "bytes": 1929,
+      "sha256": "19649bf8e13746f182700d4199dde79fb2b2cf5c9b7a99d04facbcf8198f26d1"
+    },
+    {
+      "file": "radios-ZA.json",
+      "stations": 8,
+      "bytes": 1646,
+      "sha256": "36f880b87d8308fc511d4f698cd3059c7780861330bc584787aad11b41a65611"
+    }
+  ]
+}

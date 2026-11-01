@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Võmba FM",
+      "style": "EE/1990s",
+      "url": "https://c4.radioboss.fm:18123/stream",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 320
+    },
+    {
+      "name": "Sky Plus DnB",
+      "style": "EE/dance",
+      "url": "https://edge03.cdn.bitflip.ee:8888/NRJdnb",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "ERR Raadio 4",
+      "style": "EE/err",
+      "url": "http://icecast.err.ee/raadio4.mp3?type=.mp3/;stream.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Relax cafe",
+      "style": "EE/jazz",
+      "url": "https://stream.relaxfm.ee/cafe",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 96
+    },
+    {
+      "name": "Raadio 2 HQ",
+      "style": "EE/misc",
+      "url": "http://icecast.err.ee/raadio2korge.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "FinEst Radio",
+      "style": "EE/Radio",
+      "url": "https://shoutcast.finestfm.fi/stream/1/:80/;stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Retro FM Estonia",
+      "style": "EE/retro",
+      "url": "https://edge02.cdn.bitflip.ee:8888/RETRO?_i=258f436b",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "Rock FM",
+      "style": "EE/rock",
+      "url": "https://edge02.cdn.bitflip.ee:8888/rck?_i=5f5ab186",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    }
+  ]
+}

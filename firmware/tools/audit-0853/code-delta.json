@@ -1,0 +1,102 @@
+{
+  "version": "0.8.53",
+  "baselineArchiveSha256": "d603cf2c465a5ffecffbde90ba90bc158bdab52d770a0cc4337184298c26a696",
+  "files": [
+    {
+      "path": "Tab5ContextMenu.cpp",
+      "beforeSha256": "1c8bc690eb4b267dd78e07ade62a88370cafaa98c92aa1b09beb527cf15cc18f",
+      "afterSha256": "ebb892d03a652c656552c3cb02b05bd9916b3e65fd5081dfcd54e25f16516332",
+      "reason": "Survol des menus contextuels par état HOVERED partagé, sans déplacer le focus logique clavier."
+    },
+    {
+      "path": "Tab5EpubBookIndex.inc",
+      "beforeSha256": "13b01234241461097e372645f2dc0b4632a421350863bf719b847fe9abc2450e",
+      "afterSha256": "e0163305cad0e58335fb1b3380d33355491e1fb10083f5c6b5dacaca85f8e506",
+      "reason": "Index de pagination alloué à la demande, PSRAM préférentielle avec repli interne borné et libération à fermeture."
+    },
+    {
+      "path": "Tab5EpubPageIndex.h",
+      "beforeSha256": null,
+      "afterSha256": "2b837139c027bc158e7174aa3f672b79fbbde3e8e893e2ceeef45969e7a6ff00",
+      "reason": "Index de pagination alloué à la demande, PSRAM préférentielle avec repli interne borné et libération à fermeture."
+    },
+    {
+      "path": "Tab5ExplorerUi.inc",
+      "beforeSha256": "5110b80b314bde7df571d51339c2baf217f6f4501ec5a9077ab89901e5987042",
+      "afterSha256": "a9176c6f938e37cbbf9f42b4bcfcb6f7d6f6e11ccf1e0e10e115317ec87794e2",
+      "reason": "Espacer la barre des actions de la première ligne et distinguer visualisateur, Dessin et Ouvrir avec."
+    },
+    {
+      "path": "Tab5HomeUi.h",
+      "beforeSha256": "356f2d78d51bee05c830e8f7c61678498d1c32955ab08b826a020979a0921261",
+      "afterSha256": "58315a27c510d2d7409c023a1ddef5737660b7dcfdbffe941c3525bfd956569f",
+      "reason": "Raccourcis natifs/ELF/Python par identifiant stable, migration non destructive des préférences, capacité écran et catalogue existant."
+    },
+    {
+      "path": "Tab5Icons.h",
+      "beforeSha256": "f76cba458e5d4506d3dd4ea0358ba5e41af1850c22eb8608cb0bd1d5feb776c5",
+      "afterSha256": "2571840c256706fe9ac477279330b0e4e3cd62a966860fce41f5b96259c19c87",
+      "reason": "Réveil vectoriel redessiné et symbole pinceau partagé, rendus aux tailles utiles."
+    },
+    {
+      "path": "Tab5Meshtastic.cpp",
+      "beforeSha256": "59e0e973e58a2ada2c46308cf039c4f7429e655ac1757e37fd0df253a6008159",
+      "afterSha256": "6f14b6155e5b24e895e39b7055336f7e24e6cf8396e12bfe92f92006b323e17b",
+      "reason": "Demande explicite du clavier virtuel, même avec clavier USB, via hooks existants."
+    },
+    {
+      "path": "Tab5Meshtastic.h",
+      "beforeSha256": "86e8ba8ada09b39cf5107ccc4e472e51f49a7c89dc2511c787e7f1d1511eb140",
+      "afterSha256": "39e3c83c51935d0dc36c2605b21c98120de66abda1fe1ad4a26614b08397a2aa",
+      "reason": "Demande explicite du clavier virtuel, même avec clavier USB, via hooks existants."
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture.ino",
+      "beforeSha256": "76ac840aab706f490f2684cf472259c4f7adcc330850d4f8a8046fc7f4584dd1",
+      "afterSha256": "1a71bdc8c696d093446691712d1155ef58afaa507340fb929c7f0a2f4333099a",
+      "reason": "Version 0.8.53 et intégration des évolutions explorateur, bandeau et clavier Meshtastic."
+    },
+    {
+      "path": "Tab5ShellDock.h",
+      "beforeSha256": null,
+      "afterSha256": "ea9e755a67a042540e8a4bcc0ddfcb19c5504eed5baeac6e3d01776e227368a7",
+      "reason": "Raccourcis natifs/ELF/Python par identifiant stable, migration non destructive des préférences, capacité écran et catalogue existant."
+    },
+    {
+      "path": "Tab5ShellLayout.h",
+      "beforeSha256": "6f6bdf0a746aea07906f846920474584f4128b38af4fdd16c2a0d5ac22ea8cdd",
+      "afterSha256": "8cd215fd1d69e34feb0d273717673887fce91783ed1d6ffc7fc7e79b4c2e2971",
+      "reason": "Raccourcis natifs/ELF/Python par identifiant stable, migration non destructive des préférences, capacité écran et catalogue existant."
+    },
+    {
+      "path": "Tab5ShellPolicy.h",
+      "beforeSha256": "d0905013934827a665b9e07b267b509b12bdc8eebc7920d7f330d08c08482c78",
+      "afterSha256": "fafcc6e58edc08ce928d8818dd969834f87b419d4bb3dbd1736844fc5cb1ea30",
+      "reason": "Raccourcis natifs/ELF/Python par identifiant stable, migration non destructive des préférences, capacité écran et catalogue existant."
+    },
+    {
+      "path": "Tab5ShellUi.h",
+      "beforeSha256": "93b00e08c97c604fabcba0fb75476b6ed98720a8bea6722a84a3d4f8cfa96092",
+      "afterSha256": "b5c609c54ad38b7953a6bc3359bc8da8ed1f2c4355edf6765ba6bbd7f42d6bfa",
+      "reason": "Raccourcis natifs/ELF/Python par identifiant stable, migration non destructive des préférences, capacité écran et catalogue existant."
+    },
+    {
+      "path": "src/jpeg/jpge.cpp",
+      "beforeSha256": "79dfb06eae99f012c52c8d18d6af3a10964b6b28ce916460c275ea0d72746dd5",
+      "afterSha256": "64943eac92bbc534da3d898fb2f902f040e7930dba916a097d5eb6f0a093ad3b",
+      "reason": "Tables de données immuables placées en Flash ; sorties comparées à la référence."
+    },
+    {
+      "path": "src/jpeg/jpge.h",
+      "beforeSha256": "e3b4ae3e3f1b23ec8d4af4fbde7699c41889e7fdd895705c91f66161f634bafb",
+      "afterSha256": "94a75c0164214a6fb48e3db8cc3a0dd8bcbd8469969705948f6b762bd00a2bb5",
+      "reason": "Tables de données immuables placées en Flash ; sorties comparées à la référence."
+    },
+    {
+      "path": "src/rtl_sdr/tuner_fc0013.c",
+      "beforeSha256": "75cb421993fc10c0ff2d4e389df46e6952add5cc5df063f56c60af08318b561f",
+      "afterSha256": "9b949fd30ccb91355786cbdd697ec23e47c5ed0c3faf4d11e63717d7401907f9",
+      "reason": "Tables de données immuables placées en Flash ; sorties comparées à la référence."
+    }
+  ]
+}

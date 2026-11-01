@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Хіт ФМ Найбільші хіти",
+      "style": "UA/90's",
+      "url": "http://online.hitfm.ua/HitFM_Best",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio ROKS Ballads",
+      "style": "UA/classic rock",
+      "url": "http://online.radioroks.ua/RadioROKS_Ballads_HD",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "Hit FM (UKraine) - 128kb/s",
+      "style": "UA/dance",
+      "url": "http://195.95.206.17/HitFM",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "KissFm Deep",
+      "style": "UA/electronic",
+      "url": "http://online.kissfm.ua/KissFM_Deep_Live",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 32
+    },
+    {
+      "name": "Люкс FМ 103.1",
+      "style": "UA/music",
+      "url": "http://lux.radio.tvstitch.com/kyiv/lux_adv_sd",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 128
+    },
+    {
+      "name": "Радио НВ",
+      "style": "UA/news",
+      "url": "http://91.218.212.84:8000/radionv.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Хіт FM Сучасні хіти",
+      "style": "UA/pop",
+      "url": "http://online.hitfm.ua/HitFM_Top",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Rock Ballads",
+      "style": "UA/rock",
+      "url": "http://online.radioroks.ua/RadioROKS_Ballads",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "KISS FM 100.6",
+      "style": "GR/00s",
+      "url": "http://live.radiokiss.gr/kissfm1006hq.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Zeppelin 106.7",
+      "style": "GR/alternative rock",
+      "url": "https://radiostreaming.ert.gr/ert-zeppelin",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Ellinikos 93.2",
+      "style": "GR/ballads",
+      "url": "http://netradio.live24.gr/orange9320",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Blues Radio",
+      "style": "GR/blues",
+      "url": "http://cast3.radiohost.ovh:8352/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "Trance Athena",
+      "style": "GR/electronic",
+      "url": "http://cast.streams.ovh:8008/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "Real FM 97.8",
+      "style": "GR/greek",
+      "url": "http://netradio.live24.gr/realfm",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Kiss 92.9",
+      "style": "GR/pop",
+      "url": "http://netradio.live24.gr/kissfmathens",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Skai 100.3",
+      "style": "GR/Radio",
+      "url": "http://netradio.live24.gr/skai1003",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    }
+  ]
+}

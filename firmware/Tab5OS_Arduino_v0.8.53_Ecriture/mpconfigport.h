@@ -1,0 +1,40 @@
+#include <port/mpconfigport_common.h>
+#define MICROPY_CONFIG_ROM_LEVEL (MICROPY_CONFIG_ROM_LEVEL_CORE_FEATURES)
+#define MICROPY_ENABLE_COMPILER (1)
+#define MICROPY_ENABLE_GC (1)
+#define MICROPY_GC_ALLOC_THRESHOLD (0)
+#define MICROPY_PY_GC (1)
+#define MICROPY_PY_SYS (1)
+#define MICROPY_PY_SYS_PATH (1)
+#define MICROPY_ENABLE_EXTERNAL_IMPORT (1)
+#define MICROPY_READER_POSIX (1)
+#define MICROPY_LONGINT_IMPL (MICROPY_LONGINT_IMPL_MPZ)
+#define MICROPY_FLOAT_IMPL (MICROPY_FLOAT_IMPL_DOUBLE)
+#define MICROPY_PY_MATH (1)
+#define MICROPY_PY_IO (1)
+#define MICROPY_PY_BUILTINS_MEMORYVIEW (1)
+#define MICROPY_PY_BUILTINS_BYTEARRAY (1)
+#define MICROPY_PY_ARRAY_SLICE_ASSIGN (1)
+#define MICROPY_PY_BUILTINS_STR_UNICODE (1)
+#define MICROPY_PY_BUILTINS_HELP (0)
+#define MICROPY_NLR_SETJMP (1)
+#define MICROPY_STACK_CHECK (1)
+#define MICROPY_PY_SYS_PLATFORM "tab5os"
+#define MICROPY_HW_BOARD_NAME "Tab5OS"
+#define MICROPY_HW_MCU_NAME "ESP32-P4"
+#define MICROPY_ROM_TEXT_COMPRESSION (0)
+#define MICROPY_ENABLE_SCHEDULER (0)
+void tab5_mp_hook(void);
+void tab5_mp_yield(void);
+void tab5_mp_compile_poll(void);
+// VM branch hooks alone do not run while parsing/compiling imported modules.
+#define TAB5_MP_COMPILE_POLL() tab5_mp_compile_poll()
+#define TAB5_MP_READER_BUFFER_SIZE 1024
+#define MICROPY_VM_HOOK_LOOP tab5_mp_hook();
+#define MICROPY_VM_HOOK_RETURN tab5_mp_hook();
+#define MICROPY_EVENT_POLL_HOOK tab5_mp_hook();
+
+#define MICROPY_PY_JSON (1)
+#define MICROPY_PY_BUILTINS_STR_SPLITLINES (1)
+#define MICROPY_PY_BUILTINS_STR_PARTITION (1)
+#define MICROPY_PY_BUILTINS_STR_CENTER (1)

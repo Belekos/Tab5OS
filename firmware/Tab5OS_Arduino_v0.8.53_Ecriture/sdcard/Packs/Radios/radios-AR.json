@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "La 100 - 99.9 FM - Grupo Clarín - Buenos Aires, Argentina",
+      "style": "AR/99.9 fm",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/FM999_56.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 96
+    },
+    {
+      "name": "El Destape Radio",
+      "style": "AR/actualidad",
+      "url": "https://ipanel.instream.audio/8004/stream",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 48
+    },
+    {
+      "name": "Feeling 91.9 FM",
+      "style": "AR/aor",
+      "url": "http://turadioenvivo.com:8430/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Radio nacional AM 870",
+      "style": "AR/argentina",
+      "url": "http://sa.mp3.icecast.magma.edge-access.net:7200/sc_rad1",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 75
+    },
+    {
+      "name": "Radio Nacional Folklorica 98.7",
+      "style": "AR/buenos aires",
+      "url": "http://sa.mp3.icecast.magma.edge-access.net:7200/sc_rad38",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 160
+    },
+    {
+      "name": "Radio Mitre",
+      "style": "AR/news",
+      "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/AM790_56AAC_SC",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "Radio Nacional Rock 93.7",
+      "style": "AR/public",
+      "url": "http://sa.mp3.icecast.magma.edge-access.net:7200/sc_rad39",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 160
+    },
+    {
+      "name": "Radio Rivadavia",
+      "style": "AR/Radio",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RIVADAVIA.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 96
+    }
+  ]
+}

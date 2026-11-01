@@ -1,0 +1,55 @@
+{
+  "version": "0.8.53",
+  "passed": true,
+  "physicalDeviceTested": false,
+  "scope": "Execute production sidebar persistence with an in-memory Preferences boundary.",
+  "result": {
+    "checks": 45,
+    "passed": true,
+    "boundary": "Preferences transport simulated; production load/save executed"
+  },
+  "compilerCommand": [
+    "g++",
+    "-std=c++17",
+    "-g",
+    "-O1",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer",
+    "-no-pie",
+    "-Wno-deprecated-declarations",
+    "-Wno-cpp",
+    "-DLV_CONF_PATH=\"/workspace/scratch/644cc83c43c8/build_0853/host-lvgl/lv_conf.h\"",
+    "-I/workspace/scratch/644cc83c43c8/tab5os_0853/tools/review-tests-0853",
+    "-I/workspace/scratch/644cc83c43c8/tab5os_0853/Tab5OS_Arduino_v0.8.53_Ecriture",
+    "-I/workspace/scratch/644cc83c43c8/build_0853/host-deps/lvgl-9.6.0",
+    "/workspace/scratch/644cc83c43c8/tab5os_0853/tools/review-tests-0853/preferences.cpp",
+    "-o",
+    "/workspace/scratch/644cc83c43c8/build_0853/review-preferences"
+  ],
+  "compileExitCode": 0,
+  "runExitCode": 0,
+  "sanitizers": [
+    "address",
+    "undefined"
+  ],
+  "leakDetection": false,
+  "sourceHashes": {
+    "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5ShellLayout.h": "8cd215fd1d69e34feb0d273717673887fce91783ed1d6ffc7fc7e79b4c2e2971",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5ShellPolicy.h": "fafcc6e58edc08ce928d8818dd969834f87b419d4bb3dbd1736844fc5cb1ea30",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5AppCataloguePolicy.h": "7f84231c4b5aed6b6cba03c1a633ffcf48d81c326d932bb61d6387941e121596"
+  },
+  "testSourceHashes": {
+    "tools/review-tests-0853/run_preferences.py": "212599ba161c3bc73532cae3598cb58fca9796a79c57567371a1c79215cdb153",
+    "tools/review-tests-0853/preferences.cpp": "9b784bebec1da2b16a1339116ad8582a6310d0b7cf225cc6bab262c1598fff0d",
+    "tools/review-tests-0853/Preferences.h": "5a57b19419e416284f7755268b2dbe0acdc32558792b2dbd64d260b0381ef78f"
+  },
+  "evidenceHashes": {
+    "tools/verification/review-0853/preferences-compile.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tools/verification/review-0853/preferences-run.log": "ca5d2c2db8cc6e14a954bd85e334229bfbd5b043319ff500b3d6a5028f4c8ed3"
+  },
+  "limitations": [
+    "NVS/Flash hardware is simulated. No power-loss guarantee is inferred.",
+    "LeakSanitizer is disabled because this execution environment cannot inspect its process tasks.",
+    "This test executes production load/save and Choices validation; UI/controller lifecycle is reviewed separately."
+  ]
+}

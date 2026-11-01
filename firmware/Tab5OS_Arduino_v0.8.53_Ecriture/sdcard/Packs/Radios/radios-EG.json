@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Radio Hits 88.2 Cairo",
+      "style": "EG/arabic music",
+      "url": "https://radiohits882.radioca.st/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Arab Mix FM",
+      "style": "EG/classic hits",
+      "url": "https://stream.zeno.fm/na3vpvn10qruv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Tes3enat FM",
+      "style": "EG/classical",
+      "url": "http://178.33.135.244:20095/;?DIST=TuneIn&TGT=TuneIn&maxServers=2&partnertok=eyJhbGciOiJIUzI1NiIsImtpZCI6InR1bmVpbiIsInR5cCI6IkpXVCJ9.eyJ0cnVzdGVkX3BhcnRuZXIiOnRydWUsImlhdCI6MTYzNjA1OTE3OCwiaXNzIjoidGlzcnYifQ.Me0snc2PBcQhvlzte9L7zQxa-IHgNinhu3XdNJ6_Xa8",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Amr Diab Radio",
+      "style": "EG/pop",
+      "url": "https://stream-40.zeno.fm/xa4yhh4k838uv?zs=gojgaFRaRrK1wgGIwdv6xA",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio 9090 90.9",
+      "style": "EG/Radio",
+      "url": "http://9090streaming.mobtada.com/9090FMEGYPT",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "إذاعة القرآن الكريم من القاهرة",
+      "style": "EG/اسلامي",
+      "url": "http://n12.radiojar.com/8s5u5tpdtwzuv?listening-from-radio-garden=1620219571863&rj-tok=AAABeTyl2zYARSWbLVnrEOlqGw&rj-ttl=5",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Radio القارئ علي حجاج السويسي",
+      "style": "EG/القرآن",
+      "url": "http://live.mp3quran.net:9842/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "---تراتيل قصيرة متميزة---",
+      "style": "EG/قران كريم",
+      "url": "https://qurango.net/radio/tarateel",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    }
+  ]
+}

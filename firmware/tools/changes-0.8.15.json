@@ -1,0 +1,36 @@
+{
+  "changed_compiled_sources": [
+    "Tab5Browser.cpp",
+    "Tab5Executable.cpp",
+    "Tab5FileOperation.cpp",
+    "Tab5FileOperation.h",
+    "Tab5HtmlView.cpp",
+    "Tab5KeyStore.cpp",
+    "Tab5KeyStore.h",
+    "Tab5Mail.cpp",
+    "Tab5Mail.h",
+    "Tab5OS_Arduino_v0.8.15_Ecriture.ino",
+    "Tab5Tools.cpp",
+    "src\\micropython\\tab5_module.c",
+    "src\\litehtml\\src\\css_parser.cpp",
+    "src\\litehtml\\src\\css_tokenizer.cpp",
+    "src\\litehtml\\src\\document.cpp",
+    "src\\litehtml\\src\\stylesheet.cpp",
+    "src\\litehtml\\include\\litehtml\\css_parser.h"
+  ],
+  "display_unchanged": {
+    "Tab5DisplayActivity.cpp": true,
+    "Tab5DisplayActivity.h": true,
+    "Tab5DisplayBandwidth.cpp": true,
+    "Tab5DisplayBandwidth.h": true,
+    "Tab5DisplayBandwidthPolicy.h": true,
+    "Tab5DisplayCache.cpp": true,
+    "Tab5DisplayCache.h": true,
+    "Tab5DisplayCacheRanges.h": true,
+    "Tab5DisplayCacheRecovery.h": true,
+    "Tab5DisplayPresent.cpp": true,
+    "Tab5DisplayPresent.h": true,
+    "Tab5DisplayPresentFence.h": true,
+    "lv_conf.h": true
+  }
+}

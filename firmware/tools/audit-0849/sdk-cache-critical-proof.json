@@ -1,0 +1,14 @@
+{
+  "sdkArchive": "build_0848/data/packages/m5stack/tools/esp32p4_es-libs/3.3.9/lib/libesp_mm.a",
+  "sdkArchiveSha256": "c5b79e42ebcaef32e0b30e1679c34a03682153bc44ebe546f1bb1c313320b28e",
+  "chipProfile": "m5stack esp32p4_es 3.3.9 / ESP-IDF 5.5.4 / prev3",
+  "extractedSymbols": [
+    "esp_cache_msync"
+  ],
+  "method": "riscv32-esp-elf-objdump -dr libesp_mm.a; complete function body with relocations",
+  "established": "writeback and invalidate call HAL while s_spinlock critical section is held",
+  "limits": [
+    "Does not measure duration, bandwidth, interrupt latency, or correspondence with a physical flash.",
+    "OS display already chunks to16KiB; native JPEG and ELF paths accept larger ranges."
+  ]
+}

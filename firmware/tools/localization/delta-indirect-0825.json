@@ -1,0 +1,72 @@
+{
+  "fr-FR": {
+    "Masquer sur l'accueil": "Masquer sur l'accueil",
+    "HTTP : connexion non chiffrée.": "HTTP : connexion non chiffrée.",
+    "actif": "actif"
+  },
+  "en-US": {
+    "Masquer sur l'accueil": "Hide on Home",
+    "HTTP : connexion non chiffrée.": "HTTP: unencrypted connection.",
+    "actif": "active"
+  },
+  "de-DE": {
+    "Masquer sur l'accueil": "Auf der Startseite ausblenden",
+    "HTTP : connexion non chiffrée.": "HTTP: unverschlüsselte Verbindung.",
+    "actif": "aktiv"
+  },
+  "es-ES": {
+    "Masquer sur l'accueil": "Ocultar en Inicio",
+    "HTTP : connexion non chiffrée.": "HTTP: conexión sin cifrar.",
+    "actif": "activo"
+  },
+  "it-IT": {
+    "Masquer sur l'accueil": "Nascondi nella schermata iniziale",
+    "HTTP : connexion non chiffrée.": "HTTP: connessione non cifrata.",
+    "actif": "attivo"
+  },
+  "nl-NL": {
+    "Masquer sur l'accueil": "Verbergen op Start",
+    "HTTP : connexion non chiffrée.": "HTTP: onversleutelde verbinding.",
+    "actif": "actief"
+  },
+  "pt-BR": {
+    "Masquer sur l'accueil": "Ocultar na tela inicial",
+    "HTTP : connexion non chiffrée.": "HTTP: conexão sem criptografia.",
+    "actif": "ativo"
+  },
+  "pt-PT": {
+    "Masquer sur l'accueil": "Ocultar no ecrã inicial",
+    "HTTP : connexion non chiffrée.": "HTTP: ligação não cifrada.",
+    "actif": "ativo"
+  },
+  "id-ID": {
+    "Masquer sur l'accueil": "Sembunyikan di Beranda",
+    "HTTP : connexion non chiffrée.": "HTTP: koneksi tidak terenkripsi.",
+    "actif": "aktif"
+  },
+  "ru-RU": {
+    "Masquer sur l'accueil": "Скрыть на главном экране",
+    "HTTP : connexion non chiffrée.": "HTTP: незашифрованное соединение.",
+    "actif": "активный"
+  },
+  "zh-CN": {
+    "Masquer sur l'accueil": "在主页隐藏",
+    "HTTP : connexion non chiffrée.": "HTTP：未加密的连接。",
+    "actif": "活动"
+  },
+  "ja-JP": {
+    "Masquer sur l'accueil": "ホームで非表示",
+    "HTTP : connexion non chiffrée.": "HTTP：暗号化されていない接続。",
+    "actif": "有効"
+  },
+  "ko-KR": {
+    "Masquer sur l'accueil": "홈에서 숨기기",
+    "HTTP : connexion non chiffrée.": "HTTP: 암호화되지 않은 연결.",
+    "actif": "활성"
+  },
+  "ar": {
+    "Masquer sur l'accueil": "إخفاء في الرئيسية",
+    "HTTP : connexion non chiffrée.": "HTTP: اتصال غير مشفر.",
+    "actif": "نشط"
+  }
+}

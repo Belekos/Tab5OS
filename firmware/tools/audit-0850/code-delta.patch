@@ -1,0 +1,1384 @@
+--- 0.8.49/Tab5Alarm.cpp
++++ 0.8.50/Tab5Alarm.cpp
+@@ -1,147 +1,167 @@
+-#include "Tab5Alarm.h"
+-#include "Tab5UiStyle.h"
+-#include "Tab5AlarmPolicy.h"
+-#include "Tab5Audio.h"
+-#include "Tab5AudioDriver.h"
+-#include "Tab5Task.h"
+-#include "Tab5Focus.h"
+-#include "Tab5TextInput.h"
+-#include "Tab5Storage.h"
+-#include <Preferences.h>
+-#include <M5Unified.h>
+-#include <esp_sleep.h>
+-#include <atomic>
+-#include <algorithm>
+-#include <cstring>
+-#include <sys/time.h>
+-namespace Tab5Alarm {
+-namespace {
+-Hooks hooks;Tab5AlarmPolicy::State state;
+-lv_obj_t *overlay=nullptr,*panel=nullptr,*status=nullptr,*clockLabel=nullptr,*hours=nullptr,*minutes=nullptr,*repeat=nullptr,*enabled=nullptr,*volume=nullptr,*volumeText=nullptr;
+-std::atomic<bool> soundWanted{false},soundRunning{false},soundFailed{false};
+-std::atomic<uint8_t> soundVolume{200};
+-const char* notice=nullptr;bool alert=false,test=false,missed=false,persistenceOk=true;uint32_t ringAt=0,lastPoll=0;
+-const char* tr(const char* s){return hooks.translate?hooks.translate(s):s;}
+-uint32_t color(unsigned n){return hooks.color?hooks.color(n):(n==2?0xffffff:0x202428);}
+-bool save(){Preferences p;if(!p.begin("tab5_alarm",false))return persistenceOk=false;bool ok=p.putBytes("state",&state,sizeof(state))==sizeof(state);p.end();return persistenceOk=ok;}
+-void note(const char* s){notice=s;if(status)lv_label_set_text(status,tr(s));}
+-void close(){if(overlay){Tab5Focus.clear();lv_obj_delete(overlay);overlay=panel=status=clockLabel=hours=minutes=repeat=enabled=volume=volumeText=nullptr;}}
+-lv_obj_t* label(const char* text){auto* o=lv_label_create(panel);lv_obj_set_width(o,LV_PCT(100));lv_label_set_long_mode(o,LV_LABEL_LONG_WRAP);lv_label_set_text(o,tr(text));Tab5TextInput::selectable(o);return o;}
+-lv_obj_t* row(){auto* o=lv_obj_create(panel);lv_obj_remove_style_all(o);lv_obj_set_size(o,LV_PCT(100),LV_SIZE_CONTENT);lv_obj_set_flex_flow(o,LV_FLEX_FLOW_ROW_WRAP);lv_obj_set_style_pad_column(o,16,0);lv_obj_set_style_pad_row(o,12,0);lv_obj_remove_flag(o,LV_OBJ_FLAG_SCROLLABLE);return o;}
+-void button(lv_obj_t* parent,const char* text,void(*action)()){
+- auto* o=lv_button_create(parent);lv_obj_set_size(o,LV_PCT(47),64);lv_obj_set_style_bg_color(o,lv_color_hex(color(1)),0);lv_obj_set_style_border_width(o,1,0);lv_obj_set_style_border_color(o,lv_color_hex(color(4)),0);lv_obj_set_style_text_color(o,lv_color_hex(color(2)),0);
+- auto* t=lv_label_create(o);lv_obj_set_width(t,LV_PCT(100));lv_label_set_long_mode(t,LV_LABEL_LONG_WRAP);lv_obj_set_style_text_align(t,LV_TEXT_ALIGN_CENTER,0);lv_label_set_text(t,tr(text));lv_obj_center(t);
+- lv_obj_add_event_cb(o,[](lv_event_t* e){auto f=reinterpret_cast<void(*)()>(lv_event_get_user_data(e));f();},LV_EVENT_CLICKED,reinterpret_cast<void*>(action));
+-}
+-void makePanel(){
+- close();notice=nullptr;overlay=lv_obj_create(lv_layer_top());lv_obj_remove_style_all(overlay);lv_obj_set_size(overlay,LV_PCT(100),LV_PCT(100));lv_obj_set_style_bg_color(overlay,lv_color_black(),0);lv_obj_set_style_bg_opa(overlay,LV_OPA_70,0);lv_obj_remove_flag(overlay,LV_OBJ_FLAG_SCROLLABLE);
+- panel=lv_obj_create(overlay);lv_obj_set_size(panel,std::min<int>(1000,lv_display_get_horizontal_resolution(nullptr)-32),std::min<int>(670,lv_display_get_vertical_resolution(nullptr)-32));lv_obj_center(panel);lv_obj_set_style_bg_color(panel,lv_color_hex(color(0)),0);lv_obj_set_style_text_color(panel,lv_color_hex(color(2)),0);if(hooks.font)lv_obj_set_style_text_font(panel,hooks.font(),0);lv_obj_set_flex_flow(panel,LV_FLEX_FLOW_COLUMN);lv_obj_set_style_pad_all(panel,20,0);lv_obj_set_style_pad_row(panel,16,0);lv_obj_set_scroll_dir(panel,LV_DIR_VER);lv_obj_remove_flag(panel,LV_OBJ_FLAG_SCROLL_ELASTIC);
+-}
+-void soundTask(void*){
+- // Borrow playback cooperatively; it resumes when this lease is released.
+- uint32_t token=0;while(soundWanted.load()&&!token){token=Tab5Audio.acquireMemoryPriority(1000);if(!token){soundFailed=true;vTaskDelay(pdMS_TO_TICKS(50));}}
+- bool claimed=false;const uint8_t oldVolume=Tab5AudioDevice.volume();
+- while(soundWanted.load()&&token&&!claimed){claimed=Tab5AudioDevice.claim(Tab5AudioClient::Alarm,250);if(!claimed){soundFailed=true;vTaskDelay(pdMS_TO_TICKS(20));}}
+- if(claimed){
+-  Tab5PcmSpec spec;spec.sampleRate=24000;spec.channels=1;spec.format=Tab5PcmFormat::S16;
+-  soundFailed=false;bool ok=Tab5AudioDevice.configure(Tab5AudioClient::Alarm,spec);
+-  static constexpr int16_t sine[]={0,2146,4209,6111,7778,9146,10163,10789,11000,10789,10163,9146,7778,6111,4209,2146,0,-2146,-4209,-6111,-7778,-9146,-10163,-10789,-11000,-10789,-10163,-9146,-7778,-6111,-4209,-2146};
+-  int16_t pcm[256];uint32_t phase=0,sample=0;
+-  while(ok&&soundWanted.load()){
+-   Tab5AudioDevice.setVolume(soundVolume.load());
+-   for(auto& value:pcm){const unsigned t=sample++%48000;bool on=t<6000||(t>=10000&&t<16000);phase=(phase+750)%24000;value=on?sine[phase*32/24000]:0;}
+-   ok=Tab5AudioDevice.writePcm(Tab5AudioClient::Alarm,pcm,256,spec);vTaskDelay(1);
+-  }
+-  if(!ok)soundFailed=true;
+-  Tab5AudioDevice.stop(Tab5AudioClient::Alarm);Tab5AudioDevice.setVolume(oldVolume);Tab5AudioDevice.release(Tab5AudioClient::Alarm);
+- }
+- if(token)Tab5Audio.releaseMemoryPriority(token);
+- tab5TaskCheckpoint("alarm");soundRunning=false;vTaskDelete(nullptr);
+-}
+-void dismiss(){soundWanted=false;alert=false;close();}
+-void snooze(){if(test){dismiss();return;}auto before=state;state.snooze=time(nullptr)+300;if(!save()){state=before;note("Enregistrement du réveil impossible");return;}dismiss();}
+-void start(bool preview){
+- if(alert||soundRunning.load())return;
+- test=preview;alert=true;missed=false;ringAt=millis();soundFailed=false;
+- if(hooks.wake)hooks.wake();if(hooks.quiet)hooks.quiet();
+- soundVolume=state.volume;soundWanted=true;soundRunning=true;
+- if(tab5CreateTask(soundTask,"tab5_alarm",6144,nullptr,3,nullptr,0)!=pdPASS){soundWanted=false;soundRunning=false;soundFailed=true;}
+- makePanel();label(preview?"Essai du réveil":"Réveil");clockLabel=label("");status=label("La sonnerie s’arrête après cinq minutes.");auto* actions=row();button(actions,"Arrêter",dismiss);if(!preview)button(actions,"Reporter de 5 minutes",snooze);Tab5UiStyle::tree(panel);Tab5Focus.focusFirst(panel);
+-}
+-void update(){
+- if(!clockLabel)return;time_t now=time(nullptr);tm local{};localtime_r(&now,&local);char text[160];strftime(text,sizeof(text),"%Y-%m-%d  %H:%M",&local);if(strcmp(lv_label_get_text(clockLabel),text))lv_label_set_text(clockLabel,text);
+- if(alert){if(soundFailed.load()||(millis()-ringAt>15000&&!soundRunning.load()))note("Sonnerie indisponible : vérifiez le son");return;}
+- if(!persistenceOk){note("Enregistrement du réveil impossible");return;}
+- if(notice)return;
+- time_t due=Tab5AlarmPolicy::deadline(state);
+- if(due){tm next{};localtime_r(&due,&next);char stamp[64];strftime(stamp,sizeof(stamp),"%Y-%m-%d  %H:%M",&next);snprintf(text,sizeof(text),"%s %s",tr("Prochain réveil :"),stamp);if(strcmp(lv_label_get_text(status),text))lv_label_set_text(status,text);}
+- else if(status)lv_label_set_text(status,tr(missed?"Réveil manqué":"Réveil désactivé"));
+-}
+-void commit(){
+- time_t now=time(nullptr);if(!Tab5AlarmPolicy::validTime(now)){note("Réglez la date et l’heure avant d’activer le réveil");return;}
+- auto before=state;state.hour=lv_dropdown_get_selected(hours);state.minute=lv_dropdown_get_selected(minutes);state.daily=lv_dropdown_get_selected(repeat);state.enabled=lv_obj_has_state(enabled,LV_STATE_CHECKED);state.volume=lv_slider_get_value(volume);Tab5AlarmPolicy::schedule(state,now);
+- if(!save()){state=before;note("Enregistrement du réveil impossible");return;}
+- missed=false;notice=nullptr;update();
+-}
+-void sleepUntilAlarm(){
+- if(soundRunning.load()){note("Attendez la fin de la sonnerie");return;}
+- time_t now=time(nullptr),due=Tab5AlarmPolicy::deadline(state);
+- if(!due){note("Activez et enregistrez d’abord un réveil");return;}
+- if(due-now<180){note("Réveil proche : la tablette reste allumée");return;}
+- if(!M5.Rtc.isEnabled()){note("Horloge de réveil indisponible");return;}
+- if(hooks.prepareSleep){const char* problem=hooks.prepareSleep();if(problem){note(problem);return;}}
+- Tab5StorageRecovery exclusive;if(!exclusive){note("Stockage occupé : réessayez après les opérations en cours");return;}
+- now=time(nullptr);if(due-now<180){note("Réveil proche : la tablette reste allumée");return;}
+- // RTC clocks coarser than a second may round up by a minute. Wake two
+- // minutes early for this rounding and OS startup, then ring at the deadline.
+- uint64_t delayMs=uint64_t(due-now-120)*1000;
+- if(delayMs>UINT32_MAX){note("Réveil trop éloigné pour cette veille");return;}
+- m5::rtc_datetime_t rtc{};
+- if(!M5.Rtc.getDateTime(&rtc)){note("Horloge de réveil indisponible");return;}
+- state.sleepUtc=time(nullptr);state.sleepRtc=Tab5AlarmPolicy::civilSeconds(rtc.date.year,rtc.date.month,rtc.date.date,rtc.time.hours,rtc.time.minutes,rtc.time.seconds);
+- if(!state.sleepRtc){state.sleepUtc=0;note("Horloge de réveil indisponible");return;}
+- M5.Rtc.disableIRQ();M5.Rtc.clearIRQ();uint32_t actual=M5.Rtc.setTimerIRQ(uint32_t(delayMs));
+- if(!actual||actual>delayMs+60000){M5.Rtc.disableIRQ();state.sleepUtc=state.sleepRtc=0;note("Programmation du réveil impossible");return;}
+- if(!save()){M5.Rtc.disableIRQ();state.sleepUtc=state.sleepRtc=0;note("Enregistrement du réveil impossible");return;}
+- // Power.powerOff() preserves the verified RTC timer on Tab5. The ESP timer
+- // is a fallback if the power controller cannot cut the main supply.
+- esp_sleep_enable_timer_wakeup(uint64_t(actual)*1000);
+- M5.getIOExpander(1).digitalWrite(0,false);
+- M5.Power.powerOff();
+-}
+-}
+-void begin(Hooks value){
+- hooks=value;Preferences p;if(p.begin("tab5_alarm",true)){Tab5AlarmPolicy::State saved;if(p.getBytes("state",&saved,sizeof(saved))==sizeof(saved)&&Tab5AlarmPolicy::valid(saved))state=saved;p.end();}
+- if(M5.Rtc.isEnabled()){
+-  M5.Rtc.disableIRQ();M5.Rtc.clearIRQ();m5::rtc_datetime_t rtc{};
+-  if(state.sleepUtc&&M5.Rtc.getDateTime(&rtc)){
+-   time_t restored=Tab5AlarmPolicy::restoredClock(state,Tab5AlarmPolicy::civilSeconds(rtc.date.year,rtc.date.month,rtc.date.date,rtc.time.hours,rtc.time.minutes,rtc.time.seconds));
+-   if(restored){timeval tv{restored,0};settimeofday(&tv,nullptr);tm local{};localtime_r(&restored,&local);rtc.date.year=local.tm_year+1900;rtc.date.month=local.tm_mon+1;rtc.date.date=local.tm_mday;rtc.date.weekDay=local.tm_wday;rtc.time.hours=local.tm_hour;rtc.time.minutes=local.tm_min;rtc.time.seconds=local.tm_sec;M5.Rtc.setDateTime(rtc);}
+-  }
+- }
+- if(state.sleepUtc){state.sleepUtc=state.sleepRtc=0;save();}
+-}
+-void open(){
+- if(alert)return;makePanel();label("Réveil");clockLabel=label("");label("Vérifiez la date, l’heure et le fuseau horaire dans les réglages.");
+- auto* timeRow=row();auto* enableLabel=lv_label_create(timeRow);lv_obj_set_width(enableLabel,200);lv_label_set_long_mode(enableLabel,LV_LABEL_LONG_WRAP);lv_label_set_text(enableLabel,tr("Activer le réveil"));enabled=lv_switch_create(timeRow);if(state.enabled)lv_obj_add_state(enabled,LV_STATE_CHECKED);Tab5Focus.describe(enabled,tr("Activer le réveil"));
+- auto choices=[](unsigned count){String s;for(unsigned n=0;n<count;++n){char text[12];snprintf(text,sizeof(text),"%02u",n);if(n)s+='\n';s+=text;}return s;};
+- hours=lv_dropdown_create(timeRow);lv_obj_set_width(hours,120);lv_dropdown_set_options(hours,choices(24).c_str());lv_dropdown_set_selected(hours,state.hour);Tab5Focus.describe(hours,tr("Heures"));
+- minutes=lv_dropdown_create(timeRow);lv_obj_set_width(minutes,120);lv_dropdown_set_options(minutes,choices(60).c_str());lv_dropdown_set_selected(minutes,state.minute);Tab5Focus.describe(minutes,tr("Minutes"));
+- repeat=lv_dropdown_create(timeRow);lv_obj_set_width(repeat,260);lv_dropdown_set_options(repeat,tr("Une fois\nTous les jours"));lv_dropdown_set_selected(repeat,state.daily);
+- volumeText=label("");lv_label_set_text_fmt(volumeText,"%s %u %%",tr("Volume du réveil"),unsigned((state.volume*100+127)/255));
+- volume=lv_slider_create(panel);lv_obj_set_width(volume,LV_PCT(95));lv_obj_set_height(volume,24);lv_obj_set_ext_click_area(volume,16);lv_slider_set_range(volume,1,255);lv_slider_set_value(volume,state.volume,LV_ANIM_OFF);lv_obj_add_event_cb(volume,[](lv_event_t* e){lv_label_set_text_fmt(volumeText,"%s %u %%",tr("Volume du réveil"),unsigned((lv_slider_get_value(lv_event_get_target_obj(e))*100+127)/255));},LV_EVENT_VALUE_CHANGED,nullptr);
+- auto* actions=row();button(actions,"Enregistrer",commit);button(actions,"Essayer la sonnerie",[](){commit();if(persistenceOk)start(true);});
+- status=label("");auto* sleep=row();button(sleep,"Veille jusqu’au réveil",sleepUntilAlarm);button(sleep,"Fermer",close);
+- label("La veille prolongée redémarre la tablette avant la sonnerie. Gardez une batterie chargée ou une alimentation branchée. La charge de la batterie est interrompue pendant cette veille.");
+- update();Tab5UiStyle::tree(panel);Tab5Focus.focusFirst(panel);
+-}
+-void service(){
+- if(alert&&millis()-ringAt>(test?10000U:300000U)){dismiss();}
+- if(uint32_t(millis()-lastPoll)<250)return;lastPoll=millis();
+- if(!alert){auto event=Tab5AlarmPolicy::poll(state,time(nullptr));if(event!=Tab5AlarmPolicy::Event::None){save();if(event==Tab5AlarmPolicy::Event::Ring)start(false);else missed=true;}}
+- if(alert&&hooks.wake)hooks.wake();update();
+-}
+-bool visible(){return overlay!=nullptr;}
+-bool ringing(){return alert;}
+-void key(const writing::KeyEvent& e){const auto* focus=Tab5Focus.focused();bool input=focus&&lv_obj_check_type(focus,&lv_textarea_class);if(e.key==writing::Key::Escape||(e.key==writing::Key::Backspace&&!input&&!Tab5Focus.controlling())){if(alert)dismiss();else close();return;}if(alert&&e.key==writing::Key::Text&&!e.ctrl&&e.text[0]==' '){snooze();return;}if(panel)Tab5Focus.key(e,panel);}
+-}
++#include "Tab5Alarm.h"
++#include "Tab5UiStyle.h"
++#include "Tab5AlarmPolicy.h"
++#include "Tab5AlarmTone.h"
++#include "Tab5Audio.h"
++#include "Tab5AudioDriver.h"
++#include "Tab5Task.h"
++#include "Tab5Focus.h"
++#include "Tab5TextInput.h"
++#include "Tab5Storage.h"
++#include <Preferences.h>
++#include <M5Unified.h>
++#include <esp_sleep.h>
++#include <atomic>
++#include <algorithm>
++#include <cstring>
++#include <sys/time.h>
++namespace Tab5Alarm {
++namespace {
++Hooks hooks;Tab5AlarmPolicy::State state;
++lv_obj_t *overlay=nullptr,*panel=nullptr,*status=nullptr,*clockLabel=nullptr,*hours=nullptr,*minutes=nullptr,*repeat=nullptr,*enabled=nullptr,*volume=nullptr,*volumeText=nullptr,*tone=nullptr,*previewButton=nullptr;
++std::atomic<bool> soundWanted{false},soundRunning{false},soundFailed{false};
++std::atomic<uint8_t> soundVolume{200},soundTone{0};
++const char* notice=nullptr;bool alert=false,preview=false,ringPending=false,missed=false,persistenceOk=true;uint32_t ringAt=0,lastPoll=0;
++const char* tr(const char* s){return hooks.translate?hooks.translate(s):s;}
++uint32_t color(unsigned n){return hooks.color?hooks.color(n):(n==2?0xffffff:0x202428);}
++bool save(){Preferences p;if(!p.begin("tab5_alarm",false))return persistenceOk=false;bool ok=p.putBytes("state",&state,sizeof(state))==sizeof(state);p.end();return persistenceOk=ok;}
++void note(const char* s){notice=s;if(status)lv_label_set_text(status,tr(s));}
++void stopPreview(){if(preview){soundWanted=false;preview=false;}}
++void close(){stopPreview();if(overlay){Tab5Focus.clear();lv_obj_delete(overlay);overlay=panel=status=clockLabel=hours=minutes=repeat=enabled=volume=volumeText=tone=previewButton=nullptr;}}
++lv_obj_t* label(const char* text){auto* o=lv_label_create(panel);lv_obj_set_width(o,LV_PCT(100));lv_label_set_long_mode(o,LV_LABEL_LONG_WRAP);lv_label_set_text(o,tr(text));Tab5TextInput::selectable(o);return o;}
++lv_obj_t* row(){auto* o=lv_obj_create(panel);lv_obj_remove_style_all(o);lv_obj_set_size(o,LV_PCT(100),LV_SIZE_CONTENT);lv_obj_set_flex_flow(o,LV_FLEX_FLOW_ROW_WRAP);lv_obj_set_style_pad_column(o,16,0);lv_obj_set_style_pad_row(o,12,0);lv_obj_remove_flag(o,LV_OBJ_FLAG_SCROLLABLE);return o;}
++lv_obj_t* button(lv_obj_t* parent,const char* text,void(*action)()){
++ auto* o=lv_button_create(parent);lv_obj_set_size(o,LV_PCT(47),64);lv_obj_set_style_bg_color(o,lv_color_hex(color(1)),0);lv_obj_set_style_border_width(o,1,0);lv_obj_set_style_border_color(o,lv_color_hex(color(4)),0);lv_obj_set_style_text_color(o,lv_color_hex(color(2)),0);
++ Tab5UiStyle::selection(o);
++ auto* t=lv_label_create(o);lv_obj_set_width(t,LV_PCT(100));lv_label_set_long_mode(t,LV_LABEL_LONG_WRAP);lv_obj_set_style_text_align(t,LV_TEXT_ALIGN_CENTER,0);lv_label_set_text(t,tr(text));lv_obj_center(t);
++ lv_obj_add_event_cb(o,[](lv_event_t* e){auto f=reinterpret_cast<void(*)()>(lv_event_get_user_data(e));f();},LV_EVENT_CLICKED,reinterpret_cast<void*>(action));return o;
++}
++void makePanel(){
++ close();notice=nullptr;overlay=lv_obj_create(lv_layer_top());lv_obj_remove_style_all(overlay);lv_obj_set_size(overlay,LV_PCT(100),LV_PCT(100));lv_obj_set_style_bg_color(overlay,lv_color_black(),0);lv_obj_set_style_bg_opa(overlay,LV_OPA_70,0);lv_obj_remove_flag(overlay,LV_OBJ_FLAG_SCROLLABLE);
++ panel=lv_obj_create(overlay);lv_obj_set_size(panel,std::min<int>(1000,lv_display_get_horizontal_resolution(nullptr)-32),std::min<int>(670,lv_display_get_vertical_resolution(nullptr)-32));lv_obj_center(panel);lv_obj_set_style_bg_color(panel,lv_color_hex(color(0)),0);lv_obj_set_style_text_color(panel,lv_color_hex(color(2)),0);if(hooks.font)lv_obj_set_style_text_font(panel,hooks.font(),0);lv_obj_set_flex_flow(panel,LV_FLEX_FLOW_COLUMN);lv_obj_set_style_pad_all(panel,20,0);lv_obj_set_style_pad_row(panel,16,0);lv_obj_set_scroll_dir(panel,LV_DIR_VER);lv_obj_remove_flag(panel,LV_OBJ_FLAG_SCROLL_ELASTIC);
++}
++void soundTask(void*){
++ // Borrow playback cooperatively; it resumes when this lease is released.
++ uint32_t token=0;while(soundWanted.load()&&!token){token=Tab5Audio.acquireMemoryPriority(1000);if(!token){soundFailed=true;vTaskDelay(pdMS_TO_TICKS(50));}}
++ bool claimed=false;const uint8_t oldVolume=Tab5AudioDevice.volume();
++ while(soundWanted.load()&&token&&!claimed){claimed=Tab5AudioDevice.claim(Tab5AudioClient::Alarm,250);if(!claimed){soundFailed=true;vTaskDelay(pdMS_TO_TICKS(20));}}
++ if(claimed){
++  Tab5PcmSpec spec;spec.sampleRate=24000;spec.channels=1;spec.format=Tab5PcmFormat::S16;
++  soundFailed=false;bool ok=Tab5AudioDevice.configure(Tab5AudioClient::Alarm,spec);
++  int16_t pcm[256];uint32_t sample=0;
++  while(ok&&soundWanted.load()){
++   Tab5AudioDevice.setVolume(soundVolume.load());
++   Tab5AlarmTone::render(soundTone.load(),sample,pcm,256);
++   ok=Tab5AudioDevice.writePcm(Tab5AudioClient::Alarm,pcm,256,spec);vTaskDelay(1);
++  }
++  if(!ok)soundFailed=true;
++  Tab5AudioDevice.stop(Tab5AudioClient::Alarm);Tab5AudioDevice.setVolume(oldVolume);Tab5AudioDevice.release(Tab5AudioClient::Alarm);
++ }
++ if(token)Tab5Audio.releaseMemoryPriority(token);
++ tab5TaskCheckpoint("alarm");soundRunning=false;vTaskDelete(nullptr);
++}
++void dismiss(){soundWanted=false;alert=false;close();}
++void snooze(){auto before=state;state.snooze=time(nullptr)+300;if(!save()){state=before;note("Enregistrement du réveil impossible");return;}dismiss();}
++bool startSound(uint8_t selectedTone,uint8_t selectedVolume){
++ soundTone=Tab5AlarmTone::normalize(selectedTone);soundVolume=selectedVolume;soundWanted=true;soundRunning=true;soundFailed=false;
++ if(tab5CreateTask(soundTask,"tab5_alarm",6144,nullptr,3,nullptr,0)==pdPASS)return true;
++ soundWanted=false;soundRunning=false;soundFailed=true;return false;
++}
++void previewLabel(){if(previewButton)lv_label_set_text(lv_obj_get_child(previewButton,0),tr(preview?"Arrêter":"Essayer la sonnerie"));}
++void togglePreview(){
++ if(preview){stopPreview();previewLabel();return;}
++ if(soundRunning.load()){note("Attendez la fin de la sonnerie");return;}
++ notice=nullptr;ringAt=millis();preview=true;
++ if(hooks.wake)hooks.wake();if(hooks.quiet)hooks.quiet();
++ if(!startSound(uint8_t(lv_dropdown_get_selected(tone)),uint8_t(lv_slider_get_value(volume)))){preview=false;note("Sonnerie indisponible : vérifiez le son");}
++ previewLabel();
++}
++void start(){
++ if(alert)return;
++ if(soundRunning.load()){ringPending=true;stopPreview();return;}
++ ringPending=false;alert=true;missed=false;ringAt=millis();
++ if(hooks.wake)hooks.wake();if(hooks.quiet)hooks.quiet();
++ startSound(state.reserved[0],state.volume);
++ makePanel();label("Réveil");clockLabel=label("");status=label("La sonnerie s’arrête après cinq minutes.");auto* actions=row();button(actions,"Arrêter",dismiss);button(actions,"Reporter de 5 minutes",snooze);Tab5UiStyle::tree(panel);Tab5Focus.focusFirst(panel);
++}
++void update(){
++ if(!clockLabel)return;time_t now=time(nullptr);tm local{};localtime_r(&now,&local);char text[160];strftime(text,sizeof(text),"%Y-%m-%d  %H:%M",&local);if(strcmp(lv_label_get_text(clockLabel),text))lv_label_set_text(clockLabel,text);
++ if(alert){if(soundFailed.load()||(millis()-ringAt>15000&&!soundRunning.load()))note("Sonnerie indisponible : vérifiez le son");return;}
++ if(preview&&soundFailed.load()){note("Sonnerie indisponible : vérifiez le son");return;}
++ if(!persistenceOk){note("Enregistrement du réveil impossible");return;}
++ if(notice)return;
++ time_t due=Tab5AlarmPolicy::deadline(state);
++ if(due){tm next{};localtime_r(&due,&next);char stamp[64];strftime(stamp,sizeof(stamp),"%Y-%m-%d  %H:%M",&next);snprintf(text,sizeof(text),"%s %s",tr("Prochain réveil :"),stamp);if(strcmp(lv_label_get_text(status),text))lv_label_set_text(status,text);}
++ else if(status)lv_label_set_text(status,tr(missed?"Réveil manqué":"Réveil désactivé"));
++}
++void commit(){
++ time_t now=time(nullptr);if(!Tab5AlarmPolicy::validTime(now)){note("Réglez la date et l’heure avant d’activer le réveil");return;}
++ auto before=state;state.hour=lv_dropdown_get_selected(hours);state.minute=lv_dropdown_get_selected(minutes);state.daily=lv_dropdown_get_selected(repeat);state.enabled=lv_obj_has_state(enabled,LV_STATE_CHECKED);state.volume=lv_slider_get_value(volume);state.reserved[0]=Tab5AlarmTone::normalize(uint8_t(lv_dropdown_get_selected(tone)));Tab5AlarmPolicy::schedule(state,now);
++ if(!save()){state=before;note("Enregistrement du réveil impossible");return;}
++ missed=false;notice=nullptr;update();
++}
++void sleepUntilAlarm(){
++ if(soundRunning.load()){note("Attendez la fin de la sonnerie");return;}
++ time_t now=time(nullptr),due=Tab5AlarmPolicy::deadline(state);
++ if(!due){note("Activez et enregistrez d’abord un réveil");return;}
++ if(due-now<180){note("Réveil proche : la tablette reste allumée");return;}
++ if(!M5.Rtc.isEnabled()){note("Horloge de réveil indisponible");return;}
++ if(hooks.prepareSleep){const char* problem=hooks.prepareSleep();if(problem){note(problem);return;}}
++ Tab5StorageRecovery exclusive;if(!exclusive){note("Stockage occupé : réessayez après les opérations en cours");return;}
++ now=time(nullptr);if(due-now<180){note("Réveil proche : la tablette reste allumée");return;}
++ // RTC clocks coarser than a second may round up by a minute. Wake two
++ // minutes early for this rounding and OS startup, then ring at the deadline.
++ uint64_t delayMs=uint64_t(due-now-120)*1000;
++ if(delayMs>UINT32_MAX){note("Réveil trop éloigné pour cette veille");return;}
++ m5::rtc_datetime_t rtc{};
++ if(!M5.Rtc.getDateTime(&rtc)){note("Horloge de réveil indisponible");return;}
++ state.sleepUtc=time(nullptr);state.sleepRtc=Tab5AlarmPolicy::civilSeconds(rtc.date.year,rtc.date.month,rtc.date.date,rtc.time.hours,rtc.time.minutes,rtc.time.seconds);
++ if(!state.sleepRtc){state.sleepUtc=0;note("Horloge de réveil indisponible");return;}
++ M5.Rtc.disableIRQ();M5.Rtc.clearIRQ();uint32_t actual=M5.Rtc.setTimerIRQ(uint32_t(delayMs));
++ if(!actual||actual>delayMs+60000){M5.Rtc.disableIRQ();state.sleepUtc=state.sleepRtc=0;note("Programmation du réveil impossible");return;}
++ if(!save()){M5.Rtc.disableIRQ();state.sleepUtc=state.sleepRtc=0;note("Enregistrement du réveil impossible");return;}
++ // Power.powerOff() preserves the verified RTC timer on Tab5. The ESP timer
++ // is a fallback if the power controller cannot cut the main supply.
++ esp_sleep_enable_timer_wakeup(uint64_t(actual)*1000);
++ M5.getIOExpander(1).digitalWrite(0,false);
++ M5.Power.powerOff();
++}
++}
++void begin(Hooks value){
++ hooks=value;Preferences p;if(p.begin("tab5_alarm",true)){Tab5AlarmPolicy::State saved;if(p.getBytes("state",&saved,sizeof(saved))==sizeof(saved)&&Tab5AlarmPolicy::valid(saved))state=saved;p.end();}state.reserved[0]=Tab5AlarmTone::normalize(state.reserved[0]);
++ if(M5.Rtc.isEnabled()){
++  M5.Rtc.disableIRQ();M5.Rtc.clearIRQ();m5::rtc_datetime_t rtc{};
++  if(state.sleepUtc&&M5.Rtc.getDateTime(&rtc)){
++   time_t restored=Tab5AlarmPolicy::restoredClock(state,Tab5AlarmPolicy::civilSeconds(rtc.date.year,rtc.date.month,rtc.date.date,rtc.time.hours,rtc.time.minutes,rtc.time.seconds));
++   if(restored){timeval tv{restored,0};settimeofday(&tv,nullptr);tm local{};localtime_r(&restored,&local);rtc.date.year=local.tm_year+1900;rtc.date.month=local.tm_mon+1;rtc.date.date=local.tm_mday;rtc.date.weekDay=local.tm_wday;rtc.time.hours=local.tm_hour;rtc.time.minutes=local.tm_min;rtc.time.seconds=local.tm_sec;M5.Rtc.setDateTime(rtc);}
++  }
++ }
++ if(state.sleepUtc){state.sleepUtc=state.sleepRtc=0;save();}
++}
++void open(){
++ if(alert)return;makePanel();label("Réveil");clockLabel=label("");label("Vérifiez la date, l’heure et le fuseau horaire dans les réglages.");
++ auto* timeRow=row();auto* enableLabel=lv_label_create(timeRow);lv_obj_set_width(enableLabel,200);lv_label_set_long_mode(enableLabel,LV_LABEL_LONG_WRAP);lv_label_set_text(enableLabel,tr("Activer le réveil"));enabled=lv_switch_create(timeRow);if(state.enabled)lv_obj_add_state(enabled,LV_STATE_CHECKED);Tab5Focus.describe(enabled,tr("Activer le réveil"));
++ auto choices=[](unsigned count){String s;for(unsigned n=0;n<count;++n){char text[12];snprintf(text,sizeof(text),"%02u",n);if(n)s+='\n';s+=text;}return s;};
++ hours=lv_dropdown_create(timeRow);lv_obj_set_width(hours,120);lv_dropdown_set_options(hours,choices(24).c_str());lv_dropdown_set_selected(hours,state.hour);Tab5Focus.describe(hours,tr("Heures"));
++ minutes=lv_dropdown_create(timeRow);lv_obj_set_width(minutes,120);lv_dropdown_set_options(minutes,choices(60).c_str());lv_dropdown_set_selected(minutes,state.minute);Tab5Focus.describe(minutes,tr("Minutes"));
++ repeat=lv_dropdown_create(timeRow);lv_obj_set_width(repeat,260);lv_dropdown_set_options(repeat,tr("Une fois\nTous les jours"));lv_dropdown_set_selected(repeat,state.daily);
++ label("Sonnerie du réveil");tone=lv_dropdown_create(panel);lv_obj_set_width(tone,LV_PCT(100));lv_dropdown_set_options(tone,tr("Classique\nCarillon\nPulsations\nDoux"));lv_dropdown_set_selected(tone,state.reserved[0]);Tab5Focus.describe(tone,tr("Sonnerie du réveil"));
++ volumeText=label("");lv_label_set_text_fmt(volumeText,"%s %u %%",tr("Volume du réveil"),unsigned((state.volume*100+127)/255));
++ volume=lv_slider_create(panel);lv_obj_set_width(volume,LV_PCT(95));lv_obj_set_height(volume,24);lv_obj_set_ext_click_area(volume,16);lv_slider_set_range(volume,1,255);lv_slider_set_value(volume,state.volume,LV_ANIM_OFF);lv_obj_add_event_cb(volume,[](lv_event_t* e){lv_label_set_text_fmt(volumeText,"%s %u %%",tr("Volume du réveil"),unsigned((lv_slider_get_value(lv_event_get_target_obj(e))*100+127)/255));},LV_EVENT_VALUE_CHANGED,nullptr);
++ auto* actions=row();button(actions,"Enregistrer",commit);previewButton=button(actions,"Essayer la sonnerie",togglePreview);
++ status=label("");auto* sleep=row();button(sleep,"Veille jusqu’au réveil",sleepUntilAlarm);button(sleep,"Fermer",close);
++ label("La veille prolongée redémarre la tablette avant la sonnerie. Gardez une batterie chargée ou une alimentation branchée. La charge de la batterie est interrompue pendant cette veille.");
++ update();Tab5UiStyle::tree(panel);Tab5Focus.focusFirst(panel);
++}
++void service(){
++ if(preview&&millis()-ringAt>10000U){stopPreview();previewLabel();}
++ if(alert&&millis()-ringAt>300000U){dismiss();}
++ if(ringPending&&!soundRunning.load())start();
++ if(uint32_t(millis()-lastPoll)<250)return;lastPoll=millis();
++ if(!alert){auto event=Tab5AlarmPolicy::poll(state,time(nullptr));if(event!=Tab5AlarmPolicy::Event::None){save();if(event==Tab5AlarmPolicy::Event::Ring)start();else missed=true;}}
++ if(alert&&hooks.wake)hooks.wake();update();
++}
++bool visible(){return overlay!=nullptr;}
++bool ringing(){return alert;}
++void key(const writing::KeyEvent& e){const auto* focus=Tab5Focus.focused();bool input=focus&&lv_obj_check_type(focus,&lv_textarea_class);if(e.key==writing::Key::Escape||(e.key==writing::Key::Backspace&&!input&&!Tab5Focus.controlling())){if(alert)dismiss();else close();return;}if(alert&&e.key==writing::Key::Text&&!e.ctrl&&e.text[0]==' '){snooze();return;}if(panel)Tab5Focus.key(e,panel);}
++}
+--- 0.8.49/Tab5AlarmTone.h
++++ 0.8.50/Tab5AlarmTone.h
+@@ -0,0 +1,37 @@
++#pragma once
++#include <stdint.h>
++#include <stddef.h>
++
++namespace Tab5AlarmTone {
++constexpr uint8_t Count=4;
++constexpr uint32_t SampleRate=24000;
++constexpr uint32_t Period=48000;
++inline uint8_t normalize(uint8_t value){return value<Count?value:0;}
++struct Note {uint16_t startMs,endMs,hz;};
++inline int16_t sample(uint8_t tone,uint32_t sampleIndex){
++ static constexpr Note notes[Count][4]={
++  {{0,250,750},{420,670,750},{0,0,0},{0,0,0}},
++  {{0,280,523},{320,600,659},{640,1000,784},{0,0,0}},
++  {{0,140,880},{220,360,880},{440,580,880},{660,800,880}},
++  {{0,650,440},{900,1550,554},{0,0,0},{0,0,0}}
++ };
++ static constexpr int16_t sine[]={0,2146,4209,6111,7778,9146,10163,10789,11000,10789,10163,9146,7778,6111,4209,2146,0,-2146,-4209,-6111,-7778,-9146,-10163,-10789,-11000,-10789,-10163,-9146,-7778,-6111,-4209,-2146};
++ const uint32_t position=sampleIndex%Period;
++ for(const auto& note:notes[normalize(tone)]){
++  const uint32_t begin=uint32_t(note.startMs)*24,end=uint32_t(note.endMs)*24;
++  if(!note.hz||position<begin||position>=end)continue;
++  const uint32_t elapsed=position-begin,remaining=end-position-1;
++  uint32_t envelope=elapsed<240?elapsed:240;
++  if(remaining<envelope)envelope=remaining;
++  // Note-local phase and a 10 ms envelope make the signal independent of
++  // buffer boundaries and keep every transition to silence at zero.
++  const uint32_t phase=(elapsed*note.hz)%SampleRate;
++  const int32_t amplitude=normalize(tone)==3?7000:11000;
++  return int16_t(int32_t(sine[phase*32/SampleRate])*int32_t(envelope)/240*amplitude/11000);
++ }
++ return 0;
++}
++inline void render(uint8_t tone,uint32_t& sampleIndex,int16_t* output,size_t count){
++ for(size_t i=0;i<count;++i){output[i]=sample(tone,sampleIndex);sampleIndex=(sampleIndex+1)%Period;}
++}
++}
+--- 0.8.49/Tab5Help.cpp
++++ 0.8.50/Tab5Help.cpp
+@@ -66,7 +66,7 @@
+   
+-  {"Couleurs et export JPEG", "Format → Réglage des couleurs (Ctrl+Maj+C) choisit séparément la couleur du texte et son fond. Choisir une case ne modifie pas le document. Couleur du texte (Ctrl+Alt+C) et Fond du texte (Ctrl+Alt+H) agissent sur la sélection ; sans sélection, le choix concerne la suite de la frappe. Les cellules acceptent aussi ces styles. Échap ferme la palette. Le bouton clavier est directement dans la barre de l’Éditeur et dans l’éditeur de tableau. L+ et C+ affichent immédiatement la nouvelle ligne ou colonne ; Appliquer enregistre le tableau dans le document.\n\nJPG capture désormais la carte déjà affichée, à sa définition actuelle, sans zoom supérieur ni téléchargement supplémentaire. Attendez que les éléments souhaités soient visibles avant de capturer. Les crédits sont conservés sous l’image. Le fichier est créé dans /Pictures/Maps/map-NNNN.jpg.\n\nUn petit panneau garde la progression visible pendant la copie et l’encodage. La croix ou Échap annule ; changer de vue pendant la copie annule aussi cette étape. Le JPEG est encodé par lignes. Aucun fichier incomplet n’est publié. Écriture → Insertion → Image permet d’insérer le résultat.\n\nLes cellules de tableau gardent des bordures visibles ; la cellule active reste teintée selon le thème."},+  {"Couleurs et export JPEG", "Format → Réglage des couleurs (Ctrl+Maj+C) choisit séparément la couleur du texte et son fond. Choisir une case ne modifie pas le document. Couleur du texte (Ctrl+Alt+C) et Fond du texte (Ctrl+Alt+H) agissent sur la sélection ; sans sélection, le choix concerne la suite de la frappe. Les cellules acceptent aussi ces styles. Échap ferme la palette. Le bouton clavier est directement dans la barre de l’Éditeur et dans l’éditeur de tableau. L+ et C+ affichent immédiatement la nouvelle ligne ou colonne ; Appliquer enregistre le tableau dans le document.\n\nJPG capture désormais la carte déjà affichée, à sa définition actuelle, sans zoom supérieur ni téléchargement supplémentaire. Attendez que les éléments souhaités soient visibles avant de capturer. Les crédits sont conservés sous l’image. Le fichier est créé dans /Picture/Maps/map-NNNN.jpg.\n\nUn petit panneau garde la progression visible pendant la copie et l’encodage. La croix ou Échap annule ; changer de vue pendant la copie annule aussi cette étape. Le JPEG est encodé par lignes. Aucun fichier incomplet n’est publié. Écriture → Insertion → Image permet d’insérer le résultat.\n\nLes cellules de tableau gardent des bordures visibles ; la cellule active reste teintée selon le thème."},   
+--- 0.8.49/Tab5HomeUi.h
++++ 0.8.50/Tab5HomeUi.h
+@@ -26,7 +26,7 @@
+   static const char* symbols[]={LV_SYMBOL_PLAY,LV_SYMBOL_DIRECTORY,LV_SYMBOL_EDIT,LV_SYMBOL_AUDIO,
+     LV_SYMBOL_GPS,LV_SYMBOL_SETTINGS,LV_SYMBOL_PLAY,LV_SYMBOL_IMAGE,LV_SYMBOL_DOWNLOAD,LV_SYMBOL_SD_CARD,
+     LV_SYMBOL_EYE_OPEN,TAB5_SYMBOL_CALCULATOR,LV_SYMBOL_KEYBOARD,LV_SYMBOL_HOME,LV_SYMBOL_VIDEO,
+-    LV_SYMBOL_WIFI,LV_SYMBOL_BELL,LV_SYMBOL_SAVE,LV_SYMBOL_FILE,LV_SYMBOL_LIST,LV_SYMBOL_UPLOAD,
++    LV_SYMBOL_WIFI,TAB5_SYMBOL_ALARM,LV_SYMBOL_SAVE,LV_SYMBOL_FILE,LV_SYMBOL_LIST,LV_SYMBOL_UPLOAD,
+     LV_SYMBOL_CALL,LV_SYMBOL_CHARGE,LV_SYMBOL_GPS,TAB5_SYMBOL_PYTHON};
+   static_assert(sizeof(symbols)/sizeof(symbols[0])==Tab5AppCatalogue::SymbolCount,"home symbol choices");
+   return symbols[index<Tab5AppCatalogue::SymbolCount?index:0];
+@@ -167,6 +167,7 @@
+   const char* symbol=homeSymbol(chosen);
+   if(!strcmp(symbol,TAB5_SYMBOL_CALCULATOR))tab5CalculatorIcon(iconBox,C_TEXT());
+   else if(!strcmp(symbol,TAB5_SYMBOL_PYTHON))tab5PythonIcon(iconBox,C_TEXT());
++  else if(!strcmp(symbol,TAB5_SYMBOL_ALARM))tab5AlarmIcon(iconBox,C_TEXT(),C_ACTIVE());
+   else{auto* label=lv_label_create(iconBox);lv_label_set_text(label,symbol);lv_obj_set_style_text_font(label,&lv_font_montserrat_32,0);lv_obj_set_style_text_color(label,C_TEXT(),0);lv_obj_center(label);homePassive(label);}
+   homeIconBoxes[index]=iconBox;
+   if(labels||list){
+--- 0.8.49/Tab5Icons.h
++++ 0.8.50/Tab5Icons.h
+@@ -26,3 +26,17 @@
+ inline void tab5PythonIcon(lv_obj_t* host,lv_color_t ink) {
+  auto* label=lv_label_create(host);lv_label_set_text(label,">_");lv_obj_set_style_text_font(label,&lv_font_montserrat_32,0);lv_obj_set_style_text_color(label,ink,0);lv_obj_center(label);
+ }
++
++#define TAB5_SYMBOL_ALARM "@alarm"
++inline void tab5AlarmIcon(lv_obj_t* parent,lv_color_t ink,lv_color_t paper){
++ auto* host=lv_obj_create(parent);lv_obj_remove_style_all(host);lv_obj_set_size(host,38,38);lv_obj_center(host);
++ lv_obj_remove_flag(host,lv_obj_flag_t(LV_OBJ_FLAG_CLICKABLE|LV_OBJ_FLAG_SCROLLABLE));
++ auto part=[&](int x,int y,int w,int h,int radius,bool fill){
++  auto* p=lv_obj_create(host);lv_obj_remove_style_all(p);lv_obj_set_pos(p,x,y);lv_obj_set_size(p,w,h);lv_obj_set_style_radius(p,radius,0);
++  lv_obj_set_style_bg_color(p,fill?ink:paper,0);lv_obj_set_style_bg_opa(p,LV_OPA_COVER,0);lv_obj_set_style_border_width(p,fill?0:2,0);lv_obj_set_style_border_color(p,ink,0);
++  lv_obj_remove_flag(p,lv_obj_flag_t(LV_OBJ_FLAG_CLICKABLE|LV_OBJ_FLAG_SCROLLABLE));return p;
++ };
++ part(3,1,12,7,4,true);part(23,1,12,7,4,true);
++ part(7,31,4,6,1,true);part(27,31,4,6,1,true);part(4,6,30,30,15,false);
++ part(18,12,2,11,0,true);part(19,21,8,2,0,true);part(17,20,4,4,2,true);
++}
+--- 0.8.49/Tab5ImageCodec.cpp
++++ 0.8.50/Tab5ImageCodec.cpp
+@@ -174,6 +174,12 @@
+   }
+   std::strcpy(temporary.current.layers[0].name, "Image JPEG");
+   temporary.dirty = 0; temporary.error = nullptr;
++  // The clipboard belongs to the editor, not to the imported image. Move
++  // ownership only after successful decoding; a failed import keeps both.
++  if (!ie_clipboard_transfer(&temporary, doc)) {
++    ie_destroy(&temporary);
++    return fail(doc, "Import impossible; image conservee.");
++  }
+   ie_destroy(doc); *doc = temporary;
+   if (options.imported) *options.imported = {sw, sh, w, h, 1};
+   return 1;
+@@ -215,6 +221,12 @@
+   }
+   std::strcpy(temporary.current.layers[0].name, "Image PNG");
+   temporary.dirty = 0; temporary.error = nullptr;
++  // The clipboard belongs to the editor, not to the imported image. Move
++  // ownership only after successful decoding; a failed import keeps both.
++  if (!ie_clipboard_transfer(&temporary, doc)) {
++    ie_destroy(&temporary);
++    return fail(doc, "Import impossible; image conservee.");
++  }
+   ie_destroy(doc); *doc = temporary;
+   if (options.imported) *options.imported = {w, h, w, h, 1};
+   return 1;
+--- 0.8.49/Tab5ImageEditor.cpp
++++ 0.8.50/Tab5ImageEditor.cpp
+@@ -7,6 +7,7 @@
+ #include "Tab5FilePicker.h"
+ #include "Tab5ImageWrite.h"
+ #include "Tab5ImageCodec.h"
++#include "Tab5ImageText.h"
+ #include "Tab5ImageFormats.h"
+ #include "Tab5VolumeFS.h"
+ #include "Tab5Storage.h"
+@@ -26,12 +27,12 @@
+ constexpr size_t MemoryLimit=18u*1024u*1024u;
+ constexpr int CanvasMaxW=2048,CanvasMaxH=1200;
+ enum Tool { Brush,Eraser,Select,Move,Rectangle,Ellipse,Line,Text,Pick,Hand,Warp,Fill,ToolCount };
+-enum Action { None,New,Open,Save,Export,Quit,Undo,Redo,Clear,Deselect,Crop,ApplyAdjust,ApplyTransform,ApplySize,LayerAdd,LayerDuplicate,LayerDelete,LayerUp,LayerDown,LayerMerge,LayerRename,ExportJpeg,Fit,Actual,ZoomIn,ZoomOut,ShowColor,ShowLayer,ShowAdjust,ShowTransform,ShowFormat,ToolOptions,UseHand,UsePick,SwapColors,ShowBackground,ToggleOptions,SelectAll,InvertSelection,SoftenSelection };
++enum Action { None,New,Open,Save,Export,Quit,Undo,Redo,Clear,Deselect,Crop,ApplyAdjust,ApplyTransform,ApplySize,LayerAdd,LayerDuplicate,LayerDelete,LayerUp,LayerDown,LayerMerge,LayerRename,ExportJpeg,Fit,Actual,ZoomIn,ZoomOut,ShowColor,ShowLayer,ShowAdjust,ShowTransform,ShowFormat,ToolOptions,UseHand,UsePick,SwapColors,ShowBackground,ToggleOptions,SelectAll,InvertSelection,SoftenSelection,CopySelection,CutSelection,PasteSelection,DeleteSelection };
+ enum Dialog { NoDialog,ConfirmDiscard,InputPath,InputName,ConfirmOverwrite,NewSize };
+ struct Allocation { size_t bytes; uint64_t alignment; };
+ struct State {
+  IEDoc doc{};
+- lv_obj_t *root=nullptr,*toolbar=nullptr,*workspace=nullptr,*canvas=nullptr,*selection=nullptr,*panel=nullptr,*body=nullptr,*tab=nullptr,*status=nullptr,*undo=nullptr,*redo=nullptr,*rail=nullptr,*zoomLabel=nullptr,*foreground=nullptr,*background=nullptr,*optionsButton=nullptr,*textInput=nullptr;
++ lv_obj_t *root=nullptr,*toolbar=nullptr,*workspace=nullptr,*canvas=nullptr,*selection=nullptr,*panel=nullptr,*body=nullptr,*tab=nullptr,*status=nullptr,*undo=nullptr,*redo=nullptr,*rail=nullptr,*zoomLabel=nullptr,*foreground=nullptr,*background=nullptr,*optionsButton=nullptr,*textInput=nullptr,*textLayout=nullptr;
+  lv_obj_t* toolButtons[ToolCount]{};
+  lv_obj_t *modal=nullptr,*dialogStatus=nullptr,*fields[3]{},*dialogSubmit=nullptr,*layerList=nullptr;
+  lv_obj_t* sliders[26]{};lv_obj_t* sliderLabels[26]{};
+@@ -46,10 +47,10 @@
+  int fillKind=0,fillRegion=0,fillDensity=100,fillScale=12,fillDirection=0;
+  IEBrush brush{IE_RGBA(24,24,24,255),2,100,100,0,0,0};
+  int brightness=0,contrast=0,saturation=0,redGain=100,greenGain=100,blueGain=100,allLayers=0;
+- int scaleX=100,scaleY=100,shear=0,turns=0,thickness=2,fill=1,outline=1,textScale=3;
++ int scaleX=100,scaleY=100,shear=0,turns=0,thickness=2,fill=1,outline=1,textScale=100;
+  int red=24,green=24,blue=24,backRed=255,backGreen=255,backBlue=255,layerOpacity=255;
+  uint32_t backgroundColor=0xffffff,gestureColor=0;
+- bool panelVisible=false,editingBackground=false,hovering=false,textEditing=false,textDirty=false,finishingText=false,pointerKnown=false;
++ bool panelVisible=false,editingBackground=false,hovering=false,textEditing=false,textDirty=false,finishingText=false,pointerKnown=false,textPending=false;
+  int pointerX=0,pointerY=0;
+  int hoverX=0,hoverY=0,textX=0,textY=0,textW=0,textH=0;uint32_t textColor=0,textCaret=UINT32_MAX,textSelectionStart=UINT32_MAX,textSelectionEnd=UINT32_MAX;uint8_t gestureButton=0;
+  int zoom=100,viewDocW=0,viewDocH=0,toolbarHeight=50,ellipseCenter=0,ellipseCircle=0,warpStrength=50,warpMode=0;
+@@ -75,7 +76,7 @@
+ }
+ uint32_t stamp(){uint32_t value=Tab5UiStyle::radius();for(unsigned i=0;i<9;++i)value=value*33+Tab5UiStyle::color(i);return value;}
+ void info(const char* message){copy(s.message,sizeof(s.message),message);if(s.status)lv_label_set_text(s.status,tr(message));}
+-void finishJob(bool cancel);void startSelection(int method);void refreshHover();void status();void panel();void swatches();void toolState();void finishText(bool commit);void textChanged();void textCursor();void optionsVisible(bool value);void fitView();void zoomAt(int,int,int);void render(int x,int y,int width,int height);void renderAll();void layout();void action(Action);void cancelGesture();void closeDialog();void dialogSubmit();void request(Action);
++void finishJob(bool cancel);void startSelection(int method);void refreshHover();void status();void panel();void swatches();void toolState();bool finishText(bool commit);void textChanged();void textCursor();void optionsVisible(bool value);void fitView();void zoomAt(int,int,int);void render(int x,int y,int width,int height);void renderAll();void layout();void action(Action);void cancelGesture();void closeDialog();void dialogSubmit();void request(Action);
+ void* allocate(void*,size_t bytes){
+  if(!bytes||bytes>SIZE_MAX-sizeof(Allocation))return nullptr;
+  const size_t total=bytes+sizeof(Allocation);
+@@ -141,14 +142,13 @@
+  auto line=[&](int x0,int y0,int x1,int y1){lv_draw_line_dsc_t d;lv_draw_line_dsc_init(&d);d.color=color(6);d.width=2;d.p1={lv_value_precise_t(a.x1+x0),lv_value_precise_t(a.y1+y0)};d.p2={lv_value_precise_t(a.x1+x1),lv_value_precise_t(a.y1+y1)};lv_draw_line(layer,&d);};
+  auto rect=[&](int x0,int y0,int x1,int y1){line(x0,y0,x1,y0);line(x1,y0,x1,y1);line(x1,y1,x0,y1);line(x0,y1,x0,y0);};
+  const auto r=s.doc.current.selection;if(r.enabled&&r.w>0&&r.h>0&&!s.doc.current.selection_mask)rect(screenX(r.x),screenY(r.y),screenX(r.x+r.w),screenY(r.y+r.h));
+- if(s.textEditing&&s.textInput){
++ if(s.textEditing&&s.textInput&&s.textLayout){
+   auto* textLabel=lv_textarea_get_label(s.textInput);const uint32_t first=lv_label_get_text_selection_start(textLabel),last=lv_label_get_text_selection_end(textLabel),caret=lv_textarea_get_cursor_pos(s.textInput);
+-  int tx=s.textX,ty=s.textY;unsigned index=0;
+-  for(const unsigned char* p=reinterpret_cast<const unsigned char*>(s.text);;){
+-   if(index==caret)line(screenX(tx),screenY(ty),screenX(tx),screenY(ty+7*s.textScale));
+-   if(!*p)break;unsigned c=*p++;if(c>=0xc0)while((*p&0xc0)==0x80)++p;
+-   if(first!=LV_DRAW_LABEL_NO_TXT_SEL&&last!=LV_DRAW_LABEL_NO_TXT_SEL&&index>=std::min(first,last)&&index<std::max(first,last))rect(screenX(tx),screenY(ty),screenX(tx+6*s.textScale),screenY(ty+8*s.textScale));
+-   if(c=='\n'){tx=s.textX;ty+=8*s.textScale;}else tx+=6*s.textScale;++index;
++  const int h=Tab5ImageText::lineHeight(s.textLayout,s.textScale);const auto cursor=Tab5ImageText::position(s.textLayout,caret,s.textScale);
++  line(screenX(s.textX+cursor.x),screenY(s.textY+cursor.y),screenX(s.textX+cursor.x),screenY(s.textY+cursor.y+h));
++  if(first!=LV_DRAW_LABEL_NO_TXT_SEL&&last!=LV_DRAW_LABEL_NO_TXT_SEL){
++   uint32_t count=0;for(const unsigned char* p=reinterpret_cast<const unsigned char*>(s.text);*p;++p)if((*p&0xc0)!=0x80)++count;
++   for(uint32_t i=std::min(first,last);i<std::min(std::max(first,last),count);++i){const auto p=Tab5ImageText::position(s.textLayout,i,s.textScale),q=Tab5ImageText::position(s.textLayout,i+1,s.textScale);const int end=q.y==p.y?q.x:p.x+std::max(1,h/3);rect(screenX(s.textX+std::min<int>(p.x,end)),screenY(s.textY+p.y),screenX(s.textX+std::max<int>(p.x,end)),screenY(s.textY+p.y+h));}
+   }
+  }
+  if(!s.dragging||(s.tool!=Select&&s.tool!=Rectangle&&s.tool!=Ellipse&&s.tool!=Line&&s.tool!=Move))return;
+@@ -171,14 +171,14 @@
+ void renderAll(){if(!s.initialized)return;++s.fullRenders;if(s.pixels&&s.displayW){s.renderedPixels+=ie_render_view_rgb565(&s.doc,s.pixels,s.displayW,s.displayW,s.displayH,s.originX,s.originY,s.zoom,0,0,s.displayW,s.displayH,0xeeeeee,0xcccccc,Tab5UiStyle::color(2));ie_render_selection_outline(&s.doc,s.pixels,s.displayW,s.displayW,s.displayH,s.originX,s.originY,s.zoom,0,0,s.displayW,s.displayH);lv_obj_invalidate(s.canvas);}selection();refreshHover();status();}
+ int32_t boundOrigin(int64_t value){constexpr int64_t limit=int64_t(IE_MAX_DIMENSION+4096)*65536;return int32_t(std::clamp<int64_t>(value,-limit,limit));}
+ void fitView(){if(!s.displayW||!s.initialized){s.fitPending=true;return;}s.zoom=std::clamp(std::min(s.displayW*100/s.doc.current.width,s.displayH*100/s.doc.current.height),5,1600);s.originX=boundOrigin((int64_t(s.doc.current.width)*65536-int64_t(s.displayW)*6553600/s.zoom)/2);s.originY=boundOrigin((int64_t(s.doc.current.height)*65536-int64_t(s.displayH)*6553600/s.zoom)/2);s.fitPending=false;renderAll();}
+-void zoomAt(int value,int px,int py){finishText(true);cancelGesture();value=std::clamp(value,5,1600);if(value==s.zoom)return;const int64_t ax=int64_t(s.originX)+int64_t(px)*6553600/s.zoom,ay=int64_t(s.originY)+int64_t(py)*6553600/s.zoom;s.zoom=value;s.originX=boundOrigin(ax-int64_t(px)*6553600/value);s.originY=boundOrigin(ay-int64_t(py)*6553600/value);renderAll();}
++void zoomAt(int value,int px,int py){if(!finishText(true))return;cancelGesture();value=std::clamp(value,5,1600);if(value==s.zoom)return;const int64_t ax=int64_t(s.originX)+int64_t(px)*6553600/s.zoom,ay=int64_t(s.originY)+int64_t(py)*6553600/s.zoom;s.zoom=value;s.originX=boundOrigin(ax-int64_t(px)*6553600/value);s.originY=boundOrigin(ay-int64_t(py)*6553600/value);renderAll();}
+ void result(int ok){if(!ok)info(ie_error(&s.doc));else s.message[0]=0;layout();renderAll();}
+ void cancelGesture(){
+  if(s.lasso){release(nullptr,s.lasso);s.lasso=nullptr;}s.lassoCount=0;
+  if(s.gesture){ie_cancel(&s.doc);s.doc.dirty=s.gestureDirty;}
+  const bool changed=s.gesture,preview=s.dragging;s.gesture=s.dragging=s.panning=false;s.gestureButton=0;if(changed)renderAll();else if(preview)selection();status();
+ }
+-void panStart(int px,int py){finishText(true);cancelGesture();s.panning=true;s.panX=px;s.panY=py;s.panOriginX=s.originX;s.panOriginY=s.originY;}
++void panStart(int px,int py){if(!finishText(true))return;cancelGesture();s.panning=true;s.panX=px;s.panY=py;s.panOriginX=s.originX;s.panOriginY=s.originY;}
+ void panMove(int px,int py){const int32_t x=boundOrigin(int64_t(s.panOriginX)-int64_t(px-s.panX)*6553600/s.zoom),y=boundOrigin(int64_t(s.panOriginY)-int64_t(py-s.panY)*6553600/s.zoom);if(x==s.originX&&y==s.originY)return;s.originX=x;s.originY=y;renderAll();}
+ // Both mouse buttons and touch use the same gesture path. The colour belongs
+ // to the press, so a palette change cannot recolour an unfinished stroke.
+@@ -198,38 +198,41 @@
+  for(int y=y0;y<y1;++y){memcpy(pixels+size_t(y)*s.doc.current.width+x0,before+size_t(y)*s.doc.current.width+x0,size_t(x1-x0)*4);if((y&31)==0)cooperate(nullptr);}
+ }
+ void textCursor(){
+- if(!s.textEditing||!s.textInput)return;int x=s.textX,y=s.textY;unsigned count=0,caret=lv_textarea_get_cursor_pos(s.textInput);s.textCaret=caret;auto* textLabel=lv_textarea_get_label(s.textInput);s.textSelectionStart=lv_label_get_text_selection_start(textLabel);s.textSelectionEnd=lv_label_get_text_selection_end(textLabel);
+- for(const unsigned char* p=reinterpret_cast<const unsigned char*>(s.text);*p&&count<caret;++count){unsigned c=*p++;if(c>=0xc0)while((*p&0xc0)==0x80)++p;if(c=='\n'){x=s.textX;y+=8*s.textScale;}else x+=6*s.textScale;}
+- // The native textarea owns composition, selection and clipboard; the document
+- // preview and caret use the actual raster glyphs, including the current zoom.
+- lv_obj_set_pos(s.textInput,std::clamp(screenX(x),0,std::max(0,s.displayW-2)),std::clamp(screenY(y),0,std::max(0,s.displayH-2)));selection();
++ if(!s.textEditing||!s.textInput||!s.textLayout)return;const unsigned caret=lv_textarea_get_cursor_pos(s.textInput);s.textCaret=caret;auto* textLabel=lv_textarea_get_label(s.textInput);s.textSelectionStart=lv_label_get_text_selection_start(textLabel);s.textSelectionEnd=lv_label_get_text_selection_end(textLabel);
++ const auto p=Tab5ImageText::position(s.textLayout,caret,s.textScale);
++ lv_obj_set_pos(s.textInput,std::clamp(screenX(s.textX+p.x),0,std::max(0,s.displayW-2)),std::clamp(screenY(s.textY+p.y),0,std::max(0,s.displayH-2)));selection();
+ }
+ void textChanged(){
+- if(!s.textEditing||!s.textInput)return;const int oldW=s.textW,oldH=s.textH;restoreTextArea();copy(s.text,sizeof(s.text),lv_textarea_get_text(s.textInput));
+- int columns=0,maxColumns=0,rows=1;for(const unsigned char* p=reinterpret_cast<const unsigned char*>(s.text);*p;){unsigned c=*p++;if(c>=0xc0)while((*p&0xc0)==0x80)++p;if(c=='\n'){maxColumns=std::max(maxColumns,columns);columns=0;++rows;}else ++columns;}
+- s.textW=std::max(maxColumns,columns)*6*s.textScale;s.textH=rows*8*s.textScale;
+- if(s.text[0])ie_text(&s.doc,s.textX,s.textY,s.text,s.textScale,s.textColor,s.brush.opacity);
++ if(!s.textEditing||!s.textInput||!s.textLayout)return;
++ char pending[sizeof(s.text)];copy(pending,sizeof(pending),lv_textarea_get_text(s.textInput));
++ lv_label_set_text(s.textLayout,pending);lv_obj_update_layout(s.textLayout);
++ Tab5ImageText::Raster raster;
++ if(!Tab5ImageText::prepare(raster,&s.doc,s.textLayout,pending,s.textX,s.textY,s.textScale)){
++  lv_label_set_text(s.textLayout,s.text);lv_obj_update_layout(s.textLayout);s.textPending=true;info("Mémoire insuffisante pour le texte");textCursor();return;
++ }
++ const int oldW=s.textW,oldH=s.textH;restoreTextArea();copy(s.text,sizeof(s.text),pending);s.textPending=false;s.message[0]=0;
++ s.textW=raster.textW;s.textH=raster.textH;Tab5ImageText::stamp(raster,&s.doc,s.textColor,s.brush.opacity);Tab5ImageText::release(raster,&s.doc);
+  render(s.textX,s.textY,std::max(oldW,s.textW)+1,std::max(oldH,s.textH)+1);textCursor();status();
+ }
+-void finishText(bool commit){
+- if(!s.textEditing||s.finishingText)return;s.finishingText=true;const bool keep=commit&&s.text[0];const int x=s.textX,y=s.textY,w=s.textW,h=s.textH;
+- s.textEditing=false;auto* input=s.textInput;s.textInput=nullptr;if(input&&Tab5Focus.focused()==input)Tab5Focus.clear();if(input)lv_obj_delete(input);
++bool finishText(bool commit){
++ if(!s.textEditing||s.finishingText)return true;
++ if(commit&&s.textPending){textChanged();if(s.textPending)return false;}
++ s.finishingText=true;const bool keep=commit&&s.text[0];const int x=s.textX,y=s.textY,w=s.textW,h=s.textH;
++ s.textEditing=false;auto* input=s.textInput;s.textInput=nullptr;if(input&&Tab5Focus.focused()==input)Tab5Focus.clear();if(input)lv_obj_delete(input);if(s.textLayout){lv_obj_delete(s.textLayout);s.textLayout=nullptr;}
+  if(keep)ie_commit(&s.doc);else{ie_cancel(&s.doc);s.doc.dirty=s.textDirty;}
+- s.textW=s.textH=0;if(hooks.keyboard)hooks.keyboard(false,nullptr);s.finishingText=false;render(x,y,w+1,h+1);selection();status();
++ s.textW=s.textH=0;s.textPending=false;if(hooks.keyboard)hooks.keyboard(false,nullptr);s.finishingText=false;render(x,y,w+1,h+1);selection();status();return true;
+ }
+ void startText(int x,int y,uint32_t ink){
+- finishText(true);cancelGesture();s.textDirty=s.doc.dirty;if(!ie_gesture_begin(&s.doc)){info(ie_error(&s.doc));status();return;}
+- s.textEditing=true;s.textX=x;s.textY=y;s.textW=s.textH=0;s.textColor=ink;s.text[0]=0;s.message[0]=0;
++ if(!finishText(true))return;cancelGesture();s.textDirty=s.doc.dirty;if(!ie_gesture_begin(&s.doc)){info(ie_error(&s.doc));status();return;}
++ s.textEditing=true;s.textPending=false;s.textX=x;s.textY=y;s.textW=s.textH=0;s.textColor=ink;s.text[0]=0;s.message[0]=0;
++ s.textLayout=lv_label_create(s.workspace);lv_obj_remove_style_all(s.textLayout);lv_obj_set_style_text_font(s.textLayout,s.font,0);lv_obj_set_style_base_dir(s.textLayout,LV_BASE_DIR_AUTO,0);lv_obj_set_size(s.textLayout,LV_SIZE_CONTENT,LV_SIZE_CONTENT);lv_label_set_text(s.textLayout,"");lv_obj_add_flag(s.textLayout,LV_OBJ_FLAG_HIDDEN);
+  s.textInput=lv_textarea_create(s.workspace);lv_obj_set_size(s.textInput,2,2);lv_obj_set_style_opa(s.textInput,LV_OPA_TRANSP,0);lv_obj_remove_flag(s.textInput,LV_OBJ_FLAG_CLICKABLE);lv_obj_remove_flag(s.textInput,LV_OBJ_FLAG_SCROLL_ON_FOCUS);lv_textarea_set_one_line(s.textInput,true);lv_obj_set_size(s.textInput,2,2);lv_textarea_set_max_length(s.textInput,128);lv_textarea_set_text(s.textInput,"");
+  Tab5Focus.describe(s.textInput,tr("Texte"));lv_obj_add_event_cb(s.textInput,[](lv_event_t*){textChanged();},LV_EVENT_VALUE_CHANGED,nullptr);lv_obj_add_event_cb(s.textInput,[](lv_event_t*){finishText(true);},LV_EVENT_READY,nullptr);lv_obj_add_event_cb(s.textInput,[](lv_event_t*){finishText(false);},LV_EVENT_CANCEL,nullptr);
+  textCursor();Tab5Focus.editObject(s.textInput);if(hooks.keyboard)hooks.keyboard(!writing::usbConnected(),s.textInput);
+- // Opening the touch keyboard may reduce the viewport. Keep the insertion
+- // point visible without changing zoom or fitting the entire image again.
+- const int cy=screenY(y+8*s.textScale);if(cy>=s.displayH){s.originY=boundOrigin(int64_t(s.originY)+int64_t(cy-s.displayH+8)*6553600/s.zoom);renderAll();}textCursor();status();
++ const int cy=screenY(y+Tab5ImageText::lineHeight(s.textLayout,s.textScale));if(cy>=s.displayH){s.originY=boundOrigin(int64_t(s.originY)+int64_t(cy-s.displayH+8)*6553600/s.zoom);renderAll();}textCursor();status();
+ }
+ void textCaretAt(int x,int y){
+- if(!s.textInput)return;const int targetRow=std::max(0,(y-s.textY)/(8*s.textScale)),targetColumn=std::max(0,(x-s.textX+3*s.textScale)/(6*s.textScale));int row=0,column=0;uint32_t index=0;
+- for(const unsigned char* p=reinterpret_cast<const unsigned char*>(s.text);*p;){if(row==targetRow&&column>=targetColumn)break;unsigned c=*p++;if(c>=0xc0)while((*p&0xc0)==0x80)++p;if(c=='\n'){if(row==targetRow)break;++row;column=0;}else ++column;++index;}
++ if(!s.textInput||!s.textLayout)return;lv_point_t pos{(x-s.textX)*100/s.textScale,(y-s.textY)*100/s.textScale};const uint32_t index=lv_label_get_letter_on(s.textLayout,&pos,true);
+  lv_textarea_set_cursor_pos(s.textInput,index);auto* label=lv_textarea_get_label(s.textInput);lv_label_set_text_selection_start(label,LV_DRAW_LABEL_NO_TXT_SEL);lv_label_set_text_selection_end(label,LV_DRAW_LABEL_NO_TXT_SEL);Tab5Focus.editObject(s.textInput);textCursor();
+ }
+ void finishJob(bool cancel){
+@@ -271,8 +274,8 @@
+  lv_area_t a;lv_obj_get_coords(s.workspace,&a);if(code!=LV_EVENT_PRESSED&&s.panelVisible&&inObject(s.panel,px+a.x1,py+a.y1)){rawx=s.lx;rawy=s.ly;}
+  const int x=std::clamp(rawx,0,s.doc.current.width-1),y=std::clamp(rawy,0,s.doc.current.height-1);
+  if(code==LV_EVENT_PRESSED){
+-  if(s.tool==Text&&s.textEditing&&x>=s.textX&&y>=s.textY&&x<=s.textX+std::max(s.textW,6*s.textScale)&&y<s.textY+std::max(s.textH,8*s.textScale)){textCaretAt(x,y);return;}
+-  finishText(true);cancelGesture();s.gestureButton=owner;s.gestureColor=secondary?secondPaint():paint();s.sx=s.lx=x;s.sy=s.ly=y;s.message[0]=0;
++  if(s.tool==Text&&s.textEditing&&x>=s.textX&&y>=s.textY&&x<=s.textX+std::max(s.textW,1)&&y<s.textY+std::max(s.textH,Tab5ImageText::lineHeight(s.textLayout,s.textScale))){textCaretAt(x,y);return;}
++  if(!finishText(true))return;cancelGesture();Tab5Focus.clear();s.gestureButton=owner;s.gestureColor=secondary?secondPaint():paint();s.sx=s.lx=x;s.sy=s.ly=y;s.message[0]=0;
+   if(s.tool==Pick){auto c=ie_composite(&s.doc,x,y);if(secondary){s.backgroundColor=((c&255)<<16)|(c&0xff00)|((c>>16)&255);s.backRed=s.backgroundColor>>16;s.backGreen=(s.backgroundColor>>8)&255;s.backBlue=s.backgroundColor&255;}else{s.red=c&255;s.green=(c>>8)&255;s.blue=(c>>16)&255;}s.gestureButton=0;panel();status();return;}
+   if(s.tool==Text){const auto ink=s.gestureColor;s.gestureButton=0;startText(x,y,ink);return;}
+   if(s.tool==Fill){s.gestureButton=0;startFill(x,y,s.gestureColor);return;}
+@@ -328,7 +331,7 @@
+  lv_obj_add_event_cb(o,[](lv_event_t* e){if(s.dialog==NewSize&&lv_event_get_target_obj(e)==s.fields[0]){Tab5Focus.editObject(s.fields[1]);if(hooks.keyboard)hooks.keyboard(!writing::usbConnected(),s.fields[1]);}else dialogSubmit();},LV_EVENT_READY,nullptr);return o;
+ }
+ void dialog(Dialog kind,Action pending,const char* title,const char* initial=nullptr){
+- finishText(true);closeDialog();cancelGesture();s.dialog=kind;s.pending=pending;Tab5Focus.remember(s.root);
++ if(!finishText(true))return;closeDialog();cancelGesture();s.dialog=kind;s.pending=pending;Tab5Focus.remember(s.root);
+  s.modal=lv_obj_create(lv_screen_active());
+  lv_obj_add_event_cb(s.modal,[](lv_event_t* e){if(lv_event_get_target_obj(e)!=s.modal)return;s.modal=nullptr;s.dialogStatus=s.dialogSubmit=nullptr;for(auto& field:s.fields)field=nullptr;s.dialog=NoDialog;if(hooks.keyboard)hooks.keyboard(false,nullptr);},LV_EVENT_DELETE,nullptr);
+  lv_obj_set_pos(s.modal,0,0);lv_obj_set_size(s.modal,lv_pct(100),lv_pct(100));lv_obj_set_style_pad_all(s.modal,0,0);lv_obj_set_style_bg_color(s.modal,lv_color_black(),0);lv_obj_set_style_bg_opa(s.modal,LV_OPA_50,0);lv_obj_set_style_border_width(s.modal,0,0);lv_obj_remove_flag(s.modal,LV_OBJ_FLAG_SCROLLABLE);if(s.font)lv_obj_set_style_text_font(s.modal,s.font,0);
+@@ -376,7 +379,7 @@
+  if(kind==NewSize){int w=atoi(lv_textarea_get_text(s.fields[0])),h=atoi(lv_textarea_get_text(s.fields[1]));if(w<1||h<1||w>IE_MAX_DIMENSION||h>IE_MAX_DIMENSION){lv_label_set_text(s.dialogStatus,tr("Dimensions : 1 à 8192 pixels"));return;}closeDialog();s.working=true;int ok=pending==New?ie_new(&s.doc,w,h,0xffffffffu):ie_resize(&s.doc,w,h);s.working=false;if(ok&&pending==New){s.path[0]=0;s.pathProject=false;s.fitPending=true;}result(ok);panel();}
+ }
+ void request(Action a){
+- if(a==None){closeDialog();return;}if(s.working)return;finishText(true);if(a==Undo&&s.gesture){cancelGesture();return;}cancelGesture();
++ if(a==None){closeDialog();return;}if(s.working)return;if(!finishText(true))return;if(a==Undo&&s.gesture){cancelGesture();return;}cancelGesture();
+  if((a==New||a==Quit)&&s.doc.dirty){s.pendingPath[0]=0;dialog(ConfirmDiscard,a,"Image modifiée");return;}action(a);
+ }
+ void action(Action a){
+@@ -395,6 +398,10 @@
+  case Undo:ok=ie_undo(&s.doc);break;case Redo:ok=ie_redo(&s.doc);break;
+  case SelectAll:ie_select(&s.doc,0,0,s.doc.current.width-1,s.doc.current.height-1);break;
+  case InvertSelection:case SoftenSelection:s.working=false;startSelection(a==InvertSelection?IE_SELECT_INVERT:IE_SELECT_EXISTING);return;
++ case CopySelection:s.working=false;if(ie_selection_copy(&s.doc))info("Sélection copiée");else info(ie_error(&s.doc));return;
++ case CutSelection:ok=ie_selection_cut(&s.doc);break;
++ case PasteSelection:{IERect clip{};if(!ie_clipboard_bounds(&s.doc,&clip)){s.working=false;info("Presse-papiers image vide");return;}const int cx=ie_view_sample(s.displayW/2,s.originX,s.zoom),cy=ie_view_sample(s.displayH/2,s.originY,s.zoom);ok=ie_selection_paste(&s.doc,std::clamp(cx-clip.w/2,0,std::max(0,s.doc.current.width-clip.w)),std::clamp(cy-clip.h/2,0,std::max(0,s.doc.current.height-clip.h)));if(ok){s.tool=Move;s.tabIndex=0;Tab5Focus.clear();}break;}
++ case DeleteSelection:ok=ie_selection_delete(&s.doc);break;
+  case Clear:ok=ie_clear(&s.doc);break;case Deselect:ie_deselect(&s.doc);break;
+  case Crop:{auto r=s.doc.current.selection;if(r.enabled)ok=ie_crop(&s.doc,r.x,r.y,r.w,r.h);else {s.working=false;info("Sélectionner la zone à recadrer");status();return;}break;}
+  case ApplyAdjust:ok=ie_adjust(&s.doc,s.brightness,s.contrast,s.saturation,s.redGain,s.greenGain,s.blueGain,s.allLayers);break;
+@@ -410,27 +417,27 @@
+ }
+ enum Slider { Size,Opacity,Hardness,Diffusion,Red,Green,Blue,Bright,Contrast,Saturation,GainR,GainG,GainB,ScaleX,ScaleY,Shear,Thickness,TextScale,LayerOpacity,Strength,Tolerance,Feather,EdgeThreshold,Density,PatternScale };
+ int& sliderValue(Slider id){switch(id){case Size:return s.brush.size;case Opacity:return s.brush.opacity;case Hardness:return s.brush.hardness;case Diffusion:return s.brush.diffusion;case Red:return s.editingBackground?s.backRed:s.red;case Green:return s.editingBackground?s.backGreen:s.green;case Blue:return s.editingBackground?s.backBlue:s.blue;case Bright:return s.brightness;case Contrast:return s.contrast;case Saturation:return s.saturation;case GainR:return s.redGain;case GainG:return s.greenGain;case GainB:return s.blueGain;case ScaleX:return s.scaleX;case ScaleY:return s.scaleY;case Shear:return s.shear;case Thickness:return s.thickness;case TextScale:return s.textScale;case LayerOpacity:return s.layerOpacity;case Strength:return s.warpStrength;case Tolerance:return s.tolerance;case Feather:return s.feather;case EdgeThreshold:return s.edgeThreshold;case Density:return s.fillDensity;case PatternScale:return s.fillScale;}return s.brush.size;}
+-const char* sliderCaption(Slider id){switch(id){case Size:return "Taille";case Opacity:return "Opacité";case Hardness:return "Dureté";case Diffusion:return "Diffusion";case Red:case GainR:return "Rouge";case Green:case GainG:return "Vert";case Blue:case GainB:return "Bleu";case Bright:return "Luminosité";case Contrast:return "Contraste";case Saturation:return "Saturation";case ScaleX:return "Échelle horizontale";case ScaleY:return "Échelle verticale";case Shear:return "Inclinaison";case Thickness:return "Épaisseur du contour";case TextScale:return "Taille du texte";case LayerOpacity:return "Opacité du calque";case Strength:return "Force";case Tolerance:return "Tolérance";case Feather:return "Progressivité du bord";case EdgeThreshold:return "Seuil du contour";case Density:return "Densité";case PatternScale:return "Taille du motif";}return "";}
++const char* sliderCaption(Slider id){switch(id){case Size:return "Taille";case Opacity:return "Opacité";case Hardness:return "Dureté";case Diffusion:return "Diffusion";case Red:case GainR:return "Rouge";case Green:case GainG:return "Vert";case Blue:case GainB:return "Bleu";case Bright:return "Luminosité";case Contrast:return "Contraste";case Saturation:return "Saturation";case ScaleX:return "Échelle horizontale";case ScaleY:return "Échelle verticale";case Shear:return "Inclinaison";case Thickness:return "Épaisseur du contour";case TextScale:return "Taille du texte · %";case LayerOpacity:return "Opacité du calque";case Strength:return "Force";case Tolerance:return "Tolérance";case Feather:return "Progressivité du bord";case EdgeThreshold:return "Seuil du contour";case Density:return "Densité";case PatternScale:return s.fillKind==IE_FILL_RELIEF?"Largeur du relief":"Taille du motif";}return "";}
+ void sliderLabel(lv_obj_t* object,Slider id){char text[24];snprintf(text,sizeof(text),"%d",sliderValue(id));if(object)lv_label_set_text(object,text);}
+ void slider(lv_obj_t* parent,Slider id,int y,int low,int high){
+  const int w=s.panelWidth-32;const char* shortCaption=id==Hardness?"Dureté":id==Thickness?"Contour":id==LayerOpacity?"Opacité":id==Feather?"Progressivité":sliderCaption(id);auto* caption=label(parent,shortCaption,0,y,w-52);lv_obj_set_height(caption,28);lv_label_set_long_mode(caption,LV_LABEL_LONG_DOT);
+  auto* value=label(parent,"",w-48,y,48);lv_obj_set_height(value,28);lv_obj_set_style_text_align(value,LV_TEXT_ALIGN_RIGHT,0);s.sliderLabels[id]=value;sliderLabel(value,id);
+  auto* o=lv_slider_create(parent);lv_obj_set_pos(o,10,y+34);lv_obj_set_size(o,w-20,15);lv_slider_set_range(o,low,high);lv_slider_set_value(o,sliderValue(id),LV_ANIM_OFF);Tab5UiStyle::control(o);Tab5Focus.describe(o,tr(sliderCaption(id)));
+- lv_obj_add_event_cb(o,[](lv_event_t* e){auto* slider=lv_event_get_target_obj(e);auto id=static_cast<Slider>(reinterpret_cast<uintptr_t>(lv_event_get_user_data(e)));const int value=lv_slider_get_value(slider);finishText(true);cancelGesture();sliderValue(id)=value;if(s.editingBackground&&(id==Red||id==Green||id==Blue))s.backgroundColor=(s.backRed<<16)|(s.backGreen<<8)|s.backBlue;sliderLabel(s.sliderLabels[id],id);swatches();},LV_EVENT_VALUE_CHANGED,reinterpret_cast<void*>(uintptr_t(id)));
++ lv_obj_add_event_cb(o,[](lv_event_t* e){auto* slider=lv_event_get_target_obj(e);auto id=static_cast<Slider>(reinterpret_cast<uintptr_t>(lv_event_get_user_data(e)));const int value=lv_slider_get_value(slider);if(!finishText(true))return;cancelGesture();sliderValue(id)=value;if(s.editingBackground&&(id==Red||id==Green||id==Blue))s.backgroundColor=(s.backRed<<16)|(s.backGreen<<8)|s.backBlue;sliderLabel(s.sliderLabels[id],id);swatches();},LV_EVENT_VALUE_CHANGED,reinterpret_cast<void*>(uintptr_t(id)));
+ }
+ int checkbox(lv_obj_t* parent,const char* text,int y,int* value){
+  auto* o=lv_checkbox_create(parent);lv_obj_set_pos(o,0,y);lv_obj_set_width(o,s.panelWidth-32);lv_checkbox_set_text(o,"");if(*value)lv_obj_add_state(o,LV_STATE_CHECKED);Tab5UiStyle::control(o);Tab5Focus.describe(o,tr(text));
+  auto* caption=label(o,text,40,0,s.panelWidth-72);lv_obj_update_layout(caption);const int height=std::max(36,int(lv_obj_get_height(caption)));lv_obj_set_height(o,height);
+- lv_obj_add_event_cb(o,[](lv_event_t* e){auto* value=static_cast<int*>(lv_event_get_user_data(e));const int checked=lv_obj_has_state(lv_event_get_target_obj(e),LV_STATE_CHECKED)?1:0;finishText(true);cancelGesture();*value=checked;if(value==&s.edgeStop)panel();},LV_EVENT_VALUE_CHANGED,value);return height+16;
++ lv_obj_add_event_cb(o,[](lv_event_t* e){auto* value=static_cast<int*>(lv_event_get_user_data(e));const int checked=lv_obj_has_state(lv_event_get_target_obj(e),LV_STATE_CHECKED)?1:0;if(!finishText(true))return;cancelGesture();*value=checked;if(value==&s.edgeStop)panel();},LV_EVENT_VALUE_CHANGED,value);return height+16;
+ }
+ int choice(lv_obj_t* parent,const char* title,int y,int* value,const char* const* names,int count){
+- const int w=s.panelWidth-32;auto* caption=label(parent,title,0,y,w);lv_obj_update_layout(caption);const int offset=int(lv_obj_get_height(caption))+8;auto* o=lv_dropdown_create(parent);lv_obj_set_pos(o,0,y+offset);lv_obj_set_size(o,w,42);char options[700]{};for(int i=0;i<count;++i){if(i)strncat(options,"\n",sizeof(options)-strlen(options)-1);strncat(options,tr(names[i]),sizeof(options)-strlen(options)-1);}lv_dropdown_set_options(o,options);lv_dropdown_set_selected(o,*value);Tab5UiStyle::control(o);Tab5Focus.describe(o,tr(title));lv_obj_add_event_cb(o,[](lv_event_t* e){auto* value=static_cast<int*>(lv_event_get_user_data(e));const int selected=lv_dropdown_get_selected(lv_event_get_target_obj(e));finishText(true);cancelGesture();*value=selected;if(value==&s.selectMethod||value==&s.fillKind||value==&s.fillRegion)panel();},LV_EVENT_VALUE_CHANGED,value);return offset+58;
++ const int w=s.panelWidth-32;auto* caption=label(parent,title,0,y,w);lv_obj_update_layout(caption);const int offset=int(lv_obj_get_height(caption))+8;auto* o=lv_dropdown_create(parent);lv_obj_set_pos(o,0,y+offset);lv_obj_set_size(o,w,42);char options[700]{};for(int i=0;i<count;++i){if(i)strncat(options,"\n",sizeof(options)-strlen(options)-1);strncat(options,tr(names[i]),sizeof(options)-strlen(options)-1);}lv_dropdown_set_options(o,options);lv_dropdown_set_selected(o,*value);Tab5UiStyle::control(o);Tab5Focus.describe(o,tr(title));lv_obj_add_event_cb(o,[](lv_event_t* e){auto* value=static_cast<int*>(lv_event_get_user_data(e));const int selected=lv_dropdown_get_selected(lv_event_get_target_obj(e));if(!finishText(true))return;cancelGesture();*value=selected;if(value==&s.selectMethod||value==&s.fillKind||value==&s.fillRegion)panel();},LV_EVENT_VALUE_CHANGED,value);return offset+58;
+ }
+ int wrapButton(lv_obj_t* o){auto* l=lv_obj_get_child(o,0);lv_label_set_long_mode(l,LV_LABEL_LONG_WRAP);lv_obj_set_height(l,LV_SIZE_CONTENT);lv_obj_update_layout(l);const int height=std::max(64,int(lv_obj_get_height(l))+12);lv_obj_set_height(o,height);lv_obj_center(l);return height+8;}
+ void panel(){
+  if(!s.panel||!s.initialized)return;if(Tab5Focus.contains(s.panel,Tab5Focus.focused()))Tab5Focus.clear();lv_obj_clean(s.panel);s.body=s.tab=s.layerList=nullptr;for(auto& l:s.sliderLabels)l=nullptr;
+  if(s.tabIndex==1||s.tabIndex==7)s.tabIndex=0;
+- const char* title=s.tabIndex==2?(s.editingBackground?"Couleur d’arrière-plan":"Couleur de premier plan"):s.tabIndex==3?"Calques":s.tabIndex==4?"Réglages de l’image":s.tabIndex==5?"Transformation":s.tabIndex==6?"Format et résolution":toolNames[s.tool];
++ const char* title=s.tabIndex==2?(s.editingBackground?"Couleur d’arrière-plan":"Couleur de premier plan"):s.tabIndex==3?"Calques":s.tabIndex==4?"Couleurs et luminosité":s.tabIndex==5?"Transformation":s.tabIndex==6?"Format et résolution":toolNames[s.tool];
+  auto* hide=command(s.panel,"",s.panelWidth-42,4,36,ToggleOptions);auto* closeLabel=lv_obj_get_child(hide,0);lv_obj_set_style_text_font(closeLabel,&lv_font_montserrat_24,0);lv_label_set_text(closeLabel,LV_SYMBOL_CLOSE);Tab5Focus.describe(hide,tr("Masquer les options"));
+  auto* heading=label(s.panel,title,12,8,s.panelWidth-64);lv_label_set_long_mode(heading,LV_LABEL_LONG_WRAP);lv_obj_update_layout(heading);int head=std::max(48,int(lv_obj_get_height(heading))+18);
+  if(s.tabIndex){wrapButton(command(s.panel,"Options de l’outil",12,head,s.panelWidth-24,ToolOptions));head+=72;}
+@@ -447,9 +454,9 @@
+    y+=wrapButton(command(body,"Tout sélectionner",0,y,w,SelectAll));y+=wrapButton(command(body,"Inverser la sélection",0,y,w,InvertSelection));y+=wrapButton(command(body,"Adoucir la sélection actuelle",0,y,w,SoftenSelection));wrapButton(command(body,"Tout désélectionner",0,y,w,Deselect));
+   }
+   else if(s.tool==Fill){
+-   const char* regions[]={"Zone contiguë","Couleurs similaires","Toute la sélection"};const char* kinds[]={"Couleur unie","Dégradé linéaire","Dégradé radial","Damier","Hachures","Points"};const char* directions[]={"Horizontal","Vertical","Diagonale descendante","Diagonale montante"};int y=0;
+-   y+=choice(body,"Zone à remplir",y,&s.fillRegion,regions,3);y+=choice(body,"Remplissage",y,&s.fillKind,kinds,6);
+-   if(s.fillKind==IE_FILL_LINEAR){y+=choice(body,"Direction",y,&s.fillDirection,directions,4);}if(s.fillKind>=IE_FILL_CHECKER){slider(body,PatternScale,y,2,64);y+=76;}
++   const char* regions[]={"Zone contiguë","Couleurs similaires","Toute la sélection"};const char* kinds[]={"Couleur unie","Dégradé linéaire","Dégradé radial","Damier","Hachures","Points","Relief"};const char* directions[]={"Horizontal","Vertical","Diagonale descendante","Diagonale montante"};int y=0;
++   y+=choice(body,"Zone à remplir",y,&s.fillRegion,regions,3);y+=choice(body,"Remplissage",y,&s.fillKind,kinds,7);
++   if(s.fillKind==IE_FILL_LINEAR){y+=choice(body,"Direction",y,&s.fillDirection,directions,4);}if(s.fillKind==IE_FILL_RELIEF){const char* lights[]={"Haut gauche","Haut droite","Bas droite","Bas gauche"};y+=choice(body,"Éclairage",y,&s.fillDirection,lights,4);}if(s.fillKind>=IE_FILL_CHECKER){slider(body,PatternScale,y,2,64);y+=76;}
+    slider(body,Opacity,y,0,100);y+=76;slider(body,Density,y,0,100);y+=76;slider(body,Feather,y,-32,32);y+=66;
+    {auto* hint=label(body,"− : intérieur · + : autour du bord",0,y,w);lv_obj_update_layout(hint);y+=int(lv_obj_get_height(hint))+16;}
+    if(s.fillRegion!=IE_FILL_SELECTION){slider(body,Tolerance,y,0,255);y+=76;y+=checkbox(body,"Échantillonner les calques visibles",y,&s.sampleMerged);if(s.fillRegion==IE_FILL_CONTIGUOUS){y+=checkbox(body,"Arrêter aux contours",y,&s.edgeStop);if(s.edgeStop){slider(body,EdgeThreshold,y,1,255);y+=76;}}}
+@@ -458,18 +465,18 @@
+   else if(s.tool==Warp){const char* modes[]={"Pousser","Gonfler","Pincer"};choice(body,"Mode",0,&s.warpMode,modes,3);slider(body,Size,90,1,256);slider(body,Strength,156,0,100);label(body,"La déformation locale agit sur le calque actif et respecte la sélection.",0,232,w);}
+   else if(s.tool==Line||s.tool==Rectangle||s.tool==Ellipse){slider(body,Opacity,0,0,100);slider(body,Thickness,66,1,64);if(s.tool!=Line){checkbox(body,"Forme pleine",140,&s.fill);checkbox(body,"Contour",186,&s.outline);}if(s.tool==Ellipse){checkbox(body,"Cercle",232,&s.ellipseCircle);checkbox(body,"Depuis le centre",278,&s.ellipseCenter);label(body,"Tracer depuis deux coins opposés, ou depuis le centre.",0,334,w);}}
+   else if(s.tool==Hand){auto* plus=button(body,"+",0,0,half,[](lv_event_t*){request(ZoomIn);});auto* minus=button(body,"−",half+8,0,half,[](lv_event_t*){request(ZoomOut);});Tab5Focus.describe(plus,tr("Zoom avant"));Tab5Focus.describe(minus,tr("Zoom arrière"));wrapButton(command(body,"Ajuster à la fenêtre",0,52,w,Fit));wrapButton(command(body,"Taille réelle · 100 %",0,124,w,Actual));label(body,"Déplacer la vue sans modifier l’image.",0,202,w);}
+-  else if(s.tool==Text){slider(body,TextScale,0,1,12);slider(body,Opacity,66,0,100);label(body,"Cliquer dans l’image puis écrire. Entrée valide ; Échap annule.",0,144,w);}
++  else if(s.tool==Text){slider(body,TextScale,0,25,400);slider(body,Opacity,66,0,100);label(body,"Police de l’OS · Entrée valide · Maj+Entrée : nouvelle ligne · Échap annule",0,144,w);}
+   else if(s.tool==Pick){label(body,"Toucher une couleur dans l’image",0,0,w);command(body,"Couleur",0,84,w,ShowColor);}
+-  else {wrapButton(command(body,"Tout désélectionner",0,0,w,Deselect));wrapButton(command(body,"Effacer la sélection",0,74,w,Clear));wrapButton(command(body,"Recadrer la sélection",0,148,w,Crop));label(body,"Glisser pour dessiner. Échap annule le geste. Ctrl+Z / Ctrl+Y : historique.",0,226,w);}
++  else {int y=0;for(const auto& item: {std::pair<const char*,Action>{"Copier la sélection",CopySelection},{"Couper la sélection",CutSelection},{"Coller la sélection",PasteSelection},{"Supprimer la sélection",DeleteSelection},{"Tout désélectionner",Deselect}})y+=wrapButton(command(body,item.first,0,y,w,item.second));label(body,"Glisser la sélection · Flèches : 1 px · Maj+flèches : 10 px",0,y,w);}
+  }else if(s.tabIndex==2){
+   static const uint32_t colors[]={0x181818,0xffffff,0xd32f2f,0xf57c00,0xfbc02d,0x388e3c,0x0097a7,0x1976d2,0x512da8,0xc2185b,0x795548,0x78909c};
+-  for(int i=0;i<12;++i){auto* o=lv_button_create(body);lv_obj_set_pos(o,i%6*(w/6),i/6*42);lv_obj_set_size(o,w/6-6,34);lv_obj_set_style_border_width(o,1,0);lv_obj_set_style_border_color(o,color(3),0);lv_obj_set_style_shadow_width(o,0,0);Tab5UiStyle::control(o);lv_obj_set_style_bg_color(o,lv_color_hex(colors[i]),0);lv_obj_set_style_bg_color(o,lv_color_hex(colors[i]),LV_STATE_PRESSED);char desc[32];snprintf(desc,sizeof(desc),"#%06X",unsigned(colors[i]));Tab5Focus.describe(o,desc);lv_obj_add_event_cb(o,[](lv_event_t* e){uint32_t c=static_cast<uint32_t>(reinterpret_cast<uintptr_t>(lv_event_get_user_data(e)));finishText(true);cancelGesture();if(s.editingBackground){s.backgroundColor=c;s.backRed=c>>16;s.backGreen=(c>>8)&255;s.backBlue=c&255;}else{s.red=c>>16;s.green=(c>>8)&255;s.blue=c&255;}panel();status();},LV_EVENT_CLICKED,reinterpret_cast<void*>(uintptr_t(colors[i])));}
++  for(int i=0;i<12;++i){auto* o=lv_button_create(body);lv_obj_set_pos(o,i%6*(w/6),i/6*42);lv_obj_set_size(o,w/6-6,34);lv_obj_set_style_border_width(o,1,0);lv_obj_set_style_border_color(o,color(3),0);lv_obj_set_style_shadow_width(o,0,0);Tab5UiStyle::control(o);lv_obj_set_style_bg_color(o,lv_color_hex(colors[i]),0);lv_obj_set_style_bg_color(o,lv_color_hex(colors[i]),LV_STATE_PRESSED);char desc[32];snprintf(desc,sizeof(desc),"#%06X",unsigned(colors[i]));Tab5Focus.describe(o,desc);lv_obj_add_event_cb(o,[](lv_event_t* e){uint32_t c=static_cast<uint32_t>(reinterpret_cast<uintptr_t>(lv_event_get_user_data(e)));if(!finishText(true))return;cancelGesture();if(s.editingBackground){s.backgroundColor=c;s.backRed=c>>16;s.backGreen=(c>>8)&255;s.backBlue=c&255;}else{s.red=c>>16;s.green=(c>>8)&255;s.blue=c&255;}panel();status();},LV_EVENT_CLICKED,reinterpret_cast<void*>(uintptr_t(colors[i])));}
+   slider(body,Red,96,0,255);slider(body,Green,162,0,255);slider(body,Blue,228,0,255);command(body,"Pipette dans l’image",0,302,w,UsePick);wrapButton(command(body,"Permuter les couleurs",0,356,w,SwapColors));
+  }else if(s.tabIndex==3){
+-  s.layerList=lv_dropdown_create(body);lv_obj_set_pos(s.layerList,0,0);lv_obj_set_size(s.layerList,w,44);char layers[400]{};for(int i=0;i<s.doc.current.count;++i){const char* name=s.doc.current.layers[i].name;if(!strcmp(name,"Image BMP")||!strcmp(name,"Image JPEG")||!strcmp(name,"Image PNG")||!strcmp(name,"Image WebP"))name=tr(name);char line[100];snprintf(line,sizeof(line),"%s%d · %s",i?"\n":"",i+1,name);strncat(layers,line,sizeof(layers)-strlen(layers)-1);}lv_dropdown_set_options(s.layerList,layers);lv_dropdown_set_selected(s.layerList,s.doc.current.active);Tab5UiStyle::control(s.layerList);lv_obj_add_event_cb(s.layerList,[](lv_event_t* e){const int selected=lv_dropdown_get_selected(lv_event_get_target_obj(e));finishText(true);cancelGesture();s.doc.current.active=selected;panel();status();},LV_EVENT_VALUE_CHANGED,nullptr);
++  s.layerList=lv_dropdown_create(body);lv_obj_set_pos(s.layerList,0,0);lv_obj_set_size(s.layerList,w,44);char layers[400]{};for(int i=0;i<s.doc.current.count;++i){const char* name=s.doc.current.layers[i].name;if(!strcmp(name,"Image BMP")||!strcmp(name,"Image JPEG")||!strcmp(name,"Image PNG")||!strcmp(name,"Image WebP"))name=tr(name);char line[100];snprintf(line,sizeof(line),"%s%d · %s",i?"\n":"",i+1,name);strncat(layers,line,sizeof(layers)-strlen(layers)-1);}lv_dropdown_set_options(s.layerList,layers);lv_dropdown_set_selected(s.layerList,s.doc.current.active);Tab5UiStyle::control(s.layerList);lv_obj_add_event_cb(s.layerList,[](lv_event_t* e){const int selected=lv_dropdown_get_selected(lv_event_get_target_obj(e));if(!finishText(true))return;cancelGesture();s.doc.current.active=selected;panel();status();},LV_EVENT_VALUE_CHANGED,nullptr);
+   command(body,"Ajouter",0,54,half,LayerAdd);command(body,"Dupliquer",half+8,54,half,LayerDuplicate);command(body,"Monter",0,104,half,LayerUp);command(body,"Descendre",half+8,104,half,LayerDown);command(body,"Fusionner",0,154,half,LayerMerge);command(body,"Supprimer",half+8,154,half,LayerDelete);command(body,"Renommer",0,204,w,LayerRename);s.layerOpacity=s.doc.current.layers[s.doc.current.active].opacity;slider(body,LayerOpacity,263,0,255);
+-  button(body,"Appliquer l’opacité",0,329,w,[](lv_event_t*){finishText(true);cancelGesture();result(ie_layer_style(&s.doc,s.layerOpacity,s.doc.current.layers[s.doc.current.active].visible));});button(body,s.doc.current.layers[s.doc.current.active].visible?"Masquer ce calque":"Afficher ce calque",0,379,w,[](lv_event_t*){finishText(true);cancelGesture();auto l=s.doc.current.layers[s.doc.current.active];result(ie_layer_style(&s.doc,l.opacity,!l.visible));panel();});
+- }else if(s.tabIndex==4){slider(body,Bright,0,-100,100);slider(body,Contrast,66,-100,100);slider(body,Saturation,132,-100,100);slider(body,GainR,198,0,200);slider(body,GainG,264,0,200);slider(body,GainB,330,0,200);checkbox(body,"Tous les calques visibles",402,&s.allLayers);command(body,"Appliquer",0,449,w,ApplyAdjust);
++  button(body,"Appliquer l’opacité",0,329,w,[](lv_event_t*){if(!finishText(true))return;cancelGesture();result(ie_layer_style(&s.doc,s.layerOpacity,s.doc.current.layers[s.doc.current.active].visible));});button(body,s.doc.current.layers[s.doc.current.active].visible?"Masquer ce calque":"Afficher ce calque",0,379,w,[](lv_event_t*){if(!finishText(true))return;cancelGesture();auto l=s.doc.current.layers[s.doc.current.active];result(ie_layer_style(&s.doc,l.opacity,!l.visible));panel();});
++ }else if(s.tabIndex==4){auto* scope=label(body,s.doc.current.selection.enabled?"Zone : sélection actuelle":"Zone : calque entier",0,0,w);lv_obj_update_layout(scope);int y=lv_obj_get_height(scope)+18;slider(body,Bright,y,-100,100);slider(body,Contrast,y+66,-100,100);slider(body,Saturation,y+132,-100,100);slider(body,GainR,y+198,0,200);slider(body,GainG,y+264,0,200);slider(body,GainB,y+330,0,200);const int h=checkbox(body,"Tous les calques visibles",y+402,&s.allLayers);command(body,"Appliquer",0,y+402+h,w,ApplyAdjust);
+  }else if(s.tabIndex==5){slider(body,ScaleX,0,25,400);slider(body,ScaleY,66,25,400);slider(body,Shear,132,-200,200);const char* angles[]={"0°","90°","180°","270°"};choice(body,"Rotation",204,&s.turns,angles,4);command(body,"Appliquer",0,296,w,ApplyTransform);label(body,"La transformation agit sur la sélection du calque actif, ou sur l’image entière sans sélection.",0,354,w);
+  }else if(s.tabIndex==6){wrapButton(command(body,"Modifier la résolution",0,0,w,ApplySize));wrapButton(command(body,"Recadrer la sélection",0,74,w,Crop));command(body,"Exporter en BMP",0,148,w,Export);command(body,"Exporter en JPEG",0,202,w,ExportJpeg);command(body,"Enregistrer le projet",0,256,w,Save);label(body,"T5I conserve les calques. BMP et JPEG exportent l’image aplatie sur fond blanc.",0,316,w);}
+  toolState();appearance();
+@@ -494,9 +501,9 @@
+ struct MenuItem{const char* label;Action action;};
+ struct Menu{const char* title;const MenuItem* items;int count;};
+ const MenuItem fileMenu[]={{"Nouveau",New},{"Importer une image",Open},{"Enregistrer le projet",Save},{"Exporter en BMP",Export},{"Exporter en JPEG",ExportJpeg},{"Fermer",Quit}};
+-const MenuItem editMenu[]={{"Annuler · Ctrl+Z",Undo},{"Rétablir · Ctrl+Y",Redo},{"Tout sélectionner",SelectAll},{"Inverser la sélection",InvertSelection},{"Tout désélectionner",Deselect},{"Effacer la sélection",Clear}};
++const MenuItem editMenu[]={{"Annuler · Ctrl+Z",Undo},{"Rétablir · Ctrl+Y",Redo},{"Tout sélectionner",SelectAll},{"Inverser la sélection",InvertSelection},{"Tout désélectionner",Deselect},{"Copier la sélection · Ctrl+C",CopySelection},{"Couper la sélection · Ctrl+X",CutSelection},{"Coller la sélection · Ctrl+V",PasteSelection},{"Supprimer la sélection",DeleteSelection}};
+ const MenuItem viewMenu[]={{"Ajuster à la fenêtre",Fit},{"Taille réelle · 100 %",Actual},{"Zoom avant",ZoomIn},{"Zoom arrière",ZoomOut},{"Main",UseHand},{"Options de l’outil",ToolOptions}};
+-const MenuItem imageMenu[]={{"Couleur",ShowColor},{"Réglages de l’image",ShowAdjust},{"Transformation",ShowTransform},{"Format et résolution",ShowFormat},{"Recadrer la sélection",Crop}};
++const MenuItem imageMenu[]={{"Couleur",ShowColor},{"Couleurs et luminosité",ShowAdjust},{"Transformation",ShowTransform},{"Format et résolution",ShowFormat},{"Recadrer la sélection",Crop}};
+ const MenuItem layerMenu[]={{"Afficher les calques",ShowLayer},{"Ajouter",LayerAdd},{"Dupliquer",LayerDuplicate},{"Fusionner",LayerMerge},{"Supprimer",LayerDelete}};
+ const Menu menus[]={{"Fichier",fileMenu,6},{"Édition",editMenu,6},{"Affichage",viewMenu,6},{"Image",imageMenu,5},{"Calques",layerMenu,5}};
+ int textWidth(const char* value){lv_point_t size;lv_text_get_size(&size,tr(value),s.font?s.font:LV_FONT_DEFAULT,0,0,LV_COORD_MAX,LV_TEXT_FLAG_NONE);return size.x;}
+@@ -514,10 +521,10 @@
+  if(s.optionsButton){if(value)lv_obj_add_state(s.optionsButton,LV_STATE_CHECKED);else lv_obj_remove_state(s.optionsButton,LV_STATE_CHECKED);Tab5Focus.describe(s.optionsButton,tr(value?"Masquer les options":"Afficher les options"));}refreshHover();
+ }
+ void build(){
+- s.root=lv_obj_create(host);lv_obj_add_event_cb(s.root,[](lv_event_t* e){if(lv_event_get_target_obj(e)!=s.root||s.closing)return;s.textInput=nullptr;s.textEditing=false;s.root=nullptr;if(s.job){ie_job_destroy(s.job);s.job=nullptr;}if(s.jobOverlay){lv_obj_delete(s.jobOverlay);s.jobOverlay=nullptr;}if(s.lasso){release(nullptr,s.lasso);s.lasso=nullptr;}closeDialog();lv_image_cache_drop(&s.image);ie_destroy(&s.doc);release(nullptr,s.pixels);const int width=s.width,height=s.height;s=State{};s.width=width;s.height=height;},LV_EVENT_DELETE,nullptr);
++ s.root=lv_obj_create(host);lv_obj_add_event_cb(s.root,[](lv_event_t* e){if(lv_event_get_target_obj(e)!=s.root||s.closing)return;s.textInput=nullptr;s.textLayout=nullptr;s.textEditing=false;s.root=nullptr;if(s.job){ie_job_destroy(s.job);s.job=nullptr;}if(s.jobOverlay){lv_obj_delete(s.jobOverlay);s.jobOverlay=nullptr;}if(s.lasso){release(nullptr,s.lasso);s.lasso=nullptr;}closeDialog();lv_image_cache_drop(&s.image);ie_destroy(&s.doc);release(nullptr,s.pixels);const int width=s.width,height=s.height;s=State{};s.width=width;s.height=height;},LV_EVENT_DELETE,nullptr);
+  lv_obj_remove_flag(s.root,LV_OBJ_FLAG_SCROLLABLE);lv_obj_set_pos(s.root,0,0);stylePanel(s.root,0);s.font=hooks.font?hooks.font():lv_obj_get_style_text_font(host,LV_PART_MAIN);lv_obj_set_style_text_font(s.root,s.font,0);
+  s.toolbar=lv_obj_create(s.root);stylePanel(s.toolbar,0);lv_obj_remove_flag(s.toolbar,LV_OBJ_FLAG_SCROLLABLE);lv_obj_set_flex_flow(s.toolbar,LV_FLEX_FLOW_ROW_WRAP);lv_obj_set_style_pad_all(s.toolbar,4,0);lv_obj_set_style_pad_column(s.toolbar,6,0);lv_obj_set_style_pad_row(s.toolbar,4,0);lv_obj_set_height(s.toolbar,LV_SIZE_CONTENT);toolbar();
+- s.rail=lv_obj_create(s.root);stylePanel(s.rail,1);lv_obj_set_scroll_dir(s.rail,LV_DIR_VER);for(int i=0;i<ToolCount;++i){auto* o=lv_button_create(s.rail);s.toolButtons[i]=o;lv_obj_set_pos(o,3,i*44);lv_obj_set_size(o,46,40);Tab5UiStyle::button(o);Tab5Focus.describe(o,tr(toolNames[i]));lv_obj_add_event_cb(o,toolIcon,LV_EVENT_DRAW_MAIN,reinterpret_cast<void*>(uintptr_t(i)));lv_obj_add_event_cb(o,[](lv_event_t* e){finishText(true);cancelGesture();s.tool=static_cast<Tool>(reinterpret_cast<uintptr_t>(lv_event_get_user_data(e)));s.tabIndex=0;panel();status();},LV_EVENT_CLICKED,reinterpret_cast<void*>(uintptr_t(i)));}
++ s.rail=lv_obj_create(s.root);stylePanel(s.rail,1);lv_obj_set_scroll_dir(s.rail,LV_DIR_VER);for(int i=0;i<ToolCount;++i){auto* o=lv_button_create(s.rail);s.toolButtons[i]=o;lv_obj_set_pos(o,3,i*44);lv_obj_set_size(o,46,40);Tab5UiStyle::button(o);Tab5Focus.describe(o,tr(toolNames[i]));lv_obj_add_event_cb(o,toolIcon,LV_EVENT_DRAW_MAIN,reinterpret_cast<void*>(uintptr_t(i)));lv_obj_add_event_cb(o,[](lv_event_t* e){if(!finishText(true))return;cancelGesture();s.tool=static_cast<Tool>(reinterpret_cast<uintptr_t>(lv_event_get_user_data(e)));s.tabIndex=0;panel();status();},LV_EVENT_CLICKED,reinterpret_cast<void*>(uintptr_t(i)));}
+  s.workspace=lv_obj_create(s.root);stylePanel(s.workspace,2);lv_obj_remove_flag(s.workspace,LV_OBJ_FLAG_SCROLLABLE);lv_obj_add_flag(s.workspace,LV_OBJ_FLAG_CLICKABLE);lv_obj_add_flag(s.workspace,LV_OBJ_FLAG_PRESS_LOCK);lv_obj_add_event_cb(s.workspace,pointer,LV_EVENT_PRESSED,nullptr);lv_obj_add_event_cb(s.workspace,pointer,LV_EVENT_PRESSING,nullptr);lv_obj_add_event_cb(s.workspace,pointer,LV_EVENT_RELEASED,nullptr);lv_obj_add_event_cb(s.workspace,pointer,LV_EVENT_PRESS_LOST,nullptr);
+  s.canvas=lv_image_create(s.workspace);lv_obj_remove_flag(s.canvas,LV_OBJ_FLAG_CLICKABLE);lv_image_set_antialias(s.canvas,false);
+  s.selection=lv_obj_create(s.workspace);lv_obj_remove_style_all(s.selection);lv_obj_remove_flag(s.selection,LV_OBJ_FLAG_CLICKABLE);lv_obj_remove_flag(s.selection,LV_OBJ_FLAG_SCROLLABLE);lv_obj_add_event_cb(s.selection,previewDraw,LV_EVENT_DRAW_MAIN,nullptr);
+@@ -533,7 +540,7 @@
+ 
+  }
+  show(true);
+- finishText(true);
++ if(!finishText(true))return false;
+  if(path&&*path){if(strlen(path)>=sizeof(s.pendingPath)){info("Chemin trop long");status();return false;}if(!strcmp(path,s.path))return true;if(s.doc.dirty){copy(s.pendingPath,sizeof(s.pendingPath),path);dialog(ConfirmDiscard,Open,"Image modifiée");return false;}return load(path);}
+  return true;
+ }
+@@ -553,13 +560,13 @@
+  }
+ }
+ bool close(bool discard){
+- if(s.working||s.closing)return false;if(!s.initialized)return true;finishText(!discard);
++ if(s.working||s.closing)return false;if(!s.initialized)return true;if(!finishText(!discard))return false;
+  if(!discard&&s.doc.dirty){show(true);dialog(ConfirmDiscard,Quit,"Image modifiée");return false;}
+  s.closing=true;closeDialog();cancelGesture();if(s.root&&Tab5Focus.contains(s.root,Tab5Focus.focused()))Tab5Focus.clear();
+  if(s.root)lv_obj_delete(s.root);s.root=nullptr;lv_image_cache_drop(&s.image);ie_destroy(&s.doc);release(nullptr,s.pixels);const int width=s.width,height=s.height;s=State{};s.width=width;s.height=height;
+  if(hooks.closed)hooks.closed();return true;
+ }
+-void service(){if(s.job){const int result=ie_job_step(s.job,4096);const unsigned percent=ie_job_progress(s.job);if(s.jobBar&&percent!=s.jobPercent){s.jobPercent=percent;lv_bar_set_value(s.jobBar,percent,LV_ANIM_OFF);char text[24];snprintf(text,sizeof(text),"%u %%",percent);lv_label_set_text(s.jobLabel,text);}if(result)finishJob(false);return;}if(!visible())return;if(s.textEditing&&s.textInput){auto* l=lv_textarea_get_label(s.textInput);if(s.textCaret!=lv_textarea_get_cursor_pos(s.textInput)||s.textSelectionStart!=lv_label_get_text_selection_start(l)||s.textSelectionEnd!=lv_label_get_text_selection_end(l))textCursor();}const auto* font=hooks.font?hooks.font():lv_obj_get_style_text_font(host,LV_PART_MAIN);if(s.palette!=stamp()||font!=s.font){const bool fontChanged=font!=s.font;finishText(true);cancelGesture();appearance();if(fontChanged){toolbar();layout();panel();}renderAll();}}
++void service(){if(s.job){const int result=ie_job_step(s.job,4096);const unsigned percent=ie_job_progress(s.job);if(s.jobBar&&percent!=s.jobPercent){s.jobPercent=percent;lv_bar_set_value(s.jobBar,percent,LV_ANIM_OFF);char text[24];snprintf(text,sizeof(text),"%u %%",percent);lv_label_set_text(s.jobLabel,text);}if(result)finishJob(false);return;}if(!visible())return;if(s.textEditing&&s.textInput){auto* l=lv_textarea_get_label(s.textInput);if(s.textCaret!=lv_textarea_get_cursor_pos(s.textInput)||s.textSelectionStart!=lv_label_get_text_selection_start(l)||s.textSelectionEnd!=lv_label_get_text_selection_end(l))textCursor();}const auto* font=hooks.font?hooks.font():lv_obj_get_style_text_font(host,LV_PART_MAIN);if(s.palette!=stamp()||font!=s.font){const bool fontChanged=font!=s.font;if(!finishText(true))return;cancelGesture();appearance();if(fontChanged){toolbar();layout();panel();}renderAll();}}
+ void resize(int width,int height){const bool changed=(width>0&&width!=s.width)||(height>0&&height!=s.height);if(width>0)s.width=width;if(height>0)s.height=height;if(s.root&&changed){cancelGesture();layout();panel();renderAll();}}
+ bool key(const writing::KeyEvent& event){
+  if(!visible())return false;using K=writing::Key;
+@@ -577,7 +584,7 @@
+  if(s.textEditing&&s.textInput){
+   if(event.key==K::Escape){finishText(false);return true;}
+   if(event.key==K::Enter){if(!event.shift){finishText(true);return true;}lv_textarea_set_one_line(s.textInput,false);Tab5TextInput::insert(s.textInput,"\n");lv_textarea_set_one_line(s.textInput,true);lv_obj_set_size(s.textInput,2,2);textCursor();return true;}
+-  if(event.key==K::Tab){finishText(true);return false;}
++  if(event.key==K::Tab){return !finishText(true);}
+   const bool used=Tab5TextInput::key(s.textInput,event);textCursor();return used;
+  }
+  if(event.key==K::Escape){
+@@ -587,9 +594,10 @@
+   if(Tab5Focus.contains(s.root,Tab5Focus.focused())&&Tab5Focus.key(event,s.root))return true;
+   request(Quit);return true;
+  }
+- if(event.key==K::Text&&(event.ctrl||event.meta)){char c=event.text[0]|32;if(c=='+'||c=='=')request(ZoomIn);else if(c=='-')request(ZoomOut);else if(c=='0')request(Fit);else if(c=='1')request(Actual);else if(c=='z')request(event.shift?Redo:Undo);else if(c=='y')request(Redo);else if(c=='s')request(Save);else if(c=='o')request(Open);else if(c=='n')request(New);else if(c=='a')request(SelectAll);else if(c=='i')request(InvertSelection);else return false;return true;}
+- if(event.key==K::Delete){request(Clear);return true;}
+- if(event.key==K::Text&&!event.ctrl&&!event.meta&&!event.alt){char c=event.text[0]|32;Tool tool=s.tool;if(c=='x'){request(SwapColors);return true;}if(c=='b')tool=Brush;else if(c=='e')tool=Eraser;else if(c=='s')tool=Select;else if(c=='v')tool=Move;else if(c=='t')tool=Text;else if(c=='i')tool=Pick;else if(c=='h'||c==' ')tool=Hand;else if(c=='l')tool=Line;else if(c=='r')tool=Rectangle;else if(c=='o')tool=Ellipse;else if(c=='w')tool=Warp;else if(c=='g')tool=Fill;else return false;finishText(true);cancelGesture();s.tool=tool;s.tabIndex=0;panel();return true;}
++ if(event.key==K::Text&&(event.ctrl||event.meta)){char c=event.text[0]|32;if(c=='+'||c=='=')request(ZoomIn);else if(c=='-')request(ZoomOut);else if(c=='0')request(Fit);else if(c=='1')request(Actual);else if(c=='z')request(event.shift?Redo:Undo);else if(c=='y')request(Redo);else if(c=='s')request(Save);else if(c=='o')request(Open);else if(c=='n')request(New);else if(c=='a')request(SelectAll);else if(c=='i')request(InvertSelection);else if(c=='c')request(CopySelection);else if(c=='x')request(CutSelection);else if(c=='v')request(PasteSelection);else return false;return true;}
++ if(event.key==K::Delete){request(DeleteSelection);return true;}
++ if(s.tool==Move&&s.doc.current.selection.enabled&&!event.ctrl&&!event.alt&&!event.meta&&(event.key==K::Left||event.key==K::Right||event.key==K::Up||event.key==K::Down)&&(!Tab5Focus.contains(s.root,Tab5Focus.focused())||Tab5Focus.focused()==s.canvas||Tab5Focus.focused()==s.workspace)){const int step=event.shift?10:1;result(ie_translate_selection(&s.doc,event.key==K::Left?-step:event.key==K::Right?step:0,event.key==K::Up?-step:event.key==K::Down?step:0));return true;}
++ if(event.key==K::Text&&!event.ctrl&&!event.meta&&!event.alt){char c=event.text[0]|32;Tool tool=s.tool;if(c=='x'){request(SwapColors);return true;}if(c=='b')tool=Brush;else if(c=='e')tool=Eraser;else if(c=='s')tool=Select;else if(c=='v')tool=Move;else if(c=='t')tool=Text;else if(c=='i')tool=Pick;else if(c=='h'||c==' ')tool=Hand;else if(c=='l')tool=Line;else if(c=='r')tool=Rectangle;else if(c=='o')tool=Ellipse;else if(c=='w')tool=Warp;else if(c=='g')tool=Fill;else return false;if(!finishText(true))return true;cancelGesture();s.tool=tool;s.tabIndex=0;panel();return true;}
+  return false;
+ }
+ void cancelPointer(){s.pointerKnown=false;cancelGesture();s.mouseButtons=0;if(s.hovering){s.hovering=false;status();}}
+--- 0.8.49/Tab5ImageText.cpp
++++ 0.8.50/Tab5ImageText.cpp
+@@ -0,0 +1,55 @@
++#include "Tab5ImageText.h"
++#include <algorithm>
++#include <cstring>
++#include <cstdint>
++
++namespace Tab5ImageText {
++namespace {
++int scaled(int n,int scale){return int((int64_t(n)*scale+99)/100);}
++}
++lv_point_t position(lv_obj_t* layout,uint32_t index,int scale){
++ lv_point_t p{};if(layout)lv_label_get_letter_pos(layout,index,&p);
++ p.x=scaled(p.x,scale);p.y=scaled(p.y,scale);return p;
++}
++int lineHeight(lv_obj_t* layout,int scale){return scaled(lv_font_get_line_height(lv_obj_get_style_text_font(layout,LV_PART_MAIN)),scale);}
++void release(Raster& r,IEDoc* doc){if(r.pixels)doc->release(doc->memory_context,r.pixels);if(r.row)doc->release(doc->memory_context,r.row);r=Raster{};}
++bool prepare(Raster& r,IEDoc* doc,lv_obj_t* layout,const char* text,int x,int y,int scale){
++ r=Raster{};if(!doc||!layout||!text||scale<25||scale>400)return false;
++ const auto* font=lv_obj_get_style_text_font(layout,LV_PART_MAIN);lv_point_t measured{};
++ lv_text_get_size(&measured,text,font,0,0,LV_COORD_MAX,LV_TEXT_FLAG_NONE);
++ // One transparent pixel around sampling limits avoids edge colour extension.
++ const int nativeW=std::max(1,int(measured.x)),nativeH=std::max(1,int(measured.y));
++ r.textW=scaled(nativeW,scale);r.textH=scaled(nativeH,scale);r.originX=x;r.originY=y;r.scale=scale;
++ r.x=std::max(0,x);r.y=std::max(0,y);
++ r.width=std::max(0,std::min(doc->current.width,x+r.textW)-r.x);r.height=std::max(0,std::min(doc->current.height,y+r.textH)-r.y);
++ if(!*text||!r.width||!r.height)return true;
++ r.sourceX=std::max(0,(r.x-x)*100/scale-1);r.sourceY=std::max(0,(r.y-y)*100/scale-1);
++ r.sourceW=std::min(nativeW,((r.x-x+r.width)*100+scale-1)/scale+1)-r.sourceX;
++ r.sourceH=std::min(nativeH,((r.y-y+r.height)*100+scale-1)/scale+1)-r.sourceY;
++ r.stride=lv_draw_buf_width_to_stride(r.sourceW,LV_COLOR_FORMAT_A8);
++ const size_t bytes=size_t(r.stride)*r.sourceH;
++ r.pixels=static_cast<uint8_t*>(doc->alloc(doc->memory_context,bytes));
++ r.row=static_cast<uint8_t*>(doc->alloc(doc->memory_context,r.width));
++ if(!r.pixels||!r.row){release(r,doc);return false;}memset(r.pixels,0,bytes);
++ auto* canvas=lv_canvas_create(lv_obj_get_parent(layout));if(!canvas){release(r,doc);return false;}
++ lv_obj_add_flag(canvas,LV_OBJ_FLAG_HIDDEN);lv_obj_remove_flag(canvas,LV_OBJ_FLAG_CLICKABLE);
++ lv_draw_buf_t buffer{};
++ if(lv_draw_buf_init(&buffer,r.sourceW,r.sourceH,LV_COLOR_FORMAT_A8,r.stride,r.pixels,bytes)!=LV_RESULT_OK){lv_obj_delete(canvas);release(r,doc);return false;}
++ lv_canvas_set_draw_buf(canvas,&buffer);lv_layer_t layer;lv_canvas_init_layer(canvas,&layer);
++ lv_draw_label_dsc_t d;lv_draw_label_dsc_init(&d);d.font=font;d.text=text;d.color=lv_color_white();d.opa=LV_OPA_COVER;d.bidi_dir=lv_obj_get_style_base_dir(layout,LV_PART_MAIN);d.align=LV_TEXT_ALIGN_LEFT;d.flag=LV_TEXT_FLAG_NONE;
++ lv_area_t area{-r.sourceX,-r.sourceY,nativeW-r.sourceX-1,nativeH-r.sourceY-1};lv_draw_label(&layer,&d,&area);lv_canvas_finish_layer(canvas,&layer);lv_obj_delete(canvas);return true;
++}
++void stamp(const Raster& r,IEDoc* doc,uint32_t color,int opacity){
++ if(!r.pixels||!r.row)return;
++ auto sample=[&](int x,int y)->uint32_t{return x<0||y<0||x>=r.sourceW||y>=r.sourceH?0:r.pixels[size_t(y)*r.stride+x];};
++ for(int y=0;y<r.height;++y){
++  const int64_t fy=int64_t(r.y+y-r.originY)*100*256/r.scale-int64_t(r.sourceY)*256;const int sy=int(fy/256),wy=int(fy%256);
++  for(int x=0;x<r.width;++x){const int64_t fx=int64_t(r.x+x-r.originX)*100*256/r.scale-int64_t(r.sourceX)*256;const int sx=int(fx/256),wx=int(fx%256);
++   const uint32_t top=sample(sx,sy)*(256-wx)+sample(sx+1,sy)*wx,bottom=sample(sx,sy+1)*(256-wx)+sample(sx+1,sy+1)*wx;
++   r.row[x]=uint8_t((top*(256-wy)+bottom*wy+32768)/65536);
++  }
++  ie_mask_stamp(doc,r.x,r.y+y,r.row,r.width,1,r.width,color,opacity);
++  if((y&31)==0&&doc->yield)doc->yield(doc->yield_context);
++ }
++}
++}
+--- 0.8.49/Tab5ImageText.h
++++ 0.8.50/Tab5ImageText.h
+@@ -0,0 +1,17 @@
++#pragma once
++#include <lvgl.h>
++#include "tools/native-apps/image-editor/image_core.h"
++
++namespace Tab5ImageText {
++// Temporary A8 source and one output row, charged to the editor's allocator.
++struct Raster {
++ uint8_t* pixels=nullptr; uint8_t* row=nullptr;
++ int x=0,y=0,width=0,height=0,stride=0,sourceX=0,sourceY=0,sourceW=0,sourceH=0;
++ int originX=0,originY=0,scale=100,textW=0,textH=0;
++};
++bool prepare(Raster& out,IEDoc* doc,lv_obj_t* layout,const char* text,int x,int y,int scale);
++void stamp(const Raster& image,IEDoc* doc,uint32_t color,int opacity);
++void release(Raster& image,IEDoc* doc);
++lv_point_t position(lv_obj_t* layout,uint32_t index,int scale);
++int lineHeight(lv_obj_t* layout,int scale);
++}
+--- 0.8.49/Tab5OS_Arduino_v0.8.49_Ecriture.ino
++++ 0.8.50/Tab5OS_Arduino_v0.8.50_Ecriture.ino
+@@ -175,7 +175,7 @@
+ // ESP-IDF task stack units are bytes. setup and LVGL share this task.
+ SET_LOOP_TASK_STACK_SIZE(24 * 1024);
+ static Tab5BootStatus bootStatus;
+-static constexpr char APP_VERSION[] = "0.8.49";
++static constexpr char APP_VERSION[] = "0.8.50";
+ static void warnSystemFile(const String& path);
+ const char* resetReasonName(esp_reset_reason_t reason);
+ static constexpr int SCREEN_W = 1280;
+@@ -2289,6 +2289,7 @@
+   else if(!strcmp(text,LV_SYMBOL_VOLUME_MAX))hint="Volume";
+   else if(!strcmp(text,LV_SYMBOL_WIFI))hint="Wi-Fi";
+   Tab5Focus.describe(btn,T(hint));
++  Tab5UiStyle::selection(btn);
+   return btn;
+ }
+ 
+@@ -3859,6 +3860,13 @@
+   lv_obj_align(cancel, LV_ALIGN_BOTTOM_LEFT, 18, -8);
+   lv_obj_add_event_cb(cancel, dialogCancelEvent, LV_EVENT_CLICKED, nullptr);
+ 
++  lv_obj_t* keys = makeIconButton(dialogBox, LV_SYMBOL_KEYBOARD, 64, 50);
++  lv_obj_align(keys, LV_ALIGN_BOTTOM_MID, 0, -8);
++  lv_obj_add_event_cb(keys, [](lv_event_t*) {
++    setKeyboardVisible(!keyboardVisible, dialogInput);
++    Tab5Focus.editObject(dialogInput);
++  }, LV_EVENT_CLICKED, nullptr);
++
+   lv_obj_t* ok = makeButton(dialogBox, "OK", 160, 50);
+   lv_obj_align(ok, LV_ALIGN_BOTTOM_RIGHT, -18, -8);
+   lv_obj_add_event_cb(ok, dialogOkEvent, LV_EVENT_CLICKED, nullptr);
+@@ -3866,11 +3874,11 @@
+   if (action == TextDialogAction::SetClock) keyboardMode = KeyboardMode::Symbols;
+   else keyboardMode = KeyboardMode::Lower;
+   rebuildKeyboard();
+-  lv_obj_add_event_cb(dialogInput, [](lv_event_t* e) { setKeyboardVisible(!writing::usbConnected(),lv_event_get_target_obj(e)); }, LV_EVENT_CLICKED, nullptr);
++  lv_obj_add_event_cb(dialogInput, [](lv_event_t* e) { setKeyboardVisible(keyboardVisible || !writing::usbConnected(),lv_event_get_target_obj(e)); }, LV_EVENT_CLICKED, nullptr);
+   setKeyboardVisible(!writing::usbConnected(), dialogInput);
+   Tab5Focus.focusInitial(dialogOverlay,dialogInput);
+   lv_obj_add_event_cb(dialogInput,dialogOkEvent,LV_EVENT_READY,nullptr);
+-  if(action==TextDialogAction::FileSearch||action==TextDialogAction::AudioSearch){
++  if(action==TextDialogAction::MapSearch||action==TextDialogAction::FileSearch||action==TextDialogAction::AudioSearch){
+     lv_textarea_set_max_length(dialogInput,96);Tab5Focus.editObject(dialogInput);
+ 
+   }
+@@ -6570,7 +6578,7 @@
+ };
+ 
+ static const char* HOME_IDS[]={"files","editor","reader","audio","map","calculator","settings","terminal","alarm","sdr","image-editor","meshtastic"};
+-static const uint8_t HOME_SYMBOLS[]={1,2,10,3,4,11,5,12,3,3,7,15};
++static const uint8_t HOME_SYMBOLS[]={1,2,10,3,4,11,5,12,16,3,7,15};
+ 
+ 
+ static void openHomeAction(HomeAction action) {
+@@ -9249,12 +9257,12 @@
+     toast("Export de carte déjà en cours"); return;
+   }
+   if(!mapCanvas||!mapCanvas->getBuffer()){toast("Carte indisponible");return;}
+-  if ((!tab5FS.exists("/Pictures") && !tab5FS.mkdir("/Pictures")) ||
+-      (!tab5FS.exists("/Pictures/Maps") && !tab5FS.mkdir("/Pictures/Maps"))) {
+-    tab5StorageFault("dossier JPEG","/Pictures/Maps");toast(tab5StorageErrorText()); return;
++  if ((!tab5FS.exists("/Picture") && !tab5FS.mkdir("/Picture")) ||
++      (!tab5FS.exists("/Picture/Maps") && !tab5FS.mkdir("/Picture/Maps"))) {
++    tab5StorageFault("dossier JPEG","/Picture/Maps");toast(tab5StorageErrorText()); return;
+   }
+   mapJpegDestination="";
+-  for(unsigned n=1;n<10000;++n){char path[64];snprintf(path,sizeof(path),"/Pictures/Maps/map-%04u.jpg",n);
++  for(unsigned n=1;n<10000;++n){char path[64];snprintf(path,sizeof(path),"/Picture/Maps/map-%04u.jpg",n);
+     if(!tab5FS.exists(path) && !tab5FS.exists(String(path)+".tmp")){mapJpegDestination=path;break;}}
+   if(!mapJpegDestination.length()){toast("Aucun nom de fichier disponible");return;}
+   ++mapGeneration;Tab5Map.beginGeneration(mapGeneration);mapRasterIndex=0;
+--- 0.8.49/Tab5UiStyle.cpp
++++ 0.8.50/Tab5UiStyle.cpp
+@@ -10,6 +10,7 @@
+ lv_color_t c(unsigned i){return lv_color_hex(palette[i]);}
+ void cardMarker(lv_event_t*){}
+ void buttonMarker(lv_event_t*){}
++void selectionMarker(lv_event_t*){}
+ void dropdownOpened(lv_event_t* e){control(lv_event_get_current_target_obj(e));}
+ bool watches(lv_obj_t* o,lv_event_cb_t callback){for(uint32_t i=0;i<lv_obj_get_event_count(o);++i)if(lv_event_dsc_get_cb(lv_obj_get_event_dsc(o,i))==callback)return true;return false;}
+ void focus(lv_obj_t* o){
+@@ -32,9 +33,15 @@
+  lv_obj_set_style_text_color(o,c(4),0);lv_obj_set_style_border_color(o,c(3),0);
+  lv_obj_set_style_border_width(o,1,0);lv_obj_set_style_shadow_width(o,0,0);
+  lv_obj_set_style_radius(o,corners,0);lv_obj_set_style_outline_width(o,0,0);
++ selection(o);
++} 
++void selection(lv_obj_t* o){
++ if(!o||!lv_obj_is_valid(o))return;
++ if(!watches(o,selectionMarker))lv_obj_add_event_cb(o,selectionMarker,LV_EVENT_DELETE,nullptr);
+  const lv_state_t states[]={LV_STATE_PRESSED,LV_STATE_CHECKED,static_cast<lv_state_t>(LV_STATE_CHECKED|LV_STATE_PRESSED)};
+  for(auto state:states){
+-  lv_obj_set_style_bg_color(o,c(8),state);lv_obj_set_style_text_color(o,c(4),state);
++  lv_obj_set_style_bg_color(o,c(8),state);lv_obj_set_style_bg_opa(o,LV_OPA_COVER,state);lv_obj_set_style_text_color(o,c(4),state);
++  lv_obj_set_style_color_filter_opa(o,LV_OPA_TRANSP,state);
+  }
+  lv_obj_set_style_opa(o,LV_OPA_50,LV_STATE_DISABLED);focus(o);
+ }
+@@ -73,17 +80,19 @@
+  }else if(lv_obj_check_type(o,&lv_checkbox_class)){
+   lv_obj_set_style_text_color(o,c(4),LV_PART_MAIN);
+   lv_obj_set_style_bg_color(o,c(1),LV_PART_INDICATOR);lv_obj_set_style_border_color(o,c(3),LV_PART_INDICATOR);
+-  lv_obj_set_style_bg_color(o,c(6),LV_PART_INDICATOR|LV_STATE_CHECKED);lv_obj_set_style_text_color(o,c(1),LV_PART_INDICATOR|LV_STATE_CHECKED);
++  for(auto state:{LV_STATE_CHECKED,LV_STATE_PRESSED,lv_state_t(LV_STATE_CHECKED|LV_STATE_PRESSED)}){
++   lv_obj_set_style_bg_color(o,c(8),LV_PART_INDICATOR|state);lv_obj_set_style_text_color(o,c(4),LV_PART_INDICATOR|state);lv_obj_set_style_border_color(o,c(3),LV_PART_INDICATOR|state);lv_obj_set_style_color_filter_opa(o,LV_OPA_TRANSP,LV_PART_INDICATOR|state);
++  }
+   lv_obj_set_style_radius(o,std::min<uint8_t>(corners,8),LV_PART_INDICATOR);focus(o);
+  }else if(lv_obj_check_type(o,&lv_dropdown_class)){
+   if(!watches(o,dropdownOpened))lv_obj_add_event_cb(o,dropdownOpened,LV_EVENT_READY,nullptr);
+   lv_obj_set_style_bg_color(o,c(1),LV_PART_MAIN);lv_obj_set_style_text_color(o,c(4),LV_PART_MAIN);lv_obj_set_style_border_color(o,c(3),LV_PART_MAIN);lv_obj_set_style_border_width(o,1,LV_PART_MAIN);lv_obj_set_style_radius(o,corners,LV_PART_MAIN);focus(o);
+-  auto* list=lv_dropdown_get_list(o);if(list){lv_obj_set_style_bg_color(list,c(1),0);lv_obj_set_style_text_color(list,c(4),0);lv_obj_set_style_border_color(list,c(3),0);lv_obj_set_style_radius(list,corners,0);lv_obj_set_style_bg_color(list,c(8),LV_PART_SELECTED);lv_obj_set_style_bg_opa(list,LV_OPA_COVER,LV_PART_SELECTED);lv_obj_set_style_text_color(list,c(4),LV_PART_SELECTED);lv_obj_set_style_text_font(list,lv_obj_get_style_text_font(o,LV_PART_MAIN),0);}
++  auto* list=lv_dropdown_get_list(o);if(list){lv_obj_set_style_bg_color(list,c(1),0);lv_obj_set_style_text_color(list,c(4),0);lv_obj_set_style_border_color(list,c(3),0);lv_obj_set_style_radius(list,corners,0);for(auto state:{LV_STATE_DEFAULT,LV_STATE_CHECKED,LV_STATE_PRESSED,lv_state_t(LV_STATE_CHECKED|LV_STATE_PRESSED)}){lv_obj_set_style_bg_color(list,c(8),LV_PART_SELECTED|state);lv_obj_set_style_bg_opa(list,LV_OPA_COVER,LV_PART_SELECTED|state);lv_obj_set_style_text_color(list,c(4),LV_PART_SELECTED|state);lv_obj_set_style_color_filter_opa(list,LV_OPA_TRANSP,LV_PART_SELECTED|state);}lv_obj_set_style_text_font(list,lv_obj_get_style_text_font(o,LV_PART_MAIN),0);}
+  }else if(lv_obj_check_type(o,&lv_textarea_class)){
+   Tab5TextInput::track(o);
+   lv_obj_set_style_radius(o,corners,LV_PART_MAIN);lv_obj_set_style_bg_color(o,c(1),0);lv_obj_set_style_text_color(o,c(4),0);lv_obj_set_style_border_color(o,c(3),0);lv_obj_set_style_bg_color(o,c(8),LV_PART_SELECTED);lv_obj_set_style_text_color(o,c(4),LV_PART_SELECTED);lv_obj_set_style_bg_color(o,c(7),LV_PART_CURSOR);focus(o);
+  }else if(lv_obj_check_type(o,&lv_button_class)){
+-  if(watches(o,buttonMarker))button(o);
++  if(watches(o,buttonMarker))button(o);else if(watches(o,selectionMarker))selection(o);
+   lv_style_value_t side{};bool tab=lv_obj_get_local_style_prop(o,LV_STYLE_BORDER_SIDE,&side,LV_PART_MAIN|LV_STATE_CHECKED)==LV_STYLE_RES_FOUND&&side.num==LV_BORDER_SIDE_BOTTOM;
+   if(!tab)lv_obj_set_style_radius(o,corners,0);focus(o);
+  }else if(watches(o,cardMarker)||((lv_obj_get_width(o)>100||lv_obj_get_style_width(o,LV_PART_MAIN)>100)&&(lv_obj_get_height(o)>60||lv_obj_get_style_height(o,LV_PART_MAIN)>60)&&lv_obj_get_style_radius(o,LV_PART_MAIN)>0&&!lv_obj_check_type(o,&lv_label_class))){
+--- 0.8.49/Tab5UiStyle.h
++++ 0.8.50/Tab5UiStyle.h
+@@ -12,5 +12,7 @@
+ void control(lv_obj_t* object);
+ // Standard buttons opt in to all state colors; semantic app fills stay explicit.
+ void button(lv_obj_t* object);
++// Highlight states only: keeps app-defined normal/semantic fills.
++void selection(lv_obj_t* object);
+ void tree(lv_obj_t* root);
+ }
+--- 0.8.49/Tab5WebPPort.cpp
++++ 0.8.50/Tab5WebPPort.cpp
+@@ -170,6 +170,9 @@
+   return fail(session.stopped?"Import WebP annule; image conservee.":session.oom?"Memoire insuffisante; image conservee.":error);
+  }
+  std::strcpy(temporary.current.layers[0].name,"Image WebP");temporary.dirty=0;temporary.error=nullptr;
++ if(!ie_clipboard_transfer(&temporary,doc)){
++  ie_destroy(&temporary);doc->error="Import impossible; image conservee.";return 0;
++ }
+  ie_destroy(doc);*doc=temporary;
+  if(options.imported)*options.imported={unsigned(doc->current.width),unsigned(doc->current.height),unsigned(doc->current.width),unsigned(doc->current.height),1};
+  return 1;
+--- 0.8.49/tools/native-apps/image-editor/image_core.c
++++ 0.8.50/tools/native-apps/image-editor/image_core.c
+@@ -1,6 +1,29 @@
+ #include "image_core.h"
+ #include <string.h>
+ #include <limits.h>
++
++/* A lifted selection is composed into the normal layer raster. Its immutable
++   pixels and the destination background are retained separately so the next
++   move never samples pixels already composited with that background. Each
++   position is immutable too: undo/redo can share it without hidden mutation. */
++struct IESelectionPixels {
++ unsigned references;
++ int width,height,masked;
++ uint32_t pixels[]; /* optional width*height byte coverage follows the pixels */
++};
++struct IEFloatingSelection {
++ unsigned references;
++ IESelectionPixels *content;
++ uint32_t *underlay;
++ int layer,x,y,origin_x,origin_y,lifted,selected;
++};
++static void content_retain(IESelectionPixels*p){if(p)++p->references;}
++static void content_release(IEDoc*d,IESelectionPixels*p){if(p&&!--p->references)d->release(d->memory_context,p);}
++static const uint8_t*content_mask(const IESelectionPixels*p){return p->masked?(const uint8_t*)(p->pixels+(size_t)p->width*p->height):0;}
++static void floating_retain(IEFloatingSelection*f){if(f)++f->references;}
++static void floating_release(IEDoc*d,IEFloatingSelection*f){if(f&&!--f->references){content_release(d,f->content);if(f->underlay)d->release(d->memory_context,f->underlay);d->release(d->memory_context,f);}}
++static void floating_finish(IEDoc*d){floating_release(d,d->current.floating);d->current.floating=0;}
++
+ 
+ void ie_set_yield(IEDoc*d,void(*callback)(void*),void*context){d->yield=callback;d->yield_context=context;}
+ static void cooperate(const IEDoc*d){if(d->yield)d->yield(d->yield_context);}
+@@ -44,7 +67,7 @@
+ static int fail(IEDoc*d,const char*e){d->error=e;return 0;}
+ const char *ie_error(const IEDoc*d){return d->error?d->error:"";}
+ static void name_copy(char dst[24],const char*src){size_t n=src?strlen(src):0;if(n>23)n=23;memset(dst,0,24);if(n)memcpy(dst,src,n);}
+-static void state_free(IEDoc*d,IEState*s){int i;if(s->selection_mask)d->release(d->memory_context,s->selection_mask);for(i=0;i<s->count;i++)if(s->layers[i].pixels)d->release(d->memory_context,s->layers[i].pixels);memset(s,0,sizeof(*s));}
++static void state_free(IEDoc*d,IEState*s){int i;floating_release(d,s->floating);if(s->selection_mask)d->release(d->memory_context,s->selection_mask);for(i=0;i<s->count;i++)if(s->layers[i].pixels)d->release(d->memory_context,s->layers[i].pixels);memset(s,0,sizeof(*s));}
+ static void history_free(IEDoc*d,IEState*s){d->history_bytes-=state_bytes(s);state_free(d,s);d->release(d->memory_context,s);}
+ static void drop_oldest(IEDoc*d,IEState**a,unsigned*n){unsigned i;if(!*n)return;history_free(d,a[0]);for(i=1;i<*n;i++)a[i-1]=a[i];a[--*n]=0;}
+ static int drop_any(IEDoc*d){if(d->undo_count>1||(d->undo_count&&!d->gesture&&!d->brush_coverage&&!d->warp_scratch)){drop_oldest(d,d->undo,&d->undo_count);return 1;}if(d->redo_count){drop_oldest(d,d->redo,&d->redo_count);return 1;}if(d->saved_redo_count){drop_oldest(d,d->saved_redo,&d->saved_redo_count);return 1;}return 0;}
+@@ -58,7 +81,7 @@
+ 
+ static IEState*clone_state(IEDoc*d,int layer){
+  IEState*s=(IEState*)d->alloc(d->memory_context,sizeof(IEState));int i;if(!s)return 0;
+- memcpy(s,&d->current,sizeof(*s));s->selection_mask=0;s->gesture_blocks=0;s->gesture_layer=0;
++ memcpy(s,&d->current,sizeof(*s));floating_retain(s->floating);s->selection_mask=0;s->gesture_blocks=0;s->gesture_layer=0;
+  for(i=0;i<IE_MAX_LAYERS;i++)s->layers[i].pixels=0;
+  for(i=0;i<s->count;i++){
+   size_t bytes=pixel_bytes(s);if(layer>=0&&i!=layer)continue;
+@@ -72,19 +95,19 @@
+ }
+ static void push_undo(IEDoc*d,IEState*s){while(d->redo_count)drop_oldest(d,d->redo,&d->redo_count);while(d->undo_count>=IE_MAX_HISTORY)drop_oldest(d,d->undo,&d->undo_count);while(d->history_bytes+state_bytes(s)>IE_HISTORY_MAX_BYTES)if(!drop_any(d))break;d->undo[d->undo_count++]=s;d->history_bytes+=state_bytes(s);d->dirty=1;d->error=0;}
+ static IEState *prepare_snapshot(IEDoc*d,int layer){IEState*s;size_t bytes;if(!d||!d->current.count)return 0;bytes=snapshot_bytes(&d->current,layer);if(bytes>IE_HISTORY_MAX_BYTES){fail(d,"Mémoire insuffisante pour annuler la sélection ; image conservée");return 0;}while(d->history_bytes+bytes>IE_HISTORY_MAX_BYTES)if(!drop_any(d))break;do{s=clone_state(d,layer);if(s)break;}while(drop_any(d));if(!s)fail(d,"Memoire insuffisante pour annuler; image conservee.");return s;}
+-int ie_begin(IEDoc*d){IEState*s;ie_commit(d);s=prepare_snapshot(d,-1);if(!s)return 0;push_undo(d,s);return 1;}
+-static int gesture_begin(IEDoc*d,int layer){IEState*s;unsigned i;ie_commit(d);s=prepare_snapshot(d,layer);if(!s)return 0;d->saved_redo_count=d->redo_count;for(i=0;i<d->redo_count;i++){d->saved_redo[i]=d->redo[i];d->redo[i]=0;}d->redo_count=0;push_undo(d,s);d->gesture=1;return 1;}
++int ie_begin(IEDoc*d){IEState*s;ie_commit(d);s=prepare_snapshot(d,-1);if(!s)return 0;push_undo(d,s);floating_finish(d);return 1;}
++static int gesture_begin(IEDoc*d,int layer){IEState*s;unsigned i;ie_commit(d);s=prepare_snapshot(d,layer);if(!s)return 0;d->saved_redo_count=d->redo_count;for(i=0;i<d->redo_count;i++){d->saved_redo[i]=d->redo[i];d->redo[i]=0;}d->redo_count=0;push_undo(d,s);floating_finish(d);d->gesture=1;return 1;}
+ int ie_gesture_begin(IEDoc*d){return gesture_begin(d,-1);}
+ 
+ static int replace_undo(IEDoc*d,IEState*s){IEState*old;if(state_bytes(&d->current)>IE_HISTORY_MAX_BYTES)return fail(d,"Mémoire insuffisante pour annuler la sélection ; image conservée");ie_commit(d);old=(IEState*)d->alloc(d->memory_context,sizeof(IEState));while(!old&&drop_any(d))old=(IEState*)d->alloc(d->memory_context,sizeof(IEState));if(!old)return fail(d,"Memoire insuffisante; image conservee.");memcpy(old,&d->current,sizeof(*old));memcpy(&d->current,s,sizeof(*s));memset(s,0,sizeof(*s));push_undo(d,old);return 1;}
+ int ie_init(IEDoc*d,IEAlloc a,IEFree f,void*c,int w,int h){if(!d||!a||!f)return 0;memset(d,0,sizeof(*d));d->alloc=a;d->release=f;d->memory_context=c;d->random=0x43559a15u;return ie_new(d,w,h,0xffffffffu);}
+-void ie_destroy(IEDoc*d){if(!d||!d->release)return;clear_history(d);state_free(d,&d->current);d->dirty=0;}
++void ie_destroy(IEDoc*d){if(!d||!d->release)return;clear_history(d);state_free(d,&d->current);ie_clipboard_clear(d);d->dirty=0;}
+ int ie_new(IEDoc*d,int w,int h,uint32_t background){IEState s;size_t i,n;if(!state_make(d,&s,w,h,1))return 0;n=(size_t)w*h;for(i=0;i<n;i++){s.layers[0].pixels[i]=background;if((i&16383u)==0)cooperate(d);}name_copy(s.layers[0].name,"Fond");clear_history(d);state_free(d,&d->current);d->current=s;d->dirty=0;d->error=0;return 1;}
+ static int swap_history(IEDoc*d,IEState**from,unsigned*nf,IEState**to,unsigned*nt){IEState*s;size_t before;if(!*nf)return fail(d,"Historique vide.");if(state_bytes(&d->current)>IE_HISTORY_MAX_BYTES)return fail(d,"Mémoire insuffisante pour annuler la sélection ; image conservée");s=from[*nf-1];if(!state_compatible(&d->current,s))return fail(d,"Geste interrompu; recommencer le trait.");--*nf;from[*nf]=0;before=state_bytes(s);state_swap(d,&d->current,s);d->history_bytes=d->history_bytes-before+state_bytes(s);if(*nt==IE_MAX_HISTORY)drop_oldest(d,to,nt);to[(*nt)++]=s;while(d->history_bytes>IE_HISTORY_MAX_BYTES){if(*nf)drop_oldest(d,from,nf);else if(*nt>1)drop_oldest(d,to,nt);else break;}d->dirty=1;d->error=0;return 1;}
+ int ie_undo(IEDoc*d){ie_commit(d);return swap_history(d,d->undo,&d->undo_count,d->redo,&d->redo_count);}
+ int ie_redo(IEDoc*d){ie_commit(d);return swap_history(d,d->redo,&d->redo_count,d->undo,&d->undo_count);}
+-void ie_select(IEDoc*d,int x0,int y0,int x1,int y1){IERect*r=&d->current.selection;int t;if(d->current.selection_mask){d->release(d->memory_context,d->current.selection_mask);d->current.selection_mask=0;}if(x0>x1){t=x0;x0=x1;x1=t;}if(y0>y1){t=y0;y0=y1;y1=t;}r->x=clampi(x0,0,d->current.width-1);r->y=clampi(y0,0,d->current.height-1);r->w=clampi(x1,0,d->current.width-1)-r->x+1;r->h=clampi(y1,0,d->current.height-1)-r->y+1;r->enabled=1;}
+-void ie_deselect(IEDoc*d){if(d->current.selection_mask)d->release(d->memory_context,d->current.selection_mask);d->current.selection_mask=0;memset(&d->current.selection,0,sizeof(d->current.selection));}
++void ie_select(IEDoc*d,int x0,int y0,int x1,int y1){floating_finish(d);IERect*r=&d->current.selection;int t;if(d->current.selection_mask){d->release(d->memory_context,d->current.selection_mask);d->current.selection_mask=0;}if(x0>x1){t=x0;x0=x1;x1=t;}if(y0>y1){t=y0;y0=y1;y1=t;}r->x=clampi(x0,0,d->current.width-1);r->y=clampi(y0,0,d->current.height-1);r->w=clampi(x1,0,d->current.width-1)-r->x+1;r->h=clampi(y1,0,d->current.height-1)-r->y+1;r->enabled=1;}
++void ie_deselect(IEDoc*d){floating_finish(d);if(d->current.selection_mask)d->release(d->memory_context,d->current.selection_mask);d->current.selection_mask=0;memset(&d->current.selection,0,sizeof(d->current.selection));}
+ static IERect region(const IEState*s){IERect r=s->selection;if(!r.enabled){r.x=0;r.y=0;r.w=s->width;r.h=s->height;}return r;}
+ unsigned ie_selection_alpha(const IEState*s,int x,int y){IERect r;if(!s||x<0||y<0||x>=s->width||y>=s->height)return 0;if(!s->selection.enabled)return 255;r=s->selection;if(x<r.x||y<r.y||x>=r.x+r.w||y>=r.y+r.h)return 0;return s->selection_mask?s->selection_mask[(size_t)y*s->width+x]:255;}
+ int ie_selection_bounds(const IEState*s,IERect*r){if(!s||!r)return 0;*r=region(s);return r->w>0&&r->h>0;}
+@@ -229,15 +252,105 @@
+ 
+ int ie_cancel(IEDoc*d){IEState*s;unsigned i;scratch_free(d);if(!d->undo_count)return fail(d,"Historique vide.");s=d->undo[d->undo_count-1];if(!state_compatible(&d->current,s))return fail(d,"Geste interrompu; recommencer le trait.");--d->undo_count;d->undo[d->undo_count]=0;d->history_bytes-=state_bytes(s);state_swap(d,&d->current,s);state_free(d,s);d->release(d->memory_context,s);if(d->gesture){while(d->redo_count)drop_oldest(d,d->redo,&d->redo_count);d->redo_count=d->saved_redo_count;for(i=0;i<d->saved_redo_count;i++){d->redo[i]=d->saved_redo[i];d->saved_redo[i]=0;}d->saved_redo_count=0;d->gesture=0;}d->dirty=1;d->error=0;return 1;}
+ 
++static IESelectionPixels*content_capture(IEDoc*d){
++ IERect r=region(&d->current);IESelectionPixels*p;const uint32_t*source;uint8_t*mask;size_t n;int y,x;
++ if(r.w<=0||r.h<=0)return 0;
++ n=(size_t)r.w*r.h;
++ do{p=d->alloc(d->memory_context,sizeof(*p)+n*(d->current.selection_mask?5u:4u));if(p)break;}while(drop_any(d));
++ if(!p){fail(d,"Mémoire insuffisante pour la sélection ; image conservée");return 0;}
++ p->references=1;p->width=r.w;p->height=r.h;p->masked=d->current.selection_mask!=0;mask=(uint8_t*)content_mask(p);source=d->current.layers[d->current.active].pixels;
++ for(y=0;y<r.h;y++){size_t row=(size_t)y*r.w,at=(size_t)(r.y+y)*d->current.width+r.x;memcpy(p->pixels+row,source+at,(size_t)r.w*4);if(mask)for(x=0;x<r.w;x++)mask[row+x]=(uint8_t)ie_selection_alpha(&d->current,r.x+x,r.y+y);if((y&15)==0)cooperate(d);}
++ return p;
++}
++static IEFloatingSelection*floating_make(IEDoc*d,IESelectionPixels*p,int x,int y,int ox,int oy,int lifted,int selected){
++ IEFloatingSelection*f;
++ do{f=d->alloc(d->memory_context,sizeof(*f));if(f)break;}while(drop_any(d));
++ if(!f)return 0;
++ memset(f,0,sizeof(*f));f->references=1;f->content=p;content_retain(p);f->layer=d->current.active;f->x=x;f->y=y;f->origin_x=ox;f->origin_y=oy;f->lifted=lifted;f->selected=selected;
++ do{f->underlay=d->alloc(d->memory_context,(size_t)p->width*p->height*4);if(f->underlay)break;}while(drop_any(d));
++ if(!f->underlay){floating_release(d,f);return 0;}return f;
++}
++static void floating_background(IEDoc*d,const IEFloatingSelection*f,int capture){
++ const IESelectionPixels*c=f->content;uint32_t*p=d->current.layers[f->layer].pixels;int x,y;
++ for(y=0;y<c->height;y++){int yy=f->y+y;size_t row=(size_t)y*c->width;if((y&15)==0)cooperate(d);if(yy<0||yy>=d->current.height)continue;
++  for(x=0;x<c->width;x++){int xx=f->x+x;size_t at;if(xx<0||xx>=d->current.width)continue;at=(size_t)yy*d->current.width+xx;if(capture)f->underlay[row+x]=p[at];else p[at]=f->underlay[row+x];}
++ }
++}
++static void erase_content(IEDoc*d,const IESelectionPixels*c,int x0,int y0){
++ uint32_t*p=d->current.layers[d->current.active].pixels;const uint8_t*mask=content_mask(c);int x,y;
++ for(y=0;y<c->height;y++){if((y&15)==0)cooperate(d);for(x=0;x<c->width;x++){size_t pos=(size_t)y*c->width+x,at=(size_t)(y0+y)*d->current.width+x0+x;unsigned coverage=mask?mask[pos]:255,a;if(!coverage)continue;a=((p[at]>>24)*(255-coverage)+127)/255;p[at]=a?(p[at]&0xffffffu)|(a<<24):0;}}
++}
++static void floating_compose(IEDoc*d,const IEFloatingSelection*f,uint8_t*selection){
++ const IESelectionPixels*c=f->content;const uint8_t*mask=content_mask(c);uint32_t*p=d->current.layers[f->layer].pixels;int x,y,at_origin=f->lifted&&f->x==f->origin_x&&f->y==f->origin_y;
++ for(y=0;y<c->height;y++){int yy=f->y+y;if((y&15)==0)cooperate(d);if(yy<0||yy>=d->current.height)continue;
++  for(x=0;x<c->width;x++){int xx=f->x+x;size_t source=(size_t)y*c->width+x,at;unsigned a=mask?mask[source]:255;if(xx<0||xx>=d->current.width)continue;at=(size_t)yy*d->current.width+xx;if(selection)selection[at]=(uint8_t)a;if(!a)continue;
++   /* A lift's return is the exact inverse of its cut, including fractional
++      masks and hidden RGB in transparent source pixels. Ordinary source-over
++      would attenuate those pixels on every return to the cut origin. */
++   if(at_origin)p[at]=c->pixels[source];else if(((c->pixels[source]>>24)*a+127)/255)p[at]=over(p[at],c->pixels[source],a);
++  }
++ }
++}
++static void floating_install(IEDoc*d,IEFloatingSelection*f,uint8_t*mask){
++ int l=clampi(f->x,0,d->current.width),t=clampi(f->y,0,d->current.height),r=clampi(f->x+f->content->width,0,d->current.width),b=clampi(f->y+f->content->height,0,d->current.height);
++ if(d->current.selection_mask)d->release(d->memory_context,d->current.selection_mask);
++ d->current.selection_mask=mask;d->current.selection=(IERect){l,t,r-l,b-t,f->selected};floating_finish(d);d->current.floating=f;
++}
++static uint8_t*floating_mask(IEDoc*d,const IESelectionPixels*p,int selected){
++ uint8_t*mask;size_t n=(size_t)d->current.width*d->current.height;if(!p->masked||!selected)return 0;
++ do{mask=d->alloc(d->memory_context,n);if(mask)break;}while(drop_any(d));if(mask)memory_zero(d,mask,n);return mask;
++}
+ int ie_translate_selection(IEDoc*d,int dx,int dy){
+- IERect r=region(&d->current);const IEState*before;const uint32_t*original;uint32_t*p;uint8_t*mask=0;int x,y;size_t n=(size_t)d->current.width*d->current.height;
+- dx=clampi(dx,-IE_MAX_DIMENSION,IE_MAX_DIMENSION);dy=clampi(dy,-IE_MAX_DIMENSION,IE_MAX_DIMENSION);if((!dx&&!dy)||!r.w||!r.h)return 1;
+- if(d->current.selection_mask){mask=d->alloc(d->memory_context,n);if(!mask)return fail(d,"Mémoire insuffisante pour la sélection ; image conservée");memory_zero(d,mask,n);}
+- if(!ie_begin(d)){if(mask)d->release(d->memory_context,mask);return 0;}before=d->undo[d->undo_count-1];original=before->layers[d->current.active].pixels;p=d->current.layers[d->current.active].pixels;
+- for(y=0;y<r.h;y++)for(x=0;x<r.w;x++){size_t at=(size_t)(r.y+y)*d->current.width+r.x+x;unsigned a=((p[at]>>24)*(255-ie_selection_alpha(before,r.x+x,r.y+y))+127)/255;p[at]=a?(p[at]&0xffffffu)|(a<<24):0;}
+- for(y=0;y<r.h;y++){if((y&7)==0)cooperate(d);for(x=0;x<r.w;x++){int xx=r.x+x+dx,yy=r.y+y+dy;if(xx>=0&&yy>=0&&xx<d->current.width&&yy<d->current.height){unsigned a=ie_selection_alpha(before,r.x+x,r.y+y);size_t at=(size_t)yy*d->current.width+xx;p[at]=over(p[at],original[(size_t)(r.y+y)*d->current.width+r.x+x],a);if(mask)mask[at]=(uint8_t)a;}}}
+- if(r.enabled){ie_select(d,r.x+dx,r.y+dy,r.x+r.w-1+dx,r.y+r.h-1+dy);if(r.x+dx>=d->current.width||r.y+dy>=d->current.height||r.x+r.w+dx<=0||r.y+r.h+dy<=0)d->current.selection=(IERect){0,0,0,0,1};d->current.selection_mask=mask;}
+- return 1;
++ IEFloatingSelection*old,*next;IESelectionPixels*p;IEState*s;IERect r;uint8_t*mask;int x,y,ox,oy,lifted,selected,fresh;
++ if(!d||!d->current.count)return 0;
++ dx=clampi(dx,-IE_MAX_DIMENSION,IE_MAX_DIMENSION);dy=clampi(dy,-IE_MAX_DIMENSION,IE_MAX_DIMENSION);if(!dx&&!dy)return 1;
++ ie_commit(d);old=d->current.floating;fresh=!old||old->layer!=d->current.active;
++ if(fresh){r=region(&d->current);if(!r.w||!r.h)return 1;p=content_capture(d);if(!p)return 0;x=r.x;y=r.y;ox=x;oy=y;lifted=1;selected=r.enabled;}
++ else{p=old->content;content_retain(p);x=old->x;y=old->y;ox=old->origin_x;oy=old->origin_y;lifted=old->lifted;selected=old->selected;}
++ /* Keep off-canvas content retrievable while bounding coordinate arithmetic. */
++ x=clampi(x+dx,-2*IE_MAX_DIMENSION,2*IE_MAX_DIMENSION);y=clampi(y+dy,-2*IE_MAX_DIMENSION,2*IE_MAX_DIMENSION);
++ next=floating_make(d,p,x,y,ox,oy,lifted,selected);mask=floating_mask(d,p,selected);
++ if(!next||(p->masked&&selected&&!mask)){floating_release(d,next);if(mask)d->release(d->memory_context,mask);content_release(d,p);return fail(d,"Mémoire insuffisante pour la sélection ; image conservée");}
++ s=prepare_snapshot(d,-1);if(!s){floating_release(d,next);if(mask)d->release(d->memory_context,mask);content_release(d,p);return 0;}
++ push_undo(d,s);
++ if(!fresh)floating_background(d,old,0);else erase_content(d,p,ox,oy);
++ floating_background(d,next,1);floating_compose(d,next,mask);floating_install(d,next,mask);content_release(d,p);return 1;
++}
++int ie_clipboard_available(const IEDoc*d){return d&&d->clipboard!=0;}
++int ie_clipboard_bounds(const IEDoc*d,IERect*r){if(!d||!d->clipboard||!r)return 0;*r=(IERect){0,0,d->clipboard->width,d->clipboard->height,1};return 1;}
++void ie_clipboard_clear(IEDoc*d){if(!d)return;content_release(d,d->clipboard);d->clipboard=0;}
++int ie_clipboard_transfer(IEDoc*destination,IEDoc*source){
++ if(!destination||!source)return 0;
++ if(destination==source)return 1;
++ if(destination->alloc!=source->alloc||destination->release!=source->release||destination->memory_context!=source->memory_context)return 0;
++ ie_clipboard_clear(destination);destination->clipboard=source->clipboard;source->clipboard=0;return 1;
++}
++int ie_selection_copy(IEDoc*d){
++ IESelectionPixels*p;if(!d||!d->current.count)return 0;
++ if(d->current.floating&&d->current.floating->layer==d->current.active){p=d->current.floating->content;content_retain(p);}else{p=content_capture(d);if(!p)return d->error?0:fail(d,"Aucune sélection à copier");}
++ ie_clipboard_clear(d);d->clipboard=p;d->error=0;return 1;
++}
++int ie_selection_delete(IEDoc*d){
++ IEFloatingSelection*f;IEState*s;IERect r;int x,y;uint32_t*p;if(!d||!d->current.count)return 0;ie_commit(d);f=d->current.floating;r=region(&d->current);
++ if((!f||f->layer!=d->current.active)&&(!r.w||!r.h))return 1;
++ s=prepare_snapshot(d,-1);if(!s)return 0;push_undo(d,s);
++ if(f&&f->layer==d->current.active)floating_background(d,f,0);
++ else{p=d->current.layers[d->current.active].pixels;for(y=r.y;y<r.y+r.h;y++){if((y&15)==0)cooperate(d);for(x=r.x;x<r.x+r.w;x++){size_t at=(size_t)y*d->current.width+x;unsigned coverage=ie_selection_alpha(&d->current,x,y),a;if(!coverage)continue;a=((p[at]>>24)*(255-coverage)+127)/255;p[at]=a?(p[at]&0xffffffu)|(a<<24):0;}}}
++ floating_finish(d);return 1;
++}
++int ie_selection_cut(IEDoc*d){
++ IESelectionPixels*p,*previous;if(!d||!d->current.count)return 0;
++ if(d->current.floating&&d->current.floating->layer==d->current.active){p=d->current.floating->content;content_retain(p);}else{p=content_capture(d);if(!p)return 0;}
++ previous=d->clipboard;if(!ie_selection_delete(d)){content_release(d,p);return 0;}d->clipboard=p;content_release(d,previous);return 1;
++}
++int ie_selection_paste(IEDoc*d,int x,int y){
++ IESelectionPixels*p;IEFloatingSelection*f;IEState*s;uint8_t*mask;if(!d||!d->current.count||!(p=d->clipboard))return d?fail(d,"Presse-papiers image vide"):0;
++ ie_commit(d);x=clampi(x,-IE_MAX_DIMENSION,IE_MAX_DIMENSION);y=clampi(y,-IE_MAX_DIMENSION,IE_MAX_DIMENSION);
++ f=floating_make(d,p,x,y,0,0,0,1);mask=floating_mask(d,p,1);
++ if(!f||(p->masked&&!mask)){floating_release(d,f);if(mask)d->release(d->memory_context,mask);return fail(d,"Mémoire insuffisante pour la sélection ; image conservée");}
++ s=prepare_snapshot(d,-1);if(!s){floating_release(d,f);if(mask)d->release(d->memory_context,mask);return 0;}
++ push_undo(d,s);/* Previous floating content is committed into this background. */
++ floating_background(d,f,1);floating_compose(d,f,mask);floating_install(d,f,mask);return 1;
+ }
+ 
+ 
+@@ -283,6 +396,15 @@
+  if((n==2&&value<0x800)||(n==3&&value<0x10000)||value>0x10ffff||(value>=0xd800&&value<=0xdfff))return '?';
+  *p=tail;return value;
+ }
++void ie_mask_stamp(IEDoc*d,int x,int y,const uint8_t*mask,int width,int height,int stride,uint32_t color,int opacity){
++ int xx,yy,left,top,right,bottom;int64_t bound;unsigned a;
++ if(!d||!mask||width<=0||height<=0||width>IE_MAX_DIMENSION||height>IE_MAX_DIMENSION||stride<width||(size_t)height>SIZE_MAX/(size_t)stride)return;
++ bound=-(int64_t)x;left=bound<0?0:bound>width?width:(int)bound;
++ bound=-(int64_t)y;top=bound<0?0:bound>height?height:(int)bound;
++ bound=(int64_t)d->current.width-x;right=bound<0?0:bound>width?width:(int)bound;
++ bound=(int64_t)d->current.height-y;bottom=bound<0?0:bound>height?height:(int)bound;a=(unsigned)clampi(opacity,0,100)*255/100;
++ for(yy=top;yy<bottom;yy++){if((yy&15)==0)cooperate(d);for(xx=left;xx<right;xx++){unsigned coverage=mask[(size_t)yy*(size_t)stride+xx];if(coverage)paint(d,x+xx,y+yy,color,(int)((coverage*a+127)/255),0);}}
++}
+ void ie_text(IEDoc*d,int x,int y,const char*utf8,int scale,uint32_t color,int opacity){const unsigned char*p=(const unsigned char*)utf8;int ox=x,row,col,xx,yy;unsigned count=0;if(!p)return;scale=clampi(scale,1,32);while(*p&&count++<1024){unsigned c=utf8_next(&p);cooperate(d);if(c=='\n'){x=ox;y+=8*scale;continue;}for(row=0;row<7;row++){unsigned bits=ie_glyph_row(c,row);for(col=0;col<5;col++)if(bits&(1u<<(4-col)))for(yy=0;yy<scale;yy++)for(xx=0;xx<scale;xx++)paint(d,x+col*scale+xx,y+row*scale+yy,color,clampi(opacity,0,100)*255/100,0);}x+=6*scale;}}
+ 
+ static unsigned get16(const unsigned char*p){return(unsigned)p[0]|((unsigned)p[1]<<8);}
+--- 0.8.49/tools/native-apps/image-editor/image_core.h
++++ 0.8.50/tools/native-apps/image-editor/image_core.h
+@@ -17,6 +17,8 @@
+ typedef size_t (*IERead)(void *, void *, size_t);
+ typedef size_t (*IEWrite)(void *, const void *, size_t);
+ typedef struct { int x, y, w, h; int enabled; } IERect;
++typedef struct IESelectionPixels IESelectionPixels;
++typedef struct IEFloatingSelection IEFloatingSelection;
+ typedef struct { uint32_t *pixels; uint8_t opacity, visible; char name[24]; } IELayer;
+ typedef struct {
+     int width, height, count, active;
+@@ -24,6 +26,8 @@
+     IERect selection;
+     /* Optional 8-bit selection coverage, owned by this state and its history. */
+     uint8_t *selection_mask;
++    /* Immutable content and covered background, shared with undo states. */
++    IEFloatingSelection *floating;
+     /* History only: bitmap stored after the reserved active-layer pixels.
+        Current always owns complete layers and has no sparse bitmap. */
+     uint8_t *gesture_blocks;
+@@ -33,6 +37,8 @@
+     /* current owns every layer; internal gesture history may omit unchanged
+        layer buffers. History pointers must only be read for the edited layer. */
+     IEState current;
++    /* Editor-local clipboard survives New/Open, independently of undo. */
++    IESelectionPixels *clipboard;
+     IEState *undo[IE_MAX_HISTORY], *redo[IE_MAX_HISTORY];
+     unsigned undo_count, redo_count;
+     IEState *saved_redo[IE_MAX_HISTORY]; unsigned saved_redo_count;
+@@ -90,7 +96,7 @@
+  int method, combine, x0,y0,x1,y1, tolerance, feather, sample_merged, edge;
+  const IEPoint *points; unsigned point_count;
+ } IESelectionOptions;
+-enum { IE_FILL_SOLID, IE_FILL_LINEAR, IE_FILL_RADIAL, IE_FILL_CHECKER, IE_FILL_HATCH, IE_FILL_DOTS };
++enum { IE_FILL_SOLID, IE_FILL_LINEAR, IE_FILL_RADIAL, IE_FILL_CHECKER, IE_FILL_HATCH, IE_FILL_DOTS, IE_FILL_RELIEF };
+ enum { IE_FILL_CONTIGUOUS, IE_FILL_MATCHING, IE_FILL_SELECTION };
+ typedef struct {
+  /* Signed feather uses the same convention as selection; fills always stay
+@@ -150,6 +156,9 @@
+ void ie_shape(IEDoc *, int shape, int x0, int y0, int x1, int y1,
+               uint32_t color, int opacity, int thickness, int fill, int outline);
+ void ie_text(IEDoc *, int x, int y, const char *utf8, int scale, uint32_t color, int opacity);
++/* Stamp a clipped A8 text/image mask into an already begun transaction. */
++void ie_mask_stamp(IEDoc *, int x, int y, const uint8_t *mask, int width, int height,
++                   int stride, uint32_t color, int opacity);
+ uint8_t ie_glyph_row(unsigned codepoint, int row); /* 5 bits, high bit at left */
+ /* These operations manage their own undo transaction. */
+ int ie_layer_add(IEDoc *, const char *name);
+@@ -169,6 +178,19 @@
+ int ie_transform(IEDoc *, int scale_x_percent, int scale_y_percent,
+                  int shear_x_percent, int quarter_turns);
+ int ie_translate_selection(IEDoc *, int delta_x, int delta_y);
++/* Each mutating operation owns its undo transaction. Copy preserves pixels.
++   Paste coordinates are in the destination document. Clipboard ownership is
++   independent of history and is released only on clear/destruction. */
++int ie_selection_copy(IEDoc *);
++int ie_selection_cut(IEDoc *);
++int ie_selection_paste(IEDoc *, int x, int y);
++int ie_selection_delete(IEDoc *);
++int ie_clipboard_available(const IEDoc *);
++int ie_clipboard_bounds(const IEDoc *, IERect *);
++void ie_clipboard_clear(IEDoc *);
++/* Used by transactional codecs replacing an entire IEDoc. Both documents must
++   use the same allocator/context. Source relinquishes its clipboard. */
++int ie_clipboard_transfer(IEDoc *destination, IEDoc *source);
+ /* Streaming codecs; readers start at byte 0. Imports replace the document only
+    after full validation/read and reset history. T5I preserves layers/transparency.
+    BMP import: uncompressed 24/32 bit; BMP export: flattened 24 bit on white. */
+--- 0.8.49/tools/native-apps/image-editor/image_selection.h
++++ 0.8.50/tools/native-apps/image-editor/image_selection.h
+@@ -14,7 +14,7 @@
+  int y,minx,miny,maxx,maxy;
+  uint32_t reference;
+ };
+-enum { JOB_GENERATE,JOB_FLOOD,JOB_CLEAN,JOB_HORIZONTAL,JOB_VERTICAL,JOB_COMBINE,JOB_PAINT,JOB_DONE };
++enum { JOB_GENERATE,JOB_FLOOD,JOB_CLEAN,JOB_HORIZONTAL,JOB_VERTICAL,JOB_COMBINE,JOB_RELIEF_FORWARD,JOB_RELIEF_BACKWARD,JOB_PAINT,JOB_DONE };
+ static unsigned color_distance(uint32_t a,uint32_t b){
+  unsigned aa=a>>24,ba=b>>24,k,d=(unsigned)absi((int)aa-(int)ba);
+  for(k=0;k<24;k+=8){unsigned x=(((a>>k)&255)*aa+127)/255,y=(((b>>k)&255)*ba+127)/255;d=(unsigned)maxi((int)d,absi((int)x-(int)y));}return d;
+@@ -45,10 +45,12 @@
+ }
+ IEJob*ie_selection_start(IEDoc*d,const IESelectionOptions*options){IEJob*j;if(!d||!d->current.count||!options||options->method<0||options->method>IE_SELECT_INVERT)return 0;if(pixel_bytes(&d->current)*(size_t)d->current.count+(size_t)d->current.width*d->current.height>IE_HISTORY_MAX_BYTES){fail(d,"Mémoire insuffisante pour annuler la sélection ; image conservée");return 0;}j=job_make(d,options);if(j&&j->stage==JOB_FLOOD){size_t at=(size_t)j->select.y0*d->current.width+j->select.x0;j->mask[at]=255;j->queue[j->tail++]=(uint32_t)at;}return j;}
+ IEJob*ie_fill_start(IEDoc*d,const IEFillOptions*options){
+- IESelectionOptions q;IEJob*j;if(!d||!d->current.count||!options||options->kind<0||options->kind>IE_FILL_DOTS||options->region<0||options->region>IE_FILL_SELECTION)return 0;
++ IESelectionOptions q;IEJob*j;if(!d||!d->current.count||!options||options->kind<0||options->kind>IE_FILL_RELIEF||options->region<0||options->region>IE_FILL_SELECTION)return 0;
+  memset(&q,0,sizeof(q));q.method=options->region==IE_FILL_CONTIGUOUS?IE_SELECT_CONTIGUOUS:options->region==IE_FILL_MATCHING?IE_SELECT_COLOR:IE_SELECT_RECT;q.x0=options->x;q.y0=options->y;q.x1=d->current.width-1;q.y1=d->current.height-1;q.tolerance=options->tolerance;q.feather=options->feather;q.sample_merged=options->sample_merged;q.edge=options->edge;
+  if(options->region==IE_FILL_SELECTION){q.method=IE_SELECT_EXISTING;q.x0=q.y0=0;}
+  j=job_make(d,&q);if(!j)return 0;j->fill_job=1;j->fill=*options;j->fill.x=clampi(options->x,0,d->current.width-1);j->fill.y=clampi(options->y,0,d->current.height-1);j->fill.opacity=clampi(options->opacity,0,100);j->fill.density=clampi(options->density,0,100);j->fill.scale=clampi(options->scale,2,64);j->fill.direction=clampi(options->direction,0,3);
++ /* The distance field reuses feather scratch. Admit it before any document change. */
++ if(j->fill.kind==IE_FILL_RELIEF&&!j->temporary){j->temporary=d->alloc(d->memory_context,j->n);if(!j->temporary){fail(d,"Mémoire insuffisante pour la sélection ; image conservée");j->complete=-1;ie_job_destroy(j);return 0;}}
+  if(j->stage==JOB_FLOOD&&ie_selection_alpha(&d->current,q.x0,q.y0)){size_t at=(size_t)q.y0*d->current.width+q.x0;j->mask[at]=255;j->queue[j->tail++]=(uint32_t)at;}return j;
+ }
+ static void job_after_generation(IEJob*j){if(j->queue){j->doc->release(j->doc->memory_context,j->queue);j->queue=0;}j->at=0;j->y=0;j->stage=j->select.feather?JOB_HORIZONTAL:JOB_COMBINE;}
+@@ -125,6 +127,59 @@
+   j->mask[at]=(uint8_t)a;if(a){j->minx=mini(j->minx,x);j->maxx=maxi(j->maxx,x);j->miny=mini(j->miny,y);j->maxy=maxi(j->maxy,y);}
+  }
+ }
++/* Chamfer 3/4 distance to the filled region boundary, including holes and
++   the canvas border. Two bounded row passes use one byte per pixel. Distances
++   saturate above every supported bevel width (64*3), without changing alpha. */
++static void job_relief_forward(IEJob*j,int y){
++ const int w=j->doc->current.width;int x;uint8_t*row=j->temporary+(size_t)y*w;
++ for(x=0;x<w;x++){
++  unsigned a=255;if(!j->mask[(size_t)y*w+x]){row[x]=0;continue;}
++  a=(unsigned)mini((int)a,(x?row[x-1]:0)+3);
++  a=(unsigned)mini((int)a,(y?row[x-w]:0)+3);
++  a=(unsigned)mini((int)a,(y&&x?row[x-w-1]:0)+4);
++  a=(unsigned)mini((int)a,(y&&x+1<w?row[x-w+1]:0)+4);row[x]=(uint8_t)a;
++ }
++}
++static void job_relief_backward(IEJob*j,int y){
++ const int w=j->doc->current.width,h=j->doc->current.height;int x;uint8_t*row=j->temporary+(size_t)y*w;
++ for(x=w-1;x>=0;x--){
++  unsigned a=row[x];if(!a)continue;
++  a=(unsigned)mini((int)a,(x+1<w?row[x+1]:0)+3);
++  a=(unsigned)mini((int)a,(y+1<h?row[x+w]:0)+3);
++  a=(unsigned)mini((int)a,(y+1<h&&x+1<w?row[x+w+1]:0)+4);
++  a=(unsigned)mini((int)a,(y+1<h&&x?row[x+w-1]:0)+4);row[x]=(uint8_t)a;
++ }
++}
++static int job_relief_height(const IEJob*j,int x,int y){
++ int d,limit=j->fill.scale*3;const IEState*s=&j->doc->current;
++ if(x<0||y<0||x>=s->width||y>=s->height)return 0;
++ d=mini(j->temporary[(size_t)y*s->width+x],limit);
++ /* Parabolic rounded profile in 1/64 pixel units: smooth top, bounded slope,
++    no floating point or repeated square roots in the height samples. */
++ return(d*(2*limit-d)*64+limit*3/2)/(limit*3);
++}
++static uint32_t job_relief_color(IEJob*j,int x,int y){
++ int nx=0,ny=0;
++ if(j->fill.scale>=6){
++  static const int weights[5]={1,4,6,4,1},derivative[5]={1,2,0,-2,-1};int xx,yy;
++  /* Smooth the normal, not the region/alpha. The 5x5 derivative limits
++     stair-step shimmer on curved pixel boundaries without another buffer. */
++  for(yy=-2;yy<=2;yy++)for(xx=-2;xx<=2;xx++){int value=job_relief_height(j,x+xx,y+yy);nx+=value*derivative[xx+2]*weights[yy+2];ny+=value*weights[xx+2]*derivative[yy+2];}
++  nx/=16;ny/=16;
++ }else{
++  int a=job_relief_height(j,x-1,y-1),b=job_relief_height(j,x,y-1),c=job_relief_height(j,x+1,y-1);
++  int d=job_relief_height(j,x-1,y),f=job_relief_height(j,x+1,y);
++  int g=job_relief_height(j,x-1,y+1),h=job_relief_height(j,x,y+1),i=job_relief_height(j,x+1,y+1);
++  nx=a+2*d+g-c-2*f-i;ny=a+2*b+c-g-2*h-i;
++ }
++ int lx=(j->fill.direction==0||j->fill.direction==3)?-256:256;
++ int ly=j->fill.direction<2?-256:256;
++ unsigned norm=isqrtu((unsigned)(nx*nx)+(unsigned)(ny*ny)+512u*512u),k;
++ int shade=clampi(((nx*lx+ny*ly+512*512)/(int)norm-512)/2,-160,80);
++ uint32_t result=j->fill.foreground&0xff000000u;
++ for(k=0;k<24;k+=8){int v=(j->fill.foreground>>k)&255;v=shade<0?(v*(256+shade)+128)/256:v+((255-v)*shade+128)/256;result|=(uint32_t)v<<k;}
++ return result;
++}
+ static uint32_t gradient_color(uint32_t a,uint32_t b,unsigned weight){unsigned k;uint32_t c=0;for(k=0;k<32;k+=8)c|=((((a>>k)&255)*(255-weight)+((b>>k)&255)*weight+127)/255)<<k;return c;}
+ static uint32_t job_fill_color(IEJob*j,int x,int y,unsigned*alpha){
+  const IEFillOptions*f=&j->fill;unsigned weight=0;int w=maxi(1,j->maxx-j->minx),h=maxi(1,j->maxy-j->miny),u=x-j->minx,v=y-j->miny,scale=f->scale;
+@@ -132,12 +187,13 @@
+  if(f->kind==IE_FILL_HATCH){int threshold=(scale*f->density+99)/100;if((x+y)%scale>=threshold)*alpha=0;return f->foreground;}
+  if(f->kind==IE_FILL_DOTS){int xx=2*(x%scale)+1-scale,yy=2*(y%scale)+1-scale;if((xx*xx+yy*yy)*100>scale*scale*f->density)*alpha=0;return f->foreground;}
+  if(f->density<100&&spatial_random(0x7e451b23u,x,y)%100u>=(unsigned)f->density)*alpha=0;
++ if(f->kind==IE_FILL_RELIEF)return job_relief_color(j,x,y);
+  if(f->kind==IE_FILL_CHECKER)return((x/scale+y/scale)&1)?f->background:f->foreground;
+  if(f->kind==IE_FILL_LINEAR){if(f->direction==0)weight=(unsigned)(u*255/w);else if(f->direction==1)weight=(unsigned)(v*255/h);else if(f->direction==2)weight=(unsigned)((u*255/w+v*255/h)/2);else weight=(unsigned)((u*255/w+255-v*255/h)/2);}
+  else if(f->kind==IE_FILL_RADIAL){int dx=x-f->x,dy=y-f->y,rx=maxi(absi(j->minx-f->x),absi(j->maxx-f->x)),ry=maxi(absi(j->miny-f->y),absi(j->maxy-f->y));unsigned radius=isqrtu((unsigned)(rx*rx+ry*ry));weight=radius?isqrtu((unsigned)(dx*dx+dy*dy))*255/radius:0;if(weight>255)weight=255;}
+  return f->kind==IE_FILL_LINEAR||f->kind==IE_FILL_RADIAL?gradient_color(f->foreground,f->background,weight):f->foreground;
+ }
+-unsigned ie_job_progress(const IEJob*j){unsigned p;if(!j)return 0;if(j->complete)return 100;switch(j->stage){case JOB_FLOOD:return (unsigned)(j->head*35/maxi(1,(int)j->n));case JOB_GENERATE:p=(unsigned)(j->y*35/j->doc->current.height);break;case JOB_CLEAN:p=35;break;case JOB_HORIZONTAL:p=40+(unsigned)(j->y*15/j->doc->current.height);break;case JOB_VERTICAL:p=55+(unsigned)(j->y*15/j->doc->current.height);break;case JOB_COMBINE:p=70+(unsigned)(j->y*(j->fill_job?10:29)/j->doc->current.height);break;case JOB_PAINT:p=80+(unsigned)(j->y*19/j->doc->current.height);break;default:p=99;}return p;}
++unsigned ie_job_progress(const IEJob*j){unsigned p;if(!j)return 0;if(j->complete)return 100;switch(j->stage){case JOB_FLOOD:return (unsigned)(j->head*35/maxi(1,(int)j->n));case JOB_GENERATE:p=(unsigned)(j->y*35/j->doc->current.height);break;case JOB_CLEAN:p=35;break;case JOB_HORIZONTAL:p=40+(unsigned)(j->y*15/j->doc->current.height);break;case JOB_VERTICAL:p=55+(unsigned)(j->y*15/j->doc->current.height);break;case JOB_COMBINE:p=70+(unsigned)(j->y*(j->fill_job?10:29)/j->doc->current.height);break;case JOB_RELIEF_FORWARD:p=80+(unsigned)(j->y*3/j->doc->current.height);break;case JOB_RELIEF_BACKWARD:p=83+(unsigned)((j->doc->current.height-1-j->y)*3/j->doc->current.height);break;case JOB_PAINT:p=(j->fill.kind==IE_FILL_RELIEF?86:80)+(unsigned)(j->y*(j->fill.kind==IE_FILL_RELIEF?13:19)/j->doc->current.height);break;default:p=99;}return p;}
+ int ie_job_step(IEJob*j,size_t budget){
+  IEDoc*d;int w,h;size_t processed=0;if(!j)return -1;if(j->complete)return j->complete;d=j->doc;w=d->current.width;h=d->current.height;if(!budget)budget=1;
+  while(processed<budget&&!j->complete){
+@@ -148,20 +204,23 @@
+    size_t amount=budget-processed,end;if(amount>j->n-j->at)amount=j->n-j->at;end=j->at+amount;processed+=amount;while(j->at<end){if(j->mask[j->at]!=255)j->mask[j->at]=0;++j->at;}if(j->at==j->n)job_after_generation(j);
+   }else if(j->stage==JOB_GENERATE){job_generate_row(j,j->y++);processed+=(size_t)w+(j->select.method==IE_SELECT_LASSO?(size_t)j->select.point_count*12:0);if(j->y==h)job_after_generation(j);}
+   else if(j->stage==JOB_HORIZONTAL){job_horizontal(j,j->y++);processed+=(size_t)w;if(j->y==h){j->stage=JOB_VERTICAL;j->y=0;}}
+-  else if(j->stage==JOB_VERTICAL){job_vertical(j,j->y++);processed+=(size_t)w;if(j->y==h){d->release(d->memory_context,j->temporary);d->release(d->memory_context,j->sums);j->temporary=0;j->sums=0;j->stage=JOB_COMBINE;j->y=0;}}
++  else if(j->stage==JOB_VERTICAL){job_vertical(j,j->y++);processed+=(size_t)w;if(j->y==h){if(!j->fill_job||j->fill.kind!=IE_FILL_RELIEF){d->release(d->memory_context,j->temporary);j->temporary=0;}d->release(d->memory_context,j->sums);j->sums=0;j->stage=JOB_COMBINE;j->y=0;}}
+   else if(j->stage==JOB_COMBINE){
+    job_combine(j,j->y++);processed+=(size_t)w;if(j->y==h){
+     if(j->fill_job){
+      if(j->maxx<0||!j->fill.opacity||!j->fill.density){j->complete=1;job_buffers(j);break;}
+-     if(!ie_gesture_begin(d)){j->complete=-1;job_buffers(j);break;}j->transaction=1;j->stage=JOB_PAINT;j->y=0;
++     if(!ie_gesture_begin(d)){j->complete=-1;job_buffers(j);break;}j->transaction=1;j->stage=j->fill.kind==IE_FILL_RELIEF?JOB_RELIEF_FORWARD:JOB_PAINT;j->y=0;
+     }else{
++     floating_finish(d);
+      if(d->current.selection_mask)d->release(d->memory_context,d->current.selection_mask);
+      d->current.selection_mask=j->mask;j->mask=0;
+      d->current.selection=(IERect){j->maxx<0?0:j->minx,j->maxy<0?0:j->miny,j->maxx<0?0:j->maxx-j->minx+1,j->maxy<0?0:j->maxy-j->miny+1,1};j->complete=1;d->error=0;job_buffers(j);
+     }
+    }
+-  }else if(j->stage==JOB_PAINT){
+-   int x,y=j->y++;for(x=0;x<w;x++){size_t at=(size_t)y*w+x;unsigned a=(j->mask[at]*(unsigned)j->fill.opacity+50)/100;uint32_t c;if(!a)continue;c=job_fill_color(j,x,y,&a);if(a)d->current.layers[d->current.active].pixels[at]=over(d->current.layers[d->current.active].pixels[at],c,a);}processed+=(size_t)w;
++  }else if(j->stage==JOB_RELIEF_FORWARD){job_relief_forward(j,j->y++);processed+=(size_t)w;if(j->y==h){j->stage=JOB_RELIEF_BACKWARD;j->y=h-1;}}
++  else if(j->stage==JOB_RELIEF_BACKWARD){job_relief_backward(j,j->y--);processed+=(size_t)w;if(j->y<0){j->stage=JOB_PAINT;j->y=0;}}
++  else if(j->stage==JOB_PAINT){
++   int x,y=j->y++;for(x=0;x<w;x++){size_t at=(size_t)y*w+x;unsigned a=(j->mask[at]*(unsigned)j->fill.opacity+50)/100;uint32_t c;if(!a)continue;c=job_fill_color(j,x,y,&a);if(a)d->current.layers[d->current.active].pixels[at]=over(d->current.layers[d->current.active].pixels[at],c,a);}processed+=(size_t)w*(j->fill.kind==IE_FILL_RELIEF?3u:1u);
+    if(j->y==h){ie_commit(d);j->transaction=0;j->complete=1;d->error=0;job_buffers(j);}
+   }else {j->complete=-1;job_buffers(j);}
+  }

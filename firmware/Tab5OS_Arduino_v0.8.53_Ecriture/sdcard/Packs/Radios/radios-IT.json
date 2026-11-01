@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Radio Armisa",
+      "style": "IT/anni 80",
+      "url": "https://onair.armisa.it/listen/armisa/radio.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Virgin Radio Classic Rock",
+      "style": "IT/classic rock",
+      "url": "http://icy.unitedradio.it/VirginRockClassics.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Rai Radio 3",
+      "style": "IT/classical",
+      "url": "http://icestreaming.rai.it/3.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "Radio Stereocittà",
+      "style": "IT/dance",
+      "url": "http://onair11.xdevel.com:8134/;stream.mp3",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 96
+    },
+    {
+      "name": "Radio 105 Network",
+      "style": "IT/hits",
+      "url": "http://icecast.unitedradio.it/Radio105.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Rai Radio 1",
+      "style": "IT/news",
+      "url": "http://icestreaming.rai.it/1.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "Radio 24 il sole 24 ore",
+      "style": "IT/news talk",
+      "url": "http://shoutcast2.radio24.it:8000/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Rai Radio 2",
+      "style": "IT/public radio",
+      "url": "http://icestreaming.rai.it/2.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    }
+  ]
+}

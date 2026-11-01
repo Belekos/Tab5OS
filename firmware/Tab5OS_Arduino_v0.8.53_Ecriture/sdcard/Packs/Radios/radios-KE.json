@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "JESUS IS LORD Radio",
+      "style": "KE/christian",
+      "url": "https://s3.radio.co/s97f38db97/listen",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 48
+    },
+    {
+      "name": "classic",
+      "style": "KE/classic",
+      "url": "http://media-ice.musicradio.com/ClassicFMMP3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "REGGAE ROOTS",
+      "style": "KE/classical",
+      "url": "http://relay5.181.fm:8096/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "KENYA1 FM",
+      "style": "KE/comedy",
+      "url": "https://stream.zeno.fm/cmgkmed5u18uv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Kaya",
+      "style": "KE/jazz",
+      "url": "http://usa9-vn.mixstream.net:8084/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 109
+    },
+    {
+      "name": "NRG Radio",
+      "style": "KE/pop",
+      "url": "https://streamingv2.shoutcast.com/nrg-radio-ke",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Kameme FM",
+      "style": "KE/Radio",
+      "url": "https://kamemefm-atunwadigital.streamguys1.com/kamemefm",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Easy FM 101.5",
+      "style": "KE/soul",
+      "url": "https://stream.zeno.fm/wvw02zaqpxquv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    }
+  ]
+}

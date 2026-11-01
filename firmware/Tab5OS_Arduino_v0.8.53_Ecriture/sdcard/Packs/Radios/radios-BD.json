@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Dhaka FM 90.4",
+      "style": "BD/bangla",
+      "url": "http://118.179.219.244:8000/;?n=d70ecddb2aebf420177c",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "বাংলাদেশ বেতার ঢাকা ক",
+      "style": "BD/bangla music",
+      "url": "http://as1.digitalsynapsebd.com:8582/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Universal Health Radio (বাংলা)",
+      "style": "BD/bengali",
+      "url": "https://radio.universalhealthradio.org/uhr-bn.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "বাংলাদেশ বেতার বানিজ্যিক কার্যক্রম",
+      "style": "BD/bengali music",
+      "url": "http://as1.digitalsynapsebd.com:8741/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Radio JKKNIU",
+      "style": "BD/bollywood",
+      "url": "https://stream.zeno.fm/risgdzpf1cxtv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Uttorbango Betar",
+      "style": "BD/folk music",
+      "url": "http://stream.zeno.fm/spqbxkqxdf9uv",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 96
+    },
+    {
+      "name": "Radio Vivid Voice",
+      "style": "BD/pop",
+      "url": "https://stream.zeno.fm/xuin6ocdc2juv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "AL-QURAN BANGLA",
+      "style": "BD/Radio",
+      "url": "http://66.45.232.131:9994/;stream/1/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    }
+  ]
+}

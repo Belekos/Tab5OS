@@ -1,0 +1,13 @@
+{
+  "version": "0.8.42",
+  "passed": true,
+  "scalarIterations": 10000,
+  "scalarGetterCount": 16,
+  "scalarStringCopies": 0,
+  "scalarCopiedBytes": 0,
+  "stringGetterCount": 5,
+  "stringGetterCopies": 5,
+  "fallbackCasesPassed": true,
+  "sourceSha256": "5b97cc63b8e7725b4942ea5046ea8683f80489204acdf204988dd51f1d5ea966",
+  "scope": "Exact production accessor/snapshot methods and snapshot declaration with host String copy counter and mutex adapter; values, mutex release, initialization/error fallbacks; ASan+UBSan. This counts copies, not physical P4 allocations or latency."
+}

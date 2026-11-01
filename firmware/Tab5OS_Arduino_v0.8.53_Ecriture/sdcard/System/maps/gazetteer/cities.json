@@ -1,0 +1,18 @@
+{
+  "source": "https://download.geonames.org/export/dump/cities1000.zip",
+  "generatorSha256": "e8044a135e253a29c9154ec54ac3dbbdc3219a71319986bbcab0eedc036845b2",
+  "sourceSha256": "5e1bf5a85957fd65602dd66fb02d3bdcffd3eaa377204769c5035487f57d95bc",
+  "sourceBytes": 11080467,
+  "sourceMember": "cities1000.txt",
+  "sourceRows": 171590,
+  "places": 171590,
+  "keys": 980448,
+  "bytes": 37831158,
+  "sha256": "681a41de79c9e6d2374f5f8d704790f8b54ed4fb72abdf371c212f59ed1cf18d",
+  "license": "CC-BY-4.0",
+  "attribution": "GeoNames — https://www.geonames.org/",
+  "builtAt": "2026-10-24T12:48:00.105889+00:00",
+  "unicodeVersion": "15.0.0",
+  "scope": "World cities1000: population above 1000 or administrative seats; WGS84, Mercator latitude range. Names/alternate names and canonical word suffixes; no streets/addresses or exhaustive POIs.",
+  "foldHeaderSha256": "26b3af77a8594f8f8394932b52092cbc3af6eb7212ec8c64aede7606cfa2d6e6"
+}

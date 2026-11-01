@@ -1,0 +1,22 @@
+{
+  "version": "ESP-IDF v5.5.4",
+  "license": "Apache-2.0",
+  "files": {
+    "esp_lcd_panel_dpi.c": {
+      "url": "https://raw.githubusercontent.com/espressif/esp-idf/v5.5.4/components/esp_lcd/dsi/esp_lcd_panel_dpi.c",
+      "sha256": "6d4a59514c1401334f1a4a89933611b259ca20ef09c9670fabfc37f1dea630da"
+    },
+    "dw_gdma.c": {
+      "url": "https://raw.githubusercontent.com/espressif/esp-idf/v5.5.4/components/esp_hw_support/dma/dw_gdma.c",
+      "sha256": "ace979c51265cd782d061c1dc157530fb13f8e8cc834234df6c50eb2fe2a349f"
+    },
+    "mipi_dsi_priv.h": {
+      "url": "https://raw.githubusercontent.com/espressif/esp-idf/v5.5.4/components/esp_lcd/dsi/mipi_dsi_priv.h",
+      "sha256": "ed692ae4f1d47c60f6130ddaa97ba708e777feedfaf1e77eaeb658cf2dab80e6"
+    },
+    "esp_async_fbcpy.h": {
+      "url": "https://raw.githubusercontent.com/espressif/esp-idf/v5.5.4/components/esp_lcd/priv_include/esp_async_fbcpy.h",
+      "sha256": "85b24977d2f975d76a1e42ba15980a39ac185974d5abc3cf76320520879d7a0e"
+    }
+  }
+}

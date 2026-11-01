@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Zenith Classic Rock",
+      "style": "IE/album tracks",
+      "url": "http://91.189.64.188:3644/zenith128mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Today FM",
+      "style": "IE/alternative",
+      "url": "https://stream.audioxi.com/TD",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Irish Pub Radio",
+      "style": "IE/ballads",
+      "url": "http://solid24.streamupsolutions.com:8026/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "RTÉ lyric fm",
+      "style": "IE/classical",
+      "url": "http://icecast.rte.ie/lyric",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 160
+    },
+    {
+      "name": "Phever Dublin",
+      "style": "IE/dance",
+      "url": "http://uk1.internet-radio.com:8200/live",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "RTE1",
+      "style": "IE/music",
+      "url": "http://icecast.rte.ie/radio1",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 160
+    },
+    {
+      "name": "Highland Radio",
+      "style": "IE/popular music",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/HIGHLAND_RADIO.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Newstalk",
+      "style": "IE/Radio",
+      "url": "https://edge.audioxi.com/NT",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    }
+  ]
+}

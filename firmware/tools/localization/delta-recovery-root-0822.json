@@ -1,0 +1,42 @@
+{
+  "fr-FR": {
+    "Un import Git est interrompu. Utilisez git recover --continue.": "Un import Git est interrompu. Utilisez git recover --continue.",
+    "Journal d'import Git invalide. Conservez le dossier et vérifiez-le sur ordinateur.": "Journal d'import Git invalide. Conservez le dossier et vérifiez-le sur ordinateur.",
+    "Reprise Git refusée : des fichiers ou l'index ont changé. Vos modifications sont conservées.": "Reprise Git refusée : des fichiers ou l'index ont changé. Vos modifications sont conservées.",
+    "Reprise Git refusée : la branche a changé.": "Reprise Git refusée : la branche a changé.",
+    "Impossible d'enregistrer la reprise Git. Vérifiez le stockage.": "Impossible d'enregistrer la reprise Git. Vérifiez le stockage.",
+    "Cette modification Git nécessite une intervention sur ordinateur.": "Cette modification Git nécessite une intervention sur ordinateur.",
+    "Aucun import Git à reprendre.": "Aucun import Git à reprendre.",
+    "recover --continue : reprendre explicitement un import interrompu ; refuse d'écraser les modifications locales.": "recover --continue : reprendre explicitement un import interrompu ; refuse d'écraser les modifications locales."
+  },
+  "en-US": {
+    "Un import Git est interrompu. Utilisez git recover --continue.": "A Git import was interrupted. Use git recover --continue.",
+    "Journal d'import Git invalide. Conservez le dossier et vérifiez-le sur ordinateur.": "Invalid Git import journal. Keep the folder and inspect it on a computer.",
+    "Reprise Git refusée : des fichiers ou l'index ont changé. Vos modifications sont conservées.": "Git recovery refused: files or the index have changed. Your edits are preserved.",
+    "Reprise Git refusée : la branche a changé.": "Git recovery refused: the branch has changed.",
+    "Impossible d'enregistrer la reprise Git. Vérifiez le stockage.": "Unable to save Git recovery state. Check the storage.",
+    "Cette modification Git nécessite une intervention sur ordinateur.": "This Git change requires intervention on a computer.",
+    "Aucun import Git à reprendre.": "No Git import to resume.",
+    "recover --continue : reprendre explicitement un import interrompu ; refuse d'écraser les modifications locales.": "recover --continue: explicitly resume an interrupted import; refuses to overwrite local edits."
+  },
+  "pt-BR": {
+    "Un import Git est interrompu. Utilisez git recover --continue.": "Uma importação Git foi interrompida. Use git recover --continue.",
+    "Journal d'import Git invalide. Conservez le dossier et vérifiez-le sur ordinateur.": "Registro de importação Git inválido. Preserve a pasta e verifique-a em um computador.",
+    "Reprise Git refusée : des fichiers ou l'index ont changé. Vos modifications sont conservées.": "Recuperação Git recusada: arquivos ou índice foram alterados. Suas alterações foram preservadas.",
+    "Reprise Git refusée : la branche a changé.": "Recuperação Git recusada: a branch foi alterada.",
+    "Impossible d'enregistrer la reprise Git. Vérifiez le stockage.": "Não foi possível salvar o estado de recuperação Git. Verifique o armazenamento.",
+    "Cette modification Git nécessite une intervention sur ordinateur.": "Esta alteração Git requer intervenção em um computador.",
+    "Aucun import Git à reprendre.": "Nenhuma importação Git para retomar.",
+    "recover --continue : reprendre explicitement un import interrompu ; refuse d'écraser les modifications locales.": "recover --continue: retoma explicitamente uma importação interrompida; recusa sobrescrever alterações locais."
+  },
+  "pt-PT": {
+    "Un import Git est interrompu. Utilisez git recover --continue.": "Uma importação Git foi interrompida. Use git recover --continue.",
+    "Journal d'import Git invalide. Conservez le dossier et vérifiez-le sur ordinateur.": "Registo de importação Git inválido. Preserve a pasta e verifique-a num computador.",
+    "Reprise Git refusée : des fichiers ou l'index ont changé. Vos modifications sont conservées.": "Recuperação Git recusada: os ficheiros ou o índice foram alterados. As suas alterações foram preservadas.",
+    "Reprise Git refusée : la branche a changé.": "Recuperação Git recusada: a branch foi alterada.",
+    "Impossible d'enregistrer la reprise Git. Vérifiez le stockage.": "Não foi possível guardar o estado de recuperação Git. Verifique o armazenamento.",
+    "Cette modification Git nécessite une intervention sur ordinateur.": "Esta alteração Git requer intervenção num computador.",
+    "Aucun import Git à reprendre.": "Nenhuma importação Git para retomar.",
+    "recover --continue : reprendre explicitement un import interrompu ; refuse d'écraser les modifications locales.": "recover --continue: retoma explicitamente uma importação interrompida; recusa substituir alterações locais."
+  }
+}

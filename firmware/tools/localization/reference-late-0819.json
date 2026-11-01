@@ -1,0 +1,9 @@
+[
+  "Affiche statut HTTP, certificat HTTPS vérifié et en-têtes utiles à l'audit. -L suit 5 redirections au maximum ; -T limite la durée totale de 1 à 3600 secondes, 120 par défaut.",
+  "Affiche une réponse HTTP (32 Kio maximum), ou l'enregistre avec -o fichier ou -O (nom de l'URL). -I demande les en-têtes ; -L suit les redirections ; -T limite la durée totale de 1 à 3600 secondes, 120 par défaut. HTTPS vérifie certificat et nom d'hôte.",
+  "Choisissez -o fichier ou -O ; ces options ne se combinent pas.",
+  "Durée totale : indiquez de 1 à 3600 secondes.",
+  "Impossible de lire l'espace disponible du support.",
+  "Télécharge sur SD ou USB. -O choisit le fichier ; sinon le nom vient de l'URL. -L suit les redirections ; -T limite la durée totale de 1 à 3600 secondes (120 par défaut). --overwrite remplace un fichier après réussite.",
+  "usage: df [directory]\n"
+]

@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Radio FM",
+      "style": "SK/alternative",
+      "url": "https://icecast.stv.livebox.sk/fm_128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Rádio Lumen",
+      "style": "SK/catholic",
+      "url": "http://audio.lumen.sk:8000/live128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "SRo8 Rádio Litera",
+      "style": "SK/cultural",
+      "url": "http://icecast.stv.livebox.sk/litera_128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Fun Radio Dance",
+      "style": "SK/dance",
+      "url": "http://stream.funradio.sk:8000/dance128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "SRo1 Rádio Slovensko",
+      "style": "SK/news",
+      "url": "http://live.slovakradio.sk:8000/Slovensko_128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Rádio Vlna",
+      "style": "SK/oldies",
+      "url": "http://stream.radiovlna.sk/vlna-hi.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Fun Radio",
+      "style": "SK/pop",
+      "url": "http://stream.funradio.sk:8000/fun128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "SRo1 Rádio Slovensko (256k)",
+      "style": "SK/Radio",
+      "url": "http://live.slovakradio.sk:8000/Slovensko_256.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    }
+  ]
+}

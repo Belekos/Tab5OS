@@ -1,0 +1,107 @@
+{
+  "repository": "https://github.com/libgit2/libgit2",
+  "tag": "v1.9.7",
+  "commit": "49e408b3208bc3093757a1c2db938d3590f3f412",
+  "license": "GPL-2.0-only with the libgit2 linking exception (see COPYING)",
+  "sourceFormat": "Selected upstream C sources, generated CMake headers, local port patch and relative include rewriting; no precompiled library is distributed.",
+  "patchFile": "TAB5_PATCHES.patch",
+  "patch_sha256": "5dc93c8dc04b90bd43b8121461c75e2de08b1c0be5f8172e2beeb92ddbd9601a",
+  "licenses": {
+    "COPYING": "79728923ba24857c93188e6ae09840dfc19ebc3f33b2d77a04f79b154795b72d",
+    "AUTHORS": "2eb5ef64c605b3ed66f080b0359114523a0bebdd7707e0080d0592cca25cfa46",
+    "deps/pcre2/LICENCE.md": "4195c519dcfe4a4ffedc4b8ccc5d49e4dd02efd5ece6b69a4fba5d20080902a9",
+    "deps/llhttp/LICENSE-MIT": "6ddfa628db76d2d87b8968bafbad60f51c4ec88100dd7bb96f97216d88af0808",
+    "deps/zlib/LICENSE": "18dbd37f0ab175c37877e9053ff870a7de2809a3e9b9673b2696aa5009264638"
+  },
+  "manifest": "../../../tools/verification/libgit2-vendor-0826.json",
+  "profile": {
+    "target": "ESP32-P4 / Arduino ESP32 3.3.9",
+    "threads": false,
+    "mmap": false,
+    "https": "mbedTLS, ESP certificate bundle REQUIRED, hostname verified",
+    "sha1": "SHA1dc collision detection",
+    "sha256": "mbedTLS",
+    "compression": "bundled zlib with session allocator",
+    "regex": "PCRE2 with session allocator, bounded pattern/nesting/backtracking and cooperative cancellation",
+    "externalProcesses": false,
+    "gitSsh": false,
+    "transportExposed": "HTTPS only; no URL credentials, redirects or proxy",
+    "fileBufferBytes": 2048,
+    "sessionHeapLimit": 8388608,
+    "workerStackBytes": 40960
+  },
+  "patchSummary": [
+    "FAT replacement journal and fsync compatibility, missing POSIX adaptations, hardware random source",
+    "Cooperative cancellation for I/O, network polling and PCRE2; smaller stack buffers",
+    "OS certificate bundle with strict hostname verification; TLS initialization error cleanup",
+    "zlib and PCRE2 use Git session allocator; regex limits and reduced initial compiler buffers",
+    "Initialization rollback for sysdir, built-in filters and merge drivers after allocation failure",
+    "External process creation disabled on ESP",
+    "0.8.26: skip TLS startup for local Git commands; release failed TLS wrappers without double-destroying their sockets.",
+    "0.8.29: use int local repeat counters in PCRE2 read_repeat_counts to match the read_number(int*) API under GCC RISC-V, preserving count bounds and behavior.",
+    "0.8.29: align libgit2 internal action pointers, 32-bit parsing temporaries and local transport progress callback types for GCC RISC-V; preserve public signatures and error paths.",
+    "0.8.33: verify SO_ERROR after a writable nonblocking connect; retry the next resolved address after connection refusal instead of starting TLS on a failed socket."
+  ],
+  "limitations": [
+    "Desktop interop and failure injection do not replace device SD/USB power-loss and stack high-water measurements.",
+    "The bounded session arena explicitly reclaims orphaned libgit2 allocations on failed operations after final shutdown; this is not a proof that every upstream OOM path releases non-memory resources."
+  ],
+  "additionalPatches": [
+    {
+      "version": "0.8.29",
+      "patchFile": "PCRE2_GCC_0829.patch",
+      "patch_sha256": "b65c133cbe711df60c470206429339e5c6d5dba401c4a648ff048a986da9bbdd",
+      "reason": "read_repeat_counts local counter types must match read_number(int*) on GCC RISC-V, where int32_t is long. Counts (<=65535) and unlimited sentinel (65536) fit int; no pointer cast or disabled diagnostic.",
+      "files": [
+        {
+          "path": "deps/pcre2/pcre2_compile.c",
+          "before_sha256": "a0edbe16f793a40b955b7d9f688cc46437694a3600e254b00e23ecffa6bf4c74",
+          "after_sha256": "78d6da38a03e5d3d6d7fefb5fcaa85c8bda582355dc90e3f90f65656605017de"
+        }
+      ]
+    },
+    {
+      "version": "0.8.29",
+      "patchFile": "LIBGIT2_GCC_0829.patch",
+      "patch_sha256": "c8e83ccece75b44cf8d964d431d53404f81600a35a76978df29159a07b542f5f",
+      "reason": "Align internal pointer and callback types with explicit int32_t/uint32_t API contracts on GCC RISC-V. Public signatures remain unchanged; temporary values are copied only after successful parsing.",
+      "files": [
+        {
+          "path": "src/libgit2/checkout.c",
+          "before_sha256": "13bb48e4968ca1176171b5e3cf76a913de03ee1cc7044ea49fd6ca1428746f31",
+          "after_sha256": "b3a1871a46778b56a76569ec5d840b113b80f29db9bcefa0333f89f30c36410b"
+        },
+        {
+          "path": "src/libgit2/config.c",
+          "before_sha256": "f0368fa96fd1dd41770635767934c08093acff79f77c9d88fb8e310087c607ef",
+          "after_sha256": "e857b0158e807f0e0dd60e8d274f3a293f623e00174f2205ff49a61114afe2aa"
+        },
+        {
+          "path": "src/libgit2/repository.c",
+          "before_sha256": "6b5594b045933b686a8ffda64cbf454422541c0402a42a5bd0e75c5bc7701f99",
+          "after_sha256": "75585a91f592138adf6e22ba520d6cd722468abf4a44b9ebf4e88f9133da746c"
+        },
+        {
+          "path": "src/libgit2/revparse.c",
+          "before_sha256": "dc71acc0437a78d3b7a969bda5fe94e7f9798071b9896fe09ce4c6d5e4005546",
+          "after_sha256": "c225cb392121c9b772d202b1f0443a69ca8164d1c14f9488e275581509655613"
+        },
+        {
+          "path": "src/libgit2/signature.c",
+          "before_sha256": "735181e88cee7cc4d24aa7d290c59290e31fa910e312915e3d91e0815df87f61",
+          "after_sha256": "20ecb060ba78fd869b0371bc450973822bb8f36664d80fe0229e429411b293c1"
+        },
+        {
+          "path": "src/libgit2/transports/local.c",
+          "before_sha256": "e7188a6cb0a8d3ccb9a9561524e59f2f414fab89eb3b5c59231c40a4c2c7a68b",
+          "after_sha256": "f708efe72145b7ce84bd2cd0bbe8f3914ac00920479ed365ae9a4aac20c351b6"
+        },
+        {
+          "path": "src/libgit2/tree-cache.c",
+          "before_sha256": "4e4598aeae07ffad30ae4058bbb93cc7433a4d75b0ad523d5140e518b89739ac",
+          "after_sha256": "3e5a9f35f41fc184c5204674b311324d8952caf6045ff31b09156b8f9ac20bf2"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "RMF Classic",
+      "style": "PL/classical",
+      "url": "http://31.192.216.8/RMFCLASSIC48",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 48
+    },
+    {
+      "name": "Polskie Radio 24",
+      "style": "PL/information",
+      "url": "http://stream3.polskieradio.pl:8080/;.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Antyradio",
+      "style": "PL/metal",
+      "url": "https://n-4-2.dcs.redcdn.pl/sc/o2/Eurozet/live/antyradio.livx?audio=5",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radioparty.pl Dj Mixes Party",
+      "style": "PL/mixes",
+      "url": "http://djmixes.radioparty.pl:8035/",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 64
+    },
+    {
+      "name": "Polskie Radio Jedynka",
+      "style": "PL/polskieradio",
+      "url": "http://mp3.polskieradio.pl:8900/;.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Radio Gdansk",
+      "style": "PL/pop",
+      "url": "http://stream.task.gda.pl:8000/rg1",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Zet",
+      "style": "PL/Radio",
+      "url": "http://zet-net-01.cdn.eurozet.pl:8400/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "RMF FM",
+      "style": "PL/rmf",
+      "url": "http://195.150.20.242:8000/rmf_fm",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    }
+  ]
+}

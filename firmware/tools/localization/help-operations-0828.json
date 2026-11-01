@@ -1,0 +1,19 @@
+{
+  "Écrire et mettre en forme": [
+    {
+      "operation": "replace",
+      "paragraph": 4,
+      "key": "Affichage → Série ouvre les échanges sur le port choisi dans Réglages. En mode Données, Envoyer transmet la sélection, ou le document entier sans sélection. Écouter reçoit le texte dans un volet séparé ; Insérer le place dans le document. Réduire le volet conserve l’écoute ; quitter l’éditeur arrête sa session série. Pour les fichiers binaires et les redirections de flux, utilisez les commandes serial du terminal."
+    }
+  ],
+  "Énergie et diagnostic": [
+    {
+      "operation": "append",
+      "key": "La surveillance batterie utilise la tension et le courant du pack, pas le pourcentage. Une batterie durablement faible déclenche un avertissement ; une tension critique lance un décompte puis un arrêt. Branchez la tablette et enregistrez votre travail. La détection de charge ou une mesure invalide annule le décompte. Cette protection logicielle n’assure pas la récupération d’un pack déjà en protection. La charge nécessite une tablette allumée et initialisée."
+    },
+    {
+      "operation": "append",
+      "key": "Au début du décompte, l’éditeur tente de créer une copie de secours du document courant sans remplacer l’original. Une carte absente, occupée ou défaillante peut empêcher cette copie ; vérifiez sa confirmation."
+    }
+  ]
+}

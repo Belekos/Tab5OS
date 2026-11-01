@@ -1,0 +1,22 @@
+{
+  "version": "0.8.44",
+  "passed": true,
+  "jobsCreated": 4,
+  "maxConcurrentOwners": 1,
+  "replacementBeforeWorkerEntry": true,
+  "latestIntentWins": true,
+  "stopCancelsPending": true,
+  "detachedFramesWaitForWorker": true,
+  "attachedFramesSurviveWorker": true,
+  "detachDuringFinalPublication": true,
+  "sdRevalidation": true,
+  "allocationFailures": true,
+  "noUiJoin": true,
+  "scope": "Exact production playSource/stop/service/detachDisplay/releaseFrames/snapshot/frame/setState/taskEntry, actual class declaration, and actual taskMain cleanup tail. Threaded host worker body and SDK boundaries simulated; ASan+UBSan. No physical decoder, network or LVGL execution.",
+  "sourceHashes": {
+    "Tab5OS_Arduino_v0.8.44_Ecriture/Tab5Video.cpp": "8c0861a101756aa3ea2bc642b23bf87a857cdc442b70d60ac84ae93d3deb4526",
+    "Tab5OS_Arduino_v0.8.44_Ecriture/Tab5Video.h": "4da5725844e7fc058a77ff1f3e86e7ec08e7849a50ba62bd26a53adc45794a43",
+    "tools/video-tests-0844/lifecycle.py": "38c4ed4b33b0bd2ae6d1e7bfaebf027df06779721af1527ac4894fd92c896f2c",
+    "tools/video-tests-0844/lifecycle_fixture.cpp": "e5661ab59a1c2c1b5017d471c10e11724612191581ee51ee31d873496bf5617b"
+  }
+}

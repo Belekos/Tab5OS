@@ -1,0 +1,316 @@
+0	Audio catalogue limited to 4096 scanned entries
+1	SD card reconnected
+2	Startup
+3	Context before restart (cause not established)\n
+4	Application removed from this release
+5	Application unavailable or larger than 4 MiB
+6	Preparing copy…
+7	Verifying copy…
+8	Finishing move…
+9	Operation complete
+10	Destination already exists: nothing overwritten
+11	Not enough memory to copy
+12	Storage busy
+13	Copy subfolders separately: limit of 1024 items or 16 levels
+14	Source changed: original preserved
+15	Copy error: check the source and destination
+16	SD reconnecting — try again
+17	Preparation cancelled
+18	Insufficient PSRAM for JPEG decoder
+19	Insufficient PSRAM to prepare image
+20	JPEG decoding interrupted or image incomplete
+21	Incomplete PNG header
+22	Insufficient PSRAM for PNG decoder
+23	PNG decoding interrupted or image incomplete
+24	Device vault unreadable — legacy vault preserved
+25	Limit of 8 keys reached — legacy vault preserved
+26	Keys copied — legacy vault preserved
+27	Unexpected T5MAP header
+28	Unexpected T5MAP directory entry
+29	Unexpected T5MAP index entry
+30	Waiting for the printer to respond…
+31	Printing: internal RAM fragmented
+32	Printing: PSRAM fragmented
+33	Another task is starting: try again
+34	Releasing caches for printing…
+35	Network temporarily unavailable
+36	SD read interrupted: check the printer queue
+37	Insufficient PSRAM to prepare a print line
+38	Not enough memory to render the font
+39	Document changed: reopen section selection
+40	Image too large for the JPEG decoder
+41	Decoding image…
+42	Unable to decode image
+43	Invalid print settings
+44	Script stopped
+45	Script finished
+46	Insufficient internal RAM for the Python task
+47	Arrows / Page: navigate\nSpace: next · Shift+Space: previous\nHome / End: start or end of document\nCtrl + / -: text · Ctrl I: images\nBackspace / Escape: back · F1: help
+48	Back · Backspace / Escape
+49	SD download
+50	Memory admission busy: another task is starting
+51	Too many simultaneous starts: please wait
+52	Resources are still being released
+53	Memory available
+54	Internal RAM fragmented
+55	PSRAM fragmented
+56	%s\nRAM: %u KiB free; %u required (%u startup + %u reserved + 32 margin).\nInternal block: %u / %u KiB; DMA: %u / %u KiB.\nPSRAM: %u KiB free; %u required; block %u / %u KiB.
+57	SD ready
+58	Destination already exists
+59	SD card busy
+60	SD card not detected
+61	SD card is not responding
+62	Writing is not allowed
+63	SD communication or write error
+64	Exit · Escape
+65	Choose the file to open
+66	System resources
+67	Launch settings saved
+68	Device vault: opens natively without a code. Keys stay in this Tab5; a removed SD card stays encrypted.
+69	Anyone using this Tab5 can open this vault. Back up your keys to recover files after losing or erasing the device.
+70	Copy keys to device vault
+71	Create device vault
+72	Legacy vault: its password is still required. Opening it initially may take time; then copy the keys to the device vault.
+73	Forgotten password: create a device vault. The legacy vault and its files are preserved.
+74	Your documents and settings are preserved.
+75	Device vault keys
+76	Legacy vault keys
+77	Vault access
+78	Memory busy — retry after caches are released
+79	Wikipedia HTML
+80	Color settings…
+81	Saving text for printing…
+82	Insufficient EPUB CSS memory
+83	Launch settings
+84	Phone
+85	Built-in applications
+86	Back to settings
+87	Layout
+88	Labels
+89	Show labels
+90	Truncated font: glyph
+91	Truncated font: contours
+92	Truncated font: component
+93	Truncated font: transformation
+94	Truncated font: instructions
+95	Truncated font: cmap
+96	Truncated font: Unicode cmap
+97	Truncated font: cmap 0
+98	Truncated font: cmap 6
+99	Truncated font: Unicode segments
+100	Truncated font: Unicode index
+101	Truncated font: Unicode groups
+102	Missing or truncated font
+103	Truncated font: header
+104	Truncated font: tables
+105	Truncated font: table bounds
+106	Incomplete TrueType font
+107	Invalid font: metrics
+108	Late response after sending — check the printer queue
+109	Sending interrupted — check the printer queue before retrying
+110	Printer response missing or interrupted
+111	Unhide this item
+112	Hide this item
+113	No preview available
+114	Not enough memory — use search
+115	Unable to change visibility
+116	Copy verified; original preserved.
+117	Copy complete and verified.
+118	Copy cancelled. Original preserved.
+119	Copy failed. Original preserved.
+120	A partial copy remains at the destination.
+121	A copy is already in progress
+122	Parent folder · Backspace
+123	Create a file or folder
+124	Copy selection · Ctrl+C
+125	Cut selection · Ctrl+X
+126	SD card unavailable for recording
+127	Recording in progress
+128	First choice
+129	microSD · %llu MiB
+130	USB · %s · %llu MiB
+131	Open legacy vault
+132	USB
+133	sd:/Folder/file or usb:/Folder/file
+134	Close vault
+135	Grid
+136	Normal size
+137	Compact size
+138	Large size
+139	Application size
+140	Storage read interrupted
+141	More applications available in Explorer
+142	Paste into
+143	EPUB book — open it to start reading.
+144	Storage unavailable
+145	SD card root
+146	Counting…
+147	Copying files
+148	Destination
+149	Open USB drive
+150	Clear search
+151	Show on home
+152	No visible applications
+153	Invalid font: glyph cycle
+154	Invalid font: glyph dimensions
+155	Invalid font: component index
+156	Invalid font: transformation
+157	Font has no usable Unicode table
+158	Invalid font: Unicode index
+159	Invalid font: cmap 4
+160	Invalid font: Unicode lookup
+161	Invalid font: Unicode segments
+162	Invalid font: cmap end
+163	Invalid font: Unicode group
+164	Invalid font collection
+165	Invalid font: glyph offsets
+166	Application ABI import missing
+167	Choose a Tab5 .elf application
+168	Copying files
+169	File copy
+170	Path too long to copy
+171	Not enough space at the destination
+172	Invalid copy path
+173	Source or destination folder not found
+174	Image unavailable or too large
+175	Incomplete or invalid JPEG
+176	Invalid device vault format
+177	Device vault opened without a code
+178	Printing: insufficient DMA block
+179	File read interrupted
+180	Unable to allocate font PSRAM
+181	Unable to read document
+182	Unable to allocate read buffer
+183	Invalid IPP / IPPS address
+184	Invalid script or path
+185	Insufficient PSRAM for console
+186	Insufficient PSRAM for MicroPython
+187	Python application
+188	Insufficient free DMA block
+189	SD card full
+190	Automatic connection: on
+191	Automatic connection: off
+192	File unavailable
+193	Open device vault
+194	Ask when launching\nNo file\nAlways use this file
+195	Backup folder unavailable
+196	Destination: Tab5 library or isolated catalogue
+197	Invalid catalogue destination
+198	Metadata reserved for the catalogue
+199	Modules for this Tab5
+200	Global installation for this Tab5's scripts. For another board, return to the MicroPython catalogue.
+201	Radio Browser
+202	Invalid recovery journal
+203	Recovery interrupted: unknown file in journal
+204	Invalid recovery destination
+205	Invalid recovery backup
+206	Journal missing: backups preserved
+207	Destination reserved for the journal
+208	Invalid recovery hash
+209	File changed: manual recovery required
+210	Backup missing: manual recovery required
+211	Error
+212	Name required, maximum 80 characters
+213	The name must contain at least one ASCII letter or digit
+214	Choose a board family
+215	Invalid category
+216	No .py or .mpy modules in the selection
+217	Name already used for this target and category: choose another name
+218	Name already used: choose another name
+219	A project with this name already exists
+220	Choose a project on the SD card. USB can be used as an import source.
+221	Choose a project folder separate from system files
+222	Project folder missing
+223	Choose the project's target first
+224	Library outside the catalogue
+225	No files listed in this library
+226	Catalogue changed: import again under another name
+227	Folder too deep: maximum 8 levels
+228	Choose the library folder, not the SD root
+229	Choose a .py or .mpy module, or an extracted folder
+230	File larger than 1 MiB
+231	Invalid project metadata
+232	Catalogue source changed: 
+233	Limit: 64 libraries per project
+234	Conflict: project file preserved: 
+235	Source changed during copying
+236	Folder too large: choose the library's subfolder
+237	Invalid .mpy header: 
+238	Inconsistent library registry
+239	Too many subfolders: choose the library folder
+240	File larger than 1 MiB: 
+241	Names incompatible with FAT: 
+242	Limit: 160 files and 8 MiB per library
+243	Invalid library metadata: 
+244	Filter by board or category (more than 256 libraries)
+245	MicroPython target
+246	Library use
+247	Continue
+248	Project created
+249	Open main.py in Writing. Add its folder to the editor's projects with Documents → Import a folder.
+250	Destination project
+251	Import from SD / USB
+252	Import library
+253	Files will be copied without running them. Declared target; compatibility untested.
+254	Library import
+255	Download sources
+256	The .py sources and mip dependencies will be copied to the SD catalogue, without global installation or execution.
+257	Downloading sources
+258	Catalogue library
+259	Declared target — compatibility untested
+260	.py sources kept on SD, without execution.
+261	Add to a project
+262	View files
+263	MicroPython catalogue on SD
+264	Board: 
+265	All
+266	Use: 
+267	All
+268	Show libraries
+269	Filter by declared target and use. The catalogue remains available offline.
+270	MicroPython libraries · all boards
+271	All boards
+272	All categories
+273	Create a project
+274	Choose an existing folder
+275	A .py or .mpy module
+276	An extracted library folder
+277	SD catalogue
+278	Import SD / USB
+279	Get sources over Wi-Fi
+280	New MicroPython project
+281	.mpy file(s): check the firmware version and architecture on the target board.
+282	Complete local dependencies if needed.
+283	Library file
+284	Open this path in Writing to view its source.
+285	File copy only. Existing files with different contents block copying. Check compatibility on the target board.
+286	Add library
+287	Modules installed for Tab5
+288	Library added
+289	Transfer to the board and program execution are separate operations.
+290	new files
+291	Available libraries
+292	.mpy files are not converted or validated for this firmware.
+293	Copying to project
+294	No libraries match these filters. Use Import SD / USB or Get over Wi-Fi.
+295	Invalid color
+296	Wikipedia · CC BY-SA 4.0
+297	Connection unavailable
+298	Invalid reference hash
+299	ELF applications
+300	Python applications
+301	Reading
+302	Download
+303	Send
+304	Hide images · Ctrl I
+305	Show images · Ctrl I
+306	Reconnect microSD
+307	Restore missing files
+308	Sharing
+309	Portable / target to check
+310	ESP32-P4 (other board)
+311	Other board
+312	General
+313	Sensors
+314	Screen
+315	Motors

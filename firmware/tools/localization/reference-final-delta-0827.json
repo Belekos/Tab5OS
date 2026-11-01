@@ -1,0 +1,19 @@
+[
+  "Mode Données",
+  "Réception série",
+  "Insérer",
+  "Effacer la réception",
+  "En écoute",
+  "Série occupée par une autre session.",
+  "Réception tronquée",
+  "Octets non textuels remplacés",
+  "Envoi terminé",
+  "Envoi annulé",
+  "Aucun texte à envoyer.",
+  "Texte trop volumineux pour l'envoi série.",
+  "Mémoire insuffisante pour la réception série.",
+  "Lecture des identifiants…",
+  "Affichage partiel",
+  "Accessible par son nom dans le terminal, Python et les applications. Verrouiller le coffre coupe l'accès aux valeurs protégées.",
+  "Touchez le texte pour placer le curseur. Maintenez puis glissez pour sélectionner des caractères ; un maintien sans glissement sélectionne un mot. Un glissement ordinaire fait défiler. Au clavier, Maj+flèches étend la sélection.\n\nGras et Italique restent actifs pendant la frappe. Avec une sélection, ils modifient cette sélection ; désactiver le style le retire. Titre agit sur le paragraphe courant. La couleur et le fond du texte se règlent dans la palette.\n\nCtrl+S : enregistrer. Ctrl+Maj+S : enregistrer sous. Ctrl+N / Ctrl+O : nouveau / ouvrir. Ctrl+Z / Ctrl+Y : annuler / rétablir. Ctrl+B / Ctrl+I : gras / italique. Ctrl+C / X / V : copier / couper / coller. Ctrl+F / Ctrl+H : rechercher / remplacer.\n\nCtrl+A sélectionne tout le document. Page précédente / suivante change de passage ; Ctrl+Début / Fin atteint les extrémités du document. Ctrl+Maj+Début / Fin étend la sélection. Inser bascule le remplacement. Échap quitte la saisie ; choisissez la zone de texte puis Entrée pour reprendre.\n\nLe bouton Série de la barre de l’éditeur ouvre les échanges sur le port choisi dans Réglages. En mode Données, Envoyer transmet la sélection, ou le document entier sans sélection. Écouter reçoit le texte dans un volet séparé ; Insérer le place dans le document. Réduire le volet conserve l’écoute ; quitter l’éditeur arrête sa session série. Pour les fichiers binaires et les redirections de flux, utilisez les commandes serial du terminal."
+]

@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Slow Rock 90'",
+      "style": "MY/90's",
+      "url": "https://stream.zeno.fm/hiut6cwfoneuv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Rosak",
+      "style": "MY/alternative rock",
+      "url": "https://radiorosak.radioca.st/stream",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 48
+    },
+    {
+      "name": "Jazz Lounge",
+      "style": "MY/classic jazz",
+      "url": "http://eu8.fastcast4u.com:5068/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "Impian FM",
+      "style": "MY/classic rock",
+      "url": "http://167.114.131.90:6156/stream/1/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Jei FM Klang Tamil Radio",
+      "style": "MY/klang",
+      "url": "https://usa3.fastcast4u.com/proxy/jeifm?mp=/1",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "Kelantan FM",
+      "style": "MY/local music",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/KELANTAN_FMAAC.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "988 FM",
+      "style": "MY/Radio",
+      "url": "https://28103.live.streamtheworld.com/988_FMAAC.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "ai fm",
+      "style": "MY/various music",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/AI_FMAAC_SC",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    }
+  ]
+}

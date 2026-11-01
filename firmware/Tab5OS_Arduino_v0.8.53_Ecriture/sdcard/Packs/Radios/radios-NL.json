@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Radio 10",
+      "style": "NL/00's",
+      "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/RADIO10.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "NPO Radio 5",
+      "style": "NL/60's",
+      "url": "https://icecast.omroep.nl/radio5-bb-mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Sky Radio 80's Hits",
+      "style": "NL/80s",
+      "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/SRGSTR04.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Arrow Classic Rock",
+      "style": "NL/classic rock",
+      "url": "http://stream.gal.io/arrow",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Intense Radio - We love Dance 256K",
+      "style": "NL/clubhouse",
+      "url": "https://secure.live-streams.nl/main",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "Hi On Line Lounge Radio",
+      "style": "NL/electronic",
+      "url": "http://mediaserv33.live-streams.nl:8036/live",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "NPO Radio 2",
+      "style": "NL/evergreens",
+      "url": "http://icecast.omroep.nl/radio2-bb-mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "NPO Radio 1",
+      "style": "NL/news",
+      "url": "http://icecast.omroep.nl/radio1-bb-mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    }
+  ]
+}

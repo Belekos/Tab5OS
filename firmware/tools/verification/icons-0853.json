@@ -1,0 +1,50 @@
+{
+  "version": "0.8.53",
+  "passed": true,
+  "scope": "Render production vector icons at compact/home sizes on actual LVGL9.6.",
+  "physicalDeviceTested": false,
+  "results": {
+    "baseline": {
+      "passed": true,
+      "checks": 114,
+      "themes": 2,
+      "buttonSizes": [
+        44,
+        56
+      ]
+    },
+    "current": {
+      "passed": true,
+      "checks": 130,
+      "themes": 2,
+      "buttonSizes": [
+        44,
+        56
+      ]
+    }
+  },
+  "sourceHashes": {
+    "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5Icons.h": "2571840c256706fe9ac477279330b0e4e3cd62a966860fce41f5b96259c19c87"
+  },
+  "testSourceHashes": {
+    "tools/icon-tests-0853/run.py": "f7d34337b94a84017528bf21c5ae9b338bef144266f862e800167d75db2d170c",
+    "tools/icon-tests-0853/test.cpp": "9e291a8c727699c169bcd0d3fc654243b47a289a65c07f37c8204d45d360f453"
+  },
+  "evidenceHashes": {
+    "tools/verification/icons-0853/current-run.log": "688ffcc54ad0ed407f9772f2a1a417c003a4ae7a97adbc8b06abb33ec430ac5d",
+    "tools/verification/icons-0853/baseline.png": "d18878ba54e5a9710cea099789cb919cf53a82ef1fc15a1fb2b4b850c572370e",
+    "tools/verification/icons-0853/baseline-run.log": "4d27aab9627f82c47ce719db8346a8c744b374fe50d9e7c5d64035d1e5cad1fd",
+    "tools/verification/icons-0853/current.png": "28a41d1a9d482ea7939495647f48462c2eed3cf91feefd850c7a904d906bd7e1",
+    "tools/verification/icons-0853/baseline-compile.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tools/verification/icons-0853/current-compile.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "sanitizers": [
+    "address",
+    "undefined"
+  ],
+  "lvglArchiveSha256": "828f06410f931a24861175b36b7550f2dbd09b0b9d6da77892cb62e1caa9df0e",
+  "limitations": [
+    "Software-rendered icons only; no physical Tab5 visibility or touch measurement.",
+    "Aesthetic comparison also requires visual inspection of the delivered PNGs."
+  ]
+}

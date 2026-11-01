@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "إذاعة القرآن الكريم",
+      "style": "DZ/classical",
+      "url": "http://stream.radiojar.com/0tpy1h0kxtzuv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Algérie Chaîne 3",
+      "style": "DZ/culture",
+      "url": "https://radiochaine3.ice.infomaniak.ch/chaine3.mp3",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 0
+    },
+    {
+      "name": "sleep",
+      "style": "DZ/ff",
+      "url": "http://65.109.81.84:9851/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "France Maghreb 2",
+      "style": "DZ/international",
+      "url": "https://francemaghreb2.ice.infomaniak.ch/francemaghreb2-high.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Jil FM",
+      "style": "DZ/music",
+      "url": "https://radiojeunesse.ice.infomaniak.ch/jeunesse.mp3",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 0
+    },
+    {
+      "name": "Hits 1 Algérie",
+      "style": "DZ/pop",
+      "url": "https://radio12.pro-fhi.net/listen/whmnrlow/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "Antinea Radio",
+      "style": "DZ/Radio",
+      "url": "https://listen.radioking.com/radio/6640/stream/347",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "صوت الغد استراليا",
+      "style": "DZ/rock",
+      "url": "http://s4.voscast.com:7648/;stream.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 80
+    }
+  ]
+}

@@ -1,0 +1,4804 @@
+{
+  "radios": [
+    {
+      "name": "La 100 - 99.9 FM - Grupo Clarín - Buenos Aires, Argentina",
+      "style": "AR/99.9 fm",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/FM999_56.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 96
+    },
+    {
+      "name": "El Destape Radio",
+      "style": "AR/actualidad",
+      "url": "https://ipanel.instream.audio/8004/stream",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 48
+    },
+    {
+      "name": "Feeling 91.9 FM",
+      "style": "AR/aor",
+      "url": "http://turadioenvivo.com:8430/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Radio nacional AM 870",
+      "style": "AR/argentina",
+      "url": "http://sa.mp3.icecast.magma.edge-access.net:7200/sc_rad1",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 75
+    },
+    {
+      "name": "Radio Nacional Folklorica 98.7",
+      "style": "AR/buenos aires",
+      "url": "http://sa.mp3.icecast.magma.edge-access.net:7200/sc_rad38",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 160
+    },
+    {
+      "name": "Radio Mitre",
+      "style": "AR/news",
+      "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/AM790_56AAC_SC",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "Radio Nacional Rock 93.7",
+      "style": "AR/public",
+      "url": "http://sa.mp3.icecast.magma.edge-access.net:7200/sc_rad39",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 160
+    },
+    {
+      "name": "Radio Rivadavia",
+      "style": "AR/Radio",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RIVADAVIA.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 96
+    },
+    {
+      "name": "Darksynth Radio",
+      "style": "AT/80s",
+      "url": "http://stream.laut.fm/darksynthradio",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "KroneHit Radio",
+      "style": "AT/adult contemporary",
+      "url": "http://onair-ha1.krone.at/kronehit64.aac",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 163
+    },
+    {
+      "name": "Radino - Mein Kinderradio Wien 103,2",
+      "style": "AT/children",
+      "url": "http://stream01.zogl.net:8906/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Lounge.FM - 100% Austria",
+      "style": "AT/downtempo",
+      "url": "https://s35.derstream.net/100austria.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "88.6 Hard Rock",
+      "style": "AT/hard rock",
+      "url": "http://radio886.at/streams/88.6_Hard_Rock/mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "ORF Radio Wien",
+      "style": "AT/orf",
+      "url": "http://orf-live.ors-shoutcast.at/wie-q1a",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "KroneHit Digital",
+      "style": "AT/Radio",
+      "url": "http://onair-ha1.krone.at/kronehit1058.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Austrian Rock Radio",
+      "style": "AT/rock",
+      "url": "http://live.antenne.at/arr",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "ABC NewsRadio MP3",
+      "style": "AU/abc",
+      "url": "http://abc.streamguys1.com/live/newsradio/icecast.audio",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 56
+    },
+    {
+      "name": "SBS Chill",
+      "style": "AU/chillout",
+      "url": "http://sbs-ice.streamguys1.com/sbschill",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 97
+    },
+    {
+      "name": "Gold 104.3",
+      "style": "AU/classic hits",
+      "url": "https://ais-arn.streamguys1.com/au_004_icy",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 48
+    },
+    {
+      "name": "Fresh 92.7",
+      "style": "AU/community radio",
+      "url": "https://live.fresh927.com.au/freshaac",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 64
+    },
+    {
+      "name": "Kiss FM 87.6, 87.8 & 88.0 Melbourne, VIC",
+      "style": "AU/dance",
+      "url": "http://cc.net2streams.com:8565/kissfm.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "DiscoRhythm",
+      "style": "AU/disco",
+      "url": "http://c3.radioboss.fm:8018/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "The Prog Rock Machine",
+      "style": "AU/progressive rock",
+      "url": "https://theproganrockmachine.out.airtime.pro/theproganrockmachine_b",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Triple J",
+      "style": "AU/Radio",
+      "url": "http://abc.streamguys1.com/live/triplejnsw/icecast.audio",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 56
+    },
+    {
+      "name": "Dhaka FM 90.4",
+      "style": "BD/bangla",
+      "url": "http://118.179.219.244:8000/;?n=d70ecddb2aebf420177c",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "বাংলাদেশ বেতার ঢাকা ক",
+      "style": "BD/bangla music",
+      "url": "http://as1.digitalsynapsebd.com:8582/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Universal Health Radio (বাংলা)",
+      "style": "BD/bengali",
+      "url": "https://radio.universalhealthradio.org/uhr-bn.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "বাংলাদেশ বেতার বানিজ্যিক কার্যক্রম",
+      "style": "BD/bengali music",
+      "url": "http://as1.digitalsynapsebd.com:8741/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Radio JKKNIU",
+      "style": "BD/bollywood",
+      "url": "https://stream.zeno.fm/risgdzpf1cxtv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Uttorbango Betar",
+      "style": "BD/folk music",
+      "url": "http://stream.zeno.fm/spqbxkqxdf9uv",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 96
+    },
+    {
+      "name": "Radio Vivid Voice",
+      "style": "BD/pop",
+      "url": "https://stream.zeno.fm/xuin6ocdc2juv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "AL-QURAN BANGLA",
+      "style": "BD/Radio",
+      "url": "http://66.45.232.131:9994/;stream/1/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Instrumentals Forever",
+      "style": "BE/big band",
+      "url": "http://quincy.torontocast.com:1910/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Klara",
+      "style": "BE/classical",
+      "url": "http://icecast.vrtcdn.be/klara-high.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "The Funky Channel",
+      "style": "BE/disco",
+      "url": "http://cast3.my-control-panel.com:8170/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "NRJ België",
+      "style": "BE/hits",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/NRJBELGIE.mp3?dist=radiobrowser",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Pure (FM)",
+      "style": "BE/music",
+      "url": "https://radios.rtbf.be/pure-128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "RTBF La Première",
+      "style": "BE/news",
+      "url": "https://radios.rtbf.be/laprem1ere-64.aac",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "RTBF Classic 21",
+      "style": "BE/pop",
+      "url": "https://radios.rtbf.be/classic21-128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Bel RTL",
+      "style": "BE/Radio",
+      "url": "http://belrtl.ice.infomaniak.ch/belrtl-mp3-192.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Radio 1 радио 1 класическите хитове",
+      "style": "BG/classic hits",
+      "url": "http://stream.radioreklama.bg/radio164",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Maya Varna",
+      "style": "BG/contemporary hits",
+      "url": "http://rnmediagroup.com:10000/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "Радио Пияника",
+      "style": "BG/greece",
+      "url": "http://mpc1.mediacp.eu:8024/;",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 224
+    },
+    {
+      "name": "Tangra Mega Rock",
+      "style": "BG/hard rock heavy metal",
+      "url": "http://stream-bg-01.radiotangra.com:8000/Tangra-high",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Fresh!",
+      "style": "BG/hits",
+      "url": "http://193.108.24.21:8000/fresh",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "BG Radio",
+      "style": "BG/local music",
+      "url": "http://stream.radioreklama.bg/bgradio128",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Energy NRJ Bulgaria",
+      "style": "BG/pop",
+      "url": "http://play.global.audio/nrj128",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Nova News",
+      "style": "BG/Radio",
+      "url": "http://stream.radioreklama.bg/novanews.aac",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 48
+    },
+    {
+      "name": "Rádio Disco Funk BR",
+      "style": "BR/80s",
+      "url": "http://streaming12.hstbr.net:8084/live",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "Rádio Saudade FM 99.7",
+      "style": "BR/adult",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/SAUDADE_FMAAC.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "Antena 1 São Paulo, SP (ZYD823 94,7 MHz FM) [aac]",
+      "style": "BR/adult contemporary",
+      "url": "http://antena1.newradio.it/stream?ext=.mp3",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 96
+    },
+    {
+      "name": "89 A Radio Rock",
+      "style": "BR/alternative rock",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO_89FM_ADP.aac?dist=site-89fm",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    },
+    {
+      "name": "Rádio Bossa Nova Brazil",
+      "style": "BR/bossa nova",
+      "url": "http://54.38.43.201:8009/stream-128kmp3-BossaNovaBrazil",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Rádio Flashback Fm",
+      "style": "BR/brasil",
+      "url": "http://hd.matutos.com.br:8008/;stream.mp3",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 52
+    },
+    {
+      "name": "Bons Tempos FM",
+      "style": "BR/nostalgia",
+      "url": "https://server02.ouvir.radio.br:8050/stream?1609720768800",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 48
+    },
+    {
+      "name": "Máquina do Tempo (MPB Brasil)",
+      "style": "BR/Radio",
+      "url": "http://servidor28.brlogic.com:8032/live",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 96
+    },
+    {
+      "name": "100 GREATEST OF THE 80'S",
+      "style": "CA/1980's",
+      "url": "https://maggie.torontocast.com:2020/stream/100greatestofthe80s",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "# RdMix Classic Rock 70s 80s 90s",
+      "style": "CA/60s",
+      "url": "https://cast1.torontocast.com:4610/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "70 80 90 Vibrazioni Rock Radio",
+      "style": "CA/70s",
+      "url": "https://maggie.torontocast.com:2020/stream/vibrazionirockradio",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "REGGAE CHILL CAFE",
+      "style": "CA/chill",
+      "url": "https://maggie.torontocast.com:2020/stream/reggaechillcafe",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "CFRB News/Talk 1010 (Toronto, ON)",
+      "style": "CA/commercial",
+      "url": "http://18213.live.streamtheworld.com/CFRBAMAAC_SC",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 56
+    },
+    {
+      "name": "ChroniX Radio Metalcore",
+      "style": "CA/death metal",
+      "url": "http://usa17.fastcast4u.com:5508/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "Calm Radio - Solo Piano",
+      "style": "CA/easy listening",
+      "url": "http://streams.calmradio.com:1228/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Labgate - Progressive Rock",
+      "style": "CA/progressive rock",
+      "url": "https://s2.ssl-stream.com/radio/8180/radio.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "1.FM - Blues Radio",
+      "style": "CH/blues",
+      "url": "http://strm112.1.fm/blues_mobile_mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "1.FM - Chillout Lounge Radio",
+      "style": "CH/chillout",
+      "url": "http://strm112.1.fm/chilloutlounge_mobile_mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "1.FM - Classic Country Radio",
+      "style": "CH/classic country",
+      "url": "http://strm112.1.fm/ccountry_mobile_mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "1.FM - Classic Rock Replay Radio",
+      "style": "CH/classic rock",
+      "url": "http://strm112.1.fm/crock_mobile_mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "1.FM - Absolute Country Hits Radio",
+      "style": "CH/country",
+      "url": "http://strm112.1.fm/acountry_mobile_mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "1.FM - Deep House Radio",
+      "style": "CH/deep house",
+      "url": "http://strm112.1.fm/deephouse_mobile_mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "Radio Swiss Jazz",
+      "style": "CH/jazz",
+      "url": "http://stream.srg-ssr.ch/m/rsj/mp3_128",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "1.FM - Amsterdam Trance Radio",
+      "style": "CH/trance",
+      "url": "http://strm112.1.fm/atr_mobile_mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "La Retro 80s Chile",
+      "style": "CL/1980s",
+      "url": "https://s2.radio.co:80/s9ecef4f68/listen",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Definitiva",
+      "style": "CL/80s",
+      "url": "http://192.198.83.230:8772/;",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    },
+    {
+      "name": "RADIO CAROLINA cl",
+      "style": "CL/alternative rock",
+      "url": "http://stream.zeno.fm/sri2de2qdlivv",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 128
+    },
+    {
+      "name": "Pudahuel",
+      "style": "CL/contemporary",
+      "url": "http://26583.live.streamtheworld.com/PUDAHUEL_SC",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Imagina",
+      "style": "CL/hits",
+      "url": "http://27433.live.streamtheworld.com:3690/IMAGINA_SC",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "BioBio Chile",
+      "style": "CL/news",
+      "url": "https://unlimited3-cl.dps.live/biobiosantiago/aac/icecast.audio",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 0
+    },
+    {
+      "name": "Rock and Pop",
+      "style": "CL/pop",
+      "url": "http://24413.live.streamtheworld.com:3690/ROCK_AND_POPAAC_SC",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 56
+    },
+    {
+      "name": "Radio Sol Classic",
+      "style": "CL/Radio",
+      "url": "https://us9.maindigitalstream.com/ssl/radiosol",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "雨声轻音乐",
+      "style": "CN/ambient",
+      "url": "https://stream.zeno.fm/689zc32y4x8uv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "德云社相声合集",
+      "style": "CN/crosstalk",
+      "url": "https://stream.zeno.fm/yqawwmweq8mtv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "AsiaFM高清音乐台",
+      "style": "CN/hd",
+      "url": "http://asiafm.hk:8000/asiahd",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 96
+    },
+    {
+      "name": "RTHK Radio-1",
+      "style": "CN/hong kong",
+      "url": "http://stm.rthk.hk/radio1",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "国际新闻",
+      "style": "CN/information",
+      "url": "https://lhttp.qtfm.cn/live/20500172/64k.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "怀集音乐之声",
+      "style": "CN/music",
+      "url": "https://lhttp.qingting.fm/live/4804/64k.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "CNR-1 中国之声",
+      "style": "CN/news",
+      "url": "https://lhttp.qtfm.cn/live/15318317/64k.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "两广之声音乐台",
+      "style": "CN/oldies",
+      "url": "https://lhttp.qtfm.cn/live/20500149/64k.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Blu Radio, señal nacional (HJCK, 89.9 MHz FM, Bogotá / HJN42, 96.3 MHz, San Martín, Meta / HJH87, 103.1 MHz, Paipa, Boyacá /",
+      "style": "CO/armenian",
+      "url": "http://24493.live.streamtheworld.com:3690/BLURADIO_SC",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "Candela Estéreo Bogotá (HJPU 101.9)",
+      "style": "CO/bogota",
+      "url": "http://27583.live.streamtheworld.com/CANDELAESTEREO_SC",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 96
+    },
+    {
+      "name": "Radiónica (HJYM 99.1 Bogotá) RTVC",
+      "style": "CO/electronic",
+      "url": "http://shoutcast.rtvc.gov.co:8010/;",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 48
+    },
+    {
+      "name": "La Mega (Medellín) 92.9 FM",
+      "style": "CO/entretenimiento",
+      "url": "https://us-b4-p-e-qg12-audio.cdn.mdstrm.com/live-audio-aw/632cb48f613bac0856b931ab",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 125
+    },
+    {
+      "name": "La Kalle",
+      "style": "CO/folk music",
+      "url": "http://26683.live.streamtheworld.com:3690/LA_KALLE_SC",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Caracol Radio Colombia (HJGL 100.9 / HJCY 810 AM, Bogotá) [AAC]",
+      "style": "CO/news",
+      "url": "http://26683.live.streamtheworld.com:3690/CARACOL_RADIOAAC_SC",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 32
+    },
+    {
+      "name": "123 Vallenato",
+      "style": "CO/Radio",
+      "url": "http://radiolatina.info:7087/;",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 28
+    },
+    {
+      "name": "Tropicana Bogotá (HJRX 102.9) Caracol Radio",
+      "style": "CO/salsa",
+      "url": "http://26503.live.streamtheworld.com/TROPICANA_SC",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Urbano 106 - 105.9 FM - San José, Costa Rica",
+      "style": "CR/105.9 fm",
+      "url": "https://usa18.fastcast4u.com/proxy/rmoohhrw?mp=/1",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "IQ Radio",
+      "style": "CR/alternative",
+      "url": "http://rtvhd.net:9942/;stream/1",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 112
+    },
+    {
+      "name": "Azul 99.9 FM",
+      "style": "CR/baladas en español",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/CRC_999AAC.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "Radio María Costa Rica - 100.7 FM",
+      "style": "CR/catholic",
+      "url": "http://dreamsiteradiocp2.com:8044/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Radio Frecuencia Tierra",
+      "style": "CR/costa rica",
+      "url": "http://68.235.35.243:9008/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "103 (FM 103.1)",
+      "style": "CR/hits",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/CRC_103_1AAC.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 96
+    },
+    {
+      "name": "Radio Revolución",
+      "style": "CR/news",
+      "url": "https://stream.zeno.fm/ftcx2988uwzuv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Mil Recuerdos Stereo",
+      "style": "CR/Radio",
+      "url": "https://sechin.grupocentroserver.com/radio/8060/radio.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "Exa FM",
+      "style": "CU/93.3 fm",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/XHPSFMAAC.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 48
+    },
+    {
+      "name": "Prensa Latina - Agencia Informativa Latinoamericana",
+      "style": "CU/agencia informativa latinoamericana",
+      "url": "https://cdn4.onstream.audio:9267/stream?download=false",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "AFN 360 Guantanamo Bay",
+      "style": "CU/american forces network",
+      "url": "http://27783.live.streamtheworld.com/AFNE_GMO_SC",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 96
+    },
+    {
+      "name": "Prensa Latina",
+      "style": "CU/classical",
+      "url": "https://cdn4.onstream.audio:9267/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Cubania Radio",
+      "style": "CU/cuban",
+      "url": "https://streamingv2.shoutcast.com/cubania?type=.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Emisora de Radio \"ATodaMecha\"",
+      "style": "CU/hits",
+      "url": "https://stream.zeno.fm/gjexooyemj3uv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Cuban Flow Radio",
+      "style": "CU/latin music",
+      "url": "http://nap.casthost.net:9194/stream.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Canal Radio Cruces Cienfuegos",
+      "style": "CU/Radio",
+      "url": "https://stream.laut.fm/canalradio",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Beat",
+      "style": "CZ/classic rock",
+      "url": "http://icecast2.play.cz/radiobeat128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Country Radio",
+      "style": "CZ/country",
+      "url": "http://icecast2.play.cz:8000/country128aac",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 0
+    },
+    {
+      "name": "Radio Humor",
+      "style": "CZ/humor",
+      "url": "http://mp3stream4.abradio.cz:8000/humor128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "RFE/RL Radio Farda",
+      "style": "CZ/music",
+      "url": "http://rfe21.akacast.akamaistream.net/7/751/437779/v1/ibb.akacast.akamaistream.net/rfe21",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "ČRo Radiožurnál",
+      "style": "CZ/news",
+      "url": "http://icecast8.play.cz/cro1-128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Kiss 98 FM",
+      "style": "CZ/pop",
+      "url": "http://icecast2.play.cz:8000/kiss128aac",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 0
+    },
+    {
+      "name": "Rádio Blaník živé",
+      "style": "CZ/Radio",
+      "url": "http://ice.abradio.cz/blanikfm128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Čas Rock",
+      "style": "CZ/rock",
+      "url": "http://icecast6.play.cz/casrock128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "80s80s",
+      "style": "DE/80s",
+      "url": "http://streams.80s80s.de/web/mp3-192/streams.80s80s.de/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "90s90s Hits",
+      "style": "DE/90s",
+      "url": "http://streams.90s90s.de/pop/mp3-192/streams.90s90s.de/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "1LIVE",
+      "style": "DE/ard",
+      "url": "http://wdr-1live-live.icecast.wdr.de/wdr/1live/live/mp3/128/stream.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Rock Antenne - Heavy Metal",
+      "style": "DE/heavy metal",
+      "url": "http://mp3channels.webradio.rockantenne.de/heavy-metal",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "90s90s HipHop & Rap",
+      "style": "DE/hiphop",
+      "url": "http://streams.90s90s.de/hiphop/mp3-192/streams.90s90s.de/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "WDR 5",
+      "style": "DE/information",
+      "url": "http://wdr-wdr5-live.icecast.wdr.de/wdr/wdr5/live/mp3/128/stream.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "MANGORADIO",
+      "style": "DE/music",
+      "url": "https://mangoradio.stream.laut.fm/mangoradio",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Rock Antenne",
+      "style": "DE/rock",
+      "url": "http://mp3channels.webradio.rockantenne.de/rockantenne",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Vinylhits.dk",
+      "style": "DK/1980s",
+      "url": "http://stream.vinylhits.dk/vinylmp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Classic FM",
+      "style": "DK/70s",
+      "url": "http://webradio.classicfm.dk/classichorsens",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "PartyFM",
+      "style": "DK/90s",
+      "url": "http://stream.partyfm.dk/Party320/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "DR P1",
+      "style": "DK/danish",
+      "url": "http://live-icy.gss.dr.dk/A/A03H.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Retro Radio",
+      "style": "DK/oldies",
+      "url": "http://stream128.retro-radio.dk/retro",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    },
+    {
+      "name": "DR P3",
+      "style": "DK/pop",
+      "url": "http://live-icy.dr.dk/A/A05H.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Limfjord Plus Slager",
+      "style": "DK/Radio",
+      "url": "http://media.limfjordnetradio.dk/plusslager128",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "DR P4 København",
+      "style": "DK/regional radio",
+      "url": "http://live-icy.dr.dk/A/A08H.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Bachata",
+      "style": "DO/bachata",
+      "url": "http://perseus.shoutca.st:8312/;stream/1",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Top Balada Radio",
+      "style": "DO/baladas",
+      "url": "https://radio.dominiserver.com/proxy/topbaladaradio?mp=/stream",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    },
+    {
+      "name": "Salsa - Dominicana",
+      "style": "DO/classical",
+      "url": "http://radio.domiplay.net:2002/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Top Urbano",
+      "style": "DO/hip hop",
+      "url": "https://radio.dominiserver.com/proxy/topurbano?mp=/stream",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    },
+    {
+      "name": "Top Merengue Radio",
+      "style": "DO/merengue",
+      "url": "https://radio.dominiserver.com/proxy/topmerengueradio?mp=/stream",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    },
+    {
+      "name": "Primera 88.1",
+      "style": "DO/primera 88.1",
+      "url": "http://stream.radiojar.com/5705c71sn2zuv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Top Bachata Radio",
+      "style": "DO/Radio",
+      "url": "https://radio.dominiserver.com/proxy/topbachata?mp=/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Top Salsa Radio",
+      "style": "DO/salsa",
+      "url": "https://radio.dominiserver.com/proxy/topsalsaradio?mp=/stream",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    },
+    {
+      "name": "إذاعة القرآن الكريم",
+      "style": "DZ/classical",
+      "url": "http://stream.radiojar.com/0tpy1h0kxtzuv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Algérie Chaîne 3",
+      "style": "DZ/culture",
+      "url": "https://radiochaine3.ice.infomaniak.ch/chaine3.mp3",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 0
+    },
+    {
+      "name": "sleep",
+      "style": "DZ/ff",
+      "url": "http://65.109.81.84:9851/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "France Maghreb 2",
+      "style": "DZ/international",
+      "url": "https://francemaghreb2.ice.infomaniak.ch/francemaghreb2-high.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Jil FM",
+      "style": "DZ/music",
+      "url": "https://radiojeunesse.ice.infomaniak.ch/jeunesse.mp3",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 0
+    },
+    {
+      "name": "Hits 1 Algérie",
+      "style": "DZ/pop",
+      "url": "https://radio12.pro-fhi.net/listen/whmnrlow/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "Antinea Radio",
+      "style": "DZ/Radio",
+      "url": "https://listen.radioking.com/radio/6640/stream/347",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "صوت الغد استراليا",
+      "style": "DZ/rock",
+      "url": "http://s4.voscast.com:7648/;stream.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 80
+    },
+    {
+      "name": "Radio América 104.5 FM",
+      "style": "EC/104.5",
+      "url": "https://streamingecuador.com:7030/stream?1657848016283",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 32
+    },
+    {
+      "name": "Radio Zaracay 100.5 FM",
+      "style": "EC/106.5",
+      "url": "http://stream-36.zeno.fm/as3xhhc0ts8uv?_=1",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "La tukka Ec",
+      "style": "EC/bachata",
+      "url": "http://grupomundodigital.com:8673/live",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 32
+    },
+    {
+      "name": "RADIO MARIA ECUADOR",
+      "style": "EC/catholic",
+      "url": "http://dreamsiteradiocp4.com:8010/stream",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "Jumbo Deep Radio",
+      "style": "EC/deep",
+      "url": "http://stream.zeno.fm/juhqepbmmxqvv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Onda Positiva 94.1 FM",
+      "style": "EC/latin music",
+      "url": "https://streamingecuador.net:8011/radioondapositiva",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    },
+    {
+      "name": "JC La Bruja",
+      "style": "EC/música pop",
+      "url": "http://s7.yesstreaming.net:8040/stream?1655753305283",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio La Otra - 91.3 FM",
+      "style": "EC/Radio",
+      "url": "https://laotrafm.makrodigital.com/stream/laotrafmquito",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "Võmba FM",
+      "style": "EE/1990s",
+      "url": "https://c4.radioboss.fm:18123/stream",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 320
+    },
+    {
+      "name": "Sky Plus DnB",
+      "style": "EE/dance",
+      "url": "https://edge03.cdn.bitflip.ee:8888/NRJdnb",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "ERR Raadio 4",
+      "style": "EE/err",
+      "url": "http://icecast.err.ee/raadio4.mp3?type=.mp3/;stream.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Relax cafe",
+      "style": "EE/jazz",
+      "url": "https://stream.relaxfm.ee/cafe",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 96
+    },
+    {
+      "name": "Raadio 2 HQ",
+      "style": "EE/misc",
+      "url": "http://icecast.err.ee/raadio2korge.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "FinEst Radio",
+      "style": "EE/Radio",
+      "url": "https://shoutcast.finestfm.fi/stream/1/:80/;stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Retro FM Estonia",
+      "style": "EE/retro",
+      "url": "https://edge02.cdn.bitflip.ee:8888/RETRO?_i=258f436b",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "Rock FM",
+      "style": "EE/rock",
+      "url": "https://edge02.cdn.bitflip.ee:8888/rck?_i=5f5ab186",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "Radio Hits 88.2 Cairo",
+      "style": "EG/arabic music",
+      "url": "https://radiohits882.radioca.st/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Arab Mix FM",
+      "style": "EG/classic hits",
+      "url": "https://stream.zeno.fm/na3vpvn10qruv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Tes3enat FM",
+      "style": "EG/classical",
+      "url": "http://178.33.135.244:20095/;?DIST=TuneIn&TGT=TuneIn&maxServers=2&partnertok=eyJhbGciOiJIUzI1NiIsImtpZCI6InR1bmVpbiIsInR5cCI6IkpXVCJ9.eyJ0cnVzdGVkX3BhcnRuZXIiOnRydWUsImlhdCI6MTYzNjA1OTE3OCwiaXNzIjoidGlzcnYifQ.Me0snc2PBcQhvlzte9L7zQxa-IHgNinhu3XdNJ6_Xa8",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Amr Diab Radio",
+      "style": "EG/pop",
+      "url": "https://stream-40.zeno.fm/xa4yhh4k838uv?zs=gojgaFRaRrK1wgGIwdv6xA",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio 9090 90.9",
+      "style": "EG/Radio",
+      "url": "http://9090streaming.mobtada.com/9090FMEGYPT",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "إذاعة القرآن الكريم من القاهرة",
+      "style": "EG/اسلامي",
+      "url": "http://n12.radiojar.com/8s5u5tpdtwzuv?listening-from-radio-garden=1620219571863&rj-tok=AAABeTyl2zYARSWbLVnrEOlqGw&rj-ttl=5",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Radio القارئ علي حجاج السويسي",
+      "style": "EG/القرآن",
+      "url": "http://live.mp3quran.net:9842/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "---تراتيل قصيرة متميزة---",
+      "style": "EG/قران كريم",
+      "url": "https://qurango.net/radio/tarateel",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "1000 HITS 80s",
+      "style": "ES/70s",
+      "url": "http://c2.auracast.net:8048/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Chocolate FM",
+      "style": "ES/chr",
+      "url": "http://streaming5.elitecomunicacion.es:8082/live.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Cadena SER España",
+      "style": "ES/cultural news",
+      "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/CADENASER.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Ibiza Global Radio",
+      "style": "ES/dance",
+      "url": "http://ibizaglobalradio.streaming-pro.com:8024/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Cadena 100",
+      "style": "ES/music",
+      "url": "http://cadena100-streamers-mp3.flumotion.com/cope/cadena100.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Cadena Dial",
+      "style": "ES/música en español",
+      "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/CADENADIAL.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "esRadio",
+      "style": "ES/news",
+      "url": "http://livestreaming.esradio.fm/stream64.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 56
+    },
+    {
+      "name": "Rock FM",
+      "style": "ES/Radio",
+      "url": "http://flucast-bl04.flumotion.com/cope/rockfm-low.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 96
+    },
+    {
+      "name": "Kaaosradio - 24h Chill",
+      "style": "FI/chillout",
+      "url": "http://stream.kaaosradio.fi:8000/chill",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Yle Radio1HIFI 256 Kb/s",
+      "style": "FI/classical",
+      "url": "http://icecast.live.yle.fi/radio/YleRadio1Hifi/icecast.audio",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 0
+    },
+    {
+      "name": "Doubleclap Radio",
+      "style": "FI/dance",
+      "url": "https://s3.radio.co/scfd7273b2/listen",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Sveriges Radio - SR Sisuradio",
+      "style": "FI/finnish",
+      "url": "https://live1.sr.se/finska-aac-320",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 272
+    },
+    {
+      "name": "Yle Radio Suomi, Helsinki",
+      "style": "FI/helsinki",
+      "url": "http://icecast.live.yle.fi/radio/YleRS/icecast.audio",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 0
+    },
+    {
+      "name": "Finest Fm",
+      "style": "FI/hits",
+      "url": "http://212.47.220.188:8000/listen.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "YleX",
+      "style": "FI/pop",
+      "url": "https://icecast.live.yle.fi/radio/YleX/icecast.audio",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    },
+    {
+      "name": "Kaaos Radio Techno Electro",
+      "style": "FI/Radio",
+      "url": "http://stream.kaaosradio.fi:8000/stream2",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "RFI Afrique",
+      "style": "FR/africa",
+      "url": "http://live02.rfi.fr/rfiafrique-64.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Jazz Radio Blues",
+      "style": "FR/blues",
+      "url": "http://jazzblues.ice.infomaniak.ch/jazzblues-high.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "France Culture",
+      "style": "FR/culture",
+      "url": "http://icecast.radiofrance.fr/franceculture-hifi.aac",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 192
+    },
+    {
+      "name": "RMC FR",
+      "style": "FR/france",
+      "url": "https://audio.bfmtv.com/rmcradio_128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "BFM radio",
+      "style": "FR/information",
+      "url": "https://audio.bfmtv.com/bfmradio_128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "RFI Monde",
+      "style": "FR/news",
+      "url": "http://live02.rfi.fr/rfimonde-64.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "France Info",
+      "style": "FR/Radio",
+      "url": "http://direct.franceinfo.fr/live/franceinfo-midfi.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Skyrock",
+      "style": "FR/rap",
+      "url": "http://icecast.skyrock.net/s/natio_mp3_128k",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Heart 80s",
+      "style": "GB/80s",
+      "url": "https://media-ssl.musicradio.com/Heart80sMP3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Classic FM UK",
+      "style": "GB/classical",
+      "url": "http://ice-the.musicradio.com/ClassicFMMP3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Heart London 106.2 [MP3]",
+      "style": "GB/commercial",
+      "url": "http://ice-sov.musicradio.com/HeartLondonMP3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Caroline",
+      "style": "GB/country",
+      "url": "http://78.129.202.200:8040/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "BBC World Service",
+      "style": "GB/news",
+      "url": "http://stream.live.vc.bbcmedia.co.uk/bbc_world_service",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 56
+    },
+    {
+      "name": "LBC UK",
+      "style": "GB/news talk",
+      "url": "http://media-ice.musicradio.com/LBCUK",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 48
+    },
+    {
+      "name": "LBC Radio",
+      "style": "GB/political talk",
+      "url": "http://media-sov.musicradio.com/LBC973MP3Low",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 48
+    },
+    {
+      "name": "Capital FM London",
+      "style": "GB/pop",
+      "url": "http://media-ice.musicradio.com/CapitalMP3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "ADUM RADIO",
+      "style": "GH/adom",
+      "url": "http://stream.zeno.fm/dmn9atfb7ehvv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Oroko Radio",
+      "style": "GH/alternative",
+      "url": "https://oroko-radio.radiocult.fm/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Angel FM",
+      "style": "GH/arts",
+      "url": "https://atunwadigital.streamguys1.com/angelfm",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "GHERLA",
+      "style": "GH/decades",
+      "url": "http://89.39.189.52:8000/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Adom Fm",
+      "style": "GH/entertainment",
+      "url": "https://mmg.streamguys1.com/AdomFM-mp3?key=9099965b0e49394af3be11b42a71f0faa90378311d2d85f5983495217e350f0a4636df5ecf5ea3f63e53cb9026d89102&awparams=playerid%3ASGplayer%3B&amsparams=playerid%3ASGplayer%3Bskey%3A1609841442537%3B&aw_0_req.gdpr=true&us_privacy=1YNN",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Box Lofi Radio",
+      "style": "GH/lofi study beats",
+      "url": "https://stream.zeno.fm/tabzverz0fctv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "ChinaGhana Fm",
+      "style": "GH/music",
+      "url": "https://stream.zeno.fm/3w43axr9mg0uv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "citi fm",
+      "style": "GH/Radio",
+      "url": "https://citi973fm.radioca.st/index.html:80/;stream.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "KISS FM 100.6",
+      "style": "GR/00s",
+      "url": "http://live.radiokiss.gr/kissfm1006hq.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Zeppelin 106.7",
+      "style": "GR/alternative rock",
+      "url": "https://radiostreaming.ert.gr/ert-zeppelin",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Ellinikos 93.2",
+      "style": "GR/ballads",
+      "url": "http://netradio.live24.gr/orange9320",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Blues Radio",
+      "style": "GR/blues",
+      "url": "http://cast3.radiohost.ovh:8352/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "Trance Athena",
+      "style": "GR/electronic",
+      "url": "http://cast.streams.ovh:8008/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "Real FM 97.8",
+      "style": "GR/greek",
+      "url": "http://netradio.live24.gr/realfm",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Kiss 92.9",
+      "style": "GR/pop",
+      "url": "http://netradio.live24.gr/kissfmathens",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Skai 100.3",
+      "style": "GR/Radio",
+      "url": "http://netradio.live24.gr/skai1003",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Antena Zagreb Rock",
+      "style": "HR/classic rock",
+      "url": "http://live.antenazagreb.hr:8019/",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "Otvoreni Radio",
+      "style": "HR/croatian",
+      "url": "https://stream.otvoreni.hr/otvoreni",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 48
+    },
+    {
+      "name": "Radio Dalmacija",
+      "style": "HR/dalmatia",
+      "url": "http://shoutcast.pondi.hr:8000/;",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 72
+    },
+    {
+      "name": "Radio Deejay HR",
+      "style": "HR/dance",
+      "url": "http://live.deejay.hr:7002/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Extra FM",
+      "style": "HR/folk",
+      "url": "http://streams.extrafm.hr:8110/;",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 96
+    },
+    {
+      "name": "Otvoreni radio - Uživo",
+      "style": "HR/pop",
+      "url": "http://stream.otvoreni.hr/otvoreni",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 48
+    },
+    {
+      "name": "Antena Zagreb Uživo",
+      "style": "HR/Radio",
+      "url": "http://live.antenazagreb.hr:8002/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 96
+    },
+    {
+      "name": "ENTER Zagreb",
+      "style": "HR/zagreb",
+      "url": "http://live.enterzagreb.hr:8023/",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 96
+    },
+    {
+      "name": "Oxygen The 80s Hits",
+      "style": "HU/80's",
+      "url": "https://oxygenmusic.hu:8443/oxygenthe80shits",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "Dance Wave Retro!",
+      "style": "HU/90s dance",
+      "url": "https://dancewave.online/retrodance.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Petőfi Rádió",
+      "style": "HU/alternative",
+      "url": "http://mr-stream.mediaconnect.hu/4737/mr2.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 112
+    },
+    {
+      "name": "Dance Wave!",
+      "style": "HU/club dance electronic house trance",
+      "url": "https://dancewave.online/dance.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Mercy Rádió - Kabaré",
+      "style": "HU/comedy",
+      "url": "http://stream.mercyradio.eu/kabare.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 160
+    },
+    {
+      "name": "Kossuth Rádió",
+      "style": "HU/duna média",
+      "url": "http://mr-stream.mediaconnect.hu/4734/mr1.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 96
+    },
+    {
+      "name": "Retro Rádió",
+      "style": "HU/pop",
+      "url": "https://icast.connectmedia.hu/5001/live.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Rádió 1 - Budapest",
+      "style": "HU/Radio",
+      "url": "http://icast.connectmedia.hu/5201/live.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "RDI 97.1 FM",
+      "style": "ID/dangdut",
+      "url": "http://202.147.199.99:8000/;stream/1",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "I-Radio Jakarta",
+      "style": "ID/indonesia",
+      "url": "http://stream.radiojar.com/4ywdgup3bnzuv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "TraxFM Jakarta",
+      "style": "ID/misc",
+      "url": "https://stream.radiojar.com/rrqf78p3bnzuv.mp3",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 0
+    },
+    {
+      "name": "elshinta jakarta",
+      "style": "ID/news",
+      "url": "https://stream-ssl.arenastreaming.com:8000/jakarta",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Suara Giri 98.4 FM",
+      "style": "ID/pop",
+      "url": "http://streaming.girifm.com:8010/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Dangdut 97.1 FM Jakarta",
+      "style": "ID/Radio",
+      "url": "http://202.147.199.99:8000/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Wijaya FM 103.5 FM Surabaya",
+      "style": "ID/undefined",
+      "url": "http://wijayafm.onlivestreaming.net:9880/stream?",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "Retjo Buntung 99.4 FM",
+      "style": "ID/yogyakarta",
+      "url": "http://45.64.97.82:9940/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Zenith Classic Rock",
+      "style": "IE/album tracks",
+      "url": "http://91.189.64.188:3644/zenith128mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Today FM",
+      "style": "IE/alternative",
+      "url": "https://stream.audioxi.com/TD",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Irish Pub Radio",
+      "style": "IE/ballads",
+      "url": "http://solid24.streamupsolutions.com:8026/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "RTÉ lyric fm",
+      "style": "IE/classical",
+      "url": "http://icecast.rte.ie/lyric",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 160
+    },
+    {
+      "name": "Phever Dublin",
+      "style": "IE/dance",
+      "url": "http://uk1.internet-radio.com:8200/live",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "RTE1",
+      "style": "IE/music",
+      "url": "http://icecast.rte.ie/radio1",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 160
+    },
+    {
+      "name": "Highland Radio",
+      "style": "IE/popular music",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/HIGHLAND_RADIO.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Newstalk",
+      "style": "IE/Radio",
+      "url": "https://edge.audioxi.com/NT",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "תל אביב Tel Aviv 102FM",
+      "style": "IL/hebrew",
+      "url": "http://102.livecdn.biz/102fm_aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "Galgalatz 91.8 FM",
+      "style": "IL/hits",
+      "url": "https://glzicylv01.bynetcdn.com/glglz_mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "اذاعة الشمس - A-Shams",
+      "style": "IL/ilstations",
+      "url": "https://cdna.streamgates.net/Ashams/Live/icecast.audio",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "100fm - 100% Movies",
+      "style": "IL/movie music",
+      "url": "http://gb25.streamgates.net/radios-audio/100Movies/icecast.audio",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    },
+    {
+      "name": "גלי ישראל Galey Yisrael",
+      "style": "IL/news",
+      "url": "https://cdn.cybercdn.live/Galei_Israel/Live/icecast.audio",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Первое радио 89.1FM",
+      "style": "IL/pop",
+      "url": "https://cdn.cybercdn.live/Pervoia/Audio/icecast.audio",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Radio 103FM",
+      "style": "IL/Radio",
+      "url": "https://cdn.cybercdn.live/103FM/Live/icecast.audio",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Radios 100FM",
+      "style": "IL/workout",
+      "url": "http://gb25.streamgates.net/radios-audio/100Workout/icecast.audio",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    },
+    {
+      "name": "My 90s Bengali",
+      "style": "IN/90s",
+      "url": "http://stream.zeno.fm/2k6xfu1pvs8uv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Fnf.Fm Hindi",
+      "style": "IN/bollywood",
+      "url": "http://192.99.8.192:5032/;stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Rafi hit songs",
+      "style": "IN/classic hits 60s 70a 80s",
+      "url": "https://stream-143.zeno.fm/0zkr7x8ztm0uv?zs=WTPQx8TiQXSo11XU0iyTAQ",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Kalai Fm-TAMIL",
+      "style": "IN/entertainment",
+      "url": "https://stream.zenolive.com/2vghnwshsqzuv.aac",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Mirchi Love",
+      "style": "IN/india",
+      "url": "https://drive.uber.radio/uber/bollywoodlove/icecast.audio",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "radioBollyFM",
+      "style": "IN/international",
+      "url": "http://stream.zeno.fm/zu59ykebs2zuv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "2B! Radio Sangam Krishna",
+      "style": "IN/mantra",
+      "url": "http://millenniumhits.out.airtime.pro:8000/millenniumhits_a",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 48
+    },
+    {
+      "name": "Bollywood Gaane Purane",
+      "style": "IN/Radio",
+      "url": "https://stream.zeno.fm/6n6ewddtad0uv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "80's Bylgjan",
+      "style": "IS/80s",
+      "url": "http://icecast.365net.is:8000/orb80s.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 129
+    },
+    {
+      "name": "80´s Flash Back",
+      "style": "IS/80´s pop",
+      "url": "http://ice-11.spilarinn.is/80flashback",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Trolli FM 103.7 Siglufjordu",
+      "style": "IS/adult contemporary",
+      "url": "http://live.trolli.is:8200/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "Gull Bylgjan 90.9 Reykjavik",
+      "style": "IS/classic rock",
+      "url": "http://icecast.365net.is:8000/orbGullBylgjan.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 129
+    },
+    {
+      "name": "Rúv rás1",
+      "style": "IS/culture",
+      "url": "http://netradio.ruv.is/ras1.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    },
+    {
+      "name": "Létt Bylgjan",
+      "style": "IS/easy listening",
+      "url": "http://icecast.365net.is:8000/orbLettBylgjan.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 97
+    },
+    {
+      "name": "Bylgjan 98.9 Reykjavik",
+      "style": "IS/local music",
+      "url": "http://icecast.365net.is:8000/orbbylgjan.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 129
+    },
+    {
+      "name": "Rás2",
+      "style": "IS/Radio",
+      "url": "http://netradio.ruv.is/ras2.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Armisa",
+      "style": "IT/anni 80",
+      "url": "https://onair.armisa.it/listen/armisa/radio.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Virgin Radio Classic Rock",
+      "style": "IT/classic rock",
+      "url": "http://icy.unitedradio.it/VirginRockClassics.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Rai Radio 3",
+      "style": "IT/classical",
+      "url": "http://icestreaming.rai.it/3.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "Radio Stereocittà",
+      "style": "IT/dance",
+      "url": "http://onair11.xdevel.com:8134/;stream.mp3",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 96
+    },
+    {
+      "name": "Radio 105 Network",
+      "style": "IT/hits",
+      "url": "http://icecast.unitedradio.it/Radio105.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Rai Radio 1",
+      "style": "IT/news",
+      "url": "http://icestreaming.rai.it/1.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "Radio 24 il sole 24 ore",
+      "style": "IT/news talk",
+      "url": "http://shoutcast2.radio24.it:8000/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Rai Radio 2",
+      "style": "IT/public radio",
+      "url": "http://icestreaming.rai.it/2.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "Free FM 80 Tokyo",
+      "style": "JP/#80s",
+      "url": "https://freefm80.radioca.st/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "Anime Para Ti",
+      "style": "JP/anime",
+      "url": "https://stream.zeno.fm/qpn8mkt8c4duv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Retro PC GAME MUSIC Streaming Radio",
+      "style": "JP/chiptune",
+      "url": "http://gyusyabu.ddo.jp:8000/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "Shonan Beach FM 78.9",
+      "style": "JP/classic jazz",
+      "url": "http://shonanbeachfm.out.airtime.pro:8000/shonanbeachfm_a",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "FM Kahoku 78.7 (FMかほく, JOZZ5AM-FM, 78.7 MHz, Kahoku City, Ishikawa)",
+      "style": "JP/enka",
+      "url": "http://radio.kahoku.net:8000/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 96
+    },
+    {
+      "name": "Free FM Tokyo",
+      "style": "JP/free fm",
+      "url": "https://rocafmadrid.radioca.st/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "Jazz Sakura (asia dream radio)",
+      "style": "JP/japanese",
+      "url": "http://kathy.torontocast.com:3330/stream/1/?esPlayer&cb=82181.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "J1 Gold (HTTP)",
+      "style": "JP/jpop",
+      "url": "http://jenny.torontocast.com:8062/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "JESUS IS LORD Radio",
+      "style": "KE/christian",
+      "url": "https://s3.radio.co/s97f38db97/listen",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 48
+    },
+    {
+      "name": "classic",
+      "style": "KE/classic",
+      "url": "http://media-ice.musicradio.com/ClassicFMMP3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "REGGAE ROOTS",
+      "style": "KE/classical",
+      "url": "http://relay5.181.fm:8096/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "KENYA1 FM",
+      "style": "KE/comedy",
+      "url": "https://stream.zeno.fm/cmgkmed5u18uv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Kaya",
+      "style": "KE/jazz",
+      "url": "http://usa9-vn.mixstream.net:8084/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 109
+    },
+    {
+      "name": "NRG Radio",
+      "style": "KE/pop",
+      "url": "https://streamingv2.shoutcast.com/nrg-radio-ke",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Kameme FM",
+      "style": "KE/Radio",
+      "url": "https://kamemefm-atunwadigital.streamguys1.com/kamemefm",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Easy FM 101.5",
+      "style": "KE/soul",
+      "url": "https://stream.zeno.fm/wvw02zaqpxquv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "평양FM",
+      "style": "KR/105.2",
+      "url": "https://listen7.myradio24.com/69366",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Classic Odyssey",
+      "style": "KR/classical music",
+      "url": "http://live07.inlive.co.kr:21110/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Fred Film Radio(한국어)",
+      "style": "KR/culture",
+      "url": "https://s10.webradio-hosting.com/proxy/fredradiokr/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Listen.moe Kpop (MP3)",
+      "style": "KR/kpop",
+      "url": "https://listen.moe/kpop/fallback",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Big B Radio - Kpop",
+      "style": "KR/music",
+      "url": "https://antares.dribbcast.com/proxy/kpop?mp=/s",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Oldpop Cafe",
+      "style": "KR/oldies",
+      "url": "http://cast.oldpopcafe.net:7080/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "WOW CCM",
+      "style": "KR/pop",
+      "url": "http://wowccm.iptime.org:8000/stream/1/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "JeonjuFM",
+      "style": "KR/Radio",
+      "url": "http://radiostream.communityradio.kr/jcfm1",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "lbi Radio",
+      "style": "LB/arabic",
+      "url": "http://andromeda.shoutca.st:8192/;stream.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Liban Libre",
+      "style": "LB/arabic music",
+      "url": "https://edge.mixlr.com/channel/qtqeb",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Light FM 90.5 & 90.7 Beirut",
+      "style": "LB/beirut",
+      "url": "http://25643.live.streamtheworld.com/LIGHTFMAAC_SC",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 48
+    },
+    {
+      "name": "radio maria arabic",
+      "style": "LB/christ",
+      "url": "http://dreamsiteradiocp4.com:8014/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Nidaa FM",
+      "style": "LB/classical",
+      "url": "http://nidaa.fm:8811/stream.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Beirut Nights",
+      "style": "LB/eurodance",
+      "url": "https://byblosnights.com:8443/relay",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "Voice of Lebanon (Sawtlebnan) Radio",
+      "style": "LB/Radio",
+      "url": "https://l3.itworkscdn.net/itwaudio/9054/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Byblos Radio",
+      "style": "LB/world music",
+      "url": "http://byblosnights.com:8000/byblosaac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "தமிழீழ வானொலி - Tamil Eelam Radio (North & East)",
+      "style": "LK/classical",
+      "url": "http://stream.zeno.fm/c6mgmtfg8e9uv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "SLBC -Welanda Sewaya",
+      "style": "LK/entertaiment",
+      "url": "http://220.247.227.6:8000/Scomstream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Y FM",
+      "style": "LK/entertainment",
+      "url": "http://live.trusl.com:1180/;",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "Tube Tamil FM Radio டியூப் தமிழ் எஃப்.எம் பண்பலை ரேடியோ",
+      "style": "LK/indian music",
+      "url": "http://s2.voscast.com:12084/;stream1619441439791/1",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Parani Gee",
+      "style": "LK/music",
+      "url": "http://151.80.42.191:8288/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "SLBC Tamil National Service",
+      "style": "LK/Radio",
+      "url": "https://stream-32.zeno.fm/xekhrn4zetzuv?zs=KXT1gTNYSemcxyslV6-vdA",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Hiru FM",
+      "style": "LK/talk & speech",
+      "url": "https://radio.lotustechnologieslk.net:2020/stream/hirufmgarden/stream/1/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Yes FM",
+      "style": "LK/welcome to generation yes",
+      "url": "http://live.trusl.com:1150/",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "Easy FM",
+      "style": "LT/classic rock",
+      "url": "https://netradio.ziniur.lt/easyfm.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "Žinių Radijas",
+      "style": "LT/lietuvos zinios",
+      "url": "http://netradio.ziniur.lt:8000/ziniur.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "RELAX FM Lietuva",
+      "style": "LT/lithuania",
+      "url": "https://stream1.relaxfm.lt/relaxfm128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "ZIP FM",
+      "style": "LT/pop music",
+      "url": "https://stream1.zipfm.lt/zipfm128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radiocentras",
+      "style": "LT/pop rock",
+      "url": "https://stream2.rc.lt/rc128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Žinių radijas [64 kbps MP3]",
+      "style": "LT/Radio",
+      "url": "http://netradio.ziniur.lt/ziniur_64.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "M-1 Plius",
+      "style": "LT/uab m-1",
+      "url": "http://radio.m-1.fm/m1plius/mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Laluna [MP3]",
+      "style": "LT/uab radijo stotis laluna",
+      "url": "http://radio.m-1.fm/laluna/mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 160
+    },
+    {
+      "name": "European Hit Radio - SuperHits",
+      "style": "LV/00s",
+      "url": "http://stream.europeanhitradio.com:8000/Stream_21.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 96
+    },
+    {
+      "name": "Alise Plus",
+      "style": "LV/casual",
+      "url": "http://fm2inet.aliseplus.lv:8080/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Ретро FM Рига (Retro FM)",
+      "style": "LV/classic hits",
+      "url": "https://live.retrofm.lv/retrofmlatvia",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 96
+    },
+    {
+      "name": "Radio SWH",
+      "style": "LV/classic rock",
+      "url": "http://80.232.162.149:8000/swh96mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "European Hit Radio - Dance",
+      "style": "LV/dance",
+      "url": "http://stream.europeanhitradio.com:8000/Stream_24.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 96
+    },
+    {
+      "name": "European Hit Radio - Russkie Hiti",
+      "style": "LV/ehr",
+      "url": "http://stream.europeanhitradio.com:8000/khr.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 96
+    },
+    {
+      "name": "Latvijas Radio 2",
+      "style": "LV/latvijas radio",
+      "url": "http://lr2mp1.latvijasradio.lv:8002/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Radio ENERGY.LV - Russian",
+      "style": "LV/pop",
+      "url": "http://radio2.radioenergy.lv:9000/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Aswat FM",
+      "style": "MA/arabic music",
+      "url": "https://broadcast.ice.infomaniak.ch/aswat-high.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Skyrock Casablanca",
+      "style": "MA/artists",
+      "url": "https://icecast.skyrock.net/s/casa_aac_64k",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 128
+    },
+    {
+      "name": "bldi",
+      "style": "MA/classical",
+      "url": "http://beldifm.hf.ma/radio/8000/radio.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "MRC:-Radio plus",
+      "style": "MA/country",
+      "url": "https://stream.radio.co/s8cc7a5da4/listen",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Manarat",
+      "style": "MA/culture",
+      "url": "https://listen.radioking.com/radio/252934/stream/297385",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Rap Lbeldi Maroc - Hip Hop Music from Morocco FR AR",
+      "style": "MA/french rap",
+      "url": "https://stream.zeno.fm/ivdufrl7q0quv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Aswat",
+      "style": "MA/Radio",
+      "url": "http://broadcast.ice.infomaniak.ch/aswat-high.mp3?.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Yabiladi Chaabi Maroc",
+      "style": "MA/world music",
+      "url": "https://radio.yabiladi.com:8102/;stream.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "La Ranchera de Monterrey - 1050 AM - XEG-AM - Núcleo Radio Monterrey - Monterrey, NL",
+      "style": "MX/1050",
+      "url": "http://streamingcwsradio20.com:9410/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Oldies Internet Radio",
+      "style": "MX/1970s",
+      "url": "http://162.244.81.98:8140/listen",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 128
+    },
+    {
+      "name": "SABROSITA Ciudad de México - 590 AM - XEPH-AM - NRM Comunicaciones - Ciudad de México",
+      "style": "MX/590",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/XEPHAMAAC.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 32
+    },
+    {
+      "name": "Café Romántico Radio (Monterrey) - Online - www.caferomanticoradio.com - Grupo Digital Radioland - Monterrey, Nuevo León",
+      "style": "MX/80s en español",
+      "url": "https://panel.retrolandigital.com/radio/8110/listen",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 96
+    },
+    {
+      "name": "88.9 Noticias - 88.9 FM - XHM-FM - Grupo ACIR - Ciudad de México",
+      "style": "MX/88.9",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/XHMFMAAC_SC.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 48
+    },
+    {
+      "name": "BEAUTIFUL Instrumentals",
+      "style": "MX/classical",
+      "url": "http://s3.voscast.com:10038/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Cumbias Inmortales Radio (Monterrey) - Online - www.cumbiasinmortales.com - Grupo Digital Retroland - Monterrey, Nuevo León",
+      "style": "MX/clásicos",
+      "url": "https://panel.retrolandigital.com/listen/cumbias_inmortales_radio/listen",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 96
+    },
+    {
+      "name": "Los 40 Principales México",
+      "style": "MX/hits",
+      "url": "http://29309.live.streamtheworld.com/LOS40_MEXICO_SC",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Slow Rock 90'",
+      "style": "MY/90's",
+      "url": "https://stream.zeno.fm/hiut6cwfoneuv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Rosak",
+      "style": "MY/alternative rock",
+      "url": "https://radiorosak.radioca.st/stream",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 48
+    },
+    {
+      "name": "Jazz Lounge",
+      "style": "MY/classic jazz",
+      "url": "http://eu8.fastcast4u.com:5068/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "Impian FM",
+      "style": "MY/classic rock",
+      "url": "http://167.114.131.90:6156/stream/1/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Jei FM Klang Tamil Radio",
+      "style": "MY/klang",
+      "url": "https://usa3.fastcast4u.com/proxy/jeifm?mp=/1",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "Kelantan FM",
+      "style": "MY/local music",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/KELANTAN_FMAAC.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "988 FM",
+      "style": "MY/Radio",
+      "url": "https://28103.live.streamtheworld.com/988_FMAAC.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "ai fm",
+      "style": "MY/various music",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/AI_FMAAC_SC",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "MajorFM",
+      "style": "NG/80s",
+      "url": "http://stream.zeno.fm/pkza99xshkhvv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Afrobeats Gospel Radio",
+      "style": "NG/african",
+      "url": "https://stream.zeno.fm/zyd9stmdlnlvv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Gospotainment Radio",
+      "style": "NG/afrobeats",
+      "url": "https://radio.gotright.net/radio/8000/radio.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Inform Me Radio",
+      "style": "NG/business programs",
+      "url": "http://stream.zeno.fm/ta1fke6sz1zuv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Nigerian Gospel Music Radio (MP3)",
+      "style": "NG/christian",
+      "url": "http://stream.zeno.fm/3fmqr74a7f8uv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Nagari Radio",
+      "style": "NG/http:--stream.zeno.fm-287z97ksdg8uv",
+      "url": "http://stream.zeno.fm/287z97ksdg8uv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio East",
+      "style": "NG/music",
+      "url": "http://stream.zeno.fm/7f4w4us5wp8uv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "RFI Haoussa",
+      "style": "NG/Radio",
+      "url": "http://live02.rfi.fr/rfihaoussa-96k.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 96
+    },
+    {
+      "name": "Radio 10",
+      "style": "NL/00's",
+      "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/RADIO10.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "NPO Radio 5",
+      "style": "NL/60's",
+      "url": "https://icecast.omroep.nl/radio5-bb-mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Sky Radio 80's Hits",
+      "style": "NL/80s",
+      "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/SRGSTR04.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Arrow Classic Rock",
+      "style": "NL/classic rock",
+      "url": "http://stream.gal.io/arrow",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Intense Radio - We love Dance 256K",
+      "style": "NL/clubhouse",
+      "url": "https://secure.live-streams.nl/main",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "Hi On Line Lounge Radio",
+      "style": "NL/electronic",
+      "url": "http://mediaserv33.live-streams.nl:8036/live",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "NPO Radio 2",
+      "style": "NL/evergreens",
+      "url": "http://icecast.omroep.nl/radio2-bb-mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "NPO Radio 1",
+      "style": "NL/news",
+      "url": "http://icecast.omroep.nl/radio1-bb-mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Radio Rock (NO)",
+      "style": "NO/classic rock",
+      "url": "https://live-bauerno.sharp-stream.com/radiorock_no_mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Norsk Country Radio",
+      "style": "NO/country",
+      "url": "http://s6.voscast.com:10258/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "historyradio.org",
+      "style": "NO/educational",
+      "url": "http://stream.radiojar.com/6bmecgg3wd5tv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Radio Vinyl Oslo",
+      "style": "NO/info",
+      "url": "http://live-bauerno.sharp-stream.com/vinyl_no_mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "1-NRK Jazz",
+      "style": "NO/jazz",
+      "url": "http://cdn0-47115-liveicecast0.dna.contentdelivery.net/jazz_mp3_h",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "P5 Nonstop Hits (AAC HQ)",
+      "style": "NO/p4",
+      "url": "https://p5n.p4groupaudio.com/P05AAH",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 192
+    },
+    {
+      "name": "NRJ Norge",
+      "style": "NO/pop",
+      "url": "https://live-bauerno.sharp-stream.com/kiss_no_mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Metal Express Radio",
+      "style": "NO/Radio",
+      "url": "http://s39.myradiostream.com:11590/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Ultimaě radio",
+      "style": "NP/electronic",
+      "url": "https://ultimae-bofaradio.radioca.st/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Ujyaalo 90 Network",
+      "style": "NP/entertainment",
+      "url": "http://stream.zenolive.com/wtuvp08xq1duv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 112
+    },
+    {
+      "name": "Radio Himalaya",
+      "style": "NP/himalaya",
+      "url": "https://live.itech.host/himalayaradio?1588276425741",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Kantipur FM",
+      "style": "NP/kantipur",
+      "url": "https://radio-broadcast.ekantipur.com/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Hits FM 91.2",
+      "style": "NP/music",
+      "url": "https://usa15.fastcast4u.com/proxy/hitsfm912?mp=/1",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "रेडियो हिमालय",
+      "style": "NP/nepali evergreen",
+      "url": "https://live.itech.host/himalayaradio",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "BBC Nepali",
+      "style": "NP/news",
+      "url": "https://stream.live.vc.bbcmedia.co.uk/bbc_nepali_radio",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 56
+    },
+    {
+      "name": "Kalika FM 95.2 FM",
+      "style": "NP/Radio",
+      "url": "https://streaming.softnep.net:10828/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Easy 80s",
+      "style": "NZ/80s",
+      "url": "http://procyon.shoutca.st:8032/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "新西兰中文广播电台 FM90.6 Radio Chinese",
+      "style": "NZ/chinese",
+      "url": "https://s26.myradiostream.com:20274/listen.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Wandering Sheep Radio - Christian Smooth Jazz",
+      "style": "NZ/christian",
+      "url": "http://radio.wanderingsheep.tv:8021/christianjazz",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "RNZ Concert AAC (128kbps)",
+      "style": "NZ/classical",
+      "url": "http://radionz-ice.streamguys.com/Concert_aac128",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 128
+    },
+    {
+      "name": "Classic1027",
+      "style": "NZ/classical music",
+      "url": "http://edge.iono.fm/xice/49_high.aac",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 0
+    },
+    {
+      "name": "Ski FM",
+      "style": "NZ/contemporary hits",
+      "url": "https://s2.radio.co/s6436891bc/listen",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 64
+    },
+    {
+      "name": "RNZ National MP3",
+      "style": "NZ/features",
+      "url": "http://radionz-ice.streamguys.com/national.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Gaia FM New Zealand",
+      "style": "NZ/Radio",
+      "url": "http://s2.stationplaylist.com:9000/gaiafm.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Corazón (94.3 FM Lima)",
+      "style": "PE/baladas en español",
+      "url": "https://mdstrm.com/audio/5fada514fc16c006bd63370f/icecast.audio",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio La Mega",
+      "style": "PE/cumbia",
+      "url": "https://mdstrm.com/audio/5fada56fe4e09508207a7951/icecast.audio",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 128
+    },
+    {
+      "name": "Studio 92 (92.5 FM Lima)",
+      "style": "PE/electronic music",
+      "url": "https://mdstrm.com/audio/5fada553978fe1080e3ac5ea/icecast.audio",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 192
+    },
+    {
+      "name": "Top Latino",
+      "style": "PE/hits",
+      "url": "http://online.radiodifusion.net:8020/stream",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 48
+    },
+    {
+      "name": "Radio Huancayo",
+      "style": "PE/peruvian cumbia",
+      "url": "https://cloud9.ldwebstudios.net:7000/;",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    },
+    {
+      "name": "RADIO LA MEGA 96.7 FM (PERU)",
+      "style": "PE/pop",
+      "url": "https://us-b4-p-e-pb13-audio.cdn.mdstrm.com/live-audio-aw/5fada56fe4e09508207a7951?",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio RPP Noticias",
+      "style": "PE/Radio",
+      "url": "https://mdstrm.com/audio/5fab3416b5f9ef165cfab6e9/icecast.audio",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 128
+    },
+    {
+      "name": "PBO Radio",
+      "style": "PE/talk news",
+      "url": "http://n06.radiojar.com/2fse67zuv8hvv?1669054401=&rj-tok=AAABhJtuNOUAIi7Le3h5PA-2VA&rj-ttl=5",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Budots FM 98.9",
+      "style": "PH/budots",
+      "url": "https://stream-171.zeno.fm/2uhuu5hvzqzuv?zs=oGfN_quRRSyJUGCfzxagdw",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Christmas Radio Philippines - Powered By www.amfmph.net",
+      "style": "PH/christmas music",
+      "url": "https://us1.amfmph.com/ssl/christmasradio?mp=/stream&1641738050672",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "Pinoy Rap Radio",
+      "style": "PH/filipino",
+      "url": "https://stream.zeno.fm/0cdp55nqam0uv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Wild FM Manila",
+      "style": "PH/music",
+      "url": "https://stream-31.zeno.fm/2ss1hgnu6hhvv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Bombo Radyo Iloilo",
+      "style": "PH/news",
+      "url": "https://stream.zenolive.com/gzudz59nz9duv",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 64
+    },
+    {
+      "name": "Barangay LS 97.1 Manila",
+      "style": "PH/opm",
+      "url": "http://28093.live.streamtheworld.com:3690/MORFM_S01AAC_SC",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "98.3 Love Radio Dagupan",
+      "style": "PH/pop",
+      "url": "https://loveradiodagupan.radioca.st/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 96
+    },
+    {
+      "name": "Star FM Manila",
+      "style": "PH/Radio",
+      "url": "https://stream-13.zeno.fm/g1pmt17nz9duv",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 96
+    },
+    {
+      "name": "Hum FM 106.2",
+      "style": "PK/bollywood",
+      "url": "https://server.mediacast4u.stream/8002/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 96
+    },
+    {
+      "name": "fm.92",
+      "style": "PK/classical",
+      "url": "http://s33.myradiostream.com:13872/listen.m4a",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 32
+    },
+    {
+      "name": "Hot FM 105",
+      "style": "PK/entertainment",
+      "url": "http://172.93.237.106:8000/listen.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "FM 100 Pakistan",
+      "style": "PK/folk",
+      "url": "http://162.244.80.118:4900/;stream.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 32
+    },
+    {
+      "name": "Radio One FM 91",
+      "style": "PK/islamabad",
+      "url": "https://cc.vmakerhost.com/proxy/karachi?mp=/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Pak Filmi",
+      "style": "PK/lollywood",
+      "url": "http://s17.ssl-stream.com:8214/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Samaa FM 107.4",
+      "style": "PK/news",
+      "url": "https://samaakhi107-itelservices.radioca.st/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 96
+    },
+    {
+      "name": "Radio Pakistan Multan MW",
+      "style": "PK/Radio",
+      "url": "https://whmsonic.radio.gov.pk:8034/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 96
+    },
+    {
+      "name": "RMF Classic",
+      "style": "PL/classical",
+      "url": "http://31.192.216.8/RMFCLASSIC48",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 48
+    },
+    {
+      "name": "Polskie Radio 24",
+      "style": "PL/information",
+      "url": "http://stream3.polskieradio.pl:8080/;.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Antyradio",
+      "style": "PL/metal",
+      "url": "https://n-4-2.dcs.redcdn.pl/sc/o2/Eurozet/live/antyradio.livx?audio=5",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radioparty.pl Dj Mixes Party",
+      "style": "PL/mixes",
+      "url": "http://djmixes.radioparty.pl:8035/",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 64
+    },
+    {
+      "name": "Polskie Radio Jedynka",
+      "style": "PL/polskieradio",
+      "url": "http://mp3.polskieradio.pl:8900/;.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Radio Gdansk",
+      "style": "PL/pop",
+      "url": "http://stream.task.gda.pl:8000/rg1",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Zet",
+      "style": "PL/Radio",
+      "url": "http://zet-net-01.cdn.eurozet.pl:8400/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "RMF FM",
+      "style": "PL/rmf",
+      "url": "http://195.150.20.242:8000/rmf_fm",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Spot Radio",
+      "style": "PR/adult contemporary",
+      "url": "https://c9.radioboss.fm/stream/141",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "AZ Rock",
+      "style": "PR/alfa",
+      "url": "http://cassini.shoutca.st:9300/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Casa Pueblo",
+      "style": "PR/community news",
+      "url": "http://s1.voscast.com:9906/;stream1523840050300/1",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 48
+    },
+    {
+      "name": "WUNO 630 \"Noti Uno\" San Juan",
+      "style": "PR/information",
+      "url": "http://68.235.35.243:9027/;stream.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "WALO 1240 \"Radio Oriental\" Humacao",
+      "style": "PR/local news",
+      "url": "http://68.235.35.243:9031/stream?type=.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Hot 102",
+      "style": "PR/mainstream",
+      "url": "https://server7.servistreaming.com/proxy/hot?mp=%2Fstream%3Ftype%3D.mp3&_=1",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 96
+    },
+    {
+      "name": "WUPR Éxitos 1530",
+      "style": "PR/misc",
+      "url": "https://exitos1530.radioca.st/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 185
+    },
+    {
+      "name": "Fidelity 95.7 fm PR",
+      "style": "PR/Radio",
+      "url": "https://server7.servistreaming.com/proxy/fidelity?mp=%2Fstream%3Ftype%3D.mp3&_=1",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Rádio Nova Era",
+      "style": "PT/dj",
+      "url": "http://centova.radio.com.pt:9478/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Deep in Radio",
+      "style": "PT/electro",
+      "url": "http://s3.viastreaming.net:8525/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Rádio Amália",
+      "style": "PT/fado",
+      "url": "http://centova.radio.com.pt:9496/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Rap/Hip Hop",
+      "style": "PT/hip hop",
+      "url": "http://185.32.188.17:8097/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "4Drive Jazz",
+      "style": "PT/jazz fusion",
+      "url": "http://radio.streemlion.com:1150/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Rádio Renascença",
+      "style": "PT/national news",
+      "url": "http://25633.live.streamtheworld.com/RADIO_RENASCENCA_SC",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Mega Hits",
+      "style": "PT/pop",
+      "url": "http://22183.live.streamtheworld.com:3690/MEGA_HITS_SC",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "RFM",
+      "style": "PT/Radio",
+      "url": "https://23603.live.streamtheworld.com/RFMAAC.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "Play 90's",
+      "style": "RO/90s",
+      "url": "http://live.playradio.org:9090/90HD",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 192
+    },
+    {
+      "name": "Dance FM 89.5 Bucharest",
+      "style": "RO/dance",
+      "url": "http://edge126.rdsnet.ro:84/profm/dancefm.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Deep House Radio - Bucharest Romania",
+      "style": "RO/deep house",
+      "url": "http://live.dancemusic.ro:7000/radio.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Romania Actualități",
+      "style": "RO/folk",
+      "url": "http://89.238.227.6:8006/;",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Manele FM",
+      "style": "RO/folk music",
+      "url": "http://a.fmradiomanele.ro:8054/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Europa FM",
+      "style": "RO/music",
+      "url": "http://astreaming.europafm.ro:8000/europafm_aacp48k",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 64
+    },
+    {
+      "name": "Pro FM",
+      "style": "RO/pop",
+      "url": "http://edge126.rdsnet.ro:84/profm/profm.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Kiss Fm Ro",
+      "style": "RO/romanian pop",
+      "url": "https://live.kissfm.ro/kissfm.aacp",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 80
+    },
+    {
+      "name": "Radio Lola - Domaca",
+      "style": "RS/classical",
+      "url": "https://streaming.tdiradio.com/radiolola.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "TDI Radio",
+      "style": "RS/club",
+      "url": "http://streaming.tdiradio.com:8000/tdiradio",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 0
+    },
+    {
+      "name": "Cool Radio",
+      "style": "RS/folk",
+      "url": "http://176.9.30.66/cool64",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Nostalgija",
+      "style": "RS/goldies",
+      "url": "http://nostalgie128.streaming.rs:9250/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Super FM",
+      "style": "RS/hits",
+      "url": "http://onair.superfm.rs/superfm.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Karolina",
+      "style": "RS/lounge",
+      "url": "http://streaming.karolina.rs:8000/karolina",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 0
+    },
+    {
+      "name": "OK radio",
+      "style": "RS/Radio",
+      "url": "https://sslstream.okradio.net/;?type=http&nocache=8804",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    },
+    {
+      "name": "Hit FM Radio Beograd",
+      "style": "RS/serbian music",
+      "url": "http://streaming.hitfm.rs:8000/hit",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 0
+    },
+    {
+      "name": "DFM Дискач 90-х",
+      "style": "RU/90-е",
+      "url": "https://dfm-disc90.hostingradio.ru/disc9096.aacp",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 96
+    },
+    {
+      "name": "Ретро FM",
+      "style": "RU/classic hits",
+      "url": "http://retroserver.streamr.ru:8043/retro256.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "ROCK FM",
+      "style": "RU/classic rock",
+      "url": "http://nashe1.hostingradio.ru/rock-128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Europa Plus",
+      "style": "RU/dance",
+      "url": "http://ep256.hostingradio.ru:8052/europaplus256.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Дорожное радио",
+      "style": "RU/dorojnoe",
+      "url": "http://dorognoe.hostingradio.ru:8000/radio",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "Вести ФМ (Vesti FM)",
+      "style": "RU/news",
+      "url": "http://icecast.vgtrk.cdnvideo.ru/vestifm_mp3_192kbps",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "РАДИО ВАНЯ",
+      "style": "RU/pop",
+      "url": "https://icecast-radiovanya.cdnvideo.ru/radiovanya",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "Радио Русские Песни",
+      "style": "RU/russian pop",
+      "url": "http://listen.rusongs.ru/ru-mp3-128",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "RadioSunna",
+      "style": "SA/arabic",
+      "url": "http://andromeda.shoutca.st:8189/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 32
+    },
+    {
+      "name": "تفسير القرآن الكريم",
+      "style": "SA/classical",
+      "url": "https://qurango.net/radio/tafseer",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Fred Film Radio(لغة عربية)",
+      "style": "SA/culture",
+      "url": "https://s10.webradio-hosting.com/proxy/fredradioar/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "SBA Radio Call Of Islam 107.5 FM",
+      "style": "SA/life guide",
+      "url": "http://104.7.66.64:8010/;?icy=http",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "إذاعة الأخبار كل 5 دقائق REPLAY NEWS - العربية",
+      "style": "SA/news",
+      "url": "https://replaynewsar.ice.infomaniak.ch/replaynewsar-128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Mp3Quran Main",
+      "style": "SA/quran",
+      "url": "https://qurango.net/radio/mix",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "إذاعة القرآن الكريم (مكة المكرمة)",
+      "style": "SA/quran radio",
+      "url": "https://edge.mixlr.com/channel/rwumx",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "إذاعة السنة",
+      "style": "SA/Radio",
+      "url": "http://andromeda.shoutca.st:8189/live",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 32
+    },
+    {
+      "name": "Bandit Rock",
+      "style": "SE/alternative rock",
+      "url": "http://fm02-ice.stream.khz.se/fm02_mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Pirate Rock Västkustens bästa rock",
+      "style": "SE/classic rock",
+      "url": "http://stream.piraterock.se:8101/webradio",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Country Rocks Radio",
+      "style": "SE/country",
+      "url": "http://stream.dbmedia.se/crr96",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    },
+    {
+      "name": "Sveriges Radio - P1",
+      "style": "SE/news",
+      "url": "https://live1.sr.se/p1-aac-320",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 128
+    },
+    {
+      "name": "Retro FM Skåne",
+      "style": "SE/oldies",
+      "url": "https://live-bauerse-fm.sharp-stream.com/retrofm_aacp?ua=WEB&aw_0_1st.playerid=SBS_RP_WEB&aw_0_1st.skey=1575715192&companionAds=true&listenerId=@@GUID@@",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 96
+    },
+    {
+      "name": "Sveriges Radio - P3",
+      "style": "SE/public radio",
+      "url": "https://live1.sr.se/p3-aac-320",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 312
+    },
+    {
+      "name": "Mix Megapol",
+      "style": "SE/Radio",
+      "url": "http://tx-bauerse.sharp-stream.com/http_live.php?ua=WEB&i=mixmegapol_instream_se_mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "NRJ Sweden",
+      "style": "SE/top 40",
+      "url": "http://tx-bauerse.sharp-stream.com/http_live.php?i=nrj_instreamtest_se_mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "GOLD 905",
+      "style": "SG/classical",
+      "url": "https://22403.live.streamtheworld.com/GOLD905_SC",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 96
+    },
+    {
+      "name": "973FM: Blasts That Last radio",
+      "style": "SG/hits",
+      "url": "https://c16.radioboss.fm:18115/stream?icecast",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 96
+    },
+    {
+      "name": "LOVE 972",
+      "style": "SG/melisten",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/LOVE972FM_PREM.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "987FM",
+      "style": "SG/music",
+      "url": "https://22393.live.streamtheworld.com/987FM_PREM.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "CNA 938 Live Singapore",
+      "style": "SG/news",
+      "url": "http://28323.live.streamtheworld.com:3690/938NOW_PREM_SC",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "Singapore Chinese POP YES FM 933",
+      "style": "SG/pop",
+      "url": "https://22893.live.streamtheworld.com/YES933_SC?dist=radiosingapore",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 96
+    },
+    {
+      "name": "kiss92",
+      "style": "SG/pop music",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/KISS_92_SC",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 96
+    },
+    {
+      "name": "YES 933 Radio",
+      "style": "SG/Radio",
+      "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/YES933AAC.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 48
+    },
+    {
+      "name": "Radio FM",
+      "style": "SK/alternative",
+      "url": "https://icecast.stv.livebox.sk/fm_128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Rádio Lumen",
+      "style": "SK/catholic",
+      "url": "http://audio.lumen.sk:8000/live128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "SRo8 Rádio Litera",
+      "style": "SK/cultural",
+      "url": "http://icecast.stv.livebox.sk/litera_128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Fun Radio Dance",
+      "style": "SK/dance",
+      "url": "http://stream.funradio.sk:8000/dance128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "SRo1 Rádio Slovensko",
+      "style": "SK/news",
+      "url": "http://live.slovakradio.sk:8000/Slovensko_128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Rádio Vlna",
+      "style": "SK/oldies",
+      "url": "http://stream.radiovlna.sk/vlna-hi.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Fun Radio",
+      "style": "SK/pop",
+      "url": "http://stream.funradio.sk:8000/fun128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "SRo1 Rádio Slovensko (256k)",
+      "style": "SK/Radio",
+      "url": "http://live.slovakradio.sk:8000/Slovensko_256.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "Dakar Musique",
+      "style": "SN/african music",
+      "url": "http://listen.senemultimedia.net:8090/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Or FM 89.6 Orkadiéré",
+      "style": "SN/community radio",
+      "url": "https://stream.zeno.fm/gy7fpc2am1duv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Metraf FM 103.7 Dakar",
+      "style": "SN/culture",
+      "url": "https://stream.zeno.fm/66yrv69ffv8uv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Rewmi FM 97.5 Dakar",
+      "style": "SN/general",
+      "url": "https://stream-61.zeno.fm/nkzsqg16t8quv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Love FM 107.3 Dakar",
+      "style": "SN/music",
+      "url": "https://stream.zeno.fm/7cru7g7rcwzuv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "H24",
+      "style": "SN/Radio",
+      "url": "http://listen.senemultimedia.net:8070/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "RTS 92.5 RSI",
+      "style": "SN/Radio",
+      "url": "https://10gb1.acangroup.org:8000/rsi",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 0
+    },
+    {
+      "name": "RTS Matam 89.1",
+      "style": "SN/regional",
+      "url": "https://stream.zeno.fm/kxud8vhqt1duv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "BKK.FM",
+      "style": "TH/alternative",
+      "url": "https://rsas.bkk.fm/radio",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 64
+    },
+    {
+      "name": "ไทยลานนาเรดิโอ FM 106.5 จังหวัดตาก",
+      "style": "TH/country",
+      "url": "https://inter.lannaradio.com/radio/8000/radio.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "ลูกทุ่งเน็ตเวิร์ค",
+      "style": "TH/fm 98.5 mhz ลูกทุ่ง ทั้ง",
+      "url": "http://media.login.in.th:8200/;stream.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "Bluewave 97 (CR)",
+      "style": "TH/music",
+      "url": "http://112.121.151.133:8109/live",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "มิติข่าว 90.5",
+      "style": "TH/news",
+      "url": "http://live3.smartbomb.co.th:8624/;stream.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Isan FM 98",
+      "style": "TH/pop",
+      "url": "http://radio11.plathong.net:8900/stream.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 96
+    },
+    {
+      "name": "90 rakthai",
+      "style": "TH/Radio",
+      "url": "http://radio11.plathong.net:8896/;stream.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 96
+    },
+    {
+      "name": "สวพ.91",
+      "style": "TH/traffic",
+      "url": "http://122.155.16.48:8955/;stream.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "radio coran",
+      "style": "TN/classical",
+      "url": "http://n0b.radiojar.com/0tpy1h0kxtzuv?",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Radio Tunisie Gafsa",
+      "style": "TN/gafsa",
+      "url": "http://rtstream.tanitweb.com/gafsa",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Tunisia Med",
+      "style": "TN/généraliste",
+      "url": "https://azuracast.conceptradio.fr:8000/radio.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "RTCI",
+      "style": "TN/international",
+      "url": "http://rtstream.tanitweb.com/rtci",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Tunisie Monastir",
+      "style": "TN/monastir",
+      "url": "http://rtstream.tanitweb.com/monastir",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Mosaique FM",
+      "style": "TN/Radio",
+      "url": "http://radio.mosaiquefm.net:8000/mosalive",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 90
+    },
+    {
+      "name": "Radio Tunisie Sfax",
+      "style": "TN/regional",
+      "url": "http://rtstream.tanitweb.com/sfax",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Tunisie Jeunes",
+      "style": "TN/youth",
+      "url": "http://rtstream.tanitweb.com/jeunes",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radyo Şiran",
+      "style": "TR/folk",
+      "url": "https://live.radyositesihazir.com/8078/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "ALTIN SARKILAR",
+      "style": "TR/golden oldies",
+      "url": "http://37.247.98.8/stream/25/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Arabesk FM",
+      "style": "TR/müzik",
+      "url": "http://yayin.arabeskfm.biz:8042/",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "Süper FM",
+      "style": "TR/pop",
+      "url": "http://25243.live.streamtheworld.com:3690/SUPER_FMAAC_SC",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "Virgin Radio Türkiye",
+      "style": "TR/pop rock",
+      "url": "http://29073.live.streamtheworld.com:3690/VIRGIN_RADIO_SC",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "DAMAR TURK FM",
+      "style": "TR/Radio",
+      "url": "https://live.radyositesihazir.com:10997/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radyo Fenomen",
+      "style": "TR/turkey",
+      "url": "https://live.radyofenomen.com/fenomen/128/icecast.audio",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 56
+    },
+    {
+      "name": "Türkülerle Türkiye",
+      "style": "TR/türkü",
+      "url": "http://37.247.98.8/stream/22/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "太陽電台",
+      "style": "TW/89.1",
+      "url": "http://211.20.119.102:8081/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Classical 古典音樂台 FM 97.7",
+      "style": "TW/classical music",
+      "url": "http://59.120.88.155:8000/live.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "台中城市廣播",
+      "style": "TW/information",
+      "url": "http://fm901.cityfm.tw:8080/901.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "中廣音樂網",
+      "style": "TW/music",
+      "url": "https://n03.rcs.revma.com/ndk05tyy2tzuv",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 0
+    },
+    {
+      "name": "中廣新聞網",
+      "style": "TW/news",
+      "url": "https://n03.rcs.revma.com/78fm9wyy2tzuv",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 0
+    },
+    {
+      "name": "台中廣播",
+      "style": "TW/public radio",
+      "url": "http://211.20.119.101:8081/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "城市廣播網•台南知音",
+      "style": "TW/Radio",
+      "url": "http://fm971.cityfm.tw:8080/971.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "台中歡喜之聲FM105.5",
+      "style": "TW/talk",
+      "url": "http://59.125.41.65:8081/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "East Africa Radio FM",
+      "style": "TZ/african music",
+      "url": "https://eatv.radioca.st/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "RADIO MARIA TANZANIA",
+      "style": "TZ/catholic",
+      "url": "http://dreamsiteradiocp2.com:8034/stream",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 32
+    },
+    {
+      "name": "Radio Uhai",
+      "style": "TZ/christian",
+      "url": "https://s2.citrus3.com:8050/stream",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 128
+    },
+    {
+      "name": "Heaven FM Radio",
+      "style": "TZ/gospel-",
+      "url": "http://stream.zeno.fm/eequgfw72hhvv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Capital Radio",
+      "style": "TZ/news",
+      "url": "https://capitalradio.radioca.st/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Clouds FM",
+      "style": "TZ/pop",
+      "url": "http://eu6.fastcast4u.com:5306/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio One Stereo",
+      "style": "TZ/Radio",
+      "url": "https://radioonetanzania.radioca.st/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Wasafi Fm",
+      "style": "TZ/Radio",
+      "url": "http://streaming.radionomy.com/JamendoLounge",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Хіт ФМ Найбільші хіти",
+      "style": "UA/90's",
+      "url": "http://online.hitfm.ua/HitFM_Best",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio ROKS Ballads",
+      "style": "UA/classic rock",
+      "url": "http://online.radioroks.ua/RadioROKS_Ballads_HD",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "Hit FM (UKraine) - 128kb/s",
+      "style": "UA/dance",
+      "url": "http://195.95.206.17/HitFM",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "KissFm Deep",
+      "style": "UA/electronic",
+      "url": "http://online.kissfm.ua/KissFM_Deep_Live",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 32
+    },
+    {
+      "name": "Люкс FМ 103.1",
+      "style": "UA/music",
+      "url": "http://lux.radio.tvstitch.com/kyiv/lux_adv_sd",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 128
+    },
+    {
+      "name": "Радио НВ",
+      "style": "UA/news",
+      "url": "http://91.218.212.84:8000/radionv.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Хіт FM Сучасні хіти",
+      "style": "UA/pop",
+      "url": "http://online.hitfm.ua/HitFM_Top",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Rock Ballads",
+      "style": "UA/rock",
+      "url": "http://online.radioroks.ua/RadioROKS_Ballads",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Capital FM - 91.3 FM (MP3)",
+      "style": "UG/adult contemporary",
+      "url": "http://capitalfm.cloudrad.io/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "RX Radio",
+      "style": "UG/afro-pop",
+      "url": "https://c14.radioboss.fm:18223/stream?1615807421100=",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "RADIO MARIA UGANDA",
+      "style": "UG/catholic",
+      "url": "http://dreamsiteradiocp.com:8052/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 48
+    },
+    {
+      "name": "Uganda DJs",
+      "style": "UG/hiphop",
+      "url": "https://stream.zeno.fm/muzrp86994zuv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Sanyu Fm",
+      "style": "UG/music",
+      "url": "http://s44.myradiostream.com:8138/stream",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 48
+    },
+    {
+      "name": "Akaboozi FM 87.9",
+      "style": "UG/news",
+      "url": "http://162.244.80.52:8732/stream.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Capital FM",
+      "style": "UG/Radio",
+      "url": "http://5229.cloudrad.io:8316/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "107.9 Pearl Fm",
+      "style": "UG/rock",
+      "url": "https://dc4.serverse.com/proxy/pearlfm/stream/1/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "Classic Vinyl HD",
+      "style": "US/1930",
+      "url": "https://icecast.walmradio.com:8443/classic",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "CLASSIC HITS RADIO 70 80 DiscoFunk ModernSoul Boogie",
+      "style": "US/1970s",
+      "url": "https://radiopanther.radiolebowski.com/play",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 192
+    },
+    {
+      "name": "WALM - Old Time Radio",
+      "style": "US/78",
+      "url": "https://icecast.walmradio.com:8443/otr",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Adroit Jazz Underground",
+      "style": "US/avant-garde",
+      "url": "https://icecast.walmradio.com:8443/jazz",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "Radio Paradise Main Mix (EU) 320k AAC",
+      "style": "US/california",
+      "url": "http://stream-uk1.radioparadise.com/aac-320",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 320
+    },
+    {
+      "name": "WALM 2 HD",
+      "style": "US/choral",
+      "url": "https://icecast.walmradio.com:8443/walm2",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "Christmas Vinyl HD",
+      "style": "US/christian",
+      "url": "https://icecast.walmradio.com:8443/christmas",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "101 SMOOTH JAZZ",
+      "style": "US/easy listening",
+      "url": "http://jking.cdnstream1.com/b22139_128mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Hà Nội Community Radio",
+      "style": "VN/community radio",
+      "url": "https://ha-noi-community-radio.radiocult.fm/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 160
+    },
+    {
+      "name": "CRI Tiếng Việt",
+      "style": "VN/news",
+      "url": "https://ice5.securenetsystems.net:80/KALI",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 32
+    },
+    {
+      "name": "RFI Tiếng Việt",
+      "style": "VN/news",
+      "url": "https://rfienvietnamien64k.ice.infomaniak.ch/rfienvietnamien-64.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Vietnamese National People",
+      "style": "VN/news",
+      "url": "http://c13.radioboss.fm:8127/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 48
+    },
+    {
+      "name": "Digital Radio Hongkong",
+      "style": "VN/pop",
+      "url": "http://ice.digitalradiohk.net:8000/drhk",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    },
+    {
+      "name": "M Radio Vietnam",
+      "style": "VN/pop",
+      "url": "https://stream-155.zeno.fm/4q7y9hvkp2zuv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiI0cTd5OWh2a3AyenV2IiwiaG9zdCI6InN0cmVhbS0xNTUuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6ImlpeGFsbUNWVE51cGxub1h2eE9NTmciLCJpYXQiOjE3MzE1NTExNjIsImV4cCI6MTczMTU1MTIyMn0.RQUqatQ8CtSaIcvH9kT1xRfeuptGIM13jzFd-2SehU0&aw_0_req_lsid=8196d2c78a734f244852a3f8bbbecbcb",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 64
+    },
+    {
+      "name": "FM HANOI 90 MHz",
+      "style": "VN/Radio",
+      "url": "http://14.162.146.90:8000/HANOI90",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "FM HANOI 96 MHz",
+      "style": "VN/Radio",
+      "url": "http://222.252.21.96:8000/HANOI96",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "Jakaranda FM",
+      "style": "ZA/80s",
+      "url": "https://edge.iono.fm/xice/jacarandafm_live_high.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Jacaranda FM",
+      "style": "ZA/adult contemporary",
+      "url": "https://edge.iono.fm/xice/jacarandafm_live_medium.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 48
+    },
+    {
+      "name": "94.7",
+      "style": "ZA/classic hits",
+      "url": "http://27753.live.streamtheworld.com:3690/FM947AAC_SC",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 32
+    },
+    {
+      "name": "702 Johannesburg",
+      "style": "ZA/johannesburg",
+      "url": "http://25503.live.streamtheworld.com:3690/FM702_SC",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Lekker FM",
+      "style": "ZA/local",
+      "url": "https://zas3.ndx.co.za:8002/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "ECR - East Coast Radio -KwaZulu Natal",
+      "style": "ZA/news",
+      "url": "https://edge.iono.fm/xice/ecr_live_medium.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 48
+    },
+    {
+      "name": "Bosveld Stereo",
+      "style": "ZA/pop",
+      "url": "http://capeant.antfarm.co.za:8000/Bosveld",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 96
+    },
+    {
+      "name": "Amapiano FM",
+      "style": "ZA/Radio",
+      "url": "https://stream.zeno.fm/xs6zeac1ts8uv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    }
+  ]
+}

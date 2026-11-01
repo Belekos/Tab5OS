@@ -1,0 +1,3 @@
+#pragma once
+#define CONFIG_IDF_TARGET_ESP32P4 0
+#define CONFIG_IDF_TARGET_ESP32S3 0

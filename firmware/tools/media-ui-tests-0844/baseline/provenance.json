@@ -1,0 +1,9 @@
+{
+  "version": "0.8.43",
+  "archiveSha256": "a0c58c0ba1003722e3f834eac0618dc937c5395afb7cc650dd03220730595e52",
+  "sourceHashes": {
+    "Tab5OS_Arduino_v0.8.43_Ecriture.ino": "bc5528aedb931b97d6b78d7efc756ee6f61d8b84da3d306487d80ccb4af59927",
+    "Tab5Audio.h": "474ab1a0d74c18ab9f1a986d3d3c8fdc95e630e548087214e018c96e7d8e2479",
+    "Tab5Video.h": "4da5725844e7fc058a77ff1f3e86e7ec08e7849a50ba62bd26a53adc45794a43"
+  }
+}

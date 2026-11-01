@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Aswat FM",
+      "style": "MA/arabic music",
+      "url": "https://broadcast.ice.infomaniak.ch/aswat-high.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Skyrock Casablanca",
+      "style": "MA/artists",
+      "url": "https://icecast.skyrock.net/s/casa_aac_64k",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 128
+    },
+    {
+      "name": "bldi",
+      "style": "MA/classical",
+      "url": "http://beldifm.hf.ma/radio/8000/radio.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "MRC:-Radio plus",
+      "style": "MA/country",
+      "url": "https://stream.radio.co/s8cc7a5da4/listen",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Manarat",
+      "style": "MA/culture",
+      "url": "https://listen.radioking.com/radio/252934/stream/297385",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Rap Lbeldi Maroc - Hip Hop Music from Morocco FR AR",
+      "style": "MA/french rap",
+      "url": "https://stream.zeno.fm/ivdufrl7q0quv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Aswat",
+      "style": "MA/Radio",
+      "url": "http://broadcast.ice.infomaniak.ch/aswat-high.mp3?.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Yabiladi Chaabi Maroc",
+      "style": "MA/world music",
+      "url": "https://radio.yabiladi.com:8102/;stream.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    }
+  ]
+}

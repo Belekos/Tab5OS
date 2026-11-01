@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Radio 1 радио 1 класическите хитове",
+      "style": "BG/classic hits",
+      "url": "http://stream.radioreklama.bg/radio164",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Maya Varna",
+      "style": "BG/contemporary hits",
+      "url": "http://rnmediagroup.com:10000/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "Радио Пияника",
+      "style": "BG/greece",
+      "url": "http://mpc1.mediacp.eu:8024/;",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 224
+    },
+    {
+      "name": "Tangra Mega Rock",
+      "style": "BG/hard rock heavy metal",
+      "url": "http://stream-bg-01.radiotangra.com:8000/Tangra-high",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Fresh!",
+      "style": "BG/hits",
+      "url": "http://193.108.24.21:8000/fresh",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "BG Radio",
+      "style": "BG/local music",
+      "url": "http://stream.radioreklama.bg/bgradio128",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Energy NRJ Bulgaria",
+      "style": "BG/pop",
+      "url": "http://play.global.audio/nrj128",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Nova News",
+      "style": "BG/Radio",
+      "url": "http://stream.radioreklama.bg/novanews.aac",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 48
+    }
+  ]
+}

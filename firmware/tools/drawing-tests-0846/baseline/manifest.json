@@ -1,0 +1,9 @@
+{
+  "version": "0.8.45",
+  "archiveSha256": "46fd5da89ebb693a61d3ab34e2d3f3480a714aff76c095ce339f290ee8641573",
+  "sourceSha256": {
+    "image_core.c": "d44c2714172e7f5f94ef70bf9428ac10ef4f74834402595d3b719f312a74e074",
+    "image_core.h": "06cfe827ebf6f7acae3a2c938abb1540a09f9a5f13c9e38f92ec2adaa70d5abe",
+    "image_selection.h": "22527f759c5ccbd2ea9c345fb43d4571fc5aa8d31ed25466e65afcc3985281da"
+  }
+}

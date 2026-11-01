@@ -1,0 +1,13 @@
+--- a/deps/pcre2/pcre2_compile.c
++++ b/deps/pcre2/pcre2_compile.c
+@@ -1398,8 +1398,8 @@
+ PCRE2_SPTR pp;
+ BOOL yield = FALSE;
+ BOOL had_minimum = FALSE;
+-int32_t min = 0;
+-int32_t max = REPEAT_UNLIMITED; /* This value is larger than MAX_REPEAT_COUNT */
++int min = 0;
++int max = REPEAT_UNLIMITED; /* This value is larger than MAX_REPEAT_COUNT */
+ 
+ *errorcodeptr = 0;
+ while (p < ptrend && (*p == CHAR_SPACE || *p == CHAR_HT)) p++;

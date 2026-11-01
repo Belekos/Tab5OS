@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Radio Corazón (94.3 FM Lima)",
+      "style": "PE/baladas en español",
+      "url": "https://mdstrm.com/audio/5fada514fc16c006bd63370f/icecast.audio",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio La Mega",
+      "style": "PE/cumbia",
+      "url": "https://mdstrm.com/audio/5fada56fe4e09508207a7951/icecast.audio",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 128
+    },
+    {
+      "name": "Studio 92 (92.5 FM Lima)",
+      "style": "PE/electronic music",
+      "url": "https://mdstrm.com/audio/5fada553978fe1080e3ac5ea/icecast.audio",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 192
+    },
+    {
+      "name": "Top Latino",
+      "style": "PE/hits",
+      "url": "http://online.radiodifusion.net:8020/stream",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 48
+    },
+    {
+      "name": "Radio Huancayo",
+      "style": "PE/peruvian cumbia",
+      "url": "https://cloud9.ldwebstudios.net:7000/;",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    },
+    {
+      "name": "RADIO LA MEGA 96.7 FM (PERU)",
+      "style": "PE/pop",
+      "url": "https://us-b4-p-e-pb13-audio.cdn.mdstrm.com/live-audio-aw/5fada56fe4e09508207a7951?",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio RPP Noticias",
+      "style": "PE/Radio",
+      "url": "https://mdstrm.com/audio/5fab3416b5f9ef165cfab6e9/icecast.audio",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 128
+    },
+    {
+      "name": "PBO Radio",
+      "style": "PE/talk news",
+      "url": "http://n06.radiojar.com/2fse67zuv8hvv?1669054401=&rj-tok=AAABhJtuNOUAIi7Le3h5PA-2VA&rj-ttl=5",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    }
+  ]
+}

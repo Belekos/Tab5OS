@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Capital FM - 91.3 FM (MP3)",
+      "style": "UG/adult contemporary",
+      "url": "http://capitalfm.cloudrad.io/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "RX Radio",
+      "style": "UG/afro-pop",
+      "url": "https://c14.radioboss.fm:18223/stream?1615807421100=",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "RADIO MARIA UGANDA",
+      "style": "UG/catholic",
+      "url": "http://dreamsiteradiocp.com:8052/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 48
+    },
+    {
+      "name": "Uganda DJs",
+      "style": "UG/hiphop",
+      "url": "https://stream.zeno.fm/muzrp86994zuv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Sanyu Fm",
+      "style": "UG/music",
+      "url": "http://s44.myradiostream.com:8138/stream",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 48
+    },
+    {
+      "name": "Akaboozi FM 87.9",
+      "style": "UG/news",
+      "url": "http://162.244.80.52:8732/stream.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Capital FM",
+      "style": "UG/Radio",
+      "url": "http://5229.cloudrad.io:8316/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "107.9 Pearl Fm",
+      "style": "UG/rock",
+      "url": "https://dc4.serverse.com/proxy/pearlfm/stream/1/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    }
+  ]
+}

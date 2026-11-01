@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Antena Zagreb Rock",
+      "style": "HR/classic rock",
+      "url": "http://live.antenazagreb.hr:8019/",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "Otvoreni Radio",
+      "style": "HR/croatian",
+      "url": "https://stream.otvoreni.hr/otvoreni",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 48
+    },
+    {
+      "name": "Radio Dalmacija",
+      "style": "HR/dalmatia",
+      "url": "http://shoutcast.pondi.hr:8000/;",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 72
+    },
+    {
+      "name": "Radio Deejay HR",
+      "style": "HR/dance",
+      "url": "http://live.deejay.hr:7002/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Extra FM",
+      "style": "HR/folk",
+      "url": "http://streams.extrafm.hr:8110/;",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 96
+    },
+    {
+      "name": "Otvoreni radio - Uživo",
+      "style": "HR/pop",
+      "url": "http://stream.otvoreni.hr/otvoreni",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 48
+    },
+    {
+      "name": "Antena Zagreb Uživo",
+      "style": "HR/Radio",
+      "url": "http://live.antenazagreb.hr:8002/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 96
+    },
+    {
+      "name": "ENTER Zagreb",
+      "style": "HR/zagreb",
+      "url": "http://live.enterzagreb.hr:8023/",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 96
+    }
+  ]
+}

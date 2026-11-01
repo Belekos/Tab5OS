@@ -1,0 +1,95 @@
+{
+  "firmwareBytes": 6093264,
+  "otaPartitionBytes": 6553600,
+  "otaFreeBytes": 460336,
+  "partitions": [
+    {
+      "name": "nvs",
+      "type": "data",
+      "subtype": "nvs",
+      "offset": 36864,
+      "bytes": 20480
+    },
+    {
+      "name": "otadata",
+      "type": "data",
+      "subtype": "ota",
+      "offset": 57344,
+      "bytes": 8192
+    },
+    {
+      "name": "app0",
+      "type": "app",
+      "subtype": "ota_0",
+      "offset": 65536,
+      "bytes": 6553600
+    },
+    {
+      "name": "app1",
+      "type": "app",
+      "subtype": "ota_1",
+      "offset": 6619136,
+      "bytes": 6553600
+    },
+    {
+      "name": "spiffs",
+      "type": "data",
+      "subtype": "spiffs",
+      "offset": 13172736,
+      "bytes": 3538944
+    },
+    {
+      "name": "coredump",
+      "type": "data",
+      "subtype": "coredump",
+      "offset": 16711680,
+      "bytes": 65536
+    }
+  ],
+  "baselineVersion": "0.8.49",
+  "archiveSha256": "0a6928c6f494f076d359d1ede44a6609a3bf9978e7970b604469787a5c0ee861",
+  "sections": {
+    ".rtc.text": 88,
+    ".rtc.force_fast": 0,
+    ".rtc_noinit": 1200,
+    ".rtc.force_slow": 32,
+    ".rtc_reserved": 40,
+    ".tcm.text": 794,
+    ".tcm.data": 64,
+    ".iram0.text": 98882,
+    ".iram0.text_end": 62,
+    ".iram0.data": 0,
+    ".iram0.bss": 0,
+    ".dram0.data": 31600,
+    ".dram1.data": 0,
+    ".noinit": 0,
+    ".flash.text": 3862896,
+    ".flash_rodata_dummy": 3866624,
+    ".flash.appdesc": 256,
+    ".flash.rodata": 1782584,
+    ".flash.init_array": 456,
+    ".eh_frame_hdr": 0,
+    ".eh_frame": 315576,
+    ".flash.tdata": 0,
+    ".dram0.bss": 44404,
+    ".dram1.bss": 17964,
+    ".dram0.heap_start_low": 12,
+    ".dram1.heap_start_high": 4,
+    ".debug_aranges": 269200,
+    ".debug_info": 27335212,
+    ".debug_abbrev": 1864193,
+    ".debug_line": 13584991,
+    ".debug_frame": 660468,
+    ".debug_str": 4286351,
+    ".debug_loc": 9046945,
+    ".debug_ranges": 1251288,
+    ".debug_line_str": 27900,
+    ".debug_loclists": 230561,
+    ".debug_rnglists": 21157,
+    ".comment": 47,
+    ".riscv.attributes": 112
+  },
+  "sourceReport": "Tab5OS_Ecriture_v0.8.49/tools/verification/firmware-verification-0849.json",
+  "sourceReportSha256": "66bd75f798d616d3e1663740d14c4a5553c72333aa831c4a0c0cd07554cb69dc",
+  "physicalDeviceTested": false
+}

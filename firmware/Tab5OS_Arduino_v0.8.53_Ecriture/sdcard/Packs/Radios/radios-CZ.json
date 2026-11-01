@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Radio Beat",
+      "style": "CZ/classic rock",
+      "url": "http://icecast2.play.cz/radiobeat128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Country Radio",
+      "style": "CZ/country",
+      "url": "http://icecast2.play.cz:8000/country128aac",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 0
+    },
+    {
+      "name": "Radio Humor",
+      "style": "CZ/humor",
+      "url": "http://mp3stream4.abradio.cz:8000/humor128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "RFE/RL Radio Farda",
+      "style": "CZ/music",
+      "url": "http://rfe21.akacast.akamaistream.net/7/751/437779/v1/ibb.akacast.akamaistream.net/rfe21",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "ČRo Radiožurnál",
+      "style": "CZ/news",
+      "url": "http://icecast8.play.cz/cro1-128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Kiss 98 FM",
+      "style": "CZ/pop",
+      "url": "http://icecast2.play.cz:8000/kiss128aac",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 0
+    },
+    {
+      "name": "Rádio Blaník živé",
+      "style": "CZ/Radio",
+      "url": "http://ice.abradio.cz/blanikfm128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Čas Rock",
+      "style": "CZ/rock",
+      "url": "http://icecast6.play.cz/casrock128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    }
+  ]
+}

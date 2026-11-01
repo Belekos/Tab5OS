@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "תל אביב Tel Aviv 102FM",
+      "style": "IL/hebrew",
+      "url": "http://102.livecdn.biz/102fm_aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "Galgalatz 91.8 FM",
+      "style": "IL/hits",
+      "url": "https://glzicylv01.bynetcdn.com/glglz_mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "اذاعة الشمس - A-Shams",
+      "style": "IL/ilstations",
+      "url": "https://cdna.streamgates.net/Ashams/Live/icecast.audio",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "100fm - 100% Movies",
+      "style": "IL/movie music",
+      "url": "http://gb25.streamgates.net/radios-audio/100Movies/icecast.audio",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    },
+    {
+      "name": "גלי ישראל Galey Yisrael",
+      "style": "IL/news",
+      "url": "https://cdn.cybercdn.live/Galei_Israel/Live/icecast.audio",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Первое радио 89.1FM",
+      "style": "IL/pop",
+      "url": "https://cdn.cybercdn.live/Pervoia/Audio/icecast.audio",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Radio 103FM",
+      "style": "IL/Radio",
+      "url": "https://cdn.cybercdn.live/103FM/Live/icecast.audio",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Radios 100FM",
+      "style": "IL/workout",
+      "url": "http://gb25.streamgates.net/radios-audio/100Workout/icecast.audio",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    }
+  ]
+}

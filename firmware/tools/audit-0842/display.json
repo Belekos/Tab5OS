@@ -1,0 +1,46 @@
+{
+  "version": "0.8.42",
+  "physicalDeviceTested": false,
+  "baselineArchiveSha256": "01389322d10ae80b668ce369b2586e41831af03e3e407ecd3d60da62dd2667ff",
+  "confirmed": [
+    "blocking display fence in UI task",
+    "repeated LVGL delivery for pure hover bursts",
+    "LVGL clock manually advanced after input",
+    "USB producer queue reset discards queued events on overflow"
+  ],
+  "corrected": [
+    "nonblocking fence + existing LVGL refresh timer callback gate",
+    "safe hover delivery batching while preserving per-report coordinates/drag/buttons/wheel",
+    "native monotonic LVGL tick callback integrated by main owner"
+  ],
+  "notCorrected": [
+    "USB producer overflow policy"
+  ],
+  "hardwareHypotheses": [
+    "PSRAM bandwidth or DMA underrun may contribute to turquoise flashes; not measured here"
+  ],
+  "newResources": {
+    "tasks": 0,
+    "queues": 0,
+    "framebuffers": 0,
+    "persistentAllocations": 0
+  },
+  "testReports": {
+    "display-0842.json": {
+      "passed": true,
+      "reportSha256": "862e1f55cfe4d8241c8f0db4004cec0ca481f4c8e0f270dc369a82cb230acb0e"
+    },
+    "display-latency-0842.json": {
+      "passed": true,
+      "reportSha256": "8daefc63b99edbc971e4bba28270c812956f86bc430b412e52abb85694ebfa38"
+    },
+    "display-modules-target-0842.json": {
+      "passed": true,
+      "reportSha256": "1dbcc1474faba638af8e11865b9095c906125139e4e428722601ad6ed78ba686"
+    },
+    "maps-input-0842.json": {
+      "passed": true,
+      "reportSha256": "e1dfdfea797bc8c0d5e35aa475209148a19ffee95382c4afcce757b4ff0e6aed"
+    }
+  }
+}

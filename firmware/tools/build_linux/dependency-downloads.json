@@ -1,0 +1,303 @@
+{
+  "architecture": "x86_64-linux-gnu",
+  "cli": {
+    "version": "1.5.1",
+    "url": "https://downloads.arduino.cc/arduino-cli/arduino-cli_1.5.1_Linux_64bit.tar.gz",
+    "observedSha256": "28a8e119c498a25607821c36cb2dc49e8463941b261a0d99091baa7bc692dd2b"
+  },
+  "dependencies": [
+    {
+      "name": "m5stack:esp32",
+      "version": "3.3.9",
+      "url": "https://m5stack.oss-cn-shenzhen.aliyuncs.com/resource/arduino/m5stack-3.3.9.zip",
+      "filename": "m5stack-3.3.9.zip",
+      "sha256": "4c889dc2d6e06255d2093948ef8017ce7d1a00e67a253417b428251e7598b5bf",
+      "observedSha256": "4c889dc2d6e06255d2093948ef8017ce7d1a00e67a253417b428251e7598b5bf",
+      "archiveBytes": 39975530,
+      "matchesExpected": true
+    },
+    {
+      "name": "esp-x32",
+      "version": "2601",
+      "url": "https://github.com/espressif/crosstool-NG/releases/download/esp-14.2.0_20260121/xtensa-esp-elf-14.2.0_20260121-x86_64-linux-gnu.tar.gz",
+      "filename": "xtensa-esp-elf-14.2.0_20260121-x86_64-linux-gnu.tar.gz",
+      "sha256": "4e090a6cbf1ff7769684d9a248c9b8bdbe4c0ada098adda54b4c67a91449afa7",
+      "observedSha256": "4e090a6cbf1ff7769684d9a248c9b8bdbe4c0ada098adda54b4c67a91449afa7",
+      "archiveBytes": 334265784,
+      "matchesExpected": true
+    },
+    {
+      "name": "xtensa-esp-elf-gdb",
+      "version": "16.3_20250913",
+      "url": "https://github.com/espressif/binutils-gdb/releases/download/esp-gdb-v16.3_20250913/xtensa-esp-elf-gdb-16.3_20250913-x86_64-linux-gnu.tar.gz",
+      "filename": "xtensa-esp-elf-gdb-16.3_20250913-x86_64-linux-gnu.tar.gz",
+      "sha256": "16d05c9104ff84529ac3799abb04d5666c193131ab461f153040721728b48730",
+      "observedSha256": "16d05c9104ff84529ac3799abb04d5666c193131ab461f153040721728b48730",
+      "archiveBytes": 36396804,
+      "matchesExpected": true
+    },
+    {
+      "name": "esp-rv32",
+      "version": "2601",
+      "url": "https://github.com/espressif/crosstool-NG/releases/download/esp-14.2.0_20260121/riscv32-esp-elf-14.2.0_20260121-x86_64-linux-gnu.tar.gz",
+      "filename": "riscv32-esp-elf-14.2.0_20260121-x86_64-linux-gnu.tar.gz",
+      "sha256": "1b79617f43cf0e25b92646359d1623d8bef135050aca44586df59b6a64496d82",
+      "observedSha256": "1b79617f43cf0e25b92646359d1623d8bef135050aca44586df59b6a64496d82",
+      "archiveBytes": 590607738,
+      "matchesExpected": true
+    },
+    {
+      "name": "riscv32-esp-elf-gdb",
+      "version": "16.3_20250913",
+      "url": "https://github.com/espressif/binutils-gdb/releases/download/esp-gdb-v16.3_20250913/riscv32-esp-elf-gdb-16.3_20250913-x86_64-linux-gnu.tar.gz",
+      "filename": "riscv32-esp-elf-gdb-16.3_20250913-x86_64-linux-gnu.tar.gz",
+      "sha256": "4e3cf8b7d11c7a2d1b50f40b1c50c0671dfe7eb13782c27c8a8cfdc8548bcdd4",
+      "observedSha256": "4e3cf8b7d11c7a2d1b50f40b1c50c0671dfe7eb13782c27c8a8cfdc8548bcdd4",
+      "archiveBytes": 36557187,
+      "matchesExpected": true
+    },
+    {
+      "name": "openocd-esp32",
+      "version": "v0.12.0-esp32-20251215",
+      "url": "https://github.com/espressif/openocd-esp32/releases/download/v0.12.0-esp32-20251215/openocd-esp32-linux-amd64-0.12.0-esp32-20251215.tar.gz",
+      "filename": "openocd-esp32-linux-amd64-0.12.0-esp32-20251215.tar.gz",
+      "sha256": "5e6ff40aeca23bdd203cde04d60bc808c0e6bff110eadcbce3d602618c880531",
+      "observedSha256": "5e6ff40aeca23bdd203cde04d60bc808c0e6bff110eadcbce3d602618c880531",
+      "archiveBytes": 2547606,
+      "matchesExpected": true
+    },
+    {
+      "name": "esptool_py",
+      "version": "5.3.0",
+      "url": "https://github.com/espressif/esptool/releases/download/v5.3.0/esptool-v5.3.0-linux-amd64.tar.gz",
+      "filename": "esptool-v5.3.0-linux-amd64.tar.gz",
+      "sha256": "46ca7b52c309790bc4d140990680f6088e8cad40b230fda6999661efc24845b6",
+      "observedSha256": "46ca7b52c309790bc4d140990680f6088e8cad40b230fda6999661efc24845b6",
+      "archiveBytes": 82516240,
+      "matchesExpected": true
+    },
+    {
+      "name": "mkspiffs",
+      "version": "0.2.3",
+      "url": "https://github.com/igrr/mkspiffs/releases/download/0.2.3/mkspiffs-0.2.3-arduino-esp32-linux64.tar.gz",
+      "filename": "mkspiffs-0.2.3-arduino-esp32-linux64.tar.gz",
+      "sha256": "5e1a4ff41385e842f389f6b5254102a547e566a06b49babeffa93ef37115cb5d",
+      "observedSha256": "5e1a4ff41385e842f389f6b5254102a547e566a06b49babeffa93ef37115cb5d",
+      "archiveBytes": 50646,
+      "matchesExpected": true
+    },
+    {
+      "name": "mklittlefs",
+      "version": "4.0.2-db0513a",
+      "url": "https://github.com/earlephilhower/mklittlefs/releases/download/4.0.2/x86_64-linux-gnu-mklittlefs-db0513a.tar.gz",
+      "filename": "x86_64-linux-gnu-mklittlefs-db0513a.tar.gz",
+      "sha256": "7a70428b7089bf1c9d481b0e070e99cd8a430d37e197b7d3db64f24ba8891508",
+      "observedSha256": "7a70428b7089bf1c9d481b0e070e99cd8a430d37e197b7d3db64f24ba8891508",
+      "archiveBytes": 54000,
+      "matchesExpected": true
+    },
+    {
+      "name": "esp32-libs",
+      "version": "3.3.9",
+      "url": "https://github.com/espressif/arduino-esp32/releases/download/3.3.9/esp32-libs-3.3.9.zip",
+      "filename": "esp32-libs-3.3.9.zip",
+      "sha256": "92a594765801e2a8caf47ca878c29fc87510e107f200cf18c3fb18009c029b8b",
+      "observedSha256": "92a594765801e2a8caf47ca878c29fc87510e107f200cf18c3fb18009c029b8b",
+      "archiveBytes": 44059240,
+      "matchesExpected": true
+    },
+    {
+      "name": "esp32c3-libs",
+      "version": "3.3.9",
+      "url": "https://github.com/espressif/arduino-esp32/releases/download/3.3.9/esp32c3-libs-3.3.9.zip",
+      "filename": "esp32c3-libs-3.3.9.zip",
+      "sha256": "8d65d21da806fc7d8005bcfb7f31f598d5d34ffb9182ead3a66d255afdadc84e",
+      "observedSha256": "8d65d21da806fc7d8005bcfb7f31f598d5d34ffb9182ead3a66d255afdadc84e",
+      "archiveBytes": 55712075,
+      "matchesExpected": true
+    },
+    {
+      "name": "esp32c5-libs",
+      "version": "3.3.9",
+      "url": "https://github.com/espressif/arduino-esp32/releases/download/3.3.9/esp32c5-libs-3.3.9.zip",
+      "filename": "esp32c5-libs-3.3.9.zip",
+      "sha256": "c669719c9750a6d5d0b8e503f593776cf022508c279e0e095c0c2bc41bef7a5b",
+      "observedSha256": "c669719c9750a6d5d0b8e503f593776cf022508c279e0e095c0c2bc41bef7a5b",
+      "archiveBytes": 65884082,
+      "matchesExpected": true
+    },
+    {
+      "name": "esp32c6-libs",
+      "version": "3.3.9",
+      "url": "https://github.com/espressif/arduino-esp32/releases/download/3.3.9/esp32c6-libs-3.3.9.zip",
+      "filename": "esp32c6-libs-3.3.9.zip",
+      "sha256": "9ed1b94ae4d23d16593397a08a218d9693ca18a673a8bd5bcbb9c633d358b5ca",
+      "observedSha256": "9ed1b94ae4d23d16593397a08a218d9693ca18a673a8bd5bcbb9c633d358b5ca",
+      "archiveBytes": 64383699,
+      "matchesExpected": true
+    },
+    {
+      "name": "esp32h2-libs",
+      "version": "3.3.9",
+      "url": "https://github.com/espressif/arduino-esp32/releases/download/3.3.9/esp32h2-libs-3.3.9.zip",
+      "filename": "esp32h2-libs-3.3.9.zip",
+      "sha256": "7e8ee34802a5cd9521de575e634294f65d6a81090cab727ba73a840482dca183",
+      "observedSha256": "7e8ee34802a5cd9521de575e634294f65d6a81090cab727ba73a840482dca183",
+      "archiveBytes": 60268876,
+      "matchesExpected": true
+    },
+    {
+      "name": "esp32p4-libs",
+      "version": "3.3.9",
+      "url": "https://github.com/espressif/arduino-esp32/releases/download/3.3.9/esp32p4-libs-3.3.9.zip",
+      "filename": "esp32p4-libs-3.3.9.zip",
+      "sha256": "3d14df23fa62e249c989b954c98b96ecd3ad9e5a14372f87ad0aa803b7e40c0f",
+      "observedSha256": "3d14df23fa62e249c989b954c98b96ecd3ad9e5a14372f87ad0aa803b7e40c0f",
+      "archiveBytes": 62797524,
+      "matchesExpected": true
+    },
+    {
+      "name": "esp32p4_es-libs",
+      "version": "3.3.9",
+      "url": "https://github.com/espressif/arduino-esp32/releases/download/3.3.9/esp32p4_es-libs-3.3.9.zip",
+      "filename": "esp32p4_es-libs-3.3.9.zip",
+      "sha256": "eb2aaed48a1cc6680a353908722f962c2c4498817225399681db93cb56762454",
+      "observedSha256": "eb2aaed48a1cc6680a353908722f962c2c4498817225399681db93cb56762454",
+      "archiveBytes": 62536206,
+      "matchesExpected": true
+    },
+    {
+      "name": "esp32s2-libs",
+      "version": "3.3.9",
+      "url": "https://github.com/espressif/arduino-esp32/releases/download/3.3.9/esp32s2-libs-3.3.9.zip",
+      "filename": "esp32s2-libs-3.3.9.zip",
+      "sha256": "13e86dd0edeb053c66da73563889dc131737ecb03b55e5b43a60bbb62414da20",
+      "observedSha256": "13e86dd0edeb053c66da73563889dc131737ecb03b55e5b43a60bbb62414da20",
+      "archiveBytes": 42064604,
+      "matchesExpected": true
+    },
+    {
+      "name": "esp32s3-libs",
+      "version": "3.3.9",
+      "url": "https://github.com/espressif/arduino-esp32/releases/download/3.3.9/esp32s3-libs-3.3.9.zip",
+      "filename": "esp32s3-libs-3.3.9.zip",
+      "sha256": "34684fecef49e92e9fb11784ab5f0892328d3678ad8e8445a2bbf2cddf6a4fb6",
+      "observedSha256": "34684fecef49e92e9fb11784ab5f0892328d3678ad8e8445a2bbf2cddf6a4fb6",
+      "archiveBytes": 65557728,
+      "matchesExpected": true
+    },
+    {
+      "name": "M5Unified",
+      "version": "0.2.23",
+      "url": "https://downloads.arduino.cc/libraries/github.com/m5stack/M5Unified-0.2.23.zip",
+      "filename": "M5Unified-0.2.23.zip",
+      "sha256": "3ddd015431bba2b3a90316872512ff11b9fc2962f4e4b75b9b3d9032da0b3bf9",
+      "observedSha256": "3ddd015431bba2b3a90316872512ff11b9fc2962f4e4b75b9b3d9032da0b3bf9",
+      "archiveBytes": 723285,
+      "matchesExpected": true
+    },
+    {
+      "name": "M5GFX",
+      "version": "0.2.30",
+      "url": "https://downloads.arduino.cc/libraries/github.com/m5stack/M5GFX-0.2.30.zip",
+      "filename": "M5GFX-0.2.30.zip",
+      "sha256": "159742eef216a46b67faf72338381743d21b2a26fa223a95c280c032dcf5a400",
+      "observedSha256": "159742eef216a46b67faf72338381743d21b2a26fa223a95c280c032dcf5a400",
+      "archiveBytes": 49291849,
+      "matchesExpected": true
+    },
+    {
+      "name": "lvgl",
+      "version": "9.6.0",
+      "url": "https://downloads.arduino.cc/libraries/github.com/lvgl/lvgl-9.6.0.zip",
+      "filename": "lvgl-9.6.0.zip",
+      "sha256": "6f79292304c4d99b3ce64779c01e1d05bca6a3da371eedafa8d2c95e1a318956",
+      "observedSha256": "6f79292304c4d99b3ce64779c01e1d05bca6a3da371eedafa8d2c95e1a318956",
+      "archiveBytes": 115723067,
+      "matchesExpected": true
+    },
+    {
+      "name": "ArduinoJson",
+      "version": "7.4.3",
+      "url": "https://downloads.arduino.cc/libraries/github.com/bblanchon/ArduinoJson-7.4.3.zip",
+      "filename": "ArduinoJson-7.4.3.zip",
+      "sha256": "cd8d2f7e4f06eb7e215beecb0de5326a82d047a994e84246572ad73ddc52746f",
+      "observedSha256": "cd8d2f7e4f06eb7e215beecb0de5326a82d047a994e84246572ad73ddc52746f",
+      "archiveBytes": 517250,
+      "matchesExpected": true
+    },
+    {
+      "name": "ESP8266Audio",
+      "version": "2.4.2 (metadata 2.4.1)",
+      "url": "https://codeload.github.com/earlephilhower/ESP8266Audio/zip/refs/tags/2.4.2",
+      "filename": "ESP8266Audio-2.4.2.zip",
+      "sha256": "80e7a77de974e41f7cc73020067912b2eb38d991bcd170a9c3734c8ea61c7224",
+      "observedSha256": "80e7a77de974e41f7cc73020067912b2eb38d991bcd170a9c3734c8ea61c7224",
+      "archiveBytes": 8623249,
+      "matchesExpected": true
+    }
+  ],
+  "allChecksumsMatched": true,
+  "supportTools": [
+    {
+      "name": "arduino:dfu-util",
+      "version": "0.11.0-arduino5",
+      "url": "https://downloads.arduino.cc/tools/dfu-util-0.11-arduino5-linux_amd64.tar.gz",
+      "filename": "dfu-util-0.11-arduino5-linux_amd64.tar.gz",
+      "sha256": "96c64c278561af806b585c123c85748926ad02b1aedc07e5578ca9bee2be0d2a",
+      "observedSha256": "96c64c278561af806b585c123c85748926ad02b1aedc07e5578ca9bee2be0d2a",
+      "archiveBytes": 2283425,
+      "matchesExpected": true
+    },
+    {
+      "name": "builtin:ctags",
+      "version": "5.8-arduino11",
+      "url": "https://downloads.arduino.cc/tools/ctags-5.8-arduino11-pm-x86_64-pc-linux-gnu.tar.bz2",
+      "filename": "ctags-5.8-arduino11-pm-x86_64-pc-linux-gnu.tar.bz2",
+      "sha256": "62b514f3aaf37b5429ef703853bb46365fb91b4754c1916d085bf134004886e3",
+      "observedSha256": "62b514f3aaf37b5429ef703853bb46365fb91b4754c1916d085bf134004886e3",
+      "archiveBytes": 111604,
+      "matchesExpected": true
+    },
+    {
+      "name": "builtin:dfu-discovery",
+      "version": "0.1.2",
+      "url": "https://downloads.arduino.cc/discovery/dfu-discovery/dfu-discovery_v0.1.2_Linux_64bit.tar.gz",
+      "filename": "dfu-discovery_v0.1.2_Linux_64bit.tar.gz",
+      "sha256": "d82649741fd6cbe369d7fe22d290efd7e28e4d6fd0b81b7b1eabff43b495b5f8",
+      "observedSha256": "d82649741fd6cbe369d7fe22d290efd7e28e4d6fd0b81b7b1eabff43b495b5f8",
+      "archiveBytes": 1731768,
+      "matchesExpected": true
+    },
+    {
+      "name": "builtin:mdns-discovery",
+      "version": "1.1.0",
+      "url": "https://downloads.arduino.cc/discovery/mdns-discovery/mdns-discovery_v1.1.0_Linux_64bit.tar.gz",
+      "filename": "mdns-discovery_v1.1.0_Linux_64bit.tar.gz",
+      "sha256": "6966f406e5b6e80d82a388706d6d9d8a63d46035d19d1e6b4fb1ebeaf7fea056",
+      "observedSha256": "6966f406e5b6e80d82a388706d6d9d8a63d46035d19d1e6b4fb1ebeaf7fea056",
+      "archiveBytes": 3220729,
+      "matchesExpected": true
+    },
+    {
+      "name": "builtin:serial-discovery",
+      "version": "1.5.2",
+      "url": "https://downloads.arduino.cc/discovery/serial-discovery/serial-discovery_v1.5.2_Linux_64bit.tar.gz",
+      "filename": "serial-discovery_v1.5.2_Linux_64bit.tar.gz",
+      "sha256": "7a95d7386c66c0846fe4aa96b601e72783ae64f541eb2f5edb4fc9e69a04b6d3",
+      "observedSha256": "7a95d7386c66c0846fe4aa96b601e72783ae64f541eb2f5edb4fc9e69a04b6d3",
+      "archiveBytes": 2163207,
+      "matchesExpected": true
+    },
+    {
+      "name": "builtin:serial-monitor",
+      "version": "0.15.0",
+      "url": "https://downloads.arduino.cc/monitor/serial-monitor/serial-monitor_v0.15.0_Linux_64bit.tar.gz",
+      "filename": "serial-monitor_v0.15.0_Linux_64bit.tar.gz",
+      "sha256": "f1bc9680f2cff08688bc4ccbaf5e9be4ce38aa3f10d40a487a7704c04006f19b",
+      "observedSha256": "f1bc9680f2cff08688bc4ccbaf5e9be4ce38aa3f10d40a487a7704c04006f19b",
+      "archiveBytes": 2446183,
+      "matchesExpected": true
+    }
+  ]
+}

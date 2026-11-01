@@ -1,0 +1,133 @@
+{
+  "baselineVersion": "0.8.44",
+  "archiveSha256": "b5fdc983e51e17568d700b9ae1359e902fa61f43c86505a775e650f10cab16aa",
+  "firmwareBytes": 6065728,
+  "otaPartitionBytes": 6553600,
+  "otaFreeBytes": 487872,
+  "sections": {
+    ".rtc.text": 88,
+    ".rtc.force_fast": 0,
+    ".rtc_noinit": 1200,
+    ".rtc.force_slow": 32,
+    ".rtc_reserved": 40,
+    ".tcm.text": 794,
+    ".tcm.data": 64,
+    ".iram0.text": 98494,
+    ".iram0.text_end": 66,
+    ".iram0.data": 0,
+    ".iram0.bss": 0,
+    ".dram0.data": 31364,
+    ".dram1.data": 0,
+    ".noinit": 0,
+    ".flash.text": 3841584,
+    ".flash_rodata_dummy": 3866624,
+    ".flash.appdesc": 256,
+    ".flash.rodata": 1780276,
+    ".flash.init_array": 456,
+    ".eh_frame_hdr": 0,
+    ".eh_frame": 312288,
+    ".flash.tdata": 0,
+    ".dram0.bss": 45220,
+    ".dram1.bss": 16684,
+    ".dram0.heap_start_low": 12,
+    ".dram1.heap_start_high": 4,
+    ".debug_aranges": 268168,
+    ".debug_info": 27222329,
+    ".debug_abbrev": 1856925,
+    ".debug_line": 13517034,
+    ".debug_frame": 659092,
+    ".debug_str": 4280060,
+    ".debug_loc": 8995916,
+    ".debug_ranges": 1242592,
+    ".debug_line_str": 27900,
+    ".debug_loclists": 230561,
+    ".debug_rnglists": 21157,
+    ".comment": 47,
+    ".riscv.attributes": 112
+  },
+  "partitions": [
+    {
+      "name": "nvs",
+      "type": "data",
+      "subtype": "nvs",
+      "offset": 36864,
+      "bytes": 20480
+    },
+    {
+      "name": "otadata",
+      "type": "data",
+      "subtype": "ota",
+      "offset": 57344,
+      "bytes": 8192
+    },
+    {
+      "name": "app0",
+      "type": "app",
+      "subtype": "ota_0",
+      "offset": 65536,
+      "bytes": 6553600
+    },
+    {
+      "name": "app1",
+      "type": "app",
+      "subtype": "ota_1",
+      "offset": 6619136,
+      "bytes": 6553600
+    },
+    {
+      "name": "spiffs",
+      "type": "data",
+      "subtype": "spiffs",
+      "offset": 13172736,
+      "bytes": 3538944
+    },
+    {
+      "name": "coredump",
+      "type": "data",
+      "subtype": "coredump",
+      "offset": 16711680,
+      "bytes": 65536
+    }
+  ],
+  "artifacts": [
+    {
+      "suffix": ".bin",
+      "file": "Tab5OS_Arduino_v0.8.44_Ecriture.ino.bin",
+      "bytes": 6065728,
+      "sha256": "c1d493d821b86925146fa253c936ab3907eddf1c47b27039a722e9fa5afdd92a"
+    },
+    {
+      "suffix": ".elf",
+      "file": "Tab5OS_Arduino_v0.8.44_Ecriture.ino.elf",
+      "bytes": 69886052,
+      "sha256": "d1602e6bbdc3a4c614e355ec2f79b6d3dfd5ac8ee93aa37a585e8a05eddb67c4"
+    },
+    {
+      "suffix": ".map",
+      "file": "Tab5OS_Arduino_v0.8.44_Ecriture.ino.map",
+      "bytes": 27998925,
+      "sha256": "5c79088fe0d40d857af162cd57b9c9c8b3e6409d593ae3b9e2e463f3a860d358"
+    },
+    {
+      "suffix": ".merged.bin",
+      "file": "Tab5OS_Arduino_v0.8.44_Ecriture.ino.merged.bin",
+      "bytes": 16777216,
+      "sha256": "b78c8e15b82ae8e16e075e53c693926d64a9074f8325550644fb59b912f94ddd"
+    },
+    {
+      "suffix": ".bootloader.bin",
+      "file": "Tab5OS_Arduino_v0.8.44_Ecriture.ino.bootloader.bin",
+      "bytes": 20576,
+      "sha256": "206f0d77cddd72e05b0c24dc8f6405101e38028b9675950a40c856cadc6afa08"
+    },
+    {
+      "suffix": ".partitions.bin",
+      "file": "Tab5OS_Arduino_v0.8.44_Ecriture.ino.partitions.bin",
+      "bytes": 3072,
+      "sha256": "bd0f7954aca2ef7d925ee21aaa1f3dc8822d1d6ce5cbbd26a135e5886bfff6ce"
+    }
+  ],
+  "sourceManifestSha256": "4f8f7ace0db31182aaf94358f22f290185c7d765201b778f752d647e32306abf",
+  "sourceFiles": 2388,
+  "historicalProofs": 1954
+}

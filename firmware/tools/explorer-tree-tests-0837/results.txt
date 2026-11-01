@@ -1,0 +1,2 @@
+{"benchmark":{"hostOnly":true,"idleCalls":200000,"expandedDirectories":512,"baselineIdleNs":717923901,"currentIdleNs":5458671,"revealCalls":32,"visibleEntries":8705,"baselineRevealNs":502735192,"currentRevealNs":4146476,"baselineHiddenLookups":278560,"currentHiddenLookups":0}}
+PASS: production lazy tree; expansion, collapse, depth 129, 8193 entries, 6 sorts, refresh, hidden files, cancellation, USB removal, allocation refusal, PSRAM only, max 2 handles, peak 1408194 bytes.

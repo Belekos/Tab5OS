@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "ABC NewsRadio MP3",
+      "style": "AU/abc",
+      "url": "http://abc.streamguys1.com/live/newsradio/icecast.audio",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 56
+    },
+    {
+      "name": "SBS Chill",
+      "style": "AU/chillout",
+      "url": "http://sbs-ice.streamguys1.com/sbschill",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 97
+    },
+    {
+      "name": "Gold 104.3",
+      "style": "AU/classic hits",
+      "url": "https://ais-arn.streamguys1.com/au_004_icy",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 48
+    },
+    {
+      "name": "Fresh 92.7",
+      "style": "AU/community radio",
+      "url": "https://live.fresh927.com.au/freshaac",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 64
+    },
+    {
+      "name": "Kiss FM 87.6, 87.8 & 88.0 Melbourne, VIC",
+      "style": "AU/dance",
+      "url": "http://cc.net2streams.com:8565/kissfm.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "DiscoRhythm",
+      "style": "AU/disco",
+      "url": "http://c3.radioboss.fm:8018/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "The Prog Rock Machine",
+      "style": "AU/progressive rock",
+      "url": "https://theproganrockmachine.out.airtime.pro/theproganrockmachine_b",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Triple J",
+      "style": "AU/Radio",
+      "url": "http://abc.streamguys1.com/live/triplejnsw/icecast.audio",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 56
+    }
+  ]
+}

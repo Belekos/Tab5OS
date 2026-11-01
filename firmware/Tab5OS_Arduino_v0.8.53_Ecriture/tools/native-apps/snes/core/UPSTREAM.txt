@@ -1,0 +1,3 @@
+snes9x from x213212/gba-p4, commit 03aeeb07d026fe3138e8cf906e42fb14d00e48b7.
+https://github.com/x213212/gba-p4
+Tab5 adapter outside core; MAX_ROM_SIZE increased to 6 MiB.

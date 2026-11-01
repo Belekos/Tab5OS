@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "MajorFM",
+      "style": "NG/80s",
+      "url": "http://stream.zeno.fm/pkza99xshkhvv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Afrobeats Gospel Radio",
+      "style": "NG/african",
+      "url": "https://stream.zeno.fm/zyd9stmdlnlvv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Gospotainment Radio",
+      "style": "NG/afrobeats",
+      "url": "https://radio.gotright.net/radio/8000/radio.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Inform Me Radio",
+      "style": "NG/business programs",
+      "url": "http://stream.zeno.fm/ta1fke6sz1zuv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Nigerian Gospel Music Radio (MP3)",
+      "style": "NG/christian",
+      "url": "http://stream.zeno.fm/3fmqr74a7f8uv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Nagari Radio",
+      "style": "NG/http:--stream.zeno.fm-287z97ksdg8uv",
+      "url": "http://stream.zeno.fm/287z97ksdg8uv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio East",
+      "style": "NG/music",
+      "url": "http://stream.zeno.fm/7f4w4us5wp8uv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "RFI Haoussa",
+      "style": "NG/Radio",
+      "url": "http://live02.rfi.fr/rfihaoussa-96k.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 96
+    }
+  ]
+}

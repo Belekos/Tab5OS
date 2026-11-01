@@ -1,0 +1,2 @@
+Espressif usb_host_msc 1.1.4 (Apache-2.0), component archive d4714f59-bb77-4add-882c-b61bf701eb93.
+Local changes: flattened include paths; SCSI SYNCHRONIZE CACHE for explicit ejection.

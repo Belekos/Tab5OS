@@ -1,0 +1,1035 @@
+diff --git a/deps/pcre2/pcre2_compile.c b/deps/pcre2/pcre2_compile.c
+index 32e86cb..11d9319 100644
+--- a/deps/pcre2/pcre2_compile.c
++++ b/deps/pcre2/pcre2_compile.c
+@@ -133,7 +133,13 @@ the length of compiled items varies with this.
+ 
+ In the real compile phase, this workspace is not currently used. */
+ 
++#if defined(ESP_PLATFORM) || defined(TAB5_GIT_EMBEDDED_PROFILE)
++/* Small initial workspaces; the existing checked heap growth uses the
++application's allocator when a pattern needs more space. */
++#define COMPILE_WORK_SIZE (256*LINK_SIZE)
++#else
+ #define COMPILE_WORK_SIZE (3000*LINK_SIZE)   /* Size in code units */
++#endif
+ 
+ #define C16_WORK_SIZE \
+   ((COMPILE_WORK_SIZE * sizeof(PCRE2_UCHAR))/sizeof(uint16_t))
+@@ -142,7 +148,11 @@ In the real compile phase, this workspace is not currently used. */
+ capturing groups, to improve performance. A default is created on the stack of
+ this size. */
+ 
++#if defined(ESP_PLATFORM) || defined(TAB5_GIT_EMBEDDED_PROFILE)
++#define GROUPINFO_DEFAULT_SIZE 32
++#else
+ #define GROUPINFO_DEFAULT_SIZE 256
++#endif
+ 
+ /* The overrun tests check for a slightly smaller size so that they detect the
+ overrun before it actually does run off the end of the data block. */
+@@ -154,13 +164,21 @@ remembering named groups during the pre-compile. It is allocated on the stack,
+ but if it is too small, it is expanded, in a similar way to the workspace. The
+ value is the number of slots in the list. */
+ 
++#if defined(ESP_PLATFORM) || defined(TAB5_GIT_EMBEDDED_PROFILE)
++#define NAMED_GROUP_LIST_SIZE  4
++#else
+ #define NAMED_GROUP_LIST_SIZE  20
++#endif
+ 
+ /* The pre-compiling pass over the pattern creates a parsed pattern in a vector
+ of uint32_t. For short patterns this lives on the stack, with this size. Heap
+ memory is used for longer patterns. */
+ 
++#if defined(ESP_PLATFORM) || defined(TAB5_GIT_EMBEDDED_PROFILE)
++#define PARSED_PATTERN_DEFAULT_SIZE 128
++#else
+ #define PARSED_PATTERN_DEFAULT_SIZE 1024
++#endif
+ 
+ /* Maximum length value to check against when making sure that the variable
+ that holds the compiled pattern length does not overflow. We make it a bit less
+diff --git a/src/libgit2/config_file.c b/src/libgit2/config_file.c
+index 870b137..13de1e5 100644
+--- a/src/libgit2/config_file.c
++++ b/src/libgit2/config_file.c
+@@ -817,8 +817,14 @@ static int read_on_variable(
+ 	entry->base.free = git_config_list_entry_free;
+ 	entry->config_list = parse_data->config_list;
+ 
+-	if ((result = git_config_list_append(parse_data->config_list, entry)) < 0)
++	if ((result = git_config_list_append(parse_data->config_list, entry)) < 0) {
++		/* Append retains caller ownership on failure. Interned backend/path
++		 * strings belong to config_list and are released with that list. */
++		git__free((char *)entry->base.entry.name);
++		git__free((char *)entry->base.entry.value);
++		git__free(entry);
+ 		return result;
++	}
+ 
+ 	result = 0;
+ 
+diff --git a/src/libgit2/config_list.c b/src/libgit2/config_list.c
+index 0e65597..d0f093a 100644
+--- a/src/libgit2/config_list.c
++++ b/src/libgit2/config_list.c
+@@ -54,25 +54,29 @@ int git_config_list_new(git_config_list **out)
+ int git_config_list_dup_entry(git_config_list *config_list, const git_config_entry *entry)
+ {
+ 	git_config_list_entry *duplicated;
+-	int error;
++	int error = -1;
+ 
+ 	duplicated = git__calloc(1, sizeof(git_config_list_entry));
+ 	GIT_ERROR_CHECK_ALLOC(duplicated);
+ 
+ 	duplicated->base.entry.name = git__strdup(entry->name);
+-	GIT_ERROR_CHECK_ALLOC(duplicated->base.entry.name);
++	if (!duplicated->base.entry.name)
++		goto out;
+ 
+ 	if (entry->value) {
+ 		duplicated->base.entry.value = git__strdup(entry->value);
+-		GIT_ERROR_CHECK_ALLOC(duplicated->base.entry.value);
++		if (!duplicated->base.entry.value)
++			goto out;
+ 	}
+ 
+ 	duplicated->base.entry.backend_type = git_config_list_add_string(config_list, entry->backend_type);
+-	GIT_ERROR_CHECK_ALLOC(duplicated->base.entry.backend_type);
++	if (!duplicated->base.entry.backend_type)
++		goto out;
+ 
+ 	if (entry->origin_path) {
+ 		duplicated->base.entry.origin_path = git_config_list_add_string(config_list, entry->origin_path);
+-		GIT_ERROR_CHECK_ALLOC(duplicated->base.entry.origin_path);
++		if (!duplicated->base.entry.origin_path)
++			goto out;
+ 	}
+ 
+ 	duplicated->base.entry.level = entry->level;
+@@ -102,7 +106,7 @@ int git_config_list_dup(git_config_list **out, git_config_list *config_list)
+ 		goto out;
+ 
+ 	for (head = config_list->entries; head; head = head->next)
+-		if ((git_config_list_dup_entry(result, &head->entry->base.entry)) < 0)
++		if ((error = git_config_list_dup_entry(result, &head->entry->base.entry)) < 0)
+ 			goto out;
+ 
+ 	*out = result;
+@@ -160,6 +164,11 @@ int git_config_list_append(git_config_list *config_list, git_config_list_entry *
+ 	config_entry_list *list_head;
+ 	config_entry_map_head *map_head;
+ 
++	/* Do not publish the incoming entry or alter its shared name until every
++	 * fallible allocation has succeeded. The caller owns it on failure. */
++	list_head = git__calloc(1, sizeof(config_entry_list));
++	GIT_ERROR_CHECK_ALLOC(list_head);
++
+ 	if (git_config_list_headmap_get(&map_head, &config_list->map, entry->base.entry.name) == 0) {
+ 		map_head->multivar = true;
+ 		/*
+@@ -172,13 +181,18 @@ int git_config_list_append(git_config_list *config_list, git_config_list_entry *
+ 		entry->base.entry.name = map_head->entry->base.entry.name;
+ 	} else {
+ 		map_head = git__calloc(1, sizeof(*map_head));
+-		if ((git_config_list_headmap_put(&config_list->map, entry->base.entry.name, map_head)) < 0)
++		if (!map_head) {
++			git__free(list_head);
++			return -1;
++		}
++		if ((git_config_list_headmap_put(&config_list->map, entry->base.entry.name, map_head)) < 0) {
++			git__free(map_head);
++			git__free(list_head);
+ 			return -1;
++		}
+ 	}
+ 	map_head->entry = entry;
+ 
+-	list_head = git__calloc(1, sizeof(config_entry_list));
+-	GIT_ERROR_CHECK_ALLOC(list_head);
+ 	list_head->entry = entry;
+ 
+ 	if (config_list->entries)
+@@ -277,9 +291,12 @@ const char *git_config_list_add_string(
+ 	if (git_config_list_pathmap_get(&s, &config_list->strings, str) == 0)
+ 		return s;
+ 
+-	if ((s = git__strdup(str)) == NULL ||
+-	     git_config_list_pathmap_put(&config_list->strings, s, s) < 0)
++	if ((s = git__strdup(str)) == NULL)
++		return NULL;
++	if (git_config_list_pathmap_put(&config_list->strings, s, s) < 0) {
++		git__free(s);
+ 		return NULL;
++	}
+ 
+ 	return s;
+ }
+diff --git a/src/libgit2/filter.c b/src/libgit2/filter.c
+index 9e0910c..413ec76 100644
+--- a/src/libgit2/filter.c
++++ b/src/libgit2/filter.c
+@@ -93,10 +93,10 @@ static int filter_def_scan_attrs(
+ 			if (has_eq || *start == '-' || *start == '+' || *start == '!')
+ 				(*nmatch)++;
+ 
+-			if (has_eq)
+-				git_str_putc(attrs, '=');
+-			git_str_put(attrs, start, scan - start);
+-			git_str_putc(attrs, '\0');
++			if ((has_eq && git_str_putc(attrs, '=') < 0) ||
++			    git_str_put(attrs, start, scan - start) < 0 ||
++			    git_str_putc(attrs, '\0') < 0)
++				return -1;
+ 		}
+ 	}
+ 
+@@ -152,22 +152,25 @@ static int filter_def_filter_key_check(const void *key, const void *fdef)
+ static int filter_registry_insert(
+ 	const char *name, git_filter *filter, int priority)
+ {
+-	git_filter_def *fdef;
++	git_filter_def *fdef = NULL;
+ 	size_t nattr = 0, nmatch = 0, alloc_len;
+ 	git_str attrs = GIT_STR_INIT;
+ 
+ 	if (filter_def_scan_attrs(&attrs, &nattr, &nmatch, filter->attributes) < 0)
+-		return -1;
++		goto fail;
+ 
+-	GIT_ERROR_CHECK_ALLOC_MULTIPLY(&alloc_len, nattr, 2);
+-	GIT_ERROR_CHECK_ALLOC_MULTIPLY(&alloc_len, alloc_len, sizeof(char *));
+-	GIT_ERROR_CHECK_ALLOC_ADD(&alloc_len, alloc_len, sizeof(git_filter_def));
++	if (GIT_MULTIPLY_SIZET_OVERFLOW(&alloc_len, nattr, 2) ||
++	    GIT_MULTIPLY_SIZET_OVERFLOW(&alloc_len, alloc_len, sizeof(char *)) ||
++	    GIT_ADD_SIZET_OVERFLOW(&alloc_len, alloc_len, sizeof(git_filter_def)))
++		goto fail;
+ 
+ 	fdef = git__calloc(1, alloc_len);
+-	GIT_ERROR_CHECK_ALLOC(fdef);
++	if (!fdef)
++		goto fail;
+ 
+ 	fdef->filter_name = git__strdup(name);
+-	GIT_ERROR_CHECK_ALLOC(fdef->filter_name);
++	if (!fdef->filter_name)
++		goto fail;
+ 
+ 	fdef->filter      = filter;
+ 	fdef->priority    = priority;
+@@ -177,15 +180,20 @@ static int filter_registry_insert(
+ 
+ 	filter_def_set_attrs(fdef);
+ 
+-	if (git_vector_insert(&filter_registry.filters, fdef) < 0) {
++	if (git_vector_insert(&filter_registry.filters, fdef) < 0)
++		goto fail;
++
++	git_vector_sort(&filter_registry.filters);
++	return 0;
++
++fail:
++	git_str_dispose(&attrs);
++	if (fdef) {
+ 		git__free(fdef->filter_name);
+ 		git__free(fdef->attrdata);
+ 		git__free(fdef);
+-		return -1;
+ 	}
+-
+-	git_vector_sort(&filter_registry.filters);
+-	return 0;
++	return -1;
+ }
+ 
+ int git_filter_global_init(void)
+@@ -202,19 +210,25 @@ int git_filter_global_init(void)
+ 
+ 	if ((crlf = git_crlf_filter_new()) == NULL ||
+ 		filter_registry_insert(
+-			GIT_FILTER_CRLF, crlf, GIT_FILTER_CRLF_PRIORITY) < 0 ||
+-		(ident = git_ident_filter_new()) == NULL ||
++			GIT_FILTER_CRLF, crlf, GIT_FILTER_CRLF_PRIORITY) < 0) {
++		error = -1;
++		goto done;
++	}
++	crlf = NULL; /* registry now owns this filter */
++	if ((ident = git_ident_filter_new()) == NULL ||
+ 		filter_registry_insert(
+-			GIT_FILTER_IDENT, ident, GIT_FILTER_IDENT_PRIORITY) < 0)
++			GIT_FILTER_IDENT, ident, GIT_FILTER_IDENT_PRIORITY) < 0) {
+ 		error = -1;
+-
+-	if (!error)
+-		error = git_runtime_shutdown_register(git_filter_global_shutdown);
++		goto done;
++	}
++	ident = NULL;
++	error = git_runtime_shutdown_register(git_filter_global_shutdown);
+ 
+ done:
+ 	if (error) {
+ 		git_filter_free(crlf);
+ 		git_filter_free(ident);
++		git_filter_global_shutdown();
+ 	}
+ 
+ 	return error;
+diff --git a/src/libgit2/merge_driver.c b/src/libgit2/merge_driver.c
+index 300964a..65641f6 100644
+--- a/src/libgit2/merge_driver.c
++++ b/src/libgit2/merge_driver.c
+@@ -184,6 +184,7 @@ static int merge_driver_registry_insert(
+ 	const char *name, git_merge_driver *driver)
+ {
+ 	git_merge_driver_entry *entry;
++	int error;
+ 
+ 	entry = git__calloc(1, sizeof(git_merge_driver_entry) + strlen(name) + 1);
+ 	GIT_ERROR_CHECK_ALLOC(entry);
+@@ -191,8 +192,11 @@ static int merge_driver_registry_insert(
+ 	strcpy(entry->name, name);
+ 	entry->driver = driver;
+ 
+-	return git_vector_insert_sorted(
++	error = git_vector_insert_sorted(
+ 		&merge_driver_registry.drivers, entry, NULL);
++	if (error < 0)
++		git__free(entry);
++	return error;
+ }
+ 
+ int git_merge_driver_global_init(void)
+@@ -217,8 +221,10 @@ int git_merge_driver_global_init(void)
+ 	error = git_runtime_shutdown_register(git_merge_driver_global_shutdown);
+ 
+ done:
+-	if (error < 0)
++	if (error < 0) {
+ 		git_vector_dispose_deep(&merge_driver_registry.drivers);
++		git_rwlock_free(&merge_driver_registry.lock);
++	}
+ 
+ 	return error;
+ }
+diff --git a/src/libgit2/streams/mbedtls.c b/src/libgit2/streams/mbedtls.c
+--- a/src/libgit2/streams/mbedtls.c
++++ b/src/libgit2/streams/mbedtls.c
+@@ -36,13 +36,16 @@
+ #include <mbedtls/error.h>
+ #include <mbedtls/entropy.h>
+ #include <mbedtls/ctr_drbg.h>
++#ifdef ESP_PLATFORM
++#include <esp_crt_bundle.h>
++#endif
+ 
+ #undef inline
+ 
+ #define GIT_SSL_DEFAULT_CIPHERS "TLS1-3-AES-128-GCM-SHA256:TLS1-3-AES-256-GCM-SHA384:TLS1-3-CHACHA20-POLY1305-SHA256:TLS-ECDHE-ECDSA-WITH-AES-128-GCM-SHA256:TLS-ECDHE-RSA-WITH-AES-128-GCM-SHA256:TLS-ECDHE-ECDSA-WITH-AES-256-GCM-SHA384:TLS-ECDHE-RSA-WITH-AES-256-GCM-SHA384:TLS-ECDHE-ECDSA-WITH-CHACHA20-POLY1305-SHA256:TLS-ECDHE-RSA-WITH-CHACHA20-POLY1305-SHA256:TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-CHACHA20-POLY1305-SHA256:TLS-ECDHE-ECDSA-WITH-AES-128-CBC-SHA256:TLS-ECDHE-RSA-WITH-AES-128-CBC-SHA256:TLS-ECDHE-ECDSA-WITH-AES-128-CBC-SHA:TLS-ECDHE-RSA-WITH-AES-128-CBC-SHA:TLS-ECDHE-ECDSA-WITH-AES-256-CBC-SHA384:TLS-ECDHE-RSA-WITH-AES-256-CBC-SHA384:TLS-ECDHE-ECDSA-WITH-AES-256-CBC-SHA:TLS-ECDHE-RSA-WITH-AES-256-CBC-SHA:TLS-DHE-RSA-WITH-AES-128-CBC-SHA256:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256:TLS-RSA-WITH-AES-128-GCM-SHA256:TLS-RSA-WITH-AES-256-GCM-SHA384:TLS-RSA-WITH-AES-128-CBC-SHA256:TLS-RSA-WITH-AES-256-CBC-SHA256:TLS-RSA-WITH-AES-128-CBC-SHA:TLS-RSA-WITH-AES-256-CBC-SHA"
+ #define GIT_SSL_DEFAULT_CIPHERS_COUNT 28
+ 
+-static int ciphers_list[GIT_SSL_DEFAULT_CIPHERS_COUNT];
++static int ciphers_list[GIT_SSL_DEFAULT_CIPHERS_COUNT + 1];
+ 
+ static bool initialized = false;
+ static mbedtls_ssl_config mbedtls_config;
+@@ -73,6 +76,12 @@
+ 
+ int git_mbedtls_stream_global_init(void)
+ {
++#ifdef ESP_PLATFORM
++	/* Embedded sessions are serialized by Tab5Git. Local status/config/init
++	 * must not reserve TLS buffers or seed a DRBG without any network use. */
++	extern int tab5_git_needs_tls(void);
++	if (!tab5_git_needs_tls()) return 0;
++#endif
+ 	int loaded = 0;
+ 	char *crtpath = GIT_DEFAULT_CERT_LOCATION;
+ 	struct stat statbuf;
+@@ -102,18 +111,24 @@
+ 	/* verify_server_cert is responsible for making the check.
+ 	 * OPTIONAL because REQUIRED drops the certificate as soon as the check
+ 	 * is made, so we can never see the certificate and override it. */
+-	mbedtls_ssl_conf_authmode(&mbedtls_config, MBEDTLS_SSL_VERIFY_OPTIONAL);
++	#ifdef ESP_PLATFORM
++ mbedtls_ssl_conf_authmode(&mbedtls_config, MBEDTLS_SSL_VERIFY_REQUIRED);
++ if (esp_crt_bundle_attach(&mbedtls_config) != 0) goto cleanup;
++#else
++ mbedtls_ssl_conf_authmode(&mbedtls_config, MBEDTLS_SSL_VERIFY_OPTIONAL);
++#endif
+ 
+ 	/* set the list of allowed ciphersuites */
+ 	ciphers_known = 0;
+ 	cipher_string = cipher_string_tmp = git__strdup(GIT_SSL_DEFAULT_CIPHERS);
+-	GIT_ERROR_CHECK_ALLOC(cipher_string);
++	if (!cipher_string)
++		goto cleanup;
+ 
+ 	while ((cipher_name = git__strtok(&cipher_string_tmp, ":")) != NULL) {
+ 		int cipherid = mbedtls_ssl_get_ciphersuite_id(cipher_name);
+ 		if (cipherid == 0) continue;
+ 
+-		if (ciphers_known >= ARRAY_SIZE(ciphers_list)) {
++		if (ciphers_known >= ARRAY_SIZE(ciphers_list) - 1) {
+ 			git_error_set(GIT_ERROR_SSL, "out of cipher list space");
+ 			goto cleanup;
+ 		}
+@@ -121,11 +136,13 @@
+ 		ciphers_list[ciphers_known++] = cipherid;
+ 	}
+ 	git__free(cipher_string);
++	cipher_string = NULL;
+ 
+ 	if (!ciphers_known) {
+ 		git_error_set(GIT_ERROR_SSL, "no cipher could be enabled");
+ 		goto cleanup;
+ 	}
++	ciphers_list[ciphers_known] = 0;
+ 	mbedtls_ssl_conf_ciphersuites(&mbedtls_config, ciphers_list);
+ 
+ 	/* Seeding the random number generator */
+@@ -147,12 +164,22 @@
+ 
+ 	initialized = true;
+ 
+-	return git_runtime_shutdown_register(shutdown_ssl);
++	if (git_runtime_shutdown_register(shutdown_ssl) < 0) {
++		shutdown_ssl();
++		return -1;
++	}
++	return 0;
+ 
+ cleanup:
++	git__free(cipher_string);
++	if (has_ca_chain) {
++		mbedtls_x509_crt_free(&mbedtls_ca_chain);
++		has_ca_chain = false;
++	}
+ 	mbedtls_ctr_drbg_free(&mbedtls_rng);
+ 	mbedtls_ssl_config_free(&mbedtls_config);
+ 	mbedtls_entropy_free(&mbedtls_entropy);
++	initialized = false;
+ 
+ 	return -1;
+ }
+@@ -245,7 +272,7 @@
+ 
+ 	st->connected = true;
+ 
+-	mbedtls_ssl_set_hostname(st->ssl, st->host);
++	if (mbedtls_ssl_set_hostname(st->ssl, st->host) != 0) return -1;
+ 
+ 	mbedtls_ssl_set_bio(st->ssl, st->io, bio_write, bio_read, NULL);
+ 
+@@ -366,7 +393,7 @@
+ 	st->owned = owned;
+ 
+ 	st->ssl = git__malloc(sizeof(mbedtls_ssl_context));
+-	GIT_ERROR_CHECK_ALLOC(st->ssl);
++	if (!st->ssl) { git__free(st); return -1; }
+ 	mbedtls_ssl_init(st->ssl);
+ 	if (mbedtls_ssl_setup(st->ssl, &mbedtls_config)) {
+ 		git_error_set(GIT_ERROR_SSL, "failed to create ssl object");
+@@ -375,7 +402,7 @@
+ 	}
+ 
+ 	st->host = git__strdup(host);
+-	GIT_ERROR_CHECK_ALLOC(st->host);
++	if (!st->host) { error = -1; goto out_err; }
+ 
+ 	st->parent.version = GIT_STREAM_VERSION;
+ 	st->parent.encrypted = 1;
+@@ -393,8 +420,10 @@
+ 
+ out_err:
+ 	mbedtls_ssl_free(st->ssl);
+-	git_stream_close(st->io);
+-	git_stream_free(st->io);
++	git__free(st->ssl);
++	/* Construction did not transfer the socket's ownership. The new()
++	 * caller releases its socket; wrap() leaves the borrowed stream intact.
++	 * Closing/freeing here made a failed SSL setup destroy it twice. */
+ 	git__free(st);
+ 
+ 	return error;
+diff --git a/src/libgit2/sysdir.c b/src/libgit2/sysdir.c
+index 7838a67..0cd6662 100644
+--- a/src/libgit2/sysdir.c
++++ b/src/libgit2/sysdir.c
+@@ -286,6 +286,9 @@ static int git_sysdir_guess_system_dirs(git_str *out)
+ #ifndef GIT_WIN32
+ static int get_passwd_home(git_str *out, uid_t uid)
+ {
++#ifdef ESP_PLATFORM
++ GIT_UNUSED(out); GIT_UNUSED(uid); return GIT_ENOTFOUND;
++#else
+ 	struct passwd pwd, *pwdptr;
+ 	char *buf = NULL;
+ 	long buflen;
+@@ -318,6 +321,7 @@ static int get_passwd_home(git_str *out, uid_t uid)
+ out:
+ 	git__free(buf);
+ 	return error;
++#endif
+ }
+ #endif
+ 
+@@ -458,10 +462,13 @@ int git_sysdir_global_init(void)
+ 	for (i = 0; !error && i < ARRAY_SIZE(git_sysdir__dirs); i++)
+ 		error = git_sysdir__dirs[i].guess(&git_sysdir__dirs[i].buf);
+ 
++	if (!error)
++		error = git_runtime_shutdown_register(git_sysdir_global_shutdown);
++
+ 	if (error)
+-		return error;
++		git_sysdir_global_shutdown();
+ 
+-	return git_runtime_shutdown_register(git_sysdir_global_shutdown);
++	return error;
+ }
+ 
+ int git_sysdir_reset(void)
+diff --git a/src/util/futils.c b/src/util/futils.c
+index eb32cbb..ae5d42a 100644
+--- a/src/util/futils.c
++++ b/src/util/futils.c
+@@ -1204,7 +1204,7 @@ void git_futils_filestamp_set_from_stat(
+ 
+ int git_futils_fsync_dir(const char *path)
+ {
+-#ifdef GIT_WIN32
++#if defined(GIT_WIN32) || defined(ESP_PLATFORM) /* FAT f_sync flushes files, no directory handles. */
+ 	GIT_UNUSED(path);
+ 	return 0;
+ #else
+diff --git a/src/util/git2_util.h b/src/util/git2_util.h
+index d47ce5f..54c3a55 100644
+--- a/src/util/git2_util.h
++++ b/src/util/git2_util.h
+@@ -110,7 +110,11 @@ typedef struct git_str git_str;
+ 
+ #include "posix.h"
+ 
+-#define GIT_BUFSIZE_DEFAULT 65536
++#ifdef ESP_PLATFORM
++# define GIT_BUFSIZE_DEFAULT 2048
++#else
++# define GIT_BUFSIZE_DEFAULT 65536
++#endif
+ #define GIT_BUFSIZE_FILEIO GIT_BUFSIZE_DEFAULT
+ #define GIT_BUFSIZE_FILTERIO GIT_BUFSIZE_DEFAULT
+ #define GIT_BUFSIZE_NETIO GIT_BUFSIZE_DEFAULT
+diff --git a/src/util/posix.c b/src/util/posix.c
+index cfc0e07..50be088 100644
+--- a/src/util/posix.c
++++ b/src/util/posix.c
+@@ -152,6 +152,10 @@ int p_getcwd(char *buffer_out, size_t size)
+ 
+ int p_rename(const char *from, const char *to)
+ {
++#ifdef ESP_PLATFORM
++ extern int tab5_git_rename(const char*, const char*);
++ return tab5_git_rename(from, to);
++#else
+ 	if (!link(from, to)) {
+ 		p_unlink(from);
+ 		return 0;
+@@ -161,10 +165,15 @@ int p_rename(const char *from, const char *to)
+ 		return 0;
+ 
+ 	return -1;
++#endif
+ }
+ 
+ #endif /* GIT_WIN32 */
+ 
++#ifdef ESP_PLATFORM
++extern int tab5_git_cancelled(void);
++#endif
++
+ ssize_t p_read(git_file fd, void *buf, size_t cnt)
+ {
+ 	char *b = buf;
+@@ -178,6 +187,9 @@ ssize_t p_read(git_file fd, void *buf, size_t cnt)
+ 	}
+ 
+ 	while (cnt) {
++#ifdef ESP_PLATFORM
++		if (tab5_git_cancelled()) { errno = ECANCELED; return -1; }
++#endif
+ 		ssize_t r;
+ #ifdef GIT_WIN32
+ 		r = read(fd, b, cnt > INT_MAX ? INT_MAX : (unsigned int)cnt);
+@@ -202,6 +214,9 @@ int p_write(git_file fd, const void *buf, size_t cnt)
+ 	const char *b = buf;
+ 
+ 	while (cnt) {
++#ifdef ESP_PLATFORM
++		if (tab5_git_cancelled()) { errno = ECANCELED; return -1; }
++#endif
+ 		ssize_t r;
+ #ifdef GIT_WIN32
+ 		GIT_ASSERT((size_t)((unsigned int)cnt) == cnt);
+@@ -308,7 +323,25 @@ int p_munmap(git_map *map)
+ 
+ #elif defined(GIT_IO_SELECT)
+ 
++static int tab5_poll_once(struct pollfd *fds, unsigned int nfds, int timeout_ms);
+ int p_poll(struct pollfd *fds, unsigned int nfds, int timeout_ms)
++{
++#ifdef ESP_PLATFORM
++ extern int tab5_git_cancelled(void);
++ int left=timeout_ms;
++ do {
++  int part=left<0||left>100?100:left,rc;
++  if(tab5_git_cancelled()){errno=EINTR;return -1;}
++  rc=tab5_poll_once(fds,nfds,part);
++  if(rc)return rc;
++  if(left>0)left-=part;
++ } while(left);
++ return 0;
++#else
++ return tab5_poll_once(fds,nfds,timeout_ms);
++#endif
++}
++static int tab5_poll_once(struct pollfd *fds, unsigned int nfds, int timeout_ms)
+ {
+ 	fd_set read_fds, write_fds, except_fds;
+ 	struct timeval timeout = { 0, 0 };
+diff --git a/src/util/posix.h b/src/util/posix.h
+index 7470745..47f8e1f 100644
+--- a/src/util/posix.h
++++ b/src/util/posix.h
+@@ -192,7 +192,11 @@ extern const char *p_gai_strerror(int ret);
+ #else
+ #	define p_getaddrinfo(a, b, c, d) getaddrinfo(a, b, c, d)
+ #	define p_freeaddrinfo(a) freeaddrinfo(a)
+-#	define p_gai_strerror(c) gai_strerror(c)
++#ifdef ESP_PLATFORM
++# define p_gai_strerror(c) "DNS lookup failed"
++#else
++# define p_gai_strerror(c) gai_strerror(c)
++#endif
+ #endif /* NO_ADDRINFO */
+ 
+ #ifdef GIT_IO_POLL
+@@ -208,11 +212,13 @@ extern const char *p_gai_strerror(int ret);
+ # define POLLERR 0x08
+ # define POLLHUP 0x10
+ 
++#ifndef ESP_PLATFORM
+ struct pollfd {
+ 	int fd;
+ 	short events;
+ 	short revents;
+ };
++#endif
+ 
+ extern int p_poll(struct pollfd *fds, unsigned int nfds, int timeout);
+ #endif
+diff --git a/src/util/rand.c b/src/util/rand.c
+index 2b137a5..c4c81eb 100644
+--- a/src/util/rand.c
++++ b/src/util/rand.c
+@@ -12,6 +12,8 @@ See <http://creativecommons.org/publicdomain/zero/1.0/>. */
+ 
+ #if defined(GIT_WIN32)
+ # include <wincrypt.h>
++#elif defined(ESP_PLATFORM)
++# include <esp_random.h>
+ #endif
+ 
+ static uint64_t state[4];
+@@ -71,6 +73,13 @@ GIT_INLINE(int) getseed(uint64_t *seed)
+ 	return 0;
+ }
+ 
++#elif defined(ESP_PLATFORM)
++
++GIT_INLINE(int) getseed(uint64_t *seed)
++{
++ esp_fill_random(seed, sizeof(*seed));
++ return 0;
++}
+ #else
+ 
+ GIT_INLINE(int) getseed(uint64_t *seed)
+diff --git a/src/util/regexp.c b/src/util/regexp.c
+index ca0d043..5836d15 100644
+--- a/src/util/regexp.c
++++ b/src/util/regexp.c
+@@ -75,18 +75,76 @@ out:
+ 
+ #elif defined(GIT_REGEX_BUILTIN) || defined(GIT_REGEX_PCRE2)
+ 
++/* Keep every PCRE2 allocation inside libgit2's installed quota, including
++ * match frames. A compiled pattern copies these allocator callbacks. */
++static void *regexp_alloc(PCRE2_SIZE size, void *payload)
++{
++	GIT_UNUSED(payload);
++	return git__malloc(size);
++}
++
++static void regexp_free(void *pointer, void *payload)
++{
++	GIT_UNUSED(payload);
++	git__free(pointer);
++}
++
++#if defined(ESP_PLATFORM) || defined(TAB5_GIT_EMBEDDED_PROFILE)
++extern int tab5_git_cancelled(void);
++static int regexp_callout(pcre2_callout_block *block, void *payload)
++{
++	GIT_UNUSED(block);
++	GIT_UNUSED(payload);
++	return tab5_git_cancelled() ? PCRE2_ERROR_CALLOUT : 0;
++}
++#endif
++
++static pcre2_match_context *regexp_match_context(pcre2_general_context *general)
++{
++	pcre2_match_context *context = pcre2_match_context_create(general);
++	if (!context)
++		return NULL;
++	/* Heap units are KiB; these also bound hostile repository patterns. */
++	pcre2_set_heap_limit(context, 256);
++	pcre2_set_depth_limit(context, 128);
++	pcre2_set_match_limit(context, 100000);
++#if defined(ESP_PLATFORM) || defined(TAB5_GIT_EMBEDDED_PROFILE)
++	pcre2_set_callout(context, regexp_callout, NULL);
++#endif
++	return context;
++}
++
+ int git_regexp_compile(git_regexp *r, const char *pattern, int flags)
+ {
+-	unsigned char errmsg[1024];
++	unsigned char errmsg[256];
+ 	PCRE2_SIZE erroff;
+ 	int error, cflags = 0;
++	pcre2_general_context *general;
++	pcre2_compile_context *context;
++	*r = NULL;
++	general = pcre2_general_context_create(regexp_alloc, regexp_free, NULL);
++	if (!general)
++		return -1;
++	context = pcre2_compile_context_create(general);
++	if (!context) {
++		pcre2_general_context_free(general);
++		return -1;
++	}
++	pcre2_set_parens_nest_limit(context, 16);
++	pcre2_set_max_pattern_length(context, 4096);
+ 
+ 	if (flags & GIT_REGEXP_ICASE)
+ 		cflags |= PCRE2_CASELESS;
++#if defined(ESP_PLATFORM) || defined(TAB5_GIT_EMBEDDED_PROFILE)
++	cflags |= PCRE2_AUTO_CALLOUT;
++#endif
+ 
+-	if ((*r = pcre2_compile((const unsigned char *) pattern,
++	*r = pcre2_compile((const unsigned char *) pattern,
+ 			PCRE2_ZERO_TERMINATED,
+-			cflags, &error, &erroff, NULL)) == NULL) {
++			cflags, &error, &erroff, context);
++	pcre2_compile_context_free(context);
++	pcre2_general_context_free(general);
++	if (!*r) {
+ 		pcre2_get_error_message(error, errmsg, sizeof(errmsg));
+ 		git_error_set_str(GIT_ERROR_REGEX, (char *) errmsg);
+ 		return GIT_EINVALIDSPEC;
+@@ -104,13 +162,24 @@ void git_regexp_dispose(git_regexp *r)
+ int git_regexp_match(const git_regexp *r, const char *string)
+ {
+ 	pcre2_match_data *data;
++	pcre2_general_context *general;
++	pcre2_match_context *context;
+ 	int error;
+ 
+-	data = pcre2_match_data_create(1, NULL);
+-	GIT_ERROR_CHECK_ALLOC(data);
++	general = pcre2_general_context_create(regexp_alloc, regexp_free, NULL);
++	if (!general)
++		return -1;
++	context = regexp_match_context(general);
++	data = context ? pcre2_match_data_create(1, general) : NULL;
++	pcre2_general_context_free(general);
++	if (!data) {
++		pcre2_match_context_free(context);
++		return -1;
++	}
+ 
+-	error = pcre2_match(*r, (const unsigned char *) string, strlen(string), 0, 0, data, NULL);
++	error = pcre2_match(*r, (const unsigned char *) string, strlen(string), 0, 0, data, context);
+ 	pcre2_match_data_free(data);
++	pcre2_match_context_free(context);
+ 
+ 	if (error < 0)
+ 		return (error == PCRE2_ERROR_NOMATCH) ? GIT_ENOTFOUND : GIT_EINVALIDSPEC;
+@@ -125,6 +194,8 @@ int git_regexp_search(
+ 	git_regmatch *matches)
+ {
+ 	pcre2_match_data *data = NULL;
++	pcre2_general_context *general;
++	pcre2_match_context *context;
+ 	PCRE2_SIZE *ovec;
+ 	size_t i, captures;
+ 	uint32_t nmatches;
+@@ -134,13 +205,20 @@ int git_regexp_search(
+ 
+ 	nmatches = (uint32_t) given_nmatches;
+ 
+-	if ((data = pcre2_match_data_create(nmatches, NULL)) == NULL) {
++	general = pcre2_general_context_create(regexp_alloc, regexp_free, NULL);
++	if (!general)
++		return -1;
++	context = regexp_match_context(general);
++	data = context ? pcre2_match_data_create(nmatches, general) : NULL;
++	pcre2_general_context_free(general);
++	if (!data) {
++		pcre2_match_context_free(context);
+ 		git_error_set_oom();
+ 		return -1;
+ 	}
+ 
+ 	if ((error = pcre2_match(*r, (const unsigned char *) string,
+-			strlen(string), 0, 0, data, NULL)) < 0)
++			strlen(string), 0, 0, data, context)) < 0)
+ 		goto out;
+ 
+ 	captures = (size_t) error;
+@@ -160,6 +238,7 @@ int git_regexp_search(
+ 
+ out:
+ 	pcre2_match_data_free(data);
++	pcre2_match_context_free(context);
+ 	if (error < 0)
+ 		return (error == PCRE2_ERROR_NOMATCH) ? GIT_ENOTFOUND : GIT_EINVALIDSPEC;
+ 	return 0;
+diff --git a/src/util/thread.c b/src/util/thread.c
+index bc7364f..bdb020d 100644
+--- a/src/util/thread.c
++++ b/src/util/thread.c
+@@ -12,30 +12,35 @@
+ #define TLSDATA_MAX 16
+ 
+ typedef struct {
++	int in_use;
+ 	void *value;
+ 	void (GIT_SYSTEM_CALL *destroy_fn)(void *);
+ } tlsdata_value;
+ 
+ static tlsdata_value tlsdata_values[TLSDATA_MAX];
+-static int tlsdata_cnt = 0;
+ 
+ int git_tlsdata_init(git_tlsdata_key *key, void (GIT_SYSTEM_CALL *destroy_fn)(void *))
+ {
+-	if (tlsdata_cnt >= TLSDATA_MAX)
++	int i;
++	if (!key)
+ 		return -1;
+-
+-	tlsdata_values[tlsdata_cnt].value = NULL;
+-	tlsdata_values[tlsdata_cnt].destroy_fn = destroy_fn;
+-
+-	*key = tlsdata_cnt;
+-	tlsdata_cnt++;
+-
+-	return 0;
++	/* Init/shutdown runs once per embedded command. Reuse disposed keys,
++	 * including holes, instead of exhausting the table after 16 commands. */
++	for (i = 0; i < TLSDATA_MAX; ++i) {
++		if (tlsdata_values[i].in_use)
++			continue;
++		tlsdata_values[i].in_use = 1;
++		tlsdata_values[i].value = NULL;
++		tlsdata_values[i].destroy_fn = destroy_fn;
++		*key = i;
++		return 0;
++	}
++	return -1;
+ }
+ 
+ int git_tlsdata_set(git_tlsdata_key key, void *value)
+ {
+-	if (key < 0 || key > tlsdata_cnt)
++	if (key < 0 || key >= TLSDATA_MAX || !tlsdata_values[key].in_use)
+ 		return -1;
+ 
+ 	tlsdata_values[key].value = value;
+@@ -44,7 +49,7 @@ int git_tlsdata_set(git_tlsdata_key key, void *value)
+ 
+ void *git_tlsdata_get(git_tlsdata_key key)
+ {
+-	if (key < 0 || key > tlsdata_cnt)
++	if (key < 0 || key >= TLSDATA_MAX || !tlsdata_values[key].in_use)
+ 		return NULL;
+ 
+ 	return tlsdata_values[key].value;
+@@ -55,7 +60,7 @@ int git_tlsdata_dispose(git_tlsdata_key key)
+ 	void *value;
+ 	void (*destroy_fn)(void *) = NULL;
+ 
+-	if (key < 0 || key > tlsdata_cnt)
++	if (key < 0 || key >= TLSDATA_MAX || !tlsdata_values[key].in_use)
+ 		return -1;
+ 
+ 	value = tlsdata_values[key].value;
+@@ -63,6 +68,7 @@ int git_tlsdata_dispose(git_tlsdata_key key)
+ 
+ 	tlsdata_values[key].value = NULL;
+ 	tlsdata_values[key].destroy_fn = NULL;
++	tlsdata_values[key].in_use = 0;
+ 
+ 	if (value && destroy_fn)
+ 		destroy_fn(value);
+diff --git a/src/util/unix/posix.h b/src/util/unix/posix.h
+index 60f27d3..4b6399c 100644
+--- a/src/util/unix/posix.h
++++ b/src/util/unix/posix.h
+@@ -14,6 +14,12 @@
+ #include <sys/param.h>
+ #include <sys/time.h>
+ #include <sys/stat.h>
++#ifdef ESP_PLATFORM
++#define lstat stat /* FAT SD/USB have no symbolic links. */
++#define getuid() 0
++#define geteuid() 0
++#define getgid() 0
++#endif
+ 
+ typedef int GIT_SOCKET;
+ #define INVALID_SOCKET -1
+@@ -35,10 +41,25 @@ typedef int GIT_SOCKET;
+ # error GIT_USE_NSEC defined but unknown struct stat nanosecond type
+ #endif
+ 
++#ifdef ESP_PLATFORM
++#include <utime.h>
++GIT_INLINE(int) p_utimes(const char *path, const struct timeval times[2])
++{
++ struct utimbuf seconds;
++ if (!times) return utime(path, NULL);
++ seconds.actime = times[0].tv_sec;
++ seconds.modtime = times[1].tv_sec;
++ return utime(path, &seconds);
++}
++GIT_INLINE(ssize_t) p_readlink(const char *path, char *buffer, size_t size)
++{ GIT_UNUSED(path); GIT_UNUSED(buffer); GIT_UNUSED(size); errno = ENOTSUP; return -1; }
++GIT_INLINE(int) p_symlink(const char *from, const char *to)
++{ GIT_UNUSED(from); GIT_UNUSED(to); errno = ENOTSUP; return -1; }
++#else
+ #define p_utimes(f, t) utimes(f, t)
+-
+ #define p_readlink(a, b, c) readlink(a, b, c)
+ #define p_symlink(o,n) symlink(o, n)
++#endif
+ #define p_link(o,n) link(o, n)
+ #define p_unlink(p) unlink(p)
+ #define p_mkdir(p,m) mkdir(p, m)
+@@ -68,7 +89,7 @@ GIT_INLINE(int) p_fsync(int fd)
+  * are not actually managed this way, so treating it as a no-op across
+  * all Android is safe.
+  */
+-#ifdef __ANDROID__
++#if defined(__ANDROID__) || defined(ESP_PLATFORM)
+ # define p_chmod(p,m) 0
+ #else
+ # define p_chmod(p,m) chmod(p, m)
+diff --git a/src/util/unix/process.c b/src/util/unix/process.c
+index 72308b1..64409ed 100644
+--- a/src/util/unix/process.c
++++ b/src/util/unix/process.c
+@@ -1,3 +1,23 @@
++#ifdef ESP_PLATFORM
++#include "git2_util.h"
++#include "process.h"
++#include "str.h"
++static int unavailable(void){git_error_set(GIT_ERROR_OS,"external Git processes are unavailable on Tab5OS");return -1;}
++int git_process_new(git_process **out,const char **a,size_t n,const char **e,size_t en,git_process_options *o){*out=NULL;return unavailable();}
++int git_process_new_from_cmdline(git_process **out,const char *a,const char **e,size_t en,git_process_options *o){*out=NULL;return unavailable();}
++int git_process_start(git_process *p){return unavailable();}
++int git_process_id(p_pid_t *id,git_process *p){return unavailable();}
++ssize_t git_process_read(git_process *p,void *b,size_t n){return unavailable();}
++ssize_t git_process_read_err(git_process *p,void *b,size_t n){return unavailable();}
++ssize_t git_process_write(git_process *p,const void *b,size_t n){return unavailable();}
++int git_process_wait(git_process_result *r,git_process *p){return unavailable();}
++int git_process_close_in(git_process *p){return 0;}
++int git_process_close_out(git_process *p){return 0;}
++int git_process_close_err(git_process *p){return 0;}
++int git_process_close(git_process *p){return 0;}
++int git_process_result_msg(git_str *msg,git_process_result *r){return git_str_sets(msg,"external Git processes are unavailable on Tab5OS");}
++void git_process_free(git_process *p){}
++#else
+ /*
+  * Copyright (C) the libgit2 contributors. All rights reserved.
+  *
+@@ -704,3 +724,5 @@ void git_process_free(git_process *process)
+ 	git_strlist_free_with_null(process->env);
+ 	git__free(process);
+ }
++
++#endif
+diff --git a/src/util/win32/thread.c b/src/util/win32/thread.c
+index f5cacd3..d72d45e 100644
+--- a/src/util/win32/thread.c
++++ b/src/util/win32/thread.c
+@@ -5,6 +5,8 @@
+  * a Linking Exception. For full terms see the included COPYING file.
+  */
+ 
++#include "../git2_util.h"
++#ifdef GIT_THREADS
+ #include "thread.h"
+ #include "runtime.h"
+ 
+@@ -260,3 +262,4 @@ int git_rwlock_free(git_rwlock *lock)
+ 	git__memzero(lock, sizeof(*lock));
+ 	return 0;
+ }
++#endif /* GIT_THREADS */
+diff --git a/src/util/zstream.c b/src/util/zstream.c
+index cb8b125..377ec9f 100644
+--- a/src/util/zstream.c
++++ b/src/util/zstream.c
+@@ -34,8 +34,14 @@ GIT_INLINE(int) zstream_seterr(git_zstream *zs)
+ 	return -1;
+ }
+ 
++static voidpf tab5_zalloc(voidpf opaque, uInt count, uInt size)
++{ GIT_UNUSED(opaque); return git__calloc(count, size); }
++static void tab5_zfree(voidpf opaque, voidpf ptr)
++{ GIT_UNUSED(opaque); git__free(ptr); }
+ int git_zstream_init(git_zstream *zstream, git_zstream_t type)
+ {
++ zstream->z.zalloc=tab5_zalloc;
++ zstream->z.zfree=tab5_zfree;
+ 	zstream->type = type;
+ 
+ 	if (zstream->type == GIT_ZSTREAM_INFLATE)
+--- a/src/libgit2/streams/socket.c
++++ b/src/libgit2/streams/socket.c
+@@ -167,6 +167,20 @@
+ 		return -1;
+ 	}
+ 
++	/* select() also reports a refused nonblocking connection as writable.
++	 * Inspect the completed connect result before accepting this address so
++	 * the caller can try the next address instead of sending TLS to a dead fd.
++	 */
++	{
++		int socket_error = 0;
++		socklen_t size = sizeof(socket_error);
++		if (getsockopt(socket, SOL_SOCKET, SO_ERROR, (void *)&socket_error, &size) < 0)
++			return -1;
++		if (socket_error) {
++			errno = socket_error;
++			return socket_error == ETIMEDOUT ? GIT_TIMEOUT : -1;
++		}
++	}
+ 	return 0;
+ }
+ 

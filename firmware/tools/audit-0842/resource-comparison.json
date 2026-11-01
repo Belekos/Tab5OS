@@ -1,0 +1,18 @@
+{
+  "version": "0.8.42",
+  "passed": true,
+  "physicalDeviceTested": false,
+  "firmwareBytesBefore": 6310368,
+  "firmwareBytesAfter": 6060672,
+  "firmwareBytesSaved": 249696,
+  "otaFreeBytesBefore": 243232,
+  "otaFreeBytesAfter": 492928,
+  "dataBssBytesBefore": 93940,
+  "dataBssBytesAfter": 94708,
+  "rtcNoInitBytesBefore": 984,
+  "rtcNoInitBytesAfter": 1200,
+  "partitionsUnchanged": true,
+  "rawResourceBytes": 378724,
+  "compressedResourceBytes": 113783,
+  "dynamicDeviceMeasurements": null
+}

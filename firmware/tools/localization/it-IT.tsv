@@ -1,0 +1,1610 @@
+10	File, scrittura, lettura e impostazioni.
+11	microSD, cartelle e anteprima
+12	TXT / Markdown, tastiera, Annulla/Ripristina
+15	Schermo, orologio, Wi-Fi e sistema
+34	NTP disattivato — orologio RTC
+35	Sincronizzazione NTP richiesta
+36	NTP attivato — in attesa del Wi-Fi
+37	WI-FI
+45	Lettura verticale disponibile
+58	Impossibile scegliere un nome di destinazione
+59	Salva il documento prima di aprire la lettura verticale
+60	Tema salvato — verrà applicato al prossimo avvio
+61	Lingua salvata — riavvia per applicarla ovunque
+64	Cartella iniziale salvata
+66	Aggiungi /M5Writer/font.ttf per rendere il testo più nitido
+67	Nessuna applicazione associata a questa estensione
+68	Nessuna lettura recente — scegli un documento
+70	Questo file non contiene testo UTF-8
+72	Impossibile incollare
+73	Impossibile tagliare
+74	Impossibile creare la cartella
+75	Documento troppo grande
+76	Cartella di sistema protetta
+77	Salva prima il documento
+78	File > 512 KiB
+79	Formato richiesto: AAAA-MM-GG HH:MM
+81	Impossibile avviare il video
+82	Impossibile inserire una cartella al suo interno
+83	L’elemento è già in questa cartella
+85	Motore Python non disponibile
+87	Impossibile rinominare
+88	Inserisci la password del Wi-Fi
+93	Seleziona il testo da copiare
+94	Seleziona il testo da tagliare
+95	Seleziona una rete Wi-Fi
+99	Video non trovato
+100	Video supportati: AVI/MJPEG o MJPEG grezzo
+102	Elemento copiato negli appunti
+103	Elemento pronto per lo spostamento
+104	Elemento rinominato
+105	Elemento eliminato
+106	Elemento di sistema protetto
+107	RTC impostato
+110	OK
+111	NTP
+126	Azioni disponibili: apri, copia, taglia ed elimina.
+127	Video AVI/MJPEG
+128	Flusso MJPEG
+131	Testo rilevato
+133	Video MJPEG\n\nUn doppio tocco apre il lettore video hardware del P4.
+134	Azioni: guarda, copia, taglia ed elimina.
+135	File audio\n\nUn doppio tocco avvia la riproduzione nell’applicazione Audio.
+136	Azioni: ascolta, copia, taglia ed elimina.
+138	Azioni: modifica, leggi, copia, taglia ed elimina
+139	, esegui
+143	Azioni: leggi, copia, taglia ed elimina.
+144	Tocca «Leggi in verticale» per iniziare.
+147	pixel
+148	Azioni: visualizza, copia, taglia ed elimina.
+149	Anteprima non disponibile
+150	Nessuna applicazione associata. Le operazioni sui file restano disponibili.
+151	Elemento inaccessibile
+152	Memoria insufficiente per l’anteprima.
+153	Nessuna applicazione associata a questa estensione.
+155	Seleziona un video
+162	Flusso radio inaccessibile
+163	Flusso MP3/AAC non disponibile
+164	Attiva il Wi-Fi nelle Impostazioni
+165	Seleziona una rete nelle Impostazioni
+166	Riconnessione alla radio…
+167	Memoria insufficiente per l’audio
+168	Memoria insufficiente per il lettore radio
+169	Prima stazione della categoria
+170	Ultima stazione della categoria
+171	Prima registrazione
+172	Ultima registrazione
+173	Primo brano dell’album
+174	Ultimo brano dell’album
+177	stazione
+178	stazioni
+179	radio
+181	album
+182	brano
+183	brani
+186	Nessuna registrazione
+187	Nessuna radio in /radios.json
+188	Aggiungi album in /Audio
+189	Aggiungi AVI/MJPEG in /Video o URL in /videos.json
+190	Scegli una categoria radio
+191	Scegli un album
+192	Tocca un video per aprirlo
+193	Impaginazione…
+194	Lettura verticale · scorrimento verticale
+198	Impossibile leggere la sezione
+199	Impossibile leggere il documento
+201	Flusso HTTP(S)
+215	Connessione a 
+216	Wi-Fi connesso a 
+217	radio Internet
+220	Wi-Fi  •  connessione…
+222	Wi-Fi attivato  •  nessuna rete
+227	Attiva il Wi-Fi all’avvio
+232	Connessione salvata nella memoria interna.
+233	IN CORSO
+234	Configurazione bloccata
+235	Carattere TTF
+236	\nCaratteri mancanti: 
+237	assente
+238	sconosciuta
+239	accensione
+240	riavvio esterno
+241	software
+242	watchdog interruzione
+243	watchdog attività
+244	watchdog generale
+245	uscita dalla sospensione profonda
+246	calo di tensione
+248	Scrivere e formattare
+249	Due documenti
+250	Tabelle, immagini e formati
+251	File e salvataggi
+252	Audio e video
+253	Mappe e lettura
+254	Nella schermata Mappa, seleziona la mappa e premi Invio per controllarla. Le frecce spostano la vista; + / − cambia lo zoom; Inizio riporta alla posizione iniziale. Esc restituisce le frecce alla navigazione tra i comandi. Ctrl+F apre la ricerca.\n\nI luoghi salvati permettono di raggiungere una posizione, rinominarla o eliminarla. Lo stile sceglie lo sfondo cartografico. I pacchetti offline .t5map e la cache SD permettono di consultare le tessere già disponibili. Le ricerche online e le tessere mancanti richiedono una connessione. I nomi dei luoghi cercati seguono la lingua scelta quando il servizio la fornisce.\n\nLa lettura verticale apre un testo o un EPUB. Pagina precedente / successiva cambia pagina. Su/Giù scorre il testo quando i comandi non sono selezionati. Esc chiude la lettura o l’immagine a schermo intero. I titoli e i nomi forniti dai file mantengono la lingua originale.
+255	Impostazioni, lingue e tastiere
+256	Energia e diagnostica
+257	Sono visualizzati i primi 4096 titoli; gli altri restano accessibili scorrendo.
+258	Ingrandisci il testo
+264	Aggiungi un titolo nel menu Formato.
+267	Applica la tabella
+268	Attendi la fine del salvataggio
+269	Attendi il salvataggio
+270	Nessun file qui. Sali di livello o torna alla prima pagina.
+271	Nessuna occorrenza
+272	Nessuna versione precedente leggibile
+274	Con una selezione: applica. Senza selezione: continua a scrivere con questo colore.
+275	Bianco
+276	Azzurro
+277	Blu scuro
+280	Questo nome esiste già; scegline un altro
+281	Cella limitata a 8 KiB
+282	Percorso del file non valido
+285	Copia dell’immagine non verificata: inserimento annullato
+287	Colore del testo e dello sfondo · Ctrl+Maiusc+C
+288	Colore del testo ed evidenziazione
+291	Ctrl+Maiusc+C
+292	Ctrl+Maiusc+I
+293	Ctrl+Maiusc+S
+294	Documento a destra · Invio: esplora · Esc: comandi
+295	Documenti a destra…
+296	Documenti aperti a destra
+297	Cartella delle immagini inaccessibile
+298	Cartella inaccessibile
+299	Cartella non valida
+305	Invio: attiva · Esc: torna indietro
+307	File di sistema: le modifiche possono alterare il funzionamento di Tab5OS.
+312	Immagine illeggibile o troppo grande (JPEG / PNG / BMP, 4 MiB)
+313	Immagine inaccessibile o superiore a 4 MiB
+315	Importa un’immagine (JPEG, PNG, BMP)
+316	Importa un’immagine dalla SD · Ctrl+Maiusc+I
+317	Impossibile assegnare un nome alla bozza
+318	Indicizzazione del documento… · il passaggio visualizzato è disponibile
+319	Indicizzazione in corso…
+321	Inserimento rifiutato: memoria insufficiente o dimensione massima
+322	Inserisci / modifica una tabella · Ctrl+T
+325	Giallo
+326	KiB
+327	MiB
+328	La sostituzione globale si può annullare in una sola volta; può essere rifiutata se la cronologia non ha spazio sufficiente.
+329	Collegamento esterno: apertura web non disponibile
+330	Modifica rifiutata: memoria insufficiente o dimensione massima
+332	Nero
+333	Nome di file non valido
+337	Arancione
+338	Impossibile aprire: SD, UTF-8 o limite di 2 MiB
+340	Apri un documento a destra
+342	Apri a destra
+343	Apri a destra…
+345	Passaggio
+346	Struttura del documento
+347	Struttura del documento a destra
+348	Struttura del documento…
+349	Più titoli corrispondono — scegli il documento
+350	Prugna
+351	Trova / sostituisci — documento intero, distinzione maiuscole/minuscole
+352	Trova / sostituisci…
+354	Sostituzione globale rifiutata: ricerca vuota, dimensione o cronologia
+355	Sostituzione rifiutata
+357	Ripristino rifiutato: cronologia insufficiente
+358	Ripristina il salvataggio precedente
+359	Rimuovi l’ultima colonna
+360	Rimuovi l’ultima riga
+361	Rosso
+362	Riduci il testo
+363	Riferimento non trovato: aggiungi il documento a destra e verificane il titolo
+364	Importa nuovamente l’immagine esterna prima di cambiare cartella
+365	Ripristina
+366	Ripristina · Ctrl+Y
+367	Inserisci il testo da cercare
+368	Salvataggio in corso o documento senza nome
+369	Salvataggio verificato
+370	Continua
+372	Seleziona il passaggio
+373	Seleziona il testo
+374	Tabella — prima riga: intestazioni
+375	Tabella…
+376	Testo sostitutivo
+377	Testo · Invio: scrivi · Esc: comandi
+378	Testo da cercare
+379	Titolo: normale / H1 / H2 / H3
+380	Titolo precedente
+381	Titolo successivo
+382	Titoli
+383	Titoli del documento a destra
+384	Sostituisci tutto
+385	Esiste già una copia temporanea
+386	Nella cartella di destinazione esiste un’immagine diversa
+387	Versione precedente
+388	Versione precedente ripristinata — è ancora possibile annullare
+389	Versione precedente recuperata (.writer.bak)
+390	Verde chiaro
+391	Verde scuro
+392	Viola
+393	sostituzioni
+394	Modifica: massimo 16 righe e 6 colonne per tabella
+395	\n\n(JPEG / PNG / BMP supportati)
+396	\n\nDecodifica impossibile: 
+397	\nScheda SD
+398	\nFlusso HTTP(S)
+399	\nIndice EPUB: non risolto\nErrore: 
+400	\nMisura batteria: %.2f V · %+ld mA · %s
+401	\nRAM %u KiB · blocco %u KiB · blocco DMA %u KiB · monitoraggio %s
+402	\nTensione bassa o batteria non rilevata: controlla contatti / protezione / caricatore.
+403	  •  attivo
+404	  •  offline
+405	  •  leggero
+406	  •  memoria insufficiente
+407	  •  memorizzato
+408	  •  aperto
+409	  •  protetto
+410	  •  radio Internet
+411	 - copia
+412	AVI/MJPEG locale o HTTP(S)  •  decodifica hardware P4
+413	Sudafrica · GMT+2
+414	Guida alle scorciatoie · F1
+415	Aggiungi
+416	Ambra tenue
+418	Vai a
+419	Nessun luogo salvato. Usa l’icona di salvataggio sulla mappa.
+420	Nessun luogo corrisponde alla ricerca.
+421	Nessun risultato
+422	Audio
+423	Audio AAC
+424	Audio FLAC
+425	Audio MP3
+426	Audio WAV
+427	Australia Sydney · GMT+10/+11
+428	Altro
+429	Blu ardesia
+430	Brasile San Paolo · GMT-3
+431	Canada Toronto · GMT-5/-4
+432	Area immagine non disponibile
+433	Mappa
+434	Scheda SD non disponibile — Mappe non aperta
+435	Mappa incompleta
+436	Mappa · Invio: sposta con le frecce · +/−: zoom · Inizio: posizione iniziale · Esc: comandi
+437	Mappe
+438	Mappe OpenStreetMap
+439	Mappe offline
+440	Caricamento
+441	Caricamento rimandato durante la radio
+442	Percorso non valido
+443	Cina · GMT+8
+444	Comando di spostamento non disponibile
+445	Connessione Wi-Fi necessaria per la ricerca
+446	DIRETTA  •  %02lu:%02lu
+447	Destinazione non valida
+448	Documento > 3 MiB
+449	Documento inaccessibile
+450	Cartelle
+451	Cartelle e file
+452	Impossibile salvare il luogo
+453	Invio: apri · Su/Giù: seleziona · Backspace: cartella superiore
+454	Chiudi la guida · F1 / Esc
+455	Chiudi · Esc
+456	File vuoto
+457	Finlandia · GMT+2/+3
+458	Formato immagine non supportato
+459	Francia · GMT+1/+2
+460	Grafite
+461	Ora non impostata
+462	Ora impostata — RTC non disponibile
+463	Offline
+464	Immagine > 12 MiB
+465	Immagine EPUB inaccessibile\n\n
+466	Immagine EPUB non supportata\n\n
+467	Immagine inaccessibile
+468	India · GMT+5:30
+470	JPEG, PNG o BMP non valido
+471	Mai\n1 minuto\n2 minuti\n5 minuti\n10 minuti
+472	Giappone · GMT+9
+474	Il servizio di ricerca non risponde
+475	Lettura ebook
+476	Luogo 
+477	Luogo salvato
+478	Luogo rinominato
+479	Luogo eliminato
+480	Luogo selezionato
+481	Luoghi salvati
+482	Leggi / avvia
+483	Elenco / struttura
+484	Markdown visuale, guida di riferimento, tastiera USB
+485	Modifica il testo
+486	Motore cartografico non disponibile
+487	Musica e video
+488	Memoria PSRAM non disponibile per la ricerca
+489	Memoria insufficiente
+490	Memoria insufficiente per la mappa
+491	Memoria insufficiente per l’impaginazione
+492	Memoria insufficiente: chiudi un documento o un’applicazione
+493	Nuova Zelanda · GMT+12/+13
+494	Nome del luogo
+495	Il nome del luogo è obbligatorio
+496	Apertura…
+497	PSRAM troppo frammentata per l’immagine
+498	Pausa / riprendi
+499	Posizione iniziale salvata
+500	Posizione iniziale non salvata
+501	Posizione sulla mappa
+503	Regno Unito · GMT+0/+1
+504	Ricerca del luogo…
+505	Ricerca impossibile
+506	Ricerca non disponibile: PSRAM insufficiente
+507	Ricerca © OpenStreetMap contributors
+508	Cerca un luogo
+509	Ricerca…
+510	Sali di livello
+511	Rinomina il luogo
+512	Indietro / precedente
+513	Riduci
+514	Risultati di ricerca
+515	Inserisci almeno due caratteri
+516	Senza sottocartelle  •  /Audio
+517	Senza sottocartelle  •  /mp3
+518	Salvia
+519	Stile della mappa
+520	Stili, ricerca e luoghi salvati
+521	Eliminare questa cartella e tutto il suo contenuto:\n
+522	Eliminare questo luogo?
+523	Eliminare definitivamente:\n
+524	Seleziona un luogo
+525	Tab5OS v%s · chip %u · SD %s · PSRAM %.1f MiB · %s
+527	USA Chicago · GMT-6/-5
+528	USA Denver · GMT-7/-6
+529	USA Los Angeles · GMT-8/-7
+530	USA New York · GMT-5/-4
+531	UTC · GMT+0
+532	Conferma
+533	Volume
+534	Wi-Fi
+535	È necessario il Wi-Fi per aggiornare le tessere
+536	attiva
+537	ricarica non segnalata
+538	ricarica segnalata
+539	data sconosciuta
+540	richiesta dell’utente
+541	carattere bitmap di riserva
+542	incompleti
+543	non disponibile
+544	microSD assente
+545	memoria scarsa
+546	panic/eccezioni
+549	Scrittura
+551	errore
+552	OSM leggero
+553	OSM standard
+554	Mappa IGN
+555	pacchetto SD
+556	pacchetti SD
+557	Annulla la modifica
+558	Scrittura, due documenti, tastiera USB
+559	AVI non valido: blocco movi non trovato
+560	Video AVI %.4s non supportato; è richiesto MJPEG
+561	Video AVI 
+562	 non supportato; è richiesto MJPEG
+563	AVI/MJPEG  •  audio PCM
+564	AVI/MJPEG  •  senza audio PCM
+565	Arresto della rete in attesa — riprova
+566	Arresto del video in attesa della rete
+567	Nessun file audio
+568	Nessuna rete Wi-Fi rilevata
+569	Audio nel ciclo principale
+570	Scheda SD necessaria per registrare
+571	Capitolo EPUB troppo grande
+572	Capitolo non valido
+573	Compressione EPUB non supportata
+574	Contenitore AVI non valido
+575	Contenitore di rete non supportato (è richiesto MJPEG grezzo)
+576	Impossibile creare il file
+577	Diretta MJPEG
+578	Diretta MJPEG multipart
+579	Impossibile decomprimere Deflate EPUB
+580	Spostamento impossibile per questo file
+581	Spostamento riservato ai file locali
+582	EPUB ZIP64 non supportato
+583	EPUB cifrato non supportato
+584	EPUB inaccessibile
+585	EPUB/ZIP troppo piccolo
+586	In attesa del Wi-Fi…
+587	Intestazione ZIP locale non valida
+588	Intestazione multipart troppo lunga
+589	Registrazione WAV 16 kHz mono
+590	Registrazione abbandonata
+591	Registrazione salvata
+592	Voce EPUB non trovata: 
+593	Errore di scrittura sulla scheda SD
+594	File audio non trovato o non supportato
+595	Fine del video
+596	Fine dell’album
+597	Fine della registrazione
+598	Fine della directory ZIP non trovata
+599	Flusso MJPEG in attesa…
+600	Flusso MP3/AAC non disponibile — tocca per riprovare
+601	Flusso interrotto — ripresa prevista
+602	Flusso multipart senza dimensione del fotogramma
+603	Flusso radio inaccessibile — tocca per riprovare
+604	Formato audio illeggibile
+605	Immagine MJPEG non valida o superiore a 1280×720
+606	Impossibile aprire il file audio
+607	Indice ZIP non valido
+608	Impossibile inizializzare il driver audio
+609	Lettura EPUB incompleta
+610	Lettura ZIP compresso incompleta
+611	Impossibile leggere il capitolo
+612	Impossibile leggere l’indice ZIP
+613	Riproduzione video
+614	Riproduzione video interrotta
+615	Memoria insufficiente per registrare
+616	Microfoni non disponibili
+617	Memoria MJPEG insufficiente
+618	Memoria PSRAM insufficiente
+619	Memoria insufficiente per la compressione
+620	Memoria insufficiente per la conversione XHTML
+621	Memoria insufficiente per l’indice ZIP
+622	Memoria insufficiente per la radio — chiudi un’applicazione e riprova
+623	Memoria insufficiente per il video
+624	Memoria insufficiente per il manifesto EPUB
+625	Memoria insufficiente per i capitoli EPUB
+626	Memoria video insufficiente
+627	Offset ZIP non valido
+628	Apertura del video…
+629	Apertura del flusso video…
+630	PSRAM insufficiente per il decoder MP3
+631	Radio arrestata: memoria critica — riprova dopo aver liberato memoria
+632	Radio arrestata dopo tre tentativi falliti — tocca per riprovare
+633	Ricerca Wi-Fi impossibile
+634	Ricerca delle reti Wi-Fi…
+635	Reti Wi-Fi disponibili
+636	Riconnessione alla diretta MJPEG…
+637	Rete Wi-Fi dimenticata
+638	Rete ancora occupata — riprova
+639	Rete occupata — tocca per riprovare
+640	Ricerca rimandata: connessione o riproduzione in corso
+641	Uscita audio non disponibile — riprova dopo aver fermato la riproduzione
+642	Dimensione del framebuffer JPEG incoerente
+643	Fotogramma AVI/MJPEG troppo grande
+644	Fotogramma MJPEG troppo grande
+645	Fotogramma MJPEG vuoto
+646	Fotogramma multipart troppo grande
+647	Tre fotogrammi JPEG consecutivi non validi
+648	Tre fotogrammi multipart consecutivi non validi
+649	Video inaccessibile
+650	Wi-Fi attivato — scegli una rete
+651	Connessione Wi-Fi non riuscita
+652	container.xml senza rootfile; 
+653	Percorso OPF assente; 
+654	Nessun file OPF trovato nell’EPUB
+655	Nessun documento di lettura EPUB trovato (manifest=
+656	REC  •  %02lu:%02lu
+657	Posizione attuale = iniziale
+658	Tab5OS
+659	i
+660	Nome del file.md
+661	Copia precedente inaccessibile
+662	File temporaneo inaccessibile
+663	Impossibile creare il file temporaneo
+664	Impossibile conservare l’originale
+665	PSRAM insufficiente per salvare
+666	Rilettura SD incompleta
+667	Dimensione del salvataggio errata
+668	Verifica finale impossibile; originale conservato
+669	Verifica SD non riuscita
+670	Scrittura SD incompleta
+671	USB: collega una tastiera
+672	USB: input interrotto, riscrivi
+673	USB: host non disponibile
+674	USB: memoria insufficiente
+675	USB: driver non disponibile
+676	USB: attività non disponibile
+677	USB collegato
+678	USB scollegato
+679	USB non avviato
+680	container.xml senza rootfile
+681	Percorso OPF assente
+682	Anteprima non disponibile
+683	Il timeout dello schermo riduce e poi spegne la retroilluminazione. Il tablet e l’eventuale radio restano attivi: questa sospensione dello schermo continua a consumare la batteria. Un tasto o un tocco riattiva lo schermo. Per spegnere il tablet, usa il pulsante di alimentazione secondo le indicazioni M5Stack.\n\nSul Tab5, la ricarica USB richiede che il tablet sia acceso e inizializzato. Spegnere lo schermo non spegne il tablet. La sola percentuale non basta per valutare una batteria; consulta anche tensione, corrente e stato di carica. Senza batteria, lascia disattivato Batteria installata in Impostazioni → Sistema → Energia: l’indicatore resta USB, senza percentuale né fulmine di ricarica. Attiva questa impostazione dopo aver installato una batteria, a dispositivo spento. La scelta riguarda solo la visualizzazione; non controlla il caricatore.\n\nImpostazioni → Sistema indica le risorse di memoria. Il rilevamento è passivo: nessuna pulizia automatica o notifica periodica modifica lo schermo. La causa dell’ultimo riavvio e i registri seriali aiutano a distinguere un errore di memoria, un blocco e un calo di tensione.\n\nPer segnalare un problema, annota la versione, le applicazioni utilizzate, le dimensioni dei file, le operazioni precedenti e il messaggio visualizzato.
+684	Verde lettura
+686	\nAlimentazione USB · senza batteria
+687	\nRAM %u KiB · blocco %u KiB · blocco DMA %u KiB
+688	Ripresa del documento…
+689	ANS: ultimo risultato · MEM: memoria
+690	Indirizzo IPP non valido o stampa in corso
+691	Annulla l’invio
+692	Anteprima dei colori
+693	Ferma lo script prima di cambiare file
+694	Attendi il completamento del caricamento della mappa
+695	Nessun nome di file disponibile
+696	Librerie
+697	Mappa visualizzata
+698	Mappa pronta per la stampa
+699	Certificato della stampante assente
+700	Questa stampante non supporta PWG Raster a colori
+701	Percorsi non validi o cassaforte occupata
+702	Cifratura non disponibile
+703	Scegli il percorso di un file .py
+704	Cassaforte cifrata
+705	Cassaforte troncata o alterata
+706	Conferma per cifrare
+707	Impossibile connettersi alla stampante
+708	Copia cifrata creata — originale conservato
+709	Crea la copia cifrata
+710	Dimensioni di stampa non valide
+711	Divisione per zero
+712	Decifratura completata
+713	Decifra una copia
+714	Derivazione della password…
+715	Codificatore JPEG non disponibile: ferma il video
+716	Impossibile salvare lo script
+717	Invio interrotto: controlla la coda della stampante
+718	Invio alla stampante…
+719	Esporta la mappa in JPEG
+720	Espressione non valida
+721	Espressione troppo complessa
+722	Espressione troppo lunga
+723	Esecuzione impossibile o già in corso
+724	File modificato durante la cifratura
+725	File sorgente
+726	File temporaneo già presente
+727	File di testo, Markdown, JPEG o PNG
+728	File troppo grande per la cassaforte
+729	Funzione: parentesi obbligatorie
+730	Funzione sconosciuta
+731	Formato carta non supportato
+732	Formato della cassaforte non valido
+733	Immagine o destinazione non valida
+734	Stampa in corso
+735	Stampante (indirizzo IPP)
+736	Stampante raggiungibile
+737	Stampa
+738	Stampa la mappa visualizzata
+739	Stampa il file selezionato · Ctrl+P
+740	Interrogazione della stampante…
+741	JPEG salvato: 
+742	La destinazione esiste già
+743	La risoluzione dipende dalla carta, dalla stampante e dall’immagine sorgente.
+744	Il file originale resta leggibile. Solo la copia .t5v è protetta dalla password.
+745	Impossibile leggere il file
+746	Le password non corrispondono
+747	Password: almeno 12 caratteri
+748	Password errata o cassaforte alterata
+749	Password persa: nessun recupero possibile. Conserva una copia di sicurezza.
+750	Memoria aumentata
+751	Memoria diminuita
+752	Memoria cancellata
+753	Memoria insufficiente per esportare questa immagine
+754	Numero non valido
+755	Nuovo file di destinazione
+756	Operazione annullata
+757	Parentesi mancante
+758	Preparazione della mappa annullata
+759	Preparazione della mappa per la carta…
+760	Impossibile preparare la stampa
+761	Preparazione delle pagine…
+762	Preparazione impossibile: file, carattere, memoria o limite di 256 pagine
+763	Regolazione dei colori
+764	Risposta della stampante non valida
+765	Rete occupata: ferma la radio o riprova
+766	Risoluzione non supportata (da 72 a 600 dpi)
+767	Script caricato
+768	Script in esecuzione…
+769	Script salvato
+770	Script inaccessibile o superiore a 64 KiB
+771	Script terminato con un errore
+772	Temperatura inferiore allo zero assoluto
+773	Testo: Ctrl+Alt+C · Sfondo: Ctrl+Alt+H
+774	Lavoro accettato dalla stampante
+775	Lavoro rifiutato dalla stampante
+776	Tessera della mappa non valida
+777	Tessera non disponibile: controlla la rete o la cache
+778	USB: interfaccia HID non supportata
+779	Unità incompatibili
+780	Valore fuori intervallo
+781	Valore memorizzato
+782	Verifica
+783	Derivazione della password non riuscita
+784	Codifica JPEG non riuscita
+785	Scrittura JPEG sulla scheda SD non riuscita
+786	Impossibile scrivere la mappa
+787	Impossibile scrivere la cassaforte
+788	Impossibile scrivere il file
+789	Calcolatrice
+790	Stampa
+791	Conversioni
+792	Converti
+793	Applica il colore del testo
+794	Applica lo sfondo del testo
+795	Colore del testo
+796	Colori ed esportazione JPEG
+797	Stampa e calcolatrice
+798	Programmare in MicroPython
+800	Gradi\nRadianti
+801	Verticale\nOrizzontale
+802	A4\nLetter\nA5
+803	150 dpi\n300 dpi\n600 dpi
+804	 dpi
+805	 p · 
+806	 px · 
+807	 × 
+808	A
+809	B
+810	C+
+811	C−
+812	H
+813	I
+814	IPP 0x
+815	JPG
+816	L+
+817	L−
+818	×
+819	÷
+820	 · 
+821	HTTP 
+822	 %
+823	z%u | %u x %u px
+824	Indirizzo IPP / IPPS
+825	Nessuna chiave — creala nelle Impostazioni
+826	Nessuna stampante rilevata
+827	Calcolo delle pagine…
+828	Certificato modificato: connessione bloccata
+829	Certificato memorizzato: verifica e poi stampa
+830	Questa chiave non corrisponde al file
+831	Percorsi non validi
+832	Cerca
+833	Cifratura in corso…
+834	Cifra / decifra il file
+835	Scegli un percorso di salvataggio .t5key
+836	Scegli un file
+837	Scegli un file nel gestore file
+838	Chiave
+839	Chiave assente
+840	Chiave assente: ripristina il backup nelle Impostazioni
+841	Chiave errata o cassaforte alterata
+842	Chiave ripristinata nel Tab5
+843	Chiavi conservate nella memoria del Tab5
+844	Chiavi di cifratura
+845	Conferma per salvare
+846	Connessione TLS impossibile
+847	Conserva il backup altrove: cancellare la memoria del Tab5 cancella anche le sue chiavi.
+848	Copia creata — il file originale viene conservato.
+849	Decifratura in corso…
+850	Prova IPPS
+851	Stima non disponibile
+852	Stima pronta
+853	Esportazione della mappa già in corso
+854	Considera attendibile
+855	File selezionato
+856	Genera
+857	Gestisci le chiavi
+858	HTTP 426: cerca l’indirizzo IPPS della stampante
+859	HTTP 426 · Upgrade: 
+860	Immagine sorgente non valida
+861	Stampante selezionata
+862	Limite di 8 certificati raggiunto
+863	Password del backup
+864	Password del vecchio file
+865	Nome della nuova chiave
+866	Operazione in corso: attendi o annulla
+867	Orientamento
+868	Pagine stimate: 
+869	Pagine stimate: …
+870	Carta
+871	Preparazione del JPEG ad alta definizione…
+872	Ripristino della chiave…
+873	Ripristina una chiave
+874	Risoluzione
+875	Inserisci la password del file
+876	Backup cifrato / ripristino (.t5key)
+877	Backup cifrato della chiave creato
+878	Backup della chiave non valido
+879	Salvataggio della chiave…
+880	Salva la chiave
+881	Dimensione (%)
+882	Verifica questa impronta sulla stampante prima di confermare.
+883	Verifica l’impronta del certificato prima di considerarlo attendibile
+884	Scala: dal 25 al 200 %
+885	\nSHA-256: 
+886	Chiave già presente
+887	Identificativo della chiave già utilizzato
+888	Memoria delle chiavi inaccessibile
+889	Limite di 8 chiavi raggiunto
+890	Chiave salvata nel Tab5
+891	Impossibile scrivere la chiave
+892	Nome della chiave: da 1 a 48 byte
+893	Connetti il Tab5 al Wi-Fi
+894	Ricerca di rete non disponibile
+895	Nessuna stampante annunciata su questa rete
+896	Scegli una stampante rilevata
+897	Ricerca delle stampanti…
+900	 · z
+901	 · ~
+902	 · #
+903	 · HTTP 
+904	 · TLS 
+905	TLS 
+906	Esempio di interfaccia
+907	Negoziazione TLS con la stampante impossibile
+908	Mappa pronta: alcune tessere sono meno dettagliate
+909	Alcune tessere sono meno dettagliate.
+910	Impossibile caricare la tessera
+911	Tessera non disponibile dopo diversi tentativi
+912	Impossibile memorizzare le stampanti
+913	Indirizzo manuale
+914	Scegli una stampante
+915	Acquisizione della mappa visualizzata…
+916	Codifica JPEG…
+917	Esportazione JPEG annullata
+918	Mappa non disponibile
+919	Mappa pronta
+920	Ricerca parziale: 
+921	Cerca file e cartelle
+922	Cerca una radio
+923	Cerca un brano
+924	200 risultati: affina la ricerca
+925	Ctrl+T inserisce una tabella o apre quella selezionata. Tocca una cella o usa Tab / Maiusc+Tab per sceglierla; Invio avvia la scrittura. Le celle supportano grassetto, corsivo, titoli, colore e sfondo del testo. Applica conferma tutto; chiudere senza applicare scarta le modifiche nella finestra.\n\nCtrl+Maiusc+I importa un’immagine JPEG, PNG o BMP dalla SD. Salva prima il documento. Una copia viene inserita nella sua cartella .assets. Trasporta questa cartella insieme al documento. Selezionare un’immagine e premere Canc la rimuove dal testo senza cancellarne il file.\n\nCtrl+Maiusc+C apre i colori: prima riga per il testo, seconda per lo sfondo. La casella automatica riprende i colori del tema.\n\nI file restano Markdown UTF-8: tabelle GFM, immagini Markdown e colori in HTML span/CSS. Alcuni lettori possono filtrare questi stili. Le strutture complesse non supportate possono restare letterali. Annulla / Ripristina permette di tornare su una modifica applicata.\n\nLa cella attiva mantiene una leggera tinta del tema e un bordo sottile evidenziato. Resta indicata quando usi i pulsanti di formattazione o chiudi la tastiera. Tab e le frecce spostano la selezione; Invio avvia la scrittura.
+926	  •  rete rimandata: memoria occupata
+927	Crea una sottocategoria
+928	Nuova categoria
+930	Nessun preferito
+931	Impossibile salvare i preferiti
+932	Preferito: aggiungi o rimuovi
+933	Preferiti
+934	Stampa · Ctrl+P
+935	Installa un firmware
+936	Esegui Python
+937	Attendi la fine o annulla l’installazione
+938	Solo binario applicazione ESP32-P4. La SD e le chiavi vengono conservate.
+939	Questo file sostituirà il programma del Tab5 dopo il riavvio.
+940	Mantieni un’alimentazione stabile durante l’installazione.
+941	Installa
+942	Riavvia
+943	Firmware
+944	Termina le operazioni in corso prima dell’installazione
+945	Connessione interrotta
+946	HTTP Upgrade · 
+947	Passaggio da HTTP a TLS rifiutato
+948	Risposta assente o incompleta
+949	Binario troppo grande o partizione OTA assente
+950	Binario troncato
+951	Scegli un binario applicazione ESP32-P4, senza bootloader
+952	Firmware incompatibile con questa revisione del Tab5
+953	Il file è cambiato: verifica di nuovo
+954	Inizializzazione OTA impossibile
+955	Installazione annullata
+956	Scrittura OTA impossibile
+957	Impossibile calcolare l’impronta del firmware
+958	Integrità del firmware non valida
+959	Impossibile attivare il firmware
+960	Firmware installato — riavvia per attivarlo
+961	Binario compatibile — pronto per l’installazione
+962	Installazione del firmware…
+963	Verifica del firmware…
+964	Scegli una categoria radio, un album o una registrazione, poi una riga da riprodurre. Con la tastiera, Su/Giù selezionano e Invio avvia. Spazio controlla riproduzione / pausa; Alt+Sinistra / Destra passa al brano precedente / successivo. Nei campi di testo questi tasti mantengono il loro uso normale.\n\nIl Wi-Fi si configura nelle Impostazioni. Le radio provengono da /radios.json, gli album da /Audio, i video da /Video o /videos.json. I video supportati sono AVI/MJPEG e MJPEG grezzo. Esc chiude il video a schermo intero.\n\nCambiare applicazione può lasciare attivo l’audio. Usa Pausa o Ferma per interrompere l’ascolto. Gli errori di avvio e riproduzione vengono segnalati. Nessun controllo periodico della memoria svuota le applicazioni o interrompe la radio. Impostazioni → Sistema permette di consultare le risorse disponibili.\n\nLa lente o Ctrl+F filtra la scheda attiva: brani di tutti gli album, stazioni di tutte le categorie radio, registrazioni o video. Ogni scheda conserva i propri termini di ricerca. La croce rimuove il filtro; scegliere un risultato avvia l’elemento corrispondente. Nomi, cartelle e categorie si possono cercare ignorando maiuscole e accenti latini.\n\nMusica esplora le sottocartelle di /Audio e /mp3. + nel pannello sinistro crea una sottocategoria. Per le radio, una categoria Jazz/Piano crea due livelli. Il + a destra di un brano o di una radio aggiunge un preferito; il segno di spunta lo rimuove. Preferiti filtra l’elenco della scheda corrente. Sono conservati sulla SD.
+965	Laboratorio
+966	Indietro
+967	Radio
+969	Catalogo
+970	Installazione
+971	Installate
+972	Disinstalla
+973	Libreria
+975	Aggiorna il catalogo
+976	Aggiorna il catalogo con il Wi-Fi connesso.
+977	È richiesto un indirizzo HTTPS
+978	Indirizzo del repository non valido
+979	Indirizzo delle tessere non valido
+980	È richiesto un indirizzo che termina con .json, .csv o .m3u
+981	Vecchio file modificato: 
+982	Vecchio registro PC: conserva le librerie e usa un nuovo registro
+983	Struttura di cartelle troppo profonda
+984	Laboratorio Python · Tab5
+985	Nessuna libreria installata dal gestore.
+986	Libreria disinstallata
+987	Libreria non installata
+988	Libreria utilizzata da un altro pacchetto
+989	Librerie Python
+990	Librerie installate
+991	Librerie aggiornate
+992	Limiti T5MAP errati
+993	CSV: colonne name, url, style
+994	CSV: virgolette non chiuse
+995	CSV: numero di colonne errato
+996	Carattere non valido in una stazione
+997	Mappa troncata
+998	Catalogo MicroPython
+999	Catalogo non valido
+1000	Catalogo radio non valido
+1001	Catalogo radio troppo grande
+1002	Catalogo vuoto o con più di 800 radio
+1003	Questa cartella
+1004	Questi programmi Python vengono eseguiti sul Tab5.
+1006	È richiesto un percorso SD assoluto
+1007	Percorso relativo non valido
+1008	Percorso troppo lungo
+1009	Scegli una cartella
+1010	Connetti il Wi-Fi nelle Impostazioni
+1011	Connessione HTTPS impossibile: controlla rete, data e certificati
+1012	Colore: #RRGGBB
+1013	Destinazione: /MicroPython/lib
+1014	Destinazione duplicata
+1015	Due pacchetti forniscono file diversi nella stessa posizione
+1016	Cartella XYZ
+1017	Cartelle sorgente e destinazione annidate
+1018	Dipendenza circolare
+1019	Dipendenza non valida
+1020	Dipendenze troppo profonde
+1021	Impronta del pacchetto non valida
+1022	Impronta del download errata
+1023	Intestazione PNG non valida
+1024	Intestazione T5MAP non valida
+1026	Voce T5MAP non valida
+1027	Spazio SD insufficiente
+1028	File SD o indirizzo HTTPS (JSON, CSV, M3U)
+1029	File degli stili non valido
+1030	File dei temi non valido
+1031	File dei temi troppo grande
+1032	File modificato: eliminazione interrotta
+1033	File modificato durante la preparazione
+1034	File condiviso con un’altra libreria
+1035	File personale o libreria modificata: 
+1036	File troppo grande
+1037	Formato mappa non supportato
+1038	Identificativo della cache XYZ
+1039	Identificativo non valido
+1040	Importazione delle mappe
+1041	Importazione completata. Ricarica Musica o riavvia per aggiornare l’elenco.
+1042	Importa mappe
+1043	Importa radio
+1044	Indice T5MAP non valido o troppo grande
+1045	Installa una libreria
+1046	La destinazione è una cartella
+1047	Lingua non valida
+1048	Il pacchetto esiste già
+1049	Il tema sarà disponibile nelle Impostazioni dopo il riavvio.
+1050	Le configurazioni personali valide vengono conservate. Le traduzioni mancanti vengono aggiunte.
+1051	Le dipendenze e i file personali vengono conservati.
+1052	I file vengono copiati in piccoli blocchi. I pacchetti e le tessere esistenti vengono conservati. MBTiles richiede una conversione preliminare in T5MAP.
+1053	I sorgenti verranno installati con le relative dipendenze.
+1054	Le stazioni vengono unite per indirizzo. Il catalogo precedente viene salvato in radios.json.bak.
+1055	Manifesto del pacchetto non valido
+1056	Massimo: 16 stili
+1057	Massimo: 16 temi personali
+1058	Massimo: 800 radio
+1059	Massimo: 800 radio dopo l’unione
+1060	Aggiorna
+1061	Aggiornamento
+1062	Aggiornamento della SD
+1063	Aggiornamento completato. Riavvia per caricare le modifiche.
+1064	Modulo Tab5OS riservato
+1066	È richiesto un nome di pacchetto .t5map
+1067	Nome del pacchetto o indirizzo HTTPS / github:
+1069	Nome del tema non valido
+1070	Nome o indirizzo della radio non valido
+1071	Nome o versione del pacchetto non valido
+1072	Operazione in corso. La croce permette di annullare.
+1073	Pacchetto .t5map, cartella XYZ, stili JSON o URL HTTPS
+1074	Pacchetto importato. Riavvia per aggiornare i pacchetti offline.
+1075	Pacchetto vuoto
+1076	Pacchetti troppo grandi
+1077	Preparazione incompleta
+1078	Registro delle librerie non valido
+1079	Riferimento di fabbrica corrotto: 
+1080	Imposta data e ora per verificare i certificati
+1081	Directory T5MAP non valida
+1082	Rete occupata: ferma la radio e riprova
+1083	Inserisci un nome di pacchetto
+1084	Sono supportati solo i sorgenti .py
+1085	Sorgenti .py e dipendenze sulla SD. I pacchetti PC e le estensioni native non sono compatibili.
+1086	Stazione non valida
+1087	Stile della mappa non valido
+1088	Stili importati. Riavvia per caricarli.
+1091	Troppe dipendenze
+1092	Troppi file
+1093	Troppi file in questa operazione
+1094	Tessera PNG corrotta
+1095	Tessera PNG incompleta
+1096	Tessera PNG non valida
+1097	Tessera PNG troncata
+1098	Tessere PNG: è richiesto 256 × 256
+1099	Un file occupa il posto della cartella
+1100	Un tema con lo stesso identificativo verrà sostituito, conservando un backup.
+1101	Usa mpy=False per i sorgenti .py
+1103	Versione (vuoto: ultima versione)
+1104	Versioni delle dipendenze incompatibili
+1105	Controlla la scheda SD
+1106	già presenti
+1107	file da completare o riparare
+1108	aggiornamenti
+1109	nuove
+1110	pacchetti elencati
+1111	tessere importate
+1112	file
+1113	dipendenze
+1117	Installa sulla SD gli script MicroPython di questa versione
+1118	Anteprima di lettura\nIl testo segue i colori del tema.
+1119	Conferma
+1121	Importa
+1122	Sfoglia
+1124	Download
+1130	Identificativo della cache: 
+1131	Pacchetto .t5map, cartella XYZ o URL HTTPS
+1132	Troppi backup di recupero
+1133	Gestore file
+1134	eBook
+1135	Verifica di nuovo la SD
+1136	Tab / Maiusc+Tab: comando successivo / precedente. Le frecce scelgono un comando nella direzione indicata. Invio attiva la selezione o avvia la scrittura. Esc termina la scrittura; una seconda pressione porta alla barra.\n\nComando/Windows da solo, Cmd+/ o F6: passa tra la barra e l’applicazione ritrovando l’ultima selezione. Destra dalla barra torna nell’applicazione. Da Alt+1 ad Alt+7: Home, Gestore file, Editor, eBook, Media, Mappe, Impostazioni.\n\nGli elenchi distinguono selezione e azione: Su/Giù scelgono una riga, Invio la apre. In una finestra di dialogo, i comandi restano al suo interno. F1 apre o chiude la guida; anche Esc la chiude.
+1137	Formato → Regolazione dei colori (Ctrl+Maiusc+C) sceglie separatamente il colore del testo e lo sfondo. Scegliere una casella non modifica il documento. Colore del testo (Ctrl+Alt+C) e Sfondo del testo (Ctrl+Alt+H) agiscono sulla selezione; senza selezione, la scelta riguarda il testo successivo. Anche le celle supportano questi stili. Esc chiude la tavolozza. Il pulsante della tastiera si trova direttamente nella barra dell’Editor e nell’editor delle tabelle. L+ e C+ mostrano subito la nuova riga o colonna; Applica salva la tabella nel documento.\n\nJPG acquisisce ora la mappa già visualizzata, alla risoluzione attuale, senza aumentare lo zoom né scaricare altro. Attendi che gli elementi desiderati siano visibili prima dell’acquisizione. I crediti vengono conservati sotto l’immagine. Il file viene creato in /Pictures/Maps/map-NNNN.jpg.\n\nUn piccolo pannello mantiene visibile l’avanzamento durante la copia e la codifica. La croce o Esc annulla; anche cambiare schermata durante la copia annulla questa fase. Il JPEG viene codificato per righe. Non viene pubblicato alcun file incompleto. Scrittura → Inserisci → Immagine permette di inserire il risultato.\n\nLe celle delle tabelle mantengono bordi visibili; la cella attiva resta colorata secondo il tema.
+1138	File → Stampa (Ctrl+P) salva il documento e apre la stampa. Nel Gestore file, l’icona della stampante appare per un file selezionato, mai per una cartella. Cerca interroga gli annunci IPP/IPPS della rete Wi-Fi locale. Scegliere un risultato riprende la porta e il percorso annunciati. Una stampante non annunciata resta accessibile inserendone l’indirizzo esatto. Invio o la freccia della tastiera sullo schermo chiude la tastiera. Verifica interroga la stampante senza stampare.\n\nHTTP 426 richiede un cambio di protocollo, spesso TLS. Cerca può fornire l’indirizzo IPPS; Prova IPPS verifica una connessione cifrata allo stesso host e alla stessa porta, senza inviare documenti. Il certificato può essere convalidato da /M5Writer/printer-ca.pem. Altrimenti, confronta l’impronta SHA-256 con quella della stampante prima di considerarlo attendibile. Verrà verificata a ogni connessione; un cambiamento blocca l’invio.\n\nScegli A4, Letter o A5, orientamento, risoluzione e dimensione dal 25 al 200 %. Al 100 %, foto e mappe rientrano nell’area stampabile; gli ingrandimenti possono occupare più fogli. Per il testo, la percentuale cambia la dimensione dei caratteri e l’impaginazione. La stima viene calcolata prima dell’invio; una risoluzione adattata alla stampante può modificare gli arrotondamenti. Le immagini Markdown vengono separate dal testo; le tabelle vengono stampate come testo. La stampante deve accettare IPP e PWG Raster a colori sRGB. La stampa USB non è disponibile. Annullare durante l’invio può lasciare un lavoro in coda: controlla prima di inviarlo di nuovo.\n\nCalcolatrice: numeri, + - * /, parentesi, potenze e ² funzionano con la tastiera fisica. Invio o = calcola; Backspace corregge. MS memorizza il risultato, MR inserisce MEM, M+/M− lo sommano o sottraggono, MC cancella. Sono disponibili trigonometria in gradi/radianti, pi, ANS e conversioni.\n\nSe HTTP 426 annuncia Upgrade: TLS, la verifica negozia ora OPTIONS e poi TLS sulla stessa connessione HTTP. L’indirizzo IPP annunciato può quindi essere corretto. I certificati vengono verificati prima di inviare qualsiasi documento. Il motore deve poter negoziare una versione TLS compatibile; una stampante limitata al vecchio TLS 1.0 può ancora fallire. Nessun lavoro di stampa viene inviato di nuovo automaticamente dopo un errore.\n\nL’elenco delle stampanti e l’ultimo indirizzo scelto vengono memorizzati nel Tab5, anche dopo lo spegnimento. Solo Cerca riavvia la rilevazione. Una ricerca riuscita sostituisce l’elenco; un errore di rete conserva quello precedente. Un indirizzo inserito manualmente resta memorizzato dopo verifica, stampa o chiusura.\n\nIl pulsante stampante nella barra dell’Editor salva il documento e apre Stampa, come Ctrl+P. Se il passaggio da HTTP a TLS fallisce, la diagnostica indica ora la risposta HTTP della stampante; un numero di socket positivo non viene più presentato come errore di cifratura.
+1140	Editor Python
+1141	Libreria Python non disponibile
+1142	Impossibile caricare le applicazioni
+1143	Nessuna applicazione installata
+1144	%u applicazioni
+1145	Altri script disponibili nel Gestore file
+1146	Nessuna radio salvata
+1147	Aggiungi radio
+1148	Nessun luogo salvato
+1149	\nCache liberate: interna %u KiB · PSRAM %u KiB\nRifiuti memoria %u · stack UI minimo %u B
+1150	\nBuffer TLS: %s
+1151	RAM interna (ripiego SDK)
+1152	\nSRAM HP fisica: 768 KiB, di cui %u KiB di cache hardware
+1153	\nTCM: %u B liberi / %u B gestiti dall’heap
+1154	\nSchermo: %llu KiB sincronizzati / %llu KiB richiesti\nAggiornamenti mirati %u · ripieghi %u · errori %u
+1155	\nUltimo riavvio: %s · acceso da %u min
+1156	\nAvvio %lu ms | %s %lu ms | heap %s
+1157	\nLingua %lu ms · tastiera %lu ms · USB %lu ms
+1158	\nSD: %s | tentativi %u/3 | recuperi %u%s
+1159	 - nuova verifica manuale necessaria
+1160	\nPrima del riavvio (contesto): 
+1161	\nPriorità lettura schermo: %u → %u · %s\nCifratura flash: %s
+1162	verificata
+1163	da verificare
+1164	attivato
+1165	disattivato
+1166	La mia interfaccia Python
+1167	Contatore tattile
+1168	Azzera
+1169	MicroPython su Tab5OS
+1170	Wikipedia
+1171	Riproduzione prevista dopo l’attività prioritaria
+1172	Audio sospeso per un’attività prioritaria
+1173	Nessun server Radio Browser disponibile
+1174	Paese: codice di due lettere, ad esempio FR o GB
+1175	Formato audio incompatibile
+1176	Radio online
+1177	Nome della radio
+1178	Paese (codice, facoltativo)
+1179	Genere musicale (facoltativo)
+1180	Importazione manuale
+1181	Ricerca di radio
+1182	Risultati precedenti
+1183	Risultati successivi
+1184	Nessuna radio compatibile trovata.
+1185	Aggiungi la radio
+1186	Radio aggiunta. Ricarica Musica per aggiornare l’elenco.
+1187	Catalogo cartografico incompleto
+1188	Descrizione della mappa troppo grande
+1189	mappe
+1190	Nessuna mappa compatibile nel catalogo
+1191	Catalogo cartografico non valido
+1192	Identificativo della mappa già utilizzato
+1193	Mappa non trovata
+1194	Scegli una mappa da sostituire
+1195	Catalogo delle mappe
+1196	Mostra i risultati
+1197	mappe disponibili
+1198	Nessun risultato. Aggiorna il catalogo o modifica la ricerca.
+1199	Aggiungi la mappa
+1200	Livelli di zoom disponibili: 
+1201	Visualizzazione online in Mappe.
+1202	Mappa da sostituire
+1203	Mappa aggiunta. Apri Mappe per consultarla.
+1204	Pacchetto importato. Apri Mappe per consultarlo.
+1205	Codice della lingua di Wikipedia non valido
+1206	Ricerca Wikipedia troppo lunga
+1207	Risposta Wikipedia non valida
+1208	Wikipedia è occupata. Riprova più tardi; l’avanzamento viene conservato.
+1209	Wikipedia non può rispondere a questa ricerca
+1210	Inserisci una ricerca Wikipedia
+1211	Articolo Wikipedia non valido
+1212	Articolo Wikipedia non disponibile
+1213	Nessun testo disponibile per questo articolo
+1214	Articolo troppo grande per questo lettore
+1215	Pacchetto Wikipedia non valido
+1216	Scegli da 1 a 1000 articoli
+1217	Testo Wikipedia non valido
+1218	Fonte
+1220	Testo di Wikipedia e dei suoi collaboratori
+1221	Ricerca Wikipedia
+1222	Nessun articolo trovato
+1223	Altri risultati
+1224	Download Wikipedia
+1225	Wikipedia offline
+1226	Nessun articolo salvato in questa lingua
+1227	Pausa dopo questo articolo
+1228	La croce interrompe il download. Il punto di ripresa viene conservato.
+1229	Download in pausa
+1230	L’avanzamento viene conservato sulla scheda SD.
+1231	Riprova
+1232	Salta questo articolo
+1233	articoli disponibili
+1234	articoli saltati
+1235	Scarica un gruppo di articoli Wikipedia
+1236	Numero massimo di articoli
+1237	Testi senza immagini. Gli articoli già presenti vengono conservati.
+1238	Nuovo gruppo di articoli Wikipedia
+1239	Sostituire l’elenco in attesa? Gli articoli scaricati vengono conservati.
+1240	Lingua di Wikipedia (en, fr, de, es…)
+1241	Argomento o titolo dell’articolo
+1242	Leggi online
+1243	Leggi offline
+1244	Scarica un gruppo
+1245	Riprendi il gruppo
+1246	Nessun gruppo in attesa in questa lingua
+1248	Applicazioni Python
+1249	Aggiorna le applicazioni Python
+1250	Scheda SD non disponibile
+1251	Lettura SD interrotta - aggiorna
+1252	Ricerca...
+1253	\nPSRAM: %.1f MiB liberi / %.1f MiB disponibili in totale
+1254	\nRAM interna: %u KiB liberi / %u KiB totali · blocco libero più grande %u KiB\nBlocco DMA libero più grande: %u KiB (nella RAM interna)
+1255	Tab5OS v%s · chip %u · SD %s · PSRAM libera %.1f MiB · %s
+1256	Diagnostica dello schermo
+1257	A · touch attivo
+1258	B · touch sospeso
+1259	Test SD richiesto — attendi la fine delle attività e ferma i media
+1260	SD riconnessa: lettura e scrittura verificate - riprova a salvare
+1263	Nascondi · Ctrl+Alt+P per riprendere
+1264	Un’applicazione Python è in esecuzione. Fermarla per aprire l’altra?
+1265	Torna all’applicazione
+1266	Ferma e apri
+1267	C · LVGL animato
+1268	Interlinea
+1269	Riduci l’interlinea
+1270	Aumenta l’interlinea
+1271	Indietro · Esc
+1272	Lettura · F1
+1273	Home · F6
+1274	Pagina precedente
+1275	Pagina successiva
+1276	Frecce / Pagina: cambia pagina\nSpazio: pagina successiva · Maiusc+Spazio: precedente\nInizio / Fine: inizio o fine del documento\nCtrl + / -: testo · Ctrl ↑ / ↓: interlinea\nEsc: indietro · F6: home · F1: questa guida
+1277	A - Immagine fissa, touch attivo
+1278	B - Immagine fissa, lettura touch sospesa
+1279	LVGL e i servizi in primo piano sono in pausa.
+1280	Ritorno automatico dopo %lu secondi.
+1281	Tocca per uscire. Osserva se i lampi persistono.
+1282	Il touch è sospeso. Osserva senza toccare lo schermo.
+1283	Immagine disegnata una sola volta. Le attività in background restano attive.
+1284	Uscita anticipata possibile con il comando seriale q.
+1285	C - Rendering LVGL animato, touch attivo
+1286	I servizi in primo piano sono in pausa. Le attività in background restano attive.
+1287	La barra bianca deve spostarsi senza lampi colorati.
+1288	Tocca per uscire. Ritorno automatico dopo %lu secondi.
+1289	È richiesto un indirizzo HTTPS XYZ con {z}, {x} e {y}
+1290	Nessun download da riprendere
+1291	Nessuna città trovata
+1292	Calcolo della zona
+1293	Cerca una città
+1294	Scegli il centro
+1295	Coordinate fuori dalla mappa mondiale
+1296	Stima a 32 KiB/tessera: 
+1297	Stima il download
+1298	La fonte non fornisce tutti i livelli di zoom scelti
+1299	Latitudine / longitudine
+1300	Il server pubblico OSM non consente il download di zone
+1301	Metti in pausa
+1302	Raggio: da 0,1 a 5 000 km; zoom: da 0 a 20
+1303	Raggio attorno al centro (km)
+1304	Ricerca città
+1305	Riprendi il download
+1306	Dati di ripresa del download non validi
+1307	Risposta di ricerca non valida
+1308	SD libera: 
+1309	Inserisci una città
+1310	Server XYZ personale
+1311	Server che consente il download offline
+1312	Fonte della mappa sconosciuta
+1313	Fonte delle mappe
+1314	Fonte delle mappe offline
+1315	Dimensione effettiva variabile; massimo: 
+1316	Download delle mappe non valido
+1317	Download della zona
+1318	Download in pausa. Le tessere completate vengono conservate.
+1319	Scarica questa zona
+1320	Scarica una zona
+1321	Zona scaricata. Apri Mappe e scegli questa fonte.
+1322	Zoom minimo / massimo
+1323	Livelli di zoom della fonte non validi
+1324	tessere
+1325	© OpenStreetMap contributors · Ricerca Nominatim
+1326	Indirizzo Kiwix non valido
+1327	Archivio Wikipedia incompleto o danneggiato
+1328	Archivio Wikipedia non valido
+1329	Archivio completo disponibile offline
+1330	Articoli salvati separatamente
+1331	Nessun articolo trovato. Controlla le maiuscole del titolo.
+1332	Nessun download in attesa in questa lingua
+1333	Nessun archivio completo disponibile in questa lingua
+1334	Catalogo Wikipedia
+1335	Catalogo Wikipedia non valido
+1336	Questa edizione è cambiata. Scegli un nuovo archivio.
+1337	Questa edizione è cambiata. Ricomincia il download.
+1338	Scegli un file ZIM o il manifesto dei suoi segmenti
+1339	Connessione interrotta. Il download può essere ripreso.
+1340	Inizio del titolo dell’articolo
+1341	Impronta dell’archivio Wikipedia non disponibile
+1342	Spazio SD insufficiente per questo archivio
+1343	Spazio libero
+1344	GiB
+1345	Cronologia
+1346	Lettura del testo sul tablet. Pausa e ripresa disponibili.
+1347	I dati già scaricati per questo archivio verranno sostituiti.
+1348	Apertura dell’articolo
+1349	Apri un archivio ZIM dalla scheda SD
+1350	Preparazione dell’archivio
+1351	Ricomincia il download
+1352	Riprendi un download
+1353	Risposta di download non valida
+1354	Termina il download prima di leggere questo archivio
+1355	Tutti gli articoli, con immagini
+1356	Tutti gli articoli, senza immagini
+1357	Scarica Wikipedia completa
+1358	Puoi lasciare questa schermata e riprendere il download più tardi.
+1359	Wikipedia completa
+1360	Annullato
+1361	Impossibile aprire l’archivio ZIM
+1362	Impossibile leggere l’archivio ZIM
+1363	Impossibile restituire il risultato di ricerca ZIM
+1364	Impossibile scrivere l’articolo ZIM
+1365	Indice dei titoli ZIM compresso non supportato
+1366	Archivio ZIM incompleto o non valido
+1367	PSRAM insufficiente per l’archivio ZIM
+1368	PSRAM insufficiente per l’articolo ZIM
+1370	PSRAM insufficiente per il lettore ZIM
+1371	Tipo MIME ZIM non valido
+1372	Archivio ZIM non valido
+1373	Dimensione dell’archivio ZIM non valida
+1374	Intervallo dei blob ZIM non valido
+1375	Tabella dei blob ZIM non valida
+1376	Cluster ZIM non valido
+1377	Intervallo del cluster ZIM non valido
+1378	Flusso compresso ZIM non valido
+1379	Voce ZIM non valida
+1380	Estrazione ZIM non valida
+1381	Manifesto ZIM non valido
+1382	Offset ZIM non valido
+1383	Reindirizzamento ZIM non valido
+1384	Ricerca ZIM non valida
+1385	Cursore di ricerca ZIM non valido
+1386	Stringa ZIM non valida
+1387	Indice dei titoli ZIM non valido
+1388	Callback dell’allocatore non validi
+1389	La scheda SD non è disponibile
+1390	Questa voce ZIM non è testo leggibile
+1391	Cluster ZIM troncato
+1392	Voce ZIM non supportata
+1393	Articolo o cluster ZIM troppo grande
+1394	Cluster ZIM troppo grande
+1395	Decompressione ZIM non riuscita o finestra superiore a 8 MiB
+1396	Download ZIM incompleto o manifesto non valido
+1397	Ciclo di reindirizzamenti ZIM
+1398	Indice dei titoli ZIM mancante
+1399	Titolo o percorso ZIM troppo lungo
+1400	È richiesta la versione ZIM 6
+1401	Il vecchio ZIM LZMA non è supportato; scarica un archivio Zstandard attuale
+1402	Compressione ZIM non supportata
+1403	Nome della mappa
+1404	Attribuzione
+1405	Termina la copia di questo archivio con lo strumento utilizzato sul PC
+1406	\nRipresa schermo: %u/%u · codice %ld%s
+1407	 · in attesa
+1408	\nI2C audio: errori lettura %u · scrittura %u
+1409	Inglese
+1410	Francese
+1411	Tedesco
+1412	Spagnolo
+1413	Italiano
+1414	Portoghese
+1415	Olandese
+1416	Polacco
+1417	Catalano
+1418	Svedese
+1419	Norvegese
+1420	Danese
+1421	Finlandese
+1422	Ceco
+1423	Ucraino
+1424	Russo
+1425	Greco
+1426	Turco
+1427	Arabo
+1428	Ebraico
+1429	Hindi
+1430	Giapponese
+1431	Cinese
+1432	Coreano
+1433	Vietnamita
+1434	Indonesiano
+1435	Esperanto
+1436	Inglese semplificato
+1437	Lingua di Wikipedia
+1438	Altra lingua…
+1439	Altra lingua di Wikipedia
+1440	Codice della lingua di Wikipedia
+1441	Ad esempio: br, eu, be-tarask, zh-min-nan
+1442	Scegli questa lingua
+1443	Lingua dell’enciclopedia da scaricare
+1444	Schermo e hardware
+1445	Scheda SD
+1446	Preferenze
+1447	Lingua dell’interfaccia
+1448	Layout della tastiera
+1449	Tastiera USB
+1450	Servizio audio
+1451	Servizio video
+1452	Servizio mappe
+1453	Orologio
+1454	Schermo LVGL
+1455	Caratteri
+1456	Integrità dell’heap
+1457	Scegli OpenStreetMap o OpenTopoMap in Fonte delle mappe
+1458	Prepara OpenStreetMap con Cartes_Tab5 sul PC, poi copia i pacchetti sulla SD
+1459	URL HTTPS personale (facoltativo)
+1460	OpenStreetMap: prepara la zona con Cartes_Tab5 sul PC, poi copia i pacchetti sulla SD. Qui puoi anche usare una fonte HTTPS personale.
+1461	OpenTopoMap: download moderato, una tessera ogni due secondi. Per una zona grande, usa il programma PC o un server personale.
+1462	Mappe su PC
+1463	Apri tools/Cartes_Tab5.cmd sul PC. Scegli OpenStreetMap o OpenTopoMap, una città, un raggio e i livelli di zoom. Copia i file .t5map in M5Writer/maps/offline sulla SD.
+1464	Prepara su PC
+1465	Codice: %06lu · sola lettura · %lu min
+1466	Chiusura della connessione USB…
+1467	Accesso USB disattivato
+1468	Attiva per 30 min
+1469	Scheda SD via USB
+1470	Impossibile attivare l’accesso USB. Riprova dopo la fine delle attività in corso.
+1471	Collega il cavo USB-C al PC, poi apri Carte_SD_USB.cmd.
+1472	Ferma l’accesso USB prima della diagnostica dello schermo
+1473	\nPython: %s · avvii VM: %lu
+1474	arrestato
+1475	\nDoppio buffer: %s · immagini %u/%u · scambi %lu
+1476	\nSchermo: timeout %lu · errori %lu/%lu · codice %ld
+1477	D · Schermata OS
+1478	E · Schermata OS ridisegnata
+1479	OpenTopoMap funziona direttamente. Al massimo una tessera ogni due secondi; le zone grandi possono richiedere diversi giorni.
+1480	Tempo minimo senza cache: 
+1481	Chat IRC
+1482	Server IRC · connessione TLS verificata
+1483	Server
+1484	Nickname
+1485	Canale
+1486	Connetti
+1487	Disconnetti
+1488	Invia
+1489	Comandi
+1490	Connesso
+1491	In attesa
+1492	Messaggi recenti
+1493	Nickname o canale non valido
+1494	Comando IRC non valido
+1495	Messaggio IRC troppo lungo
+1496	Attendi la fine degli invii IRC
+1497	Già connesso
+1498	Il canale deve iniziare con # o &
+1499	Porta IRC non valida
+1500	Server IRC non valido
+1501	Scegli un canale o un destinatario
+1502	Connessione IRC in corso
+1503	IRC disconnesso
+1504	Massimo otto conversazioni
+1505	Comando IRC sconosciuto
+1506	Testo IRC UTF-8 non valido ignorato
+1507	Riga IRC troppo lunga ignorata
+1508	Connessione IRC TLS impossibile: controlla server, porta, data e certificati
+1509	Il server IRC non risponde più
+1510	Connessione IRC annullata
+1511	Invio IRC interrotto
+1512	Ricezione IRC interrotta
+1513	Errore IRC
+1514	/join #canale · /msg nickname testo · /me testo · /nick nickname · /part · /close · /quit
+1515	Diagnostica dello schermo · Ctrl+Alt+D
+1516	\nRendering dall’ultimo rilevamento: %lu immagini · %lu aree · %llu pixel
+1517	\nRichieste di ridisegno per servizio (le aree possono sovrapporsi):
+1518	\nUltimo test %c: %lu s · %lu immagini · %lu scambi · attese %lu · errori cache %lu
+1519	Rete: %s · password: %s\nBrowser: %s · codice: %06lu\nLettura e scrittura · %lu min rimanenti
+1520	Browser: %s · codice: %06lu\nLettura e scrittura · %lu min rimanenti
+1521	Preparazione o chiusura della condivisione…
+1522	Condivisione disattivata. Rete attuale: PC sullo stesso Wi-Fi. Rete diretta: disattiva prima il Wi-Fi dell’OS, poi collega il PC alla rete creata.
+1523	Impossibile attivare la condivisione
+1524	Ferma la condivisione dei file prima di modificare il Wi-Fi
+1528	Timer LVGL
+1529	Orologio e batteria
+1530	Opzioni IRC
+1531	Server TLS
+1532	Nickname salvato
+1533	La connessione resta manuale. I messaggi non vengono salvati.
+1534	Cancella i recenti
+1535	Recenti cancellati
+1536	Personalizzato…
+1537	Canale facoltativo
+1538	Preferiti e recenti
+1539	Canali IRC
+1540	Canali attivi
+1541	Recenti
+1542	Entra
+1543	Aggiungi ai preferiti
+1544	Rimuovi dai preferiti
+1545	Lascia il canale
+1546	Scegli un canale
+1547	Canali
+1548	Preferenze IRC illeggibili
+1549	Preferenze IRC non lette: controlla la scheda SD
+1550	Preferenze IRC non salvate: controlla la scheda SD
+1551	Massimo sedici canali preferiti
+1552	Preferito salvato
+1553	Preferito rimosso
+1554	Impossibile preparare il download sulla scheda SD
+1555	Configurazione cartografica non valida
+1556	Richiesta della zona non valida
+1557	OpenStreetMap: indica un server che consenta zone offline o prepara la zona su PC. Il server pubblico standard serve per la consultazione.
+1558	Fonte OpenStreetMap
+1559	Configura una fonte OpenStreetMap
+1560	Scegli OpenTopoMap sul tablet
+1561	Prepara OpenStreetMap su PC
+1562	Articolo aggiornato
+1563	Articolo già aggiornato
+1564	Verifica non disponibile; la copia salvata resta accessibile.
+1565	Pagina temporanea
+1566	Disponibile offline
+1567	Salva questa pagina
+1568	Verifica aggiornamenti
+1569	Pagina salvata sulla scheda SD
+1570	Verifica dell’articolo
+1571	Disponibile sulla scheda SD
+1572	Risultati Wikipedia
+1573	Cerca anche online
+1574	Nessun archivio completo salvato in questa lingua
+1575	Verifica degli archivi
+1576	Catalogo Wikipedia non disponibile per questa lingua
+1577	Gli archivi salvati sono aggiornati
+1578	Nuova edizione Wikipedia
+1579	Salva automaticamente le pagine lette
+1580	Aggiorna gli articoli salvati
+1581	Verifica le edizioni all’avvio
+1582	Preferenze Wikipedia
+1583	Verifica gli articoli dopo la lettura, al massimo una volta al giorno. Le nuove versioni sostituiscono le copie salvate. Gli archivi completi restano invariati.
+1584	Verifica il catalogo una volta alla settimana all’apertura. Verrà proposta una nuova edizione; il download completo richiederà la tua conferma.
+1585	Aggiornamenti Wikipedia
+1586	Preferenze di lettura
+1587	Verifica le edizioni degli archivi
+1588	Aggiungi un archivio ZIM dalla scheda SD
+1589	Opzioni Wikipedia
+1590	Archivio aggiunto alla ricerca Wikipedia
+1591	Letture recenti
+1592	Articoli disponibili
+1593	Attivato
+1594	Disattivato
+1596	Illustrazione
+1597	Illustrazione Wikipedia non disponibile
+1598	Carica l’illustrazione
+1599	Illustrazione introduttiva
+1600	Disattiva il Wi-Fi prima di creare la rete diretta
+1601	Impossibile creare la rete diretta
+1602	Connetti il tablet al Wi-Fi
+1603	Impossibile aprire la condivisione
+1604	Memoria non disponibile
+1605	Ferma la condivisione dei file prima di modificare il Wi-Fi
+1606	D - Test schermata OS: servizi in pausa. Tocca per uscire.
+1607	E - Test schermata OS: ridisegno completo a 2 Hz. Tocca per uscire.
+1608	Rete
+1609	Python
+1610	Strumenti
+1611	Video
+1612	Condividi la scheda SD
+1613	Impostazioni → Sistema → Scheda SD via Wi-Fi apre una condivisione temporanea in lettura e scrittura. Rete attuale usa il Wi-Fi esistente: il PC deve essere sulla stessa rete. Rete diretta crea un Wi-Fi temporaneo; disattiva prima il Wi-Fi dell’OS, poi collega il PC usando il nome e la password visualizzati.\n\nApri l’indirizzo visualizzato nel browser del PC e inserisci il codice. Non serve alcun software aggiuntivo. Il browser permette di consultare, scaricare, inviare, rinominare ed eliminare file e di creare cartelle. La condivisione si ferma dopo 30 minuti o con Ferma.\n\nDurante un trasferimento, lascia la scheda inserita ed evita di modificare lo stesso file in un’applicazione. Ferma la condivisione prima di cambiare il Wi-Fi. È un accesso tramite browser; la scheda non appare come lettera di unità USB in Windows.
+1614	Un’applicazione è già in esecuzione
+1615	Scegli un’applicazione Tab5 .app.elf
+1616	Argomento troppo lungo
+1617	Caricamento dell’applicazione
+1618	Riconnessione della scheda SD in corso
+1619	Applicazione inaccessibile o superiore a 1 MiB
+1620	Memoria insufficiente per l’applicazione
+1621	Impossibile leggere l’applicazione
+1625	Applicazione in esecuzione
+1627	Arresto richiesto — in attesa di cooperazione
+1628	Applicazione arrestata
+1629	Errore dell’applicazione — consulta la console
+1630	Applicazione terminata
+1631	Memoria o decoder temporaneamente non disponibile
+1632	Tessera PNG/JPEG non valida o incompleta
+1633	Limiti della tessera non validi
+1635	Apri l’applicazione
+1636	Applicazione (.app.elf)
+1637	File da elaborare (facoltativo)
+1639	Richiedi l’arresto · Ctrl+.
+1641	Termina l’installazione del firmware prima di avviare un’applicazione
+1642	Avvio delle applicazioni non disponibile
+1651	Prima scelta\nSeconda scelta\nTerza scelta
+1655	WebP troppo grande o incompleto
+1656	Decoder WebP occupato
+1657	PSRAM insufficiente per WebP
+1658	Lettura WebP impossibile
+1659	WebP incompleto
+1660	Intestazione WebP non valida
+1661	Contenitore WebP incompleto o non valido
+1662	Immagine WebP incompleta
+1663	Dimensioni WebP fuori dai limiti
+1664	Fotogramma WebP non valido
+1665	Decoder WebP non disponibile
+1666	Decodifica WebP interrotta o non valida
+1667	WebP non valido
+1668	Arricchimento non disponibile; la copia salvata resta accessibile.
+1669	Caricamento delle illustrazioni
+1670	Alcune illustrazioni non sono disponibili. Il testo resta accessibile.
+1671	Carica le illustrazioni
+1672	Illustrazioni negli articoli
+1674	Formato dell’illustrazione non supportato
+1675	PSRAM insufficiente per i progetti
+1676	Percorso del documento non valido
+1677	Elenco limitato a 256 documenti
+1678	Elenco limitato a 256 esclusioni
+1679	Nome del progetto non valido
+1680	Elenco limitato a 8 progetti
+1681	Cartella del progetto non valida
+1682	Questo progetto esiste già
+1683	Elenco dei documenti illeggibile
+1684	Elenco dei documenti non valido
+1685	Impossibile salvare i progetti
+1686	Impossibile conservare i progetti
+1687	Impossibile verificare i progetti
+1688	Cartella del progetto inaccessibile
+1689	Analisi limitata a 20 000 voci
+1690	Lettura SD incompleta; progetti conservati
+1691	Codice
+1692	Console
+1693	Aggiungi il documento al progetto
+1694	Nessun documento in questo gruppo
+1695	Librerie…
+1696	Percorso non valido o superiore a 299 byte
+1697	Scegli prima un progetto in Documenti
+1698	Crea un progetto con questo documento…
+1699	Crea un progetto con il documento corrente
+1700	Ctrl+Invio
+1701	Ctrl+Maiusc+O
+1702	Ctrl+Maiusc+R
+1703	Ctrl+Maiusc+L
+1704	Documento aggiunto al progetto
+1705	Documenti successivi
+1706	Salva lo script prima di eseguirlo
+1707	Esecuzione Python non disponibile
+1708	Esecuzione riservata ai file Python (.py)
+1709	Fuori progetto
+1710	Importazione della cartella in corso…
+1711	Importa questa cartella
+1712	Importa una cartella…
+1713	Impossibile creare questo progetto: massimo 8 progetti
+1714	Elenco dei documenti non salvato: controlla la scheda SD
+1715	Elenco pieno: massimo 256 documenti
+1716	Nome del progetto
+1717	Nuovo script Python
+1718	Rimuovi dall’elenco; il file resta sulla scheda SD
+1719	Script troppo grande: limite di esecuzione di 64 KiB
+1720	Esecuzione disponibile per i file Python .py
+1721	Sviluppa
+1722	Tocca di nuovo per aprire
+1723	Tocca di nuovo per ascoltare
+1724	Tocca di nuovo per leggere
+1725	Sviluppo e progetti
+1726	Memoria insufficiente per la console
+1727	Video MJPEG\n\nTocca di nuovo il file selezionato per aprire il video.
+1728	File audio\n\nTocca di nuovo il file selezionato per avviare la riproduzione audio.
+1729	Uno script è già in esecuzione
+1730	PSRAM insufficiente per lo script
+1735	Connessione non disponibile. Gli articoli salvati restano accessibili.
+1736	Salva l’immagine sorgente
+1737	Immagine salvata
+1738	Le edizioni degli archivi si gestiscono nelle opzioni di Wikipedia.
+1740	Testo abbreviato
+1741	Fonte e licenza
+1742	Caricamento dell’immagine
+1743	Mostra le immagini
+1744	Nascondi le immagini
+1745	Online
+1746	Illustrazioni
+1747	USB: collega una tastiera o un mouse
+1748	Non è un archivio ZIM (firma errata o download incompleto)
+1749	Versione principale ZIM non supportata (è richiesta la 5 o la 6)
+1750	Decompressione ZIM XZ non riuscita
+1751	Il vecchio cluster ZIM supera il limite di memoria
+1752	Il vecchio cluster ZIM è danneggiato o supera 8 MiB
+1753	Il cluster ZIM è danneggiato o supera 8 MiB
+1760	Documento intero
+1761	Struttura non disponibile · documento intero
+1762	Titoli: 
+1763	Sottosezioni incluse
+1764	Documento intero · nessun titolo Markdown
+1765	Lettura dei titoli…
+1766	Lettura dei titoli in corso…
+1767	Tema attuale
+1768	Salvataggio impossibile
+1770	Script in esecuzione
+1771	Script superiore a 4 KiB: usa source() o l’editor
+1775	Da stampare
+1778	immagini/s
+1779	Nessun file
+1784	Impossibile avviare il terminale
+1785	Decifra
+1786	Temi, applicazioni e giochi
+1787	Crea un tema: scegli un colore dall’elenco o toccando un oggetto nell’anteprima. Regola R, G e B, oppure inserisci #RRGGBB, poi salva.\n\nIn File, seleziona un file, poi Apri con… e scegli un .app.elf in Applicazioni. Il programma di avvio propone anche un selettore di file e cartelle, i recenti e i preferiti. Esegui avvia il programma; Ctrl+. ne richiede l’arresto.\n\nGame Boy: le frecce e i tasti fisici Z/X controllano la croce direzionale e A/B. Invio = Start, Backspace = Select. Esc esce e salva lo stato. Il pulsante dischetto salva senza uscire; la freccia circolare ricomincia la partita. I salvataggi e gli stati si trovano in /Saves/GB. L’ultimo stato compatibile viene ripreso alla successiva apertura della ROM.
+1788	Tocca il testo per posizionare il cursore. Tieni premuto e trascina per selezionare caratteri; una pressione prolungata senza trascinamento seleziona una parola. Un trascinamento normale scorre il testo. Con la tastiera, Maiusc+frecce estende la selezione.\n\nGrassetto e Corsivo restano attivi mentre scrivi. Con una selezione, modificano quella selezione; disattivare lo stile lo rimuove. Titolo agisce sul paragrafo corrente. Il colore e lo sfondo del testo si regolano nella tavolozza.\n\nCtrl+S: salva. Ctrl+Maiusc+S: salva con nome. Ctrl+N / Ctrl+O: nuovo / apri. Ctrl+Z / Ctrl+Y: annulla / ripristina. Ctrl+B / Ctrl+I: grassetto / corsivo. Ctrl+C / X / V: copia / taglia / incolla. Ctrl+F / Ctrl+H: trova / sostituisci.\n\nCtrl+A seleziona l’intero documento. Pagina precedente / successiva cambia passaggio; Ctrl+Inizio / Fine raggiunge le estremità del documento. Ctrl+Maiusc+Inizio / Fine estende la selezione. Ins attiva o disattiva la sovrascrittura. Esc termina la scrittura; scegli l’area di testo e poi Invio per riprendere.
+1789	File → Apri a destra aggiunge un testo alla raccolta di riferimenti. Clicca sul percorso di ciascun pannello per scegliere un titolo. Nella finestra del percorso destro, l’elenco in alto permette anche di cambiare documento. Serve alla consultazione; per modificare un file, aprilo a sinistra.\n\nOgni pannello ha il proprio passaggio e le proprie frecce dei titoli. Il percorso vicino al nome del file indica la posizione. La struttura evidenzia il titolo attivo. Un nuovo trascinamento verso l’alto, arrivati in fondo al passaggio, apre il seguito.\n\nUn collegamento [scheda](Notes.md#personnages) raggiunge un titolo a destra. I wikilink [[Personnages]], [[Notes#Personnages]] e [[Personnages|la scheda]] cercano nella raccolta. Più risultati propongono una scelta. I wikilink sono una convenzione, non una sintassi Markdown universale.\n\nI documenti vengono mostrati per passaggi. L’indice può ancora essere in costruzione dopo l’apertura. Le selezioni estese restano definite nel documento, anche se viene mostrato un solo passaggio. Il pannello destro si ricarica dopo una modifica salvata della sua sorgente.
+1790	Non è una cartella
+1791	Annidamento delle cartelle superiore a 32
+1792	La sorgente coincide con la destinazione
+1793	La destinazione esiste; usa replace=True
+1794	Impossibile rimuovere la radice SD
+1795	Lo script supera 64 KiB
+1796	Python libero:
+1797	allocato:
+1798	Python: for, while, if, liste, dizionari, funzioni. Ctrl+. interrompe la sessione.
+1799	Nel Gestore file, Su/Giù scelgono un elemento e Invio apre il file o la cartella. Backspace sale alla cartella superiore. Con il touch, tocca per selezionare; tocca di nuovo l’elemento selezionato per aprirlo, senza limite di tempo. Copia / Taglia prepara l’elemento; Incolla agisce nella cartella corrente.\n\nI file di sistema restano accessibili per aggiornare i dati. Un avviso indica il loro ruolo. Modificare o eliminare una configurazione, una lingua, un carattere o un catalogo può cambiare il funzionamento di Tab5OS: conserva una copia prima delle tue modifiche.\n\nSalva scrive il documento corrente. Salva con nome sceglie un altro nome o un’altra cartella. Il salvataggio automatico segue l’intervallo impostato. La sottocartella nascosta .Tab5Backups conserva i salvataggi precedenti. Un salvataggio incompleto viene segnalato; lascia la SD inserita durante la scrittura.\n\nIl nome di un file e il testo dei documenti sono dati personali: cambiare la lingua dell’interfaccia non li traduce.\n\nLa lente o Ctrl+F cerca i nomi di file e cartelle nella cartella corrente e in tutte le sottocartelle. Maiuscole e accenti latini vengono ignorati; più parole devono essere tutte presenti. I risultati appaiono progressivamente, con la relativa cartella. Una ricerca parziale viene segnalata: affina i termini se necessario. La croce rimuove il filtro. I testi e i sorgenti, compresi gli script .py, si aprono in Scrittura senza esecuzione automatica.\n\nUn file .bin apre la pagina Firmware. Verifica controlla la destinazione ESP32-P4, la revisione, la dimensione e l’impronta. Installa scrive nella partizione inattiva e convalida l’immagine prima di cambiare il prossimo avvio. Riavvia la attiva. Usa un binario applicazione previsto per questo Tab5, senza bootloader né tabella delle partizioni. Mantieni un’alimentazione stabile.
+1800	SELECT
+1801	START
+2006	Monta USB
+2007	Espelli USB
+2008	Monta / verifica microSD
+2009	Espelli microSD
+2010	Risorse mancanti
+2011	Annulla la riparazione
+2012	La riparazione conserva i file esistenti. Non recupera i file eliminati.
+2013	microSD: %s (%llu MiB)\nUSB: %s (%llu MiB)
+2014	file ricreati
+2015	Riconnessione SD richiesta
+2016	Scheda SD espulsa: puoi rimuoverla
+2017	Chiudi le applicazioni che utilizzano la microSD
+2018	Risorse di sistema disponibili
+2019	Risorse di sistema disponibili - file esistenti conservati
+2020	Inserisci una microSD leggibile
+2021	Ripristino delle risorse di sistema mancanti
+2022	Riparazione delle risorse annullata
+2023	Archivio occupato - riprova la riparazione
+2024	Impossibile creare la cartella di sistema
+2025	Nessun nome temporaneo disponibile per la riparazione
+2026	Impossibile scrivere le risorse - controlla lo spazio libero
+2027	Scrittura delle risorse non riuscita - controlla lo spazio libero
+2028	Scrittura incompleta della risorsa di sistema
+2029	Verifica della risorsa di sistema non riuscita
+2030	Impossibile installare la risorsa di sistema
+2031	Moduli e progetti
+2032	Esempio
+2033	Interfaccia di esempio
+2034	Impossibile personalizzare la home
+2035	Limite delle personalizzazioni raggiunto - ripristina la home
+2036	Impossibile salvare le preferenze
+2037	Home salvata
+2038	Rimuovi dalla home
+2039	Aggiungi alla home
+2040	Sposta in basso
+2041	Immagine o simbolo automatico
+2042	Archiviazione
+2043	Libro
+2044	Icona dell’applicazione
+2045	Personalizza la home
+2046	Modalità personale
+2047	Modalità predefinita
+2048	Scegli le app, l’ordine e l’icona. Salva.
+2049	Ricerca delle applicazioni...
+2050	Applicazioni integrate - scheda SD non disponibile
+2051	%u applicazioni disponibili
+2052	Aggiungi applicazioni da Personalizza.
+2053	Personalizza
+2054	Torna alla home
+2055	Aggiorna le applicazioni
+2056	Ripristina
+2057	Lettura SD interrotta - aggiorna le applicazioni
+2058	Catalogo limitato - altri file nel Gestore file
+2059	Invio apre l’impostazione selezionata, le frecce ne regolano il valore e Invio termina. Esc torna ai comandi. Luminosità, tema, dimensione del testo, timeout dello schermo e salvataggio automatico sono indipendenti. Verde lettura propone uno sfondo chiaro #CFE8CC e testo scuro per il giorno. Il tema scelto entra in vigore al riavvio; adatta separatamente la luminosità alla luce ambientale.\n\nI pacchetti /M5Writer/languages/*.json definiscono la lingua dell’interfaccia, compresi guida e messaggi. Anche il francese usa il proprio file SD quando è presente. Una traduzione assente ricade sull’inglese, tranne il francese che conserva il testo sorgente.\n\nSe il carattere sulla SD manca o non può essere caricato, l’interfaccia passa temporaneamente all’inglese con il carattere integrato. La lingua scelta resta salvata. Riavviare con un carattere disponibile ripristina questa lingua; i documenti non vengono mai tradotti né modificati. Riavvia anche dopo aver cambiato i pacchetti di lingua per ricaricarli.\n\nLa lingua dell’interfaccia e il layout della tastiera sono due impostazioni diverse. La tastiera sullo schermo segue /M5Writer/keyboards.json. Anche la tastiera USB segue il JSON scelto: francese, americano, britannico, tedesco, spagnolo, italiano, portoghese, brasiliano o olandese. È disponibile fin dall’avvio.\n\nUn carattere compatibile deve contenere i caratteri della lingua. Data, ora, fuso orario, NTP e Wi-Fi si impostano nelle rispettive sezioni. F1 resta disponibile per ritrovare questa guida.\n\nSenza una tastiera USB rilevata, toccare un campo di testo apre la tastiera sullo schermo. Con una tastiera USB, resta automaticamente chiusa; il relativo pulsante permette di aprirla volontariamente. La freccia verso il basso chiude sempre la tastiera; anche Invio la chiude in un campo a riga singola.
+2060	Applicazioni e home
+2061	Applicazioni riunisce gli strumenti integrati e quelli installati sulla scheda SD nella stessa griglia. Aggiorna rilegge il catalogo locale; non è un negozio online. Gli strumenti integrati restano accessibili senza scheda SD.\n\nDalla Home, Personalizza permette di scegliere la modalità predefinita o personale, le applicazioni visibili, l’ordine e le icone. Salva conserva la scelta nel Tab5. Indietro abbandona le modifiche. Ripristina ripristina la disposizione predefinita dopo Salva; i file e le applicazioni non vengono eliminati. Impostazioni resta accessibile nella barra laterale.\n\nPer le applicazioni che offrono Nascondi, questo comando o Esc mantiene l’esecuzione. Il pulsante di ripresa nella barra o Ctrl+Alt+P ritrova l’applicazione nascosta quando è ancora attiva. Ferma o Ctrl+. ne richiede l’arresto. Quando bisogna fermare un’altra applicazione prima dell’avvio, conferma il cambio proposto.\n\nMappe → Scarica apre il modulo della zona con centro, zoom e sfondo attuali. Scegli città o coordinate, raggio e zoom, poi verifica la stima. OpenTopoMap si scarica direttamente sul tablet; pausa/ripresa conserva il lavoro. OpenStreetMap richiede una fonte che autorizzi il download o la preparazione su PC. Torna in Mappe per consultare il risultato senza riavviare.\n\nWikipedia cerca prima sulla SD, poi propone la rete. Una copia locale esistente ha la precedenza. Dopo una lettura online, Salva questa pagina la rende disponibile offline. Opzioni riunisce salvataggi automatici, aggiornamenti e download completi con scelta della lingua. Un nuovo archivio completo richiede conferma prima del download. Il lettore conserva l’orientamento verticale, la dimensione del testo e l’interlinea.\n\nChat IRC memorizza nickname e server. Canali permette di entrare, uscire, aggiungere o rimuovere un preferito e ritrovare i recenti. Nascondi mantiene la connessione. Nessuna cronologia dei messaggi viene salvata sulla SD; le preferenze restano in /M5Writer/irc.json.\n\nImporta radio consulta Radio Browser. Il Wi-Fi e una data corretta sono necessari per le connessioni sicure.\n\nNel lettore Wikipedia, i collegamenti del testo aprono gli altri articoli cercando prima le copie locali. Indietro torna all’articolo precedente. L’opzione Illustrazioni integra le immagini nella pagina; le copie salvate conservano anche le immagini scaricate.
+2062	L’editor Scrittura apre anche i file Python e gli altri sorgenti. Il codice resta grezzo, con colorazione visuale. Il menu Codice riunisce Esegui, Ferma, Riprendi, Librerie e Console. Esegui salva prima il file .py; se il salvataggio fallisce, non parte. La console può occupare il pannello destro.\n\nCtrl+Invio: salva ed esegui Python. Ctrl+.: ferma. Ctrl+Maiusc+R: riprendi. Ctrl+Maiusc+L: mostra o nascondi la console. Le solite scorciatoie dell’editor restano disponibili.\n\nDocumenti conserva un elenco dei file, anche quando non sono caricati in memoria. La croce rimuove una voce, mai il file sulla SD. Ctrl+Maiusc+O apre questo elenco; Ctrl+Tab / Ctrl+Maiusc+Tab passa al documento successivo / precedente. Cambiare documento salva le modifiche; un errore conserva il documento corrente.\n\nCrea un progetto con questo documento permette poi di raggruppare altri file. Aggiungi il documento al progetto completa il gruppo scelto. Importa una cartella la esplora progressivamente e rileva i nuovi file mentre l’editor è visibile. Fuori progetto mantiene i file indipendenti. Un file rimosso con la croce non viene reinserito automaticamente.\n\nLibrerie apre il catalogo MicroPython, con scelta della scheda di destinazione e aggiunta dei moduli al progetto corrispondente. Le librerie destinate a un’altra scheda restano separate da quelle del Tab5; i loro driver non vengono eseguiti sul Tab5. La compatibilità dichiarata non garantisce il funzionamento su una scheda specifica. I pacchetti CPython e le loro estensioni native non sono compatibili. Non è previsto alcun caricamento o flash automatico di un’altra scheda.\n\nGli script forniti restano in /MicroPython. Controlla la scheda SD confronta le risorse prima della riparazione, conserva i file personali e salva una copia di ogni file sostituito.\n\nUn file .elf compatibile apre Applicazione: Esegui lo avvia dalla SD senza sostituire l’OS. L’arresto è cooperativo. Queste applicazioni hanno accesso alla memoria dell’OS: usa binari attendibili costruiti con l’SDK fornito. Un .bin resta un aggiornamento del firmware.
+2063	La cassaforte del dispositivo si apre nativamente su questo Tab5, senza password né codice da ricopiare. Al primo utilizzo, scegli Crea la cassaforte del dispositivo. Chiudi o lo spegnimento dello schermo cancella la sessione in memoria; la successiva apertura ritrova le chiavi locali senza inserire nulla. Chiunque usi questo Tab5 può quindi aprire la cassaforte: non blocca il dispositivo.\n\nLa vecchia cassaforte viene conservata. La sua vecchia password resta necessaria per ritrovare le chiavi e l’apertura può essere lunga. In Accesso alla cassaforte, Apri la vecchia cassaforte e poi Copia le chiavi nella cassaforte del dispositivo permette di migrare le chiavi senza eliminare il portachiavi originale. Creare una nuova cassaforte del dispositivo non decifra i vecchi file se manca la chiave.\n\nGestisci le chiavi permette di salvare ogni chiave in un file .t5key protetto da password e poi ripristinarla. Conserva questi backup su un altro supporto con la relativa password. Una scheda SD da sola non basta dopo la perdita o la cancellazione del Tab5: senza chiave né backup utilizzabile, i file cifrati sono persi.\n\nNel Gestore file, il lucchetto cifra o decifra una copia del file. Gli originali e i normali backup dell’editor restano leggibili. La cassaforte protegge i file scelti su una scheda rimossa; chiuderla non protegge tutti i documenti né la memoria interna del dispositivo.
+2064	Archiviazione SD e USB
+2065	Applicazioni > Archiviazione apre i comandi microSD e USB, anche senza scheda SD. Monta / verifica microSD ne riavvia il rilevamento; Apri la microSD porta alla radice /. Una chiavetta o un lettore di schede USB compatibile può essere montato automaticamente; questa opzione resta disattivabile. I file USB appaiono in /USB. Copia, incolla, crea, rinomina ed elimina funzionano su entrambi i supporti.\n\nSalva i documenti e ferma le applicazioni o i trasferimenti che utilizzano il supporto prima di Espelli microSD o Espelli USB. Un’operazione in corso può impedire l’espulsione. Attendi la conferma prima di rimuovere la scheda o scollegare il supporto. Può essere montata una sola unità USB alla volta, con tastiera e mouse sull’hub. FAT16/FAT32 sono supportati.\n\nRisorse mancanti ricrea progressivamente dal firmware i file di sistema previsti che sono assenti. Annulla la riparazione interrompe il lavoro. I file esistenti, i documenti e le personalizzazioni vengono conservati. Questa funzione non sostituisce i file danneggiati già presenti e non recupera i file eliminati. Caratteri, enciclopedie e applicazioni .app.elf devono ancora essere forniti separatamente.\n\nSenza un carattere SD utilizzabile, l’interfaccia usa temporaneamente l’inglese e il carattere integrato, senza cambiare la lingua salvata né i testi dei documenti. Riavviare con il carattere ripristina la lingua scelta. Questa versione non offre formattazione né recupero dei dati cancellati.

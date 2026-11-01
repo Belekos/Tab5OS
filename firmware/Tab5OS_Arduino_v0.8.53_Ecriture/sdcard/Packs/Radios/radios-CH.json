@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "1.FM - Blues Radio",
+      "style": "CH/blues",
+      "url": "http://strm112.1.fm/blues_mobile_mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "1.FM - Chillout Lounge Radio",
+      "style": "CH/chillout",
+      "url": "http://strm112.1.fm/chilloutlounge_mobile_mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "1.FM - Classic Country Radio",
+      "style": "CH/classic country",
+      "url": "http://strm112.1.fm/ccountry_mobile_mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "1.FM - Classic Rock Replay Radio",
+      "style": "CH/classic rock",
+      "url": "http://strm112.1.fm/crock_mobile_mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "1.FM - Absolute Country Hits Radio",
+      "style": "CH/country",
+      "url": "http://strm112.1.fm/acountry_mobile_mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "1.FM - Deep House Radio",
+      "style": "CH/deep house",
+      "url": "http://strm112.1.fm/deephouse_mobile_mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "Radio Swiss Jazz",
+      "style": "CH/jazz",
+      "url": "http://stream.srg-ssr.ch/m/rsj/mp3_128",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "1.FM - Amsterdam Trance Radio",
+      "style": "CH/trance",
+      "url": "http://strm112.1.fm/atr_mobile_mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    }
+  ]
+}

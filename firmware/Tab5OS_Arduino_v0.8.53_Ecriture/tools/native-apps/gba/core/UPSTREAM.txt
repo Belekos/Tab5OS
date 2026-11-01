@@ -1,0 +1,3 @@
+gpSP from x213212/gba-p4 commit 03aeeb07d026fe3138e8cf906e42fb14d00e48b7.
+https://github.com/x213212/gba-p4
+Native Tab5 interpreter adapter; JIT disabled. Open GBA BIOS from upstream bios.h; no commercial ROM or BIOS.

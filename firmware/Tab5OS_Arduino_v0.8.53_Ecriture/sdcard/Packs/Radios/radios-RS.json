@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Radio Lola - Domaca",
+      "style": "RS/classical",
+      "url": "https://streaming.tdiradio.com/radiolola.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "TDI Radio",
+      "style": "RS/club",
+      "url": "http://streaming.tdiradio.com:8000/tdiradio",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 0
+    },
+    {
+      "name": "Cool Radio",
+      "style": "RS/folk",
+      "url": "http://176.9.30.66/cool64",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Nostalgija",
+      "style": "RS/goldies",
+      "url": "http://nostalgie128.streaming.rs:9250/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Super FM",
+      "style": "RS/hits",
+      "url": "http://onair.superfm.rs/superfm.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Karolina",
+      "style": "RS/lounge",
+      "url": "http://streaming.karolina.rs:8000/karolina",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 0
+    },
+    {
+      "name": "OK radio",
+      "style": "RS/Radio",
+      "url": "https://sslstream.okradio.net/;?type=http&nocache=8804",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    },
+    {
+      "name": "Hit FM Radio Beograd",
+      "style": "RS/serbian music",
+      "url": "http://streaming.hitfm.rs:8000/hit",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 0
+    }
+  ]
+}

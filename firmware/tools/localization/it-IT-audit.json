@@ -1,0 +1,78 @@
+{
+  "referenceEntries": 2066,
+  "fontGlyphs": 3322,
+  "packs": {
+    "de-DE": {
+      "entries": 2078,
+      "missingKeys": 0,
+      "coveragePercent": 100.0,
+      "formatErrors": [],
+      "unsupportedGlyphs": [],
+      "bytes": 205111
+    },
+    "en-US": {
+      "entries": 2066,
+      "missingKeys": 0,
+      "coveragePercent": 100.0,
+      "formatErrors": [],
+      "unsupportedGlyphs": [],
+      "bytes": 183201
+    },
+    "es-ES": {
+      "entries": 2078,
+      "missingKeys": 0,
+      "coveragePercent": 100.0,
+      "formatErrors": [],
+      "unsupportedGlyphs": [],
+      "bytes": 203606
+    },
+    "fr-FR": {
+      "entries": 2025,
+      "missingKeys": 60,
+      "coveragePercent": 97.1,
+      "formatErrors": [],
+      "unsupportedGlyphs": [],
+      "bytes": 195290
+    },
+    "id-ID": {
+      "entries": 2066,
+      "missingKeys": 0,
+      "coveragePercent": 100.0,
+      "formatErrors": [],
+      "unsupportedGlyphs": [],
+      "bytes": 190705
+    },
+    "it-IT": {
+      "entries": 2078,
+      "missingKeys": 0,
+      "coveragePercent": 100.0,
+      "formatErrors": [],
+      "unsupportedGlyphs": [],
+      "bytes": 203004
+    },
+    "nl-NL": {
+      "entries": 468,
+      "missingKeys": 1610,
+      "coveragePercent": 22.07,
+      "formatErrors": [],
+      "unsupportedGlyphs": [],
+      "bytes": 36575
+    },
+    "pt-BR": {
+      "entries": 1508,
+      "missingKeys": 570,
+      "coveragePercent": 72.41,
+      "formatErrors": [],
+      "unsupportedGlyphs": [],
+      "bytes": 129030
+    },
+    "pt-PT": {
+      "entries": 468,
+      "missingKeys": 1610,
+      "coveragePercent": 22.07,
+      "formatErrors": [],
+      "unsupportedGlyphs": [],
+      "bytes": 36994
+    }
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Radio Bachata",
+      "style": "DO/bachata",
+      "url": "http://perseus.shoutca.st:8312/;stream/1",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Top Balada Radio",
+      "style": "DO/baladas",
+      "url": "https://radio.dominiserver.com/proxy/topbaladaradio?mp=/stream",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    },
+    {
+      "name": "Salsa - Dominicana",
+      "style": "DO/classical",
+      "url": "http://radio.domiplay.net:2002/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Top Urbano",
+      "style": "DO/hip hop",
+      "url": "https://radio.dominiserver.com/proxy/topurbano?mp=/stream",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    },
+    {
+      "name": "Top Merengue Radio",
+      "style": "DO/merengue",
+      "url": "https://radio.dominiserver.com/proxy/topmerengueradio?mp=/stream",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    },
+    {
+      "name": "Primera 88.1",
+      "style": "DO/primera 88.1",
+      "url": "http://stream.radiojar.com/5705c71sn2zuv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Top Bachata Radio",
+      "style": "DO/Radio",
+      "url": "https://radio.dominiserver.com/proxy/topbachata?mp=/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Top Salsa Radio",
+      "style": "DO/salsa",
+      "url": "https://radio.dominiserver.com/proxy/topsalsaradio?mp=/stream",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    }
+  ]
+}

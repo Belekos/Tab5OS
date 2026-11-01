@@ -1,0 +1,15 @@
+{
+  "ESP-IDF": {
+    "ref": "735507283d",
+    "version": "v5.5.4",
+    "source": "https://github.com/espressif/esp-idf/blob/735507283d/components/esp_lcd/dsi/esp_lcd_panel_dpi.c",
+    "blob": "74c95b4a715c495654a40c0588684fd0dea9ab76",
+    "license": "Apache-2.0"
+  },
+  "M5GFX": {
+    "version": "0.2.30",
+    "source": "https://github.com/m5stack/M5GFX/blob/0.2.30/src/lgfx/v1/panel/Panel_FrameBufferBase.inl",
+    "license": "BSD-2-Clause",
+    "sha256": "87584be4a7350999d9628d7a3f64a6bc76178d6ba7b9b3279fa4206e61a53118"
+  }
+}

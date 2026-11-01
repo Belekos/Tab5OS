@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Rádio Nova Era",
+      "style": "PT/dj",
+      "url": "http://centova.radio.com.pt:9478/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Deep in Radio",
+      "style": "PT/electro",
+      "url": "http://s3.viastreaming.net:8525/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Rádio Amália",
+      "style": "PT/fado",
+      "url": "http://centova.radio.com.pt:9496/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Rap/Hip Hop",
+      "style": "PT/hip hop",
+      "url": "http://185.32.188.17:8097/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "4Drive Jazz",
+      "style": "PT/jazz fusion",
+      "url": "http://radio.streemlion.com:1150/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Rádio Renascença",
+      "style": "PT/national news",
+      "url": "http://25633.live.streamtheworld.com/RADIO_RENASCENCA_SC",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Mega Hits",
+      "style": "PT/pop",
+      "url": "http://22183.live.streamtheworld.com:3690/MEGA_HITS_SC",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "RFM",
+      "style": "PT/Radio",
+      "url": "https://23603.live.streamtheworld.com/RFMAAC.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    }
+  ]
+}

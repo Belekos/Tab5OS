@@ -1,0 +1,1610 @@
+0	Bestanden, schrijven, lezen en instellingen.
+1	microSD, mappen en voorbeeldweergave
+2	TXT / Markdown, toetsenbord, ongedaan maken/opnieuw
+3	Beeldscherm, klok, wifi en systeem
+4	NTP uitgeschakeld — RTC-klok
+5	NTP-synchronisatie aangevraagd
+6	NTP ingeschakeld — wachten op wifi
+7	WIFI
+8	Lezen in staande weergave beschikbaar
+9	Kan geen doelnaam kiezen
+10	Sla het document op voordat u de staande leesweergave opent
+11	Thema opgeslagen — wordt bij de volgende start toegepast
+12	Taal opgeslagen — start opnieuw om alles toe te passen
+13	Startmap opgeslagen
+14	Voeg /M5Writer/font.ttf toe voor vloeiende tekst
+15	Er is geen toepassing gekoppeld aan deze extensie
+16	Geen recente lezing — kies een document
+17	Dit bestand bevat geen UTF-8-tekst
+18	Plakken niet mogelijk
+19	Knippen niet mogelijk
+20	Map aanmaken niet mogelijk
+21	Document te groot
+22	Beveiligde systeemmap
+23	Sla het document eerst op
+24	Bestand > 512 KiB
+25	Verwachte indeling: JJJJ-MM-DD UU:MM
+26	Kan video niet starten
+27	Een map kan niet in zichzelf worden geplaatst
+28	Het item staat al in deze map
+29	Python-engine niet beschikbaar
+30	Hernoemen niet mogelijk
+31	Voer het wifiwachtwoord in
+32	Selecteer tekst om te kopiëren
+33	Selecteer tekst om te knippen
+34	Selecteer een wifinetwerk
+35	Video niet gevonden
+36	Ondersteunde video: AVI/MJPEG of onbewerkte MJPEG
+37	Item naar klembord gekopieerd
+38	Item klaar om te verplaatsen
+39	Item hernoemd
+40	Item verwijderd
+41	Beveiligd systeemitem
+42	RTC ingesteld
+43	OK
+44	NTP
+45	Beschikbare acties: openen, kopiëren, knippen en verwijderen.
+46	AVI/MJPEG-video
+47	MJPEG-stream
+48	Tekst gedetecteerd
+49	MJPEG-video\n\nDubbeltik om de hardwarevideospeler van de P4 te openen.
+50	Acties: bekijken, kopiëren, knippen en verwijderen.
+51	Audiobestand\n\nDubbeltik om het afspelen in de toepassing Audio te starten.
+52	Acties: beluisteren, kopiëren, knippen en verwijderen.
+53	Acties: bewerken, lezen, kopiëren, knippen en verwijderen
+54	, uitvoeren
+55	Acties: lezen, kopiëren, knippen en verwijderen.
+56	Tik op ‘Staand lezen’ om te beginnen.
+57	pixels
+58	Acties: weergeven, kopiëren, knippen en verwijderen.
+59	Voorbeeldweergave niet mogelijk
+60	Geen gekoppelde toepassing. Bestandsbewerkingen blijven beschikbaar.
+61	Item niet toegankelijk
+62	Onvoldoende geheugen voor de voorbeeldweergave.
+63	Er is geen toepassing gekoppeld aan deze extensie.
+64	Selecteer een video
+65	Radiostream niet toegankelijk
+66	MP3/AAC-stream niet beschikbaar
+67	Schakel wifi in bij Instellingen
+68	Selecteer een netwerk bij Instellingen
+69	Opnieuw verbinding maken met de radio…
+70	Onvoldoende geheugen voor audio
+71	Onvoldoende geheugen voor de radiospeler
+72	Eerste zender van de categorie
+73	Laatste zender van de categorie
+74	Eerste opname
+75	Laatste opname
+76	Eerste nummer van het album
+77	Laatste nummer van het album
+78	zender
+79	zenders
+80	radiozenders
+81	album
+82	nummer
+83	nummers
+84	Geen opnamen
+85	Geen radiozenders in /radios.json
+86	Voeg albums toe aan /Audio
+87	Voeg AVI/MJPEG toe aan /Video of URL's aan /videos.json
+88	Kies een radiocategorie
+89	Kies een album
+90	Tik op een video om deze te openen
+91	Pagina's opmaken…
+92	Staand lezen · verticaal scrollen
+93	Kan de sectie niet lezen
+94	Kan het document niet lezen
+95	HTTP(S)-stream
+96	Verbinden met 
+97	Wifi verbonden met 
+98	internetradio
+99	Wifi  •  verbinden…
+100	Wifi ingeschakeld  •  geen netwerk
+101	Wifi inschakelen bij opstarten
+102	Verbinding opgeslagen in het interne geheugen.
+103	BEZIG
+104	Configuratie vergrendeld
+105	TTF-lettertype
+106	\nOntbrekende lettertypen: 
+107	afwezig
+108	onbekend
+109	inschakelen
+110	externe reset
+111	software
+112	interruptwatchdog
+113	taakwatchdog
+114	algemene watchdog
+115	ontwaken uit diepe slaap
+116	spanningsdaling
+117	Schrijven en opmaken
+118	Twee documenten
+119	Tabellen, afbeeldingen en opmaak
+120	Bestanden en back-ups
+121	Audio en video
+122	Kaarten en lezen
+123	Selecteer in Kaart de kaart en druk op Enter om deze te bedienen. De pijltjes verplaatsen de weergave; + / − verandert de zoom; Home gaat naar de startpositie. Met Escape gebruikt u de pijltjes weer om tussen bedieningselementen te navigeren. Ctrl+F opent de zoekfunctie.\n\nMet opgeslagen plaatsen kunt u naar een positie gaan, deze hernoemen of verwijderen. De stijl bepaalt de kaartachtergrond. Offlinepakketten .t5map en de SD-cache bieden toegang tot al beschikbare kaarttegels. Online zoeken en ontbrekende tegels vereisen een verbinding. Plaatsnamen volgen de gekozen taal wanneer de dienst die aanbiedt.\n\nDe staande leesweergave opent tekst of een EPUB. Page Up / Page Down wisselt van pagina. Omhoog/Omlaag scrolt wanneer de bedieningselementen niet geselecteerd zijn. Escape sluit de leesweergave of de afbeelding op volledig scherm. Titels en namen uit uw bestanden behouden hun oorspronkelijke taal.
+124	Instellingen, talen en toetsenborden
+125	Energie en diagnose
+126	Eerste 4096 titels weergegeven; de overige blijven bereikbaar door te scrollen.
+127	Tekst vergroten
+128	Voeg een kop toe via het menu Opmaak.
+129	Tabel toepassen
+130	Wacht totdat het opslaan is voltooid
+131	Wacht op het opslaan
+132	Geen bestanden hier. Ga omhoog of terug naar de eerste pagina.
+133	Geen overeenkomsten
+134	Geen leesbare vorige versie
+135	Met selectie: toepassen. Zonder selectie: verder schrijven met deze kleur.
+136	Wit
+137	Lichtblauw
+138	Donkerblauw
+139	Deze naam bestaat al; kies een andere naam
+140	Cel beperkt tot 8 KiB
+141	Ongeldig bestandspad
+142	Afbeeldingskopie niet geverifieerd: invoegen geannuleerd
+143	Tekst- en achtergrondkleur · Ctrl+Shift+C
+144	Tekstkleur en markering
+145	Ctrl+Shift+C
+146	Ctrl+Shift+I
+147	Ctrl+Shift+S
+148	Rechter document · Enter: bladeren · Escape: bediening
+149	Documenten rechts…
+150	Rechts geopende documenten
+151	Afbeeldingenmap niet toegankelijk
+152	Map niet toegankelijk
+153	Ongeldige map
+154	Enter: activeren · Escape: terug
+155	Systeembestand: uw wijzigingen kunnen de werking van Tab5OS veranderen.
+156	Afbeelding onleesbaar of te groot (JPEG / PNG / BMP, 4 MiB)
+157	Afbeelding niet toegankelijk of groter dan 4 MiB
+158	Afbeelding importeren (JPEG, PNG, BMP)
+159	Afbeelding van SD importeren · Ctrl+Shift+I
+160	Kan het concept geen naam geven
+161	Document indexeren… · weergegeven passage beschikbaar
+162	Indexeren…
+163	Invoegen geweigerd: geheugen of maximale grootte
+164	Tabel invoegen/bewerken · Ctrl+T
+165	Geel
+166	KiB
+167	MiB
+168	Alles vervangen kan in één keer ongedaan worden gemaakt; dit kan worden geweigerd als er onvoldoende ruimte in de geschiedenis is.
+169	Externe koppeling: openen op het web niet beschikbaar
+170	Wijziging geweigerd: geheugen of maximale grootte
+171	Zwart
+172	Ongeldige bestandsnaam
+173	Oranje
+174	Openen niet mogelijk: SD, UTF-8 of limiet van 2 MiB
+175	Document rechts openen
+176	Rechts openen
+177	Rechts openen…
+178	Passage
+179	Documentoverzicht
+180	Overzicht van het rechter document
+181	Documentoverzicht…
+182	Meerdere titels komen overeen — kies het document
+183	Pruimpaars
+184	Zoeken/vervangen — volledig document, hoofdlettergevoelig
+185	Zoeken/vervangen…
+186	Alles vervangen geweigerd: lege zoekterm, grootte of geschiedenis
+187	Vervangen geweigerd
+188	Herstellen geweigerd: onvoldoende geschiedenis
+189	Vorige back-up herstellen
+190	Laatste kolom verwijderen
+191	Laatste rij verwijderen
+192	Rood
+193	Tekst verkleinen
+194	Verwijzing niet gevonden: voeg het document rechts toe en controleer de titel
+195	Importeer de externe afbeelding opnieuw voordat u van map verandert
+196	Opnieuw
+197	Opnieuw · Ctrl+Y
+198	Voer een zoektekst in
+199	Opslaan bezig of document zonder naam
+200	Opslag geverifieerd
+201	Verder
+202	Passage selecteren
+203	Selecteer tekst
+204	Tabel — eerste rij: kolomkoppen
+205	Tabel…
+206	Vervangende tekst
+207	Tekst · Enter: schrijven · Escape: bediening
+208	Zoektekst
+209	Kop: normaal / H1 / H2 / H3
+210	Vorige kop
+211	Volgende kop
+212	Koppen
+213	Koppen van het rechter document
+214	Alles vervangen
+215	Er bestaat al een tijdelijke kopie
+216	Er staat een andere afbeelding in de doelmap
+217	Vorige versie
+218	Vorige versie hersteld — ongedaan maken blijft mogelijk
+219	Vorige versie teruggezet (.writer.bak)
+220	Lichtgroen
+221	Donkergroen
+222	Paars
+223	vervanging(en)
+224	Bewerken: maximaal 16 rijen en 6 kolommen per tabel
+225	\n\n(JPEG / PNG / BMP ondersteund)
+226	\n\nDecoderen niet mogelijk: 
+227	\nSD-kaart
+228	\nHTTP(S)-stream
+229	\nEPUB-index: niet opgelost\nFout: 
+230	\nBatterijmeting: %.2f V · %+ld mA · %s
+231	\nRAM %u KiB · blok %u KiB · DMA-blok %u KiB · bewaking %s
+232	\nLage spanning of batterijpakket niet gedetecteerd: controleer contacten / beveiliging / lader.
+233	  •  actief
+234	  •  offline
+235	  •  licht
+236	  •  onvoldoende geheugen
+237	  •  opgeslagen
+238	  •  geopend
+239	  •  beveiligd
+240	  •  internetradio
+241	 - kopie
+242	AVI/MJPEG lokaal of HTTP(S)  •  P4-hardwaredecodering
+243	Zuid-Afrika · GMT+2
+244	Hulp bij sneltoetsen · F1
+245	Toevoegen
+246	Zacht amber
+247	Ga naar
+248	Geen opgeslagen plaatsen. Gebruik het opslagpictogram op de kaart.
+249	Geen plaatsen voor deze zoekopdracht.
+250	Geen resultaten
+251	Audio
+252	AAC-audio
+253	FLAC-audio
+254	MP3-audio
+255	WAV-audio
+256	Australië Sydney · GMT+10/+11
+257	Overige
+258	Leisteenblauw
+259	Brazilië São Paulo · GMT-3
+260	Canada Toronto · GMT-5/-4
+261	Afbeeldingscanvas niet beschikbaar
+262	Kaart
+263	SD-kaart niet beschikbaar — Kaarten niet geopend
+264	Onvolledige kaart
+265	Kaart · Enter: verplaatsen met pijltjes · +/−: zoom · Home: thuispositie · Escape: bediening
+266	Kaarten
+267	OpenStreetMap-kaarten
+268	Offlinekaarten
+269	Laden
+270	Laden uitgesteld tijdens radioweergave
+271	Ongeldig pad
+272	China · GMT+8
+273	Verplaatsopdracht niet beschikbaar
+274	Wifiverbinding vereist om te zoeken
+275	LIVE  •  %02lu:%02lu
+276	Ongeldig doel
+277	Document > 3 MiB
+278	Document niet toegankelijk
+279	Mappen
+280	Mappen en bestanden
+281	Kan plaats niet opslaan
+282	Enter: openen · Omhoog/Omlaag: selecteren · Backspace: bovenliggende map
+283	Hulp sluiten · F1 / Escape
+284	Sluiten · Escape
+285	Leeg bestand
+286	Finland · GMT+2/+3
+287	Afbeeldingsformaat niet ondersteund
+288	Frankrijk · GMT+1/+2
+289	Grafiet
+290	Tijd niet ingesteld
+291	Tijd ingesteld — RTC niet beschikbaar
+292	Offline
+293	Afbeelding > 12 MiB
+294	EPUB-afbeelding niet toegankelijk\n\n
+295	EPUB-afbeelding niet ondersteund\n\n
+296	Afbeelding niet toegankelijk
+297	India · GMT+5:30
+298	Ongeldige JPEG, PNG of BMP
+299	Nooit\n1 minuut\n2 minuten\n5 minuten\n10 minuten
+300	Japan · GMT+9
+301	De zoekdienst reageert niet
+302	E-book lezen
+303	Plaats 
+304	Plaats opgeslagen
+305	Plaats hernoemd
+306	Plaats verwijderd
+307	Geselecteerde plaats
+308	Opgeslagen plaatsen
+309	Lezen / starten
+310	Lijst / overzicht
+311	Visuele Markdown, naslagdocument, USB-toetsenbord
+312	Tekst bewerken
+313	Kaartengine niet beschikbaar
+314	Muziek en video
+315	PSRAM-geheugen niet beschikbaar voor zoeken
+316	Onvoldoende geheugen
+317	Onvoldoende geheugen voor de kaart
+318	Onvoldoende geheugen voor paginering
+319	Onvoldoende geheugen: sluit een document of toepassing
+320	Nieuw-Zeeland · GMT+12/+13
+321	Plaatsnaam
+322	Plaatsnaam vereist
+323	Openen…
+324	PSRAM te gefragmenteerd voor de afbeelding
+325	Pauzeren / hervatten
+326	Startpositie opgeslagen
+327	Startpositie niet opgeslagen
+328	Positie op de kaart
+329	Verenigd Koninkrijk · GMT+0/+1
+330	Plaats zoeken…
+331	Zoeken niet mogelijk
+332	Zoeken niet beschikbaar: onvoldoende PSRAM
+333	Zoekfunctie © OpenStreetMap-bijdragers
+334	Plaats zoeken
+335	Zoeken…
+336	Omhoog
+337	Plaats hernoemen
+338	Terug / vorige
+339	Verkleinen
+340	Zoekresultaten
+341	Voer minstens twee tekens in
+342	Zonder submap  •  /Audio
+343	Zonder submap  •  /mp3
+344	Saliegroen
+345	Kaartstijl
+346	Stijlen, zoeken en opgeslagen plaatsen
+347	Deze map en alle inhoud verwijderen:\n
+348	Deze plaats verwijderen?
+349	Definitief verwijderen:\n
+350	Selecteer een plaats
+351	Tab5OS v%s · chip %u · SD %s · PSRAM %.1f MiB · %s
+352	VS Chicago · GMT-6/-5
+353	VS Denver · GMT-7/-6
+354	VS Los Angeles · GMT-8/-7
+355	VS New York · GMT-5/-4
+356	UTC · GMT+0
+357	Bevestigen
+358	Volume
+359	Wifi
+360	Werkende wifi vereist om kaarttegels te vernieuwen
+361	actief
+362	laden niet gemeld
+363	laden gemeld
+364	onbekende datum
+365	gebruikersverzoek
+366	bitmapnoodlettertype
+367	onvolledig
+368	niet beschikbaar
+369	microSD ontbreekt
+370	weinig geheugen
+371	panic/uitzonderingen
+372	Schrijven
+373	mislukt
+374	OSM licht
+375	OSM standaard
+376	IGN-kaart
+377	SD-pakket
+378	SD-pakketten
+379	Wijziging annuleren
+380	Schrijven, twee documenten, USB-toetsenbord
+381	Ongeldige AVI: movi-blok niet gevonden
+382	AVI-video %.4s niet ondersteund; MJPEG vereist
+383	AVI-video 
+384	 niet ondersteund; MJPEG vereist
+385	AVI/MJPEG  •  PCM-audio
+386	AVI/MJPEG  •  zonder PCM-audio
+387	Netwerk stoppen in afwachting — probeer opnieuw
+388	Video stoppen wacht op het netwerk
+389	Geen audiobestanden
+390	Geen wifinetwerken gevonden
+391	Audio op de hoofdlus
+392	SD-kaart vereist om op te nemen
+393	EPUB-hoofdstuk te groot
+394	Ongeldig hoofdstuk
+395	EPUB-compressie niet ondersteund
+396	Ongeldige AVI-container
+397	Netwerkcontainer niet ondersteund (onbewerkte MJPEG vereist)
+398	Kan bestand niet aanmaken
+399	Live-MJPEG
+400	Live-multipart-MJPEG
+401	EPUB-Deflate-decompressie niet mogelijk
+402	Verplaatsen niet mogelijk voor dit bestand
+403	Verplaatsen alleen beschikbaar voor lokale bestanden
+404	EPUB ZIP64 niet ondersteund
+405	Versleutelde EPUB niet ondersteund
+406	EPUB niet toegankelijk
+407	EPUB/ZIP te klein
+408	Wachten op wifi…
+409	Ongeldige lokale ZIP-header
+410	Multipart-header te lang
+411	WAV-opname 16 kHz mono
+412	Opname afgebroken
+413	Opname opgeslagen
+414	EPUB-item niet gevonden: 
+415	Schrijffout op de SD-kaart
+416	Audiobestand niet gevonden of niet ondersteund
+417	Einde van de video
+418	Einde van het album
+419	Einde van de opname
+420	Einde van ZIP-inhoudsopgave niet gevonden
+421	MJPEG-stream in afwachting…
+422	MP3/AAC-stream niet beschikbaar — tik om opnieuw te proberen
+423	Stream onderbroken — hervatten gepland
+424	Multipart-stream zonder framegrootte
+425	Radiostream niet toegankelijk — tik om opnieuw te proberen
+426	Audioformaat onleesbaar
+427	MJPEG-afbeelding ongeldig of groter dan 1280×720
+428	Kan audiobestand niet openen
+429	Ongeldige ZIP-index
+430	Kan audiostuurprogramma niet initialiseren
+431	EPUB onvolledig gelezen
+432	Gecomprimeerde ZIP onvolledig gelezen
+433	Kan hoofdstuk niet lezen
+434	Kan ZIP-index niet lezen
+435	Video afspelen
+436	Video afspelen onderbroken
+437	Onvoldoende geheugen om op te nemen
+438	Microfoons niet beschikbaar
+439	Onvoldoende MJPEG-geheugen
+440	Onvoldoende PSRAM-geheugen
+441	Onvoldoende geheugen voor compressie
+442	Onvoldoende geheugen voor XHTML-conversie
+443	Onvoldoende geheugen voor ZIP-index
+444	Onvoldoende geheugen voor de radio — sluit een toepassing en probeer opnieuw
+445	Onvoldoende geheugen voor de video
+446	Onvoldoende geheugen voor EPUB-manifest
+447	Onvoldoende geheugen voor EPUB-hoofdstukken
+448	Onvoldoende videogeheugen
+449	Ongeldige ZIP-offset
+450	Video openen…
+451	Videostream openen…
+452	Onvoldoende PSRAM voor de MP3-decoder
+453	Radio gestopt: kritiek geheugentekort — probeer opnieuw na vrijmaken van geheugen
+454	Radio gestopt na drie fouten — tik om opnieuw te proberen
+455	Zoeken naar wifi niet mogelijk
+456	Wifinetwerken zoeken…
+457	Beschikbare wifinetwerken
+458	Opnieuw verbinden met live-MJPEG…
+459	Wifinetwerk vergeten
+460	Netwerk nog bezet — probeer opnieuw
+461	Netwerk bezet — tik om opnieuw te proberen
+462	Scan uitgesteld: verbinden of afspelen bezig
+463	Audio-uitvoer niet beschikbaar — probeer opnieuw nadat de media is gestopt
+464	Onjuiste grootte van JPEG-framebuffer
+465	AVI/MJPEG-frame te groot
+466	MJPEG-frame te groot
+467	Leeg MJPEG-frame
+468	Multipart-frame te groot
+469	Drie ongeldige JPEG-frames achter elkaar
+470	Drie ongeldige multipart-frames achter elkaar
+471	Video niet toegankelijk
+472	Wifi ingeschakeld — kies een netwerk
+473	Wifiverbinding mislukt
+474	container.xml zonder rootfile; 
+475	OPF-pad ontbreekt; 
+476	Geen OPF-bestand gevonden in de EPUB
+477	Geen leesdocument gevonden in EPUB (manifest=
+478	OPNAME  •  %02lu:%02lu
+479	Huidige positie = thuispositie
+480	Tab5OS
+481	i
+482	Bestandsnaam.md
+483	Vorige kopie niet toegankelijk
+484	Tijdelijk bestand niet toegankelijk
+485	Kan tijdelijk bestand niet aanmaken
+486	Kan origineel niet behouden
+487	Onvoldoende PSRAM om op te slaan
+488	SD-teruglezing onvolledig
+489	Onjuiste grootte van opgeslagen bestand
+490	Eindvalidatie niet mogelijk; origineel behouden
+491	SD-verificatie mislukt
+492	SD-schrijfopdracht onvolledig
+493	USB: sluit een toetsenbord aan
+494	USB: invoer onderbroken, typ opnieuw
+495	USB: host niet beschikbaar
+496	USB: onvoldoende geheugen
+497	USB: stuurprogramma niet beschikbaar
+498	USB: taak niet beschikbaar
+499	USB verbonden
+500	USB losgekoppeld
+501	USB niet gestart
+502	container.xml zonder rootfile
+503	OPF-pad ontbreekt
+504	Voorbeeldweergave niet beschikbaar
+505	De schermtime-out dimt eerst de achtergrondverlichting en schakelt deze daarna uit. De tablet en eventueel de radio blijven actief: deze schermslaapstand verbruikt nog steeds batterij. Een toets of aanraking wekt het scherm. Gebruik de aan-uitknop volgens de instructies van M5Stack om de tablet uit te schakelen.\n\nOp de Tab5 vereist opladen via USB een ingeschakelde en geïnitialiseerde tablet. Het scherm uitschakelen schakelt de tablet niet uit. Alleen het percentage volstaat niet voor batterijdiagnose; bekijk ook spanning, stroom en laadstatus. Laat zonder batterij de optie Batterij geïnstalleerd uitgeschakeld onder Instellingen → Systeem → Energie: de indicator blijft USB tonen, zonder percentage of laadbliksem. Schakel deze optie in nadat u met uitgeschakeld apparaat een batterijpakket hebt geplaatst. Deze keuze betreft alleen de weergave; ze bestuurt de lader niet.\n\nInstellingen → Systeem toont de geheugenbronnen. De meting is passief: geen automatische opschoning of periodieke melding verandert het scherm. De oorzaak van de laatste herstart en de seriële logboeken helpen om een geheugenfout, vastloper en spanningsdaling te onderscheiden.\n\nNoteer bij een probleem de versie, gebruikte toepassingen, bestandsgrootten, voorafgaande handelingen en de weergegeven melding.
+506	Leesgroen
+507	\nUSB-voeding · zonder batterij
+508	\nRAM %u KiB · blok %u KiB · DMA-blok %u KiB
+509	Document hervatten…
+510	ANS: laatste resultaat · MEM: geheugen
+511	Ongeldig IPP-adres of afdruktaak bezig
+512	Verzenden annuleren
+513	Kleurenvoorbeeld
+514	Stop het script voordat u een ander bestand kiest
+515	Wacht totdat de kaart is geladen
+516	Geen bestandsnaam beschikbaar
+517	Bibliotheken
+518	Weergegeven kaart
+519	Kaart gereed voor afdrukken
+520	Printercertificaat ontbreekt
+521	Deze printer ondersteunt geen PWG Raster in kleur
+522	Ongeldige paden of kluis bezet
+523	Versleuteling niet beschikbaar
+524	Kies een pad voor een .py-bestand
+525	Versleutelde kluis
+526	Kluis onvolledig of beschadigd
+527	Bevestiging om te versleutelen
+528	Kan geen verbinding maken met de printer
+529	Versleutelde kopie gemaakt — origineel behouden
+530	Versleutelde kopie maken
+531	Ongeldige afdrukafmetingen
+532	Delen door nul
+533	Ontsleutelen voltooid
+534	Kopie ontsleutelen
+535	Wachtwoordsleutel afleiden…
+536	JPEG-encoder niet beschikbaar: stop de video
+537	Kan script niet opslaan
+538	Verzenden onderbroken: controleer de printerwachtrij
+539	Naar printer verzenden…
+540	Kaart als JPEG exporteren
+541	Ongeldige uitdrukking
+542	Uitdrukking te complex
+543	Uitdrukking te lang
+544	Uitvoeren niet mogelijk of al bezig
+545	Bestand gewijzigd tijdens versleuteling
+546	Bronbestand
+547	Tijdelijk bestand bestaat al
+548	Tekst-, Markdown-, JPEG- of PNG-bestand
+549	Bestand te groot voor de kluis
+550	Functie: haakjes vereist
+551	Onbekende functie
+552	Papierformaat niet ondersteund
+553	Ongeldig kluisformaat
+554	Ongeldige afbeelding of bestemming
+555	Afdrukken bezig
+556	Printer (IPP-adres)
+557	Printer bereikbaar
+558	Afdrukken
+559	Weergegeven kaart afdrukken
+560	Geselecteerd bestand afdrukken · Ctrl+P
+561	Printer opvragen…
+562	JPEG opgeslagen: 
+563	Bestemming bestaat al
+564	De resolutie is afhankelijk van papier, printer en bronafbeelding.
+565	Het originele bestand blijft leesbaar. Alleen de .t5v-kopie is met het wachtwoord beveiligd.
+566	Kan bestand niet lezen
+567	Wachtwoorden verschillen
+568	Wachtwoord: minstens 12 tekens
+569	Onjuist wachtwoord of beschadigde kluis
+570	Wachtwoord verloren: herstel is niet mogelijk. Bewaar een reservekopie.
+571	Geheugen verhoogd
+572	Geheugen verlaagd
+573	Geheugen gewist
+574	Onvoldoende geheugen om deze afbeelding te exporteren
+575	Ongeldig getal
+576	Nieuw doelbestand
+577	Bewerking geannuleerd
+578	Ontbrekend haakje
+579	Kaartvoorbereiding geannuleerd
+580	Kaart voor papier voorbereiden…
+581	Kan afdruk niet voorbereiden
+582	Pagina's voorbereiden…
+583	Voorbereiding niet mogelijk: bestand, lettertype, geheugen of limiet van 256 pagina's
+584	Kleuren instellen
+585	Ongeldig antwoord van printer
+586	Netwerk bezet: stop de radio of probeer opnieuw
+587	Resolutie niet ondersteund (72 tot 600 dpi)
+588	Script geladen
+589	Script wordt uitgevoerd…
+590	Script opgeslagen
+591	Script niet toegankelijk of groter dan 64 KiB
+592	Script beëindigd met een fout
+593	Temperatuur onder het absolute nulpunt
+594	Tekst: Ctrl+Alt+C · Achtergrond: Ctrl+Alt+H
+595	Taak geaccepteerd door printer
+596	Taak geweigerd door printer
+597	Ongeldige kaarttegel
+598	Tegel niet beschikbaar: controleer netwerk of cache
+599	USB: HID-interface niet ondersteund
+600	Onverenigbare eenheden
+601	Waarde buiten bereik
+602	Waarde opgeslagen
+603	Controleren
+604	Afleiden van wachtwoordsleutel mislukt
+605	JPEG-codering mislukt
+606	JPEG schrijven naar SD-kaart mislukt
+607	Kan kaart niet schrijven
+608	Kan kluis niet schrijven
+609	Kan bestand niet schrijven
+610	Rekenmachine
+611	Afdrukken
+612	Omrekeningen
+613	Omrekenen
+614	Tekstkleur toepassen
+615	Tekstachtergrond toepassen
+616	Tekstkleur
+617	Kleuren en JPEG-export
+618	Afdrukken en rekenmachine
+619	Programmeren in MicroPython
+620	Graden\nRadialen
+621	Staand\nLiggend
+622	A4\nLetter\nA5
+623	150 dpi\n300 dpi\n600 dpi
+624	 dpi
+625	 p · 
+626	 px · 
+627	 × 
+628	A
+629	B
+630	C+
+631	C−
+632	H
+633	I
+634	IPP 0x
+635	JPG
+636	L+
+637	L−
+638	×
+639	÷
+640	 · 
+641	HTTP 
+642	 %
+643	z%u | %u x %u px
+644	IPP-/IPPS-adres
+645	Geen sleutel — maak er een bij Instellingen
+646	Geen printer gevonden
+647	Pagina's berekenen…
+648	Certificaat gewijzigd: verbinding geblokkeerd
+649	Certificaat opgeslagen: controleer en druk vervolgens af
+650	Deze sleutel hoort niet bij het bestand
+651	Ongeldige paden
+652	Zoeken
+653	Versleutelen…
+654	Bestand versleutelen/ontsleutelen
+655	Kies een opslagpad voor .t5key
+656	Bestand kiezen
+657	Kies een bestand in de bestandsbeheerder
+658	Sleutel
+659	Sleutel ontbreekt
+660	Sleutel ontbreekt: herstel de back-up bij Instellingen
+661	Onjuiste sleutel of beschadigde kluis
+662	Sleutel hersteld op de Tab5
+663	Sleutels bewaard in het geheugen van de Tab5
+664	Versleutelingssleutels
+665	Bevestiging om op te slaan
+666	TLS-verbinding niet mogelijk
+667	Bewaar de back-up elders: het geheugen van de Tab5 wissen verwijdert ook de sleutels.
+668	Kopie gemaakt — het originele bestand is behouden.
+669	Ontsleutelen…
+670	IPPS proberen
+671	Schatting niet beschikbaar
+672	Schatting gereed
+673	Kaartexport al bezig
+674	Vertrouwen
+675	Geselecteerd bestand
+676	Genereren
+677	Sleutels beheren
+678	HTTP 426: zoek het IPPS-adres van de printer
+679	HTTP 426 · Upgrade: 
+680	Ongeldige bronafbeelding
+681	Geselecteerde printer
+682	Limiet van 8 certificaten bereikt
+683	Back-upwachtwoord
+684	Wachtwoord van het oude bestand
+685	Naam van nieuwe sleutel
+686	Bewerking bezig: wacht of annuleer
+687	Oriëntatie
+688	Geschatte pagina's: 
+689	Geschatte pagina's: …
+690	Papier
+691	JPEG met hoge resolutie voorbereiden…
+692	Sleutel herstellen…
+693	Sleutel herstellen
+694	Resolutie
+695	Voer het wachtwoord van het bestand in
+696	Versleutelde back-up/herstel (.t5key)
+697	Versleutelde sleutelback-up gemaakt
+698	Ongeldige sleutelback-up
+699	Sleutel opslaan…
+700	Sleutel opslaan
+701	Grootte (%)
+702	Controleer deze vingerafdruk op de printer voordat u bevestigt.
+703	Controleer de vingerafdruk van het certificaat voordat u het vertrouwt
+704	Schaal: 25 tot 200 %
+705	\nSHA-256: 
+706	Sleutel al aanwezig
+707	Sleutel-ID al in gebruik
+708	Sleutelgeheugen niet toegankelijk
+709	Limiet van 8 sleutels bereikt
+710	Sleutel opgeslagen op de Tab5
+711	Kan sleutel niet schrijven
+712	Sleutelnaam: 1 tot 48 bytes
+713	Verbind de Tab5 met wifi
+714	Netwerkzoekfunctie niet beschikbaar
+715	Geen printers aangekondigd op dit netwerk
+716	Kies een gevonden printer
+717	Printers zoeken…
+718	 · z
+719	 · ~
+720	 · #
+721	 · HTTP 
+722	 · TLS 
+723	TLS 
+724	UI-voorbeeld
+725	TLS-onderhandeling met printer niet mogelijk
+726	Kaart gereed: sommige tegels zijn minder gedetailleerd
+727	Sommige tegels zijn minder gedetailleerd.
+728	Kan kaarttegel niet laden
+729	Tegel niet beschikbaar na meerdere pogingen
+730	Kan printers niet opslaan
+731	Handmatig adres
+732	Printer kiezen
+733	Weergegeven kaart vastleggen…
+734	JPEG coderen…
+735	JPEG-export geannuleerd
+736	Kaart niet beschikbaar
+737	Kaart gereed
+738	Gedeeltelijke zoekopdracht: 
+739	Bestanden en mappen zoeken
+740	Radiozender zoeken
+741	Nummer zoeken
+742	200 resultaten: verfijn de zoekopdracht
+743	Ctrl+T voegt een tabel in of opent de geselecteerde tabel. Tik op een cel of gebruik Tab / Shift+Tab om er een te kiezen; Enter start het invoeren. Cellen ondersteunen vet, cursief, koppen, tekstkleur en tekstachtergrond. Toepassen bevestigt het geheel; sluiten zonder toepassen verwerpt de wijzigingen in het dialoogvenster.\n\nCtrl+Shift+I importeert een JPEG-, PNG- of BMP-afbeelding van de SD-kaart. Sla eerst het document op. Een kopie wordt in de bijbehorende .assets-map geplaatst. Neem deze map mee met het document. Selecteer een afbeelding en druk op Delete om haar uit de tekst te verwijderen, zonder het bestand te wissen.\n\nCtrl+Shift+C opent de kleuren: eerste rij voor de tekst, tweede voor de achtergrond. Het automatische vak gebruikt de themakleuren.\n\nBestanden blijven UTF-8-Markdown: GFM-tabellen, Markdown-afbeeldingen en kleuren als HTML span/CSS. Sommige lezers filteren deze stijlen. Niet-ondersteunde complexe constructies kunnen letterlijk zichtbaar blijven. Ongedaan maken / Opnieuw kan een toegepaste wijziging terugdraaien.\n\nDe actieve cel behoudt een lichte thematint en een dunne opvallende rand. Ze blijft gemarkeerd wanneer u opmaakknoppen gebruikt of het toetsenbord sluit. Tab en de pijltjes verplaatsen de selectie; Enter start het invoeren.
+744	  •  netwerk uitgesteld: geheugen bezet
+745	Subcategorie maken
+746	Nieuwe categorie
+747	Geen favorieten
+748	Kan favorieten niet opslaan
+749	Favoriet: toevoegen of verwijderen
+750	Favorieten
+751	Afdrukken · Ctrl+P
+752	Firmware installeren
+753	Python uitvoeren
+754	Wacht op voltooiing of annuleer de installatie
+755	Alleen ESP32-P4-toepassingsbinair. De SD-kaart en sleutels blijven behouden.
+756	Dit bestand vervangt na herstart het programma op de Tab5.
+757	Zorg tijdens installatie voor een stabiele voeding.
+758	Installeren
+759	Opnieuw starten
+760	Firmware
+761	Rond lopende bewerkingen af voordat u installeert
+762	Verbinding onderbroken
+763	HTTP Upgrade · 
+764	Overgang van HTTP naar TLS geweigerd
+765	Antwoord ontbreekt of is onvolledig
+766	Binair bestand te groot of OTA-partitie ontbreekt
+767	Onvolledig binair bestand
+768	Kies een ESP32-P4-toepassingsbinair zonder bootloader
+769	Firmware niet compatibel met deze Tab5-revisie
+770	Het bestand is gewijzigd: controleer opnieuw
+771	OTA initialiseren niet mogelijk
+772	Installatie geannuleerd
+773	OTA schrijven niet mogelijk
+774	Kan firmwarevingerafdruk niet bepalen
+775	Firmware-integriteit ongeldig
+776	Kan firmware niet activeren
+777	Firmware geïnstalleerd — start opnieuw om te activeren
+778	Compatibel binair bestand — gereed voor installatie
+779	Firmware installeren…
+780	Firmware controleren…
+781	Kies een radiocategorie, album of opname en vervolgens een regel om af te spelen. Met het toetsenbord selecteert u met Omhoog/Omlaag en start u met Enter. Spatie bedient afspelen/pauzeren; Alt+Links/Rechts gaat naar het vorige/volgende nummer. In invoervelden behouden deze toetsen hun normale functie.\n\nWifi stelt u in bij Instellingen. Radiozenders komen uit /radios.json, albums uit /Audio, video's uit /Video of /videos.json. Ondersteunde video's zijn AVI/MJPEG en onbewerkte MJPEG. Escape sluit video op volledig scherm.\n\nBij wisselen van toepassing kan audio blijven spelen. Gebruik Pauze of Stoppen om het luisteren te onderbreken. Start- en afspeelfouten worden gemeld. Geen periodieke geheugencontrole sluit toepassingen of onderbreekt de radio. Instellingen → Systeem toont de beschikbare bronnen.\n\nHet vergrootglas of Ctrl+F filtert het actieve tabblad: nummers uit alle albums, zenders uit alle radiocategorieën, opnamen of video's. Elk tabblad behoudt zijn eigen zoekwoorden. Het kruis verwijdert het filter; een resultaat kiezen start het betreffende item. Namen, mappen en categorieën kunnen worden doorzocht zonder onderscheid tussen hoofdletters of Latijnse accenten.\n\nMuziek doorzoekt de submappen van /Audio en /mp3. + in het linkerpaneel maakt een subcategorie. Voor radio maakt de categorie Jazz/Piano twee niveaus. De + rechts van een nummer of radiozender voegt een favoriet toe; het vinkje verwijdert deze. Favorieten filtert de lijst van het huidige tabblad. Ze worden op de SD-kaart bewaard.
+782	Werkplaats
+783	Terug
+784	Radiozenders
+785	Catalogus
+786	Installatie
+787	Geïnstalleerd
+788	Verwijderen
+789	Bibliotheek
+790	Catalogus vernieuwen
+791	Vernieuw de catalogus met verbonden wifi.
+792	HTTPS-adres vereist
+793	Ongeldig repositoryadres
+794	Ongeldig tegeladres
+795	Adres moet eindigen op .json, .csv of .m3u
+796	Oud bestand gewijzigd: 
+797	Oud pc-register: behoud de bibliotheken en gebruik een nieuw register
+798	Mappenstructuur te diep
+799	Python-werkplaats · Tab5
+800	Geen bibliotheken geïnstalleerd door de beheerder.
+801	Bibliotheek verwijderd
+802	Bibliotheek niet geïnstalleerd
+803	Bibliotheek gebruikt door een ander pakket
+804	Python-bibliotheken
+805	Geïnstalleerde bibliotheken
+806	Bibliotheken bijgewerkt
+807	Onjuiste T5MAP-grenzen
+808	CSV: kolommen name, url, style
+809	CSV: niet-afgesloten aanhalingstekens
+810	CSV: onjuist aantal kolommen
+811	Ongeldig teken in een zender
+812	Kaart onvolledig
+813	MicroPython-catalogus
+814	Ongeldige catalogus
+815	Ongeldige radiocatalogus
+816	Radiocatalogus te groot
+817	Catalogus leeg of groter dan 800 radiozenders
+818	Deze map
+819	Deze Python-programma's worden op de Tab5 uitgevoerd.
+820	Absoluut SD-pad vereist
+821	Ongeldig relatief pad
+822	Pad te lang
+823	Map kiezen
+824	Verbind wifi bij Instellingen
+825	HTTPS-verbinding niet mogelijk: controleer netwerk, datum en certificaten
+826	Kleur: #RRGGBB
+827	Bestemming: /MicroPython/lib
+828	Dubbele bestemming
+829	Twee pakketten leveren verschillende bestanden op dezelfde locatie
+830	XYZ-map
+831	Bron- en doelmap liggen in elkaar
+832	Circulaire afhankelijkheid
+833	Ongeldige afhankelijkheid
+834	Afhankelijkheden te diep genest
+835	Ongeldige pakketvingerafdruk
+836	Onjuiste vingerafdruk van download
+837	Ongeldige PNG-header
+838	Ongeldige T5MAP-header
+839	Ongeldig T5MAP-item
+840	Onvoldoende SD-ruimte
+841	SD-bestand of HTTPS-adres (JSON, CSV, M3U)
+842	Ongeldig stijlbestand
+843	Ongeldig themabestand
+844	Themabestand te groot
+845	Bestand gewijzigd: verwijderen onderbroken
+846	Bestand gewijzigd tijdens voorbereiding
+847	Bestand gedeeld met een andere bibliotheek
+848	Persoonlijk bestand of gewijzigde bibliotheek: 
+849	Bestand te groot
+850	Kaartformaat niet ondersteund
+851	ID van XYZ-cache
+852	Ongeldige ID
+853	Kaarten importeren
+854	Import voltooid. Laad Muziek opnieuw of start opnieuw om de lijst te vernieuwen.
+855	Kaarten importeren
+856	Radiozenders importeren
+857	T5MAP-index ongeldig of te groot
+858	Bibliotheek installeren
+859	Bestemming is een map
+860	Ongeldige taal
+861	Pakket bestaat al
+862	Het thema is na herstart beschikbaar bij Instellingen.
+863	Geldige persoonlijke configuraties blijven behouden. Ontbrekende vertalingen worden toegevoegd.
+864	Afhankelijkheden en persoonlijke bestanden blijven behouden.
+865	Bestanden worden in kleine blokken gekopieerd. Bestaande pakketten en tegels blijven behouden. MBTiles vereist vooraf omzetting naar T5MAP.
+866	De bronbestanden worden met hun afhankelijkheden geïnstalleerd.
+867	Zenders worden op adres samengevoegd. De vorige catalogus wordt opgeslagen als radios.json.bak.
+868	Ongeldig pakketmanifest
+869	Maximum: 16 stijlen
+870	Maximum: 16 persoonlijke thema's
+871	Maximum: 800 radiozenders
+872	Maximum: 800 radiozenders na samenvoegen
+873	Bijwerken
+874	Bijwerken
+875	SD-kaart bijwerken
+876	Bijwerken voltooid. Start opnieuw om de wijzigingen te laden.
+877	Gereserveerde Tab5OS-module
+878	Pakketnaam met .t5map vereist
+879	Pakketnaam of HTTPS-adres / github:
+880	Ongeldige themanaam
+881	Ongeldige zendernaam of zenderadres
+882	Ongeldige pakketnaam of pakketversie
+883	Bewerking bezig. Met het kruis kunt u annuleren.
+884	.t5map-pakket, XYZ-map, JSON-stijlen of HTTPS-URL
+885	Pakket geïmporteerd. Start opnieuw om offlinepakketten te vernieuwen.
+886	Leeg pakket
+887	Pakketten te groot
+888	Voorbereiding onvolledig
+889	Ongeldig bibliotheekregister
+890	Beschadigde fabrieksreferentie: 
+891	Stel datum en tijd in om certificaten te controleren
+892	Ongeldige T5MAP-inhoudsopgave
+893	Netwerk bezet: stop de radio en probeer opnieuw
+894	Voer een pakketnaam in
+895	Alleen .py-bronbestanden worden ondersteund
+896	.py-bronbestanden en afhankelijkheden op de SD-kaart. Pc-pakketten en native uitbreidingen zijn niet compatibel.
+897	Ongeldige zender
+898	Ongeldige kaartstijl
+899	Stijlen geïmporteerd. Start opnieuw om ze te laden.
+900	Te veel afhankelijkheden
+901	Te veel bestanden
+902	Te veel bestanden in deze bewerking
+903	Beschadigde PNG-tegel
+904	Onvolledige PNG-tegel
+905	Ongeldige PNG-tegel
+906	Afgekapt PNG-tegelbestand
+907	PNG-tegels: 256 × 256 vereist
+908	Een bestand neemt de plaats van de map in
+909	Een thema met dezelfde ID wordt vervangen, met een back-up.
+910	Gebruik mpy=False voor .py-bronbestanden
+911	Versie (leeg: nieuwste versie)
+912	Onverenigbare afhankelijkheidsversies
+913	Controleer de SD-kaart
+914	al aanwezig
+915	bestanden aan te vullen of te herstellen
+916	updates
+917	nieuwe
+918	geregistreerde pakketten
+919	geïmporteerde tegels
+920	bestanden
+921	afhankelijkheden
+922	Installeer de MicroPython-scripts van deze versie op de SD-kaart
+923	Leesvoorbeeld\nDe tekst volgt de kleuren van het thema.
+924	Bevestigen
+925	Importeren
+926	Bladeren
+927	Downloaden
+928	Cache-ID: 
+929	.t5map-pakket, XYZ-map of HTTPS-URL
+930	Te veel herstelback-ups
+931	Bestandsbeheer
+932	E-book
+933	SD opnieuw testen
+934	Tab / Shift+Tab: volgende/vorige bediening. De pijltjes kiezen een bedieningselement in de aangegeven richting. Enter activeert de selectie of begint tekstinvoer. Escape verlaat de invoer; nogmaals drukken gaat naar de balk.\n\nAlleen Command/Windows, Cmd+/ of F6: wisselen tussen balk en toepassing met behoud van de laatste selectie. Rechts vanuit de balk keert terug naar de toepassing. Alt+1 tot Alt+7: Start, Bestandsbeheer, Editor, E-book, Media, Kaarten, Instellingen.\n\nLijsten onderscheiden selectie en actie: Omhoog/Omlaag kiest een regel, Enter opent deze. In een dialoogvenster blijft de bediening binnen dat venster. F1 opent of sluit de hulp; Escape sluit deze ook.
+935	Opmaak → Kleuren instellen (Ctrl+Shift+C) kiest tekstkleur en achtergrond afzonderlijk. Een vak kiezen verandert het document niet. Tekstkleur (Ctrl+Alt+C) en Tekstachtergrond (Ctrl+Alt+H) werken op de selectie; zonder selectie gelden ze voor wat u daarna typt. Cellen ondersteunen deze stijlen ook. Escape sluit het palet. De toetsenbordknop staat rechtstreeks in de Editor-balk en in de tabeleditor. L+ en C+ tonen direct de nieuwe rij of kolom; Toepassen slaat de tabel op in het document.\n\nJPG legt de al weergegeven kaart vast, met de huidige resolutie, zonder verder inzoomen of extra downloaden. Wacht totdat de gewenste onderdelen zichtbaar zijn voordat u de opname maakt. De bronvermeldingen blijven onder de afbeelding staan. Het bestand wordt gemaakt in /Pictures/Maps/map-NNNN.jpg.\n\nEen klein paneel toont de voortgang tijdens kopiëren en coderen. Het kruis of Escape annuleert; van weergave wisselen tijdens kopiëren annuleert deze stap eveneens. De JPEG wordt per rij gecodeerd. Er wordt geen onvolledig bestand beschikbaar gesteld. Schrijven → Invoegen → Afbeelding voegt het resultaat in.\n\nTabelcellen houden zichtbare randen; de actieve cel blijft getint volgens het thema.
+936	Bestand → Afdrukken (Ctrl+P) slaat het document op en opent afdrukken. In Bestandsbeheer verschijnt het printerpictogram voor een geselecteerd bestand, nooit voor een map. Zoeken vraagt IPP/IPPS-aankondigingen op het lokale wifinetwerk op. Een resultaat kiezen neemt de aangekondigde poort en het pad over. Een niet-aangekondigde printer blijft bereikbaar door het exacte adres in te voeren. Enter of de pijl op het schermtoetsenbord sluit dat toetsenbord. Controleren vraagt de printer op zonder af te drukken.\n\nHTTP 426 vraagt om een protocolwijziging, vaak TLS. Zoeken kan het IPPS-adres leveren; IPPS proberen test een versleutelde verbinding met dezelfde host en poort, zonder document te verzenden. Het certificaat kan worden gevalideerd via /M5Writer/printer-ca.pem. Vergelijk anders de SHA-256-vingerafdruk met die van de printer voordat u deze vertrouwt. Ze wordt bij elke verbinding gecontroleerd; een wijziging blokkeert het verzenden.\n\nKies A4, Letter of A5, oriëntatie, resolutie en grootte van 25 tot 200 %. Bij 100 procent passen foto's en kaarten in het afdrukbare gebied; vergrotingen kunnen meerdere vellen beslaan. Bij tekst verandert het percentage de tekengrootte en paginering. De schatting wordt voor verzending berekend; een aan de printer aangepaste resolutie kan de afronding wijzigen. Markdown-afbeeldingen worden van tekst gescheiden; tabellen worden als tekst afgedrukt. De printer moet IPP en PWG Raster in sRGB-kleur accepteren. Afdrukken via USB is niet beschikbaar. Annuleren tijdens verzenden kan een taak in de wachtrij achterlaten: controleer dit voordat u opnieuw verzendt.\n\nRekenmachine: cijfers, + - * /, haakjes, machten en ² werken via het fysieke toetsenbord. Enter of = berekent; Backspace corrigeert. MS bewaart het resultaat, MR voegt MEM in, M+/M− telt het erbij/eraf, MC wist. Trigonometrie in graden/radialen, pi, ANS en omrekeningen zijn beschikbaar.\n\nAls HTTP 426 Upgrade: TLS aankondigt, onderhandelt de controle nu OPTIONS en vervolgens TLS via dezelfde HTTP-verbinding. Het aangekondigde IPP-adres kan dus correct blijven. Certificaten worden nog steeds vóór documentverzending gecontroleerd. De engine moet een compatibele TLS-versie kunnen onderhandelen; een printer die beperkt is tot oud TLS 1.0 kan nog mislukken. Een afdruktaak wordt na een fout nooit automatisch opnieuw verzonden.\n\nDe printerlijst en het laatst gekozen adres worden in de Tab5 opgeslagen, ook na uitschakelen. Alleen Zoeken start de ontdekking opnieuw. Een geslaagde zoekopdracht vervangt de lijst; bij een netwerkfout blijft de vorige behouden. Een handmatig adres blijft opgeslagen na controle, afdrukken of sluiten.\n\nDe printerknop op de Editor-balk slaat het document op en opent Afdrukken, net als Ctrl+P. Als de overgang van HTTP naar TLS mislukt, toont de diagnose nu het HTTP-antwoord van de printer; een positief socketnummer wordt niet langer als versleutelingsfout weergegeven.
+937	Python-editor
+938	Python-bibliotheek niet beschikbaar
+939	Kan toepassingen niet laden
+940	Geen toepassingen geïnstalleerd
+941	%u toepassingen
+942	Andere scripts beschikbaar in Bestandsbeheer
+943	Geen radiozenders opgeslagen
+944	Radiozenders toevoegen
+945	Geen plaatsen opgeslagen
+946	\nCaches vrijgemaakt: intern %u KiB · PSRAM %u KiB\nGeheugenweigeringen %u · minimale UI-stack %u B
+947	\nTLS-buffers: %s
+948	Intern RAM (SDK-terugval)
+949	\nFysiek HP-SRAM: 768 KiB, waarvan %u KiB hardwarecache
+950	\nTCM: %u B vrij / %u B beheerd door de heap
+951	\nScherm: %llu KiB gesynchroniseerd / %llu KiB aangevraagd\nGerichte vernieuwingen %u · terugvallen %u · fouten %u
+952	\nLaatste reset: %s · ingeschakeld sinds %u min
+953	\nOpstarten %lu ms | %s %lu ms | heap %s
+954	\nTaal %lu ms · toetsenbord %lu ms · USB %lu ms
+955	\nSD: %s | herpogingen %u/3 | herstelpogingen %u%s
+956	 - handmatige hertest vereist
+957	\nVóór de reset (context): 
+958	\nPrioriteit schermlezing: %u → %u · %s\nFlashversleuteling: %s
+959	geverifieerd
+960	te controleren
+961	ingeschakeld
+962	uitgeschakeld
+963	Mijn Python-interface
+964	Aanraakteller
+965	Op nul zetten
+966	MicroPython op Tab5OS
+967	Wikipedia
+968	Afspelen gepland na de prioritaire activiteit
+969	Audio gepauzeerd voor een prioritaire activiteit
+970	Geen Radio Browser-server beschikbaar
+971	Land: code van twee letters, bijvoorbeeld FR of GB
+972	Audioformaat niet compatibel
+973	Online radiozenders
+974	Naam van radiozender
+975	Land (code, optioneel)
+976	Muziekgenre (optioneel)
+977	Handmatig importeren
+978	Radiozenders zoeken
+979	Vorige resultaten
+980	Volgende resultaten
+981	Geen compatibele radiozenders gevonden.
+982	Radiozender toevoegen
+983	Radiozender toegevoegd. Laad Muziek opnieuw om de lijst te vernieuwen.
+984	Kaartcatalogus onvolledig
+985	Kaartbeschrijving te groot
+986	kaarten
+987	Geen compatibele kaarten in de catalogus
+988	Ongeldige kaartcatalogus
+989	Kaart-ID al gebruikt
+990	Kaart niet gevonden
+991	Kies een kaart om te vervangen
+992	Kaartcatalogus
+993	Resultaten weergeven
+994	beschikbare kaarten
+995	Geen resultaten. Vernieuw de catalogus of wijzig de zoekopdracht.
+996	Kaart toevoegen
+997	Beschikbare zoomniveaus: 
+998	Online weergave in Kaarten.
+999	Te vervangen kaart
+1000	Kaart toegevoegd. Open Kaarten om deze te bekijken.
+1001	Pakket geïmporteerd. Open Kaarten om het te bekijken.
+1002	Ongeldige Wikipedia-taalcode
+1003	Wikipedia-zoekopdracht te lang
+1004	Ongeldig Wikipedia-antwoord
+1005	Wikipedia is bezet. Probeer later opnieuw; de voortgang blijft behouden.
+1006	Wikipedia kan deze zoekopdracht niet beantwoorden
+1007	Voer een Wikipedia-zoekopdracht in
+1008	Ongeldig Wikipedia-artikel
+1009	Wikipedia-artikel niet beschikbaar
+1010	Geen tekst beschikbaar voor dit artikel
+1011	Artikel te groot voor deze lezer
+1012	Ongeldig Wikipedia-pakket
+1013	Kies tussen 1 en 1000 artikelen
+1014	Ongeldige Wikipedia-tekst
+1015	Bron
+1016	Tekst van Wikipedia en haar bijdragers
+1017	Zoeken in Wikipedia
+1018	Geen artikelen gevonden
+1019	Meer resultaten
+1020	Wikipedia downloaden
+1021	Wikipedia offline
+1022	Geen artikelen opgeslagen in deze taal
+1023	Pauzeren na dit artikel
+1024	Het kruis onderbreekt de download. Hervatten blijft mogelijk.
+1025	Download gepauzeerd
+1026	De voortgang blijft op de SD-kaart bewaard.
+1027	Opnieuw proberen
+1028	Dit artikel overslaan
+1029	beschikbare artikelen
+1030	overgeslagen artikelen
+1031	Een reeks Wikipedia-artikelen downloaden
+1032	Maximaal aantal artikelen
+1033	Teksten zonder afbeeldingen. Bestaande artikelen blijven behouden.
+1034	Nieuwe reeks Wikipedia-artikelen
+1035	Wachtlijst vervangen? Gedownloade artikelen blijven behouden.
+1036	Wikipedia-taal (en, fr, de, es…)
+1037	Onderwerp of artikeltitel
+1038	Online lezen
+1039	Offline lezen
+1040	Reeks downloaden
+1041	Reeks hervatten
+1042	Geen wachtende reeks in deze taal
+1043	Python-toepassingen
+1044	Python-toepassingen vernieuwen
+1045	SD-kaart niet beschikbaar
+1046	SD-lezing onderbroken - vernieuw
+1047	Zoeken...
+1048	\nPSRAM: %.1f MiB vrij / %.1f MiB totaal beschikbaar
+1049	\nIntern RAM: %u KiB vrij / %u KiB totaal · grootste vrije blok %u KiB\nGrootste vrije DMA-blok: %u KiB (in intern RAM)
+1050	Tab5OS v%s · chip %u · SD %s · vrije PSRAM %.1f MiB · %s
+1051	Schermdiagnose
+1052	A · aanraking actief
+1053	B · aanraking gepauzeerd
+1054	SD-test aangevraagd — wacht op taken en stop media
+1055	SD opnieuw verbonden: lezen en schrijven geverifieerd - probeer opnieuw op te slaan
+1056	Verbergen · Ctrl+Alt+P om te hervatten
+1057	Er draait een Python-toepassing. Stoppen om de andere te openen?
+1058	Terug naar toepassing
+1059	Stoppen en openen
+1060	C · geanimeerde LVGL
+1061	Regelafstand
+1062	Regelafstand verkleinen
+1063	Regelafstand vergroten
+1064	Terug · Escape
+1065	Lezen · F1
+1066	Start · F6
+1067	Vorige pagina
+1068	Volgende pagina
+1069	Pijltjes / Page Up/Down: andere pagina\nSpatie: volgende pagina · Shift+Spatie: vorige\nHome / End: begin of einde van document\nCtrl + / -: tekst · Ctrl ↑ / ↓: regelafstand\nEscape: terug · F6: start · F1: deze hulp
+1070	A - Stilstaand beeld, aanraking actief
+1071	B - Stilstaand beeld, aanraking uitlezen gepauzeerd
+1072	LVGL en voorgronddiensten zijn gepauzeerd.
+1073	Automatisch terugkeren na %lu seconden.
+1074	Tik om af te sluiten. Controleer of de flitsen blijven optreden.
+1075	Aanraking is gepauzeerd. Kijk zonder het scherm aan te raken.
+1076	Afbeelding één keer getekend. Achtergrondtaken blijven actief.
+1077	Eerder afsluiten kan met de seriële opdracht q.
+1078	C - Geanimeerde LVGL-weergave, aanraking actief
+1079	Voorgronddiensten zijn gepauzeerd. Achtergrondtaken blijven actief.
+1080	De witte balk moet zonder gekleurde flitsen bewegen.
+1081	Tik om af te sluiten. Automatisch terugkeren na %lu seconden.
+1082	HTTPS-XYZ-adres met {z}, {x} en {y} vereist
+1083	Geen download om te hervatten
+1084	Geen steden gevonden
+1085	Gebied berekenen
+1086	Stad zoeken
+1087	Middelpunt kiezen
+1088	Coördinaten buiten de wereldkaart
+1089	Schatting op basis van 32 KiB/tegel: 
+1090	Download schatten
+1091	De bron levert niet alle gekozen zoomniveaus
+1092	Breedtegraad / lengtegraad
+1093	De openbare OSM-server staat het downloaden van gebieden niet toe
+1094	Pauzeren
+1095	Straal: 0,1 tot 5.000 km; zoomniveaus: 0 tot 20
+1096	Straal rond middelpunt (km)
+1097	Stad zoeken
+1098	Download hervatten
+1099	Ongeldige downloadhervatting
+1100	Ongeldig zoekantwoord
+1101	Vrij op SD: 
+1102	Voer een stad in
+1103	Eigen XYZ-server
+1104	Server die offline downloaden toestaat
+1105	Onbekende kaartbron
+1106	Kaartbron
+1107	Bron van offlinekaarten
+1108	Werkelijke grootte varieert; maximum: 
+1109	Ongeldige kaartdownload
+1110	Gebied downloaden
+1111	Download gepauzeerd. Voltooide tegels blijven behouden.
+1112	Dit gebied downloaden
+1113	Gebied downloaden
+1114	Gebied gedownload. Open Kaarten en kies deze bron.
+1115	Minimale/maximale zoom
+1116	Ongeldige zoomniveaus van bron
+1117	tegels
+1118	© OpenStreetMap-bijdragers · Nominatim-zoekfunctie
+1119	Ongeldig Kiwix-adres
+1120	Wikipedia-archief onvolledig of beschadigd
+1121	Ongeldig Wikipedia-archief
+1122	Volledig archief offline beschikbaar
+1123	Afzonderlijk opgeslagen artikelen
+1124	Geen artikel gevonden. Controleer hoofdletters in de titel.
+1125	Geen downloads in afwachting in deze taal
+1126	Geen volledig archief beschikbaar in deze taal
+1127	Wikipedia-catalogus
+1128	Ongeldige Wikipedia-catalogus
+1129	Deze editie is gewijzigd. Kies een nieuw archief.
+1130	Deze editie is gewijzigd. Begin de download opnieuw.
+1131	Kies een ZIM-bestand of het manifest van de segmenten
+1132	Verbinding onderbroken. De download kan worden hervat.
+1133	Begin van de artikeltitel
+1134	Vingerafdruk van Wikipedia-archief niet beschikbaar
+1135	Onvoldoende SD-ruimte voor dit archief
+1136	Vrije ruimte
+1137	GiB
+1138	Geschiedenis
+1139	Tekst lezen op de tablet. Pauzeren en hervatten beschikbaar.
+1140	De al gedownloade gegevens voor dit archief worden vervangen.
+1141	Artikel openen
+1142	ZIM-archief van SD-kaart openen
+1143	Archief voorbereiden
+1144	Download opnieuw beginnen
+1145	Download hervatten
+1146	Ongeldig downloadantwoord
+1147	Rond de download af voordat u dit archief leest
+1148	Alle artikelen, met afbeeldingen
+1149	Alle artikelen, zonder afbeeldingen
+1150	Volledige Wikipedia downloaden
+1151	U kunt dit scherm verlaten en de download later hervatten.
+1152	Volledige Wikipedia
+1153	Geannuleerd
+1154	Kan ZIM-archief niet openen
+1155	Kan ZIM-archief niet lezen
+1156	Kan ZIM-zoekresultaat niet teruggeven
+1157	Kan ZIM-artikel niet schrijven
+1158	Gecomprimeerde ZIM-titelindex niet ondersteund
+1159	Onvolledig of ongeldig ZIM-archief
+1160	Onvoldoende PSRAM voor ZIM-archief
+1161	Onvoldoende PSRAM voor ZIM-artikel
+1162	Onvoldoende PSRAM voor ZIM-lezer
+1163	Ongeldig ZIM-MIME-type
+1164	Ongeldig ZIM-archief
+1165	Ongeldige ZIM-archiefgrootte
+1166	Ongeldig ZIM-blobbereik
+1167	Ongeldige ZIM-blobtabel
+1168	Ongeldig ZIM-cluster
+1169	Ongeldig ZIM-clusterbereik
+1170	Ongeldige gecomprimeerde ZIM-stream
+1171	Ongeldig ZIM-item
+1172	Ongeldige ZIM-extractie
+1173	Ongeldig ZIM-manifest
+1174	Ongeldige ZIM-offset
+1175	Ongeldige ZIM-doorverwijzing
+1176	Ongeldige ZIM-zoekopdracht
+1177	Ongeldige ZIM-zoekcursor
+1178	Ongeldige ZIM-tekst
+1179	Ongeldige ZIM-titelindex
+1180	Ongeldige allocatiecallbacks
+1181	SD-kaart niet beschikbaar
+1182	Dit ZIM-item bevat geen leesbare tekst
+1183	Afgekapt ZIM-cluster
+1184	ZIM-item niet ondersteund
+1185	ZIM-artikel of -cluster te groot
+1186	ZIM-cluster te groot
+1187	ZIM-decompressie mislukt of venster groter dan 8 MiB
+1188	ZIM-download onvolledig of manifest ongeldig
+1189	Lus in ZIM-doorverwijzingen
+1190	ZIM-titelindex ontbreekt
+1191	ZIM-titel of -pad te lang
+1192	ZIM-versie 6 vereist
+1193	Oude LZMA-ZIM niet ondersteund; download een actueel Zstandard-archief
+1194	ZIM-compressie niet ondersteund
+1195	Kaartnaam
+1196	Bronvermelding
+1197	Voltooi het kopiëren van dit archief met het gebruikte pc-programma
+1198	\nSchermherstel: %u/%u · code %ld%s
+1199	 · in afwachting
+1200	\nAudio-I2C: leesfouten %u · schrijffouten %u
+1201	Engels
+1202	Frans
+1203	Duits
+1204	Spaans
+1205	Italiaans
+1206	Portugees
+1207	Nederlands
+1208	Pools
+1209	Catalaans
+1210	Zweeds
+1211	Noors
+1212	Deens
+1213	Fins
+1214	Tsjechisch
+1215	Oekraïens
+1216	Russisch
+1217	Grieks
+1218	Turks
+1219	Arabisch
+1220	Hebreeuws
+1221	Hindi
+1222	Japans
+1223	Chinees
+1224	Koreaans
+1225	Vietnamees
+1226	Indonesisch
+1227	Esperanto
+1228	Eenvoudig Engels
+1229	Wikipedia-taal
+1230	Andere taal…
+1231	Andere Wikipedia-taal
+1232	Wikipedia-taalcode
+1233	Bijvoorbeeld: br, eu, be-tarask, zh-min-nan
+1234	Deze taal kiezen
+1235	Taal van de te downloaden encyclopedie
+1236	Beeldscherm en hardware
+1237	SD-kaart
+1238	Voorkeuren
+1239	Interfacetaal
+1240	Toetsenbordindeling
+1241	USB-toetsenbord
+1242	Audiodienst
+1243	Videodienst
+1244	Kaartendienst
+1245	Klok
+1246	LVGL-scherm
+1247	Lettertypen
+1248	Heapintegriteit
+1249	Kies OpenStreetMap of OpenTopoMap bij Kaartbron
+1250	Bereid OpenStreetMap voor met Cartes_Tab5 op de pc en kopieer de pakketten naar de SD-kaart
+1251	Eigen HTTPS-URL (optioneel)
+1252	OpenStreetMap: bereid het gebied voor met Cartes_Tab5 op de pc en kopieer de pakketten naar de SD-kaart. U kunt hier ook een eigen HTTPS-bron gebruiken.
+1253	OpenTopoMap: gematigd downloaden, één tegel per twee seconden. Gebruik voor een groot gebied het pc-programma of een eigen server.
+1254	Kaarten op pc
+1255	Open tools/Cartes_Tab5.cmd op de pc. Kies OpenStreetMap of OpenTopoMap, een stad, een straal en zoomniveaus. Kopieer de .t5map-bestanden naar M5Writer/maps/offline op de SD-kaart.
+1256	Op pc voorbereiden
+1257	Code: %06lu · alleen-lezen · %lu min
+1258	USB-verbinding sluiten…
+1259	USB-toegang uitgeschakeld
+1260	30 minuten inschakelen
+1261	SD-kaart via USB
+1262	Kan USB-toegang niet inschakelen. Probeer opnieuw nadat de lopende taken zijn voltooid.
+1263	Sluit de USB-C-kabel aan op de pc en open Carte_SD_USB.cmd.
+1264	Stop USB-toegang vóór schermdiagnose
+1265	\nPython: %s · VM-starts: %lu
+1266	gestopt
+1267	\nDubbele buffer: %s · beelden %u/%u · wisselingen %lu
+1268	\nScherm: verlopen wachttijden %lu · fouten %lu/%lu · code %ld
+1269	D · OS-scherm
+1270	E · Opnieuw getekend OS-scherm
+1271	OpenTopoMap werkt rechtstreeks. Maximaal één tegel per twee seconden; grote gebieden kunnen meerdere dagen duren.
+1272	Minimale tijd zonder cache: 
+1273	IRC-chat
+1274	IRC-server · geverifieerde TLS-verbinding
+1275	Server
+1276	Bijnaam
+1277	Kanaal
+1278	Verbinden
+1279	Verbinding verbreken
+1280	Verzenden
+1281	Opdrachten
+1282	Verbonden
+1283	In afwachting
+1284	Recente berichten
+1285	Ongeldige bijnaam of ongeldig kanaal
+1286	Ongeldige IRC-opdracht
+1287	IRC-bericht te lang
+1288	Wacht totdat IRC-verzendingen zijn voltooid
+1289	Al verbonden
+1290	Het kanaal moet beginnen met # of &
+1291	Ongeldige IRC-poort
+1292	Ongeldige IRC-server
+1293	Kies een kanaal of ontvanger
+1294	IRC-verbinding maken
+1295	IRC-verbinding verbroken
+1296	Maximaal acht gesprekken
+1297	Onbekende IRC-opdracht
+1298	Ongeldige UTF-8-IRC-tekst genegeerd
+1299	Te lange IRC-regel genegeerd
+1300	IRC-TLS-verbinding niet mogelijk: controleer server, poort, datum en certificaten
+1301	De IRC-server reageert niet meer
+1302	IRC-verbinding geannuleerd
+1303	IRC-verzending onderbroken
+1304	IRC-ontvangst onderbroken
+1305	IRC-fout
+1306	/join #kanaal · /msg bijnaam tekst · /me tekst · /nick bijnaam · /part · /close · /quit
+1307	Schermdiagnose · Ctrl+Alt+D
+1308	\nWeergave sinds vorige meting: %lu beelden · %lu gebieden · %llu pixels
+1309	\nHertekenverzoeken per dienst (gebieden kunnen overlappen):
+1310	\nLaatste test %c: %lu s · %lu beelden · %lu wisselingen · wachttijden %lu · cachefouten %lu
+1311	Netwerk: %s · wachtwoord: %s\nBrowser: %s · code: %06lu\nLezen en schrijven · %lu min resterend
+1312	Browser: %s · code: %06lu\nLezen en schrijven · %lu min resterend
+1313	Delen voorbereiden of sluiten…
+1314	Delen uitgeschakeld. Huidig netwerk: pc op dezelfde wifi. Rechtstreeks netwerk: schakel eerst de wifi van het OS uit en verbind daarna de pc met het aangemaakte netwerk.
+1315	Kan delen niet inschakelen
+1316	Stop het delen van bestanden voordat u wifi wijzigt
+1317	LVGL-timers
+1318	Klok en batterij
+1319	IRC-opties
+1320	TLS-server
+1321	Opgeslagen bijnaam
+1322	Verbinden blijft handmatig. Berichten worden niet opgeslagen.
+1323	Recente items wissen
+1324	Recente items gewist
+1325	Aangepast…
+1326	Kanaal optioneel
+1327	Favorieten en recente items
+1328	IRC-kanalen
+1329	Actieve kanalen
+1330	Recent
+1331	Deelnemen
+1332	Aan favorieten toevoegen
+1333	Uit favorieten verwijderen
+1334	Kanaal verlaten
+1335	Kanaal kiezen
+1336	Kanalen
+1337	IRC-voorkeuren onleesbaar
+1338	IRC-voorkeuren niet gelezen: controleer de SD-kaart
+1339	IRC-voorkeuren niet opgeslagen: controleer de SD-kaart
+1340	Maximaal zestien favoriete kanalen
+1341	Favoriet opgeslagen
+1342	Favoriet verwijderd
+1343	Kan download niet voorbereiden op de SD-kaart
+1344	Ongeldige kaartconfiguratie
+1345	Ongeldige gebiedsaanvraag
+1346	OpenStreetMap: geef een server op die offlinegebieden toestaat of bereid het gebied op de pc voor. De standaard openbare server is voor raadplegen.
+1347	OpenStreetMap-bron
+1348	OpenStreetMap-bron instellen
+1349	OpenTopoMap kiezen op de tablet
+1350	OpenStreetMap op pc voorbereiden
+1351	Artikel bijgewerkt
+1352	Artikel is actueel
+1353	Controle niet beschikbaar; de opgeslagen kopie blijft toegankelijk.
+1354	Tijdelijke pagina
+1355	Offline beschikbaar
+1356	Deze pagina opslaan
+1357	Op updates controleren
+1358	Pagina opgeslagen op de SD-kaart
+1359	Artikel controleren
+1360	Beschikbaar op de SD-kaart
+1361	Wikipedia-resultaten
+1362	Ook online zoeken
+1363	Geen volledig archief opgeslagen in deze taal
+1364	Archieven controleren
+1365	Wikipedia-catalogus niet beschikbaar voor deze taal
+1366	De opgeslagen archieven zijn actueel
+1367	Nieuwe Wikipedia-editie
+1368	Gelezen pagina's automatisch opslaan
+1369	Opgeslagen artikelen vernieuwen
+1370	Bij opstarten op nieuwe edities controleren
+1371	Wikipedia-voorkeuren
+1372	Artikelen na het lezen controleren, hoogstens eenmaal per dag. Nieuwe versies vervangen hun opgeslagen kopie. Volledige archieven blijven ongewijzigd.
+1373	De catalogus eenmaal per week bij openen controleren. Een nieuwe editie wordt aangeboden; het volledig downloaden vraagt om uw bevestiging.
+1374	Wikipedia-updates
+1375	Leesvoorkeuren
+1376	Archiefedities controleren
+1377	ZIM-archief van SD-kaart toevoegen
+1378	Wikipedia-opties
+1379	Archief toegevoegd aan de Wikipedia-zoekfunctie
+1380	Recent gelezen
+1381	Beschikbare artikelen
+1382	Ingeschakeld
+1383	Uitgeschakeld
+1384	Illustratie
+1385	Wikipedia-illustratie niet beschikbaar
+1386	Illustratie laden
+1387	Inleidende illustratie
+1388	Schakel wifi uit voordat u het rechtstreekse netwerk maakt
+1389	Kan rechtstreeks netwerk niet maken
+1390	Verbind de tablet met wifi
+1391	Kan delen niet openen
+1392	Geheugen niet beschikbaar
+1393	Stop het delen van bestanden voordat u wifi wijzigt
+1394	D - OS-schermtest: diensten gepauzeerd. Tik om af te sluiten.
+1395	E - OS-schermtest: volledig hertekenen op 2 Hz. Tik om af te sluiten.
+1396	Netwerk
+1397	Python
+1398	Hulpmiddelen
+1399	Video
+1400	SD-kaart delen
+1401	Instellingen → Systeem → SD-kaart via wifi opent tijdelijk delen met lees- en schrijftoegang. Huidig netwerk gebruikt uw bestaande wifi: de pc moet op hetzelfde netwerk zitten. Rechtstreeks netwerk maakt een tijdelijk wifinetwerk; schakel eerst de wifi van het OS uit en verbind daarna de pc met de weergegeven naam en het wachtwoord.\n\nOpen het weergegeven adres in de browser van de pc en voer de code in. Geen extra software vereist. Met de browser kunt u bestanden bekijken, downloaden, uploaden, hernoemen en verwijderen, en mappen maken. Delen stopt na 30 minuten of met Stoppen.\n\nLaat de kaart tijdens een overdracht zitten en bewerk hetzelfde bestand niet tegelijk in een toepassing. Stop delen voordat u wifi wijzigt. Dit is browsertoegang; de kaart verschijnt niet als USB-stationsletter in Windows.
+1402	Er draait al een toepassing
+1403	Kies een Tab5-toepassing .app.elf
+1404	Argument te lang
+1405	Toepassing laden
+1406	SD-kaart wordt opnieuw verbonden
+1407	Toepassing niet toegankelijk of groter dan 1 MiB
+1408	Onvoldoende geheugen voor toepassing
+1409	Kan toepassing niet lezen
+1410	Toepassing actief
+1411	Stoppen aangevraagd — wachten op medewerking
+1412	Toepassing gestopt
+1413	Toepassingsfout — zie console
+1414	Toepassing beëindigd
+1415	Geheugen of decoder tijdelijk niet beschikbaar
+1416	Ongeldige of onvolledige PNG/JPEG-tegel
+1417	Ongeldige tegelgrenzen
+1418	Toepassing openen
+1419	Toepassing (.app.elf)
+1420	Te verwerken bestand (optioneel)
+1421	Stoppen aanvragen · Ctrl+.
+1422	Voltooi de firmware-installatie voordat u een toepassing start
+1423	Toepassingen starten niet beschikbaar
+1424	Eerste keuze\nTweede keuze\nDerde keuze
+1425	WebP te groot of onvolledig
+1426	WebP-decoder bezet
+1427	Onvoldoende PSRAM voor WebP
+1428	Kan WebP niet lezen
+1429	WebP onvolledig
+1430	Ongeldige WebP-header
+1431	WebP-container onvolledig of ongeldig
+1432	Onvolledige WebP-afbeelding
+1433	WebP-afmetingen buiten bereik
+1434	Ongeldig WebP-frame
+1435	WebP-decoder niet beschikbaar
+1436	WebP-decodering onderbroken of ongeldig
+1437	Ongeldige WebP
+1438	Verrijking niet beschikbaar; de opgeslagen kopie blijft toegankelijk.
+1439	Illustraties laden
+1440	Sommige illustraties zijn niet beschikbaar. De tekst blijft toegankelijk.
+1441	Illustraties laden
+1442	Illustraties in artikelen
+1443	Illustratieformaat niet ondersteund
+1444	Onvoldoende PSRAM voor projecten
+1445	Ongeldig documentpad
+1446	Lijst beperkt tot 256 documenten
+1447	Lijst beperkt tot 256 uitsluitingen
+1448	Ongeldige projectnaam
+1449	Lijst beperkt tot 8 projecten
+1450	Ongeldige projectmap
+1451	Dit project bestaat al
+1452	Documentlijst onleesbaar
+1453	Ongeldige documentlijst
+1454	Kan projecten niet opslaan
+1455	Kan projecten niet behouden
+1456	Kan projecten niet valideren
+1457	Projectmap niet toegankelijk
+1458	Analyse beperkt tot 20.000 items
+1459	SD-lezing onvolledig; projecten behouden
+1460	Code
+1461	Console
+1462	Document aan project toevoegen
+1463	Geen documenten in deze groep
+1464	Bibliotheken…
+1465	Pad ongeldig of langer dan 299 bytes
+1466	Kies eerst een project bij Documenten
+1467	Project maken met dit document…
+1468	Project maken met huidig document
+1469	Ctrl+Enter
+1470	Ctrl+Shift+O
+1471	Ctrl+Shift+R
+1472	Ctrl+Shift+L
+1473	Document aan project toegevoegd
+1474	Volgende documenten
+1475	Sla het script op voordat u het uitvoert
+1476	Python uitvoeren niet beschikbaar
+1477	Uitvoeren alleen voor Python-bestanden (.py)
+1478	Buiten project
+1479	Map importeren…
+1480	Deze map importeren
+1481	Map importeren…
+1482	Kan dit project niet maken: maximaal 8 projecten
+1483	Documentlijst niet opgeslagen: controleer de SD-kaart
+1484	Lijst vol: maximaal 256 documenten
+1485	Projectnaam
+1486	Nieuw Python-script
+1487	Uit de lijst verwijderen; bestand blijft op de SD-kaart
+1488	Script te groot: uitvoeringslimiet van 64 KiB
+1489	Uitvoeren beschikbaar voor Python-bestanden .py
+1490	Ontwikkelen
+1491	Tik nogmaals om te openen
+1492	Tik nogmaals om te beluisteren
+1493	Tik nogmaals om te lezen
+1494	Ontwikkeling en projecten
+1495	Onvoldoende geheugen voor console
+1496	MJPEG-video\n\nTik nogmaals op het geselecteerde bestand om de video te openen.
+1497	Audiobestand\n\nTik nogmaals op het geselecteerde bestand om audio af te spelen.
+1498	Er draait al een script
+1499	Onvoldoende PSRAM voor script
+1500	Verbinding niet beschikbaar. Opgeslagen artikelen blijven toegankelijk.
+1501	Bronafbeelding opslaan
+1502	Afbeelding opgeslagen
+1503	Archiefedities beheert u via de Wikipedia-opties.
+1504	Ingekorte tekst
+1505	Bron en licentie
+1506	Afbeelding laden
+1507	Afbeeldingen tonen
+1508	Afbeeldingen verbergen
+1509	Online
+1510	Illustraties
+1511	USB: sluit een toetsenbord of muis aan
+1512	Geen ZIM-archief (onjuiste handtekening of onvolledige download)
+1513	ZIM-hoofdversie niet ondersteund (5 of 6 verwacht)
+1514	ZIM-XZ-decompressie mislukt
+1515	Oud ZIM-cluster overschrijdt de geheugenlimiet
+1516	Oud ZIM-cluster beschadigd of groter dan 8 MiB
+1517	ZIM-cluster beschadigd of groter dan 8 MiB
+1518	Volledig document
+1519	Overzicht niet beschikbaar · volledig document
+1520	Koppen: 
+1521	Subsecties inbegrepen
+1522	Volledig document · geen Markdown-koppen
+1523	Koppen lezen…
+1524	Koppen worden gelezen…
+1525	Huidig thema
+1526	Opslaan niet mogelijk
+1527	Script actief
+1528	Script groter dan 4 KiB: gebruik source() of de editor
+1529	Af te drukken
+1530	beelden/s
+1531	Geen bestanden
+1532	Kan terminal niet starten
+1533	Ontsleutelen
+1534	Thema's, toepassingen en spellen
+1535	Thema maken: kies een kleur uit de lijst of door op een object in het voorbeeld te tikken. Pas R, G en B aan of voer #RRGGBB in en sla op.\n\nSelecteer in Bestanden een bestand en vervolgens Openen met… en kies een .app.elf in Applications. De starter biedt ook een bestands- en mapkiezer, recente items en favorieten. Uitvoeren start het programma; Ctrl+. vraagt om te stoppen.\n\nGame Boy: de pijltjes en fysieke toetsen Z/X bedienen de richtingen en A/B. Enter = Start, Backspace = Select. Escape sluit af en slaat de toestand op. De disketteknop slaat op zonder af te sluiten; de cirkelpijl start het spel opnieuw. Opgeslagen spellen en toestanden staan in /Saves/GB. De laatste compatibele toestand wordt bij het volgende openen van de ROM hervat.
+1536	Tik op tekst om de cursor te plaatsen. Houd vast en sleep om tekens te selecteren; vasthouden zonder slepen selecteert een woord. Een gewone veeg scrolt. Via het toetsenbord breidt Shift+pijltjes de selectie uit.\n\nVet en Cursief blijven tijdens het typen actief. Bij een selectie wijzigen ze die selectie; de stijl uitschakelen verwijdert hem. Kop werkt op de huidige alinea. Tekstkleur en achtergrond stelt u in via het palet.\n\nCtrl+S: opslaan. Ctrl+Shift+S: opslaan als. Ctrl+N / Ctrl+O: nieuw/openen. Ctrl+Z / Ctrl+Y: ongedaan maken/opnieuw. Ctrl+B / Ctrl+I: vet/cursief. Ctrl+C / X / V: kopiëren/knippen/plakken. Ctrl+F / Ctrl+H: zoeken/vervangen.\n\nCtrl+A selecteert het volledige document. Page Up/Down wisselt van passage; Ctrl+Home/End gaat naar de uiteinden van het document. Ctrl+Shift+Home/End breidt de selectie uit. Insert schakelt overschrijven aan of uit. Escape verlaat de invoer; kies het tekstgebied en druk op Enter om verder te gaan.
+1537	Bestand → Rechts openen voegt een tekst toe aan de verzameling naslagdocumenten. Klik op het pad van elk paneel om een titel te kiezen. In het venster voor het rechter pad kunt u ook bovenaan de lijst van document wisselen. Dit is bedoeld om te raadplegen; open een bestand links om het te wijzigen.\n\nElk paneel heeft zijn eigen passage en pijlen voor koppen. Het pad bij de bestandsnaam geeft de positie aan. Het overzicht markeert de actieve kop. Een nieuwe veeg omhoog onderaan de passage opent het vervolg.\n\nEen koppeling [fiche](Notes.md#personnages) gaat rechts naar een kop. Wikikoppelingen [[Personnages]], [[Notes#Personnages]] en [[Personnages|la fiche]] zoeken in de verzameling. Bij meerdere resultaten kunt u kiezen. Wikikoppelingen zijn een conventie, geen universele Markdown-syntaxis.\n\nDocumenten worden in passages weergegeven. De index kan na openen nog worden opgebouwd. Uitgebreide selecties blijven in het document vastgelegd, ook als slechts één passage zichtbaar is. Het rechterpaneel wordt opnieuw geladen na een opgeslagen wijziging in de bron.
+1538	Geen map
+1539	Mapnesting dieper dan 32 niveaus
+1540	Bron is gelijk aan bestemming
+1541	Bestemming bestaat; gebruik replace=True
+1542	Kan de SD-hoofdmap niet verwijderen
+1543	Script groter dan 64 KiB
+1544	Python vrij:
+1545	toegewezen:
+1546	Python: for, while, if, lijsten, woordenboeken, functies. Ctrl+. stopt de sessie.
+1547	In Bestandsbeheer kiest Omhoog/Omlaag een item en opent Enter het bestand of de map. Backspace gaat naar de bovenliggende map. Bij aanraken: tik om te selecteren; tik nogmaals op het geselecteerde item om het te openen, zonder tijdslimiet. Kopiëren/Knippen zet het item klaar; Plakken werkt in de huidige map.\n\nSysteembestanden blijven toegankelijk om gegevens bij te werken. Een waarschuwing geeft hun rol aan. Een configuratie, taal, lettertype of catalogus wijzigen of verwijderen kan de werking van Tab5OS veranderen: bewaar een kopie voordat u zelf wijzigingen aanbrengt.\n\nOpslaan schrijft het huidige document. Opslaan als kiest een andere naam of map. Automatisch opslaan volgt het ingestelde interval. De verborgen submap .Tab5Backups bewaart eerdere back-ups. Een onvolledige opslag wordt gemeld; laat de SD-kaart tijdens het schrijven zitten.\n\nBestandsnamen en de tekst van uw documenten zijn persoonlijke gegevens: de interfacetaal wijzigen vertaalt deze niet.\n\nHet vergrootglas of Ctrl+F zoekt bestands- en mapnamen in de huidige map en alle submappen. Hoofdletters en Latijnse accenten worden genegeerd; meerdere woorden moeten allemaal aanwezig zijn. Resultaten verschijnen geleidelijk, met hun map. Een gedeeltelijke zoekopdracht wordt gemeld: verfijn zo nodig de woorden. Het kruis verwijdert het filter. Teksten en bronbestanden, waaronder .py-scripts, openen in Schrijven zonder automatisch uit te voeren.\n\nEen .bin-bestand opent Firmware. Controleren controleert het ESP32-P4-doel, de revisie, de grootte en de vingerafdruk. Installeren schrijft naar de inactieve partitie en valideert het beeld voordat de volgende opstart wordt gewijzigd. Opnieuw starten activeert het. Gebruik een toepassingsbinair voor deze Tab5, zonder bootloader of partitietabel. Zorg voor een stabiele voeding.
+1548	SELECT
+1549	START
+1550	USB aankoppelen
+1551	USB uitwerpen
+1552	microSD aankoppelen/opnieuw testen
+1553	microSD uitwerpen
+1554	Ontbrekende bronnen
+1555	Herstel annuleren
+1556	Het herstel behoudt bestaande bestanden. Het haalt geen verwijderde bestanden terug.
+1557	microSD: %s (%llu MiB)\nUSB: %s (%llu MiB)
+1558	opnieuw aangemaakte bestanden
+1559	SD opnieuw verbinden aangevraagd
+1560	SD-kaart uitgeworpen: u kunt deze verwijderen
+1561	Sluit toepassingen die de microSD gebruiken
+1562	Systeembronnen beschikbaar
+1563	Systeembronnen beschikbaar - bestaande bestanden behouden
+1564	Plaats een leesbare microSD
+1565	Ontbrekende systeembronnen herstellen
+1566	Bronherstel geannuleerd
+1567	Opslag bezet - probeer het herstel opnieuw
+1568	Kan systeemmap niet aanmaken
+1569	Geen tijdelijke naam beschikbaar voor herstel
+1570	Kan bronnen niet schrijven - controleer vrije ruimte
+1571	Schrijven van bronnen mislukt - controleer vrije ruimte
+1572	Systeembron onvolledig geschreven
+1573	Verificatie van systeembron mislukt
+1574	Kan systeembron niet installeren
+1575	Modules en projecten
+1576	Voorbeeld
+1577	Voorbeeldinterface
+1578	Kan startscherm niet aanpassen
+1579	Limiet voor aanpassingen bereikt - herstel het startscherm
+1580	Kan voorkeuren niet opslaan
+1581	Startscherm opgeslagen
+1582	Van startscherm verwijderen
+1583	Aan startscherm toevoegen
+1584	Omlaag
+1585	Automatische afbeelding of symbool
+1586	Opslag
+1587	Boek
+1588	Toepassingspictogram
+1589	Startscherm aanpassen
+1590	Persoonlijke modus
+1591	Standaardmodus
+1592	Kies apps, volgorde en pictogram. Sla op.
+1593	Toepassingen zoeken...
+1594	Ingebouwde toepassingen - SD-kaart niet beschikbaar
+1595	%u toepassingen beschikbaar
+1596	Voeg toepassingen toe via Aanpassen.
+1597	Aanpassen
+1598	Terug naar startscherm
+1599	Toepassingen vernieuwen
+1600	Herstellen
+1601	SD-lezing onderbroken - vernieuw toepassingen
+1602	Catalogus begrensd - overige bestanden in Bestandsbeheer
+1603	Enter opent de geselecteerde instelling, de pijltjes passen de waarde aan en Enter voltooit. Escape keert terug naar de bediening. Helderheid, thema, tekstgrootte, schermtime-out en automatisch opslaan zijn onafhankelijk. Leesgroen biedt overdag een lichte achtergrond #CFE8CC en donkere tekst. Het gekozen thema wordt bij herstart actief; pas de helderheid afzonderlijk aan de omgevingsverlichting aan.\n\nDe pakketten /M5Writer/languages/*.json bepalen de interfacetaal, inclusief hulp en meldingen. Frans gebruikt ook zijn SD-bestand wanneer dat aanwezig is. Een ontbrekende vertaling valt terug op Engels, behalve voor Frans, dat de brontekst behoudt.\n\nAls het SD-lettertype ontbreekt of niet kan worden geladen, schakelt de interface tijdelijk over op Engels met het ingebouwde lettertype. De gekozen taal blijft opgeslagen. Opnieuw starten met een beschikbaar lettertype herstelt die taal; documenten worden nooit vertaald of gewijzigd. Start ook opnieuw na het wijzigen van taalpakketten om ze opnieuw te laden.\n\nInterfacetaal en toetsenbordindeling zijn twee verschillende instellingen. Het schermtoetsenbord volgt /M5Writer/keyboards.json. Het USB-toetsenbord volgt ook de gekozen JSON: Frans, Amerikaans, Brits, Duits, Spaans, Italiaans, Portugees, Braziliaans of Nederlands. Het is vanaf het opstarten beschikbaar.\n\nEen compatibel lettertype moet de tekens van de taal bevatten. Datum, tijd, tijdzone, NTP en wifi stelt u in bij hun onderdelen. F1 blijft beschikbaar om deze hulp terug te vinden.\n\nZonder gedetecteerd USB-toetsenbord opent het aanraken van een invoerveld het schermtoetsenbord. Met een USB-toetsenbord blijft het automatisch gesloten; met de knop kunt u het bewust openen. De pijl omlaag sluit het toetsenbord altijd; Enter sluit het ook in een veld van één regel.
+1604	Toepassingen en startscherm
+1605	Toepassingen brengt ingebouwde hulpmiddelen en op de SD-kaart geïnstalleerde toepassingen samen in één raster. Vernieuwen leest de lokale catalogus opnieuw; dit is geen onlinewinkel. Ingebouwde hulpmiddelen blijven zonder SD-kaart bereikbaar.\n\nVanaf Start kunt u via Aanpassen de standaard- of persoonlijke modus, zichtbare toepassingen, volgorde en pictogrammen kiezen. Opslaan bewaart deze keuze in de Tab5. Terug verwerpt de wijzigingen. Herstellen zet na Opslaan de standaardindeling terug; bestanden en toepassingen worden niet verwijderd. Instellingen blijft bereikbaar in de zijbalk.\n\nVoor toepassingen met Verbergen houdt deze opdracht of Escape de uitvoering actief. De hervatknop in de balk of Ctrl+Alt+P vindt de verborgen toepassing terug zolang ze actief blijft. Stoppen of Ctrl+. vraagt om te stoppen. Wanneer een andere toepassing vóór starten moet stoppen, bevestigt u de voorgestelde wissel.\n\nKaarten → Downloaden opent het gebiedsformulier met het huidige middelpunt, zoomniveau en kaartbeeld. Kies stad of coördinaten, straal en zoomniveaus en controleer de schatting. OpenTopoMap downloadt rechtstreeks op de tablet; pauzeren/hervatten bewaart de voortgang. OpenStreetMap vereist een bron die downloaden toestaat of voorbereiding op de pc. Ga terug naar Kaarten om het resultaat te bekijken, zonder herstart.\n\nWikipedia zoekt eerst op de SD-kaart en biedt daarna het netwerk aan. Een bestaande lokale kopie heeft voorrang. Na online lezen maakt Deze pagina opslaan haar offline beschikbaar. Opties bevat automatisch opslaan, updates en volledige downloads met taalkeuze. Een nieuw volledig archief vereist bevestiging vóór downloaden. De lezer behoudt staande weergave, tekstgrootte en regelafstand.\n\nIRC-chat bewaart bijnaam en server. Kanalen biedt deelnemen, verlaten, favorieten toevoegen of verwijderen en recente items terugvinden. Verbergen behoudt de verbinding. Berichten worden niet als geschiedenis op de SD-kaart opgeslagen; voorkeuren blijven in /M5Writer/irc.json.\n\nRadiozenders importeren raadpleegt Radio Browser. Wifi en een correcte datum zijn vereist voor beveiligde verbindingen.\n\nIn de Wikipedia-lezer openen tekstkoppelingen andere artikelen waarbij eerst lokale kopieën worden gezocht. Terug gaat naar het vorige artikel. De optie Illustraties voegt afbeeldingen in de pagina in; opgeslagen kopieën behouden ook de gedownloade afbeeldingen.
+1606	De editor Schrijven opent ook Python-bestanden en andere bronbestanden. Code blijft onbewerkte tekst, met visuele kleuring. Het menu Code bevat Uitvoeren, Stoppen, Hervatten, Bibliotheken en Console. Uitvoeren slaat eerst het .py-bestand op; als opslaan mislukt, start het niet. De console kan het rechterpaneel gebruiken.\n\nCtrl+Enter: opslaan en Python uitvoeren. Ctrl+.: stoppen. Ctrl+Shift+R: hervatten. Ctrl+Shift+L: console tonen/verbergen. De gewone sneltoetsen van de editor blijven beschikbaar.\n\nDocumenten bewaart een bestandslijst, ook als ze niet meer in het geheugen staan. Het kruis verwijdert een vermelding, nooit het SD-bestand. Ctrl+Shift+O opent deze lijst; Ctrl+Tab / Ctrl+Shift+Tab gaat naar het volgende/vorige document. Van document wisselen slaat wijzigingen op; bij een fout blijft het huidige document geopend.\n\nProject maken met dit document groepeert vervolgens andere bestanden. Document aan project toevoegen vult de gekozen groep aan. Map importeren doorloopt deze geleidelijk en vindt nieuwe bestanden terwijl de editor zichtbaar is. Buiten project bevat onafhankelijke bestanden. Een via het kruis verwijderd bestand wordt niet automatisch opnieuw toegevoegd.\n\nBibliotheken opent de MicroPython-catalogus, met keuze van het doelbord en toevoeging van modules aan het bijbehorende project. Bibliotheken voor een ander bord blijven gescheiden van die van de Tab5; hun stuurprogramma's worden niet op de Tab5 uitgevoerd. Opgegeven compatibiliteit garandeert geen werking op een specifiek bord. CPython-pakketten en hun native uitbreidingen zijn niet compatibel. Automatisch uploaden of flashen van een ander bord wordt niet aangeboden.\n\nMeegeleverde scripts blijven in /MicroPython. SD-kaart controleren vergelijkt bronnen vóór herstel, behoudt persoonlijke bestanden en maakt een back-up van elk vervangen bestand.\n\nEen compatibel .elf-bestand opent Toepassing: Uitvoeren start het vanaf de SD-kaart zonder het OS te vervangen. Stoppen gebeurt coöperatief. Deze toepassingen hebben toegang tot het OS-geheugen: gebruik vertrouwde binaire bestanden die met de meegeleverde SDK zijn gebouwd. Een .bin blijft een firmware-update.
+1607	De apparaatkluis opent op deze Tab5 rechtstreeks, zonder wachtwoord of over te typen code. Kies bij het eerste gebruik Apparaatkluis maken. Sluiten of het uitgaan van het scherm wist de sessie uit het geheugen; bij de volgende opening worden de lokale sleutels zonder invoer teruggevonden. Iedereen die deze Tab5 gebruikt kan dus deze kluis openen: ze vergrendelt het apparaat niet.\n\nDe oude kluis blijft behouden. Het oude wachtwoord blijft nodig om de sleutels terug te vinden en het openen kan lang duren. Via Kluistoegang, Oude kluis openen en Sleutels naar apparaatkluis kopiëren kunt u sleutels overzetten zonder de oorspronkelijke sleutelbos te verwijderen. Een nieuwe apparaatkluis maken ontsleutelt geen oude bestanden als hun sleutel ontbreekt.\n\nSleutels beheren kan elke sleutel opslaan in een .t5key-bestand met wachtwoordbeveiliging en vervolgens herstellen. Bewaar deze back-ups op een ander medium samen met hun wachtwoord. Alleen een SD-kaart volstaat niet na verlies of wissen van de Tab5: zonder sleutel of bruikbare back-up zijn de versleutelde bestanden verloren.\n\nIn Bestandsbeheer versleutelt of ontsleutelt het hangslot een kopie van het bestand. Originelen en gewone editorback-ups blijven leesbaar. De kluis beschermt gekozen bestanden op een verwijderde kaart; sluiten beveiligt niet alle documenten of het interne geheugen van het apparaat.
+1608	SD- en USB-opslag
+1609	Toepassingen > Opslag opent de microSD- en USB-bediening, ook zonder SD-kaart. microSD aankoppelen/opnieuw testen start de detectie opnieuw; microSD openen gaat naar de hoofdmap /. Een compatibele USB-stick of kaartlezer kan automatisch worden aangekoppeld; deze optie kan worden uitgeschakeld. USB-bestanden verschijnen in /USB. Kopiëren, plakken, maken, hernoemen en verwijderen werken op beide media.\n\nSla documenten op en stop toepassingen of overdrachten die het medium gebruiken voordat u microSD uitwerpen of USB uitwerpen kiest. Een lopende bewerking kan uitwerpen verhinderen. Wacht op de bevestiging voordat u de kaart verwijdert of het medium loskoppelt. Eén USB-opslagmedium kan tegelijk worden aangekoppeld, samen met een toetsenbord en muis op de hub. FAT16/FAT32 worden ondersteund.\n\nOntbrekende bronnen maakt de verwachte ontbrekende systeembestanden geleidelijk opnieuw aan vanuit de firmware. Herstel annuleren onderbreekt dit werk. Bestaande bestanden, documenten en aanpassingen blijven behouden. Deze functie vervangt geen aanwezige beschadigde bestanden en haalt geen verwijderde bestanden terug. Lettertypen, encyclopedieën en .app.elf-toepassingen moeten afzonderlijk worden geleverd.\n\nZonder bruikbaar SD-lettertype gebruikt de interface tijdelijk Engels en het ingebouwde lettertype, zonder de opgeslagen taal of documentteksten te veranderen. Opnieuw starten met het lettertype herstelt de gekozen taal. Deze versie biedt geen formattering of herstel van gewiste gegevens.

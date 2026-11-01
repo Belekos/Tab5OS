@@ -1,0 +1,137 @@
+{
+  "referenceEntries": 2426,
+  "fontGlyphs": 3322,
+  "packs": {
+    "ar": {
+      "entries": 2507,
+      "missingKeys": 0,
+      "coveragePercent": 100.0,
+      "formatErrors": [],
+      "lineBreakErrors": [],
+      "paragraphBreakDifferences": [],
+      "untranslatedLongText": [],
+      "unsupportedGlyphs": [],
+      "bytes": 303845
+    },
+    "de-DE": {
+      "entries": 2519,
+      "missingKeys": 0,
+      "coveragePercent": 100.0,
+      "formatErrors": [],
+      "lineBreakErrors": [],
+      "paragraphBreakDifferences": [],
+      "untranslatedLongText": [],
+      "unsupportedGlyphs": [],
+      "bytes": 272401
+    },
+    "en-US": {
+      "entries": 2426,
+      "missingKeys": 0,
+      "coveragePercent": 100.0,
+      "formatErrors": [],
+      "lineBreakErrors": [],
+      "paragraphBreakDifferences": [
+        "L’éditeur Écriture ouvre aussi les fichiers Python et les autres sources. Le code reste brut, avec une coloration visuelle. Le menu Code rassemble Exécuter, Arrêter, Reprendre, Bibliothèques et Console. Exécuter enregistre d’abord le fichier .py ; si la sauvegarde échoue, il ne démarre pas. La console peut prendre le panneau droit.\n\nCtrl+Entrée : enregistrer puis exécuter Python. Ctrl+. : arrêter. Ctrl+Maj+R : reprendre. Ctrl+Maj+L : afficher ou masquer la console. Les raccourcis habituels de l’éditeur restent disponibles.\n\nDocuments conserve une liste des fichiers, même déchargés de la mémoire. La croix retire une inscription, jamais le fichier SD. Ctrl+Maj+O ouvre cette liste ; Ctrl+Tab / Ctrl+Maj+Tab passe au document suivant / précédent. Un changement de document enregistre les modifications ; une erreur conserve le document courant.\n\nCréer un projet avec ce document regroupe ensuite d’autres fichiers. Ajouter le document au projet complète le groupe choisi. Importer un dossier le parcourt progressivement et détecte les nouveaux fichiers pendant que l’éditeur est visible. Hors projet garde les fichiers indépendants. Un fichier retiré par la croix n’est pas réintroduit automatiquement.\n\nBibliothèques ouvre le catalogue MicroPython, avec choix de la carte cible et ajout des modules au projet correspondant. Les bibliothèques destinées à une autre carte restent séparées de celles du Tab5 ; leurs pilotes ne sont pas exécutés sur le Tab5. La compatibilité déclarée ne garantit pas le fonctionnement sur une carte précise. Les paquets CPython et leurs extensions natives ne sont pas compatibles. Aucun téléversement ou flash automatique d'une autre carte n'est fourni.\n\nLes scripts fournis restent dans /MicroPython. Vérifier la carte SD compare les ressources avant réparation, conserve les fichiers personnels et sauvegarde chaque fichier remplacé.\n\nUn fichier .elf compatible ouvre Application : Exécuter le lance depuis la SD sans remplacer l’OS. L’arrêt est coopératif. Ces applications ont accès à la mémoire de l’OS : utilisez des binaires de confiance construits avec le SDK fourni. Un .bin reste une mise à jour du firmware."
+      ],
+      "untranslatedLongText": [],
+      "unsupportedGlyphs": [],
+      "bytes": 238660
+    },
+    "es-ES": {
+      "entries": 2508,
+      "missingKeys": 0,
+      "coveragePercent": 100.0,
+      "formatErrors": [],
+      "lineBreakErrors": [],
+      "paragraphBreakDifferences": [
+        "L’éditeur Écriture ouvre aussi les fichiers Python et les autres sources. Le code reste brut, avec une coloration visuelle. Le menu Code rassemble Exécuter, Arrêter, Reprendre, Bibliothèques et Console. Exécuter enregistre d’abord le fichier .py ; si la sauvegarde échoue, il ne démarre pas. La console peut prendre le panneau droit.\n\nCtrl+Entrée : enregistrer puis exécuter Python. Ctrl+. : arrêter. Ctrl+Maj+R : reprendre. Ctrl+Maj+L : afficher ou masquer la console. Les raccourcis habituels de l’éditeur restent disponibles.\n\nDocuments conserve une liste des fichiers, même déchargés de la mémoire. La croix retire une inscription, jamais le fichier SD. Ctrl+Maj+O ouvre cette liste ; Ctrl+Tab / Ctrl+Maj+Tab passe au document suivant / précédent. Un changement de document enregistre les modifications ; une erreur conserve le document courant.\n\nCréer un projet avec ce document regroupe ensuite d’autres fichiers. Ajouter le document au projet complète le groupe choisi. Importer un dossier le parcourt progressivement et détecte les nouveaux fichiers pendant que l’éditeur est visible. Hors projet garde les fichiers indépendants. Un fichier retiré par la croix n’est pas réintroduit automatiquement.\n\nBibliothèques ouvre le catalogue MicroPython, avec choix de la carte cible et ajout des modules au projet correspondant. Les bibliothèques destinées à une autre carte restent séparées de celles du Tab5 ; leurs pilotes ne sont pas exécutés sur le Tab5. La compatibilité déclarée ne garantit pas le fonctionnement sur une carte précise. Les paquets CPython et leurs extensions natives ne sont pas compatibles. Aucun téléversement ou flash automatique d'une autre carte n'est fourni.\n\nLes scripts fournis restent dans /MicroPython. Vérifier la carte SD compare les ressources avant réparation, conserve les fichiers personnels et sauvegarde chaque fichier remplacé.\n\nUn fichier .elf compatible ouvre Application : Exécuter le lance depuis la SD sans remplacer l’OS. L’arrêt est coopératif. Ces applications ont accès à la mémoire de l’OS : utilisez des binaires de confiance construits avec le SDK fourni. Un .bin reste une mise à jour du firmware."
+      ],
+      "untranslatedLongText": [],
+      "unsupportedGlyphs": [],
+      "bytes": 265100
+    },
+    "fr-FR": {
+      "entries": 2445,
+      "missingKeys": 0,
+      "coveragePercent": 100.0,
+      "formatErrors": [],
+      "lineBreakErrors": [],
+      "paragraphBreakDifferences": [],
+      "untranslatedLongText": [],
+      "unsupportedGlyphs": [],
+      "bytes": 278800
+    },
+    "id-ID": {
+      "entries": 2426,
+      "missingKeys": 0,
+      "coveragePercent": 100.0,
+      "formatErrors": [],
+      "lineBreakErrors": [],
+      "paragraphBreakDifferences": [
+        "L’éditeur Écriture ouvre aussi les fichiers Python et les autres sources. Le code reste brut, avec une coloration visuelle. Le menu Code rassemble Exécuter, Arrêter, Reprendre, Bibliothèques et Console. Exécuter enregistre d’abord le fichier .py ; si la sauvegarde échoue, il ne démarre pas. La console peut prendre le panneau droit.\n\nCtrl+Entrée : enregistrer puis exécuter Python. Ctrl+. : arrêter. Ctrl+Maj+R : reprendre. Ctrl+Maj+L : afficher ou masquer la console. Les raccourcis habituels de l’éditeur restent disponibles.\n\nDocuments conserve une liste des fichiers, même déchargés de la mémoire. La croix retire une inscription, jamais le fichier SD. Ctrl+Maj+O ouvre cette liste ; Ctrl+Tab / Ctrl+Maj+Tab passe au document suivant / précédent. Un changement de document enregistre les modifications ; une erreur conserve le document courant.\n\nCréer un projet avec ce document regroupe ensuite d’autres fichiers. Ajouter le document au projet complète le groupe choisi. Importer un dossier le parcourt progressivement et détecte les nouveaux fichiers pendant que l’éditeur est visible. Hors projet garde les fichiers indépendants. Un fichier retiré par la croix n’est pas réintroduit automatiquement.\n\nBibliothèques ouvre le catalogue MicroPython, avec choix de la carte cible et ajout des modules au projet correspondant. Les bibliothèques destinées à une autre carte restent séparées de celles du Tab5 ; leurs pilotes ne sont pas exécutés sur le Tab5. La compatibilité déclarée ne garantit pas le fonctionnement sur une carte précise. Les paquets CPython et leurs extensions natives ne sont pas compatibles. Aucun téléversement ou flash automatique d'une autre carte n'est fourni.\n\nLes scripts fournis restent dans /MicroPython. Vérifier la carte SD compare les ressources avant réparation, conserve les fichiers personnels et sauvegarde chaque fichier remplacé.\n\nUn fichier .elf compatible ouvre Application : Exécuter le lance depuis la SD sans remplacer l’OS. L’arrêt est coopératif. Ces applications ont accès à la mémoire de l’OS : utilisez des binaires de confiance construits avec le SDK fourni. Un .bin reste une mise à jour du firmware."
+      ],
+      "untranslatedLongText": [],
+      "unsupportedGlyphs": [],
+      "bytes": 245230
+    },
+    "it-IT": {
+      "entries": 2508,
+      "missingKeys": 0,
+      "coveragePercent": 100.0,
+      "formatErrors": [],
+      "lineBreakErrors": [],
+      "paragraphBreakDifferences": [],
+      "untranslatedLongText": [],
+      "unsupportedGlyphs": [],
+      "bytes": 264710
+    },
+    "nl-NL": {
+      "entries": 2519,
+      "missingKeys": 0,
+      "coveragePercent": 100.0,
+      "formatErrors": [],
+      "lineBreakErrors": [],
+      "paragraphBreakDifferences": [],
+      "untranslatedLongText": [],
+      "unsupportedGlyphs": [],
+      "bytes": 266192
+    },
+    "pt-BR": {
+      "entries": 2519,
+      "missingKeys": 0,
+      "coveragePercent": 100.0,
+      "formatErrors": [],
+      "lineBreakErrors": [],
+      "paragraphBreakDifferences": [
+        "L’éditeur Écriture ouvre aussi les fichiers Python et les autres sources. Le code reste brut, avec une coloration visuelle. Le menu Code rassemble Exécuter, Arrêter, Reprendre, Bibliothèques et Console. Exécuter enregistre d’abord le fichier .py ; si la sauvegarde échoue, il ne démarre pas. La console peut prendre le panneau droit.\n\nCtrl+Entrée : enregistrer puis exécuter Python. Ctrl+. : arrêter. Ctrl+Maj+R : reprendre. Ctrl+Maj+L : afficher ou masquer la console. Les raccourcis habituels de l’éditeur restent disponibles.\n\nDocuments conserve une liste des fichiers, même déchargés de la mémoire. La croix retire une inscription, jamais le fichier SD. Ctrl+Maj+O ouvre cette liste ; Ctrl+Tab / Ctrl+Maj+Tab passe au document suivant / précédent. Un changement de document enregistre les modifications ; une erreur conserve le document courant.\n\nCréer un projet avec ce document regroupe ensuite d’autres fichiers. Ajouter le document au projet complète le groupe choisi. Importer un dossier le parcourt progressivement et détecte les nouveaux fichiers pendant que l’éditeur est visible. Hors projet garde les fichiers indépendants. Un fichier retiré par la croix n’est pas réintroduit automatiquement.\n\nBibliothèques ouvre le catalogue MicroPython, avec choix de la carte cible et ajout des modules au projet correspondant. Les bibliothèques destinées à une autre carte restent séparées de celles du Tab5 ; leurs pilotes ne sont pas exécutés sur le Tab5. La compatibilité déclarée ne garantit pas le fonctionnement sur une carte précise. Les paquets CPython et leurs extensions natives ne sont pas compatibles. Aucun téléversement ou flash automatique d'une autre carte n'est fourni.\n\nLes scripts fournis restent dans /MicroPython. Vérifier la carte SD compare les ressources avant réparation, conserve les fichiers personnels et sauvegarde chaque fichier remplacé.\n\nUn fichier .elf compatible ouvre Application : Exécuter le lance depuis la SD sans remplacer l’OS. L’arrêt est coopératif. Ces applications ont accès à la mémoire de l’OS : utilisez des binaires de confiance construits avec le SDK fourni. Un .bin reste une mise à jour du firmware."
+      ],
+      "untranslatedLongText": [],
+      "unsupportedGlyphs": [],
+      "bytes": 266173
+    },
+    "pt-PT": {
+      "entries": 2508,
+      "missingKeys": 0,
+      "coveragePercent": 100.0,
+      "formatErrors": [],
+      "lineBreakErrors": [],
+      "paragraphBreakDifferences": [
+        "L’éditeur Écriture ouvre aussi les fichiers Python et les autres sources. Le code reste brut, avec une coloration visuelle. Le menu Code rassemble Exécuter, Arrêter, Reprendre, Bibliothèques et Console. Exécuter enregistre d’abord le fichier .py ; si la sauvegarde échoue, il ne démarre pas. La console peut prendre le panneau droit.\n\nCtrl+Entrée : enregistrer puis exécuter Python. Ctrl+. : arrêter. Ctrl+Maj+R : reprendre. Ctrl+Maj+L : afficher ou masquer la console. Les raccourcis habituels de l’éditeur restent disponibles.\n\nDocuments conserve une liste des fichiers, même déchargés de la mémoire. La croix retire une inscription, jamais le fichier SD. Ctrl+Maj+O ouvre cette liste ; Ctrl+Tab / Ctrl+Maj+Tab passe au document suivant / précédent. Un changement de document enregistre les modifications ; une erreur conserve le document courant.\n\nCréer un projet avec ce document regroupe ensuite d’autres fichiers. Ajouter le document au projet complète le groupe choisi. Importer un dossier le parcourt progressivement et détecte les nouveaux fichiers pendant que l’éditeur est visible. Hors projet garde les fichiers indépendants. Un fichier retiré par la croix n’est pas réintroduit automatiquement.\n\nBibliothèques ouvre le catalogue MicroPython, avec choix de la carte cible et ajout des modules au projet correspondant. Les bibliothèques destinées à une autre carte restent séparées de celles du Tab5 ; leurs pilotes ne sont pas exécutés sur le Tab5. La compatibilité déclarée ne garantit pas le fonctionnement sur une carte précise. Les paquets CPython et leurs extensions natives ne sont pas compatibles. Aucun téléversement ou flash automatique d'une autre carte n'est fourni.\n\nLes scripts fournis restent dans /MicroPython. Vérifier la carte SD compare les ressources avant réparation, conserve les fichiers personnels et sauvegarde chaque fichier remplacé.\n\nUn fichier .elf compatible ouvre Application : Exécuter le lance depuis la SD sans remplacer l’OS. L’arrêt est coopératif. Ces applications ont accès à la mémoire de l’OS : utilisez des binaires de confiance construits avec le SDK fourni. Un .bin reste une mise à jour du firmware."
+      ],
+      "untranslatedLongText": [],
+      "unsupportedGlyphs": [],
+      "bytes": 263439
+    },
+    "ru-RU": {
+      "entries": 2507,
+      "missingKeys": 0,
+      "coveragePercent": 100.0,
+      "formatErrors": [],
+      "lineBreakErrors": [],
+      "paragraphBreakDifferences": [],
+      "untranslatedLongText": [],
+      "unsupportedGlyphs": [],
+      "bytes": 340230
+    }
+  }
+}

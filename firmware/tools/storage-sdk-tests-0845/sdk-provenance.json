@@ -1,0 +1,11 @@
+{
+  "source": "M5Stack Arduino 3.3.9 FS library, exact bytes from hash-verified SDK archive in build_0844/data/packages/m5stack/hardware/esp32/3.3.9/libraries/FS/src",
+  "files": {
+    "sdk/FS.cpp": "29cedf6a453285bc8c58e22eec9517c7f78405466c6ca020cafc4659f3deed64",
+    "sdk/FS.h": "92b28b15af5d5126ff5e7790ffae45e52c76c6c9c3e0d1921afd372c063aa6d4",
+    "sdk/FSImpl.h": "e4819b458fe0e1e811c7b02eddfdc218b4e95ddb3dc88c61bade9ef44778008b",
+    "sdk/vfs_api.cpp": "08cb38a5436dd8a8bab6454cdafd2fda373050b163d21b5fa1e718db65be715a",
+    "sdk/vfs_api.h": "98ca385dec1fa82e3fa1d75e572b0ebc73162d733bce7bfe64242da3efc611f6"
+  },
+  "licenses": "Upstream Espressif Apache-2.0 and Arduino FS LGPL notices retained verbatim in every copied file."
+}

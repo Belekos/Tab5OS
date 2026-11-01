@@ -1,0 +1,36 @@
+{
+  "version": "0.8.47",
+  "type": "read-only-sdk-feasibility",
+  "sources": [
+    {
+      "path": "tools/audit-0847/sdk-sources/idf-p4-Kconfig.spiram",
+      "sha256": "de3fd57414f9da36f2f8c050b4327950f5120706fa05c538781b95762b7405e9"
+    },
+    {
+      "path": "tools/audit-0847/sdk-sources/idf-spi_flash_os_func_app.c",
+      "sha256": "e363fe2f4596a85e8abe44c15853b07b73ec7e14b48c72ed9e6dfa6bd963e295"
+    },
+    {
+      "path": "tools/audit-0847/sdk-sources/libbuilder-build.sh",
+      "sha256": "7f1fefb59046fc91cfe3cd0b3dad0d67158601d3d54d9171a71660728d0d4912"
+    },
+    {
+      "path": "tools/audit-0847/sdk-sources/libbuilder-p4.config",
+      "sha256": "94125b868e3cd224e5f4078a29a337de01cc90a4b8797a304aa73bd5f27efe1b"
+    },
+    {
+      "installedPath": "/workspace/scratch/644cc83c43c8/build_0847/data/packages/m5stack/tools/esp32p4_es-libs/3.3.9/sdkconfig",
+      "sha256": "c5cdfe900db5bfa0159334dd67e767803e9c7ca1f8e0bf20df4ffba0c9c23bae"
+    },
+    {
+      "installedPath": "/workspace/scratch/644cc83c43c8/build_0847/data/packages/m5stack/tools/esp32p4_es-libs/3.3.9/dio_qspi/include/sdkconfig.h",
+      "sha256": "8f6790ea6e7c72baedc1071c9cad9fe67cd7260c7d97f7944fbe68568008d33a"
+    },
+    {
+      "installedPath": "/workspace/scratch/644cc83c43c8/build_0847/data/packages/m5stack/tools/esp32p4_es-libs/3.3.9/versions.txt",
+      "sha256": "663d9b24ca5bd6f8770d06b5e2e485224b1b6ce5aa785be14892c914f120f3d5"
+    }
+  ],
+  "sdkChanged": false,
+  "physicalDeviceTested": false
+}

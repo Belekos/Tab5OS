@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "sourceSnapshotVersion": "0.8.53",
+  "copiedFilesChecked": 4701,
+  "copiedSourceFiles": 3816,
+  "compiledSourceHashesChecked": 2040,
+  "newMarkdownDocumentsChecked": 13,
+  "localLinksChecked": 87,
+  "files": 4734,
+  "bytes": 75704706,
+  "compiledBinariesPresent": false,
+  "firstPartyLicenseAssigned": false,
+  "publishedOnline": false,
+  "limitations": [
+    "No new compilation was run solely for repository layout; all 2040 compiled source hashes match the verified release.",
+    "Historical evidence summaries reference logs and resources omitted from this source-only tree.",
+    "Source publication does not resolve the combined audio binary license issue."
+  ]
+}

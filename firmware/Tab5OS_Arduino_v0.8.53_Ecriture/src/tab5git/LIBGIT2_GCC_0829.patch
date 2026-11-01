@@ -1,0 +1,136 @@
+--- a/src/libgit2/checkout.c
++++ b/src/libgit2/checkout.c
+@@ -1837,7 +1837,7 @@
+ }
+ 
+ static int checkout_remove_the_old(
+-	unsigned int *actions,
++	uint32_t *actions,
+ 	checkout_data *data)
+ {
+ 	int error = 0;
+@@ -1896,7 +1896,7 @@
+ }
+ 
+ static int checkout_create_the_new(
+-	unsigned int *actions,
++	uint32_t *actions,
+ 	checkout_data *data)
+ {
+ 	int error = 0;
+@@ -1925,7 +1925,7 @@
+ }
+ 
+ static int checkout_create_submodules(
+-	unsigned int *actions,
++	uint32_t *actions,
+ 	checkout_data *data)
+ {
+ 	git_diff_delta *delta;
+--- a/src/libgit2/config.c
++++ b/src/libgit2/config.c
+@@ -1419,10 +1419,14 @@
+ 			break;
+ 		}
+ 
+-		case GIT_CONFIGMAP_INT32:
+-			if (git_config_parse_int32(out, value) == 0)
++		case GIT_CONFIGMAP_INT32: {
++			int32_t parsed;
++			if (git_config_parse_int32(&parsed, value) == 0) {
++				*out = (int)parsed;
+ 				return 0;
++			}
+ 			break;
++		}
+ 
+ 		case GIT_CONFIGMAP_STRING:
+ 			if (value && strcasecmp(value, m->str_match) == 0) {
+@@ -1459,11 +1463,13 @@
+ 
+ int git_config_parse_bool(int *out, const char *value)
+ {
++	int32_t parsed;
++
+ 	if (git__parse_bool(out, value) == 0)
+ 		return 0;
+ 
+-	if (git_config_parse_int32(out, value) == 0) {
+-		*out = !!(*out);
++	if (git_config_parse_int32(&parsed, value) == 0) {
++		*out = !!parsed;
+ 		return 0;
+ 	}
+ 
+--- a/src/libgit2/repository.c
++++ b/src/libgit2/repository.c
+@@ -1856,8 +1856,9 @@
+ static int check_repositoryformatversion(int *version, git_config *config)
+ {
+ 	int error;
+-
+-	error = git_config_get_int32(version, config, "core.repositoryformatversion");
++	int32_t parsed;
++
++	error = git_config_get_int32(&parsed, config, "core.repositoryformatversion");
+ 
+ 	/* git ignores this if the config variable isn't there */
+ 	if (error == GIT_ENOTFOUND)
+@@ -1865,6 +1866,8 @@
+ 
+ 	if (error < 0)
+ 		return -1;
++
++	*version = (int)parsed;
+ 
+ 	if (*version < 0) {
+ 		git_error_set(GIT_ERROR_REPOSITORY,
+--- a/src/libgit2/revparse.c
++++ b/src/libgit2/revparse.c
+@@ -611,7 +611,8 @@
+ static int extract_how_many(int *n, const char *spec, size_t *pos)
+ {
+ 	const char *end_ptr;
+-	int parsed, accumulated;
++	int32_t parsed;
++	int accumulated;
+ 	char kind = spec[*pos];
+ 
+ 	GIT_ASSERT_ARG(spec[*pos] == '^' || spec[*pos] == '~');
+--- a/src/libgit2/signature.c
++++ b/src/libgit2/signature.c
+@@ -385,7 +385,8 @@
+ 
+ 		/* do we have a timezone? */
+ 		if (time_end + 1 < buffer_end) {
+-			int offset, hours, mins;
++			int32_t offset;
++			int hours, mins;
+ 			const char *tz_start, *tz_end;
+ 
+ 			tz_start = time_end + 1;
+--- a/src/libgit2/transports/local.c
++++ b/src/libgit2/transports/local.c
+@@ -537,8 +537,9 @@
+ static const char *counting_objects_fmt = "Counting objects %d\r";
+ static const char *compressing_objects_fmt = "Compressing objects: %.0f%% (%d/%d)";
+ 
+-static int local_counting(int stage, unsigned int current, unsigned int total, void *payload)
+-{
++static int local_counting(int stage, uint32_t current_count, uint32_t total_count, void *payload)
++{
++	unsigned int current = current_count, total = total_count;
+ 	git_str progress_info = GIT_STR_INIT;
+ 	transport_local *t = payload;
+ 	int error;
+--- a/src/libgit2/tree-cache.c
++++ b/src/libgit2/tree-cache.c
+@@ -101,7 +101,7 @@
+ 	git_tree_cache *tree = NULL;
+ 	const char *name_start, *buffer;
+ 	size_t oid_size = git_oid_size(oid_type);
+-	int count;
++	int32_t count;
+ 
+ 	buffer = name_start = *buffer_in;
+ 

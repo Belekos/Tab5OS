@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "BKK.FM",
+      "style": "TH/alternative",
+      "url": "https://rsas.bkk.fm/radio",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 64
+    },
+    {
+      "name": "ไทยลานนาเรดิโอ FM 106.5 จังหวัดตาก",
+      "style": "TH/country",
+      "url": "https://inter.lannaradio.com/radio/8000/radio.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "ลูกทุ่งเน็ตเวิร์ค",
+      "style": "TH/fm 98.5 mhz ลูกทุ่ง ทั้ง",
+      "url": "http://media.login.in.th:8200/;stream.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "Bluewave 97 (CR)",
+      "style": "TH/music",
+      "url": "http://112.121.151.133:8109/live",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "มิติข่าว 90.5",
+      "style": "TH/news",
+      "url": "http://live3.smartbomb.co.th:8624/;stream.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Isan FM 98",
+      "style": "TH/pop",
+      "url": "http://radio11.plathong.net:8900/stream.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 96
+    },
+    {
+      "name": "90 rakthai",
+      "style": "TH/Radio",
+      "url": "http://radio11.plathong.net:8896/;stream.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 96
+    },
+    {
+      "name": "สวพ.91",
+      "style": "TH/traffic",
+      "url": "http://122.155.16.48:8955/;stream.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    }
+  ]
+}

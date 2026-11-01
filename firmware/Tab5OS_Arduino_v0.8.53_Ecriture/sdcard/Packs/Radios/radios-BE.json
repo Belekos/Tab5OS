@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Instrumentals Forever",
+      "style": "BE/big band",
+      "url": "http://quincy.torontocast.com:1910/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Klara",
+      "style": "BE/classical",
+      "url": "http://icecast.vrtcdn.be/klara-high.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "The Funky Channel",
+      "style": "BE/disco",
+      "url": "http://cast3.my-control-panel.com:8170/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "NRJ België",
+      "style": "BE/hits",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/NRJBELGIE.mp3?dist=radiobrowser",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Pure (FM)",
+      "style": "BE/music",
+      "url": "https://radios.rtbf.be/pure-128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "RTBF La Première",
+      "style": "BE/news",
+      "url": "https://radios.rtbf.be/laprem1ere-64.aac",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "RTBF Classic 21",
+      "style": "BE/pop",
+      "url": "https://radios.rtbf.be/classic21-128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Bel RTL",
+      "style": "BE/Radio",
+      "url": "http://belrtl.ice.infomaniak.ch/belrtl-mp3-192.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    }
+  ]
+}

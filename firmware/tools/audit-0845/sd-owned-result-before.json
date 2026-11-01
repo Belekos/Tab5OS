@@ -1,0 +1,6 @@
+{
+  "description": "Exact private main controller methods before this local correction; not a separate delivered firmware. Reproduces concurrent global-diagnostic overwrite with current corrected SDK/wrappers.",
+  "sourceFragment": "tools/sd-recovery-tests-0845/before-owned-result.inc",
+  "sourceFragmentSha256": "0bebe6b461e127b8d16172b1c06c714265434071260c041df4ba2f0b3105abc8",
+  "mainSha256Before": "d4ebf65fe031b867d1720d92152e3a2737b1444a1a14ef75fb1e18adead9fd3e"
+}

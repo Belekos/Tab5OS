@@ -1,0 +1,7 @@
+{
+  "exitCode": 1,
+  "focusSha256": "153c86c9bbce1a05833205f3d0508da81bc3a5c0ce51deef624b3998faa21034",
+  "actualProductionCallbacks": true,
+  "scenario": "Enter on a search result closes its overlay, then focus dispatcher touches freed parent list",
+  "reproduced": true
+}

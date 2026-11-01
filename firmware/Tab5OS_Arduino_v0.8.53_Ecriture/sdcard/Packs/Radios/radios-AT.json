@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Darksynth Radio",
+      "style": "AT/80s",
+      "url": "http://stream.laut.fm/darksynthradio",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "KroneHit Radio",
+      "style": "AT/adult contemporary",
+      "url": "http://onair-ha1.krone.at/kronehit64.aac",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 163
+    },
+    {
+      "name": "Radino - Mein Kinderradio Wien 103,2",
+      "style": "AT/children",
+      "url": "http://stream01.zogl.net:8906/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Lounge.FM - 100% Austria",
+      "style": "AT/downtempo",
+      "url": "https://s35.derstream.net/100austria.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "88.6 Hard Rock",
+      "style": "AT/hard rock",
+      "url": "http://radio886.at/streams/88.6_Hard_Rock/mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "ORF Radio Wien",
+      "style": "AT/orf",
+      "url": "http://orf-live.ors-shoutcast.at/wie-q1a",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "KroneHit Digital",
+      "style": "AT/Radio",
+      "url": "http://onair-ha1.krone.at/kronehit1058.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Austrian Rock Radio",
+      "style": "AT/rock",
+      "url": "http://live.antenne.at/arr",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    }
+  ]
+}

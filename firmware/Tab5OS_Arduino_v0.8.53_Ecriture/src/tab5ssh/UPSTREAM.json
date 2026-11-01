@@ -1,0 +1,106 @@
+{
+  "upstream": "https://github.com/libssh2/libssh2",
+  "version": "1.11.2_DEV",
+  "commit": "18aebe08962c1878d84c373ad85caff25ec67771",
+  "license": "BSD-3-Clause",
+  "releaseStatus": "Pinned official development snapshot, not a published 1.11.2 release. Latest published tag checked remains 1.11.1.",
+  "reason": "The current official snapshot includes allocator ownership, OOM cleanup, transport memory safety and packet bounds fixes absent from 1.11.1. The complete pinned source avoids a growing set of interdependent security backports.",
+  "patches": [
+    "libssh2_setup.h: include ESP32 platform config",
+    "libssh2_config.h: newlib/lwIP/mbedTLS configuration, deprecated algorithms disabled",
+    "libssh2.h: lower default channel receive window to 64 KiB and packet size to 16 KiB for SFTP and exec",
+    "kex.c: release locally owned newprefs if allocation of the extended KEX preferences fails; demonstrated by allocation-failure boundary3 and repeated native memory checks"
+  ],
+  "upstreamSha256": {
+    "COPYING": "01890705028ead6b5b5d72f3a40606e536f90e4ffec62e3a32c6b5b3bb79b9d8",
+    "agent.c": "5b20563319bc4f8b72f06789c8b70da325cf5691dcf9cbf0a70a27c51fae9d76",
+    "agent.h": "f979b03ae812258e87c8e83116638c294204e3cba5527a68b16ebcfb7494e950",
+    "bcrypt_pbkdf.c": "a03321a83dd4c75f82fb62762e73c8a8fd9066590403675430632677571d5163",
+    "blowfish.c": "ce1f4e6de33044fdf447ebf35bc0a048721b87707308feb2db1339ab97c7005f",
+    "chacha.c": "1f1dc3906305fd60b26185b13b43d20f48242c4a9ab3602df19a67b381ac2536",
+    "chacha.h": "33cd9d45274f18183abd55b5d991c88c53d41cea913acfe7bb96d8dae6420a46",
+    "channel.c": "b56e0df26c03467fad02191b23bf68aa30e8160b2973a08a471c619acebb5c6c",
+    "channel.h": "722c368a3adcae56a201d26f599e1d61e5fb12f0ea80b3b502a96d12f7f80212",
+    "cipher-chachapoly.c": "0c847163f6d4993b687e3ceddcf09f6df2ab16b968c00e358d84cd3af176e1b1",
+    "cipher-chachapoly.h": "1901fee514eac2c233c5ad3d4ccbd34e203c6c2340bd7b4c2a9908a2a74a5717",
+    "comp.c": "b2a06951731286294428dbbfffca7860db2d7bef706e66409e90c1c46baaed4f",
+    "comp.h": "81a95347a416b4cde83c97133595385c3ed84cf7bf2990b5092d2da714983a41",
+    "crypt.c": "0df751c4eac8d5d07103f3e5a4fa27ccf4b839c60498e3a5603d89854556d862",
+    "crypto.h": "01e2a8cc519bebe56fd7c7f40f220d83a32b5c523cf7a0c3b6cbd703e697138d",
+    "crypto_config.h": "5183147f27c27aa9bf0c74cea4bdfdff418fb390b25c136239c1a71395d0451f",
+    "global.c": "fa97f06a5bdf3400db2f9024f6764c437fafe2e8aac29512977b9e7f4dd033c3",
+    "hostkey.c": "e46e47b45e4e3ae7d9674b04d8d98aee4c0b3e93096f03d09712d8d9fe06190e",
+    "keepalive.c": "b10adfbaf58b9176419e033b047ed4f3a595b2285bcd0e2c7a039fb3165c5bac",
+    "kex.c": "ef0a3471f18458ece3cf141d3b52de2325d8ce48603491ccf554fa74f7dc95ef",
+    "knownhost.c": "05d5b635f167c08be936c5fa36b7a9b41185b5ae7f149f76408679599ae129ea",
+    "libgcrypt.c": "11218c75ccaa3f539fc1474aae5cb55395d9fe242324170db5b8e37f45bd7216",
+    "libgcrypt.h": "528478457cf91f32a079e0ab225d7b7822472f4d17adff2cc03a5e79922c0e5c",
+    "libssh2.h": "34c62bc9454625e53f4d46d249369d7f8cc3b5a0c041935848438bb5eadbc0dd",
+    "libssh2_priv.h": "dba68bb831396b2d035fafafe24716d5414e71316f16b050946c42322da25cba",
+    "libssh2_publickey.h": "d18f6e9470f8a79d8903d9e0a4fcc5fe69d63bfe70b0b8fa645e807a31712575",
+    "libssh2_setup.h": "132073de98cd3a0451f60316b155d7ea4b1e78ec95aae60649d42e3a10735a49",
+    "libssh2_sftp.h": "8802d99023df03a3243955095c2b863de05e4ce5f7e08a96418c6412ebe63ac5",
+    "mac.c": "ef7d0557ef4c00bb7740bb94a6d5c2e1410556e9280a03346a97d76b5683605b",
+    "mac.h": "274ca89e243345f0eeb350d8d64ff83ec1dc560ba048e7759e9852b6d7705665",
+    "mbedtls.c": "e9f2d50c7515985e00aedc474ab8561ffd7173fef2ebaf1f4e4cab876af113c1",
+    "mbedtls.h": "88edd82a0fcf62f564fc359c7db1504553778f05b9270e2a55edbf760c28ac72",
+    "misc.c": "7bd5d907ff3b0bd204c0751634f5dd813bcbd50b9c09dc5a00991649a87c61bd",
+    "misc.h": "d360f39c998cc9f06ef1d590d13daa441895e11608bf877c3c59c1de316ba593",
+    "openssl.c": "e86dda9a42c09dccc2e820a35ed7504c2c822f6f7de10c4bae3065df7e3c60b0",
+    "openssl.h": "4701be388bacb51ab51c51cc3c3c03a320e2186abe059c2dbfa9f807ac825c31",
+    "os400qc3.c": "710869bc2b034271d721c00c319275d6823ca7844351f03218e5b4f6d8696783",
+    "os400qc3.h": "7b48218c48514b31d29aca2df4db5ce06709e5a7ef6e810490a94e60e9808629",
+    "packet.c": "d80005eac262d687d0639807c931f987fd54ce67574272869d6ece24cc91cec1",
+    "packet.h": "3f6ca0558f22dbcc02f6d4c8f7f6079ec8704068091bc632ed3fb0987429e6e9",
+    "pem.c": "25db58d34fe99614419feb4de8dad1ffb7296fac4516ff206aa41d8bbbbb6f41",
+    "poly1305.c": "473c3bb69439e26269a73cebe1b9364aea11c1890e8cc0281f2f06e5741ac16f",
+    "poly1305.h": "48bedb5ae59aa68b20aa0295f3d7bd78f1b1eb701c631f505a3f67f6e0ab817f",
+    "publickey.c": "2bde698e370fce65eee2dc5d6d5fc379c02e06f5634537913f0c34668305c7a1",
+    "scp.c": "5c4dbef3c0cd23d7aa8af9696e8b3acb73bc5a61012fa52c121f66028cb03d88",
+    "session.c": "d0789653b74ed9ecf91742115fbcd096fbb1ee625faf868c0a27de01fe965206",
+    "session.h": "6cfa3f67e323ee96b6ce03cdc33e69462d91ab4e0a0e6bda02dfa9185d85c8c0",
+    "sftp.c": "1af4b942dcf7c35f6d5cb587bd8a92ccecb0a7a7ddd8ae76ebf72614ac88e4af",
+    "sftp.h": "0a3f7e2dcaf6c4de54a2d2f411063c7e136059c7ee6dc0fbefd32ae57235c9ce",
+    "transport.c": "4b1b6ae063cb89e48681c29ced6710944aa5afef431c7423246156eac909cfc1",
+    "transport.h": "812573633185ec7907bc709db225a49a602f45b064c5516776e1f81204742d83",
+    "userauth.c": "cf0e2e156caf48425b1dbcec3b3a4453e81cf4f60ca0f80802db4e867facae7e",
+    "userauth.h": "37da52de97d8d0d1c9db5f3b0570efe98d3168db328f1a06e2ffcf5e0adf1079",
+    "userauth_kbd_packet.c": "dd9cc214e2f82f74e45b18fdffdeab51e1e2075d6e5e39cde62e233b45f6f059",
+    "userauth_kbd_packet.h": "bc1d47a0c8af978264847b6788b2aff2539a919d22c0074930570f97aa776ca1",
+    "version.c": "02154b8a9e695663ce3d8b64de1ed1e4de4e117564053741fe14a3b74352d72f",
+    "wincng.c": "b5279193f234ed1f24f20a937dfd8162e2c4773296cd82e0bca031a125eccbb3",
+    "wincng.h": "aa076a2f8a80ccf747668f6c7fe33f64e5052a20928133bf183b59fe8c769429"
+  },
+  "securityReview": {
+    "checked": "2026-10-11",
+    "latestPublishedTag": "libssh2-1.11.1",
+    "releaseUrl": "https://github.com/libssh2/libssh2/releases",
+    "advisoriesUrl": "https://api.github.com/repos/libssh2/libssh2/security-advisories",
+    "publicAdvisoriesReturned": [],
+    "limitation": "An empty advisory listing does not imply no vulnerabilities. Official source fixes were inspected as well.",
+    "sourceUrl": "https://github.com/libssh2/libssh2/tree/18aebe08962c1878d84c373ad85caff25ec67771",
+    "includedFixes": [
+      {
+        "commit": "f7fa81ca5956610c0e3e17caba560e30309a4470",
+        "url": "https://github.com/libssh2/libssh2/commit/f7fa81ca5956610c0e3e17caba560e30309a4470"
+      },
+      {
+        "commit": "62a2a7ec2c2d408d579c4d8b255678a988c418ad",
+        "url": "https://github.com/libssh2/libssh2/commit/62a2a7ec2c2d408d579c4d8b255678a988c418ad"
+      },
+      {
+        "commit": "823a2286404611b4cc58729e6fed04626af932ed",
+        "url": "https://github.com/libssh2/libssh2/commit/823a2286404611b4cc58729e6fed04626af932ed"
+      },
+      {
+        "commit": "42e33d81577ed4b95d4b4f6f845e5ee8efe5eeb4",
+        "url": "https://github.com/libssh2/libssh2/commit/42e33d81577ed4b95d4b4f6f845e5ee8efe5eeb4"
+      },
+      {
+        "commit": "97acf3dfda80c91c3a8c9f2372546301d4a1a7a8",
+        "url": "https://github.com/libssh2/libssh2/commit/97acf3dfda80c91c3a8c9f2372546301d4a1a7a8"
+      }
+    ],
+    "selectionNotes": "MBEDTLS_BACKPORTS.md"
+  }
+}

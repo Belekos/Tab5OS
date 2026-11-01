@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "GOLD 905",
+      "style": "SG/classical",
+      "url": "https://22403.live.streamtheworld.com/GOLD905_SC",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 96
+    },
+    {
+      "name": "973FM: Blasts That Last radio",
+      "style": "SG/hits",
+      "url": "https://c16.radioboss.fm:18115/stream?icecast",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 96
+    },
+    {
+      "name": "LOVE 972",
+      "style": "SG/melisten",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/LOVE972FM_PREM.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "987FM",
+      "style": "SG/music",
+      "url": "https://22393.live.streamtheworld.com/987FM_PREM.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "CNA 938 Live Singapore",
+      "style": "SG/news",
+      "url": "http://28323.live.streamtheworld.com:3690/938NOW_PREM_SC",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "Singapore Chinese POP YES FM 933",
+      "style": "SG/pop",
+      "url": "https://22893.live.streamtheworld.com/YES933_SC?dist=radiosingapore",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 96
+    },
+    {
+      "name": "kiss92",
+      "style": "SG/pop music",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/KISS_92_SC",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 96
+    },
+    {
+      "name": "YES 933 Radio",
+      "style": "SG/Radio",
+      "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/YES933AAC.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 48
+    }
+  ]
+}

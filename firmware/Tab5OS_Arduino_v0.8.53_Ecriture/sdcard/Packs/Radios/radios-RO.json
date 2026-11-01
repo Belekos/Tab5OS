@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Play 90's",
+      "style": "RO/90s",
+      "url": "http://live.playradio.org:9090/90HD",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 192
+    },
+    {
+      "name": "Dance FM 89.5 Bucharest",
+      "style": "RO/dance",
+      "url": "http://edge126.rdsnet.ro:84/profm/dancefm.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Deep House Radio - Bucharest Romania",
+      "style": "RO/deep house",
+      "url": "http://live.dancemusic.ro:7000/radio.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Romania Actualități",
+      "style": "RO/folk",
+      "url": "http://89.238.227.6:8006/;",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Manele FM",
+      "style": "RO/folk music",
+      "url": "http://a.fmradiomanele.ro:8054/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Europa FM",
+      "style": "RO/music",
+      "url": "http://astreaming.europafm.ro:8000/europafm_aacp48k",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 64
+    },
+    {
+      "name": "Pro FM",
+      "style": "RO/pop",
+      "url": "http://edge126.rdsnet.ro:84/profm/profm.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Kiss Fm Ro",
+      "style": "RO/romanian pop",
+      "url": "https://live.kissfm.ro/kissfm.aacp",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 80
+    }
+  ]
+}

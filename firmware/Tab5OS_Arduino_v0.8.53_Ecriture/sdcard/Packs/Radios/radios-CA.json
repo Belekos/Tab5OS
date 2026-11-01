@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "100 GREATEST OF THE 80'S",
+      "style": "CA/1980's",
+      "url": "https://maggie.torontocast.com:2020/stream/100greatestofthe80s",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "# RdMix Classic Rock 70s 80s 90s",
+      "style": "CA/60s",
+      "url": "https://cast1.torontocast.com:4610/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "70 80 90 Vibrazioni Rock Radio",
+      "style": "CA/70s",
+      "url": "https://maggie.torontocast.com:2020/stream/vibrazionirockradio",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "REGGAE CHILL CAFE",
+      "style": "CA/chill",
+      "url": "https://maggie.torontocast.com:2020/stream/reggaechillcafe",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "CFRB News/Talk 1010 (Toronto, ON)",
+      "style": "CA/commercial",
+      "url": "http://18213.live.streamtheworld.com/CFRBAMAAC_SC",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 56
+    },
+    {
+      "name": "ChroniX Radio Metalcore",
+      "style": "CA/death metal",
+      "url": "http://usa17.fastcast4u.com:5508/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "Calm Radio - Solo Piano",
+      "style": "CA/easy listening",
+      "url": "http://streams.calmradio.com:1228/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Labgate - Progressive Rock",
+      "style": "CA/progressive rock",
+      "url": "https://s2.ssl-stream.com/radio/8180/radio.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    }
+  ]
+}

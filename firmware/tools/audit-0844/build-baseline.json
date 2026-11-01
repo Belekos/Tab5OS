@@ -1,0 +1,94 @@
+{
+  "baselineVersion": "0.8.43",
+  "archiveSha256": "a0c58c0ba1003722e3f834eac0618dc937c5395afb7cc650dd03220730595e52",
+  "firmwareBytes": 6062352,
+  "otaPartitionBytes": 6553600,
+  "otaFreeBytes": 491248,
+  "sections": {
+    ".rtc.text": 88,
+    ".rtc.force_fast": 0,
+    ".rtc_noinit": 1200,
+    ".rtc.force_slow": 32,
+    ".rtc_reserved": 40,
+    ".tcm.text": 794,
+    ".tcm.data": 64,
+    ".iram0.text": 98494,
+    ".iram0.text_end": 66,
+    ".iram0.data": 0,
+    ".iram0.bss": 0,
+    ".dram0.data": 31364,
+    ".dram1.data": 0,
+    ".noinit": 0,
+    ".flash.text": 3839112,
+    ".flash_rodata_dummy": 3866624,
+    ".flash.appdesc": 256,
+    ".flash.rodata": 1779840,
+    ".flash.init_array": 456,
+    ".eh_frame_hdr": 0,
+    ".eh_frame": 311812,
+    ".flash.tdata": 0,
+    ".dram0.bss": 45220,
+    ".dram1.bss": 16668,
+    ".dram0.heap_start_low": 12,
+    ".dram1.heap_start_high": 4,
+    ".debug_aranges": 267928,
+    ".debug_info": 27194924,
+    ".debug_abbrev": 1856306,
+    ".debug_line": 13506305,
+    ".debug_frame": 659092,
+    ".debug_str": 4274166,
+    ".debug_loc": 8989420,
+    ".debug_ranges": 1241312,
+    ".debug_line_str": 27900,
+    ".debug_loclists": 230561,
+    ".debug_rnglists": 21157,
+    ".comment": 47,
+    ".riscv.attributes": 112
+  },
+  "partitions": [
+    {
+      "name": "nvs",
+      "type": "data",
+      "subtype": "nvs",
+      "offset": 36864,
+      "bytes": 20480
+    },
+    {
+      "name": "otadata",
+      "type": "data",
+      "subtype": "ota",
+      "offset": 57344,
+      "bytes": 8192
+    },
+    {
+      "name": "app0",
+      "type": "app",
+      "subtype": "ota_0",
+      "offset": 65536,
+      "bytes": 6553600
+    },
+    {
+      "name": "app1",
+      "type": "app",
+      "subtype": "ota_1",
+      "offset": 6619136,
+      "bytes": 6553600
+    },
+    {
+      "name": "spiffs",
+      "type": "data",
+      "subtype": "spiffs",
+      "offset": 13172736,
+      "bytes": 3538944
+    },
+    {
+      "name": "coredump",
+      "type": "data",
+      "subtype": "coredump",
+      "offset": 16711680,
+      "bytes": 65536
+    }
+  ],
+  "physicalDeviceTested": false,
+  "source": "Verified immutable .43 ZIP and retained exact build artifacts; not a new hardware measurement."
+}

@@ -1,0 +1,3 @@
+{"benchmark":{"hostOnly":true,"idleCalls":200000,"expandedDirectories":512,"currentIdleNs":11975026,"revealCalls":32,"visibleEntries":513,"ignoredFileEntries":8193,"idleReads":0,"idleOpens":0,"lookupHiddenCalls":0}}
+{"checks":269112,"peakHandles":2,"peakPsramBytes":621589}
+PASS: exact production folders-only tree; mounted volume roots, session branches, depth129,8193 directories,6sorts; bounded cached child probes,hidden filters,refresh,cancellation,USB removal,PSRAM refusal,zero file metadata reads,zero idle IO.

@@ -1,0 +1,114 @@
+{
+  "ar": {
+    "Apps ELF": "تطبيقات ELF",
+    "Apps Python": "تطبيقات Python",
+    "Ajouter une application": "إضافة تطبيق",
+    "Application indisponible": "التطبيق غير متاح",
+    "Bandeau complet (%u raccourcis)": "الشريط ممتلئ (%u اختصارات)",
+    "%u / %u raccourcis": "%u / %u اختصارات"
+  },
+  "de-DE": {
+    "Apps ELF": "ELF-Apps",
+    "Apps Python": "Python-Apps",
+    "Ajouter une application": "App hinzufügen",
+    "Application indisponible": "App nicht verfügbar",
+    "Bandeau complet (%u raccourcis)": "Leiste voll (%u Verknüpfungen)",
+    "%u / %u raccourcis": "%u / %u Verknüpfungen"
+  },
+  "en-US": {
+    "Apps ELF": "ELF Apps",
+    "Apps Python": "Python Apps",
+    "Ajouter une application": "Add an app",
+    "Application indisponible": "App unavailable",
+    "Bandeau complet (%u raccourcis)": "Dock full (%u shortcuts)",
+    "%u / %u raccourcis": "%u / %u shortcuts"
+  },
+  "es-ES": {
+    "Apps ELF": "Apps ELF",
+    "Apps Python": "Apps Python",
+    "Ajouter une application": "Añadir una app",
+    "Application indisponible": "App no disponible",
+    "Bandeau complet (%u raccourcis)": "Barra llena (%u accesos directos)",
+    "%u / %u raccourcis": "%u / %u accesos directos"
+  },
+  "fr-FR": {
+    "Apps ELF": "Apps ELF",
+    "Apps Python": "Apps Python",
+    "Ajouter une application": "Ajouter une application",
+    "Application indisponible": "Application indisponible",
+    "Bandeau complet (%u raccourcis)": "Bandeau complet (%u raccourcis)",
+    "%u / %u raccourcis": "%u / %u raccourcis"
+  },
+  "id-ID": {
+    "Apps ELF": "Aplikasi ELF",
+    "Apps Python": "Aplikasi Python",
+    "Ajouter une application": "Tambahkan aplikasi",
+    "Application indisponible": "Aplikasi tidak tersedia",
+    "Bandeau complet (%u raccourcis)": "Bilah penuh (%u pintasan)",
+    "%u / %u raccourcis": "%u / %u pintasan"
+  },
+  "it-IT": {
+    "Apps ELF": "App ELF",
+    "Apps Python": "App Python",
+    "Ajouter une application": "Aggiungi un’app",
+    "Application indisponible": "App non disponibile",
+    "Bandeau complet (%u raccourcis)": "Barra piena (%u collegamenti)",
+    "%u / %u raccourcis": "%u / %u collegamenti"
+  },
+  "ja-JP": {
+    "Apps ELF": "ELFアプリ",
+    "Apps Python": "Pythonアプリ",
+    "Ajouter une application": "アプリを追加",
+    "Application indisponible": "アプリを利用できません",
+    "Bandeau complet (%u raccourcis)": "サイドバーが満杯です（%u個）",
+    "%u / %u raccourcis": "ショートカット %u / %u"
+  },
+  "ko-KR": {
+    "Apps ELF": "ELF 앱",
+    "Apps Python": "Python 앱",
+    "Ajouter une application": "앱 추가",
+    "Application indisponible": "앱을 사용할 수 없습니다",
+    "Bandeau complet (%u raccourcis)": "사이드바가 가득 찼습니다(바로가기 %u개)",
+    "%u / %u raccourcis": "바로가기 %u / %u"
+  },
+  "nl-NL": {
+    "Apps ELF": "ELF-apps",
+    "Apps Python": "Python-apps",
+    "Ajouter une application": "App toevoegen",
+    "Application indisponible": "App niet beschikbaar",
+    "Bandeau complet (%u raccourcis)": "Balk vol (%u snelkoppelingen)",
+    "%u / %u raccourcis": "%u / %u snelkoppelingen"
+  },
+  "pt-BR": {
+    "Apps ELF": "Apps ELF",
+    "Apps Python": "Apps Python",
+    "Ajouter une application": "Adicionar aplicativo",
+    "Application indisponible": "Aplicativo indisponível",
+    "Bandeau complet (%u raccourcis)": "Barra cheia (%u atalhos)",
+    "%u / %u raccourcis": "%u / %u atalhos"
+  },
+  "pt-PT": {
+    "Apps ELF": "Apps ELF",
+    "Apps Python": "Apps Python",
+    "Ajouter une application": "Adicionar aplicação",
+    "Application indisponible": "Aplicação indisponível",
+    "Bandeau complet (%u raccourcis)": "Barra cheia (%u atalhos)",
+    "%u / %u raccourcis": "%u / %u atalhos"
+  },
+  "ru-RU": {
+    "Apps ELF": "Приложения ELF",
+    "Apps Python": "Приложения Python",
+    "Ajouter une application": "Добавить приложение",
+    "Application indisponible": "Приложение недоступно",
+    "Bandeau complet (%u raccourcis)": "Панель заполнена (ярлыков: %u)",
+    "%u / %u raccourcis": "Ярлыки: %u / %u"
+  },
+  "zh-CN": {
+    "Apps ELF": "ELF 应用",
+    "Apps Python": "Python 应用",
+    "Ajouter une application": "添加应用",
+    "Application indisponible": "应用不可用",
+    "Bandeau complet (%u raccourcis)": "侧栏已满（%u 个快捷方式）",
+    "%u / %u raccourcis": "快捷方式：%u / %u"
+  }
+}

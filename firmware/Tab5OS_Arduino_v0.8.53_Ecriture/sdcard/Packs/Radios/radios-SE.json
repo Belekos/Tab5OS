@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Bandit Rock",
+      "style": "SE/alternative rock",
+      "url": "http://fm02-ice.stream.khz.se/fm02_mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Pirate Rock Västkustens bästa rock",
+      "style": "SE/classic rock",
+      "url": "http://stream.piraterock.se:8101/webradio",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Country Rocks Radio",
+      "style": "SE/country",
+      "url": "http://stream.dbmedia.se/crr96",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    },
+    {
+      "name": "Sveriges Radio - P1",
+      "style": "SE/news",
+      "url": "https://live1.sr.se/p1-aac-320",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 128
+    },
+    {
+      "name": "Retro FM Skåne",
+      "style": "SE/oldies",
+      "url": "https://live-bauerse-fm.sharp-stream.com/retrofm_aacp?ua=WEB&aw_0_1st.playerid=SBS_RP_WEB&aw_0_1st.skey=1575715192&companionAds=true&listenerId=@@GUID@@",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 96
+    },
+    {
+      "name": "Sveriges Radio - P3",
+      "style": "SE/public radio",
+      "url": "https://live1.sr.se/p3-aac-320",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 312
+    },
+    {
+      "name": "Mix Megapol",
+      "style": "SE/Radio",
+      "url": "http://tx-bauerse.sharp-stream.com/http_live.php?ua=WEB&i=mixmegapol_instream_se_mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "NRJ Sweden",
+      "style": "SE/top 40",
+      "url": "http://tx-bauerse.sharp-stream.com/http_live.php?i=nrj_instreamtest_se_mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Kaaosradio - 24h Chill",
+      "style": "FI/chillout",
+      "url": "http://stream.kaaosradio.fi:8000/chill",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Yle Radio1HIFI 256 Kb/s",
+      "style": "FI/classical",
+      "url": "http://icecast.live.yle.fi/radio/YleRadio1Hifi/icecast.audio",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 0
+    },
+    {
+      "name": "Doubleclap Radio",
+      "style": "FI/dance",
+      "url": "https://s3.radio.co/scfd7273b2/listen",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Sveriges Radio - SR Sisuradio",
+      "style": "FI/finnish",
+      "url": "https://live1.sr.se/finska-aac-320",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 272
+    },
+    {
+      "name": "Yle Radio Suomi, Helsinki",
+      "style": "FI/helsinki",
+      "url": "http://icecast.live.yle.fi/radio/YleRS/icecast.audio",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 0
+    },
+    {
+      "name": "Finest Fm",
+      "style": "FI/hits",
+      "url": "http://212.47.220.188:8000/listen.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "YleX",
+      "style": "FI/pop",
+      "url": "https://icecast.live.yle.fi/radio/YleX/icecast.audio",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    },
+    {
+      "name": "Kaaos Radio Techno Electro",
+      "style": "FI/Radio",
+      "url": "http://stream.kaaosradio.fi:8000/stream2",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    }
+  ]
+}

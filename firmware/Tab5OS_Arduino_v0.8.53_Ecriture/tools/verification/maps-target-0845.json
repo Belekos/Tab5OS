@@ -1,0 +1,65 @@
+{
+  "version": "0.8.45",
+  "passed": true,
+  "physicalDeviceTested": false,
+  "compiler": "riscv32-esp-elf-g++ (crosstool-NG esp-14.2.0_20260121) 14.2.0",
+  "sourceHashes": {
+    "Tab5OS_Arduino_v0.8.45_Ecriture/Tab5Map.cpp": "1e39feca602663eef3154e06c6afabc71671315f282513f6d096a08408f26e4e"
+  },
+  "testSourceHashes": {
+    "tools/build_linux/target_compile.py": "cdbfddc7cbb2ddd685db47d6675c47c624bee2a1bb250f5c77d32a9b533561ea"
+  },
+  "units": {
+    "Tab5Map.cpp": {
+      "compiled": true,
+      "objectSha256": "bbef85b345c6295ebdad75a795353b291c5afc87467a7e9bfdf45d0d939f0de8",
+      "largestFrames": [
+        {
+          "function": "Tab5Map.cpp:1939:6:bool Tab5MapEngine::localSearch(const SearchRequest&, Tab5MapSearchResult&)",
+          "bytes": 2800,
+          "kind": "static"
+        },
+        {
+          "function": "Tab5Map.cpp:662:6:void Tab5MapEngine::taskLoop()",
+          "bytes": 1040,
+          "kind": "static"
+        },
+        {
+          "function": "Tab5MapSearchParser.h:36:5:int Tab5MapSearch::decode(const uint8_t*, size_t, const char*, Item*, size_t, ArduinoJson::V743PB22::Allocator*) [with Item = Tab5MapSearchItem]",
+          "bytes": 784,
+          "kind": "static"
+        },
+        {
+          "function": "Tab5Map.cpp:583:6:bool Tab5MapEngine::requestSearch(const String&, uint32_t, double, double, bool)",
+          "bytes": 720,
+          "kind": "static"
+        },
+        {
+          "function": "Tab5Map.cpp:577:6:void Tab5MapEngine::discardSearchRequests()",
+          "bytes": 480,
+          "kind": "static"
+        },
+        {
+          "function": "Tab5Map.cpp:1177:6:bool Tab5MapEngine::loadOfflinePacks()",
+          "bytes": 400,
+          "kind": "static"
+        },
+        {
+          "function": "Tab5Map.cpp:1664:6:bool Tab5MapEngine::loadPlaces()",
+          "bytes": 400,
+          "kind": "static"
+        },
+        {
+          "function": "Tab5Map.cpp:1017:6:bool Tab5MapEngine::loadStylesConfig()",
+          "bytes": 352,
+          "kind": "static"
+        }
+      ],
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "limitations": [
+    "Target object compilation does not exercise hardware.",
+    "GCC per-function stack frames do not measure cumulative task stack usage."
+  ]
+}

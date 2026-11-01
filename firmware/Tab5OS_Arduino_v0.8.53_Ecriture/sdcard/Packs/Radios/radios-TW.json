@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "太陽電台",
+      "style": "TW/89.1",
+      "url": "http://211.20.119.102:8081/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Classical 古典音樂台 FM 97.7",
+      "style": "TW/classical music",
+      "url": "http://59.120.88.155:8000/live.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "台中城市廣播",
+      "style": "TW/information",
+      "url": "http://fm901.cityfm.tw:8080/901.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "中廣音樂網",
+      "style": "TW/music",
+      "url": "https://n03.rcs.revma.com/ndk05tyy2tzuv",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 0
+    },
+    {
+      "name": "中廣新聞網",
+      "style": "TW/news",
+      "url": "https://n03.rcs.revma.com/78fm9wyy2tzuv",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 0
+    },
+    {
+      "name": "台中廣播",
+      "style": "TW/public radio",
+      "url": "http://211.20.119.101:8081/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "城市廣播網•台南知音",
+      "style": "TW/Radio",
+      "url": "http://fm971.cityfm.tw:8080/971.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "台中歡喜之聲FM105.5",
+      "style": "TW/talk",
+      "url": "http://59.125.41.65:8081/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    }
+  ]
+}

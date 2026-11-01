@@ -1,0 +1,10 @@
+[
+  {"fr":"Un import Git est interrompu. Utilisez git recover --continue.","en":"A Git import was interrupted. Use git recover --continue."},
+  {"fr":"Journal d'import Git invalide. Conservez le dossier et vérifiez-le sur ordinateur.","en":"Invalid Git import journal. Keep the folder and inspect it on a computer."},
+  {"fr":"Reprise Git refusée : des fichiers ou l'index ont changé. Vos modifications sont conservées.","en":"Git recovery refused: files or the index have changed. Your edits are preserved."},
+  {"fr":"Reprise Git refusée : la branche a changé.","en":"Git recovery refused: the branch has changed."},
+  {"fr":"Impossible d'enregistrer la reprise Git. Vérifiez le stockage.","en":"Unable to save Git recovery state. Check the storage."},
+  {"fr":"Cette modification Git nécessite une intervention sur ordinateur.","en":"This Git change requires intervention on a computer."},
+  {"fr":"Aucun import Git à reprendre.","en":"No Git import to resume."},
+  {"fr":"recover --continue : reprendre explicitement un import interrompu ; refuse d'écraser les modifications locales.","en":"recover --continue: explicitly resume an interrupted import; refuses to overwrite local edits."}
+]

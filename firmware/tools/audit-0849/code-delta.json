@@ -1,0 +1,183 @@
+{
+  "version": "0.8.49",
+  "baselineArchiveSha256": "599483c491c253a4e41c813b2e94aecf30e4d3c85d3459486dc637e1abac095b",
+  "files": [
+    {
+      "path": "Tab5OS_Arduino_v0.8.49_Ecriture/Tab5Audio.cpp",
+      "baselinePath": "Tab5OS_Arduino_v0.8.48_Ecriture/Tab5Audio.cpp",
+      "beforeSha256": "2aa361fd12fdb73b79260d01e6b5e0342662aebb1355cf5860732d7263044142",
+      "afterSha256": "8181fa0f39161e301f93e7afb3d97463174c2bee7724c88a527c358c0f583f64",
+      "beforeBytes": 126091,
+      "afterBytes": 127927
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.49_Ecriture/Tab5Audio.h",
+      "baselinePath": "Tab5OS_Arduino_v0.8.48_Ecriture/Tab5Audio.h",
+      "beforeSha256": "ac0c03c351163459b913654a99a91e2cc962b97bc4b81747534758a7cac11c11",
+      "afterSha256": "791e191ae148c1efeab536eab38cf843548327dcadfe3ace0c4731a259b3e6df",
+      "beforeBytes": 13630,
+      "afterBytes": 13692
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.49_Ecriture/Tab5AudioDriver.cpp",
+      "baselinePath": "Tab5OS_Arduino_v0.8.48_Ecriture/Tab5AudioDriver.cpp",
+      "beforeSha256": "b199d774775e515245127f716c158477afcdcb504f492c4accc310f5e2bec2fa",
+      "afterSha256": "9bf97a53af4535e9bb4eb098837ac6a483d85c3ef726cc10b934f4624763ee21",
+      "beforeBytes": 14960,
+      "afterBytes": 15288
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.49_Ecriture/Tab5AudioDriver.h",
+      "baselinePath": "Tab5OS_Arduino_v0.8.48_Ecriture/Tab5AudioDriver.h",
+      "beforeSha256": "f603ec6adfc37dc4b5be9307fd34c4d65ddab96545bc5916ac296db5ab704b14",
+      "afterSha256": "771677f7d87db77d3777651fe129047358f971758854bb1724a8067d1fec4aa1",
+      "beforeBytes": 4409,
+      "afterBytes": 4590
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.49_Ecriture/Tab5CacheSync.cpp",
+      "baselinePath": "Tab5OS_Arduino_v0.8.48_Ecriture/Tab5CacheSync.cpp",
+      "beforeSha256": null,
+      "afterSha256": "33f7527d2b85c3c4a70cf3956b7373543d5c2af76933edef3e19bc751e6fbad2",
+      "beforeBytes": 0,
+      "afterBytes": 4085
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.49_Ecriture/Tab5HeapFit.h",
+      "baselinePath": "Tab5OS_Arduino_v0.8.48_Ecriture/Tab5HeapFit.h",
+      "beforeSha256": null,
+      "afterSha256": "d4731537521bac9248b2a5b30fcba670748168564bb48ce1afbaf4b00da4cbff",
+      "beforeBytes": 0,
+      "afterBytes": 1911
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.49_Ecriture/Tab5HeapProbe.c",
+      "baselinePath": "Tab5OS_Arduino_v0.8.48_Ecriture/Tab5HeapProbe.c",
+      "beforeSha256": null,
+      "afterSha256": "38cdb4adf62774b548e8956636a8cfa83a70f4a16b4ceb72ddcd76a14493cde5",
+      "beforeBytes": 0,
+      "afterBytes": 3771
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.49_Ecriture/Tab5HeapProbe.h",
+      "baselinePath": "Tab5OS_Arduino_v0.8.48_Ecriture/Tab5HeapProbe.h",
+      "beforeSha256": null,
+      "afterSha256": "c28fd754fac352abce544fc2a5cfc0f535daeaadf60aaa121bae2cab6d64cd31",
+      "beforeBytes": 0,
+      "afterBytes": 421
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.49_Ecriture/Tab5LvglMemory.cpp",
+      "baselinePath": "Tab5OS_Arduino_v0.8.48_Ecriture/Tab5LvglMemory.cpp",
+      "beforeSha256": "1b9924f19519d269f32be74b28349b4140b438c12ef9db0fbbc0509a4d4f0514",
+      "afterSha256": "b07b56cf6f06348ab263fa6f2f8c28e6c5d79bcf0ae44e183c174f14a2f7ada8",
+      "beforeBytes": 1893,
+      "afterBytes": 8203
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.49_Ecriture/Tab5LvglMemory.h",
+      "baselinePath": "Tab5OS_Arduino_v0.8.48_Ecriture/Tab5LvglMemory.h",
+      "beforeSha256": null,
+      "afterSha256": "0cca920dcfcc2f13f1fe927d03caf9f22828b3be62cd9bff3c4a8adb9a1346ef",
+      "beforeBytes": 0,
+      "afterBytes": 220
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.49_Ecriture/Tab5Memory.cpp",
+      "baselinePath": "Tab5OS_Arduino_v0.8.48_Ecriture/Tab5Memory.cpp",
+      "beforeSha256": "0f5e73a1f9ffd75fa7e61025ff3fb6a807e3c291108f10edc4e7165c007c4b05",
+      "afterSha256": "725f60f1d3ea12f9e6f1ff882e38cdc3db037d60622cee26791a57c4ea7a0991",
+      "beforeBytes": 8426,
+      "afterBytes": 9693
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.49_Ecriture/Tab5OS_Arduino_v0.8.49_Ecriture.ino",
+      "baselinePath": "Tab5OS_Arduino_v0.8.48_Ecriture/Tab5OS_Arduino_v0.8.48_Ecriture.ino",
+      "beforeSha256": "de287a6383fabe57d0ef2c647b2dbaea3b443b381e1e867e0fd295bead99bd42",
+      "afterSha256": "0c6d3557612f43bcab925ccfd0ac13451095e5bd878a0e87c3e180e5d61a04d8",
+      "beforeBytes": 548259,
+      "afterBytes": 548720
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.49_Ecriture/Tab5ResourceManager.cpp",
+      "baselinePath": "Tab5OS_Arduino_v0.8.48_Ecriture/Tab5ResourceManager.cpp",
+      "beforeSha256": "9527ba83ae34ff84936768c5d8c276842d7d4c29d5551e1c4fd3012b8446c74e",
+      "afterSha256": "3d0c425d97b0e1c06fda1d4531a41f8b16041d527b8d992d255697a1a7ae9454",
+      "beforeBytes": 19646,
+      "afterBytes": 21843
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.49_Ecriture/Tab5ResourceManager.h",
+      "baselinePath": "Tab5OS_Arduino_v0.8.48_Ecriture/Tab5ResourceManager.h",
+      "beforeSha256": "d1f6078d0c4184fd04913fb52a63a470ae0da9560e1b75d2f749908d3157b927",
+      "afterSha256": "857ce30397a158d49f7cc1a075f832f64ea38c4a92f3541ffba9f531d7f6c033",
+      "beforeBytes": 7526,
+      "afterBytes": 7602
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.49_Ecriture/Tab5ResourcePolicy.h",
+      "baselinePath": "Tab5OS_Arduino_v0.8.48_Ecriture/Tab5ResourcePolicy.h",
+      "beforeSha256": "95d287a7cd1b9d2bc56a27269e4d5dba2898e46c85e69428fd72b14b344a746c",
+      "afterSha256": "b65062455da7557637056cfecbb472ac7cccf832e1d9d4b4d2218edc40432f92",
+      "beforeBytes": 1670,
+      "afterBytes": 1986
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.49_Ecriture/Tab5Video.cpp",
+      "baselinePath": "Tab5OS_Arduino_v0.8.48_Ecriture/Tab5Video.cpp",
+      "beforeSha256": "6b16b9509fa296bb6b4ca786e2e0949f222f9bc4a9f1d834b31747ac0c142792",
+      "afterSha256": "b623f5120c16591d3c56cfb81c2278c693718c3437cd3cb8bf80f88781ed7ff3",
+      "beforeBytes": 59239,
+      "afterBytes": 59781
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.49_Ecriture/Tab5Video.h",
+      "baselinePath": "Tab5OS_Arduino_v0.8.48_Ecriture/Tab5Video.h",
+      "beforeSha256": "462dbbf6f122a5bed6a11c909eec61c1c869e98daddbf9da8c7862f434dc767c",
+      "afterSha256": "fa4185b73f3dd4722fd2b7308e381ab602c8e5405de3170325c41ea178c1d916",
+      "beforeBytes": 4334,
+      "afterBytes": 4418
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.49_Ecriture/lv_conf.h",
+      "baselinePath": "Tab5OS_Arduino_v0.8.48_Ecriture/lv_conf.h",
+      "beforeSha256": "ebfac825f55e90248cbc7182b99a703d92e6bb606ceb475ab9b2bdc8e060cf97",
+      "afterSha256": "4a03a0d0307fd59c26b4cc231033df13ae782e2b8ba206128c9f4e157f463fa6",
+      "beforeBytes": 2071,
+      "afterBytes": 2237
+    },
+    {
+      "path": "Compiler_Tab5OS.ps1",
+      "baselinePath": "Compiler_Tab5OS.ps1",
+      "beforeSha256": "bd1898508a7fae176522cf199032f440657926d5b9e5105e4603b75197d29a1a",
+      "afterSha256": "75379931e298ff0944cbbd6774aa1654d4502c256f80cd495c4b706b0a978a01",
+      "beforeBytes": 11006,
+      "afterBytes": 11731
+    },
+    {
+      "path": "tools/build_linux/compile_linux.py",
+      "baselinePath": "tools/build_linux/compile_linux.py",
+      "beforeSha256": "c71c268058f99e913dd4fae200b4e0043c20e95d8bff9820b5873d685148d7fb",
+      "afterSha256": "77b002efbbcdde26f8531736b6b6aebf465c02ef6f898e9f8dd06a3b7288b89e",
+      "beforeBytes": 6319,
+      "afterBytes": 6650
+    },
+    {
+      "path": "tools/build_linux/prepare_m5unified_audio.py",
+      "baselinePath": "tools/build_linux/prepare_m5unified_audio.py",
+      "beforeSha256": "d418cc90c5b6a956b69f03cad458c8bfaa9a4341fc829068b36fb4fdcca4634e",
+      "afterSha256": "f5a98ff0bb0d3d12fc18793750dedafe9974e1a4b51f1ed16bf03bba7f7e435b",
+      "beforeBytes": 10430,
+      "afterBytes": 13195
+    },
+    {
+      "path": "tools/build_linux/verify_heap_probe.py",
+      "baselinePath": "tools/build_linux/verify_heap_probe.py",
+      "beforeSha256": null,
+      "afterSha256": "453a72b303124e3c0be076fb340bd6a6c294ede34d41160a9df7d6ed7236da8a",
+      "beforeBytes": 0,
+      "afterBytes": 1790
+    }
+  ],
+  "scope": "Production changes plus directly affected build preparation; generated payloads separately checked by resource/build manifests."
+}

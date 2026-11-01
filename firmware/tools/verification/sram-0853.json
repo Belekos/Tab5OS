@@ -1,0 +1,156 @@
+{
+  "version": "0.8.53",
+  "passed": true,
+  "physicalDeviceTested": false,
+  "scope": "Real EPUB index and extracted UI lifecycle; JPEG byte-for-byte equivalence and tuner I2C traces compared with authenticated delivered .52 sources.",
+  "sourceHashes": {
+    "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5EpubPageIndex.h": "2b837139c027bc158e7174aa3f672b79fbbde3e8e893e2ceeef45969e7a6ff00",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5EpubBookIndex.inc": "e0163305cad0e58335fb1b3380d33355491e1fb10083f5c6b5dacaca85f8e506",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/EpubPageIndex.h": "02182b700c9a990cdf1339987084c3f57f7066296b1ad1ad9116a062dc8a6d84",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5EpubSeek.inc": "b76c0e965a936a40aac527ef0ecfc264c7822dd38424e5806b34b244ef3f3d15",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/src/jpeg/jpge.cpp": "64943eac92bbc534da3d898fb2f902f040e7930dba916a097d5eb6f0a093ad3b",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/src/jpeg/jpge.h": "94a75c0164214a6fb48e3db8cc3a0dd8bcbd8469969705948f6b762bd00a2bb5",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/src/rtl_sdr/tuner_fc0013.c": "9b949fd30ccb91355786cbdd697ec23e47c5ed0c3faf4d11e63717d7401907f9",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/src/rtl_sdr/tuner_fc0013.h": "0791ef6036181b097999489924e310fefb3e10e04c9e50146b2afb3d162b7f1d",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/src/rtl_sdr/rtlsdr_i2c.h": "9471c092e280ccbfd40cc702995e96924ff654c600b3f366076f1412f295dc59"
+  },
+  "testSourceHashes": {
+    "tools/sram-tests-0853/stubs/esp_heap_caps.h": "3083fb9ceb385e3a94481bc98457ef82e223a89310619add4729a0c948d27ac9",
+    "tools/sram-tests-0853/index.cpp": "6b66b3160dab3a87c13f5ab0d72895858f9e2ddf1b895a7738ba881ddd47ddfc",
+    "tools/sram-tests-0853/jpeg.cpp": "3c6c64d690dac77d8ed4a033abce9ead18d9d121325f246a51139ae3a18caf4d",
+    "tools/sram-tests-0853/tuner.c": "1ac383aad8e5b64905c012ce206447c0a88e7aefa0e617f9a61f1f5d98748989",
+    "tools/sram-tests-0853/run.py": "53f0ab11464c2b4ea4a5379216a94ce4645bbe2897d9e6b4e85228db23409c02",
+    "tools/epub-pagination-tests/test_book_index.cpp": "effa7a96cfe040fd332efaa6cbb4e4f971ee671bf1957d700ea18059c7d0ce91"
+  },
+  "evidenceHashes": {
+    "tools/verification/sram-0853/jpeg-baseline-compile.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tools/verification/sram-0853/index-compile.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tools/verification/sram-0853/original-index-baseline-compile.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tools/verification/sram-0853/lifecycle.inc": "8fc364c4ba3f1e7bdb52c50049fb85d0b1ee5ec2df2f8b1ce16bbe35ec69a1b8",
+    "tools/verification/sram-0853/tuner-current-run.log": "3c479c42394f7e4c513a63871934f4ea81858347e31d406edeffd0fb7746592f",
+    "tools/verification/sram-0853/original-index-run.log": "d898dd3291b45da6c33fc009f1fc4a03ed2eb1cfc9da04e911898b9f20795cb4",
+    "tools/verification/sram-0853/commands.json": "a2f1e7acb3d554769b790e7bca8444b2b14511e1bae212f0bda36f1c03eab084",
+    "tools/verification/sram-0853/original-index-current-run.log": "b6b93b186287f34ea88bfff16c9e7608b6a51ec0399851d85059fa8d7e12d31f",
+    "tools/verification/sram-0853/tuner-baseline-compile.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tools/verification/sram-0853/tuner-baseline-run.log": "3c479c42394f7e4c513a63871934f4ea81858347e31d406edeffd0fb7746592f",
+    "tools/verification/sram-0853/original-index-current-compile.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tools/verification/sram-0853/jpeg-current-run.log": "3d64221bf18df1e25053336d2e7c6bfdeef481228b93e72b3b4844fc9c74590d",
+    "tools/verification/sram-0853/tuner-current-compile.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tools/verification/sram-0853/index-run.log": "337b067f562c0367c27ce1e24649d4961ca68b7f30d7c9c7dcab504dd334647f",
+    "tools/verification/sram-0853/jpeg-baseline-run.log": "3d64221bf18df1e25053336d2e7c6bfdeef481228b93e72b3b4844fc9c74590d",
+    "tools/verification/sram-0853/jpeg-current-compile.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tools/verification/sram-0853/original-index-compile.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tools/verification/sram-0853/original-index-baseline-run.log": "806438653c208b8fdd74a18897c2dba82319bc349864d4783a22bfaee2c2ba0b"
+  },
+  "sanitizers": {
+    "address": true,
+    "undefined": true,
+    "leakSanitizer": false,
+    "leakSanitizerLimitation": "LSan cannot inspect /proc threads in this execution environment; EPUB heap calls are independently counted and paired."
+  },
+  "index": {
+    "passed": true,
+    "checks": 84112,
+    "allocations": 1004,
+    "frees": 1004,
+    "remainingBytes": 0
+  },
+  "comparison": {
+    "baseline": {
+      "jpeg": {
+        "passed": true,
+        "cases": 1440
+      },
+      "jpegBytes": 935708,
+      "jpegSha256": "4ca6765f0f3e50117f16b1d8f53d04c45c24faef19e0fdf990448d86354ab62b",
+      "tuner": {
+        "passed": true,
+        "cases": 64032,
+        "traceHash": "0ce949c7d62113e3"
+      },
+      "sourceHashes": {
+        "Tab5EpubBookIndex.inc": "13b01234241461097e372645f2dc0b4632a421350863bf719b847fe9abc2450e",
+        "EpubPageIndex.h": "02182b700c9a990cdf1339987084c3f57f7066296b1ad1ad9116a062dc8a6d84",
+        "Tab5EpubSeek.inc": "b76c0e965a936a40aac527ef0ecfc264c7822dd38424e5806b34b244ef3f3d15",
+        "src/jpeg/jpge.cpp": "79dfb06eae99f012c52c8d18d6af3a10964b6b28ce916460c275ea0d72746dd5",
+        "src/jpeg/jpge.h": "e3b4ae3e3f1b23ec8d4af4fbde7699c41889e7fdd895705c91f66161f634bafb",
+        "src/rtl_sdr/tuner_fc0013.c": "75cb421993fc10c0ff2d4e389df46e6952add5cc5df063f56c60af08318b561f",
+        "src/rtl_sdr/tuner_fc0013.h": "0791ef6036181b097999489924e310fefb3e10e04c9e50146b2afb3d162b7f1d",
+        "src/rtl_sdr/rtlsdr_i2c.h": "9471c092e280ccbfd40cc702995e96924ff654c600b3f366076f1412f295dc59"
+      }
+    },
+    "current": {
+      "jpeg": {
+        "passed": true,
+        "cases": 1440
+      },
+      "jpegBytes": 935708,
+      "jpegSha256": "4ca6765f0f3e50117f16b1d8f53d04c45c24faef19e0fdf990448d86354ab62b",
+      "tuner": {
+        "passed": true,
+        "cases": 64032,
+        "traceHash": "0ce949c7d62113e3"
+      },
+      "sourceHashes": {
+        "Tab5EpubPageIndex.h": "2b837139c027bc158e7174aa3f672b79fbbde3e8e893e2ceeef45969e7a6ff00",
+        "Tab5EpubBookIndex.inc": "e0163305cad0e58335fb1b3380d33355491e1fb10083f5c6b5dacaca85f8e506",
+        "EpubPageIndex.h": "02182b700c9a990cdf1339987084c3f57f7066296b1ad1ad9116a062dc8a6d84",
+        "Tab5EpubSeek.inc": "b76c0e965a936a40aac527ef0ecfc264c7822dd38424e5806b34b244ef3f3d15",
+        "src/jpeg/jpge.cpp": "64943eac92bbc534da3d898fb2f902f040e7930dba916a097d5eb6f0a093ad3b",
+        "src/jpeg/jpge.h": "94a75c0164214a6fb48e3db8cc3a0dd8bcbd8469969705948f6b762bd00a2bb5",
+        "src/rtl_sdr/tuner_fc0013.c": "9b949fd30ccb91355786cbdd697ec23e47c5ed0c3faf4d11e63717d7401907f9",
+        "src/rtl_sdr/tuner_fc0013.h": "0791ef6036181b097999489924e310fefb3e10e04c9e50146b2afb3d162b7f1d",
+        "src/rtl_sdr/rtlsdr_i2c.h": "9471c092e280ccbfd40cc702995e96924ff654c600b3f366076f1412f295dc59"
+      }
+    }
+  },
+  "tunerTableReferenceFiles": [
+    "src/rtl_sdr/tuner_fc0013.c"
+  ],
+  "historicalFixture": {
+    "file": "tools/epub-pagination-tests/test_book_index.cpp",
+    "results": [
+      {
+        "mode": "baseline",
+        "exitCode": -6,
+        "sameObsoleteGeometryAssertion": true
+      },
+      {
+        "mode": "current",
+        "exitCode": -6,
+        "sameObsoleteGeometryAssertion": true
+      }
+    ],
+    "explanation": "Unmodified historical test expects y=111 for 720x1280, while the byte-identical .52/.53 geometry function returns y=94. Both executions fail at that same stale assertion; no geometry change was made to satisfy it."
+  },
+  "expectedGrossInternalSavingsBytes": 2624,
+  "expectedPlacement": {
+    "readerBookPages": {
+      "beforeBytes": 2052,
+      "afterBytes": 4,
+      "region": "internal, pointer only"
+    },
+    "jpge::s_std_lum_quant": {
+      "bytes": 128,
+      "region": "read-only flash"
+    },
+    "jpge::s_std_croma_quant": {
+      "bytes": 128,
+      "region": "read-only flash"
+    },
+    "jpge::s_alt_quant": {
+      "bytes": 128,
+      "region": "read-only flash"
+    },
+    "fc0013_lna_gains": {
+      "bytes": 192,
+      "region": "read-only flash"
+    }
+  },
+  "limitations": [
+    "Expected savings must be checked in the final P4 ELF, and other .53 changes can offset the net gain.",
+    "No physical SRAM free/minimum/largest-block measurement, no RF tuner or SD hardware test.",
+    "EPUB renderer, cache I/O and LVGL deletion are stub boundaries in the lifecycle fixture; the index and three lifecycle functions are production code.",
+    "The index falls back to a bounded internal allocation only if PSRAM allocation fails; both regions unavailable leaves reading open and reports pagination memory failure, retrying only on explicit reopen/relayout."
+  ]
+}

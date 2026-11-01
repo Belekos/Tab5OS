@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "European Hit Radio - SuperHits",
+      "style": "LV/00s",
+      "url": "http://stream.europeanhitradio.com:8000/Stream_21.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 96
+    },
+    {
+      "name": "Alise Plus",
+      "style": "LV/casual",
+      "url": "http://fm2inet.aliseplus.lv:8080/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Ретро FM Рига (Retro FM)",
+      "style": "LV/classic hits",
+      "url": "https://live.retrofm.lv/retrofmlatvia",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 96
+    },
+    {
+      "name": "Radio SWH",
+      "style": "LV/classic rock",
+      "url": "http://80.232.162.149:8000/swh96mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "European Hit Radio - Dance",
+      "style": "LV/dance",
+      "url": "http://stream.europeanhitradio.com:8000/Stream_24.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 96
+    },
+    {
+      "name": "European Hit Radio - Russkie Hiti",
+      "style": "LV/ehr",
+      "url": "http://stream.europeanhitradio.com:8000/khr.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 96
+    },
+    {
+      "name": "Latvijas Radio 2",
+      "style": "LV/latvijas radio",
+      "url": "http://lr2mp1.latvijasradio.lv:8002/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Radio ENERGY.LV - Russian",
+      "style": "LV/pop",
+      "url": "http://radio2.radioenergy.lv:9000/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    }
+  ]
+}

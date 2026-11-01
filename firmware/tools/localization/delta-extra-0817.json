@@ -1,0 +1,32 @@
+[
+  {
+    "index": 2387,
+    "source": "Analyse : ",
+    "english": "Scanning: "
+  },
+  {
+    "index": 2388,
+    "source": "Ranger la bibliothèque",
+    "english": "Store the library"
+  },
+  {
+    "index": 2389,
+    "source": "Nom dans le catalogue",
+    "english": "Name in the catalogue"
+  },
+  {
+    "index": 2390,
+    "source": "Nom mip, adresse HTTPS ou github: du paquet",
+    "english": "mip name, HTTPS or github: package address"
+  },
+  {
+    "index": 2391,
+    "source": "Version du paquet",
+    "english": "Package version"
+  },
+  {
+    "index": 2392,
+    "source": "Version / tag (vide : version courante)",
+    "english": "Version / tag (blank: current version)"
+  }
+]

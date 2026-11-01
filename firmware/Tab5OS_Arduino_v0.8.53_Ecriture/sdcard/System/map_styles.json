@@ -1,0 +1,36 @@
+{
+  "user_agent": "Tab5OS/0.8.0 (M5Stack Tab5 map viewer)",
+  "search_url": "https://nominatim.openstreetmap.org/search",
+  "styles": [
+    {
+      "id": "osm",
+      "cache_id": "osm",
+      "name": "OSM Standard",
+      "url": "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+      "attribution": "© OpenStreetMap contributors",
+      "max_zoom": 19,
+      "zoom_shift": 0,
+      "lightweight": false
+    },
+    {
+      "id": "osm-fast",
+      "cache_id": "osm",
+      "name": "OSM léger",
+      "url": "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+      "attribution": "© OpenStreetMap contributors",
+      "max_zoom": 20,
+      "zoom_shift": -1,
+      "lightweight": true
+    },
+    {
+      "id": "opentopomap",
+      "cache_id": "opentopomap",
+      "name": "OpenTopoMap",
+      "url": "https://tile.opentopomap.org/{z}/{x}/{y}.png",
+      "attribution": "© OpenStreetMap · SRTM · OpenTopoMap (CC-BY-SA)",
+      "max_zoom": 17,
+      "zoom_shift": 0,
+      "lightweight": false
+    }
+  ]
+}

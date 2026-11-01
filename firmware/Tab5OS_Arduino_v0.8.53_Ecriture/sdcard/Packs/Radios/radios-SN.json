@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Dakar Musique",
+      "style": "SN/african music",
+      "url": "http://listen.senemultimedia.net:8090/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Or FM 89.6 Orkadiéré",
+      "style": "SN/community radio",
+      "url": "https://stream.zeno.fm/gy7fpc2am1duv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Metraf FM 103.7 Dakar",
+      "style": "SN/culture",
+      "url": "https://stream.zeno.fm/66yrv69ffv8uv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Rewmi FM 97.5 Dakar",
+      "style": "SN/general",
+      "url": "https://stream-61.zeno.fm/nkzsqg16t8quv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Love FM 107.3 Dakar",
+      "style": "SN/music",
+      "url": "https://stream.zeno.fm/7cru7g7rcwzuv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "H24",
+      "style": "SN/Radio",
+      "url": "http://listen.senemultimedia.net:8070/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "RTS 92.5 RSI",
+      "style": "SN/Radio",
+      "url": "https://10gb1.acangroup.org:8000/rsi",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 0
+    },
+    {
+      "name": "RTS Matam 89.1",
+      "style": "SN/regional",
+      "url": "https://stream.zeno.fm/kxud8vhqt1duv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    }
+  ]
+}

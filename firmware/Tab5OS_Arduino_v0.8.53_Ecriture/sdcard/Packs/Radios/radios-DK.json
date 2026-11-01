@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Vinylhits.dk",
+      "style": "DK/1980s",
+      "url": "http://stream.vinylhits.dk/vinylmp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Classic FM",
+      "style": "DK/70s",
+      "url": "http://webradio.classicfm.dk/classichorsens",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "PartyFM",
+      "style": "DK/90s",
+      "url": "http://stream.partyfm.dk/Party320/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "DR P1",
+      "style": "DK/danish",
+      "url": "http://live-icy.gss.dr.dk/A/A03H.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Retro Radio",
+      "style": "DK/oldies",
+      "url": "http://stream128.retro-radio.dk/retro",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    },
+    {
+      "name": "DR P3",
+      "style": "DK/pop",
+      "url": "http://live-icy.dr.dk/A/A05H.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Limfjord Plus Slager",
+      "style": "DK/Radio",
+      "url": "http://media.limfjordnetradio.dk/plusslager128",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "DR P4 København",
+      "style": "DK/regional radio",
+      "url": "http://live-icy.dr.dk/A/A08H.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    }
+  ]
+}

@@ -1,0 +1,495 @@
+[
+  {
+    "source": "Afficher sur l'accueil",
+    "locations": [
+      "Tab5HomeUi.h"
+    ]
+  },
+  {
+    "source": "Aucune application visible",
+    "locations": [
+      "Tab5HomeUi.h"
+    ]
+  },
+  {
+    "source": "Police invalide : cycle de glyphes",
+    "locations": [
+      "Tab5PrintFontCheck.h"
+    ]
+  },
+  {
+    "source": "Police invalide : dimensions de glyphe",
+    "locations": [
+      "Tab5PrintFontCheck.h"
+    ]
+  },
+  {
+    "source": "Police invalide : index de composant",
+    "locations": [
+      "Tab5PrintFontCheck.h"
+    ]
+  },
+  {
+    "source": "Police invalide : transformation",
+    "locations": [
+      "Tab5PrintFontCheck.h"
+    ]
+  },
+  {
+    "source": "Police sans table Unicode utilisable",
+    "locations": [
+      "Tab5PrintFontCheck.h"
+    ]
+  },
+  {
+    "source": "Police invalide : index Unicode",
+    "locations": [
+      "Tab5PrintFontCheck.h"
+    ]
+  },
+  {
+    "source": "Police invalide : cmap 4",
+    "locations": [
+      "Tab5PrintFontCheck.h"
+    ]
+  },
+  {
+    "source": "Police invalide : recherche Unicode",
+    "locations": [
+      "Tab5PrintFontCheck.h"
+    ]
+  },
+  {
+    "source": "Police invalide : segments Unicode",
+    "locations": [
+      "Tab5PrintFontCheck.h"
+    ]
+  },
+  {
+    "source": "Police invalide : fin de cmap",
+    "locations": [
+      "Tab5PrintFontCheck.h"
+    ]
+  },
+  {
+    "source": "Police invalide : groupe Unicode",
+    "locations": [
+      "Tab5PrintFontCheck.h"
+    ]
+  },
+  {
+    "source": "Collection de polices invalide",
+    "locations": [
+      "Tab5PrintFontCheck.h"
+    ]
+  },
+  {
+    "source": "Police invalide : offsets de glyphes",
+    "locations": [
+      "Tab5PrintFontCheck.h"
+    ]
+  },
+  {
+    "source": "audio libere pour activite prioritaire",
+    "locations": [
+      "Tab5Audio.cpp"
+    ]
+  },
+  {
+    "source": "connexion Wi-Fi",
+    "locations": [
+      "Tab5Audio.cpp"
+    ]
+  },
+  {
+    "source": "dossier enregistrements",
+    "locations": [
+      "Tab5Audio.cpp"
+    ]
+  },
+  {
+    "source": "Carte SD inaccessible pour enregistrer",
+    "locations": [
+      "Tab5Audio.cpp"
+    ]
+  },
+  {
+    "source": "Enregistrement en cours",
+    "locations": [
+      "Tab5Audio.cpp"
+    ]
+  },
+  {
+    "source": "Application ABI import missing",
+    "locations": [
+      "Tab5ElfValidate.cpp"
+    ]
+  },
+  {
+    "source": "application ELF: allocation",
+    "locations": [
+      "Tab5Executable.cpp"
+    ]
+  },
+  {
+    "source": "Lecture application ELF",
+    "locations": [
+      "Tab5Executable.cpp"
+    ]
+  },
+  {
+    "source": "application ELF",
+    "locations": [
+      "Tab5Executable.cpp"
+    ]
+  },
+  {
+    "source": "Choisissez une application Tab5 .elf",
+    "locations": [
+      "Tab5Executable.cpp"
+    ]
+  },
+  {
+    "source": "application",
+    "locations": [
+      "Tab5Executable.cpp"
+    ]
+  },
+  {
+    "source": "Copie de fichiers",
+    "locations": [
+      "Tab5FileOperation.cpp"
+    ]
+  },
+  {
+    "source": "Copie fichiers",
+    "locations": [
+      "Tab5FileOperation.cpp"
+    ]
+  },
+  {
+    "source": "Chemin trop long pour la copie",
+    "locations": [
+      "Tab5FileOperation.cpp"
+    ]
+  },
+  {
+    "source": "Espace insuffisant sur la destination",
+    "locations": [
+      "Tab5FileOperation.cpp"
+    ]
+  },
+  {
+    "source": "Chemin invalide pour la copie",
+    "locations": [
+      "Tab5FileOperation.cpp"
+    ]
+  },
+  {
+    "source": "Source ou dossier de destination introuvable",
+    "locations": [
+      "Tab5FileOperation.cpp"
+    ]
+  },
+  {
+    "source": "Ouvrir le disque USB",
+    "locations": [
+      "Tab5FilePicker.cpp",
+      "Tab5OS_Arduino_v0.8.17_Ecriture.ino"
+    ]
+  },
+  {
+    "source": "application/json; charset=utf-8",
+    "locations": [
+      "Tab5FileShare.cpp"
+    ]
+  },
+  {
+    "source": "application/octet-stream",
+    "locations": [
+      "Tab5FileShare.cpp"
+    ]
+  },
+  {
+    "source": "Image inaccessible ou trop volumineuse",
+    "locations": [
+      "Tab5ImageDecode.cpp"
+    ]
+  },
+  {
+    "source": "JPEG incomplet ou invalide",
+    "locations": [
+      "Tab5ImageDecode.cpp"
+    ]
+  },
+  {
+    "source": "Format du coffre appareil invalide",
+    "locations": [
+      "Tab5KeyStore.cpp"
+    ]
+  },
+  {
+    "source": "Coffre appareil ouvert sans code",
+    "locations": [
+      "Tab5KeyStore.cpp"
+    ]
+  },
+  {
+    "source": "application/json",
+    "locations": [
+      "Tab5Map.cpp"
+    ]
+  },
+  {
+    "source": "dossier cache",
+    "locations": [
+      "Tab5Map.cpp"
+    ]
+  },
+  {
+    "source": "capture carte",
+    "locations": [
+      "Tab5MapPrint.cpp"
+    ]
+  },
+  {
+    "source": "connexion HTTP/TLS WebRadio",
+    "locations": [
+      "Tab5NetDiagnostics.cpp"
+    ]
+  },
+  {
+    "source": "Impression : bloc DMA insuffisant",
+    "locations": [
+      "Tab5Print.cpp"
+    ]
+  },
+  {
+    "source": "transfert du fichier",
+    "locations": [
+      "Tab5Print.cpp"
+    ]
+  },
+  {
+    "source": "application/ipp",
+    "locations": [
+      "Tab5Print.cpp"
+    ]
+  },
+  {
+    "source": "Lecture du fichier interrompue",
+    "locations": [
+      "Tab5Print.cpp"
+    ]
+  },
+  {
+    "source": "Allocation PSRAM de la police impossible",
+    "locations": [
+      "Tab5Print.cpp"
+    ]
+  },
+  {
+    "source": "Lecture du document impossible",
+    "locations": [
+      "Tab5Print.cpp"
+    ]
+  },
+  {
+    "source": "Allocation du tampon de lecture impossible",
+    "locations": [
+      "Tab5Print.cpp"
+    ]
+  },
+  {
+    "source": "application/pdf",
+    "locations": [
+      "Tab5Print.cpp"
+    ]
+  },
+  {
+    "source": "imprimante: ressources liberees",
+    "locations": [
+      "Tab5Print.cpp"
+    ]
+  },
+  {
+    "source": "Adresse IPP / IPPS invalide",
+    "locations": [
+      "Tab5Print.cpp"
+    ]
+  },
+  {
+    "source": "ouvrir",
+    "locations": [
+      "Tab5Python.cpp"
+    ]
+  },
+  {
+    "source": "Script ou chemin invalide",
+    "locations": [
+      "Tab5Python.cpp"
+    ]
+  },
+  {
+    "source": "PSRAM insuffisante pour la console",
+    "locations": [
+      "Tab5Python.cpp"
+    ]
+  },
+  {
+    "source": "PSRAM insuffisante pour MicroPython",
+    "locations": [
+      "Tab5Python.cpp"
+    ]
+  },
+  {
+    "source": "Python SHA ouvrir",
+    "locations": [
+      "Tab5PythonServices.cpp"
+    ]
+  },
+  {
+    "source": "Application Python",
+    "locations": [
+      "Tab5PythonServices.cpp"
+    ]
+  },
+  {
+    "source": "Python lire dossier",
+    "locations": [
+      "Tab5PythonServices.cpp"
+    ]
+  },
+  {
+    "source": "Python creer dossier",
+    "locations": [
+      "Tab5PythonServices.cpp"
+    ]
+  },
+  {
+    "source": "Python ouvrir dossier",
+    "locations": [
+      "Tab5PythonServices.cpp"
+    ]
+  },
+  {
+    "source": "Bloc DMA libre insuffisant",
+    "locations": [
+      "Tab5ResourceManager.cpp"
+    ]
+  },
+  {
+    "source": "Carte SD pleine",
+    "locations": [
+      "Tab5Storage.cpp"
+    ]
+  },
+  {
+    "source": "Connexion automatique : oui",
+    "locations": [
+      "Tab5Tools.cpp"
+    ]
+  },
+  {
+    "source": "Connexion automatique : non",
+    "locations": [
+      "Tab5Tools.cpp"
+    ]
+  },
+  {
+    "source": "Fichier inaccessible",
+    "locations": [
+      "Tab5Tools.cpp"
+    ]
+  },
+  {
+    "source": "Ouvrir le coffre appareil",
+    "locations": [
+      "Tab5Tools.cpp"
+    ]
+  },
+  {
+    "source": "Demander au lancement\nSans fichier\nToujours ce fichier",
+    "locations": [
+      "Tab5Tools.cpp"
+    ]
+  },
+  {
+    "source": "sd:/Dossier/fichier ou usb:/Dossier/fichier",
+    "locations": [
+      "Tab5Tools.cpp"
+    ]
+  },
+  {
+    "source": "Fermer le coffre",
+    "locations": [
+      "Tab5Tools.cpp"
+    ]
+  },
+  {
+    "source": "connexion video",
+    "locations": [
+      "Tab5Video.cpp"
+    ]
+  },
+  {
+    "source": "connexion et en-tetes",
+    "locations": [
+      "Tab5Video.cpp"
+    ]
+  },
+  {
+    "source": "ressources du lecteur liberees",
+    "locations": [
+      "Tab5Video.cpp"
+    ]
+  },
+  {
+    "source": "avant connexion",
+    "locations": [
+      "Tab5Video.cpp"
+    ]
+  },
+  {
+    "source": "connexion ouverte",
+    "locations": [
+      "Tab5Video.cpp"
+    ]
+  },
+  {
+    "source": "Dossier de sauvegarde inaccessible",
+    "locations": [
+      "WriterStorage.cpp"
+    ]
+  },
+  {
+    "source": "Stockage indisponible",
+    "locations": [
+      "Tab5OS_Arduino_v0.8.17_Ecriture.ino"
+    ]
+  },
+  {
+    "source": "Racine carte SD",
+    "locations": [
+      "Tab5OS_Arduino_v0.8.17_Ecriture.ino"
+    ]
+  },
+  {
+    "source": "Copie des fichiers",
+    "locations": [
+      "Tab5OS_Arduino_v0.8.17_Ecriture.ino"
+    ]
+  },
+  {
+    "source": "canevas carte",
+    "locations": [
+      "Tab5OS_Arduino_v0.8.17_Ecriture.ino"
+    ]
+  },
+  {
+    "source": "dossier JPEG",
+    "locations": [
+      "Tab5OS_Arduino_v0.8.17_Ecriture.ino"
+    ]
+  }
+]

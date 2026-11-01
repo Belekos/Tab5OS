@@ -1,0 +1,1012 @@
+--- 0.8.52/Tab5ContextMenu.cpp
++++ 0.8.53/Tab5ContextMenu.cpp
+@@ -28,15 +28,6 @@
+ void choose(lv_event_t* e) {
+   const size_t i = reinterpret_cast<uintptr_t>(lv_event_get_user_data(e));
+   if (i < used && actions[i].enabled) pending = int(i);
+-}
+-void hover(lv_event_t* e) {
+-  auto* button = lv_event_get_current_target_obj(e);
+-  if (lv_event_get_code(e) == LV_EVENT_HOVER_OVER) {
+-    // Use the same highlight for mouse and keyboard navigation. Merely adding
+-    // a hover colour leaves the old keyboard-focused command highlighted too.
+-    if (lv_obj_has_state(button, LV_STATE_DISABLED)) Tab5Focus.clear();
+-    else Tab5Focus.focusObject(button);
+-  } else if (Tab5Focus.focused() == button) Tab5Focus.clear();
+ }
+ void dismiss(bool restore) {
+   auto* old = overlay;
+@@ -122,7 +113,7 @@
+     lv_obj_set_style_text_color(button, color(4), 0);
+     lv_obj_set_style_shadow_width(button, 0, 0);
+     lv_obj_set_style_border_width(button, 0, 0);
+-    Tab5UiStyle::control(button);
++    Tab5UiStyle::selection(button);
+     if (!items[i].enabled || !items[i].action) lv_obj_add_state(button, LV_STATE_DISABLED);
+     auto* label = lv_label_create(button);
+     if (!label) { close(); return false; }
+@@ -145,8 +136,6 @@
+     }
+     Tab5Focus.describe(button, tr(items[i].title));
+     lv_obj_add_event_cb(button, choose, LV_EVENT_CLICKED, reinterpret_cast<void*>(uintptr_t(i)));
+-    lv_obj_add_event_cb(button, hover, LV_EVENT_HOVER_OVER, nullptr);
+-    lv_obj_add_event_cb(button, hover, LV_EVENT_HOVER_LEAVE, nullptr);
+   }
+   lv_obj_update_layout(overlay);
+   Tab5Focus.focusInitial(panel);
+--- 0.8.52/Tab5EpubBookIndex.inc
++++ 0.8.53/Tab5EpubBookIndex.inc
+@@ -1,12 +1,12 @@
+ // Included by the sketch after readerCurrentSectionName(). Uses the very same
+ // layout functions as the visible reader, on an off-screen content rectangle.
+ // No LVGL callbacks are dispatched while the measuring state is borrowed.
+-#include "EpubPageIndex.h"
++#include "Tab5EpubPageIndex.h"
+ 
+ static void readerUpdateEpubStatus();
+ static bool readerSeekService();
+ static void readerSeekCancel();
+-static epub_pages::Index<epub_lite::MAX_CHAPTERS> readerBookPages;
++static Tab5EpubPageIndex<epub_lite::MAX_CHAPTERS> readerBookPages;
+ static epub_render::Document readerIndexDocument;
+ static char* readerIndexText = nullptr;
+ static size_t readerIndexTextLen = 0;
+@@ -36,12 +36,12 @@
+   readerIndexLoc = RichLoc{0, 0}; readerIndexOffset = 0; readerIndexPageCount = 0;
+ }
+ 
+-static void readerBookIndexStop() {
++static void readerBookIndexStop(bool releaseIndex = true) {
+   readerSeekCancel();
+   readerIndexReleaseChapter();
+   if (readerIndexContent) lv_obj_delete(readerIndexContent);
+   readerIndexContent = nullptr;
+-  readerBookPages.reset(0);
++  if (releaseIndex) readerBookPages.clear();
+ }
+ 
+ static String readerBookIndexPath() { return readerProgressPath(readerPath) + ".pages"; }
+@@ -114,9 +114,10 @@
+ }
+ 
+ static void readerBookIndexStart() {
+-  readerBookIndexStop();
+-  readerBookPages.reset(readerBook.chapterCount, readerBook.chapterBytes);
+-  readerIndexFailed = false; readerIndexSaved = false; readerIndexCacheTried = false; readerIndexLastService = millis();
++  readerBookIndexStop(false);
++  readerIndexFailed = !readerBookPages.reset(readerBook.chapterCount, readerBook.chapterBytes);
++  readerIndexSaved = false; readerIndexCacheTried = false; readerIndexLastService = millis();
++  if (readerIndexFailed) return;
+   readerIndexLayoutKey = readerBookLayoutKey();
+   readerBookIndexReadCache();
+ }
+@@ -166,6 +167,8 @@
+ }
+ 
+ static String readerBookIndexStatusText() {
++  if (readerIndexFailed && !readerBookPages.available())
++    return String(T("Mémoire insuffisante pour la pagination")) + "  ·  " + readerCurrentSectionName();
+   const auto status = readerBookIndexStatus();
+   String text = status.exact ? "" : "~";
+   text += String(status.percent) + "%";
+--- 0.8.52/Tab5EpubPageIndex.h
++++ 0.8.53/Tab5EpubPageIndex.h
+@@ -0,0 +1,49 @@
++#pragma once
++#include "EpubPageIndex.h"
++#include <esp_heap_caps.h>
++#include <new>
++
++// UI-task-owned pagination metadata. It is neither DMA data nor an ISR input.
++// Keep its storage only while a book is open; never allocate in a constructor.
++template <size_t Capacity> class Tab5EpubPageIndex {
++ public:
++  Tab5EpubPageIndex() = default;
++  ~Tab5EpubPageIndex() { clear(); }
++  Tab5EpubPageIndex(const Tab5EpubPageIndex&) = delete;
++  Tab5EpubPageIndex& operator=(const Tab5EpubPageIndex&) = delete;
++
++  bool reset(uint16_t count, const uint32_t* weights = nullptr) {
++    if (!count || count > Capacity) { clear(); return count == 0; }
++    if (!index_) {
++      void* data = heap_caps_malloc(sizeof(Index), MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
++      // A bounded fallback preserves pagination when external RAM is full.
++      // It occupies no more internal RAM than the former permanent index.
++      if (!data) data = heap_caps_malloc(sizeof(Index), MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT);
++      if (!data) return false;
++      index_ = new (data) Index;
++    }
++    index_->reset(count, weights);
++    return true;
++  }
++  void clear() {
++    if (!index_) return;
++    index_->~Index();
++    heap_caps_free(index_);
++    index_ = nullptr;
++  }
++  bool available() const { return index_ != nullptr; }
++  uint16_t count() const { return index_ ? index_->count() : 0; }
++  uint32_t pages(uint16_t chapter) const { return index_ ? index_->pages(chapter) : 0; }
++  bool record(uint16_t chapter, uint32_t pages) { return index_ && index_->record(chapter, pages); }
++  uint16_t nextUnknown() const { return index_ ? index_->nextUnknown() : 0; }
++  bool complete() const { return index_ && index_->complete(); }
++  bool locate(uint32_t page, uint16_t& chapter, uint32_t& local) const {
++    return index_ && index_->locate(page, chapter, local);
++  }
++  epub_pages::Status status(uint16_t chapter, uint32_t localPage, uint64_t done, uint64_t size) const {
++    return index_ ? index_->status(chapter, localPage, done, size) : epub_pages::Status{};
++  }
++ private:
++  using Index = epub_pages::Index<Capacity>;
++  Index* index_ = nullptr;
++};
+--- 0.8.52/Tab5ExplorerUi.inc
++++ 0.8.53/Tab5ExplorerUi.inc
+@@ -82,8 +82,8 @@
+   lv_obj_set_pos(filePreviewMeta, 0, 50);
+ 
+   lv_obj_t* previewScroll = filePreviewScroll = lv_obj_create(right);lv_obj_add_flag(previewScroll,LV_OBJ_FLAG_HIDDEN);
+-  lv_obj_set_size(previewScroll, rightW - 24, PAGE_H - 180);Tab5Shell::width(previewScroll,-FILE_LEFT_W-26-24);
+-  lv_obj_set_pos(previewScroll, 0, 82);
++  lv_obj_set_size(previewScroll, rightW - 24, PAGE_H - 186);Tab5Shell::width(previewScroll,-FILE_LEFT_W-26-24);
++  lv_obj_set_pos(previewScroll, 0, 88);
+   lv_obj_set_style_bg_color(previewScroll, C_BG(), 0);
+   lv_obj_set_style_bg_opa(previewScroll, LV_OPA_COVER, 0);
+   lv_obj_set_style_border_width(previewScroll, 0, 0);
+@@ -101,7 +101,7 @@
+ 
+   folderPreviewHost=lv_obj_create(right);lv_obj_remove_style_all(folderPreviewHost);
+   lv_obj_add_event_cb(folderPreviewHost,[](lv_event_t* e){if(lv_event_get_target_obj(e)==folderPreviewHost){folderPreviewHost=folderPreviewRows=folderPreviewPrevious=folderPreviewNext=folderPreviewPageLabel=nullptr;}},LV_EVENT_DELETE,nullptr);
+-  lv_obj_set_pos(folderPreviewHost,0,82);lv_obj_set_size(folderPreviewHost,rightW-24,PAGE_H-180);Tab5Shell::width(folderPreviewHost,-FILE_LEFT_W-26-24);
++  lv_obj_set_pos(folderPreviewHost,0,88);lv_obj_set_size(folderPreviewHost,rightW-24,PAGE_H-186);Tab5Shell::width(folderPreviewHost,-FILE_LEFT_W-26-24);
+   lv_obj_remove_flag(folderPreviewHost,LV_OBJ_FLAG_SCROLLABLE);lv_obj_add_flag(folderPreviewHost,LV_OBJ_FLAG_HIDDEN);
+   auto* folderBar=lv_obj_create(folderPreviewHost);lv_obj_remove_style_all(folderBar);
+   lv_obj_set_size(folderBar,lv_pct(100),40);lv_obj_align(folderBar,LV_ALIGN_BOTTOM_MID,0,0);lv_obj_remove_flag(folderBar,LV_OBJ_FLAG_SCROLLABLE);
+@@ -115,7 +115,7 @@
+   lv_obj_set_style_text_font(folderPreviewPageLabel,uiFont(),0);
+   lv_obj_set_style_text_color(folderPreviewPageLabel,C_MUTED(),0);
+   folderPreviewRows=lv_obj_create(folderPreviewHost);lv_obj_remove_style_all(folderPreviewRows);
+-  lv_obj_set_pos(folderPreviewRows,0,0);lv_obj_set_width(folderPreviewRows,lv_pct(100));lv_obj_set_height(folderPreviewRows,PAGE_H-224);
++  lv_obj_set_pos(folderPreviewRows,0,0);lv_obj_set_width(folderPreviewRows,lv_pct(100));lv_obj_set_height(folderPreviewRows,PAGE_H-230);
+   lv_obj_set_flex_flow(folderPreviewRows,LV_FLEX_FLOW_COLUMN);lv_obj_set_style_pad_row(folderPreviewRows,0,0);
+   lv_obj_set_flex_align(folderPreviewRows,LV_FLEX_ALIGN_START,LV_FLEX_ALIGN_START,LV_FLEX_ALIGN_START);
+   lv_obj_add_flag(folderPreviewRows,LV_OBJ_FLAG_SCROLLABLE);lv_obj_set_scroll_dir(folderPreviewRows,LV_DIR_VER);lv_obj_set_scrollbar_mode(folderPreviewRows,LV_SCROLLBAR_MODE_AUTO);lv_obj_set_style_pad_right(folderPreviewRows,8,0);
+@@ -128,7 +128,7 @@
+   fileActionBar = lv_obj_create(right);
+   lv_obj_remove_style_all(fileActionBar);
+   lv_obj_set_size(fileActionBar, 330, 46);
+-  lv_obj_align(fileActionBar,LV_ALIGN_TOP_RIGHT,0,36);
++  lv_obj_align(fileActionBar,LV_ALIGN_TOP_RIGHT,0,34);
+   lv_obj_set_flex_flow(fileActionBar, LV_FLEX_FLOW_ROW);
+   lv_obj_set_flex_align(fileActionBar, LV_FLEX_ALIGN_END,
+                         LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+@@ -136,8 +136,19 @@
+   lv_obj_remove_flag(fileActionBar, LV_OBJ_FLAG_SCROLLABLE);
+ 
+   fileOpenBtn = makeIconButton(fileActionBar, LV_SYMBOL_EDIT, 58, 46);
+-  lv_obj_add_event_cb(fileOpenBtn, selectedOpenEvent, LV_EVENT_CLICKED, nullptr);
++  lv_obj_add_event_cb(fileOpenBtn, [](lv_event_t* e){
++    if(fileCanEditImage())fileMenuCommand(reinterpret_cast<void*>(uintptr_t(FileCommand::ViewImage)));
++    else selectedOpenEvent(e);
++  }, LV_EVENT_CLICKED, nullptr);
+   lv_obj_add_state(fileOpenBtn, LV_STATE_DISABLED);
++
++  fileDrawBtn = makeButton(fileActionBar,"",58,46);
++  tab5DrawingIcon(fileDrawBtn,C_TEXT());
++  Tab5Focus.describe(fileDrawBtn,T("Ouvrir avec Dessin"));
++  lv_obj_add_event_cb(fileDrawBtn,[](lv_event_t*){
++    fileMenuCommand(reinterpret_cast<void*>(uintptr_t(FileCommand::EditImage)));
++  },LV_EVENT_CLICKED,nullptr);
++  lv_obj_add_state(fileDrawBtn,LV_STATE_DISABLED);
+ 
+   fileReadBtn = makeIconButton(fileActionBar, LV_SYMBOL_EYE_OPEN, 58, 46);
+   lv_obj_add_event_cb(fileReadBtn, selectedReadEvent, LV_EVENT_CLICKED, nullptr);
+--- 0.8.52/Tab5HomeUi.h
++++ 0.8.53/Tab5HomeUi.h
+@@ -10,6 +10,7 @@
+ static int32_t homeMenuScroll[3]{};
+ static bool homeRestoreMenuScroll=false,homeFocusMenu=false;
+ static uint64_t homePendingFocus=0;
++static uint32_t homePublishedRevision=0;
+ static lv_obj_t* homeAppButtons[Tab5AppCatalogue::MaxApps]{};
+ static uint64_t homeAppButtonKeys[Tab5AppCatalogue::MaxApps]{};
+ static void homeOpenMenu(unsigned menu){
+@@ -21,7 +22,7 @@
+   if(activePage!=Page::Home)showPage(Page::Home);
+   updateTopBarForPage();
+ }
+-static const char* homePageTitle(){return homeCustomize?"Personnaliser l'accueil":homeMenu==1?"Applications ELF":homeMenu==2?"Applications Python":"Tab5OS";}
++static const char* homePageTitle(){return homeCustomize?"Personnaliser l'accueil":homeMenu==1?"Apps ELF":homeMenu==2?"Apps Python":"Tab5OS";}
+ static const char* homeSymbol(unsigned index){
+   static const char* symbols[]={LV_SYMBOL_PLAY,LV_SYMBOL_DIRECTORY,LV_SYMBOL_EDIT,LV_SYMBOL_AUDIO,
+     LV_SYMBOL_GPS,LV_SYMBOL_SETTINGS,LV_SYMBOL_PLAY,LV_SYMBOL_IMAGE,LV_SYMBOL_DOWNLOAD,LV_SYMBOL_SD_CARD,
+@@ -37,7 +38,7 @@
+   if(homeCustomize){lv_obj_add_flag(homeNativeView,LV_OBJ_FLAG_HIDDEN);lv_obj_remove_flag(homePythonView,LV_OBJ_FLAG_HIDDEN);}
+   else{lv_obj_remove_flag(homeNativeView,LV_OBJ_FLAG_HIDDEN);lv_obj_add_flag(homePythonView,LV_OBJ_FLAG_HIDDEN);}
+   homePythonLibrary=homeCustomize||homeMenu!=0;
+-  homeRequestRender();updateTopBarForPage();
++  homeRequestRender();updateTopBarForPage();shellRefreshDock();
+ }
+ static void homeOpenCatalogue(bool customize){
+   if(customize){
+@@ -56,18 +57,17 @@
+   Tab5AppCatalogue::loadChoices();homeCustomize=false;homeShowView();
+   showPage(homeCustomizeReturn);
+ }
+-static void homeAppLaunch(lv_event_t* event){
+-  const unsigned index=unsigned(reinterpret_cast<uintptr_t>(lv_event_get_user_data(event)));
+-  const auto* source=Tab5AppCatalogue::at(index);if(!source)return;
+-  const Tab5AppCatalogue::App app=*source;
++static void homeLaunchApp(Tab5AppCatalogue::App app){
+   if(homeAppsScanning)homeAppsDirty=true;
+   Tab5AppCatalogue::endScan();homeAppsScanning=false;
+   if(app.kind==Tab5AppCatalogue::Kind::Builtin){
++    dockLaunchedKey=0;
+     if(app.action==254){homeOpenMenu(1);return;}
+     if(app.action==253){homeOpenMenu(2);return;}
+     openHomeAction(static_cast<HomeAction>(app.action));return;
+   }
+   setKeyboardVisible(false);keyboardDockFocus=false;keyboardUiNavigation=true;Tab5Focus.clear();
++  dockLaunchedKey=app.key;
+   // Keep the home view and its scroll position below the application.
+   if(app.kind==Tab5AppCatalogue::Kind::Script){
+     if(Tab5Tools.openPythonApp(app.id))Tab5Focus.focusFirst(Tab5Tools.scope());
+@@ -75,6 +75,11 @@
+     Tab5Tools.launchExecutable(app.id);
+     if(Tab5Tools.scope())Tab5Focus.focusFirst(Tab5Tools.scope());
+   }
++  updateNavState();
++}
++static void homeAppLaunch(lv_event_t* event){
++  const unsigned index=unsigned(reinterpret_cast<uintptr_t>(lv_event_get_user_data(event)));
++  const auto* source=Tab5AppCatalogue::at(index);if(source)homeLaunchApp(*source);
+ }
+ static void homeLaunchSettings(lv_event_t* event){
+   const unsigned index=unsigned(reinterpret_cast<uintptr_t>(lv_event_get_user_data(event)));
+@@ -165,10 +170,11 @@
+   lv_obj_set_style_bg_color(iconBox,C_ACTIVE(),0);lv_obj_set_style_bg_opa(iconBox,LV_OPA_COVER,0);lv_obj_set_style_radius(iconBox,12,0);
+   lv_obj_set_pos(iconBox,list?14:(width-56)/2,list?(height-56)/2:(labels?14:(height-56)/2));homePassive(iconBox);
+   unsigned chosen=Tab5AppCatalogue::icon(index);if(!chosen)chosen=app->symbol;
+-  const char* symbol=homeSymbol(chosen);
++  const char* symbol=!Tab5AppCatalogue::icon(index)&&!strcmp(app->id,"image-editor")?TAB5_SYMBOL_DRAW:homeSymbol(chosen);
+   if(!strcmp(symbol,TAB5_SYMBOL_CALCULATOR))tab5CalculatorIcon(iconBox,C_TEXT());
+   else if(!strcmp(symbol,TAB5_SYMBOL_PYTHON))tab5PythonIcon(iconBox,C_TEXT());
+   else if(!strcmp(symbol,TAB5_SYMBOL_ALARM))tab5AlarmIcon(iconBox,C_TEXT(),C_ACTIVE());
++  else if(!strcmp(symbol,TAB5_SYMBOL_DRAW))tab5DrawingIcon(iconBox,C_TEXT());
+   else{auto* label=lv_label_create(iconBox);lv_label_set_text(label,symbol);lv_obj_set_style_text_font(label,&lv_font_montserrat_32,0);lv_obj_set_style_text_color(label,C_TEXT(),0);lv_obj_center(label);homePassive(label);}
+   homeIconBoxes[index]=iconBox;
+   if(labels||list){
+@@ -197,7 +203,7 @@
+   unsigned order[Tab5AppCatalogue::MaxApps];homeAppCount=Tab5AppCatalogue::ordered(order,!homeCustomize);
+   lv_obj_t* target=homeCustomize?homeAppsGrid:homeDefaultGrid;
+   const Tab5AppCatalogue::Kind kinds[]={Tab5AppCatalogue::Kind::Builtin,Tab5AppCatalogue::Kind::Executable,Tab5AppCatalogue::Kind::Script};
+-  const char* headings[]={"Applications intégrées","Applications ELF","Applications Python"};
++  const char* headings[]={"Applications intégrées","Apps ELF","Apps Python"};
+   int y=8;unsigned shown=0;lv_obj_t* firstApp=nullptr;
+   if(!homeCustomize&&homeMenu){
+     auto* back=makeIconButton(target,LV_SYMBOL_LEFT,52,48);lv_obj_set_pos(back,28,8);
+@@ -247,8 +253,8 @@
+   static_assert(sizeof(HOME_CARDS)/sizeof(HOME_CARDS[0])==sizeof(HOME_SYMBOLS)/sizeof(HOME_SYMBOLS[0]),"home symbols must match native apps");
+   for(unsigned i=0;i<sizeof(HOME_CARDS)/sizeof(HOME_CARDS[0]);++i)
+     Tab5AppCatalogue::addBuiltin(HOME_IDS[i],HOME_CARDS[i].title,uint8_t(HOME_CARDS[i].action),HOME_SYMBOLS[i]);
+-  Tab5AppCatalogue::addBuiltin("elf-apps","Applications ELF",254,6);
+-  Tab5AppCatalogue::addBuiltin("python-apps","Applications Python",253,24);
++  Tab5AppCatalogue::addBuiltin("elf-apps","Apps ELF",254,6);
++  Tab5AppCatalogue::addBuiltin("python-apps","Apps Python",253,24);
+   homePage=lv_obj_create(pageHost);lv_obj_set_size(homePage,WORK_W,PAGE_H);Tab5Shell::width(homePage);lv_obj_set_pos(homePage,0,0);
+   lv_obj_set_style_border_width(homePage,0,0);lv_obj_set_style_radius(homePage,0,0);lv_obj_set_style_pad_all(homePage,0,0);
+   lv_obj_set_style_bg_color(homePage,C_BG(),0);lv_obj_remove_flag(homePage,LV_OBJ_FLAG_SCROLLABLE);
+@@ -272,6 +278,7 @@
+   auto* scroll=lv_obj_create(homePythonView);lv_obj_remove_style_all(scroll);lv_obj_set_pos(scroll,0,150);lv_obj_set_size(scroll,WORK_W,PAGE_H-150);Tab5Shell::width(scroll);homeScrollbar(scroll);
+   homeAppsGrid=lv_obj_create(scroll);lv_obj_remove_style_all(homeAppsGrid);lv_obj_set_size(homeAppsGrid,WORK_W,1);Tab5Shell::width(homeAppsGrid);lv_obj_remove_flag(homeAppsGrid,LV_OBJ_FLAG_SCROLLABLE);
+   renderHomeApps();
++  homePublishedRevision=Tab5AppCatalogue::revision();shellCatalogueChanged();
+ }
+ static void serviceHomeApps(){
+   static Tab5AppRefresh::Schedule refresh;
+@@ -280,22 +287,24 @@
+   const uint32_t now=millis();
+   // App launch, page changes and settings can cancel the catalogue externally.
+   if(refresh.running&&!homeAppsScanning){refresh.finished(now);homeAppsDirty=true;}
+-  if(!homeAppsGrid||activePage!=Page::Home||Tab5Tools.scope()||keyboardScope()!=homePage){
++  const bool homeVisible=activePage==Page::Home&&keyboardScope()==homePage;
++  const bool sidebarVisible=sidebarSettingsOverlay!=nullptr;
++  if(!homeAppsGrid||Tab5Tools.scope()||(!homeVisible&&!sidebarVisible)){
+     if(homeAppsScanning){Tab5AppCatalogue::endScan();homeAppsScanning=false;homeAppsDirty=true;refresh.finished(now);}
+     return;
+   }
+   const uint32_t usb=Tab5UsbStorage::revision();
+   if(previousSd!=sdReady||previousUsb!=usb){previousSd=sdReady;previousUsb=usb;homeAppsDirty=true;}
+   refresh.observe(now,tab5FsRevision());
+-  const bool catalogueVisible=homeCustomize||homeMenu!=0;
+-  // Native cards do not depend on files. Keep changes pending until a library
+-  // is opened; polling storage here only delays input on the native home.
+-  if(!catalogueVisible&&homeAppsScanning){
++  const bool catalogueVisible=sidebarVisible||(homeVisible&&(homeCustomize||homeMenu!=0));
++  const bool dockCatalogue=Tab5Shell::choices.enabled&&shellDockNeedsCatalogue();
++  // External shortcuts need a scan at startup or after a support change.
++  // File/cache writes alone must not start background scans on the native home.
++  if(!catalogueVisible&&!dockCatalogue&&homeAppsScanning){
+     Tab5AppCatalogue::endScan();homeAppsScanning=false;homeAppsDirty=true;refresh.finished(now);
+   }
+-  if(catalogueVisible&&!homeCustomize&&refresh.due(now))homeAppsDirty=true;
+-  const uint32_t before=Tab5AppCatalogue::revision();
+-  if(catalogueVisible&&homeAppsDirty){
++  if(catalogueVisible&&(!homeCustomize||sidebarVisible)&&refresh.due(now))homeAppsDirty=true;
++  if((catalogueVisible||dockCatalogue)&&homeAppsDirty){
+     homeAppsDirty=false;refresh.started(now);homeAppsScanning=Tab5AppCatalogue::beginScan(sdReady);
+     if(!homeAppsScanning)refresh.finished(now);
+   }
+@@ -309,12 +318,14 @@
+       previousResult=result;
+     }
+   }
+-  if(Tab5AppCatalogue::revision()!=before)homeRequestRender();
+-  if(homeRenderPending)renderHomeApps();
++  if(Tab5AppCatalogue::revision()!=homePublishedRevision){homePublishedRevision=Tab5AppCatalogue::revision();homeRequestRender();shellCatalogueChanged();}
++  if(homeVisible&&homeRenderPending)renderHomeApps();
+   if((sdReady||Tab5UsbStorage::mounted())&&!homeAppsScanning&&!homeCustomize){
+-    while(homeIconNext<Tab5AppCatalogue::count()){
++    bool loaded=false;
++    while(homeVisible&&homeIconNext<Tab5AppCatalogue::count()){
+       unsigned index=homeIconNext++;if(!homeIconBoxes[index])continue;
+-      Tab5AppCatalogue::attachIcon(homeIconBoxes[index],index);break;
++      Tab5AppCatalogue::attachIcon(homeIconBoxes[index],index);loaded=true;break;
+     }
+-  }
+-}
++    if(!loaded)shellServiceDockIcon();
++  }
++}
+--- 0.8.52/Tab5Icons.h
++++ 0.8.53/Tab5Icons.h
+@@ -27,16 +27,37 @@
+  auto* label=lv_label_create(host);lv_label_set_text(label,">_");lv_obj_set_style_text_font(label,&lv_font_montserrat_32,0);lv_obj_set_style_text_color(label,ink,0);lv_obj_center(label);
+ }
+ 
++#define TAB5_SYMBOL_DRAW "@draw"
++inline void tab5DrawingIcon(lv_obj_t* parent,lv_color_t ink){
++ auto* host=lv_obj_create(parent);lv_obj_remove_style_all(host);lv_obj_set_size(host,32,32);lv_obj_center(host);
++ lv_obj_set_clickable(host,false);lv_obj_set_scrollable(host,false);
++ auto stroke=[&](const lv_point_precise_t* points,unsigned count,int width){
++  auto* line=lv_line_create(host);lv_line_set_points(line,points,count);lv_obj_set_style_line_width(line,width,0);lv_obj_set_style_line_color(line,ink,0);
++  lv_obj_set_clickable(line,false);lv_obj_set_scrollable(line,false);
++ };
++ static const lv_point_precise_t handle[]={{12,19},{23,3},{26,2},{29,5},{28,8},{17,23},{12,19}};
++ static const lv_point_precise_t ferrule[]={{11,20},{16,24}};
++ static const lv_point_precise_t bristles[]={{11,21},{7,22},{5,26},{2,29},{7,30},{11,29},{14,26},{14,24}};
++ stroke(handle,7,2);stroke(ferrule,2,3);stroke(bristles,8,2);
++}
++
+ #define TAB5_SYMBOL_ALARM "@alarm"
+ inline void tab5AlarmIcon(lv_obj_t* parent,lv_color_t ink,lv_color_t paper){
+- auto* host=lv_obj_create(parent);lv_obj_remove_style_all(host);lv_obj_set_size(host,38,38);lv_obj_center(host);
+- lv_obj_remove_flag(host,lv_obj_flag_t(LV_OBJ_FLAG_CLICKABLE|LV_OBJ_FLAG_SCROLLABLE));
+- auto part=[&](int x,int y,int w,int h,int radius,bool fill){
+-  auto* p=lv_obj_create(host);lv_obj_remove_style_all(p);lv_obj_set_pos(p,x,y);lv_obj_set_size(p,w,h);lv_obj_set_style_radius(p,radius,0);
+-  lv_obj_set_style_bg_color(p,fill?ink:paper,0);lv_obj_set_style_bg_opa(p,LV_OPA_COVER,0);lv_obj_set_style_border_width(p,fill?0:2,0);lv_obj_set_style_border_color(p,ink,0);
+-  lv_obj_remove_flag(p,lv_obj_flag_t(LV_OBJ_FLAG_CLICKABLE|LV_OBJ_FLAG_SCROLLABLE));return p;
++ auto* host=lv_obj_create(parent);lv_obj_remove_style_all(host);lv_obj_set_size(host,36,36);lv_obj_center(host);
++ lv_obj_set_clickable(host,false);lv_obj_set_scrollable(host,false);
++ auto stroke=[&](const lv_point_precise_t* points,unsigned count,int width){
++  auto* line=lv_line_create(host);lv_line_set_points(line,points,count);lv_obj_set_style_line_width(line,width,0);lv_obj_set_style_line_color(line,ink,0);
++  lv_obj_set_clickable(line,false);lv_obj_set_scrollable(line,false);
+  };
+- part(3,1,12,7,4,true);part(23,1,12,7,4,true);
+- part(7,31,4,6,1,true);part(27,31,4,6,1,true);part(4,6,30,30,15,false);
+- part(18,12,2,11,0,true);part(19,21,8,2,0,true);part(17,20,4,4,2,true);
++ static const lv_point_precise_t leftBell[]={{2,9},{3,5},{6,2},{10,1},{13,3},{14,5},{2,9}};
++ static const lv_point_precise_t rightBell[]={{22,5},{23,3},{26,1},{30,2},{33,5},{34,9},{22,5}};
++ static const lv_point_precise_t leftFoot[]={{10,29},{6,34}},rightFoot[]={{26,29},{30,34}};
++ stroke(leftBell,7,2);stroke(rightBell,7,2);stroke(leftFoot,2,3);stroke(rightFoot,2,3);
++ auto* face=lv_obj_create(host);lv_obj_remove_style_all(face);lv_obj_set_pos(face,5,7);lv_obj_set_size(face,26,26);lv_obj_set_style_radius(face,LV_RADIUS_CIRCLE,0);
++ lv_obj_set_style_bg_color(face,paper,0);lv_obj_set_style_bg_opa(face,LV_OPA_COVER,0);lv_obj_set_style_border_width(face,2,0);lv_obj_set_style_border_color(face,ink,0);
++ lv_obj_set_clickable(face,false);lv_obj_set_scrollable(face,false);
++ static const lv_point_precise_t hands[]={{12,15},{18,21},{23,14}};
++ stroke(hands,3,2);
++ auto* center=lv_obj_create(host);lv_obj_remove_style_all(center);lv_obj_set_pos(center,16,19);lv_obj_set_size(center,4,4);lv_obj_set_style_radius(center,LV_RADIUS_CIRCLE,0);lv_obj_set_style_bg_color(center,ink,0);lv_obj_set_style_bg_opa(center,LV_OPA_COVER,0);
++ lv_obj_set_clickable(center,false);lv_obj_set_scrollable(center,false);
+ }
+--- 0.8.52/Tab5Meshtastic.cpp
++++ 0.8.53/Tab5Meshtastic.cpp
+@@ -296,7 +296,8 @@
+ lv_obj_t* label(lv_obj_t* parent,const char* value){auto* o=lv_label_create(parent);lv_label_set_text(o,tr(value));lv_label_set_long_mode(o,LV_LABEL_LONG_WRAP);return o;}
+ lv_obj_t* button(lv_obj_t* parent,const char* value,void(*action)(),int width=52){auto* o=lv_button_create(parent);lv_obj_set_size(o,width,48);Tab5UiStyle::button(o);auto* l=label(o,value);lv_obj_set_width(l,LV_PCT(100));lv_obj_set_style_text_align(l,LV_TEXT_ALIGN_CENTER,0);lv_obj_center(l);lv_obj_add_event_cb(o,[](lv_event_t* e){reinterpret_cast<void(*)()>(lv_event_get_user_data(e))();},LV_EVENT_CLICKED,reinterpret_cast<void*>(action));return o;}
+ void searchIcon(lv_obj_t* button){auto* ring=lv_obj_create(button);lv_obj_remove_style_all(ring);lv_obj_set_size(ring,20,20);lv_obj_align(ring,LV_ALIGN_CENTER,-4,-4);lv_obj_set_style_border_width(ring,2,0);lv_obj_set_style_border_color(ring,lv_color_hex(Tab5UiStyle::color(4)),0);lv_obj_set_style_radius(ring,10,0);lv_obj_remove_flag(ring,lv_obj_flag_t(LV_OBJ_FLAG_CLICKABLE|LV_OBJ_FLAG_SCROLLABLE));static const lv_point_precise_t points[]={{0,0},{10,10}};auto* handle=lv_line_create(button);lv_line_set_points(handle,points,2);lv_obj_set_style_line_width(handle,2,0);lv_obj_set_style_line_color(handle,lv_color_hex(Tab5UiStyle::color(4)),0);lv_obj_align(handle,LV_ALIGN_CENTER,9,9);lv_obj_remove_flag(handle,LV_OBJ_FLAG_CLICKABLE);}
+-void focusComposer(){if(!input)return;Tab5Focus.editObject(input);if(hooks.keyboard){keyboardOpen=true;hooks.keyboard(input);}}
++void focusComposer(){if(!input)return;Tab5Focus.editObject(input);if(hooks.keyboard){keyboardOpen=true;hooks.keyboard(input,false);}}
++void showKeyboard(){if(!input)return;Tab5Focus.editObject(input);if(hooks.keyboard){keyboardOpen=true;hooks.keyboard(input,true);}}
+ void requestScan(){paused=false;if(!ensureState()){setText(noticeLabel,tr("Mémoire insuffisante pour Bluetooth"));return;}if(running.load()){Guard lock;if(state->connection==NoConnection&&!state->stop){state->manualDisconnect=true;state->scan=true;state->notice=Notice::None;}return;}startRequested=true;startAutomatic=false;}
+ void startRadio(){
+  if(running.load()||!state)return;
+@@ -315,7 +316,7 @@
+  if(!running.load()){startRequested=true;startAutomatic=false;paused=false;}
+  Guard lock;if(state->connection!=NoConnection||state->status==Status::Connecting)return;state->connectIndex=i;state->allowUnpaired=unsecured;state->manualDisconnect=true;state->connect=true;state->stop=false;
+ }
+-void focusInput(lv_event_t* e){Tab5Focus.editObject(lv_event_get_target_obj(e));if(hooks.keyboard){keyboardOpen=true;hooks.keyboard(lv_event_get_target_obj(e));}}
++void focusInput(lv_event_t* e){Tab5Focus.editObject(lv_event_get_target_obj(e));if(hooks.keyboard){keyboardOpen=true;hooks.keyboard(lv_event_get_target_obj(e),true);}}
+ void renderPeers(){
+  if(!peerList||!state)return;unsigned count;{Guard lock;count=state->peerCount;drawnPeers=state->peersRevision;}if(count&&peerEmpty){lv_obj_delete(peerEmpty);peerEmpty=nullptr;}
+  for(unsigned i=0;i<MaxPeers;++i){
+@@ -359,7 +360,7 @@
+  setText(statusLabel,tr(statusKey(status)));char text[240];if(note==Notice::Internal||note==Notice::InternalBlock)snprintf(text,sizeof(text),tr("%s — RAM interne libre %u Kio, bloc %u Kio, demande %u Kio"),tr(noticeKey(note)),unsigned(free/1024),unsigned(block/1024),unsigned(need/1024));else if(note==Notice::External||note==Notice::ExternalBlock)snprintf(text,sizeof(text),tr("%s — PSRAM libre %u Kio, bloc %u Kio, demande %u Kio"),tr(noticeKey(note)),unsigned(free/1024),unsigned(block/1024),unsigned(need/1024));else if(error&&note!=Notice::None)snprintf(text,sizeof(text),"%s (%d)",tr(noticeKey(note)),error);else snprintf(text,sizeof(text),"%s",tr(noticeKey(note)));setText(noticeLabel,text);if(*text)lv_obj_remove_flag(noticeLabel,LV_OBJ_FLAG_HIDDEN);else lv_obj_add_flag(noticeLabel,LV_OBJ_FLAG_HIDDEN);
+  enable(scanButton,!running.load()||(!stopping&&(status==Status::Idle||status==Status::Failed||status==Status::Scanning)));enable(disconnectButton,running.load());enable(sendButton,ready&&!sending);enable(unpaired,status==Status::Idle||status==Status::Scanning||!running.load());
+  bool hadPair=!lv_obj_has_flag(pairRow,LV_OBJ_FLAG_HIDDEN);
+- if(pairAction==BLE_SM_IOACT_INPUT||pairAction==BLE_SM_IOACT_NUMCMP){lv_obj_remove_flag(pairRow,LV_OBJ_FLAG_HIDDEN);if(pairAction==BLE_SM_IOACT_INPUT){setText(pairLabel,tr("Code affiché sur la radio :"));lv_obj_remove_flag(pin,LV_OBJ_FLAG_HIDDEN);if(!hadPair){Tab5Focus.editObject(pin);if(hooks.keyboard){keyboardOpen=true;hooks.keyboard(pin);}}}else{snprintf(text,sizeof(text),"%s %06lu",tr("Confirmer ce code sur les deux appareils :"),static_cast<unsigned long>(number));setText(pairLabel,text);lv_obj_add_flag(pin,LV_OBJ_FLAG_HIDDEN);}}else{lv_obj_add_flag(pairRow,LV_OBJ_FLAG_HIDDEN);if(hadPair)lv_textarea_set_text(pin,"");}
++ if(pairAction==BLE_SM_IOACT_INPUT||pairAction==BLE_SM_IOACT_NUMCMP){lv_obj_remove_flag(pairRow,LV_OBJ_FLAG_HIDDEN);if(pairAction==BLE_SM_IOACT_INPUT){setText(pairLabel,tr("Code affiché sur la radio :"));lv_obj_remove_flag(pin,LV_OBJ_FLAG_HIDDEN);if(!hadPair){Tab5Focus.editObject(pin);if(hooks.keyboard){keyboardOpen=true;hooks.keyboard(pin,false);}}}else{snprintf(text,sizeof(text),"%s %06lu",tr("Confirmer ce code sur les deux appareils :"),static_cast<unsigned long>(number));setText(pairLabel,text);lv_obj_add_flag(pin,LV_OBJ_FLAG_HIDDEN);}}else{lv_obj_add_flag(pairRow,LV_OBJ_FLAG_HIDDEN);if(hadPair)lv_textarea_set_text(pin,"");}
+  if(pr!=drawnPeers)renderPeers();if(nr!=drawnNodes)renderNodes();if(mr!=drawnMessages)renderMessages();
+ }
+ }
+@@ -402,7 +403,7 @@
+  historyPane=lv_obj_create(historyColumn);lv_obj_set_width(historyPane,LV_PCT(100));lv_obj_set_height(historyPane,10);lv_obj_set_flex_grow(historyPane,1);lv_obj_set_flex_flow(historyPane,LV_FLEX_FLOW_COLUMN);lv_obj_set_scroll_dir(historyPane,LV_DIR_VER);lv_obj_set_style_pad_all(historyPane,6,0);surface(historyPane);
+  auto* pager=row(historyColumn);olderButton=button(pager,LV_SYMBOL_LEFT,[](){++historyPage;renderMessages();},42);historyRange=label(pager,"");lv_obj_set_flex_grow(historyRange,1);newerButton=button(pager,LV_SYMBOL_RIGHT,[](){if(historyPage)--historyPage;renderMessages();},42);lv_obj_set_height(olderButton,32);lv_obj_set_height(newerButton,32);
+  auto* destination=row(panel);recipient=lv_dropdown_create(destination);lv_obj_set_width(recipient,LV_PCT(65));lv_dropdown_set_options(recipient,tr("Tous les nœuds"));recipientIds[0]=P::Broadcast;recipientCount=1;label(destination,"Canal");channel=lv_dropdown_create(destination);lv_obj_set_width(channel,100);lv_dropdown_set_options(channel,"0\n1\n2\n3\n4\n5\n6\n7");
+- auto* compose=row(panel);input=lv_textarea_create(compose);lv_obj_set_flex_grow(input,1);lv_obj_set_height(input,52);lv_textarea_set_one_line(input,true);lv_textarea_set_max_length(input,233);lv_textarea_set_placeholder_text(input,tr("Message"));Tab5TextInput::track(input);lv_obj_add_event_cb(input,focusInput,LV_EVENT_CLICKED,nullptr);lv_obj_add_event_cb(input,[](lv_event_t*){requestSend();},LV_EVENT_READY,nullptr);sendButton=button(compose,LV_SYMBOL_RIGHT,requestSend,60);
++ auto* compose=row(panel);input=lv_textarea_create(compose);lv_obj_set_flex_grow(input,1);lv_obj_set_height(input,52);lv_textarea_set_one_line(input,true);lv_textarea_set_max_length(input,233);lv_textarea_set_placeholder_text(input,tr("Message"));Tab5TextInput::track(input);lv_obj_add_event_cb(input,focusInput,LV_EVENT_CLICKED,nullptr);lv_obj_add_event_cb(input,[](lv_event_t*){requestSend();},LV_EVENT_READY,nullptr);auto* keys=button(compose,LV_SYMBOL_KEYBOARD,showKeyboard);Tab5Focus.describe(keys,tr("Clavier tactile"));sendButton=button(compose,LV_SYMBOL_RIGHT,requestSend,60);
+  Tab5UiStyle::tree(panel);enable(sendButton,false);enable(disconnectButton,false);drawn=drawnPeers=drawnNodes=drawnMessages=0;if(state){markRead();render();}else setText(noticeLabel,tr("Mémoire insuffisante pour Bluetooth"));if(!displayBuffer)enable(scanButton,false);focusComposer();
+  if(preferences.options.autoReconnect&&preferences.knownCount){startRequested=true;startAutomatic=true;}
+ }
+--- 0.8.52/Tab5Meshtastic.h
++++ 0.8.53/Tab5Meshtastic.h
+@@ -10,7 +10,8 @@
+  const char* (*translate)(const char*)=nullptr;
+  const lv_font_t* (*font)()=nullptr;
+  uint32_t (*color)(unsigned)=nullptr;
+- void (*keyboard)(lv_obj_t*)=nullptr;
++ // Automatic focus may defer to a physical keyboard; an explicit request may not.
++ void (*keyboard)(lv_obj_t*,bool explicitRequest)=nullptr;
+  void (*closeKeyboard)()=nullptr;
+  void (*openMap)(uint32_t node,double latitude,double longitude)=nullptr;
+  bool (*storageAvailable)()=nullptr;
+--- 0.8.52/Tab5OS_Arduino_v0.8.52_Ecriture.ino
++++ 0.8.53/Tab5OS_Arduino_v0.8.53_Ecriture.ino
+@@ -175,7 +175,7 @@
+ // ESP-IDF task stack units are bytes. setup and LVGL share this task.
+ SET_LOOP_TASK_STACK_SIZE(24 * 1024);
+ static Tab5BootStatus bootStatus;
+-static constexpr char APP_VERSION[] = "0.8.52";
++static constexpr char APP_VERSION[] = "0.8.53";
+ static void warnSystemFile(const String& path);
+ const char* resetReasonName(esp_reset_reason_t reason);
+ static constexpr int SCREEN_W = 1280;
+@@ -533,6 +533,12 @@
+ static lv_obj_t* topHomeButton = nullptr;
+ static void shellTopLayout();
+ static void shellDockPositions();
++static void shellRefreshDock();
++static void shellCatalogueChanged();
++static bool shellDockNeedsCatalogue();
++static void shellServiceDockIcon();
++static void shellLaunchDock(unsigned slot);
++static const Tab5AppCatalogue::App* shellAppForKey(uint64_t key);
+ static void applyShellLayout();
+ static const char* homePageTitle();
+ static void homeOpenMenu(unsigned menu);
+@@ -548,13 +554,9 @@
+ static lv_obj_t* editorCopyBtn = nullptr;
+ static lv_obj_t* editorPasteBtn = nullptr;
+ static lv_obj_t* dock = nullptr;
+-static constexpr int DOCK_BUTTON_COUNT = 7;
++static constexpr int DOCK_BUTTON_COUNT = Tab5Shell::DockCount;
+ static lv_obj_t* dockButtons[DOCK_BUTTON_COUNT] = {};
+-static constexpr HomeAction DOCK_ACTIONS[DOCK_BUTTON_COUNT] = {
+-  HomeAction::Home, HomeAction::Files, HomeAction::Editor,
+-  HomeAction::Reader, HomeAction::Audio, HomeAction::Map,
+-  HomeAction::Settings
+-};
++static uint64_t dockLaunchedKey=0;
+ 
+ static lv_obj_t* pageHost = nullptr;
+ static lv_obj_t* homePage = nullptr;
+@@ -818,6 +820,7 @@
+ static lv_obj_t* fileActionsMenuBtn = nullptr;
+ static lv_obj_t* filePreviewScroll = nullptr;
+ static lv_obj_t* fileOpenBtn = nullptr;
++static lv_obj_t* fileDrawBtn = nullptr;
+ static lv_obj_t* fileReadBtn = nullptr;
+ static lv_obj_t* fileExecuteBtn = nullptr;
+ static lv_obj_t* fileCopyBtn = nullptr;
+@@ -2631,7 +2634,11 @@
+ static void updateNavState() {
+   for (int i = 0; i < DOCK_BUTTON_COUNT; ++i) {
+     if (!dockButtons[i]) continue;
+-    const bool active = DOCK_ACTIONS[i] == activeTool;
++    const uint64_t key=i<Tab5Shell::choices.count?Tab5Shell::choices.keys[i]:0;
++    const auto* app=shellAppForKey(key);
++    const bool active=dockLaunchedKey&&Tab5Tools.scope()?key==dockLaunchedKey:
++      (key==Tab5Shell::homeKey()?activeTool==HomeAction::Home:
++       app&&app->kind==Tab5AppCatalogue::Kind::Builtin&&app->action==uint8_t(activeTool));
+     lv_obj_set_style_bg_color(dockButtons[i], active ? C_ACTIVE() : C_RAISED(), 0);
+     lv_obj_set_style_border_color(dockButtons[i], active ? C_MUTED() : C_BORDER(), 0);
+   }
+@@ -3033,6 +3040,7 @@
+                       selected && !selectedIsDir && (canEdit || canViewImage ||
+                                    canPlayAudio || canPlayVideo));
+   setTopActionVisible(fileReadBtn, canRead);
++  setTopActionVisible(fileDrawBtn, canViewImage);
+   setTopActionVisible(fileExecuteBtn, canExecute);
+   setTopActionVisible(fileGitBtn,fileShowGitAction());
+   setButtonEnabled(fileGitBtn,!fileBusy&&pathStorageReady(fileGitDirectory())&&fileSelection.paths.size()<=1);
+@@ -3047,13 +3055,15 @@
+   setTopActionVisible(filePrintBtn, selected && !selectedIsDir);
+   setTopActionVisible(fileVaultBtn, selected && !selectedIsDir);
+   setIconButtonSymbol(fileOpenBtn, selectedIsDir ? LV_SYMBOL_DIRECTORY :
+-                      (canViewImage ? LV_SYMBOL_IMAGE :
++                      (canViewImage ? LV_SYMBOL_EYE_OPEN :
+                       (canPlayVideo ? LV_SYMBOL_IMAGE :
+                       (canPlayAudio ? LV_SYMBOL_AUDIO : LV_SYMBOL_EDIT))));
+   setButtonEnabled(fileOpenBtn,
+-                   selected && (selectedIsDir || canEdit || canViewImage ||
++                   selected && (!canViewImage||!fileBusy) && (selectedIsDir || canEdit || canViewImage ||
+                                 canPlayAudio || canPlayVideo));
+   setButtonEnabled(fileReadBtn, canRead);
++  setButtonEnabled(fileDrawBtn, canViewImage&&!fileBusy);
++  Tab5Focus.describe(fileOpenBtn,T(canViewImage?"Ouvrir avec le visualisateur":"Ouvrir"));
+   setButtonEnabled(fileExecuteBtn, canExecute);
+   setButtonEnabled(fileCopyBtn, anySelected&&!fileBusy&&!fileSelectionHasVolume());
+   setButtonEnabled(fileCutBtn, anySelected&&!fileBusy&&!fileSelectionHasVolume());
+@@ -3979,9 +3989,7 @@
+ 
+ static void dockEvent(lv_event_t* e) {
+   if (lv_event_get_code(e) != LV_EVENT_CLICKED) return;
+-  const auto action = static_cast<HomeAction>(
+-      reinterpret_cast<uintptr_t>(lv_event_get_user_data(e)));
+-  openHomeAction(action);
++  shellLaunchDock(unsigned(reinterpret_cast<uintptr_t>(lv_event_get_user_data(e))));
+ }
+ 
+ static void saveEvent(lv_event_t* e) {
+@@ -6584,6 +6592,7 @@
+ 
+ static void openHomeAction(HomeAction action) {
+   Tab5ContextMenu::close();
++  dockLaunchedKey=0;
+   activeTool = action;
+   switch (action) {
+     case HomeAction::Meshtastic: setKeyboardVisible(false);showPage(Page::Home);Tab5Meshtastic::open();break;
+@@ -6625,6 +6634,7 @@
+ 
+ 
+ #include "Tab5HomeUi.h"
++#include "Tab5ShellDock.h"
+ 
+ static void editorFileMenu(lv_event_t*){
+   Tab5ContextMenu::Item items[]={
+@@ -6759,21 +6769,7 @@
+   lv_obj_set_style_bg_opa(dock, LV_OPA_COVER, 0);
+   lv_obj_remove_flag(dock, LV_OBJ_FLAG_SCROLLABLE);
+ 
+-  const char* symbols[DOCK_BUTTON_COUNT] = {
+-    LV_SYMBOL_HOME, LV_SYMBOL_DIRECTORY, LV_SYMBOL_EDIT,
+-    LV_SYMBOL_EYE_OPEN, LV_SYMBOL_AUDIO, LV_SYMBOL_GPS,
+-    LV_SYMBOL_SETTINGS
+-  };
+-  for (int i = 0; i < DOCK_BUTTON_COUNT; ++i) {
+-    dockButtons[i] = makeIconButton(dock, symbols[i], 52, 56);
+-    const char* tips[]={"Accueil","Explorateur","Éditeur","eBook","Musique et vidéo","Carte","Réglages"};
+-    Tab5Focus.describe(dockButtons[i],T(tips[i]));
+-    lv_obj_set_pos(dockButtons[i], 6, 10 + i * 91);
+-    lv_obj_set_style_radius(dockButtons[i], 16, 0);
+-    lv_obj_add_event_cb(dockButtons[i], dockEvent, LV_EVENT_CLICKED,
+-        reinterpret_cast<void*>(static_cast<uintptr_t>(DOCK_ACTIONS[i])));
+-  }
+-  shellDockPositions();
++  shellRefreshDock();
+   setTopActionVisible(dock,Tab5Shell::choices.dockWidth()!=0);
+ }
+ 
+@@ -10228,7 +10224,7 @@
+ }
+ 
+ static void createUi() {
+-  memset(sidebarRows,0,sizeof(sidebarRows));memset(sidebarUp,0,sizeof(sidebarUp));memset(sidebarDown,0,sizeof(sidebarDown));
++  sidebarItems=sidebarAdd=sidebarCountLabel=nullptr;sidebarPicking=sidebarRenderedPicker=false;
+   Tab5Shell::load();WORK_W=SCREEN_W-Tab5Shell::choices.dockWidth();MAP_VIEW_W=WORK_W-16;Tab5Shell::workspaceWidth=WORK_W;
+   root = lv_screen_active();
+   lv_obj_set_style_pad_all(root, 0, 0);
+@@ -10303,7 +10299,7 @@
+   toolsHooks.beginMapPrint=[](unsigned paper,unsigned dpi,bool landscape,unsigned percent){if(!sdReady||activePage!=Page::Map||mapJpegPreparing||mapJpegEncoding)return false;++mapGeneration;Tab5Map.beginGeneration(mapGeneration);mapRasterIndex=0;return Tab5MapPrint::begin(mapWorldX(mapLongitude,mapZoom),mapWorldY(mapLatitude,mapZoom),mapZoom,Tab5Map.styleSourceZoom(Tab5Map.selectedStyle(),MAP_MAX_ZOOM),mapGeneration,paper,dpi,landscape,Tab5Map.attribution(),percent);};
+   Tab5Tools.begin(pageHost,toolsHooks);
+   Tab5Meshtastic::Hooks meshHooks;meshHooks.translate=toolsHooks.translate;meshHooks.font=toolsHooks.font;meshHooks.color=toolsHooks.color;
+-  meshHooks.keyboard=[](lv_obj_t* target){setKeyboardVisible(!writing::usbConnected(),target);};
++  meshHooks.keyboard=[](lv_obj_t* target,bool explicitRequest){setKeyboardVisible(explicitRequest||!writing::usbConnected(),target);};
+   meshHooks.closeKeyboard=[](){setKeyboardVisible(false);};
+   meshHooks.storageAvailable=[](){return sdReady;};
+   meshHooks.openMap=[](uint32_t node,double latitude,double longitude){
+--- 0.8.52/Tab5ShellDock.h
++++ 0.8.53/Tab5ShellDock.h
+@@ -0,0 +1,78 @@
++// Included after the home catalogue and its launch dispatcher.
++#pragma once
++static void shellRefreshSidebar();
++static unsigned dockIconNext=0;
++static bool dockUsesExternal=false;
++static void shellDockCaption(char (&out)[16],const char* title){
++  out[0]=0;unsigned used=0;
++  for(unsigned count=0;title&&*title&&count<3;++count){
++    const char* end=title+1;while(*end&&(static_cast<unsigned char>(*end)&0xc0)==0x80)++end;
++    const unsigned bytes=unsigned(end-title);if(used+bytes>=sizeof(out))break;
++    memcpy(out+used,title,bytes);out[used+bytes]=0;
++    lv_point_t size{};lv_text_get_size(&size,out,uiFont(),0,0,LV_COORD_MAX,LV_TEXT_FLAG_NONE);
++    if(used&&size.x>48){out[used]=0;break;}
++    used+=bytes;title=end;
++  }
++}
++static const Tab5AppCatalogue::App* shellAppForKey(uint64_t key){
++  for(unsigned i=0;i<Tab5AppCatalogue::count();++i){const auto* app=Tab5AppCatalogue::at(i);if(app&&app->key==key)return app;}
++  return nullptr;
++}
++static bool shellDockNeedsCatalogue(){
++  return dockUsesExternal;
++}
++static void shellLaunchDock(unsigned slot){
++  if(slot>=Tab5Shell::choices.count)return;
++  const uint64_t key=Tab5Shell::choices.keys[slot];
++  if(key==Tab5Shell::homeKey()){openHomeAction(HomeAction::Home);return;}
++  // Resolve the stable key at activation: catalogue publication may reorder entries.
++  const auto* app=shellAppForKey(key);
++  if(!app){toast("Application indisponible",2400);return;}
++  homeLaunchApp(*app);
++}
++static void shellRefreshDock(){
++  if(!dock)return;
++  int focused=-1;for(unsigned i=0;i<Tab5Shell::DockCount;++i)if(dockButtons[i]&&Tab5Focus.contains(dockButtons[i],Tab5Focus.focused()))focused=int(i);
++  if(focused>=0)Tab5Focus.clear();
++  lv_obj_clean(dock);memset(dockButtons,0,sizeof(dockButtons));dockIconNext=0;
++  const auto& config=Tab5Shell::choices;dockUsesExternal=false;
++  for(unsigned slot=0;slot<config.count&&slot<Tab5Shell::capacity(PAGE_H);++slot){
++    const uint64_t key=config.keys[slot];const bool home=key==Tab5Shell::homeKey();const auto* app=shellAppForKey(key);
++    const bool external=app&&app->kind!=Tab5AppCatalogue::Kind::Builtin;
++    dockUsesExternal=dockUsesExternal||(!home&&(!app||external));
++    const char* title=home?"Accueil":app?app->title:"Application indisponible";
++    unsigned chosen=0;
++    if(app)for(unsigned i=0;i<Tab5AppCatalogue::count();++i)if(Tab5AppCatalogue::at(i)==app){chosen=Tab5AppCatalogue::icon(i);break;}
++    const bool caption=external&&!chosen;
++    const char* symbol=home?LV_SYMBOL_HOME:app?(!chosen&&!strcmp(app->id,"image-editor")?TAB5_SYMBOL_DRAW:homeSymbol(chosen?chosen:app->symbol)):LV_SYMBOL_WARNING;
++    auto* button=dockButtons[slot]=makeButton(dock,"",52,Tab5Shell::DockButtonHeight);
++    lv_obj_clean(button);lv_obj_set_style_pad_all(button,0,0);lv_obj_set_style_radius(button,12,0);
++    auto* icon=lv_obj_create(button);lv_obj_remove_style_all(icon);lv_obj_set_size(icon,external?48:52,external?48:56);lv_obj_set_pos(icon,external?2:0,external?4:0);homePassive(icon);
++    if(!strcmp(symbol,TAB5_SYMBOL_ALARM))tab5AlarmIcon(icon,C_TEXT(),C_RAISED());
++    else if(!strcmp(symbol,TAB5_SYMBOL_CALCULATOR))tab5CalculatorIcon(icon,C_TEXT());
++    else if(!strcmp(symbol,TAB5_SYMBOL_PYTHON))tab5PythonIcon(icon,C_TEXT());
++    else if(!strcmp(symbol,TAB5_SYMBOL_DRAW))tab5DrawingIcon(icon,C_TEXT());
++    else{auto* glyph=lv_label_create(icon);lv_label_set_text(glyph,symbol);lv_obj_set_style_text_font(glyph,&lv_font_montserrat_24,0);lv_obj_set_style_text_color(glyph,C_TEXT(),0);if(caption)lv_obj_align(glyph,LV_ALIGN_TOP_MID,0,0);else lv_obj_center(glyph);homePassive(glyph);}
++    if(caption){
++      char shortTitle[16];shellDockCaption(shortTitle,T(title));
++      auto* label=lv_label_create(button);lv_label_set_text(label,shortTitle);lv_obj_set_size(label,48,24);lv_obj_set_pos(label,2,30);
++      lv_obj_set_style_text_font(label,uiFont(),0);lv_obj_set_style_text_color(label,C_TEXT(),0);lv_obj_set_style_text_align(label,LV_TEXT_ALIGN_CENTER,0);lv_label_set_long_mode(label,LV_LABEL_LONG_CLIP);homePassive(label);
++    }
++    if(!home&&!app)lv_obj_add_state(button,LV_STATE_DISABLED);
++    Tab5Focus.describe(button,T(title));
++    lv_obj_add_event_cb(button,dockEvent,LV_EVENT_CLICKED,reinterpret_cast<void*>(uintptr_t(slot)));
++  }
++  shellDockPositions();updateNavState();
++  if(focused>=0&&config.count)Tab5Focus.focusInitial(dock,dockButtons[std::min<unsigned>(unsigned(focused),config.count-1)]);
++}
++static void shellServiceDockIcon(){
++  while(dockIconNext<Tab5Shell::choices.count){
++    const unsigned slot=dockIconNext++;auto* button=dockButtons[slot];if(!button)continue;
++    const auto* app=shellAppForKey(Tab5Shell::choices.keys[slot]);if(!app||app->kind==Tab5AppCatalogue::Kind::Builtin)continue;
++    for(unsigned i=0;i<Tab5AppCatalogue::count();++i)if(Tab5AppCatalogue::at(i)==app){
++      if(Tab5AppCatalogue::attachIcon(lv_obj_get_child(button,0),i)&&lv_obj_get_child_count(button)>1)lv_obj_set_hidden(lv_obj_get_child(button,1),true);
++      return; // One bounded icon load in the existing catalogue service pass.
++    }
++  }
++}
++static void shellCatalogueChanged(){shellRefreshDock();shellRefreshSidebar();}
+--- 0.8.52/Tab5ShellLayout.h
++++ 0.8.53/Tab5ShellLayout.h
+@@ -9,8 +9,15 @@
+ // allocations during layout changes and deletion callbacks retire old objects.
+ static Anchor anchors[160];
+ static int workspaceWidth=1216;
+-inline void load(){Preferences p;if(p.begin("tab5sidebar",true)){Choices saved;if(p.getBytes("choices",&saved,sizeof(saved))==sizeof(saved)&&saved.valid())choices=saved;p.end();}}
+-inline bool save(){Preferences p;if(!p.begin("tab5sidebar",false))return false;bool ok=p.putBytes("choices",&choices,sizeof(choices))==sizeof(choices);p.end();return ok;}
++inline bool load(){
++  Preferences p;if(!p.begin("tab5sidebar",true))return true;
++  bool ok=true;const size_t size=p.getBytesLength("apps-v2");
++  if(size){Choices saved;ok=size==sizeof(saved)&&p.getBytes("apps-v2",&saved,sizeof(saved))==sizeof(saved)&&saved.valid();if(ok)choices=saved;}
++  else if(p.getBytesLength("choices")){LegacyChoices saved;ok=p.getBytesLength("choices")==sizeof(saved)&&p.getBytes("choices",&saved,sizeof(saved))==sizeof(saved)&&choices.migrate(saved);}
++  p.end();return ok;
++}
++// Keep the v1 blob intact for rollback. No write occurs during loading/migration.
++inline bool save(){if(!choices.valid())return false;Preferences p;if(!p.begin("tab5sidebar",false))return false;bool ok=p.putBytes("apps-v2",&choices,sizeof(choices))==sizeof(choices);p.end();return ok;}
+ inline void deleted(lv_event_t* event){auto* object=lv_event_get_target_obj(event);for(auto& entry:anchors)if(entry.object==object)entry.object=nullptr;}
+ inline void bind(lv_obj_t* object,int offset,unsigned divisor=1,bool position=false){
+   if(!object)return;bool tracked=false;
+--- 0.8.52/Tab5ShellPolicy.h
++++ 0.8.53/Tab5ShellPolicy.h
+@@ -1,26 +1,59 @@
+ #pragma once
+ #include <cstdint>
++#include <algorithm>
+ #include <utility>
++#include "Tab5AppCataloguePolicy.h"
+ 
+ namespace Tab5Shell {
+-constexpr unsigned DockCount=7;
+-struct Choices {
++constexpr unsigned LegacyDockCount=7;
++constexpr unsigned DockButtonHeight=56,DockGap=6,DockMargin=10;
++constexpr unsigned DockCount=(672-DockMargin*2+DockGap)/(DockButtonHeight+DockGap);
++inline unsigned capacity(int height){return height<int(DockMargin*2+DockButtonHeight)?0:std::min<unsigned>(DockCount,(unsigned(height)-DockMargin*2+DockGap)/(DockButtonHeight+DockGap));}
++inline uint64_t homeKey(){return Tab5AppCatalogue::keyFor("home");}
++inline uint64_t legacyKey(unsigned index){const char* ids[]={"home","files","editor","reader","audio","map","settings"};return index<LegacyDockCount?Tab5AppCatalogue::keyFor(ids[index]):0;}
++struct LegacyChoices {
+   uint8_t version=1, enabled=1, visible=0x7f;
+-  uint8_t order[DockCount]={0,1,2,3,4,5,6};
++  uint8_t order[LegacyDockCount]={0,1,2,3,4,5,6};
+   bool valid() const {
+     if(version!=1||enabled>1||(visible&0x80))return false;
+     unsigned seen=0;
+-    for(auto entry:order){if(entry>=DockCount||(seen&(1u<<entry)))return false;seen|=1u<<entry;}
++    for(auto entry:order){if(entry>=LegacyDockCount||(seen&(1u<<entry)))return false;seen|=1u<<entry;}
+     return seen==0x7f;
+   }
+-  bool shown(unsigned item) const{return item<DockCount&&(visible&(1u<<item));}
+-  unsigned count() const{unsigned n=0;for(unsigned i=0;i<DockCount;++i)n+=shown(i);return n;}
+-  bool move(unsigned item,int direction){
+-    for(unsigned i=0;i<DockCount;++i)if(order[i]==item){int j=int(i)+(direction<0?-1:1);if(j<0||j>=int(DockCount))return false;std::swap(order[i],order[j]);return true;}
+-    return false;
++};
++static_assert(sizeof(LegacyChoices)==10,"sidebar v1 on-disk layout");
++struct Choices {
++  uint32_t version=2;
++  uint8_t enabled=1,count=LegacyDockCount;
++  uint16_t reserved=0;
++  uint64_t keys[DockCount]{};
++  Choices(){for(unsigned i=0;i<LegacyDockCount;++i)keys[i]=legacyKey(i);}
++  bool valid() const{
++    if(version!=2||enabled>1||count>DockCount||reserved)return false;
++    for(unsigned i=0;i<DockCount;++i){
++      if(i>=count){if(keys[i])return false;continue;}
++      if(!keys[i])return false;
++      for(unsigned j=0;j<i;++j)if(keys[i]==keys[j])return false;
++    }
++    return true;
+   }
+-  int dockWidth() const{return enabled&&count()?64:0;}
++  bool contains(uint64_t key) const{for(unsigned i=0;i<count;++i)if(keys[i]==key)return true;return false;}
++  bool add(uint64_t key,unsigned limit){if(!key||count>=std::min(limit,DockCount)||contains(key))return false;keys[count++]=key;return true;}
++  bool remove(unsigned slot){if(slot>=count)return false;for(unsigned i=slot+1;i<count;++i)keys[i-1]=keys[i];keys[--count]=0;return true;}
++  bool move(unsigned slot,int direction){
++    const int next=int(slot)+(direction<0?-1:1);
++    if(slot>=count||next<0||next>=int(count))return false;
++    std::swap(keys[slot],keys[next]);return true;
++  }
++  bool migrate(const LegacyChoices& old){
++    if(!old.valid())return false;
++    Choices next;next.enabled=old.enabled;next.count=0;for(auto& key:next.keys)key=0;
++    for(auto index:old.order)if(old.visible&(1u<<index))next.keys[next.count++]=legacyKey(index);
++    *this=next;return true;
++  }
++  int dockWidth() const{return enabled&&count?64:0;}
+ };
++static_assert(sizeof(Choices)==88,"sidebar v2 on-disk layout");
+ // Exact integer anchors are evaluated from the current workspace width. No
+ // cumulative scaling, geometry inference, or changes to flex children.
+ inline int anchor(int workspace,int offset,unsigned divisor=1){return workspace/int(divisor)+offset;}
+--- 0.8.52/Tab5ShellUi.h
++++ 0.8.53/Tab5ShellUi.h
+@@ -1,12 +1,14 @@
+ // Included after home actions and settings helpers in the UI translation unit.
+ #pragma once
+-static lv_obj_t* sidebarRows[Tab5Shell::DockCount]{};
+-static lv_obj_t* sidebarUp[Tab5Shell::DockCount]{};
+-static lv_obj_t* sidebarDown[Tab5Shell::DockCount]{};
++static lv_obj_t* sidebarItems=nullptr;
++static lv_obj_t* sidebarAdd=nullptr;
++static lv_obj_t* sidebarCountLabel=nullptr;
++static bool sidebarPicking=false;
++static bool sidebarRenderedPicker=false;
+ static bool shellAtMainMenu(){return activePage==Page::Home&&homeMenu==0&&!homeCustomize&&!Tab5Tools.scope()&&!Tab5GitView::scope();}
+ static void shellDockPositions();
+ static void shellTopLayout(){
+-  const bool hidden=!shellAtMainMenu()&&(Tab5Shell::choices.dockWidth()==0||!Tab5Shell::choices.shown(0));
++  const bool hidden=!shellAtMainMenu()&&(Tab5Shell::choices.dockWidth()==0||!Tab5Shell::choices.contains(Tab5Shell::homeKey()));
+   if(topHomeButton)setTopActionVisible(topHomeButton,hidden);
+   if(topPythonResume)lv_obj_set_x(topPythonResume,hidden?64:18);
+   const int meshX=hidden?132:80;
+@@ -24,13 +26,14 @@
+ }
+ static void shellDockPositions(){
+   const auto& config=Tab5Shell::choices;unsigned visible=0;
+-  for(unsigned slot=0;slot<Tab5Shell::DockCount;++slot){unsigned index=config.order[slot];auto* button=dockButtons[index];if(!button)continue;
+-    lv_obj_move_foreground(button); // Tab order follows the displayed order.
+-    if(config.shown(index)&&!(index==0&&shellAtMainMenu())){lv_obj_remove_flag(button,LV_OBJ_FLAG_HIDDEN);lv_obj_set_pos(button,6,10+int(visible++)*91);}
++  const unsigned limit=std::min<unsigned>(config.count,Tab5Shell::capacity(PAGE_H));
++  for(unsigned slot=0;slot<limit;++slot)if(!(config.keys[slot]==Tab5Shell::homeKey()&&shellAtMainMenu()))++visible;
++  const int pitch=visible>1?std::min(91,(PAGE_H-int(Tab5Shell::DockMargin)*2-int(Tab5Shell::DockButtonHeight))/int(visible-1)):0;
++  unsigned row=0;
++  for(unsigned slot=0;slot<Tab5Shell::DockCount;++slot){auto* button=dockButtons[slot];if(!button)continue;
++    lv_obj_move_foreground(button);
++    if(slot<limit&&!(config.keys[slot]==Tab5Shell::homeKey()&&shellAtMainMenu())){lv_obj_remove_flag(button,LV_OBJ_FLAG_HIDDEN);lv_obj_set_pos(button,6,int(Tab5Shell::DockMargin)+int(row++)*pitch);}
+     else lv_obj_add_flag(button,LV_OBJ_FLAG_HIDDEN);
+-    if(sidebarRows[index]){lv_obj_set_y(sidebarRows[index],112+int(slot)*62);lv_obj_move_foreground(sidebarRows[index]);}
+-    if(sidebarUp[index])setTopActionVisible(sidebarUp[index],slot!=0);
+-    if(sidebarDown[index])setTopActionVisible(sidebarDown[index],slot+1<Tab5Shell::DockCount);
+   }
+ }
+ static void applyShellLayout(){
+@@ -52,49 +55,106 @@
+ }
+ static void saveSidebar(){
+   if(!Tab5Shell::save())toast("Enregistrement des préférences impossible",2800);
+-  applyShellLayout();
++  shellRefreshDock();applyShellLayout();shellRefreshSidebar();
+ }
+ static void closeSidebarSettings(){
+   Tab5Focus.clear();auto* old=sidebarSettingsOverlay;sidebarSettingsOverlay=nullptr;
+-  memset(sidebarRows,0,sizeof(sidebarRows));memset(sidebarUp,0,sizeof(sidebarUp));memset(sidebarDown,0,sizeof(sidebarDown));
++  sidebarItems=sidebarAdd=sidebarCountLabel=nullptr;sidebarPicking=false;
+   if(old&&lv_obj_is_valid(old))lv_obj_delete(old);
+   Tab5Focus.restore(settingsPage);
+ }
++static void sidebarAddKey(uint64_t key){
++  if(key!=Tab5Shell::homeKey()&&!shellAppForKey(key)){toast("Application indisponible",2400);shellRefreshSidebar();return;}
++  if(!Tab5Shell::choices.add(key,Tab5Shell::capacity(PAGE_H))){
++    char message[96];snprintf(message,sizeof(message),T("Bandeau complet (%u raccourcis)"),Tab5Shell::capacity(PAGE_H));toast(message,2400);return;
++  }
++  sidebarPicking=false;saveSidebar();
++}
++static void shellRefreshSidebar(){
++  if(!sidebarItems)return;
++  const int32_t scroll=lv_obj_get_scroll_y(sidebarItems);
++  auto* previous=Tab5Focus.focused();unsigned focused=0;uint64_t focusedKey=0;
++  const bool hadFocus=previous&&Tab5Focus.contains(sidebarItems,previous);
++  if(hadFocus){if(sidebarRenderedPicker){auto* key=static_cast<uint64_t*>(lv_obj_get_user_data(previous));if(key)focusedKey=*key;}
++    else focused=unsigned(uintptr_t(lv_obj_get_user_data(previous)));Tab5Focus.clear();}
++  lv_obj_clean(sidebarItems);lv_obj_t* nextFocus=nullptr;
++  char count[64];snprintf(count,sizeof(count),T("%u / %u raccourcis"),unsigned(Tab5Shell::choices.count),Tab5Shell::capacity(PAGE_H));lv_label_set_text(sidebarCountLabel,count);
++  setText(lv_obj_get_child(sidebarAdd,0),sidebarPicking?T("Retour"):T("Ajouter une application"));
++  if(sidebarPicking||Tab5Shell::choices.count<Tab5Shell::capacity(PAGE_H))lv_obj_remove_state(sidebarAdd,LV_STATE_DISABLED);else lv_obj_add_state(sidebarAdd,LV_STATE_DISABLED);
++  sidebarRenderedPicker=sidebarPicking;
++  int y=0;
++  if(sidebarPicking){
++    bool memoryFailed=false;
++    auto add=[&](const char* title,uint64_t key){
++      auto* ref=static_cast<uint64_t*>(lv_malloc(sizeof(uint64_t)));if(!ref){memoryFailed=true;return;}*ref=key;
++      auto* button=makeButton(sidebarItems,title,1010,48);lv_obj_set_pos(button,0,y);y+=54;
++      auto* label=lv_obj_get_child(button,0);lv_obj_set_size(label,990,lv_font_get_line_height(uiFont()));lv_label_set_long_mode(label,LV_LABEL_LONG_DOT);lv_obj_set_style_text_align(label,LV_TEXT_ALIGN_CENTER,0);lv_obj_center(label);
++      lv_obj_set_user_data(button,ref);if(key==focusedKey)nextFocus=button;
++      if(!lv_obj_add_event_cb(button,[](lv_event_t* e){
++        auto* key=static_cast<uint64_t*>(lv_event_get_user_data(e));
++        if(lv_event_get_code(e)==LV_EVENT_DELETE)lv_free(key);
++        else if(lv_event_get_code(e)==LV_EVENT_CLICKED)sidebarAddKey(*key);
++      },LV_EVENT_ALL,ref)){if(nextFocus==button)nextFocus=nullptr;lv_free(ref);lv_obj_delete(button);y-=54;memoryFailed=true;}
++    };
++    if(!Tab5Shell::choices.contains(Tab5Shell::homeKey()))add("Accueil",Tab5Shell::homeKey());
++    unsigned order[Tab5AppCatalogue::MaxApps];const unsigned n=Tab5AppCatalogue::ordered(order,false);
++    const Tab5AppCatalogue::Kind kinds[]={Tab5AppCatalogue::Kind::Builtin,Tab5AppCatalogue::Kind::Executable,Tab5AppCatalogue::Kind::Script};
++    const char* names[]={"Applications intégrées","Apps ELF","Apps Python"};
++    for(unsigned group=0;group<3;++group){bool title=false;
++      for(unsigned i=0;i<n;++i){const auto* app=Tab5AppCatalogue::at(order[i]);if(!app||app->kind!=kinds[group]||Tab5Shell::choices.contains(app->key))continue;
++        if(!title){auto* label=homeLabel(sidebarItems,names[group],0,y+8,1010);lv_obj_set_style_text_color(label,C_MUTED(),0);y+=40;title=true;}
++        add(app->title,app->key);
++      }
++    }
++    if(memoryFailed)toast("Mémoire insuffisante",2400);
++  }else{
++    const auto& config=Tab5Shell::choices;
++    for(unsigned slot=0;slot<config.count;++slot){
++      const uint64_t key=config.keys[slot];const auto* app=shellAppForKey(key);
++      auto* row=lv_obj_create(sidebarItems);lv_obj_remove_style_all(row);lv_obj_set_pos(row,0,y);lv_obj_set_size(row,1010,56);lv_obj_remove_flag(row,LV_OBJ_FLAG_SCROLLABLE);y+=62;
++      makeSettingsText(row,key==Tab5Shell::homeKey()?"Accueil":app?app->title:"Application indisponible",8,14,790,false);
++      const char* symbols[]={LV_SYMBOL_UP,LV_SYMBOL_DOWN,LV_SYMBOL_TRASH};const char* tips[]={"Monter","Descendre","Supprimer"};
++      for(unsigned action=0;action<3;++action){
++        auto* button=makeIconButton(row,symbols[action],48,48);lv_obj_set_pos(button,830+int(action)*60,4);Tab5Focus.describe(button,T(tips[action]));
++        const unsigned token=1+slot*3+action;lv_obj_set_user_data(button,reinterpret_cast<void*>(uintptr_t(token)));
++        if(token==focused||(key==focusedKey&&action==2))nextFocus=button;
++        if((action==0&&slot==0)||(action==1&&slot+1==config.count))lv_obj_add_state(button,LV_STATE_DISABLED);
++        lv_obj_add_event_cb(button,[](lv_event_t* e){
++          const unsigned token=unsigned(uintptr_t(lv_event_get_user_data(e)))-1;const unsigned slot=token/3,action=token%3;
++          if(action==2)Tab5Shell::choices.remove(slot);else Tab5Shell::choices.move(slot,action==0?-1:1);
++          saveSidebar();
++        },LV_EVENT_CLICKED,reinterpret_cast<void*>(uintptr_t(token)));
++      }
++    }
++  }
++  lv_obj_update_layout(sidebarItems);lv_obj_scroll_to_y(sidebarItems,scroll,LV_ANIM_OFF);
++  Tab5UiStyle::tree(sidebarItems);
++  if(hadFocus)Tab5Focus.focusInitial(sidebarSettingsOverlay,nextFocus?nextFocus:sidebarAdd);
++}
+ static void showSidebarSettings(){
+   if(sidebarSettingsOverlay)return;
+-  setKeyboardVisible(false);Tab5Focus.remember(settingsPage);
++  setKeyboardVisible(false);Tab5Focus.remember(settingsPage);sidebarPicking=false;
+   sidebarSettingsOverlay=lv_obj_create(root);lv_obj_remove_style_all(sidebarSettingsOverlay);
+   lv_obj_set_size(sidebarSettingsOverlay,SCREEN_W,SCREEN_H);
+   lv_obj_set_style_bg_color(sidebarSettingsOverlay,lv_color_black(),0);lv_obj_set_style_bg_opa(sidebarSettingsOverlay,LV_OPA_50,0);
+   lv_obj_remove_flag(sidebarSettingsOverlay,LV_OBJ_FLAG_SCROLLABLE);
+   lv_obj_add_event_cb(sidebarSettingsOverlay,[](lv_event_t* e){
+-    if(lv_event_get_target_obj(e)==sidebarSettingsOverlay){sidebarSettingsOverlay=nullptr;
+-      memset(sidebarRows,0,sizeof(sidebarRows));memset(sidebarUp,0,sizeof(sidebarUp));memset(sidebarDown,0,sizeof(sidebarDown));}
++    if(lv_event_get_target_obj(e)==sidebarSettingsOverlay){sidebarSettingsOverlay=nullptr;sidebarItems=sidebarAdd=sidebarCountLabel=nullptr;sidebarPicking=false;}
+   },LV_EVENT_DELETE,nullptr);
+   auto* box=makeSettingsCard(sidebarSettingsOverlay,0,0,1120,672,"Accueil et bandeau");lv_obj_center(box);
+   auto* close=makeIconButton(box,LV_SYMBOL_CLOSE,52,44);lv_obj_set_pos(close,1048,12);
+   lv_obj_add_event_cb(close,[](lv_event_t*){closeSidebarSettings();},LV_EVENT_CLICKED,nullptr);
+-  auto* body=lv_obj_create(box);lv_obj_remove_style_all(body);lv_obj_set_pos(body,18,68);lv_obj_set_size(body,1084,586);
+-  lv_obj_add_flag(body,LV_OBJ_FLAG_SCROLLABLE);lv_obj_set_scroll_dir(body,LV_DIR_VER);
+-  auto* customize=makeButton(body,"Personnaliser l’accueil",520,50);lv_obj_set_pos(customize,0,0);
++  auto* customize=makeButton(box,"Personnaliser l’accueil",480,48);lv_obj_set_pos(customize,20,66);
+   lv_obj_add_event_cb(customize,[](lv_event_t*){closeSidebarSettings();homeOpenCatalogue(true);},LV_EVENT_CLICKED,nullptr);
+-  auto* card=makeSettingsCard(body,0,70,1064,564,"Bandeau latéral");
+-  auto* toggle=lv_switch_create(card);styleSettingsSwitch(toggle);lv_obj_set_pos(toggle,20,61);
+-  makeSettingsText(card,"Afficher le bandeau latéral",112,66,850,false);
+-  Tab5Focus.describe(toggle,T("Afficher le bandeau latéral"));
++  auto* toggle=lv_switch_create(box);styleSettingsSwitch(toggle);lv_obj_set_pos(toggle,530,70);
++  makeSettingsText(box,"Afficher le bandeau latéral",622,78,454,false);Tab5Focus.describe(toggle,T("Afficher le bandeau latéral"));
+   if(Tab5Shell::choices.enabled)lv_obj_add_state(toggle,LV_STATE_CHECKED);
+   lv_obj_add_event_cb(toggle,[](lv_event_t* e){Tab5Shell::choices.enabled=lv_obj_has_state(lv_event_get_target_obj(e),LV_STATE_CHECKED);saveSidebar();},LV_EVENT_VALUE_CHANGED,nullptr);
+-  static const char* labels[]={"Accueil","Explorateur","Éditeur","eBook","Musique et vidéo","Carte","Réglages"};
+-  for(unsigned i=0;i<Tab5Shell::DockCount;++i){
+-    auto* row=sidebarRows[i]=lv_obj_create(card);lv_obj_remove_style_all(row);lv_obj_set_pos(row,20,112+i*62);lv_obj_set_size(row,1024,54);lv_obj_remove_flag(row,LV_OBJ_FLAG_SCROLLABLE);
+-    auto* show=lv_switch_create(row);styleSettingsSwitch(show);lv_obj_set_pos(show,0,8);
+-    makeSettingsText(row,labels[i],92,13,710,false);Tab5Focus.describe(show,T(labels[i]));
+-    if(Tab5Shell::choices.shown(i))lv_obj_add_state(show,LV_STATE_CHECKED);
+-    lv_obj_add_event_cb(show,[](lv_event_t* e){unsigned index=unsigned(uintptr_t(lv_event_get_user_data(e)));if(lv_obj_has_state(lv_event_get_target_obj(e),LV_STATE_CHECKED))Tab5Shell::choices.visible|=1u<<index;else Tab5Shell::choices.visible&=~(1u<<index);saveSidebar();},LV_EVENT_VALUE_CHANGED,reinterpret_cast<void*>(uintptr_t(i)));
+-    auto* up=sidebarUp[i]=makeIconButton(row,LV_SYMBOL_UP,48,48);lv_obj_align(up,LV_ALIGN_RIGHT_MID,-58,0);Tab5Focus.describe(up,T("Monter"));
+-    auto* down=sidebarDown[i]=makeIconButton(row,LV_SYMBOL_DOWN,48,48);lv_obj_align(down,LV_ALIGN_RIGHT_MID,0,0);Tab5Focus.describe(down,T("Descendre"));
+-    lv_obj_add_event_cb(up,[](lv_event_t* e){Tab5Shell::choices.move(unsigned(uintptr_t(lv_event_get_user_data(e))),-1);saveSidebar();},LV_EVENT_CLICKED,reinterpret_cast<void*>(uintptr_t(i)));
+-    lv_obj_add_event_cb(down,[](lv_event_t* e){Tab5Shell::choices.move(unsigned(uintptr_t(lv_event_get_user_data(e))),1);saveSidebar();},LV_EVENT_CLICKED,reinterpret_cast<void*>(uintptr_t(i)));
+-  }
+-  shellDockPositions();Tab5UiStyle::tree(sidebarSettingsOverlay);Tab5Focus.focusObject(toggle);
++  sidebarAdd=makeButton(box,"Ajouter une application",480,48);lv_obj_set_pos(sidebarAdd,20,126);
++  lv_obj_add_event_cb(sidebarAdd,[](lv_event_t*){sidebarPicking=!sidebarPicking;lv_obj_scroll_to_y(sidebarItems,0,LV_ANIM_OFF);shellRefreshSidebar();Tab5Focus.focusObject(sidebarAdd);},LV_EVENT_CLICKED,nullptr);
++  sidebarCountLabel=homeLabel(box,"",530,140,540);lv_obj_set_style_text_color(sidebarCountLabel,C_MUTED(),0);
++  sidebarItems=lv_obj_create(box);lv_obj_remove_style_all(sidebarItems);lv_obj_set_pos(sidebarItems,20,188);lv_obj_set_size(sidebarItems,1080,464);
++  lv_obj_add_flag(sidebarItems,LV_OBJ_FLAG_SCROLLABLE);lv_obj_set_scroll_dir(sidebarItems,LV_DIR_VER);lv_obj_set_scrollbar_mode(sidebarItems,LV_SCROLLBAR_MODE_AUTO);
++  homeAppsDirty=true;
++  shellRefreshSidebar();Tab5UiStyle::tree(sidebarSettingsOverlay);Tab5Focus.focusObject(toggle);
+ }
+--- 0.8.52/src/jpeg/jpge.cpp
++++ 0.8.53/src/jpeg/jpge.cpp
+@@ -56,12 +56,12 @@
+ 	enum { DC_LUM_CODES = 12, AC_LUM_CODES = 256, DC_CHROMA_CODES = 12, AC_CHROMA_CODES = 256, MAX_HUFF_SYMBOLS = 257, MAX_HUFF_CODESIZE = 32 };
+ 
+ 	static uint8 s_zag[64] = { 0,1,8,16,9,2,3,10,17,24,32,25,18,11,4,5,12,19,26,33,40,48,41,34,27,20,13,6,7,14,21,28,35,42,49,56,57,50,43,36,29,22,15,23,30,37,44,51,58,59,52,45,38,31,39,46,53,60,61,54,47,55,62,63 };
+-	static int16 s_std_lum_quant[64] = { 16,11,12,14,12,10,16,14,13,14,18,17,16,19,24,40,26,24,22,22,24,49,35,37,29,40,58,51,61,60,57,51,56,55,64,72,92,78,64,68,87,69,55,56,80,109,81,87,95,98,103,104,103,62,77,113,121,112,100,120,92,101,103,99 };
+-	static int16 s_std_croma_quant[64] = { 17,18,18,24,21,24,47,26,26,47,99,66,56,66,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99 };
++	static const int16 s_std_lum_quant[64] = { 16,11,12,14,12,10,16,14,13,14,18,17,16,19,24,40,26,24,22,22,24,49,35,37,29,40,58,51,61,60,57,51,56,55,64,72,92,78,64,68,87,69,55,56,80,109,81,87,95,98,103,104,103,62,77,113,121,112,100,120,92,101,103,99 };
++	static const int16 s_std_croma_quant[64] = { 17,18,18,24,21,24,47,26,26,47,99,66,56,66,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99 };
+ 
+ 	// Table from http://www.imagemagick.org/discourse-server/viewtopic.php?f=22&t=20333&p=98008#p98008
+ 	// This is mozjpeg's default table, in zag order.
+-	static int16 s_alt_quant[64] = { 16,16,16,16,17,16,18,20,20,18,25,27,24,27,25,37,34,31,31,34,37,56,40,43,40,43,40,56,85,53,62,53,53,62,53,85,75,91,74,69,74,91,75,135,106,94,94,106,135,156,131,124,131,156,189,169,169,189,238,226,238,311,311,418 };
++	static const int16 s_alt_quant[64] = { 16,16,16,16,17,16,18,20,20,18,25,27,24,27,25,37,34,31,31,34,37,56,40,43,40,43,40,56,85,53,62,53,53,62,53,85,75,91,74,69,74,91,75,135,106,94,94,106,135,156,131,124,131,156,189,169,169,189,238,226,238,311,311,418 };
+ 
+ 	static uint8 s_dc_lum_bits[17] = { 0,0,1,5,1,1,1,1,1,1,0,0,0,0,0,0,0 };
+ 	static uint8 s_dc_lum_val[DC_LUM_CODES] = { 0,1,2,3,4,5,6,7,8,9,10,11 };
+@@ -439,7 +439,7 @@
+ 	}
+ 
+ 	// Quantization table generation.
+-	void jpeg_encoder::compute_quant_table(int32* pDst, int16* pSrc)
++	void jpeg_encoder::compute_quant_table(int32* pDst, const int16* pSrc)
+ 	{
+ 		int32 q;
+ 		if (m_params.m_quality < 50)
+--- 0.8.52/src/jpeg/jpge.h
++++ 0.8.53/src/jpeg/jpge.h
+@@ -156,7 +156,7 @@
+ 		void emit_sos();
+ 		void emit_markers();
+ 		void compute_huffman_table(uint* codes, uint8* code_sizes, uint8* bits, uint8* val);
+-		void compute_quant_table(int32* dst, int16* src);
++		void compute_quant_table(int32* dst, const int16* src);
+ 		void adjust_quant_table(int32* dst, int32* src);
+ 		void first_pass_init();
+ 		bool second_pass_init();
+--- 0.8.52/src/rtl_sdr/tuner_fc0013.c
++++ 0.8.53/src/rtl_sdr/tuner_fc0013.c
+@@ -446,7 +446,7 @@
+ 	return ret;
+ }
+ 
+-int fc0013_lna_gains[] ={
++const int fc0013_lna_gains[] ={
+ 	-99,	0x02,
+ 	-73,	0x03,
+ 	-65,	0x05,

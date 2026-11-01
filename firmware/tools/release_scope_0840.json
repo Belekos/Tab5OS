@@ -1,0 +1,254 @@
+{
+  "version": "0.8.40",
+  "baselineVersion": "0.8.39",
+  "baselineArchiveSha256": "a4274b8fb44642306dc9c78e212d58d9064147d9bbdb0e624b4afb612af7d5ff",
+  "targetedReports": [
+    {
+      "file": "settings-ui-0840.json",
+      "description": "Réglages, fenêtre Polices, informations système et intégration shell avec LVGL réel"
+    },
+    {
+      "file": "map-overlay-0840.json",
+      "description": "Repères Cartes et notification Mesh avec LVGL réel"
+    },
+    {
+      "file": "editor-syntax-0840.json",
+      "description": "Colorations par langage, contexte et persistance du choix"
+    },
+    {
+      "file": "drawing-core-0840.json",
+      "description": "Masques de sélection, filtres, remplissage et annulation"
+    },
+    {
+      "file": "image-native-0840.json",
+      "description": "Dessin intégré, événements et captures LVGL"
+    },
+    {
+      "file": "maps-0840.json",
+      "description": "Recherche locale bornée, annulation, résultats et positions Mesh"
+    },
+    {
+      "file": "maps-generator-0840.json",
+      "description": "Reconstruction identique du gazetteer GeoNames"
+    },
+    {
+      "file": "maps-target-0840.json",
+      "description": "Compilation ESP32-P4 du moteur Cartes"
+    },
+    {
+      "file": "meshtastic-0840.json",
+      "description": "Protocole, persistance, mémoire et interface Meshtastic"
+    },
+    {
+      "file": "usb-format-0840.json",
+      "description": "Notification finale USB et cycles FAT réels"
+    },
+    {
+      "file": "home-catalogue-0840.json",
+      "description": "Catalogue ELF dynamique, parcours bornés et erreurs"
+    },
+    {
+      "file": "display-0840.json",
+      "description": "Compteurs passifs, publication des tampons et erreurs écran"
+    },
+    {
+      "file": "locale-0840.json",
+      "description": "Chargement de production et traductions des 14 langues"
+    },
+    {
+      "file": "maps-ui-0840.json",
+      "description": "États de recherche Cartes, annulations et interactions des fenêtres"
+    },
+    {
+      "file": "meshtastic-target-0840.json",
+      "description": "Compilation ESP32-P4 et usages de pile Meshtastic"
+    }
+  ],
+  "sourceChanges": {
+    "Tab5AppCatalogue.cpp": {
+      "report": "home-catalogue-0840.json",
+      "reason": "Rafraîchir progressivement le catalogue d’applications seulement après un parcours complet, sans remplacer la liste sur erreur."
+    },
+    "Tab5AppCatalogue.h": {
+      "report": "home-catalogue-0840.json",
+      "reason": "Rafraîchir progressivement le catalogue d’applications seulement après un parcours complet, sans remplacer la liste sur erreur."
+    },
+    "Tab5AppRefresh.h": {
+      "report": "home-catalogue-0840.json",
+      "reason": "Rafraîchir progressivement le catalogue d’applications seulement après un parcours complet, sans remplacer la liste sur erreur."
+    },
+    "Tab5DefaultFontUi.inc": {
+      "report": "settings-ui-0840.json",
+      "reason": "Réorganiser les sections et les métriques système, isoler les polices en popup avec focus et durée de vie corrects."
+    },
+    "Tab5DisplayActivity.cpp": {
+      "report": "display-0840.json",
+      "reason": "Instrumenter les grandes mises à jour et leur origine sans imposer de rafraîchissement périodique."
+    },
+    "Tab5DisplayActivity.h": {
+      "report": "display-0840.json",
+      "reason": "Instrumenter les grandes mises à jour et leur origine sans imposer de rafraîchissement périodique."
+    },
+    "Tab5GamepadSettings.inc": {
+      "report": "settings-ui-0840.json",
+      "reason": "Réorganiser les sections et les métriques système, isoler les polices en popup avec focus et durée de vie corrects."
+    },
+    "Tab5GeoFold.h": {
+      "report": "maps-0840.json",
+      "reason": "Rechercher les lieux hors ligne et positions Mesh par lectures SD bornées, avec instantanés et annulation."
+    },
+    "Tab5GeoIndex.h": {
+      "report": "maps-0840.json",
+      "reason": "Rechercher les lieux hors ligne et positions Mesh par lectures SD bornées, avec instantanés et annulation."
+    },
+    "Tab5HomeUi.h": {
+      "report": "home-catalogue-0840.json",
+      "reason": "Rafraîchir progressivement le catalogue d’applications seulement après un parcours complet, sans remplacer la liste sur erreur."
+    },
+    "Tab5ImageEditor.cpp": {
+      "report": "image-native-0840.json",
+      "reason": "Exposer les sélections et remplissages avancés dans l’interface native et coopérative de Dessin."
+    },
+    "Tab5Map.cpp": {
+      "report": "maps-0840.json",
+      "reason": "Rechercher les lieux hors ligne et positions Mesh par lectures SD bornées, avec instantanés et annulation."
+    },
+    "Tab5Map.h": {
+      "report": "maps-0840.json",
+      "reason": "Rechercher les lieux hors ligne et positions Mesh par lectures SD bornées, avec instantanés et annulation."
+    },
+    "Tab5MapMarkerProjection.h": {
+      "report": "map-overlay-0840.json",
+      "reason": "Dessiner les repères géographiques et la pastille Mesh selon les états réels, sans intercepter les gestes de carte."
+    },
+    "Tab5MapOverlay.cpp": {
+      "report": "map-overlay-0840.json",
+      "reason": "Dessiner les repères géographiques et la pastille Mesh selon les états réels, sans intercepter les gestes de carte."
+    },
+    "Tab5MapOverlay.h": {
+      "report": "map-overlay-0840.json",
+      "reason": "Dessiner les repères géographiques et la pastille Mesh selon les états réels, sans intercepter les gestes de carte."
+    },
+    "Tab5MeshBadge.cpp": {
+      "report": "map-overlay-0840.json",
+      "reason": "Dessiner les repères géographiques et la pastille Mesh selon les états réels, sans intercepter les gestes de carte."
+    },
+    "Tab5MeshBadge.h": {
+      "report": "map-overlay-0840.json",
+      "reason": "Dessiner les repères géographiques et la pastille Mesh selon les états réels, sans intercepter les gestes de carte."
+    },
+    "Tab5MeshCodec.h": {
+      "report": "meshtastic-0840.json",
+      "reason": "Conserver appareils/historique, sécuriser le cycle worker, expliciter le budget Bluetooth et intégrer les contrôles thémés."
+    },
+    "Tab5MeshMemory.h": {
+      "report": "meshtastic-0840.json",
+      "reason": "Conserver appareils/historique, sécuriser le cycle worker, expliciter le budget Bluetooth et intégrer les contrôles thémés."
+    },
+    "Tab5MeshModel.h": {
+      "report": "meshtastic-0840.json",
+      "reason": "Conserver appareils/historique, sécuriser le cycle worker, expliciter le budget Bluetooth et intégrer les contrôles thémés."
+    },
+    "Tab5MeshStore.cpp": {
+      "report": "meshtastic-0840.json",
+      "reason": "Conserver appareils/historique, sécuriser le cycle worker, expliciter le budget Bluetooth et intégrer les contrôles thémés."
+    },
+    "Tab5MeshStore.h": {
+      "report": "meshtastic-0840.json",
+      "reason": "Conserver appareils/historique, sécuriser le cycle worker, expliciter le budget Bluetooth et intégrer les contrôles thémés."
+    },
+    "Tab5Meshtastic.cpp": {
+      "report": "meshtastic-0840.json",
+      "reason": "Conserver appareils/historique, sécuriser le cycle worker, expliciter le budget Bluetooth et intégrer les contrôles thémés."
+    },
+    "Tab5Meshtastic.h": {
+      "report": "meshtastic-0840.json",
+      "reason": "Conserver appareils/historique, sécuriser le cycle worker, expliciter le budget Bluetooth et intégrer les contrôles thémés."
+    },
+    "Tab5MeshtasticProtocol.h": {
+      "report": "meshtastic-0840.json",
+      "reason": "Conserver appareils/historique, sécuriser le cycle worker, expliciter le budget Bluetooth et intégrer les contrôles thémés."
+    },
+    "Tab5OS_Arduino_v0.8.40_Ecriture.ino": {
+      "report": "settings-ui-0840.json",
+      "reason": "Intégrer réglages, système visuel, recherche locale, marqueurs Cartes et notification Mesh dans le shell."
+    },
+    "Tab5SerialSettings.inc": {
+      "report": "settings-ui-0840.json",
+      "reason": "Réorganiser les sections et les métriques système, isoler les polices en popup avec focus et durée de vie corrects."
+    },
+    "Tab5SettingsLayout.h": {
+      "report": "settings-ui-0840.json",
+      "reason": "Réorganiser les sections et les métriques système, isoler les polices en popup avec focus et durée de vie corrects."
+    },
+    "Tab5ShellUi.h": {
+      "report": "settings-ui-0840.json",
+      "reason": "Intégrer réglages, système visuel, recherche locale, marqueurs Cartes et notification Mesh dans le shell."
+    },
+    "Tab5SystemInfoView.cpp": {
+      "report": "settings-ui-0840.json",
+      "reason": "Réorganiser les sections et les métriques système, isoler les polices en popup avec focus et durée de vie corrects."
+    },
+    "Tab5SystemInfoView.h": {
+      "report": "settings-ui-0840.json",
+      "reason": "Réorganiser les sections et les métriques système, isoler les polices en popup avec focus et durée de vie corrects."
+    },
+    "Tab5UsbStorage.cpp": {
+      "report": "usb-format-0840.json",
+      "reason": "Publier une révision finale après libération du worker de formatage pour que l’interface observe la fin."
+    },
+    "Tab5Writing.cpp": {
+      "report": "editor-syntax-0840.json",
+      "reason": "Séparer les lexiques et états de coloration, mémoriser le choix par document et garder le contexte de fenêtre."
+    },
+    "WriterSyntax.cpp": {
+      "report": "editor-syntax-0840.json",
+      "reason": "Séparer les lexiques et états de coloration, mémoriser le choix par document et garder le contexte de fenêtre."
+    },
+    "WriterSyntax.h": {
+      "report": "editor-syntax-0840.json",
+      "reason": "Séparer les lexiques et états de coloration, mémoriser le choix par document et garder le contexte de fenêtre."
+    },
+    "WriterSyntaxIndex.cpp": {
+      "report": "editor-syntax-0840.json",
+      "reason": "Séparer les lexiques et états de coloration, mémoriser le choix par document et garder le contexte de fenêtre."
+    },
+    "WriterSyntaxIndex.h": {
+      "report": "editor-syntax-0840.json",
+      "reason": "Séparer les lexiques et états de coloration, mémoriser le choix par document et garder le contexte de fenêtre."
+    },
+    "WriterSyntaxWords.inc": {
+      "report": "editor-syntax-0840.json",
+      "reason": "Séparer les lexiques et états de coloration, mémoriser le choix par document et garder le contexte de fenêtre."
+    },
+    "WriterView.cpp": {
+      "report": "editor-syntax-0840.json",
+      "reason": "Séparer les lexiques et états de coloration, mémoriser le choix par document et garder le contexte de fenêtre."
+    },
+    "WriterView.h": {
+      "report": "editor-syntax-0840.json",
+      "reason": "Séparer les lexiques et états de coloration, mémoriser le choix par document et garder le contexte de fenêtre."
+    },
+    "WriterWorkspace.cpp": {
+      "report": "editor-syntax-0840.json",
+      "reason": "Séparer les lexiques et états de coloration, mémoriser le choix par document et garder le contexte de fenêtre."
+    },
+    "WriterWorkspace.h": {
+      "report": "editor-syntax-0840.json",
+      "reason": "Séparer les lexiques et états de coloration, mémoriser le choix par document et garder le contexte de fenêtre."
+    },
+    "tools/native-apps/image-editor/image_core.c": {
+      "report": "drawing-core-0840.json",
+      "reason": "Masques progressifs, sélection libre/par couleurs, remplissages et annulation transactionnelle bornés."
+    },
+    "tools/native-apps/image-editor/image_core.h": {
+      "report": "drawing-core-0840.json",
+      "reason": "Masques progressifs, sélection libre/par couleurs, remplissages et annulation transactionnelle bornés."
+    },
+    "tools/native-apps/image-editor/image_selection.h": {
+      "report": "drawing-core-0840.json",
+      "reason": "Masques progressifs, sélection libre/par couleurs, remplissages et annulation transactionnelle bornés."
+    }
+  },
+  "finalized": true
+}

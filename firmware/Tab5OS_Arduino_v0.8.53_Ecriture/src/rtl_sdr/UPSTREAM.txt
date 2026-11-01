@@ -1,0 +1,5 @@
+https://github.com/osmocom/rtl-sdr/commit/797f8143266d983c56d8f35d2d442527529dd8a5
+Commit: 797f8143266d983c56d8f35d2d442527529dd8a5
+Archive SHA-256: a31db4ce5d8e660a76bcd48d3f47f3edae7895c88e69fdb3d4f7daf376a36d99
+Tab5OS changes: ESP-IDF USB Host adapter replaces libusb. Synchronous control/bulk only; libusb async API excluded. Local includes. No shared host reset on timeout.
+Original licenses and notices retained.

@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "80s80s",
+      "style": "DE/80s",
+      "url": "http://streams.80s80s.de/web/mp3-192/streams.80s80s.de/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "90s90s Hits",
+      "style": "DE/90s",
+      "url": "http://streams.90s90s.de/pop/mp3-192/streams.90s90s.de/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "1LIVE",
+      "style": "DE/ard",
+      "url": "http://wdr-1live-live.icecast.wdr.de/wdr/1live/live/mp3/128/stream.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Rock Antenne - Heavy Metal",
+      "style": "DE/heavy metal",
+      "url": "http://mp3channels.webradio.rockantenne.de/heavy-metal",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "90s90s HipHop & Rap",
+      "style": "DE/hiphop",
+      "url": "http://streams.90s90s.de/hiphop/mp3-192/streams.90s90s.de/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "WDR 5",
+      "style": "DE/information",
+      "url": "http://wdr-wdr5-live.icecast.wdr.de/wdr/wdr5/live/mp3/128/stream.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "MANGORADIO",
+      "style": "DE/music",
+      "url": "https://mangoradio.stream.laut.fm/mangoradio",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Rock Antenne",
+      "style": "DE/rock",
+      "url": "http://mp3channels.webradio.rockantenne.de/rockantenne",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    }
+  ]
+}

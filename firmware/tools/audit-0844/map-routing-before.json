@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "checks": 33,
+  "calls": 1000,
+  "fullStringCopies": 6000,
+  "routingCopies": 0,
+  "usesSdkConnectionState": false,
+  "physicalDeviceTested": false,
+  "version": "0.8.43",
+  "scope": "Exact mapDownloadsAllowed and new mapNetworkConnected; cached SDK status and audio adapters. Covers stale audio network snapshot in both directions; not an actual WiFi disconnect/reconnect test.",
+  "methods": {
+    "static bool mapDownloadsAllowed(": "6d4caa4ba5987b1b0173bac540c8b4dc3775a16495fa88e8a6c7a30fc1cfdb1f"
+  },
+  "sourceSha256": "bc5528aedb931b97d6b78d7efc756ee6f61d8b84da3d306487d80ccb4af59927"
+}

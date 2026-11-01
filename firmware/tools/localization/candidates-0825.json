@@ -1,0 +1,932 @@
+{
+  "PIN : 4 à 12 chiffres": [
+    {
+      "file": "Tab5CredentialUi.inc",
+      "lines": [
+        28
+      ]
+    },
+    {
+      "file": "Tab5KeyStore.cpp",
+      "lines": [
+        151
+      ]
+    }
+  ],
+  "Les PIN diffèrent": [
+    {
+      "file": "Tab5CredentialUi.inc",
+      "lines": [
+        29
+      ]
+    }
+  ],
+  "Le coffre protège les fichiers et les identifiants. Un PIN peut limiter son ouverture sur ce Tab5.": [
+    {
+      "file": "Tab5CredentialUi.inc",
+      "lines": [
+        34
+      ]
+    }
+  ],
+  "PIN du coffre": [
+    {
+      "file": "Tab5CredentialUi.inc",
+      "lines": [
+        35
+      ]
+    }
+  ],
+  "PIN facultatif · 4 à 12 chiffres": [
+    {
+      "file": "Tab5CredentialUi.inc",
+      "lines": [
+        35
+      ]
+    }
+  ],
+  "Confirmer le PIN": [
+    {
+      "file": "Tab5CredentialUi.inc",
+      "lines": [
+        37
+      ]
+    }
+  ],
+  "Enregistrer le PIN": [
+    {
+      "file": "Tab5CredentialUi.inc",
+      "lines": [
+        38
+      ]
+    }
+  ],
+  "Retirer le PIN": [
+    {
+      "file": "Tab5CredentialUi.inc",
+      "lines": [
+        39
+      ]
+    }
+  ],
+  "Le PIN protège l’accès sur la tablette. Une sauvegarde portable permet de récupérer les clés sur un autre appareil.": [
+    {
+      "file": "Tab5CredentialUi.inc",
+      "lines": [
+        40
+      ]
+    }
+  ],
+  "Ancien coffre · mot de passe": [
+    {
+      "file": "Tab5CredentialUi.inc",
+      "lines": [
+        42
+      ]
+    }
+  ],
+  "Retour au coffre": [
+    {
+      "file": "Tab5CredentialUi.inc",
+      "lines": [
+        45
+      ]
+    }
+  ],
+  "Copie portable : mot de passe de 12 caractères minimum. La dérivation prend du temps ; Annuler reste disponible.": [
+    {
+      "file": "Tab5CredentialUi.inc",
+      "lines": [
+        52
+      ]
+    }
+  ],
+  "Copie rapide : restauration uniquement sur ce Tab5. Pour changer d’appareil, choisir une copie portable.": [
+    {
+      "file": "Tab5CredentialUi.inc",
+      "lines": [
+        52
+      ]
+    }
+  ],
+  "Coffre de mots de passe": [
+    {
+      "file": "Tab5CredentialUi.inc",
+      "lines": [
+        55
+      ]
+    },
+    {
+      "file": "Tab5OS_Arduino_v0.8.25_Ecriture.ino",
+      "lines": [
+        9721
+      ]
+    },
+    {
+      "file": "Tab5Tools.cpp",
+      "lines": [
+        718
+      ]
+    }
+  ],
+  "Supprimer la clé": [
+    {
+      "file": "Tab5CredentialUi.inc",
+      "lines": [
+        56,
+        57,
+        118,
+        121
+      ]
+    }
+  ],
+  "/Documents/cle.t5key": [
+    {
+      "file": "Tab5CredentialUi.inc",
+      "lines": [
+        60
+      ]
+    }
+  ],
+  "Sur ce Tab5 (rapide)": [
+    {
+      "file": "Tab5CredentialUi.inc",
+      "lines": [
+        61
+      ]
+    }
+  ],
+  "Portable (mot de passe)": [
+    {
+      "file": "Tab5CredentialUi.inc",
+      "lines": [
+        61
+      ]
+    }
+  ],
+  "Aucun identifiant enregistré": [
+    {
+      "file": "Tab5CredentialUi.inc",
+      "lines": [
+        80
+      ]
+    }
+  ],
+  "Copiez les clés vers le coffre appareil pour utiliser le gestionnaire de mots de passe.": [
+    {
+      "file": "Tab5CredentialUi.inc",
+      "lines": [
+        85
+      ]
+    }
+  ],
+  "Identifiants enregistrés": [
+    {
+      "file": "Tab5CredentialUi.inc",
+      "lines": [
+        87
+      ]
+    }
+  ],
+  "Nom de variable · lettres, chiffres et _": [
+    {
+      "file": "Tab5CredentialUi.inc",
+      "lines": [
+        88
+      ]
+    }
+  ],
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_": [
+    {
+      "file": "Tab5CredentialUi.inc",
+      "lines": [
+        89
+      ]
+    }
+  ],
+  "Identifiant, mot de passe ou token": [
+    {
+      "file": "Tab5CredentialUi.inc",
+      "lines": [
+        90
+      ]
+    }
+  ],
+  "Afficher / masquer": [
+    {
+      "file": "Tab5CredentialUi.inc",
+      "lines": [
+        90
+      ]
+    }
+  ],
+  "Copier · 30 s": [
+    {
+      "file": "Tab5CredentialUi.inc",
+      "lines": [
+        91
+      ]
+    }
+  ],
+  "Accessible par son nom dans le terminal, Python et les applications. Verrouiller le coffre coupe l’accès aux valeurs protégées.": [
+    {
+      "file": "Tab5CredentialUi.inc",
+      "lines": [
+        92
+      ]
+    }
+  ],
+  "Valeur trop longue": [
+    {
+      "file": "Tab5CredentialUi.inc",
+      "lines": [
+        113,
+        126
+      ]
+    },
+    {
+      "file": "Tab5Secrets.cpp",
+      "lines": [
+        81,
+        82
+      ]
+    },
+    {
+      "file": "Tab5Tools.cpp",
+      "lines": [
+        707
+      ]
+    }
+  ],
+  "Aucune clé sélectionnée": [
+    {
+      "file": "Tab5CredentialUi.inc",
+      "lines": [
+        119
+      ]
+    }
+  ],
+  "Confirmer la suppression": [
+    {
+      "file": "Tab5CredentialUi.inc",
+      "lines": [
+        120,
+        140
+      ]
+    }
+  ],
+  "Sans sauvegarde de cette clé, ses fichiers chiffrés ne pourront plus être ouverts.": [
+    {
+      "file": "Tab5CredentialUi.inc",
+      "lines": [
+        120
+      ]
+    }
+  ],
+  "Identifiant enregistré": [
+    {
+      "file": "Tab5CredentialUi.inc",
+      "lines": [
+        138
+      ]
+    }
+  ],
+  "Identifiant enregistré · environnement plein": [
+    {
+      "file": "Tab5CredentialUi.inc",
+      "lines": [
+        138
+      ]
+    }
+  ],
+  "Identifiant supprimé": [
+    {
+      "file": "Tab5CredentialUi.inc",
+      "lines": [
+        141
+      ]
+    }
+  ],
+  "Copié pour 30 secondes": [
+    {
+      "file": "Tab5CredentialUi.inc",
+      "lines": [
+        143
+      ]
+    }
+  ],
+  "C": [
+    {
+      "file": "Tab5Environment.cpp",
+      "lines": [
+        26,
+        31,
+        32,
+        33,
+        34,
+        40
+      ]
+    },
+    {
+      "file": "Tab5Environment.h",
+      "lines": [
+        6
+      ]
+    }
+  ],
+  "set": [
+    {
+      "file": "Tab5Environment.cpp",
+      "lines": [
+        38
+      ]
+    }
+  ],
+  "export": [
+    {
+      "file": "Tab5Environment.cpp",
+      "lines": [
+        38
+      ]
+    },
+    {
+      "file": "Tab5Shell.cpp",
+      "lines": [
+        43,
+        225
+      ]
+    },
+    {
+      "file": "Tab5ShellHelp.h",
+      "lines": [
+        40
+      ]
+    }
+  ],
+  "--password": [
+    {
+      "file": "Tab5Environment.cpp",
+      "lines": [
+        38
+      ]
+    }
+  ],
+  "--token": [
+    {
+      "file": "Tab5Environment.cpp",
+      "lines": [
+        38
+      ]
+    }
+  ],
+  "--user": [
+    {
+      "file": "Tab5Environment.cpp",
+      "lines": [
+        38
+      ]
+    }
+  ],
+  "-u": [
+    {
+      "file": "Tab5Environment.cpp",
+      "lines": [
+        38
+      ]
+    }
+  ],
+  "Exécuter le script": [
+    {
+      "file": "Tab5ExplorerMenus.inc",
+      "lines": [
+        93
+      ]
+    },
+    {
+      "file": "Tab5OS_Arduino_v0.8.25_Ecriture.ino",
+      "lines": [
+        2816
+      ]
+    }
+  ],
+  "Ouvrir l'application": [
+    {
+      "file": "Tab5ExplorerMenus.inc",
+      "lines": [
+        93
+      ]
+    },
+    {
+      "file": "Tab5OS_Arduino_v0.8.25_Ecriture.ino",
+      "lines": [
+        2816
+      ]
+    }
+  ],
+  "tab5.usernameSecret": [
+    {
+      "file": "Tab5Git.cpp",
+      "lines": [
+        111,
+        145,
+        149,
+        224,
+        267
+      ]
+    },
+    {
+      "file": "Tab5GitView.cpp",
+      "lines": [
+        63,
+        191
+      ]
+    }
+  ],
+  "tab5.tokenSecret": [
+    {
+      "file": "Tab5Git.cpp",
+      "lines": [
+        111,
+        145,
+        149,
+        224,
+        267
+      ]
+    },
+    {
+      "file": "Tab5GitView.cpp",
+      "lines": [
+        63,
+        191
+      ]
+    }
+  ],
+  "--unset": [
+    {
+      "file": "Tab5Git.cpp",
+      "lines": [
+        221
+      ]
+    },
+    {
+      "file": "Tab5GitView.cpp",
+      "lines": [
+        191
+      ]
+    }
+  ],
+  "--username-secret": [
+    {
+      "file": "Tab5Git.cpp",
+      "lines": [
+        321
+      ]
+    },
+    {
+      "file": "Tab5GitView.cpp",
+      "lines": [
+        186
+      ]
+    }
+  ],
+  "--token-secret": [
+    {
+      "file": "Tab5Git.cpp",
+      "lines": [
+        321
+      ]
+    },
+    {
+      "file": "Tab5GitView.cpp",
+      "lines": [
+        186
+      ]
+    }
+  ],
+  "Aucun": [
+    {
+      "file": "Tab5GitView.cpp",
+      "lines": [
+        169
+      ]
+    }
+  ],
+  "Choisir les deux secrets Git, ou aucun.": [
+    {
+      "file": "Tab5GitView.cpp",
+      "lines": [
+        186
+      ]
+    }
+  ],
+  "Secret identifiant Git": [
+    {
+      "file": "Tab5GitView.cpp",
+      "lines": [
+        203,
+        212
+      ]
+    }
+  ],
+  "Secret jeton Git": [
+    {
+      "file": "Tab5GitView.cpp",
+      "lines": [
+        203,
+        212
+      ]
+    }
+  ],
+  "T5PIN001": [
+    {
+      "file": "Tab5KeyStore.cpp",
+      "lines": [
+        70,
+        127
+      ]
+    }
+  ],
+  "pin4": [
+    {
+      "file": "Tab5KeyStore.cpp",
+      "lines": [
+        125,
+        127,
+        127,
+        147,
+        153,
+        153,
+        154,
+        154,
+        154
+      ]
+    }
+  ],
+  "Saisir le PIN du coffre": [
+    {
+      "file": "Tab5KeyStore.cpp",
+      "lines": [
+        125
+      ]
+    }
+  ],
+  "Trop de tentatives : patienter": [
+    {
+      "file": "Tab5KeyStore.cpp",
+      "lines": [
+        125
+      ]
+    }
+  ],
+  "PIN incorrect": [
+    {
+      "file": "Tab5KeyStore.cpp",
+      "lines": [
+        128
+      ]
+    }
+  ],
+  "Coffre appareil illisible - ancien coffre conservé": [
+    {
+      "file": "Tab5KeyStore.cpp",
+      "lines": [
+        130
+      ]
+    }
+  ],
+  "Clés copiées - ancien coffre conservé": [
+    {
+      "file": "Tab5KeyStore.cpp",
+      "lines": [
+        143
+      ]
+    }
+  ],
+  "Accès du coffre modifié": [
+    {
+      "file": "Tab5KeyStore.cpp",
+      "lines": [
+        155
+      ]
+    }
+  ],
+  "Clé supprimée": [
+    {
+      "file": "Tab5KeyStore.cpp",
+      "lines": [
+        185
+      ]
+    }
+  ],
+  ".sh": [
+    {
+      "file": "Tab5OS_Arduino_v0.8.25_Ecriture.ino",
+      "lines": [
+        993
+      ]
+    },
+    {
+      "file": "Tab5Terminal.cpp",
+      "lines": [
+        87
+      ]
+    }
+  ],
+  "Impossible de lancer le script.": [
+    {
+      "file": "Tab5OS_Arduino_v0.8.25_Ecriture.ino",
+      "lines": [
+        3127
+      ]
+    }
+  ],
+  "Réglages de réception invalides": [
+    {
+      "file": "Tab5SdrUi.cpp",
+      "lines": [
+        43
+      ]
+    }
+  ],
+  "%d\n%d\n%d\ndBFS": [
+    {
+      "file": "Tab5SdrUi.cpp",
+      "lines": [
+        75
+      ]
+    }
+  ],
+  "0\n-50\n-100\ndBFS": [
+    {
+      "file": "Tab5SdrUi.cpp",
+      "lines": [
+        110
+      ]
+    }
+  ],
+  "Correction (ppm)": [
+    {
+      "file": "Tab5SdrUi.cpp",
+      "lines": [
+        116
+      ]
+    }
+  ],
+  "Désaccentuation FM": [
+    {
+      "file": "Tab5SdrUi.cpp",
+      "lines": [
+        116
+      ]
+    }
+  ],
+  "50 µs\n75 µs\n": [
+    {
+      "file": "Tab5SdrUi.cpp",
+      "lines": [
+        116
+      ]
+    }
+  ],
+  "/System/Secrets": [
+    {
+      "file": "Tab5Secrets.cpp",
+      "lines": [
+        18
+      ]
+    }
+  ],
+  "/System/Secrets/credentials.a.t5v": [
+    {
+      "file": "Tab5Secrets.cpp",
+      "lines": [
+        19
+      ]
+    }
+  ],
+  "/System/Secrets/credentials.b.t5v": [
+    {
+      "file": "Tab5Secrets.cpp",
+      "lines": [
+        19
+      ]
+    }
+  ],
+  "Tab5 credential store v1": [
+    {
+      "file": "Tab5Secrets.cpp",
+      "lines": [
+        48
+      ]
+    }
+  ],
+  "T5SEC001": [
+    {
+      "file": "Tab5Secrets.cpp",
+      "lines": [
+        50
+      ]
+    }
+  ],
+  "Reconnexion SD en cours - réessayez": [
+    {
+      "file": "Tab5Secrets.cpp",
+      "lines": [
+        61,
+        65
+      ]
+    }
+  ],
+  "Coffre de mots de passe illisible": [
+    {
+      "file": "Tab5Secrets.cpp",
+      "lines": [
+        63
+      ]
+    }
+  ],
+  "/System": [
+    {
+      "file": "Tab5Secrets.cpp",
+      "lines": [
+        66,
+        66
+      ]
+    }
+  ],
+  ".tmp": [
+    {
+      "file": "Tab5Secrets.cpp",
+      "lines": [
+        67
+      ]
+    }
+  ],
+  "Vérification du coffre impossible": [
+    {
+      "file": "Tab5Secrets.cpp",
+      "lines": [
+        72
+      ]
+    }
+  ],
+  "Secret enregistré": [
+    {
+      "file": "Tab5Secrets.cpp",
+      "lines": [
+        76,
+        82
+      ]
+    }
+  ],
+  "Nom de variable invalide": [
+    {
+      "file": "Tab5Secrets.cpp",
+      "lines": [
+        81,
+        82,
+        83
+      ]
+    }
+  ],
+  "Secret absent": [
+    {
+      "file": "Tab5Secrets.cpp",
+      "lines": [
+        81,
+        83
+      ]
+    }
+  ],
+  "Secret disponible": [
+    {
+      "file": "Tab5Secrets.cpp",
+      "lines": [
+        81
+      ]
+    }
+  ],
+  "Limite de 64 secrets atteinte": [
+    {
+      "file": "Tab5Secrets.cpp",
+      "lines": [
+        82
+      ]
+    }
+  ],
+  "Secret supprimé": [
+    {
+      "file": "Tab5Secrets.cpp",
+      "lines": [
+        83
+      ]
+    }
+  ],
+  "Variable protégée inaccessible.": [
+    {
+      "file": "Tab5Shell.cpp",
+      "lines": [
+        172,
+        227,
+        229,
+        232
+      ]
+    }
+  ],
+  "Environnement indisponible.": [
+    {
+      "file": "Tab5Shell.cpp",
+      "lines": [
+        226
+      ]
+    }
+  ],
+  "--secret": [
+    {
+      "file": "Tab5Shell.cpp",
+      "lines": [
+        227
+      ]
+    }
+  ],
+  "Git : init dossier ; status ; add -A ou add -- fichier ; commit -m message ; log -n nombre ; diff [--cached]. clone [--depth nombre] [--credential-file fichier] URL dossier importe par HTTPS. fetch [remote], pull --ff-only [remote], push [remote]. remote set-url origin URL règle la source. config user.name|user.email|tab5.credentialFile|tab5.usernameSecret|tab5.tokenSecret [valeur]. -C dossier change le projet pour cette commande. Les références usernameSecret et tokenSecret lisent le coffre déverrouillé lors de l’authentification. clone accepte --username-secret NOM --token-secret NOM. Le fichier d’identification reste compatible. config --unset CLE retire une référence.": [
+    {
+      "file": "Tab5ShellHelp.h",
+      "lines": [
+        8
+      ]
+    }
+  ],
+  "export NAME=VALUE | export --secret NAME [KEY]": [
+    {
+      "file": "Tab5ShellHelp.h",
+      "lines": [
+        40
+      ]
+    }
+  ],
+  "Partage une variable publique en mémoire jusqu’au redémarrage ; --secret lie un nom à une entrée chiffrée du coffre, résolue seulement lorsque le coffre est déverrouillé.": [
+    {
+      "file": "Tab5ShellHelp.h",
+      "lines": [
+        40
+      ]
+    }
+  ],
+  "export --secret GIT_TOKEN": [
+    {
+      "file": "Tab5ShellHelp.h",
+      "lines": [
+        40
+      ]
+    }
+  ],
+  "Liste uniquement les noms des variables. Pour lire volontairement une valeur, utilisez echo \"$NOM\".": [
+    {
+      "file": "Tab5ShellHelp.h",
+      "lines": [
+        42
+      ]
+    }
+  ],
+  "Commande masquée": [
+    {
+      "file": "Tab5Terminal.cpp",
+      "lines": [
+        84
+      ]
+    }
+  ],
+  "cd ": [
+    {
+      "file": "Tab5Terminal.cpp",
+      "lines": [
+        88
+      ]
+    }
+  ],
+  " && sh ": [
+    {
+      "file": "Tab5Terminal.cpp",
+      "lines": [
+        88
+      ]
+    }
+  ],
+  "Tab5 local key backup v1": [
+    {
+      "file": "Tab5Vault.cpp",
+      "lines": [
+        28
+      ]
+    }
+  ],
+  "Copie chiffrée créée - original conservé": [
+    {
+      "file": "Tab5Vault.cpp",
+      "lines": [
+        78
+      ]
+    }
+  ]
+}

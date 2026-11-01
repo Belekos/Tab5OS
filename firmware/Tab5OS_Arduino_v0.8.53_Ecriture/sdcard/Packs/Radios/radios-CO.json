@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Blu Radio, señal nacional (HJCK, 89.9 MHz FM, Bogotá / HJN42, 96.3 MHz, San Martín, Meta / HJH87, 103.1 MHz, Paipa, Boyacá /",
+      "style": "CO/armenian",
+      "url": "http://24493.live.streamtheworld.com:3690/BLURADIO_SC",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "Candela Estéreo Bogotá (HJPU 101.9)",
+      "style": "CO/bogota",
+      "url": "http://27583.live.streamtheworld.com/CANDELAESTEREO_SC",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 96
+    },
+    {
+      "name": "Radiónica (HJYM 99.1 Bogotá) RTVC",
+      "style": "CO/electronic",
+      "url": "http://shoutcast.rtvc.gov.co:8010/;",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 48
+    },
+    {
+      "name": "La Mega (Medellín) 92.9 FM",
+      "style": "CO/entretenimiento",
+      "url": "https://us-b4-p-e-qg12-audio.cdn.mdstrm.com/live-audio-aw/632cb48f613bac0856b931ab",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 125
+    },
+    {
+      "name": "La Kalle",
+      "style": "CO/folk music",
+      "url": "http://26683.live.streamtheworld.com:3690/LA_KALLE_SC",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Caracol Radio Colombia (HJGL 100.9 / HJCY 810 AM, Bogotá) [AAC]",
+      "style": "CO/news",
+      "url": "http://26683.live.streamtheworld.com:3690/CARACOL_RADIOAAC_SC",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 32
+    },
+    {
+      "name": "123 Vallenato",
+      "style": "CO/Radio",
+      "url": "http://radiolatina.info:7087/;",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 28
+    },
+    {
+      "name": "Tropicana Bogotá (HJRX 102.9) Caracol Radio",
+      "style": "CO/salsa",
+      "url": "http://26503.live.streamtheworld.com/TROPICANA_SC",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    }
+  ]
+}

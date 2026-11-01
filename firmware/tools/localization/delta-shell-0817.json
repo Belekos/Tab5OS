@@ -1,0 +1,569 @@
+[
+  {
+    "index": 2426,
+    "deltaIndex": 0,
+    "source": "error: ",
+    "english": "error: ",
+    "kind": "prefix"
+  },
+  {
+    "index": 2427,
+    "deltaIndex": 1,
+    "source": "unsupported operator: ",
+    "english": "unsupported operator: ",
+    "kind": "error"
+  },
+  {
+    "index": 2428,
+    "deltaIndex": 2,
+    "source": "command too long",
+    "english": "command too long",
+    "kind": "error"
+  },
+  {
+    "index": 2429,
+    "deltaIndex": 3,
+    "source": "unfinished quote or escape",
+    "english": "unfinished quote or escape",
+    "kind": "error"
+  },
+  {
+    "index": 2430,
+    "deltaIndex": 4,
+    "source": "cannot list ",
+    "english": "cannot list ",
+    "kind": "error"
+  },
+  {
+    "index": 2431,
+    "deltaIndex": 5,
+    "source": "more than 256 wildcard matches",
+    "english": "more than 256 wildcard matches",
+    "kind": "error"
+  },
+  {
+    "index": 2432,
+    "deltaIndex": 6,
+    "source": "invalid command",
+    "english": "invalid command",
+    "kind": "error"
+  },
+  {
+    "index": 2433,
+    "deltaIndex": 7,
+    "source": "maximum script/loop depth is 4",
+    "english": "maximum script/loop depth is 4",
+    "kind": "error"
+  },
+  {
+    "index": 2434,
+    "deltaIndex": 8,
+    "source": "missing command",
+    "english": "missing command",
+    "kind": "error"
+  },
+  {
+    "index": 2435,
+    "deltaIndex": 9,
+    "source": "usage: for name in values; do commands; done",
+    "english": "usage: for name in values; do commands; done",
+    "kind": "error"
+  },
+  {
+    "index": 2436,
+    "deltaIndex": 10,
+    "source": "for: expected ; do",
+    "english": "for: expected ; do",
+    "kind": "error"
+  },
+  {
+    "index": 2437,
+    "deltaIndex": 11,
+    "source": "for: missing done",
+    "english": "for: missing done",
+    "kind": "error"
+  },
+  {
+    "index": 2438,
+    "deltaIndex": 12,
+    "source": "invalid loop value",
+    "english": "invalid loop value",
+    "kind": "error"
+  },
+  {
+    "index": 2439,
+    "deltaIndex": 13,
+    "source": "execution limit reached",
+    "english": "execution limit reached",
+    "kind": "error"
+  },
+  {
+    "index": 2440,
+    "deltaIndex": 14,
+    "source": "variable limit reached",
+    "english": "variable limit reached",
+    "kind": "error"
+  },
+  {
+    "index": 2441,
+    "deltaIndex": 15,
+    "source": "missing command separator",
+    "english": "missing command separator",
+    "kind": "error"
+  },
+  {
+    "index": 2442,
+    "deltaIndex": 16,
+    "source": "invalid redirection",
+    "english": "invalid redirection",
+    "kind": "error"
+  },
+  {
+    "index": 2443,
+    "deltaIndex": 17,
+    "source": "invalid output path",
+    "english": "invalid output path",
+    "kind": "error"
+  },
+  {
+    "index": 2444,
+    "deltaIndex": 18,
+    "source": "argument limit reached",
+    "english": "argument limit reached",
+    "kind": "error"
+  },
+  {
+    "index": 2445,
+    "deltaIndex": 19,
+    "source": "temporary output already exists: ",
+    "english": "temporary output already exists: ",
+    "kind": "error"
+  },
+  {
+    "index": 2446,
+    "deltaIndex": 20,
+    "source": "cannot create output: ",
+    "english": "cannot create output: ",
+    "kind": "error"
+  },
+  {
+    "index": 2447,
+    "deltaIndex": 21,
+    "source": "output write failed",
+    "english": "output write failed",
+    "kind": "error"
+  },
+  {
+    "index": 2448,
+    "deltaIndex": 22,
+    "source": "cannot append output",
+    "english": "cannot append output",
+    "kind": "error"
+  },
+  {
+    "index": 2449,
+    "deltaIndex": 23,
+    "source": "append incomplete",
+    "english": "append incomplete",
+    "kind": "error"
+  },
+  {
+    "index": 2450,
+    "deltaIndex": 24,
+    "source": "previous output recovery required: ",
+    "english": "previous output recovery required: ",
+    "kind": "error"
+  },
+  {
+    "index": 2451,
+    "deltaIndex": 25,
+    "source": "cannot preserve previous output",
+    "english": "cannot preserve previous output",
+    "kind": "error"
+  },
+  {
+    "index": 2452,
+    "deltaIndex": 26,
+    "source": "cannot commit output",
+    "english": "cannot commit output",
+    "kind": "error"
+  },
+  {
+    "index": 2453,
+    "deltaIndex": 27,
+    "source": "source and destination are identical",
+    "english": "source and destination are identical",
+    "kind": "error"
+  },
+  {
+    "index": 2454,
+    "deltaIndex": 28,
+    "source": "cannot read ",
+    "english": "cannot read ",
+    "kind": "error"
+  },
+  {
+    "index": 2455,
+    "deltaIndex": 29,
+    "source": "cannot create ",
+    "english": "cannot create ",
+    "kind": "error"
+  },
+  {
+    "index": 2456,
+    "deltaIndex": 30,
+    "source": "copy interrupted or failed",
+    "english": "copy interrupted or failed",
+    "kind": "error"
+  },
+  {
+    "index": 2457,
+    "deltaIndex": 31,
+    "source": "cannot preserve destination",
+    "english": "cannot preserve destination",
+    "kind": "error"
+  },
+  {
+    "index": 2458,
+    "deltaIndex": 32,
+    "source": "cannot commit destination",
+    "english": "cannot commit destination",
+    "kind": "error"
+  },
+  {
+    "index": 2459,
+    "deltaIndex": 33,
+    "source": "directory depth limit reached",
+    "english": "directory depth limit reached",
+    "kind": "error"
+  },
+  {
+    "index": 2460,
+    "deltaIndex": 34,
+    "source": "cannot access ",
+    "english": "cannot access ",
+    "kind": "error"
+  },
+  {
+    "index": 2461,
+    "deltaIndex": 35,
+    "source": "cannot remove ",
+    "english": "cannot remove ",
+    "kind": "error"
+  },
+  {
+    "index": 2462,
+    "deltaIndex": 36,
+    "source": "usage: help ",
+    "english": "usage: help ",
+    "kind": "error"
+  },
+  {
+    "index": 2463,
+    "deltaIndex": 37,
+    "source": "printf supports %s and %%",
+    "english": "printf supports %s and %%",
+    "kind": "error"
+  },
+  {
+    "index": 2464,
+    "deltaIndex": 38,
+    "source": "invalid path",
+    "english": "invalid path",
+    "kind": "error"
+  },
+  {
+    "index": 2465,
+    "deltaIndex": 39,
+    "source": "not a directory: ",
+    "english": "not a directory: ",
+    "kind": "error"
+  },
+  {
+    "index": 2466,
+    "deltaIndex": 40,
+    "source": "invalid directory",
+    "english": "invalid directory",
+    "kind": "error"
+  },
+  {
+    "index": 2467,
+    "deltaIndex": 41,
+    "source": "cannot stat ",
+    "english": "cannot stat ",
+    "kind": "error"
+  },
+  {
+    "index": 2468,
+    "deltaIndex": 42,
+    "source": "destination exists",
+    "english": "destination exists",
+    "kind": "error"
+  },
+  {
+    "index": 2469,
+    "deltaIndex": 43,
+    "source": "move failed",
+    "english": "move failed",
+    "kind": "error"
+  },
+  {
+    "index": 2470,
+    "deltaIndex": 44,
+    "source": "cannot create directory: ",
+    "english": "cannot create directory: ",
+    "kind": "error"
+  },
+  {
+    "index": 2471,
+    "deltaIndex": 45,
+    "source": "cannot change ",
+    "english": "cannot change ",
+    "kind": "error"
+  },
+  {
+    "index": 2472,
+    "deltaIndex": 46,
+    "source": "invalid script path",
+    "english": "invalid script path",
+    "kind": "error"
+  },
+  {
+    "index": 2473,
+    "deltaIndex": 47,
+    "source": "cannot read script",
+    "english": "cannot read script",
+    "kind": "error"
+  },
+  {
+    "index": 2474,
+    "deltaIndex": 48,
+    "source": "script exceeds 32 KiB",
+    "english": "script exceeds 32 KiB",
+    "kind": "error"
+  },
+  {
+    "index": 2475,
+    "deltaIndex": 49,
+    "source": "script read failed",
+    "english": "script read failed",
+    "kind": "error"
+  },
+  {
+    "index": 2476,
+    "deltaIndex": 50,
+    "source": "not enough variable slots for script arguments",
+    "english": "not enough variable slots for script arguments",
+    "kind": "error"
+  },
+  {
+    "index": 2477,
+    "deltaIndex": 51,
+    "source": "binary data: ",
+    "english": "binary data: ",
+    "kind": "error"
+  },
+  {
+    "index": 2478,
+    "deltaIndex": 52,
+    "source": "line exceeds 8 KiB",
+    "english": "line exceeds 8 KiB",
+    "kind": "error"
+  },
+  {
+    "index": 2479,
+    "deltaIndex": 53,
+    "source": "tail output exceeds 64 KiB; reduce -n",
+    "english": "tail output exceeds 64 KiB; reduce -n",
+    "kind": "error"
+  },
+  {
+    "index": 2480,
+    "deltaIndex": 54,
+    "source": "read failed: ",
+    "english": "read failed: ",
+    "kind": "error"
+  },
+  {
+    "index": 2481,
+    "deltaIndex": 55,
+    "source": "unknown command: ",
+    "english": "unknown command: ",
+    "kind": "error"
+  },
+  {
+    "index": 2482,
+    "deltaIndex": 56,
+    "source": " (help lists commands)",
+    "english": " (help lists commands)",
+    "kind": "suffix"
+  },
+  {
+    "index": 2483,
+    "deltaIndex": 57,
+    "source": "ls [-a] [-l] [directory]\n-a include hidden files; -l show size and type.\n",
+    "english": "ls [-a] [-l] [directory]\n-a include hidden files; -l show size and type.\n",
+    "kind": "help"
+  },
+  {
+    "index": 2484,
+    "deltaIndex": 58,
+    "source": "cp source destination\nCopies one file; preserves an existing destination until the copy succeeds.\nUse a for loop to copy a list of files.\n",
+    "english": "cp source destination\nCopies one file; preserves an existing destination until the copy succeeds.\nUse a for loop to copy a list of files.\n",
+    "kind": "help"
+  },
+  {
+    "index": 2485,
+    "deltaIndex": 59,
+    "source": "rm [-r] path...\n-r removes directories recursively. Changes are immediate. The SD root cannot be removed.\n",
+    "english": "rm [-r] path...\n-r removes directories recursively. Changes are immediate. The SD root cannot be removed.\n",
+    "kind": "help"
+  },
+  {
+    "index": 2486,
+    "deltaIndex": 60,
+    "source": "find [directory] [-name pattern]\nRecursive listing, maximum depth 16. Quote patterns: find /Documents -name '*.md'\n",
+    "english": "find [directory] [-name pattern]\nRecursive listing, maximum depth 16. Quote patterns: find /Documents -name '*.md'\n",
+    "kind": "help"
+  },
+  {
+    "index": 2487,
+    "deltaIndex": 61,
+    "source": "grep [-i] [-n] text file...\nLiteral text search; -i ignore ASCII case; -n show line numbers.\n",
+    "english": "grep [-i] [-n] text file...\nLiteral text search; -i ignore ASCII case; -n show line numbers.\n",
+    "kind": "help"
+  },
+  {
+    "index": 2488,
+    "deltaIndex": 62,
+    "source": "head [-n count] file...\ntail [-n count] file...\nDefault: 10 lines. Maximum: 500 lines.\n",
+    "english": "head [-n count] file...\ntail [-n count] file...\nDefault: 10 lines. Maximum: 500 lines.\n",
+    "kind": "help"
+  },
+  {
+    "index": 2489,
+    "deltaIndex": 63,
+    "source": "sh file.sh [arguments...]\nsource file.sh [arguments...]\nBoth execute in this terminal; $0..$9, $? and $PWD are available.\nCreate shell files in the text editor. Maximum script: 32 KiB.\n",
+    "english": "sh file.sh [arguments...]\nsource file.sh [arguments...]\nBoth execute in this terminal; $0..$9, $? and $PWD are available.\nCreate shell files in the text editor. Maximum script: 32 KiB.\n",
+    "kind": "help"
+  },
+  {
+    "index": 2490,
+    "deltaIndex": 64,
+    "source": "for file in /Documents/*.txt; do echo \"$file\"; wc \"$file\"; done\nLoops can be nested (maximum 4 execution levels, 10000 commands per job).\n",
+    "english": "for file in /Documents/*.txt; do echo \"$file\"; wc \"$file\"; done\nLoops can be nested (maximum 4 execution levels, 10000 commands per job).\n",
+    "kind": "help"
+  },
+  {
+    "index": 2491,
+    "deltaIndex": 65,
+    "source": "set name value\nname=value\nenv\nunset name\nUse $name or ${name}; single quotes prevent expansion. Maximum 32 variables.\n",
+    "english": "set name value\nname=value\nenv\nunset name\nUse $name or ${name}; single quotes prevent expansion. Maximum 32 variables.\n",
+    "kind": "help"
+  },
+  {
+    "index": 2492,
+    "deltaIndex": 66,
+    "source": "test -e path | -f path | -d path | string = string | string != string\nCombine with && or ||. Exit status is available as $?.\n",
+    "english": "test -e path | -f path | -d path | string = string | string != string\nCombine with && or ||. Exit status is available as $?.\n",
+    "kind": "help"
+  },
+  {
+    "index": 2493,
+    "deltaIndex": 67,
+    "source": "Terminal Tab5OS\nhelp [command]   pwd   cd [directory]   ls [-al] [directory]\ncat file...   head/tail [-n count] file...   wc file...\ngrep [-in] text file...   find [directory] [-name pattern]\nmkdir [-p] path...   rmdir path...   touch path...\ncp source destination   mv source destination   rm [-r] path...\necho [-n] text...   printf format [text...]   clear\nset name value   unset name   env   test   true   false\nsh/source file.sh [arguments...]   date   df   sleep seconds\nmemory   uptime   wifi   sha256 file...\n\nPaths are relative to the current SD directory. Quote spaces.\nWildcards: * ? [abc]. Variables: $name ${name} $PWD $?.\nSeparate commands with ; or a new line. Conditions: && and ||.\nRedirect: > file or >> file. Errors stay on the console.\nfor f in /Documents/*.txt; do echo \"$f\"; done\nCtrl+C: copy selection, or interrupt when nothing is selected.\nUp/Down: history. Tab: completion. No pipes, background jobs or Bash substitution.\n",
+    "english": "Terminal Tab5OS\nhelp [command]   pwd   cd [directory]   ls [-al] [directory]\ncat file...   head/tail [-n count] file...   wc file...\ngrep [-in] text file...   find [directory] [-name pattern]\nmkdir [-p] path...   rmdir path...   touch path...\ncp source destination   mv source destination   rm [-r] path...\necho [-n] text...   printf format [text...]   clear\nset name value   unset name   env   test   true   false\nsh/source file.sh [arguments...]   date   df   sleep seconds\nmemory   uptime   wifi   sha256 file...\n\nPaths are relative to the current SD directory. Quote spaces.\nWildcards: * ? [abc]. Variables: $name ${name} $PWD $?.\nSeparate commands with ; or a new line. Conditions: && and ||.\nRedirect: > file or >> file. Errors stay on the console.\nfor f in /Documents/*.txt; do echo \"$f\"; done\nCtrl+C: copy selection, or interrupt when nothing is selected.\nUp/Down: history. Tab: completion. No pipes, background jobs or Bash substitution.\n",
+    "kind": "help"
+  },
+  {
+    "index": 2494,
+    "deltaIndex": 68,
+    "source": "Internal free: ",
+    "english": "Internal free: ",
+    "kind": "terminal"
+  },
+  {
+    "index": 2495,
+    "deltaIndex": 69,
+    "source": "Internal largest block: ",
+    "english": "Internal largest block: ",
+    "kind": "terminal"
+  },
+  {
+    "index": 2496,
+    "deltaIndex": 70,
+    "source": "PSRAM free: ",
+    "english": "PSRAM free: ",
+    "kind": "terminal"
+  },
+  {
+    "index": 2497,
+    "deltaIndex": 71,
+    "source": " bytes\n",
+    "english": " bytes\n",
+    "kind": "terminal"
+  },
+  {
+    "index": 2498,
+    "deltaIndex": 72,
+    "source": " seconds\n",
+    "english": " seconds\n",
+    "kind": "terminal"
+  },
+  {
+    "index": 2499,
+    "deltaIndex": 73,
+    "source": "SD unavailable\n",
+    "english": "SD unavailable\n",
+    "kind": "terminal"
+  },
+  {
+    "index": 2500,
+    "deltaIndex": 74,
+    "source": "bytes free: ",
+    "english": "bytes free: ",
+    "kind": "terminal"
+  },
+  {
+    "index": 2501,
+    "deltaIndex": 75,
+    "source": "disconnected\n",
+    "english": "disconnected\n",
+    "kind": "terminal"
+  },
+  {
+    "index": 2502,
+    "deltaIndex": 76,
+    "source": "usage: sha256 file...\n",
+    "english": "usage: sha256 file...\n",
+    "kind": "terminal"
+  },
+  {
+    "index": 2503,
+    "deltaIndex": 77,
+    "source": "\nInterrupted\n",
+    "english": "\nInterrupted\n",
+    "kind": "terminal"
+  },
+  {
+    "index": 2504,
+    "deltaIndex": 78,
+    "source": "\nExit status: ",
+    "english": "\nExit status: ",
+    "kind": "terminal"
+  },
+  {
+    "index": 2505,
+    "deltaIndex": 79,
+    "source": "Tab5 shell\nhelp / help command\n",
+    "english": "Tab5 shell\nhelp / help command\n",
+    "kind": "terminal"
+  },
+  {
+    "index": 2506,
+    "deltaIndex": 80,
+    "source": "Cannot allocate terminal task\n",
+    "english": "Cannot allocate terminal task\n",
+    "kind": "terminal"
+  }
+]

@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "lbi Radio",
+      "style": "LB/arabic",
+      "url": "http://andromeda.shoutca.st:8192/;stream.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Liban Libre",
+      "style": "LB/arabic music",
+      "url": "https://edge.mixlr.com/channel/qtqeb",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Light FM 90.5 & 90.7 Beirut",
+      "style": "LB/beirut",
+      "url": "http://25643.live.streamtheworld.com/LIGHTFMAAC_SC",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 48
+    },
+    {
+      "name": "radio maria arabic",
+      "style": "LB/christ",
+      "url": "http://dreamsiteradiocp4.com:8014/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Nidaa FM",
+      "style": "LB/classical",
+      "url": "http://nidaa.fm:8811/stream.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Beirut Nights",
+      "style": "LB/eurodance",
+      "url": "https://byblosnights.com:8443/relay",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "Voice of Lebanon (Sawtlebnan) Radio",
+      "style": "LB/Radio",
+      "url": "https://l3.itworkscdn.net/itwaudio/9054/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Byblos Radio",
+      "style": "LB/world music",
+      "url": "http://byblosnights.com:8000/byblosaac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    }
+  ]
+}

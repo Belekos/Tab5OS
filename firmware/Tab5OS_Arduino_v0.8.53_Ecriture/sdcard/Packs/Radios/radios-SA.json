@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "RadioSunna",
+      "style": "SA/arabic",
+      "url": "http://andromeda.shoutca.st:8189/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 32
+    },
+    {
+      "name": "تفسير القرآن الكريم",
+      "style": "SA/classical",
+      "url": "https://qurango.net/radio/tafseer",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Fred Film Radio(لغة عربية)",
+      "style": "SA/culture",
+      "url": "https://s10.webradio-hosting.com/proxy/fredradioar/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "SBA Radio Call Of Islam 107.5 FM",
+      "style": "SA/life guide",
+      "url": "http://104.7.66.64:8010/;?icy=http",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "إذاعة الأخبار كل 5 دقائق REPLAY NEWS - العربية",
+      "style": "SA/news",
+      "url": "https://replaynewsar.ice.infomaniak.ch/replaynewsar-128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Mp3Quran Main",
+      "style": "SA/quran",
+      "url": "https://qurango.net/radio/mix",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "إذاعة القرآن الكريم (مكة المكرمة)",
+      "style": "SA/quran radio",
+      "url": "https://edge.mixlr.com/channel/rwumx",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "إذاعة السنة",
+      "style": "SA/Radio",
+      "url": "http://andromeda.shoutca.st:8189/live",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 32
+    }
+  ]
+}

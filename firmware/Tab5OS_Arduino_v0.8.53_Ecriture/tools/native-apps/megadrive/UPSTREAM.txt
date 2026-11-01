@@ -1,0 +1,2 @@
+megadrive: adapted from the sources identified in core/UPSTREAM.txt where present.
+Source: https://github.com/giltal/RetroESP32-P4/tree/339f17ff74eea4fe250d749fdcf0b5e544519c2a

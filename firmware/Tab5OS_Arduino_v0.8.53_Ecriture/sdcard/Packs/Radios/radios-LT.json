@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Easy FM",
+      "style": "LT/classic rock",
+      "url": "https://netradio.ziniur.lt/easyfm.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "Žinių Radijas",
+      "style": "LT/lietuvos zinios",
+      "url": "http://netradio.ziniur.lt:8000/ziniur.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "RELAX FM Lietuva",
+      "style": "LT/lithuania",
+      "url": "https://stream1.relaxfm.lt/relaxfm128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "ZIP FM",
+      "style": "LT/pop music",
+      "url": "https://stream1.zipfm.lt/zipfm128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radiocentras",
+      "style": "LT/pop rock",
+      "url": "https://stream2.rc.lt/rc128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Žinių radijas [64 kbps MP3]",
+      "style": "LT/Radio",
+      "url": "http://netradio.ziniur.lt/ziniur_64.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "M-1 Plius",
+      "style": "LT/uab m-1",
+      "url": "http://radio.m-1.fm/m1plius/mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Laluna [MP3]",
+      "style": "LT/uab radijo stotis laluna",
+      "url": "http://radio.m-1.fm/laluna/mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 160
+    }
+  ]
+}

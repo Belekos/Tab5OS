@@ -1,0 +1,5 @@
+https://github.com/ducalex/retro-go/commit/4ced120669750ca7228fd0414211430c1d923166
+Commit: 4ced120669750ca7228fd0414211430c1d923166
+Archive SHA-256: 254e81b3c209e53d45ed9bdb7adf688c9e39540ce4d56eeb647a25ffe2166a61
+Tab5OS changes: SMSPlus subset; fixed-width 32-bit types; real CRC32; no Coleco BIOS or Coleco support. Tab5OS ELF runtime.
+Original licenses and notices retained.

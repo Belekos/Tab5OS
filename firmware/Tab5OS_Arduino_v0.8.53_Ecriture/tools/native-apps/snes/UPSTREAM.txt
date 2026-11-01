@@ -1,0 +1,1 @@
+snes: adapted from the sources identified in core/UPSTREAM.txt where present.

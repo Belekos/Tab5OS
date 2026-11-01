@@ -1,0 +1,47 @@
+#include "Platform.h"
+#include "Tab5KeyStore.h"
+#include "Tab5Vault.h"
+#include "Tab5VaultCore.h"
+#include "Tab5Secrets.h"
+#include <mbedtls/pkcs5.h>
+#include <mbedtls/md.h>
+#include <iostream>
+unsigned checks=0;
+#define CHECK(x) do{++checks;if(!(x)){std::cerr<<"FAIL "<<__LINE__<<": "<<#x<<" key="<<Tab5KeyStore::status()<<" vault="<<Tab5Vault::status()<<" secrets="<<Tab5Secrets::status()<<"\n";std::exit(1);}}while(0)
+struct Memory:tab5vault::Stream{std::vector<uint8_t> data;size_t pos=0;size_t read(void* p,size_t n)override{n=std::min(n,data.size()-pos);memcpy(p,data.data()+pos,n);pos+=n;return n;}size_t write(const void* p,size_t n)override{auto* b=static_cast<const uint8_t*>(p);data.insert(data.end(),b,b+n);pos+=n;return n;}bool seek(size_t p)override{if(p>data.size())return false;pos=p;return true;}size_t size()override{return data.size();}};
+int main(){
+ // Exact compatibility against independent upstream PBKDF2 implementation.
+ uint8_t salt[16]{},expected[32]{},actual[32]{};const char* pass="portable passphrase 2026";
+ CHECK(!mbedtls_pkcs5_pbkdf2_hmac_ext(MBEDTLS_MD_SHA256,(const uint8_t*)pass,strlen(pass),salt,16,tab5vault::Iterations,32,expected));
+ CHECK(tab5vault::passwordKey(pass,salt,actual));CHECK(!memcmp(expected,actual,32));unsigned callbacks=0;
+ auto stop=[](size_t,size_t,void* p){return ++*static_cast<unsigned*>(p)<3;};CHECK(!tab5vault::passwordKey(pass,salt,actual,stop,&callbacks));CHECK(callbacks==3);for(auto byte:actual)CHECK(byte==0);
+ CHECK(!Tab5KeyStore::configured());CHECK(Tab5KeyStore::openDevice());CHECK(Tab5KeyStore::list().empty());int first=Tab5KeyStore::create("Initial");CHECK(first==0);
+ CHECK(Tab5KeyStore::configurePin("123456"));CHECK(Tab5KeyStore::pinConfigured());Tab5KeyStore::lock();CHECK(!Tab5KeyStore::openDevice());CHECK(!Tab5KeyStore::unlockDevice("0000"));CHECK(!Tab5KeyStore::unlockDevice("0000"));CHECK(!Tab5KeyStore::unlockDevice("0000"));CHECK(Tab5KeyStore::pinRetrySeconds()>0);CHECK(!Tab5KeyStore::unlockDevice("123456"));clockMs+=1001;CHECK(Tab5KeyStore::unlockDevice("123456"));CHECK(!Tab5KeyStore::configurePin("12"));CHECK(!Tab5KeyStore::configurePin("abcde"));
+ CHECK(Tab5Secrets::set("GIT_TOKEN","fixture-secret-no-plaintext"));char value[513];CHECK(Tab5Secrets::get("GIT_TOKEN",value,sizeof(value)));CHECK(!strcmp(value,"fixture-secret-no-plaintext"));CHECK(!Tab5Secrets::set("BAD-NAME","x"));CHECK(Tab5Secrets::names().size()==1);CHECK(Tab5Secrets::set("EMPTY",""));CHECK(Tab5Secrets::get("EMPTY",value,sizeof(value))&&!value[0]);CHECK(!Tab5Secrets::get("GIT_TOKEN",value,4)&&!value[0]);
+ for(auto& f:files){std::string content(f.second->data.begin(),f.second->data.end());CHECK(content.find("fixture-secret-no-plaintext")==std::string::npos);CHECK(content.find("GIT_TOKEN")==std::string::npos);}
+ CHECK(Tab5Vault::backupDevice(first,"/key-local.t5k"));CHECK(Tab5Vault::busy());CHECK(!Tab5KeyStore::erase(first));CHECK(!Tab5KeyStore::openDevice());pump();CHECK(!Tab5Vault::busy());CHECK(files.count("/key-local.t5k"));CHECK(Tab5KeyStore::openDevice());
+ CHECK(Tab5KeyStore::erase(first));CHECK(Tab5KeyStore::list().empty());Tab5KeyStore::lock();CHECK(!Tab5Secrets::get("GIT_TOKEN",value,sizeof(value))&&!value[0]);CHECK(Tab5Secrets::names().empty());CHECK(!Tab5Vault::restoreDevice("/key-local.t5k"));CHECK(Tab5KeyStore::unlockDevice("123456"));CHECK(Tab5KeyStore::list().empty());CHECK(Tab5Secrets::get("GIT_TOKEN",value,sizeof(value)));CHECK(Tab5Vault::restoreDevice("/key-local.t5k"));pump();CHECK(Tab5KeyStore::list().size()==1);
+ // Portable backups and older file format remain exact and decryptable.
+ CHECK(Tab5Vault::backupKey(0,"/portable.t5k",pass));pump();CHECK(files.count("/portable.t5k"));CHECK(Tab5KeyStore::erase(0));CHECK(Tab5Vault::restoreKey("/portable.t5k","wrong"));pump();CHECK(Tab5KeyStore::list().empty());CHECK(Tab5Vault::restoreKey("/portable.t5k",pass));pump();CHECK(Tab5KeyStore::list().size()==1);
+ CHECK(Tab5Vault::backupKey(0,"/cancel.t5k",pass));Tab5Vault::cancel();pump();CHECK(!files.count("/cancel.t5k"));CHECK(!files.count("/cancel.t5k.tmp"));CHECK(Tab5KeyStore::openDevice());
+ failTask=true;CHECK(!Tab5Vault::backupDevice(0,"/oom.t5k"));CHECK(!Tab5Vault::busy());failTask=false;CHECK(Tab5Vault::backupDevice(0,"/after-oom.t5k"));pump();CHECK(files.count("/after-oom.t5k"));
+ CHECK(Tab5Vault::backupDevice(0,"/revoked.t5k"));Tab5KeyStore::lock();pump();CHECK(!files.count("/revoked.t5k"));CHECK(Tab5KeyStore::unlockDevice("123456"));
+ for(unsigned cycle=0;cycle<50;++cycle){String path=std::string("/cycle-")+std::to_string(cycle)+".t5k";CHECK(Tab5Vault::backupDevice(0,path));pump();CHECK(files.count(path));CHECK(Tab5KeyStore::openDevice());Tab5KeyStore::lock();CHECK(Tab5KeyStore::unlockDevice("123456"));}
+ // Authentication before publishing any cleartext; all chunk positions.
+ Memory input;input.data.resize(9000);for(size_t i=0;i<input.data.size();++i)input.data[i]=uint8_t(i);Memory encrypted;uint8_t key[32]{},id[16]{},entropy[24]{};CHECK(!tab5vault::encryptKey(input,encrypted,key,id,entropy));for(size_t at:std::array<size_t,5>{0,30,80,4300,encrypted.data.size()-1}){Memory damaged=encrypted;damaged.data[at]^=1;Memory out;CHECK(tab5vault::decryptKey(damaged,out,key,id)!=nullptr);CHECK(out.data.empty());}
+ // Every FS operation on a credentials update is individually faulted.
+ CHECK(Tab5Secrets::set("GIT_TOKEN","before-fault"));std::map<std::string,Node> snapshot;for(auto& f:files)snapshot[f.first]=*f.second;
+ unsigned faults=0;for(int failure=0;failure<95;++failure){files.clear();for(auto& f:snapshot)files[f.first]=std::make_shared<Node>(f.second);Tab5Secrets::clearCache();failFs=-1;CHECK(Tab5Secrets::get("GIT_TOKEN",value,sizeof(value)));failFs=failure;bool committed=Tab5Secrets::set("GIT_TOKEN","after-fault");failFs=-1;Tab5Secrets::clearCache();CHECK(Tab5Secrets::get("GIT_TOKEN",value,sizeof(value)));CHECK(!strcmp(value,committed?"after-fault":"before-fault"));++faults;}
+ CHECK(Tab5Secrets::erase("GIT_TOKEN"));Tab5Secrets::clearCache();CHECK(!Tab5Secrets::get("GIT_TOKEN",value,sizeof(value)));CHECK(Tab5Secrets::get("EMPTY",value,sizeof(value)));CHECK(Tab5KeyStore::configurePin(""));Tab5KeyStore::lock();CHECK(Tab5KeyStore::openDevice());
+ CHECK(Tab5Secrets::set("MAX",std::string(512,'z').c_str()));CHECK(!Tab5Secrets::set("OVER",std::string(513,'z').c_str()));for(unsigned i=2;i<64;++i)CHECK(Tab5Secrets::set(("K"+std::to_string(i)).c_str(),"v"));CHECK(Tab5Secrets::names().size()==64);CHECK(!Tab5Secrets::set("EXTRA","v"));
+ // Broken latest bank can recover the previous authenticated commit, never
+ // accept modified bytes. Both damaged banks fail closed without writing.
+ auto bank=files["/System/Secrets/credentials.a.t5v"];CHECK(bool(bank));bank->data.back()^=1;files["/System/Secrets/credentials.b.t5v"]->data.back()^=1;Tab5Secrets::clearCache();CHECK(!Tab5Secrets::get("EMPTY",value,sizeof(value)));CHECK(!Tab5Secrets::set("REPLACE","must-not-overwrite"));
+ // Legacy password rings and migration keep their original keys and format.
+ Tab5KeyStore::lock();nvs.clear();CHECK(Tab5KeyStore::unlock(pass));CHECK(Tab5KeyStore::busy());pump();CHECK(Tab5KeyStore::unlocked());CHECK(!Tab5KeyStore::usingDevice());int old=Tab5KeyStore::create("Legacy");CHECK(old==0);Tab5KeyStore::Record oldRecord;CHECK(Tab5KeyStore::read(old,oldRecord));CHECK(Tab5KeyStore::openDevice(true));CHECK(Tab5KeyStore::usingDevice());CHECK(Tab5KeyStore::list().size()==1);Tab5KeyStore::Record copy;CHECK(Tab5KeyStore::read(0,copy));CHECK(!memcmp(copy.key,oldRecord.key,32));copy.key[0]^=1;CHECK(Tab5KeyStore::import(copy)<0);
+ Tab5KeyStore::lock();CHECK(Tab5KeyStore::unlock("incorrect but long"));pump();CHECK(!Tab5KeyStore::unlocked());CHECK(Tab5KeyStore::unlock(pass));pump();CHECK(Tab5KeyStore::unlocked());CHECK(Tab5KeyStore::list().size()==1);CHECK(Tab5KeyStore::unlock("changed portable password",true));pump();CHECK(Tab5KeyStore::unlocked());Tab5KeyStore::lock();CHECK(Tab5KeyStore::unlock("changed portable password"));pump();CHECK(Tab5KeyStore::read(0,copy));CHECK(!memcmp(copy.key,oldRecord.key,32));
+ CHECK(Tab5KeyStore::openDevice(true));CHECK(Tab5KeyStore::configurePin("7391"));Tab5KeyStore::lock();CHECK(Tab5KeyStore::unlock("changed portable password"));pump();CHECK(Tab5KeyStore::create("Legacy second")>=0);CHECK(!Tab5KeyStore::openDevice(true));CHECK(!Tab5KeyStore::unlockDevice("0000",true));CHECK(Tab5KeyStore::unlocked()&&!Tab5KeyStore::usingDevice());CHECK(Tab5KeyStore::unlockDevice("7391",true));CHECK(Tab5KeyStore::usingDevice());CHECK(Tab5KeyStore::list().size()==2);
+ // Failed key-ring writes do not clear the current usable session.
+ failNvs=1;CHECK(Tab5KeyStore::create("write-failure")<0);failNvs=-1;CHECK(Tab5KeyStore::read(0,copy));CHECK(!memcmp(copy.key,oldRecord.key,32));
+ std::cout<<"{\"checks\":"<<checks<<",\"faultInjectionPoints\":"<<faults<<",\"backupOpenCycles\":50,\"pbkdf2Iterations\":600000,\"keyDeletionIncludingInitial\":true,\"secretsSurviveAllKeysDeleted\":true,\"plaintextNeverWritten\":true,\"portableBackupCompatible\":true,\"deviceBackupRestore\":true,\"pinGateAndRetry\":true,\"corruptionFailsClosed\":true,\"legacyMigrationAndPasswordChange\":true,\"sessionRevocation\":true}\n";
+}

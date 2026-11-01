@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Ultimaě radio",
+      "style": "NP/electronic",
+      "url": "https://ultimae-bofaradio.radioca.st/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Ujyaalo 90 Network",
+      "style": "NP/entertainment",
+      "url": "http://stream.zenolive.com/wtuvp08xq1duv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 112
+    },
+    {
+      "name": "Radio Himalaya",
+      "style": "NP/himalaya",
+      "url": "https://live.itech.host/himalayaradio?1588276425741",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Kantipur FM",
+      "style": "NP/kantipur",
+      "url": "https://radio-broadcast.ekantipur.com/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Hits FM 91.2",
+      "style": "NP/music",
+      "url": "https://usa15.fastcast4u.com/proxy/hitsfm912?mp=/1",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "रेडियो हिमालय",
+      "style": "NP/nepali evergreen",
+      "url": "https://live.itech.host/himalayaradio",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "BBC Nepali",
+      "style": "NP/news",
+      "url": "https://stream.live.vc.bbcmedia.co.uk/bbc_nepali_radio",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 56
+    },
+    {
+      "name": "Kalika FM 95.2 FM",
+      "style": "NP/Radio",
+      "url": "https://streaming.softnep.net:10828/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    }
+  ]
+}

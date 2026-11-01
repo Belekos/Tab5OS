@@ -1,0 +1,360 @@
+2066	Catalogo audio limitato a 4096 voci esaminate
+2067	Scheda SD riconnessa
+2068	Avvio
+2069	Contesto prima del riavvio (causa non accertata)\n
+2070	Applicazione rimossa da questa versione
+2071	Applicazione inaccessibile o superiore a 4 MiB
+2072	Preparazione della copia…
+2073	Verifica della copia…
+2074	Completamento dello spostamento…
+2075	Operazione completata
+2076	Destinazione già presente: nessuna sovrascrittura
+2077	Memoria insufficiente per la copia
+2078	Archiviazione occupata
+2079	Copia per sottocartelle: limite di 1024 elementi o 16 livelli
+2080	La sorgente è cambiata: originale conservato
+2081	Errore di copia: controlla sorgente e destinazione
+2082	Riconnessione SD in corso — riprova
+2083	Preparazione annullata
+2084	PSRAM insufficiente per il decoder JPEG
+2085	PSRAM insufficiente per preparare l’immagine
+2086	Decodifica JPEG interrotta o immagine incompleta
+2087	Intestazione PNG incompleta
+2088	PSRAM insufficiente per il decoder PNG
+2089	Decodifica PNG interrotta o immagine incompleta
+2090	Cassaforte del dispositivo illeggibile — vecchia cassaforte conservata
+2091	Limite di 8 chiavi raggiunto — vecchia cassaforte conservata
+2092	Chiavi copiate — vecchia cassaforte conservata
+2093	Intestazione T5MAP inattesa
+2094	Voce della directory T5MAP inattesa
+2095	Voce dell’indice T5MAP inattesa
+2096	In attesa della risposta della stampante…
+2097	Stampa: RAM interna frammentata
+2098	Stampa: PSRAM frammentata
+2099	Altro avvio in corso: riprova
+2100	Liberazione delle cache per la stampa…
+2101	Connessione di rete momentaneamente non disponibile
+2102	Lettura SD interrotta: controlla la coda della stampante
+2103	PSRAM insufficiente per preparare una riga di stampa
+2104	Memoria insufficiente per il rendering del carattere
+2105	Documento modificato: riapri la scelta della sezione
+2106	Immagine troppo grande per il decoder JPEG
+2107	Decodifica dell’immagine…
+2108	Impossibile decodificare l’immagine
+2109	Impostazioni di stampa non valide
+2110	Script arrestato
+2111	Script terminato
+2112	RAM interna insufficiente per l’attività Python
+2113	Frecce / Pagina: naviga\nSpazio: avanti · Maiusc+Spazio: indietro\nInizio / Fine: inizio o fine del documento\nCtrl + / -: testo · Ctrl I: immagini\nBackspace / Esc: indietro · F1: guida
+2114	Indietro · Backspace / Esc
+2115	Download SD
+2116	Allocazione della memoria occupata: un’altra attività si sta avviando
+2117	Troppi avvii simultanei: attendi
+2118	Liberazione delle risorse ancora in corso
+2119	Memoria disponibile
+2120	RAM interna frammentata
+2121	PSRAM frammentata
+2122	%s\nRAM: %u KiB liberi; %u necessari (%u avvio + %u riservati + 32 margine).\nBlocco interno: %u / %u KiB; DMA: %u / %u KiB.\nPSRAM: %u KiB liberi; %u necessari; blocco %u / %u KiB.
+2123	SD pronta
+2124	Destinazione già presente
+2125	Scheda SD occupata
+2126	Scheda SD non rilevata
+2127	La scheda SD non risponde
+2128	Scrittura non autorizzata
+2129	Errore di comunicazione o scrittura SD
+2130	Esci · Esc
+2131	Scegli il file da aprire
+2132	Risorse di sistema
+2133	Avvio salvato
+2134	Cassaforte del dispositivo: apertura nativa senza codice. Le chiavi restano in questo Tab5; una scheda SD rimossa resta cifrata.
+2135	Chiunque usi questo Tab5 può aprire la cassaforte. Salva le chiavi per recuperare i file dopo la perdita o la cancellazione del dispositivo.
+2136	Copia le chiavi nella cassaforte del dispositivo
+2137	Crea la cassaforte del dispositivo
+2138	Vecchia cassaforte: la password resta necessaria. La prima apertura può essere lunga; copia poi le chiavi nella cassaforte del dispositivo.
+2139	Password dimenticata: crea una cassaforte del dispositivo. La vecchia cassaforte e i suoi file vengono conservati.
+2140	I tuoi documenti e le tue impostazioni vengono conservati.
+2141	Chiavi della cassaforte del dispositivo
+2142	Chiavi della vecchia cassaforte
+2143	Accesso alla cassaforte
+2144	Memoria occupata — riprova dopo la liberazione delle cache
+2145	Wikipedia HTML
+2146	Regolazione dei colori…
+2147	Salvataggio del testo da stampare…
+2148	Memoria CSS EPUB insufficiente
+2149	Impostazioni di avvio
+2150	Telefono
+2151	Applicazioni integrate
+2152	Torna alle impostazioni
+2153	Presentazione
+2154	Etichette
+2155	Mostra le etichette
+2156	Carattere troncato: glifo
+2157	Carattere troncato: contorni
+2158	Carattere troncato: componente
+2159	Carattere troncato: trasformazione
+2160	Carattere troncato: istruzioni
+2161	Carattere troncato: cmap
+2162	Carattere troncato: cmap Unicode
+2163	Carattere troncato: cmap 0
+2164	Carattere troncato: cmap 6
+2165	Carattere troncato: segmenti Unicode
+2166	Carattere troncato: indice Unicode
+2167	Carattere troncato: gruppi Unicode
+2168	Carattere assente o troncato
+2169	Carattere troncato: intestazione
+2170	Carattere troncato: tabelle
+2171	Carattere troncato: limiti della tabella
+2172	Carattere TrueType incompleto
+2173	Carattere non valido: metriche
+2174	Risposta tardiva dopo l’invio — controlla la coda della stampante
+2175	Invio interrotto — controlla la coda della stampante prima di riprovare
+2176	Risposta della stampante assente o interrotta
+2177	Non nascondere più questo elemento
+2178	Nascondi questo elemento
+2179	Nessuna anteprima disponibile
+2180	Memoria insufficiente — usa la ricerca
+2181	Impossibile modificare la visibilità
+2182	Copia verificata; originale conservato.
+2183	Copia completata e verificata.
+2184	Copia annullata. Originale conservato.
+2185	Copia impossibile. Originale conservato.
+2186	Una copia parziale resta nella destinazione.
+2187	Una copia è già in corso
+2188	Cartella superiore · Backspace
+2189	Crea un file o una cartella
+2190	Copia la selezione · Ctrl+C
+2191	Taglia la selezione · Ctrl+X
+2192	Scheda SD inaccessibile per il salvataggio
+2193	Salvataggio in corso
+2194	Prima scelta
+2195	microSD · %llu MiB
+2196	USB · %s · %llu MiB
+2197	Apri la vecchia cassaforte
+2198	USB
+2199	sd:/Cartella/file o usb:/Cartella/file
+2200	Chiudi la cassaforte
+2201	Griglia
+2202	Dimensione normale
+2203	Dimensione compatta
+2204	Dimensione grande
+2205	Dimensione delle applicazioni
+2206	Lettura dell’unità interrotta
+2207	Altre applicazioni disponibili nel Gestore file
+2208	Incolla in
+2209	Libro EPUB — aprilo per iniziare la lettura.
+2210	Archiviazione non disponibile
+2211	Radice della scheda SD
+2212	Conteggio…
+2213	Copia dei file
+2214	Destinazione
+2215	Apri l’unità USB
+2216	Cancella la ricerca
+2217	Mostra nella home
+2218	Nessuna applicazione visibile
+2219	Carattere non valido: ciclo di glifi
+2220	Carattere non valido: dimensioni del glifo
+2221	Carattere non valido: indice del componente
+2222	Carattere non valido: trasformazione
+2223	Carattere senza tabella Unicode utilizzabile
+2224	Carattere non valido: indice Unicode
+2225	Carattere non valido: cmap 4
+2226	Carattere non valido: ricerca Unicode
+2227	Carattere non valido: segmenti Unicode
+2228	Carattere non valido: fine di cmap
+2229	Carattere non valido: gruppo Unicode
+2230	Raccolta di caratteri non valida
+2231	Carattere non valido: offset dei glifi
+2232	Importazione ABI dell’applicazione mancante
+2233	Scegli un’applicazione Tab5 .elf
+2234	Copia di file
+2235	Copia file
+2236	Percorso troppo lungo per la copia
+2237	Spazio insufficiente nella destinazione
+2238	Percorso non valido per la copia
+2239	Sorgente o cartella di destinazione non trovata
+2240	Immagine inaccessibile o troppo grande
+2241	JPEG incompleto o non valido
+2242	Formato della cassaforte del dispositivo non valido
+2243	Cassaforte del dispositivo aperta senza codice
+2244	Stampa: blocco DMA insufficiente
+2245	Lettura del file interrotta
+2246	Impossibile allocare la PSRAM per il carattere
+2247	Impossibile leggere il documento
+2248	Impossibile allocare il buffer di lettura
+2249	Indirizzo IPP / IPPS non valido
+2250	Script o percorso non valido
+2251	PSRAM insufficiente per la console
+2252	PSRAM insufficiente per MicroPython
+2253	Applicazione Python
+2254	Blocco DMA libero insufficiente
+2255	Scheda SD piena
+2256	Connessione automatica: sì
+2257	Connessione automatica: no
+2258	File inaccessibile
+2259	Apri la cassaforte del dispositivo
+2260	Chiedi all’avvio\nSenza file\nSempre questo file
+2261	Cartella di salvataggio inaccessibile
+2262	Destinazione: libreria Tab5 o catalogo separato
+2263	Destinazione del catalogo non valida
+2264	Metadati riservati al catalogo
+2265	Moduli per questo Tab5
+2266	Installazione globale per gli script di questo Tab5. Per un’altra scheda, torna al catalogo MicroPython.
+2267	Radio Browser
+2268	Registro di recupero non valido
+2269	Recupero interrotto: file sconosciuto nel registro
+2270	Destinazione di recupero non valida
+2271	Backup di recupero non valido
+2272	Registro assente: backup conservati
+2273	Destinazione riservata al registro
+2274	Impronta di recupero non valida
+2275	File modificato: recupero manuale necessario
+2276	Backup assente: recupero manuale necessario
+2277	Errore
+2278	Nome obbligatorio, massimo 80 caratteri
+2279	Il nome deve contenere almeno una lettera o una cifra ASCII
+2280	Scegli una famiglia di schede
+2281	Categoria non valida
+2282	Nessun modulo .py o .mpy nella selezione
+2283	Nome già presente per questa destinazione e categoria: scegli un altro nome
+2284	Nome già presente: scegli un altro nome
+2285	Esiste già un progetto con questo nome
+2286	Scegli un progetto sulla SD. L’USB può essere usato come sorgente da importare.
+2287	Scegli una cartella di progetto distinta dai file di sistema
+2288	Cartella del progetto assente
+2289	Scegli prima la destinazione del progetto
+2290	Libreria fuori catalogo
+2291	Nessun file elencato in questa libreria
+2292	Catalogo modificato: importa di nuovo con un altro nome
+2293	Cartella troppo profonda: massimo 8 livelli
+2294	Scegli la cartella della libreria, non la radice SD
+2295	Scegli un modulo .py, .mpy o una cartella decompressa
+2296	File superiore a 1 MiB
+2297	Scheda del progetto non valida
+2298	Sorgente del catalogo modificata: 
+2299	Limite: 64 librerie per progetto
+2300	Conflitto: file del progetto conservato: 
+2301	La sorgente è cambiata durante la copia
+2302	Cartella troppo grande: scegli la sottocartella della libreria
+2303	Intestazione .mpy non valida: 
+2304	Registro della libreria incoerente
+2305	Troppe sottocartelle: scegli la cartella della libreria
+2306	File superiore a 1 MiB: 
+2307	Nomi incompatibili con FAT: 
+2308	Limite: 160 file e 8 MiB per libreria
+2309	Metadati della libreria non validi: 
+2310	Filtra per scheda o categoria (oltre 256 librerie)
+2311	Destinazione MicroPython
+2312	Uso della libreria
+2313	Continua
+2314	Progetto creato
+2315	Apri main.py in Scrittura. La cartella può essere aggiunta ai progetti dell’editor con Documenti → Importa una cartella.
+2316	Progetto destinatario
+2317	Importa da SD / USB
+2318	Importa la libreria
+2319	I file verranno copiati senza eseguirli. Destinazione dichiarata, compatibilità non verificata.
+2320	Importazione della libreria
+2321	Scarica i sorgenti
+2322	I sorgenti .py e le dipendenze mip verranno copiati nel catalogo SD, senza installazione globale né esecuzione.
+2323	Download dei sorgenti
+2324	Libreria del catalogo
+2325	Destinazione dichiarata — compatibilità non verificata
+2326	Sorgenti .py conservati sulla SD, senza esecuzione.
+2327	Aggiungi a un progetto
+2328	Vedi i file
+2329	Catalogo MicroPython sulla SD
+2330	Scheda: 
+2331	Tutte
+2332	Uso: 
+2333	Tutti
+2334	Mostra le librerie
+2335	Filtri per destinazione dichiarata e uso. Il catalogo resta disponibile offline.
+2336	Librerie MicroPython · tutte le schede
+2337	Tutte le schede
+2338	Tutte le categorie
+2339	Crea un progetto
+2340	Scegli una cartella esistente
+2341	Un modulo .py o .mpy
+2342	Una cartella di libreria decompressa
+2343	Catalogo sulla SD
+2344	Importa SD / USB
+2345	Ottieni i sorgenti tramite Wi-Fi
+2346	Nuovo progetto MicroPython
+2347	file .mpy: versione del firmware e architettura da verificare sulla scheda di destinazione.
+2348	Dipendenze locali da completare se necessario.
+2349	File della libreria
+2350	Apri questo percorso in Scrittura per consultare il sorgente.
+2351	Solo copia di file. I file diversi già presenti bloccano la copia. Compatibilità da verificare sulla scheda di destinazione.
+2352	Aggiungi la libreria
+2353	Moduli installati per il Tab5
+2354	Libreria aggiunta
+2355	Il trasferimento sulla scheda e l’avvio del programma sono operazioni distinte.
+2356	nuovi file
+2357	Librerie disponibili
+2358	I file .mpy non vengono convertiti né convalidati per questo firmware.
+2359	Copia nel progetto
+2360	Nessuna libreria per questi filtri. Usa Importa SD / USB oppure Ottieni tramite Wi-Fi.
+2361	Colore non valido
+2362	Wikipedia · CC BY-SA 4.0
+2363	Connessione non disponibile
+2364	Impronta di riferimento non valida
+2365	Applicazioni ELF
+2366	Invio
+2367	Nascondi le immagini · Ctrl I
+2368	Mostra le immagini · Ctrl I
+2369	Riconnetti la microSD
+2370	Ripristina i file mancanti
+2371	Condivisione
+2372	Portabile / destinazione da verificare
+2373	ESP32-P4 (altra scheda)
+2374	Altra scheda
+2375	Generale
+2376	Sensori
+2377	Schermo
+2378	Motori
+2379	Nel Gestore file, Su/Giù scelgono un elemento e Invio apre il file o la cartella. Backspace sale alla cartella superiore. Con il touch, tocca per selezionare; tocca di nuovo l’elemento selezionato per aprirlo, senza limite di tempo. Copia / Taglia prepara l’elemento; Incolla agisce nella cartella corrente.\n\nI file di sistema restano accessibili per aggiornare i dati. Il colore ambrato ne indica il ruolo; gli elementi nascosti sono attenuati. Modificare o eliminare una configurazione, una lingua, un carattere o un catalogo può cambiare il funzionamento di Tab5OS: conserva una copia prima delle tue modifiche.\n\nSalva scrive il documento corrente. Salva con nome sceglie un altro nome o un’altra cartella. Il salvataggio automatico segue l’intervallo impostato. Il gestore file si aggiorna dopo una modifica; F5 permette anche di rileggerlo. Il pulsante occhio nasconde o mostra l’elemento selezionato senza rinominarlo. Ctrl+H mostra gli elementi nascosti. Questa scelta è specifica di Tab5OS e viene memorizzata sul supporto; non modifica gli attributi usati da Windows. L’anteprima delle cartelle conta tutti gli elementi visibili, poi permette di sfogliarne l’elenco per pagine. La sottocartella nascosta .Tab5Backups conserva i salvataggi precedenti. Un salvataggio incompleto viene segnalato; lascia la SD inserita durante la scrittura.\n\nIl nome di un file e il testo dei documenti sono dati personali: cambiare la lingua dell’interfaccia non li traduce.\n\nLa lente o Ctrl+F cerca i nomi di file e cartelle nella cartella corrente e in tutte le sottocartelle. Maiuscole e accenti latini vengono ignorati; più parole devono essere tutte presenti. I risultati appaiono progressivamente, con la relativa cartella. Una ricerca parziale viene segnalata: affina i termini se necessario. La croce appare solo durante una ricerca e rimuove il filtro. I testi e i sorgenti, compresi gli script .py, si aprono in Scrittura senza esecuzione automatica.\n\nUn file .bin apre la pagina Firmware. Verifica controlla la destinazione ESP32-P4, la revisione, la dimensione e l’impronta. Installa scrive nella partizione inattiva e convalida l’immagine prima di cambiare il prossimo avvio. Riavvia la attiva. Usa un binario applicazione previsto per questo Tab5, senza bootloader né tabella delle partizioni. Mantieni un’alimentazione stabile.
+2380	Nella schermata Mappa, seleziona la mappa e premi Invio per controllarla. Le frecce spostano la vista; + / − cambia lo zoom; Inizio riporta alla posizione iniziale. Esc restituisce le frecce alla navigazione tra i comandi. Ctrl+F apre la ricerca.\n\nI luoghi salvati permettono di raggiungere una posizione, rinominarla o eliminarla. Lo stile sceglie lo sfondo cartografico. I pacchetti offline .t5map e la cache SD permettono di consultare le tessere già disponibili. Le ricerche online e le tessere mancanti richiedono una connessione. I nomi dei luoghi cercati seguono la lingua scelta quando il servizio la fornisce.\n\nLa lettura verticale apre un testo o un EPUB. Pagina precedente / successiva, Sinistra / Destra e Su / Giù cambiano pagina negli EPUB quando i comandi non sono selezionati. Su / Giù scorre un testo. Backspace o Esc chiude la lettura o l’immagine a schermo intero. La percentuale e il numero di pagina si riferiscono all’intero libro. Il segno ~ indica una percentuale provvisoria durante il primo calcolo; il totale diventa esatto al termine dell’impaginazione. I titoli e i nomi forniti dai file mantengono la lingua originale.
+2381	La home separa gli strumenti integrati, le applicazioni ELF e le applicazioni Python. Le applicazioni sono ordinate per tipo e nome. Gli strumenti integrati restano accessibili senza scheda SD. F5 aggiorna il catalogo; non è un negozio online.\n\nImpostazioni → Home permette di scegliere le applicazioni visibili, l’ordine in ogni sezione, le icone, la visualizzazione a griglia o elenco, le dimensioni e le etichette. Salva conserva la scelta nel Tab5. Indietro abbandona le modifiche. Ripristina ripristina la disposizione predefinita dopo Salva; i file e le applicazioni non vengono eliminati. Impostazioni resta accessibile nella barra laterale.\n\nUscire da un’applicazione Python chiude la sua schermata e torna alla schermata precedente dell’OS. Per le applicazioni che offrono Nascondi, questo comando mantiene l’esecuzione. Il pulsante di ripresa nella barra o Ctrl+Alt+P ritrova l’applicazione nascosta quando è ancora attiva. Ferma o Ctrl+. ne richiede l’arresto. Quando bisogna fermare un’altra applicazione prima dell’avvio, conferma il cambio proposto.\n\nMappe → Scarica apre il modulo della zona con centro, zoom e sfondo attuali. Scegli città o coordinate, raggio e zoom, poi verifica la stima. OpenTopoMap si scarica direttamente sul tablet; pausa/ripresa conserva il lavoro. OpenStreetMap richiede una fonte che autorizzi il download o la preparazione su PC. Torna in Mappe per consultare il risultato senza riavviare.\n\nWikipedia presenta risultati locali e online nella stessa paginazione, senza isolare un risultato locale in una pagina. Una copia locale esistente ha la precedenza. Dopo una lettura online, Salva questa pagina la rende disponibile offline. Opzioni riunisce salvataggi automatici, aggiornamenti e download completi con scelta della lingua. Un nuovo archivio completo richiede conferma prima del download. Il lettore conserva l’orientamento verticale, la dimensione del testo e l’interlinea.\n\nChat IRC memorizza nickname e server. Canali permette di entrare, uscire, aggiungere o rimuovere un preferito e ritrovare i recenti. Nascondi mantiene la connessione. Nessuna cronologia dei messaggi viene salvata sulla SD; le preferenze restano in /M5Writer/irc.json.\n\nImporta radio consulta Radio Browser. Il Wi-Fi e una data corretta sono necessari per le connessioni sicure.\n\nNel lettore Wikipedia, i collegamenti del testo aprono gli altri articoli cercando prima le copie locali. Backspace o Esc torna ai risultati; anche Alt+Sinistra permette di tornare indietro. Il comando Illustrazioni nella barra di lettura attiva o nasconde le immagini. Il menu di un risultato locale permette di eliminare la copia o l’archivio visualizzato dopo conferma. Le tabelle mantengono le celle e lo scorrimento orizzontale.
+2382	Impostazioni → Sistema → Condivisione apre una condivisione temporanea in lettura e scrittura. Rete attuale usa il Wi-Fi esistente: il PC deve essere sulla stessa rete. Rete diretta crea un Wi-Fi temporaneo; disattiva prima il Wi-Fi dell’OS, poi collega il PC usando il nome e la password visualizzati.\n\nApri l’indirizzo visualizzato nel browser del PC e inserisci il codice. Non serve alcun software aggiuntivo. Il browser permette di consultare, scaricare, inviare, rinominare ed eliminare file e di creare cartelle. La condivisione si ferma dopo 30 minuti o con Ferma.\n\nDurante un trasferimento, lascia la scheda inserita ed evita di modificare lo stesso file in un’applicazione. Ferma la condivisione prima di cambiare il Wi-Fi. È un accesso tramite browser; la scheda non appare come lettera di unità USB in Windows.
+2383	L’editor Scrittura apre anche i file Python e gli altri sorgenti. Il codice resta grezzo, con colorazione visuale. Il menu Codice riunisce Esegui, Ferma, Riprendi, Librerie e Console. Esegui salva prima il file .py; se il salvataggio fallisce, non parte. La console può occupare il pannello destro.\n\nCtrl+Invio: salva ed esegui Python. Ctrl+.: ferma. Ctrl+Maiusc+R: riprendi. Ctrl+Maiusc+L: mostra o nascondi la console. Le solite scorciatoie dell’editor restano disponibili.\n\nDocumenti conserva un elenco dei file, anche quando non sono caricati in memoria. La croce rimuove una voce, mai il file sulla SD. Ctrl+Maiusc+O apre questo elenco; Ctrl+Tab / Ctrl+Maiusc+Tab passa al documento successivo / precedente. Cambiare documento salva le modifiche; un errore conserva il documento corrente.\n\nCrea un progetto con questo documento permette poi di raggruppare altri file. Aggiungi il documento al progetto completa il gruppo scelto. Importa una cartella la esplora progressivamente e rileva i nuovi file mentre l’editor è visibile. Fuori progetto mantiene i file indipendenti. Un file rimosso con la croce non viene reinserito automaticamente.\n\nLibrerie apre il catalogo MicroPython, con scelta della scheda di destinazione e aggiunta dei moduli al progetto corrispondente. Le librerie destinate a un’altra scheda restano separate da quelle del Tab5; i loro driver non vengono eseguiti sul Tab5. La compatibilità dichiarata non garantisce il funzionamento su una scheda specifica. I pacchetti CPython e le loro estensioni native non sono compatibili. Non è previsto alcun caricamento o flash automatico di un’altra scheda.\n\nGli script forniti restano in /MicroPython. Controlla la scheda SD confronta le risorse prima della riparazione, conserva i file personali e salva una copia di ogni file sostituito.\n\nUn file .elf compatibile avvia un’applicazione senza sostituire l’OS. È possibile memorizzarne l’avvio: chiedere un file, avviare senza file o usare sempre lo stesso file. I percorsi si scrivono sd:/Cartella/file.ext per la microSD e usb:/Cartella/file.ext per l’unità USB. Non sono comandi di terminale. L’arresto è cooperativo. Queste applicazioni hanno accesso alla memoria dell’OS: usa binari attendibili costruiti con l’SDK fornito. Un .bin resta un aggiornamento del firmware.
+2384	Crea un tema: scegli un colore dall’elenco o toccando un oggetto nell’anteprima. Regola R, G e B, oppure inserisci #RRGGBB, poi salva. Il cursore Nero / Bianco scurisce o schiarisce il colore in modo simmetrico; al centro conserva il colore di partenza.\n\nNel Gestore file, seleziona un file, poi Apri con… e scegli un’applicazione ELF compatibile. Il programma di avvio propone anche un selettore di file e cartelle, i recenti e i preferiti. Esegui avvia il programma; Ctrl+. ne richiede l’arresto.\n\nGame Boy: le frecce e i tasti fisici Z/X controllano la croce direzionale e A/B. Invio = Start, Backspace = Select. Esc esce e salva lo stato. Il pulsante dischetto salva senza uscire; la freccia circolare ricomincia la partita. I file .gb aprono Game Boy, i .gbc aprono Game Boy Color. I salvataggi e gli stati si trovano in /Saves/GB o /Saves/GBC. L’ultimo stato compatibile viene ripreso alla successiva apertura della ROM.
+2385	Impostazioni → Archiviazione apre i comandi microSD e USB, anche senza scheda SD. Monta / verifica microSD ne riavvia il rilevamento; Apri la microSD porta alla radice /. Una chiavetta o un lettore di schede USB compatibile può essere montato automaticamente; questa opzione resta disattivabile. I file USB appaiono in /USB. Copia, incolla, crea, rinomina ed elimina funzionano su entrambi i supporti.\n\nSalva i documenti e ferma le applicazioni o i trasferimenti che utilizzano il supporto prima di Espelli microSD o Espelli USB. Un’operazione in corso può impedire l’espulsione. Attendi la conferma prima di rimuovere la scheda o scollegare il supporto. Può essere montata una sola unità USB alla volta, con tastiera e mouse sull’hub. FAT16/FAT32 sono supportati.\n\nRisorse mancanti ricrea progressivamente dal firmware i file di sistema previsti che sono assenti. Annulla la riparazione interrompe il lavoro. I file esistenti, i documenti e le personalizzazioni vengono conservati. Questa funzione non sostituisce i file danneggiati già presenti e non recupera i file eliminati. Caratteri, enciclopedie e applicazioni .app.elf devono ancora essere forniti separatamente.\n\nSenza un carattere SD utilizzabile, l’interfaccia usa temporaneamente l’inglese e il carattere integrato, senza cambiare la lingua salvata né i testi dei documenti. Riavviare con il carattere ripristina la lingua scelta. Questa versione non offre formattazione né recupero dei dati cancellati.
+2386	Impostazioni → Archiviazione apre i comandi microSD e USB, anche senza scheda SD. Riconnetti la microSD ne riavvia il rilevamento; Apri nel pannello microSD porta alla radice /. Una chiavetta o un lettore di schede USB compatibile può essere montato automaticamente; questa opzione resta disattivabile. I file USB appaiono in /USB. Copia, incolla, crea, rinomina ed elimina funzionano su entrambi i supporti.\n\nSalva i documenti e ferma le applicazioni o i trasferimenti che utilizzano il supporto prima di scegliere Espelli nel relativo pannello. Un’operazione in corso può impedire l’espulsione. Attendi la conferma prima di rimuovere la scheda o scollegare il supporto. Può essere montata una sola unità USB alla volta, con tastiera e mouse sull’hub. FAT16/FAT32 sono supportati.\n\nRipristina i file mancanti ricrea progressivamente dal firmware i file di sistema previsti che sono assenti. Annulla interrompe il lavoro. I file esistenti, i documenti e le personalizzazioni vengono conservati. Questa funzione non sostituisce i file danneggiati già presenti e non recupera i file eliminati. Caratteri, enciclopedie e applicazioni .app.elf devono ancora essere forniti separatamente.\n\nSenza un carattere SD utilizzabile, l’interfaccia usa temporaneamente l’inglese e il carattere integrato, senza cambiare la lingua salvata né i testi dei documenti. Riavviare con il carattere ripristina la lingua scelta. Questa versione non offre formattazione né recupero dei dati cancellati.
+2387	Analisi: 
+2388	Organizza la libreria
+2389	Nome nel catalogo
+2390	Nome mip, indirizzo HTTPS o github: del pacchetto
+2391	Versione del pacchetto
+2392	Versione / tag (vuoto: versione corrente)
+2393	Tab5 · Condivisione locale dei file
+2394	Codice visualizzato sul tablet
+2395	Invia file
+2396	Annulla il trasferimento
+2397	Mostra altri
+2398	Dimensione
+2399	Azioni
+2400	Questa cartella è vuota.
+2401	Nome della cartella
+2402	Nuovo nome
+2403	Spostare questo file nel cestino o eliminare questa cartella vuota?\n
+2404	Elimina definitivamente
+2405	Eliminare definitivamente questo elemento dal cestino?\n
+2406	Sostituire questo file?\n
+2407	Completato
+2408	La scheda SD è in uso. Chiudi il documento aperto o ferma la registrazione, poi riprova.
+2409	Scegli i file
+2410	I file devono essere inferiori a 2 GiB.
+2411	Le vecchie versioni e i file eliminati vengono conservati in /.Tab5Trash. Da lì puoi scaricarli o eliminarli definitivamente. Le cartelle devono essere vuote prima di essere eliminate.
+2412	Codice errato o sessione terminata.
+2413	Richiesta non valida.
+2414	Questo file non esiste più.
+2415	La destinazione esiste o la cartella non è vuota.
+2416	La scheda SD è piena.
+2417	Scheda SD non disponibile. Riprova.
+2418	Il file è cambiato. Aggiorna prima di riprovare.
+2419	Questo nome o percorso non è consentito.
+2420	Trasferimento interrotto. Il file originale è stato conservato.
+2421	Connessione persa. Controlla la condivisione sul tablet.
+2422	Inserisci un nome senza / né \.
+2423	Trasferimento annullato.
+2424	Elimina la copia offline
+2425	Elimina questo archivio

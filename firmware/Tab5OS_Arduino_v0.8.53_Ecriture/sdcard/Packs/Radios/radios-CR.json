@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Urbano 106 - 105.9 FM - San José, Costa Rica",
+      "style": "CR/105.9 fm",
+      "url": "https://usa18.fastcast4u.com/proxy/rmoohhrw?mp=/1",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "IQ Radio",
+      "style": "CR/alternative",
+      "url": "http://rtvhd.net:9942/;stream/1",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 112
+    },
+    {
+      "name": "Azul 99.9 FM",
+      "style": "CR/baladas en español",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/CRC_999AAC.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "Radio María Costa Rica - 100.7 FM",
+      "style": "CR/catholic",
+      "url": "http://dreamsiteradiocp2.com:8044/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Radio Frecuencia Tierra",
+      "style": "CR/costa rica",
+      "url": "http://68.235.35.243:9008/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "103 (FM 103.1)",
+      "style": "CR/hits",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/CRC_103_1AAC.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 96
+    },
+    {
+      "name": "Radio Revolución",
+      "style": "CR/news",
+      "url": "https://stream.zeno.fm/ftcx2988uwzuv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Mil Recuerdos Stereo",
+      "style": "CR/Radio",
+      "url": "https://sechin.grupocentroserver.com/radio/8060/radio.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    }
+  ]
+}

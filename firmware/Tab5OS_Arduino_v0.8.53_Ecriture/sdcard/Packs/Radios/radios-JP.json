@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Free FM 80 Tokyo",
+      "style": "JP/#80s",
+      "url": "https://freefm80.radioca.st/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "Anime Para Ti",
+      "style": "JP/anime",
+      "url": "https://stream.zeno.fm/qpn8mkt8c4duv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Retro PC GAME MUSIC Streaming Radio",
+      "style": "JP/chiptune",
+      "url": "http://gyusyabu.ddo.jp:8000/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "Shonan Beach FM 78.9",
+      "style": "JP/classic jazz",
+      "url": "http://shonanbeachfm.out.airtime.pro:8000/shonanbeachfm_a",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "FM Kahoku 78.7 (FMかほく, JOZZ5AM-FM, 78.7 MHz, Kahoku City, Ishikawa)",
+      "style": "JP/enka",
+      "url": "http://radio.kahoku.net:8000/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 96
+    },
+    {
+      "name": "Free FM Tokyo",
+      "style": "JP/free fm",
+      "url": "https://rocafmadrid.radioca.st/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "Jazz Sakura (asia dream radio)",
+      "style": "JP/japanese",
+      "url": "http://kathy.torontocast.com:3330/stream/1/?esPlayer&cb=82181.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "J1 Gold (HTTP)",
+      "style": "JP/jpop",
+      "url": "http://jenny.torontocast.com:8062/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    }
+  ]
+}

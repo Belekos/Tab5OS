@@ -1,0 +1,196 @@
+{
+  "version": "0.8.41",
+  "baselineVersion": "0.8.40",
+  "baselineArchiveSha256": "8ff7603e05bed90463d2959aa821193511bae63458761b1b7304f62e106bdcd7",
+  "targetedReports": [
+    {
+      "file": "maps-0841.json",
+      "description": "Cartes : recherche locale, files PSRAM et calcul du zoom"
+    },
+    {
+      "file": "maps-input-0841.json",
+      "description": "Routage réel de la molette, focus et contextes de l’interface"
+    },
+    {
+      "file": "maps-ui-0841.json",
+      "description": "Recherche Cartes extraite de l’interface finale"
+    },
+    {
+      "file": "maps-canvas-0841.json",
+      "description": "Préservation du canevas Cartes : reproduction .40 et correction .41"
+    },
+    {
+      "file": "memory-layout-0841.json",
+      "description": "Séparation HP, SPM/TCM, LP et PSRAM sans double compte"
+    },
+    {
+      "file": "memory-static-0841.json",
+      "description": "Tables SHA1/XZ en lecture seule : calculs et collisions"
+    },
+    {
+      "file": "firmware-footprint-0841.json",
+      "description": "Métadonnées du firmware : cache, bornes et erreurs"
+    },
+    {
+      "file": "firmware-footprint-target-0841.json",
+      "description": "Lecture des métadonnées compilée pour P4 et contrat SDK"
+    },
+    {
+      "file": "display-0841.json",
+      "description": "Affichage : pipeline réel, repos simulé et relais d’interruption DSI"
+    },
+    {
+      "file": "meshtastic-0841.json",
+      "description": "Meshtastic : mémoire, protocole, historique et interface"
+    },
+    {
+      "file": "meshtastic-sdk-0841.json",
+      "description": "Compatibilité de l’allocateur hôte avec le SDK fourni"
+    },
+    {
+      "file": "meshtastic-target-0841.json",
+      "description": "Sources Meshtastic et allocateur compilés pour P4"
+    },
+    {
+      "file": "drawing-core-0841.json",
+      "description": "Dessin : progressivité intérieure, combinaison et allocations"
+    },
+    {
+      "file": "image-native-0841.json",
+      "description": "Dessin : interface réelle, lasso, remplissage et annulation"
+    },
+    {
+      "file": "settings-ui-0841.json",
+      "description": "Réglages et informations système : 14 langues, géométrie et mémoire"
+    },
+    {
+      "file": "badge-0841.json",
+      "description": "Pastille Mesh et titre du bandeau supérieur"
+    }
+  ],
+  "sourceChanges": {
+    "Tab5DisplaySignals.cpp": {
+      "report": "display-0841.json",
+      "reason": "Observer passivement les sous-alimentations DSI et transmettre les interruptions au SDK sans allocation ni journalisation dans le relais."
+    },
+    "Tab5DisplaySignals.h": {
+      "report": "display-0841.json",
+      "reason": "Observer passivement les sous-alimentations DSI et transmettre les interruptions au SDK sans allocation ni journalisation dans le relais."
+    },
+    "Tab5FirmwareFootprint.cpp": {
+      "report": "firmware-footprint-0841.json",
+      "reason": "Lire une fois les métadonnées de la partition active ; éviter une vérification complète périodique du firmware et mémoriser les erreurs."
+    },
+    "Tab5FirmwareFootprint.h": {
+      "report": "firmware-footprint-0841.json",
+      "reason": "Lire une fois les métadonnées de la partition active ; éviter une vérification complète périodique du firmware et mémoriser les erreurs."
+    },
+    "Tab5ImageEditor.cpp": {
+      "report": "image-native-0841.json",
+      "reason": "Exposer une progressivité signée et utiliser les corrections du masque dans l’interface Dessin."
+    },
+    "Tab5Map.cpp": {
+      "report": "maps-0841.json",
+      "reason": "Recherche locale en cas de perte Wi-Fi, charges utiles de files en PSRAM et zoom borné autour du pointeur."
+    },
+    "Tab5Map.h": {
+      "report": "maps-0841.json",
+      "reason": "Recherche locale en cas de perte Wi-Fi, charges utiles de files en PSRAM et zoom borné autour du pointeur."
+    },
+    "Tab5MapWheel.h": {
+      "report": "maps-0841.json",
+      "reason": "Recherche locale en cas de perte Wi-Fi, charges utiles de files en PSRAM et zoom borné autour du pointeur."
+    },
+    "Tab5MemoryLayout.cpp": {
+      "report": "memory-layout-0841.json",
+      "reason": "Mesurer séparément les tas HP, SPM/TCM, LP et PSRAM ; réserver le calcul du plus grand bloc aux détails explicites."
+    },
+    "Tab5MemoryLayout.h": {
+      "report": "memory-layout-0841.json",
+      "reason": "Mesurer séparément les tas HP, SPM/TCM, LP et PSRAM ; réserver le calcul du plus grand bloc aux détails explicites."
+    },
+    "Tab5MeshAllocator.c": {
+      "report": "meshtastic-0841.json",
+      "reason": "Réglages autonomes, état actif exact et admission mémoire séparée ; allocations génériques NimBLE en PSRAM via la source officielle du SDK revu, allocations internes/DMA conservées."
+    },
+    "Tab5MeshAllocator.h": {
+      "report": "meshtastic-0841.json",
+      "reason": "Réglages autonomes, état actif exact et admission mémoire séparée ; allocations génériques NimBLE en PSRAM via la source officielle du SDK revu, allocations internes/DMA conservées."
+    },
+    "Tab5MeshAllocatorEspIdf554.inc": {
+      "report": "meshtastic-0841.json",
+      "reason": "Réglages autonomes, état actif exact et admission mémoire séparée ; allocations génériques NimBLE en PSRAM via la source officielle du SDK revu, allocations internes/DMA conservées."
+    },
+    "Tab5MeshBadge.cpp": {
+      "report": "badge-0841.json",
+      "reason": "Masquer la pastille hors fonctionnement effectif et conserver un titre sur une ligne sans débordement."
+    },
+    "Tab5MeshMemory.h": {
+      "report": "meshtastic-0841.json",
+      "reason": "Réglages autonomes, état actif exact et admission mémoire séparée ; allocations génériques NimBLE en PSRAM via la source officielle du SDK revu, allocations internes/DMA conservées."
+    },
+    "Tab5Meshtastic.cpp": {
+      "report": "meshtastic-0841.json",
+      "reason": "Réglages autonomes, état actif exact et admission mémoire séparée ; allocations génériques NimBLE en PSRAM via la source officielle du SDK revu, allocations internes/DMA conservées."
+    },
+    "Tab5Meshtastic.h": {
+      "report": "meshtastic-0841.json",
+      "reason": "Réglages autonomes, état actif exact et admission mémoire séparée ; allocations génériques NimBLE en PSRAM via la source officielle du SDK revu, allocations internes/DMA conservées."
+    },
+    "Tab5OS_Arduino_v0.8.41_Ecriture.ino": {
+      "report": "settings-ui-0841.json",
+      "reason": "Intégrer les corrections de Cartes, les mesures mémoire, les métadonnées flash, les réglages/pastille Mesh et les diagnostics DSI ; version 0.8.41.",
+      "additionalReports": [
+        "maps-input-0841.json",
+        "maps-ui-0841.json",
+        "maps-canvas-0841.json",
+        "badge-0841.json"
+      ]
+    },
+    "Tab5ShellUi.h": {
+      "report": "badge-0841.json",
+      "reason": "Masquer la pastille hors fonctionnement effectif et conserver un titre sur une ligne sans débordement."
+    },
+    "Tab5SystemInfoView.cpp": {
+      "report": "settings-ui-0841.json",
+      "reason": "Présenter les mémoires et la partition flash ; comparer les valeurs brutes conservées en PSRAM pour éviter les réécritures périodiques dues au façonnage arabe."
+    },
+    "Tab5SystemInfoView.h": {
+      "report": "settings-ui-0841.json",
+      "reason": "Présenter les mémoires et la partition flash ; comparer les valeurs brutes conservées en PSRAM pour éviter les réécritures périodiques dues au façonnage arabe."
+    },
+    "src/tab5git/src/util/hash/sha1dc/ubc_check.c": {
+      "report": "memory-static-0841.json",
+      "reason": "Placer 14 424 octets de tables constantes en flash tout en conservant les algorithmes et l’API d’initialisation."
+    },
+    "src/tab5git/src/util/hash/sha1dc/ubc_check.h": {
+      "report": "memory-static-0841.json",
+      "reason": "Placer 14 424 octets de tables constantes en flash tout en conservant les algorithmes et l’API d’initialisation."
+    },
+    "src/xz/xz_crc32.c": {
+      "report": "memory-static-0841.json",
+      "reason": "Placer 14 424 octets de tables constantes en flash tout en conservant les algorithmes et l’API d’initialisation."
+    },
+    "src/xz/xz_crc32_table.h": {
+      "report": "memory-static-0841.json",
+      "reason": "Placer 14 424 octets de tables constantes en flash tout en conservant les algorithmes et l’API d’initialisation."
+    },
+    "src/xz/xz_crc64.c": {
+      "report": "memory-static-0841.json",
+      "reason": "Placer 14 424 octets de tables constantes en flash tout en conservant les algorithmes et l’API d’initialisation."
+    },
+    "src/xz/xz_crc64_table.h": {
+      "report": "memory-static-0841.json",
+      "reason": "Placer 14 424 octets de tables constantes en flash tout en conservant les algorithmes et l’API d’initialisation."
+    },
+    "tools/native-apps/image-editor/image_core.h": {
+      "report": "drawing-core-0841.json",
+      "reason": "Progressivité strictement intérieure négative, remplissage correctement masqué et premier tracé sans complément involontaire après désélection."
+    },
+    "tools/native-apps/image-editor/image_selection.h": {
+      "report": "drawing-core-0841.json",
+      "reason": "Progressivité strictement intérieure négative, remplissage correctement masqué et premier tracé sans complément involontaire après désélection."
+    }
+  },
+  "finalized": true
+}

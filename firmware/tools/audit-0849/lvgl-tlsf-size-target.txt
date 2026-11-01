@@ -1,0 +1,74 @@
+
+/workspace/scratch/644cc83c43c8/build_0849/lvgl-target/lv_tlsf.c.o:     file format elf32-littleriscv
+
+
+Disassembly of section .text.block_next:
+
+Disassembly of section .text.block_link_next:
+
+Disassembly of section .text.block_split:
+
+Disassembly of section .text.integrity_walker:
+
+Disassembly of section .text.default_walker:
+
+Disassembly of section .text.adjust_request_size:
+
+Disassembly of section .text.remove_free_block:
+
+Disassembly of section .text.mapping_insert:
+
+Disassembly of section .text.block_insert:
+
+Disassembly of section .text.block_prepare_used:
+
+Disassembly of section .text.block_remove:
+
+Disassembly of section .text.block_merge_next:
+
+Disassembly of section .text.block_locate_free:
+
+Disassembly of section .text.lv_tlsf_check:
+
+Disassembly of section .text.lv_tlsf_walk_pool:
+
+Disassembly of section .text.lv_tlsf_block_size:
+
+Disassembly of section .text.lv_tlsf_check_pool:
+
+Disassembly of section .text.lv_tlsf_size:
+
+00000000 <lv_tlsf_size>:
+   0:	6505                	lui	a0,0x1
+   2:	9e050513          	addi	a0,a0,-1568 # 9e0 <.LLST138+0x11>
+   6:	8082                	ret
+
+Disassembly of section .text.lv_tlsf_align_size:
+
+Disassembly of section .text.lv_tlsf_block_size_min:
+
+Disassembly of section .text.lv_tlsf_block_size_max:
+
+Disassembly of section .text.lv_tlsf_pool_overhead:
+
+Disassembly of section .text.lv_tlsf_alloc_overhead:
+
+Disassembly of section .text.lv_tlsf_add_pool:
+
+Disassembly of section .text.lv_tlsf_remove_pool:
+
+Disassembly of section .text.lv_tlsf_create:
+
+Disassembly of section .text.lv_tlsf_create_with_pool:
+
+Disassembly of section .text.lv_tlsf_destroy:
+
+Disassembly of section .text.lv_tlsf_get_pool:
+
+Disassembly of section .text.lv_tlsf_malloc:
+
+Disassembly of section .text.lv_tlsf_memalign:
+
+Disassembly of section .text.lv_tlsf_free:
+
+Disassembly of section .text.lv_tlsf_realloc:

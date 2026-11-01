@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "La Ranchera de Monterrey - 1050 AM - XEG-AM - Núcleo Radio Monterrey - Monterrey, NL",
+      "style": "MX/1050",
+      "url": "http://streamingcwsradio20.com:9410/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Oldies Internet Radio",
+      "style": "MX/1970s",
+      "url": "http://162.244.81.98:8140/listen",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 128
+    },
+    {
+      "name": "SABROSITA Ciudad de México - 590 AM - XEPH-AM - NRM Comunicaciones - Ciudad de México",
+      "style": "MX/590",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/XEPHAMAAC.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 32
+    },
+    {
+      "name": "Café Romántico Radio (Monterrey) - Online - www.caferomanticoradio.com - Grupo Digital Radioland - Monterrey, Nuevo León",
+      "style": "MX/80s en español",
+      "url": "https://panel.retrolandigital.com/radio/8110/listen",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 96
+    },
+    {
+      "name": "88.9 Noticias - 88.9 FM - XHM-FM - Grupo ACIR - Ciudad de México",
+      "style": "MX/88.9",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/XHMFMAAC_SC.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 48
+    },
+    {
+      "name": "BEAUTIFUL Instrumentals",
+      "style": "MX/classical",
+      "url": "http://s3.voscast.com:10038/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Cumbias Inmortales Radio (Monterrey) - Online - www.cumbiasinmortales.com - Grupo Digital Retroland - Monterrey, Nuevo León",
+      "style": "MX/clásicos",
+      "url": "https://panel.retrolandigital.com/listen/cumbias_inmortales_radio/listen",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 96
+    },
+    {
+      "name": "Los 40 Principales México",
+      "style": "MX/hits",
+      "url": "http://29309.live.streamtheworld.com/LOS40_MEXICO_SC",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    }
+  ]
+}

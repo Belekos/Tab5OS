@@ -1,0 +1,36 @@
+{
+  "version": "0.8.51",
+  "baselineArchiveSha256": "ea13e38382767ee6e061d5a099b553f6a42461454b1a5bbd7bc653893a802c3b",
+  "files": [
+    {
+      "path": "Tab5Help.cpp",
+      "beforeSha256": "bda5e1804618ed8d557ce657eff8f788079f6c28d60913cd34daccfc9f6e6e16",
+      "afterSha256": "03acb8bab6aaea92ec203fa5eef32604fb4a9541bb3db67966859aac479b016f",
+      "reason": "Aide Dessin multilingue décrivant les profils, unités, signes et limites du relief."
+    },
+    {
+      "path": "Tab5ImageEditor.cpp",
+      "beforeSha256": "7f75778e66426547d267e370e5588e2ebe4847cb4f15367cdb62ab459e3eabae",
+      "afterSha256": "68dd42ccdce51aac3034381779418033f8303361869a1d1b511e94f897677a58",
+      "reason": "Menus de commandes sans titre dupliqué, commandes répétables, Édition complète et contrôles de relief tactiles/clavier."
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.51_Ecriture.ino",
+      "beforeSha256": "827ec73d1a01b03074926e7f1da3969235c83da38741ae6ecb5845f7de2cee83",
+      "afterSha256": "7c7602c67a34fe7e8601ce3acb485661c7c8ad5a09a790dbb047fd2452fc876b",
+      "reason": "Numéro de version 0.8.51 ; aucun changement fonctionnel du programme principal."
+    },
+    {
+      "path": "tools/native-apps/image-editor/image_core.h",
+      "beforeSha256": "1a4ab692267143da535db7d75e3945e19ac46ed1260dad7e226028ba4087eb0d",
+      "afterSha256": "59dd1edbcb9596865b87608487de225655bafc110c19377479ca670025bd8d83",
+      "reason": "Profils de relief, distance euclidienne bornée, préservation de l’alpha, éclairage paramétrable et annulation transactionnelle."
+    },
+    {
+      "path": "tools/native-apps/image-editor/image_selection.h",
+      "beforeSha256": "d3f3f40e4becf1e401481ad7c202599ab405e12f5e21c265e0167f20c309977c",
+      "afterSha256": "c3e3d56dc4410df9ce10d4d86d43182e03e52f8742cc6c889678aef56c3f1737",
+      "reason": "Profils de relief, distance euclidienne bornée, préservation de l’alpha, éclairage paramétrable et annulation transactionnelle."
+    }
+  ]
+}

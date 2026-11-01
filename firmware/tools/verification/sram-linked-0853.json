@@ -1,0 +1,101 @@
+{
+  "version": "0.8.53",
+  "passed": true,
+  "physicalDeviceTested": false,
+  "scope": "Final P4 ELF object symbol sizes and section placement, authenticated before/after.",
+  "baselineArchiveSha256": "d603cf2c465a5ffecffbde90ba90bc158bdab52d770a0cc4337184298c26a696",
+  "baselineElfSha256": "0889f70d1ca5f590f6f7f0222b7a468df133ad35454d7c93ce8ce3eca43f2306",
+  "currentElfSha256": "b6fd7d6334d06896f4b05720754b37ecf743c7ad26febb0b273b127304e00661",
+  "symbols": [
+    {
+      "symbol": "readerBookPages",
+      "before": {
+        "address": "0x4ff22c9c",
+        "section": ".dram0.bss",
+        "bytes": 2052
+      },
+      "after": {
+        "address": "0x4ff42bec",
+        "section": ".dram1.bss",
+        "bytes": 4
+      },
+      "internalStaticBytesFreed": 2048
+    },
+    {
+      "symbol": "jpge::s_std_lum_quant",
+      "before": {
+        "address": "0x4ff1b9ac",
+        "section": ".dram0.data",
+        "bytes": 128
+      },
+      "after": {
+        "address": "0x404b0500",
+        "section": ".flash.rodata",
+        "bytes": 128
+      },
+      "internalStaticBytesFreed": 128
+    },
+    {
+      "symbol": "jpge::s_std_croma_quant",
+      "before": {
+        "address": "0x4ff1b92c",
+        "section": ".dram0.data",
+        "bytes": 128
+      },
+      "after": {
+        "address": "0x404b0480",
+        "section": ".flash.rodata",
+        "bytes": 128
+      },
+      "internalStaticBytesFreed": 128
+    },
+    {
+      "symbol": "jpge::s_alt_quant",
+      "before": {
+        "address": "0x4ff1b8ac",
+        "section": ".dram0.data",
+        "bytes": 128
+      },
+      "after": {
+        "address": "0x404b0400",
+        "section": ".flash.rodata",
+        "bytes": 128
+      },
+      "internalStaticBytesFreed": 128
+    },
+    {
+      "symbol": "fc0013_lna_gains",
+      "before": {
+        "address": "0x4ff1bc40",
+        "section": ".dram0.data",
+        "bytes": 192
+      },
+      "after": {
+        "address": "0x404b4548",
+        "section": ".flash.rodata",
+        "bytes": 192
+      },
+      "internalStaticBytesFreed": 192
+    }
+  ],
+  "grossInternalStaticBytesFreed": 2624,
+  "sourceHashes": {
+    "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5EpubBookIndex.inc": "e0163305cad0e58335fb1b3380d33355491e1fb10083f5c6b5dacaca85f8e506",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5EpubPageIndex.h": "2b837139c027bc158e7174aa3f672b79fbbde3e8e893e2ceeef45969e7a6ff00",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5OS_Arduino_v0.8.53_Ecriture.ino": "1a71bdc8c696d093446691712d1155ef58afaa507340fb929c7f0a2f4333099a",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/src/jpeg/jpge.cpp": "64943eac92bbc534da3d898fb2f902f040e7930dba916a097d5eb6f0a093ad3b",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/src/jpeg/jpge.h": "94a75c0164214a6fb48e3db8cc3a0dd8bcbd8469969705948f6b762bd00a2bb5",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/src/rtl_sdr/tuner_fc0013.c": "9b949fd30ccb91355786cbdd697ec23e47c5ed0c3faf4d11e63717d7401907f9"
+  },
+  "testSourceHashes": {
+    "tools/audit-0853/verify_sram_link.py": "462524a46d23cc544388d661bc3bf84f941dc72ff4f5fd5304467afdcf307420"
+  },
+  "evidenceHashes": {
+    "tools/verification/firmware-verification-0853.json": "ca6a73a5d85c900d68e61c73a70308994a53582c51af4fc755ff8b3eb8c417ad"
+  },
+  "limitations": [
+    "This gross static reduction is distinct from the net .53 DATA+BSS change, which includes the new dock.",
+    "No runtime heap, alignment overhead or device performance measurement is inferred.",
+    "EPUB PSRAM allocation and internal fallback lifecycle are separately tested by the SRAM host suite."
+  ]
+}

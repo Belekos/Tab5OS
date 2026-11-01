@@ -1,0 +1,16 @@
+{
+  "videos": [
+    {
+      "name": "FFmpeg · Camera recording · 320x240",
+      "url": "https://samples.ffmpeg.org/V-codecs/MJPEGs/MVI_3774.AVI",
+      "format": "avi",
+      "fps": 15
+    },
+    {
+      "name": "FFmpeg · Dance · 320x240",
+      "url": "https://samples.ffmpeg.org/V-codecs/MJPEGs/dancing.avi",
+      "format": "avi",
+      "fps": 10
+    }
+  ]
+}

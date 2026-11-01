@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Heart 80s",
+      "style": "GB/80s",
+      "url": "https://media-ssl.musicradio.com/Heart80sMP3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Classic FM UK",
+      "style": "GB/classical",
+      "url": "http://ice-the.musicradio.com/ClassicFMMP3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Heart London 106.2 [MP3]",
+      "style": "GB/commercial",
+      "url": "http://ice-sov.musicradio.com/HeartLondonMP3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Caroline",
+      "style": "GB/country",
+      "url": "http://78.129.202.200:8040/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "BBC World Service",
+      "style": "GB/news",
+      "url": "http://stream.live.vc.bbcmedia.co.uk/bbc_world_service",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 56
+    },
+    {
+      "name": "LBC UK",
+      "style": "GB/news talk",
+      "url": "http://media-ice.musicradio.com/LBCUK",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 48
+    },
+    {
+      "name": "LBC Radio",
+      "style": "GB/political talk",
+      "url": "http://media-sov.musicradio.com/LBC973MP3Low",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 48
+    },
+    {
+      "name": "Capital FM London",
+      "style": "GB/pop",
+      "url": "http://media-ice.musicradio.com/CapitalMP3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "80's Bylgjan",
+      "style": "IS/80s",
+      "url": "http://icecast.365net.is:8000/orb80s.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 129
+    },
+    {
+      "name": "80´s Flash Back",
+      "style": "IS/80´s pop",
+      "url": "http://ice-11.spilarinn.is/80flashback",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Trolli FM 103.7 Siglufjordu",
+      "style": "IS/adult contemporary",
+      "url": "http://live.trolli.is:8200/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 256
+    },
+    {
+      "name": "Gull Bylgjan 90.9 Reykjavik",
+      "style": "IS/classic rock",
+      "url": "http://icecast.365net.is:8000/orbGullBylgjan.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 129
+    },
+    {
+      "name": "Rúv rás1",
+      "style": "IS/culture",
+      "url": "http://netradio.ruv.is/ras1.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    },
+    {
+      "name": "Létt Bylgjan",
+      "style": "IS/easy listening",
+      "url": "http://icecast.365net.is:8000/orbLettBylgjan.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 97
+    },
+    {
+      "name": "Bylgjan 98.9 Reykjavik",
+      "style": "IS/local music",
+      "url": "http://icecast.365net.is:8000/orbbylgjan.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 129
+    },
+    {
+      "name": "Rás2",
+      "style": "IS/Radio",
+      "url": "http://netradio.ruv.is/ras2.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    }
+  ]
+}

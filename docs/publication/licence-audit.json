@@ -1,0 +1,313 @@
+{
+  "release": "0.8.53",
+  "scope": "Publication inventory and concrete linked-code licence evidence; no licence imposed on first-party code.",
+  "existingComponentGroups": 27,
+  "verifiedNotices": 58,
+  "notices": [
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/draftling/LICENSE",
+      "sha256": "078da70603e068259785541f431941fe05988593806d3fe905fa85778ab79354"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/micropython/LICENSE",
+      "sha256": "419137268636eb7d29b83c68e4f5f4494bcb172c24b18a122eb46312c4966940"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/rtl_sdr/COPYING",
+      "sha256": "ab15fd526bd8dd18a9e77ebc139656bf4d33e97fc7238cd11bf60e2b9b8666c6"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/rtl_sdr/UPSTREAM.txt",
+      "sha256": "93439f45115aaf170f3d3b045106480c37d8540ecde6fbbfa974b08c32d2f97e"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5ssh/COPYING",
+      "sha256": "01890705028ead6b5b5d72f3a40606e536f90e4ffec62e3a32c6b5b3bb79b9d8"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5ssh/UPSTREAM.json",
+      "sha256": "c842d4d0cc47ef26df8254a7301a8fcbaa14e7e13b6d2c10fe67fb9fe7501e84"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5ssh/MBEDTLS_BACKPORTS.md",
+      "sha256": "4901e507801fd2e4856acd7cd7db9788e1f6216212f88e8614ea9c545aa57d22"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5git/COPYING",
+      "sha256": "79728923ba24857c93188e6ae09840dfc19ebc3f33b2d77a04f79b154795b72d"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5git/AUTHORS",
+      "sha256": "2eb5ef64c605b3ed66f080b0359114523a0bebdd7707e0080d0592cca25cfa46"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5git/UPSTREAM.json",
+      "sha256": "347ff853dab69b9b8886a588787565186bd72cf342dc9bdcb19f632967cbe953"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/COPYING",
+      "sha256": "5aec868f669e384a22372a4e8a1a6cd7d44c64cd451f960ca69cc170d1e13acf"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5_elf/LICENSE",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5_elf/UPSTREAM.md",
+      "sha256": "d24a8d9ac24f7fe17af3dbb0a9f2ed50b41a25203db7b0ddf26d627e38b47d69"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5_elf/UPSTREAM.yml",
+      "sha256": "3a030a1ff29ec7f03a827c2a9ba96c65d75d641dd5cf8c615db8a9c91bf92e2b"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5CryptoLockCompat.c",
+      "sha256": "c88ea69cc32b40920f87499bf2d971478403729532e8a5a3a96424b86d666c50"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/usb_hid/LICENSE",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5MeshAllocatorEspIdf554.inc",
+      "sha256": "0179444c4143dfd3155c94b6dcee0c3a4877844d93d3d3993fb54b138ec11f2b"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5MeshAllocator.h",
+      "sha256": "4b504bde68d4ac6cadb0f5b43b04066c57693f56faab7ea7315012df957a8a83"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/usb_hid/LICENSE",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/usb_hid/LICENSE",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/usb_msc/LICENSE",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/usb_msc/UPSTREAM.txt",
+      "sha256": "ad30c052fce5061372b0e7788fa44e5d06e77b959084b7f86fad5092f50a1717"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/xz/COPYING",
+      "sha256": "d9ff4f089509582e7b197e86f3d2d66948b89169f27c1f2349eb0d1ed4459309"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/xz/UPSTREAM.txt",
+      "sha256": "23627d6cff9b37d883eff0dff4fa700122bc249bfc7a4bd2bc75296652b4e944"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/zstd/LICENSE",
+      "sha256": "7055266497633c9025b777c78eb7235af13922117480ed5c674677adc381c9d8"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/zstd/UPSTREAM.md",
+      "sha256": "d67503735163c0f42fc5c2b0a7ddc78cdf740013c0982b2c273cf4ddb58582da"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/jpeg/PROVENANCE.md",
+      "sha256": "d59470b427f37558f0fb8f696b6e499195dbf36146ebbd05f829a170366fdb5c"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/jpeg/jpge.h",
+      "sha256": "94a75c0164214a6fb48e3db8cc3a0dd8bcbd8469969705948f6b762bd00a2bb5"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/jpeg/jpge.cpp",
+      "sha256": "64943eac92bbc534da3d898fb2f902f040e7930dba916a097d5eb6f0a093ad3b"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5png/README.md",
+      "sha256": "7925a517dbaee6323017988360cd0c683c8e6b7bb9043bde9bb749fd04b81198"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5png/tab5_pngle.c",
+      "sha256": "27f653453a7091212c61aa495214e3376657cb55c5a07f1f70a18d823e5e2c01"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/print/stb_truetype.h",
+      "sha256": "dd40d3b7fbf53dea704fcd0b0963fd18d9fdbf5c2fcbcf34c085686a931bca95"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/tools/native-apps/gameboy/UPSTREAM.txt",
+      "sha256": "30c3bbc3acdf63256b400e04e571caf0a1be0920bbe269d2787a320dc1a6d9f2"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/tools/native-apps/gameboy/peanut_gb.h",
+      "sha256": "e4cbf3247383f4fdc6515d758306bf2fc8f9dca6da200af1b4236f9982e625dc"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/tools/native-apps/gameboy/LICENSE-minigb",
+      "sha256": "d286317975f85b441cedcd46acf4afa3c97fc1f52466f1fbd1c8dc158fde5472"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/tools/native-apps/gameboy-color/core/COPYING",
+      "sha256": "91df39d1816bfb17a4dda2d3d2c83b1f6f2d38d53e53e41e8f97ad5ac46a0cad"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/tools/native-apps/gameboy-color/core/UPSTREAM.txt",
+      "sha256": "82b5ed8cc3b604f3b561cf3600d3f54b7b0475dd011d4a26a6e5b1ec87fb55d1"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/tools/native-apps/nes/core/COPYING",
+      "sha256": "91df39d1816bfb17a4dda2d3d2c83b1f6f2d38d53e53e41e8f97ad5ac46a0cad"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/tools/native-apps/nes/core/UPSTREAM.txt",
+      "sha256": "2760bd4337f69990fd49fecce0a792a2802b7d96646d7b9deaa4588202147847"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/tools/native-apps/sega8/core/COPYING",
+      "sha256": "91df39d1816bfb17a4dda2d3d2c83b1f6f2d38d53e53e41e8f97ad5ac46a0cad"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/tools/native-apps/sega8/core/UPSTREAM.txt",
+      "sha256": "69162eddf0471ddf3a3eb0768eff2ccdc2e9435f135610842007fd973efe345e"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/tools/native-apps/gba/core/COPYING",
+      "sha256": "189b1af95d661151e054cea10c91b3d754e4de4d3fecfb074c1fb29476f7167b"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/tools/native-apps/gba/core/UPSTREAM.txt",
+      "sha256": "a69f1694a990d1ca1c438f2bf47a920f6c4e4845d82e300f31cff3523af08bc8"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/tools/native-apps/doom/core/COPYING",
+      "sha256": "1cba07ce0f6d1366d84b7cc62b76966ba79075e5f379c1e230c3ff0635fa789f"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/tools/native-apps/megadrive/core/LICENSE",
+      "sha256": "8486a10c4393cee1c25392769ddd3b2d6c242d6ec7928e1414efff7dfb2f07ef"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/tools/native-apps/megadrive/core/UPSTREAM.txt",
+      "sha256": "77f61a51cc30e23530711ea3869fbd19f2afe8b804d33a671690645065a9cd4f"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/tools/native-apps/snes/core/LICENSE",
+      "sha256": "2a92305ffe68c02c084c31638ad5905cc4dd6fcbb480de3503dd192c50f3c04e"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/tools/native-apps/snes/core/UPSTREAM.txt",
+      "sha256": "2258a31c93f7683295e57dd031bbc281771cbac91facfed476931f0314b138a7"
+    },
+    {
+      "path": "tools/usb-format-tests-0840/upstream/PROVENANCE.json",
+      "sha256": "58e191cc83daa5276dc5dd0492a38ed11ae287e820332adacbf44fa433b777b5"
+    },
+    {
+      "path": "tools/usb-format-tests-0840/upstream/ff.c",
+      "sha256": "b6511bc0102f42b941897cd9f96f75206b6851fedbebc6dcb17c220cb1d4bede"
+    },
+    {
+      "path": "tools/usb-format-tests-0840/upstream/ffunicode.c",
+      "sha256": "f2e03e97fccd9d7b0614b48ee02b7e49fb21c5196d3ff77ba5d8e4558a064d5d"
+    },
+    {
+      "path": "tools/usb-format-tests-0840/upstream/diskio.c",
+      "sha256": "733c3b78d9fd605a7caa6d9912b6d84ba5d0f8614b80fd38eebe91416e8fbd4b"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/sdcard/System/maps/gazetteer/README.txt",
+      "sha256": "7d097eb73e7a89f5c28153fb6cb69a87923fb1f3dc8cfa6af005ebbea9405edc"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/sdcard/System/maps/gazetteer/cities.json",
+      "sha256": "288921961c71b8f5bc11b8f23800b8ffe120180c12e4434e933999bf7833f71c"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/sdcard/System/ime/OFL.txt",
+      "sha256": "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/sdcard/System/ime/pinyin-LICENSE.txt",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/sdcard/System/ime/SKK-COPYING.txt",
+      "sha256": "edaef632cbb643e4e7a221717a6c441a4c1a7c918e6e4d56debc3d8739b233f6"
+    },
+    {
+      "path": "Tab5OS_Arduino_v0.8.53_Ecriture/sdcard/System/ime/README.md",
+      "sha256": "cad3e47a08fd43a7ecd393c7ffc8da5fac852e9be161a939f4823af44051c3db"
+    }
+  ],
+  "externalNotices": [
+    {
+      "path": "external-libraries/ESP8266Audio/LICENSE",
+      "sha256": "589ed823e9a84c56feb95ac58e7cf384626b9cbf4fda2a907bc36e103de1bad2"
+    },
+    {
+      "path": "external-libraries/ESP8266Audio/README.md",
+      "sha256": "bff35d7ae2ecfc08ecaf339aa02b90a1a48892b34d6e8f902638737aa4f7e53d"
+    },
+    {
+      "path": "external-libraries/ESP8266Audio/src/AudioGeneratorAAC.cpp",
+      "sha256": "657e0f6949508b2922f9359acb3f5047b9c4adaa4a6bd9090d470365477abfc9"
+    },
+    {
+      "path": "external-libraries/ESP8266Audio/src/libhelix-aac/aacdec.c",
+      "sha256": "0a5fe4ab8214c50bd9e733049e1b98a195fe964a0a747b1ecf4d12049b269745"
+    },
+    {
+      "path": "external-libraries/ESP8266Audio/src/libhelix-mp3/LICENSE.txt",
+      "sha256": "86cd65f6dd725044f6cd23e8ddab1dd447722d58b74bc6b9a3a13088fa8b44fa"
+    },
+    {
+      "path": "external-libraries/ESP8266Audio/src/libmad/LICENSE",
+      "sha256": "589ed823e9a84c56feb95ac58e7cf384626b9cbf4fda2a907bc36e103de1bad2"
+    },
+    {
+      "path": "external-libraries/M5Unified/LICENSE",
+      "sha256": "44611d917bece311f5c8eeffce83d8bf9e9ca3f815d262f694ff4a7996af50ea"
+    },
+    {
+      "path": "external-libraries/M5GFX/LICENSE",
+      "sha256": "2076614535b2a8ea22d46dc9c5469a924e1a726e9d81a7cb2723a5e9833fe7a3"
+    }
+  ],
+  "firstPartyLicense": "No root licence selected",
+  "linkedAudio": {
+    "elfSha256": "b6fd7d6334d06896f4b05720754b37ecf743c7ad26febb0b273b127304e00661",
+    "mapSha256": "84f5b085cf8ffc0c1c227fef0b1c1dbd7f685aac240c8a3c6582378af6485b87",
+    "symbols": [
+      "402a245a T AACDecode",
+      "402aece2 T mad_frame_decode"
+    ],
+    "helixMp3SymbolLinked": false,
+    "aacLicense": "RPSL-1.0 (RCSL only if separately licensed)",
+    "madAndWrapperLicense": "GPL-3.0-or-later",
+    "combinationExceptionFound": false,
+    "issue": "GNU identifies RPSL as GPL-incompatible; permission or a compatible implementation is needed before claiming the combined public binary is distributable under one GPL licence."
+  },
+  "sources": [
+    {
+      "url": "https://www.gnu.org/licenses/license-list.html#RPSL",
+      "role": "GNU classification of RPSL GPL incompatibility"
+    },
+    {
+      "url": "https://opensource.org/license/RPSL-1.0",
+      "role": "RPSL text, especially sections 4.2 and Exhibit B"
+    },
+    {
+      "url": "https://www.gnu.org/licenses/gpl-faq.html#GPLIncompatibleLibs",
+      "role": "Permission must come from the relevant copyright holders"
+    },
+    {
+      "url": "https://github.com/earlephilhower/ESP8266Audio",
+      "role": "Upstream explicitly identifies AAC Helix as RPSL"
+    }
+  ],
+  "conclusions": {
+    "noGlobalMITClaim": true,
+    "firstPartyDecisionStillNeeded": true,
+    "audioLicenceClarificationStillNeeded": true,
+    "snesNoncommercialRedistributionAllowedByLocalNotice": true,
+    "noProductionFilesChanged": true
+  }
+}

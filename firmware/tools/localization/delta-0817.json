@@ -1,0 +1,1607 @@
+[
+  {
+    "index": 2066,
+    "source": "Catalogue audio limité à 4096 entrées examinées",
+    "english": "Audio catalogue limited to 4096 scanned entries"
+  },
+  {
+    "index": 2067,
+    "source": "Carte SD reconnectée",
+    "english": "SD card reconnected"
+  },
+  {
+    "index": 2068,
+    "source": "Démarrage",
+    "english": "Startup"
+  },
+  {
+    "index": 2069,
+    "source": "Contexte avant redémarrage (cause non établie)\n",
+    "english": "Context before restart (cause not established)\n"
+  },
+  {
+    "index": 2070,
+    "source": "Application retirée de cette version",
+    "english": "Application removed from this release"
+  },
+  {
+    "index": 2071,
+    "source": "Application inaccessible ou supérieure à 4 Mio",
+    "english": "Application unavailable or larger than 4 MiB"
+  },
+  {
+    "index": 2072,
+    "source": "Préparation de la copie…",
+    "english": "Preparing copy…"
+  },
+  {
+    "index": 2073,
+    "source": "Vérification de la copie…",
+    "english": "Verifying copy…"
+  },
+  {
+    "index": 2074,
+    "source": "Finalisation du déplacement…",
+    "english": "Finishing move…"
+  },
+  {
+    "index": 2075,
+    "source": "Opération terminée",
+    "english": "Operation complete"
+  },
+  {
+    "index": 2076,
+    "source": "Destination déjà présente : aucun écrasement",
+    "english": "Destination already exists: nothing overwritten"
+  },
+  {
+    "index": 2077,
+    "source": "Mémoire insuffisante pour la copie",
+    "english": "Not enough memory to copy"
+  },
+  {
+    "index": 2078,
+    "source": "Stockage occupé",
+    "english": "Storage busy"
+  },
+  {
+    "index": 2079,
+    "source": "Copiez par sous-dossiers : limite de 1024 éléments ou 16 niveaux",
+    "english": "Copy subfolders separately: limit of 1024 items or 16 levels"
+  },
+  {
+    "index": 2080,
+    "source": "La source a changé : original conservé",
+    "english": "Source changed: original preserved"
+  },
+  {
+    "index": 2081,
+    "source": "Erreur de copie : vérifier la source et la destination",
+    "english": "Copy error: check the source and destination"
+  },
+  {
+    "index": 2082,
+    "source": "Reconnexion SD en cours — réessayez",
+    "english": "SD reconnecting — try again"
+  },
+  {
+    "index": 2083,
+    "source": "Préparation annulée",
+    "english": "Preparation cancelled"
+  },
+  {
+    "index": 2084,
+    "source": "PSRAM insuffisante pour le décodeur JPEG",
+    "english": "Insufficient PSRAM for JPEG decoder"
+  },
+  {
+    "index": 2085,
+    "source": "PSRAM insuffisante pour préparer l’image",
+    "english": "Insufficient PSRAM to prepare image"
+  },
+  {
+    "index": 2086,
+    "source": "Décodage JPEG interrompu ou image incomplète",
+    "english": "JPEG decoding interrupted or image incomplete"
+  },
+  {
+    "index": 2087,
+    "source": "En-tête PNG incomplet",
+    "english": "Incomplete PNG header"
+  },
+  {
+    "index": 2088,
+    "source": "PSRAM insuffisante pour le décodeur PNG",
+    "english": "Insufficient PSRAM for PNG decoder"
+  },
+  {
+    "index": 2089,
+    "source": "Décodage PNG interrompu ou image incomplète",
+    "english": "PNG decoding interrupted or image incomplete"
+  },
+  {
+    "index": 2090,
+    "source": "Coffre appareil illisible — ancien coffre conservé",
+    "english": "Device vault unreadable — legacy vault preserved"
+  },
+  {
+    "index": 2091,
+    "source": "Limite de 8 clés atteinte — ancien coffre conservé",
+    "english": "Limit of 8 keys reached — legacy vault preserved"
+  },
+  {
+    "index": 2092,
+    "source": "Clés copiées — ancien coffre conservé",
+    "english": "Keys copied — legacy vault preserved"
+  },
+  {
+    "index": 2093,
+    "source": "En-tête T5MAP inattendu",
+    "english": "Unexpected T5MAP header"
+  },
+  {
+    "index": 2094,
+    "source": "Entrée de répertoire T5MAP inattendue",
+    "english": "Unexpected T5MAP directory entry"
+  },
+  {
+    "index": 2095,
+    "source": "Entrée d'index T5MAP inattendue",
+    "english": "Unexpected T5MAP index entry"
+  },
+  {
+    "index": 2096,
+    "source": "Attente de la réponse de l’imprimante…",
+    "english": "Waiting for the printer to respond…"
+  },
+  {
+    "index": 2097,
+    "source": "Impression : RAM interne fragmentée",
+    "english": "Printing: internal RAM fragmented"
+  },
+  {
+    "index": 2098,
+    "source": "Impression : PSRAM fragmentée",
+    "english": "Printing: PSRAM fragmented"
+  },
+  {
+    "index": 2099,
+    "source": "Autre démarrage en cours : réessayez",
+    "english": "Another task is starting: try again"
+  },
+  {
+    "index": 2100,
+    "source": "Libération des caches pour l’impression…",
+    "english": "Releasing caches for printing…"
+  },
+  {
+    "index": 2101,
+    "source": "Connexion réseau momentanément indisponible",
+    "english": "Network temporarily unavailable"
+  },
+  {
+    "index": 2102,
+    "source": "Lecture SD interrompue : vérifier la file de l’imprimante",
+    "english": "SD read interrupted: check the printer queue"
+  },
+  {
+    "index": 2103,
+    "source": "PSRAM insuffisante pour préparer une ligne d’impression",
+    "english": "Insufficient PSRAM to prepare a print line"
+  },
+  {
+    "index": 2104,
+    "source": "Mémoire insuffisante pour le rendu de la police",
+    "english": "Not enough memory to render the font"
+  },
+  {
+    "index": 2105,
+    "source": "Document modifié : rouvrir le choix de la section",
+    "english": "Document changed: reopen section selection"
+  },
+  {
+    "index": 2106,
+    "source": "Image trop grande pour le décodeur JPEG",
+    "english": "Image too large for the JPEG decoder"
+  },
+  {
+    "index": 2107,
+    "source": "Décodage de l’image…",
+    "english": "Decoding image…"
+  },
+  {
+    "index": 2108,
+    "source": "Décodage de l’image impossible",
+    "english": "Unable to decode image"
+  },
+  {
+    "index": 2109,
+    "source": "Réglages d’impression invalides",
+    "english": "Invalid print settings"
+  },
+  {
+    "index": 2110,
+    "source": "Script arrêté",
+    "english": "Script stopped"
+  },
+  {
+    "index": 2111,
+    "source": "Script terminé",
+    "english": "Script finished"
+  },
+  {
+    "index": 2112,
+    "source": "RAM interne insuffisante pour la tâche Python",
+    "english": "Insufficient internal RAM for the Python task"
+  },
+  {
+    "index": 2113,
+    "source": "Flèches / Page : naviguer\nEspace : suite · Maj+Espace : précédente\nDébut / Fin : début ou fin du document\nCtrl + / - : texte · Ctrl I : images\nRetour arrière / Échap : retour · F1 : aide",
+    "english": "Arrows / Page: navigate\nSpace: next · Shift+Space: previous\nHome / End: start or end of document\nCtrl + / -: text · Ctrl I: images\nBackspace / Escape: back · F1: help"
+  },
+  {
+    "index": 2114,
+    "source": "Retour · Retour arrière / Échap",
+    "english": "Back · Backspace / Escape"
+  },
+  {
+    "index": 2115,
+    "source": "Téléchargement SD",
+    "english": "SD download"
+  },
+  {
+    "index": 2116,
+    "source": "Admission mémoire occupée : une autre tâche démarre",
+    "english": "Memory admission busy: another task is starting"
+  },
+  {
+    "index": 2117,
+    "source": "Trop de démarrages simultanés : patienter",
+    "english": "Too many simultaneous starts: please wait"
+  },
+  {
+    "index": 2118,
+    "source": "Libération des ressources encore en cours",
+    "english": "Resources are still being released"
+  },
+  {
+    "index": 2119,
+    "source": "Mémoire disponible",
+    "english": "Memory available"
+  },
+  {
+    "index": 2120,
+    "source": "RAM interne fragmentée",
+    "english": "Internal RAM fragmented"
+  },
+  {
+    "index": 2121,
+    "source": "PSRAM fragmentée",
+    "english": "PSRAM fragmented"
+  },
+  {
+    "index": 2122,
+    "source": "%s\nRAM : %u Kio libres ; %u nécessaires (%u démarrage + %u réservés + 32 marge).\nBloc interne : %u / %u Kio ; DMA : %u / %u Kio.\nPSRAM : %u Kio libres ; %u nécessaires ; bloc %u / %u Kio.",
+    "english": "%s\nRAM: %u KiB free; %u required (%u startup + %u reserved + 32 margin).\nInternal block: %u / %u KiB; DMA: %u / %u KiB.\nPSRAM: %u KiB free; %u required; block %u / %u KiB."
+  },
+  {
+    "index": 2123,
+    "source": "SD prête",
+    "english": "SD ready"
+  },
+  {
+    "index": 2124,
+    "source": "Destination déjà présente",
+    "english": "Destination already exists"
+  },
+  {
+    "index": 2125,
+    "source": "Carte SD occupée",
+    "english": "SD card busy"
+  },
+  {
+    "index": 2126,
+    "source": "Carte SD non détectée",
+    "english": "SD card not detected"
+  },
+  {
+    "index": 2127,
+    "source": "Carte SD sans réponse",
+    "english": "SD card is not responding"
+  },
+  {
+    "index": 2128,
+    "source": "Écriture non autorisée",
+    "english": "Writing is not allowed"
+  },
+  {
+    "index": 2129,
+    "source": "Erreur de communication ou d’écriture SD",
+    "english": "SD communication or write error"
+  },
+  {
+    "index": 2130,
+    "source": "Quitter · Échap",
+    "english": "Exit · Escape"
+  },
+  {
+    "index": 2131,
+    "source": "Choisir le fichier à ouvrir",
+    "english": "Choose the file to open"
+  },
+  {
+    "index": 2132,
+    "source": "Ressources système",
+    "english": "System resources"
+  },
+  {
+    "index": 2133,
+    "source": "Lancement enregistré",
+    "english": "Launch settings saved"
+  },
+  {
+    "index": 2134,
+    "source": "Coffre appareil : ouverture native sans code. Les clés restent dans ce Tab5 ; une carte SD retirée reste chiffrée.",
+    "english": "Device vault: opens natively without a code. Keys stay in this Tab5; a removed SD card stays encrypted."
+  },
+  {
+    "index": 2135,
+    "source": "Toute personne utilisant ce Tab5 peut ouvrir ce coffre. Sauvegardez vos clés pour récupérer les fichiers après perte ou effacement de l’appareil.",
+    "english": "Anyone using this Tab5 can open this vault. Back up your keys to recover files after losing or erasing the device."
+  },
+  {
+    "index": 2136,
+    "source": "Copier les clés vers le coffre appareil",
+    "english": "Copy keys to device vault"
+  },
+  {
+    "index": 2137,
+    "source": "Créer le coffre appareil",
+    "english": "Create device vault"
+  },
+  {
+    "index": 2138,
+    "source": "Ancien coffre : son mot de passe reste nécessaire. L’ouverture initiale peut être longue ; copiez ensuite les clés vers le coffre appareil.",
+    "english": "Legacy vault: its password is still required. Opening it initially may take time; then copy the keys to the device vault."
+  },
+  {
+    "index": 2139,
+    "source": "Mot de passe oublié : créez un coffre appareil. L’ancien coffre et ses fichiers restent conservés.",
+    "english": "Forgotten password: create a device vault. The legacy vault and its files are preserved."
+  },
+  {
+    "index": 2140,
+    "source": "Vos documents et vos réglages sont conservés.",
+    "english": "Your documents and settings are preserved."
+  },
+  {
+    "index": 2141,
+    "source": "Clés du coffre appareil",
+    "english": "Device vault keys"
+  },
+  {
+    "index": 2142,
+    "source": "Clés de l’ancien coffre",
+    "english": "Legacy vault keys"
+  },
+  {
+    "index": 2143,
+    "source": "Accès du coffre",
+    "english": "Vault access"
+  },
+  {
+    "index": 2144,
+    "source": "Mémoire occupée — réessayez après la libération des caches",
+    "english": "Memory busy — retry after caches are released"
+  },
+  {
+    "index": 2145,
+    "source": "Wikipédia HTML",
+    "english": "Wikipedia HTML"
+  },
+  {
+    "index": 2146,
+    "source": "Réglage des couleurs…",
+    "english": "Color settings…"
+  },
+  {
+    "index": 2147,
+    "source": "Enregistrement du texte à imprimer…",
+    "english": "Saving text for printing…"
+  },
+  {
+    "index": 2148,
+    "source": "Mémoire CSS EPUB insuffisante",
+    "english": "Insufficient EPUB CSS memory"
+  },
+  {
+    "index": 2149,
+    "source": "Réglages de lancement",
+    "english": "Launch settings"
+  },
+  {
+    "index": 2150,
+    "source": "Téléphone",
+    "english": "Phone"
+  },
+  {
+    "index": 2151,
+    "source": "Applications intégrées",
+    "english": "Built-in applications"
+  },
+  {
+    "index": 2152,
+    "source": "Retour aux réglages",
+    "english": "Back to settings"
+  },
+  {
+    "index": 2153,
+    "source": "Présentation",
+    "english": "Layout"
+  },
+  {
+    "index": 2154,
+    "source": "Libellés",
+    "english": "Labels"
+  },
+  {
+    "index": 2155,
+    "source": "Afficher les libellés",
+    "english": "Show labels"
+  },
+  {
+    "index": 2156,
+    "source": "Police tronquée : glyphe",
+    "english": "Truncated font: glyph"
+  },
+  {
+    "index": 2157,
+    "source": "Police tronquée : contours",
+    "english": "Truncated font: contours"
+  },
+  {
+    "index": 2158,
+    "source": "Police tronquée : composant",
+    "english": "Truncated font: component"
+  },
+  {
+    "index": 2159,
+    "source": "Police tronquée : transformation",
+    "english": "Truncated font: transformation"
+  },
+  {
+    "index": 2160,
+    "source": "Police tronquée : instructions",
+    "english": "Truncated font: instructions"
+  },
+  {
+    "index": 2161,
+    "source": "Police tronquée : cmap",
+    "english": "Truncated font: cmap"
+  },
+  {
+    "index": 2162,
+    "source": "Police tronquée : cmap Unicode",
+    "english": "Truncated font: Unicode cmap"
+  },
+  {
+    "index": 2163,
+    "source": "Police tronquée : cmap 0",
+    "english": "Truncated font: cmap 0"
+  },
+  {
+    "index": 2164,
+    "source": "Police tronquée : cmap 6",
+    "english": "Truncated font: cmap 6"
+  },
+  {
+    "index": 2165,
+    "source": "Police tronquée : segments Unicode",
+    "english": "Truncated font: Unicode segments"
+  },
+  {
+    "index": 2166,
+    "source": "Police tronquée : index Unicode",
+    "english": "Truncated font: Unicode index"
+  },
+  {
+    "index": 2167,
+    "source": "Police tronquée : groupes Unicode",
+    "english": "Truncated font: Unicode groups"
+  },
+  {
+    "index": 2168,
+    "source": "Police absente ou tronquée",
+    "english": "Missing or truncated font"
+  },
+  {
+    "index": 2169,
+    "source": "Police tronquée : en-tête",
+    "english": "Truncated font: header"
+  },
+  {
+    "index": 2170,
+    "source": "Police tronquée : tables",
+    "english": "Truncated font: tables"
+  },
+  {
+    "index": 2171,
+    "source": "Police tronquée : limites de table",
+    "english": "Truncated font: table bounds"
+  },
+  {
+    "index": 2172,
+    "source": "Police TrueType incomplète",
+    "english": "Incomplete TrueType font"
+  },
+  {
+    "index": 2173,
+    "source": "Police invalide : métriques",
+    "english": "Invalid font: metrics"
+  },
+  {
+    "index": 2174,
+    "source": "Réponse tardive après envoi — vérifier la file de l’imprimante",
+    "english": "Late response after sending — check the printer queue"
+  },
+  {
+    "index": 2175,
+    "source": "Envoi interrompu — vérifier la file de l’imprimante avant de réessayer",
+    "english": "Sending interrupted — check the printer queue before retrying"
+  },
+  {
+    "index": 2176,
+    "source": "Réponse de l’imprimante absente ou interrompue",
+    "english": "Printer response missing or interrupted"
+  },
+  {
+    "index": 2177,
+    "source": "Ne plus masquer cet élément",
+    "english": "Unhide this item"
+  },
+  {
+    "index": 2178,
+    "source": "Masquer cet élément",
+    "english": "Hide this item"
+  },
+  {
+    "index": 2179,
+    "source": "Aucun aperçu disponible",
+    "english": "No preview available"
+  },
+  {
+    "index": 2180,
+    "source": "Mémoire insuffisante — utilisez la recherche",
+    "english": "Not enough memory — use search"
+  },
+  {
+    "index": 2181,
+    "source": "Impossible de modifier la visibilité",
+    "english": "Unable to change visibility"
+  },
+  {
+    "index": 2182,
+    "source": "Copie vérifiée ; original conservé.",
+    "english": "Copy verified; original preserved."
+  },
+  {
+    "index": 2183,
+    "source": "Copie terminée et vérifiée.",
+    "english": "Copy complete and verified."
+  },
+  {
+    "index": 2184,
+    "source": "Copie annulée. Original conservé.",
+    "english": "Copy cancelled. Original preserved."
+  },
+  {
+    "index": 2185,
+    "source": "Copie impossible. Original conservé.",
+    "english": "Copy failed. Original preserved."
+  },
+  {
+    "index": 2186,
+    "source": "Une copie partielle reste à destination.",
+    "english": "A partial copy remains at the destination."
+  },
+  {
+    "index": 2187,
+    "source": "Une copie est déjà en cours",
+    "english": "A copy is already in progress"
+  },
+  {
+    "index": 2188,
+    "source": "Dossier parent · Retour arrière",
+    "english": "Parent folder · Backspace"
+  },
+  {
+    "index": 2189,
+    "source": "Créer un fichier ou un dossier",
+    "english": "Create a file or folder"
+  },
+  {
+    "index": 2190,
+    "source": "Copier la sélection · Ctrl+C",
+    "english": "Copy selection · Ctrl+C"
+  },
+  {
+    "index": 2191,
+    "source": "Couper la sélection · Ctrl+X",
+    "english": "Cut selection · Ctrl+X"
+  },
+  {
+    "index": 2192,
+    "source": "Carte SD inaccessible pour enregistrer",
+    "english": "SD card unavailable for recording"
+  },
+  {
+    "index": 2193,
+    "source": "Enregistrement en cours",
+    "english": "Recording in progress"
+  },
+  {
+    "index": 2194,
+    "source": "Premier choix",
+    "english": "First choice"
+  },
+  {
+    "index": 2195,
+    "source": "microSD · %llu Mio",
+    "english": "microSD · %llu MiB"
+  },
+  {
+    "index": 2196,
+    "source": "USB · %s · %llu Mio",
+    "english": "USB · %s · %llu MiB"
+  },
+  {
+    "index": 2197,
+    "source": "Ouvrir l’ancien coffre",
+    "english": "Open legacy vault"
+  },
+  {
+    "index": 2198,
+    "source": "USB",
+    "english": "USB"
+  },
+  {
+    "index": 2199,
+    "source": "sd:/Dossier/fichier ou usb:/Dossier/fichier",
+    "english": "sd:/Folder/file or usb:/Folder/file"
+  },
+  {
+    "index": 2200,
+    "source": "Fermer le coffre",
+    "english": "Close vault"
+  },
+  {
+    "index": 2201,
+    "source": "Grille",
+    "english": "Grid"
+  },
+  {
+    "index": 2202,
+    "source": "Taille normale",
+    "english": "Normal size"
+  },
+  {
+    "index": 2203,
+    "source": "Taille compacte",
+    "english": "Compact size"
+  },
+  {
+    "index": 2204,
+    "source": "Grande taille",
+    "english": "Large size"
+  },
+  {
+    "index": 2205,
+    "source": "Taille des applications",
+    "english": "Application size"
+  },
+  {
+    "index": 2206,
+    "source": "Lecture du stockage interrompue",
+    "english": "Storage read interrupted"
+  },
+  {
+    "index": 2207,
+    "source": "Autres applications disponibles dans l'Explorateur",
+    "english": "More applications available in Explorer"
+  },
+  {
+    "index": 2208,
+    "source": "Coller dans",
+    "english": "Paste into"
+  },
+  {
+    "index": 2209,
+    "source": "Livre EPUB — ouvrez-le pour commencer la lecture.",
+    "english": "EPUB book — open it to start reading."
+  },
+  {
+    "index": 2210,
+    "source": "Stockage indisponible",
+    "english": "Storage unavailable"
+  },
+  {
+    "index": 2211,
+    "source": "Racine carte SD",
+    "english": "SD card root"
+  },
+  {
+    "index": 2212,
+    "source": "Comptage…",
+    "english": "Counting…"
+  },
+  {
+    "index": 2213,
+    "source": "Copie des fichiers",
+    "english": "Copying files"
+  },
+  {
+    "index": 2214,
+    "source": "Destination",
+    "english": "Destination"
+  },
+  {
+    "index": 2215,
+    "source": "Ouvrir le disque USB",
+    "english": "Open USB drive"
+  },
+  {
+    "index": 2216,
+    "source": "Effacer la recherche",
+    "english": "Clear search"
+  },
+  {
+    "index": 2217,
+    "source": "Afficher sur l'accueil",
+    "english": "Show on home"
+  },
+  {
+    "index": 2218,
+    "source": "Aucune application visible",
+    "english": "No visible applications"
+  },
+  {
+    "index": 2219,
+    "source": "Police invalide : cycle de glyphes",
+    "english": "Invalid font: glyph cycle"
+  },
+  {
+    "index": 2220,
+    "source": "Police invalide : dimensions de glyphe",
+    "english": "Invalid font: glyph dimensions"
+  },
+  {
+    "index": 2221,
+    "source": "Police invalide : index de composant",
+    "english": "Invalid font: component index"
+  },
+  {
+    "index": 2222,
+    "source": "Police invalide : transformation",
+    "english": "Invalid font: transformation"
+  },
+  {
+    "index": 2223,
+    "source": "Police sans table Unicode utilisable",
+    "english": "Font has no usable Unicode table"
+  },
+  {
+    "index": 2224,
+    "source": "Police invalide : index Unicode",
+    "english": "Invalid font: Unicode index"
+  },
+  {
+    "index": 2225,
+    "source": "Police invalide : cmap 4",
+    "english": "Invalid font: cmap 4"
+  },
+  {
+    "index": 2226,
+    "source": "Police invalide : recherche Unicode",
+    "english": "Invalid font: Unicode lookup"
+  },
+  {
+    "index": 2227,
+    "source": "Police invalide : segments Unicode",
+    "english": "Invalid font: Unicode segments"
+  },
+  {
+    "index": 2228,
+    "source": "Police invalide : fin de cmap",
+    "english": "Invalid font: cmap end"
+  },
+  {
+    "index": 2229,
+    "source": "Police invalide : groupe Unicode",
+    "english": "Invalid font: Unicode group"
+  },
+  {
+    "index": 2230,
+    "source": "Collection de polices invalide",
+    "english": "Invalid font collection"
+  },
+  {
+    "index": 2231,
+    "source": "Police invalide : offsets de glyphes",
+    "english": "Invalid font: glyph offsets"
+  },
+  {
+    "index": 2232,
+    "source": "Application ABI import missing",
+    "english": "Application ABI import missing"
+  },
+  {
+    "index": 2233,
+    "source": "Choisissez une application Tab5 .elf",
+    "english": "Choose a Tab5 .elf application"
+  },
+  {
+    "index": 2234,
+    "source": "Copie de fichiers",
+    "english": "Copying files"
+  },
+  {
+    "index": 2235,
+    "source": "Copie fichiers",
+    "english": "File copy"
+  },
+  {
+    "index": 2236,
+    "source": "Chemin trop long pour la copie",
+    "english": "Path too long to copy"
+  },
+  {
+    "index": 2237,
+    "source": "Espace insuffisant sur la destination",
+    "english": "Not enough space at the destination"
+  },
+  {
+    "index": 2238,
+    "source": "Chemin invalide pour la copie",
+    "english": "Invalid copy path"
+  },
+  {
+    "index": 2239,
+    "source": "Source ou dossier de destination introuvable",
+    "english": "Source or destination folder not found"
+  },
+  {
+    "index": 2240,
+    "source": "Image inaccessible ou trop volumineuse",
+    "english": "Image unavailable or too large"
+  },
+  {
+    "index": 2241,
+    "source": "JPEG incomplet ou invalide",
+    "english": "Incomplete or invalid JPEG"
+  },
+  {
+    "index": 2242,
+    "source": "Format du coffre appareil invalide",
+    "english": "Invalid device vault format"
+  },
+  {
+    "index": 2243,
+    "source": "Coffre appareil ouvert sans code",
+    "english": "Device vault opened without a code"
+  },
+  {
+    "index": 2244,
+    "source": "Impression : bloc DMA insuffisant",
+    "english": "Printing: insufficient DMA block"
+  },
+  {
+    "index": 2245,
+    "source": "Lecture du fichier interrompue",
+    "english": "File read interrupted"
+  },
+  {
+    "index": 2246,
+    "source": "Allocation PSRAM de la police impossible",
+    "english": "Unable to allocate font PSRAM"
+  },
+  {
+    "index": 2247,
+    "source": "Lecture du document impossible",
+    "english": "Unable to read document"
+  },
+  {
+    "index": 2248,
+    "source": "Allocation du tampon de lecture impossible",
+    "english": "Unable to allocate read buffer"
+  },
+  {
+    "index": 2249,
+    "source": "Adresse IPP / IPPS invalide",
+    "english": "Invalid IPP / IPPS address"
+  },
+  {
+    "index": 2250,
+    "source": "Script ou chemin invalide",
+    "english": "Invalid script or path"
+  },
+  {
+    "index": 2251,
+    "source": "PSRAM insuffisante pour la console",
+    "english": "Insufficient PSRAM for console"
+  },
+  {
+    "index": 2252,
+    "source": "PSRAM insuffisante pour MicroPython",
+    "english": "Insufficient PSRAM for MicroPython"
+  },
+  {
+    "index": 2253,
+    "source": "Application Python",
+    "english": "Python application"
+  },
+  {
+    "index": 2254,
+    "source": "Bloc DMA libre insuffisant",
+    "english": "Insufficient free DMA block"
+  },
+  {
+    "index": 2255,
+    "source": "Carte SD pleine",
+    "english": "SD card full"
+  },
+  {
+    "index": 2256,
+    "source": "Connexion automatique : oui",
+    "english": "Automatic connection: on"
+  },
+  {
+    "index": 2257,
+    "source": "Connexion automatique : non",
+    "english": "Automatic connection: off"
+  },
+  {
+    "index": 2258,
+    "source": "Fichier inaccessible",
+    "english": "File unavailable"
+  },
+  {
+    "index": 2259,
+    "source": "Ouvrir le coffre appareil",
+    "english": "Open device vault"
+  },
+  {
+    "index": 2260,
+    "source": "Demander au lancement\nSans fichier\nToujours ce fichier",
+    "english": "Ask when launching\nNo file\nAlways use this file"
+  },
+  {
+    "index": 2261,
+    "source": "Dossier de sauvegarde inaccessible",
+    "english": "Backup folder unavailable"
+  },
+  {
+    "index": 2262,
+    "source": "Destination : bibliothèque Tab5 ou catalogue isolé",
+    "english": "Destination: Tab5 library or isolated catalogue"
+  },
+  {
+    "index": 2263,
+    "source": "Destination du catalogue invalide",
+    "english": "Invalid catalogue destination"
+  },
+  {
+    "index": 2264,
+    "source": "Métadonnées réservées au catalogue",
+    "english": "Metadata reserved for the catalogue"
+  },
+  {
+    "index": 2265,
+    "source": "Modules pour cette Tab5",
+    "english": "Modules for this Tab5"
+  },
+  {
+    "index": 2266,
+    "source": "Installation globale pour les scripts de cette Tab5. Pour une autre carte, revenir au catalogue MicroPython.",
+    "english": "Global installation for this Tab5's scripts. For another board, return to the MicroPython catalogue."
+  },
+  {
+    "index": 2267,
+    "source": "Radio Browser",
+    "english": "Radio Browser"
+  },
+  {
+    "index": 2268,
+    "source": "Journal de récupération invalide",
+    "english": "Invalid recovery journal"
+  },
+  {
+    "index": 2269,
+    "source": "Récupération interrompue : fichier inconnu dans le journal",
+    "english": "Recovery interrupted: unknown file in journal"
+  },
+  {
+    "index": 2270,
+    "source": "Destination de récupération invalide",
+    "english": "Invalid recovery destination"
+  },
+  {
+    "index": 2271,
+    "source": "Sauvegarde de récupération invalide",
+    "english": "Invalid recovery backup"
+  },
+  {
+    "index": 2272,
+    "source": "Journal absent : sauvegardes conservées",
+    "english": "Journal missing: backups preserved"
+  },
+  {
+    "index": 2273,
+    "source": "Destination réservée au journal",
+    "english": "Destination reserved for the journal"
+  },
+  {
+    "index": 2274,
+    "source": "Empreinte de récupération invalide",
+    "english": "Invalid recovery hash"
+  },
+  {
+    "index": 2275,
+    "source": "Fichier modifié : récupération manuelle nécessaire",
+    "english": "File changed: manual recovery required"
+  },
+  {
+    "index": 2276,
+    "source": "Sauvegarde absente : récupération manuelle nécessaire",
+    "english": "Backup missing: manual recovery required"
+  },
+  {
+    "index": 2277,
+    "source": "Erreur",
+    "english": "Error"
+  },
+  {
+    "index": 2278,
+    "source": "Nom requis, 80 caractères maximum",
+    "english": "Name required, maximum 80 characters"
+  },
+  {
+    "index": 2279,
+    "source": "Le nom doit contenir au moins une lettre ou un chiffre ASCII",
+    "english": "The name must contain at least one ASCII letter or digit"
+  },
+  {
+    "index": 2280,
+    "source": "Choisir une famille de carte",
+    "english": "Choose a board family"
+  },
+  {
+    "index": 2281,
+    "source": "Catégorie invalide",
+    "english": "Invalid category"
+  },
+  {
+    "index": 2282,
+    "source": "Aucun module .py ou .mpy dans la sélection",
+    "english": "No .py or .mpy modules in the selection"
+  },
+  {
+    "index": 2283,
+    "source": "Nom déjà présent pour cette cible et catégorie : choisir un autre nom",
+    "english": "Name already used for this target and category: choose another name"
+  },
+  {
+    "index": 2284,
+    "source": "Nom déjà présent : choisir un autre nom",
+    "english": "Name already used: choose another name"
+  },
+  {
+    "index": 2285,
+    "source": "Un projet de ce nom existe déjà",
+    "english": "A project with this name already exists"
+  },
+  {
+    "index": 2286,
+    "source": "Choisir un projet sur la SD. L’USB peut servir de source à importer.",
+    "english": "Choose a project on the SD card. USB can be used as an import source."
+  },
+  {
+    "index": 2287,
+    "source": "Choisir un dossier de projet distinct des fichiers système",
+    "english": "Choose a project folder separate from system files"
+  },
+  {
+    "index": 2288,
+    "source": "Dossier de projet absent",
+    "english": "Project folder missing"
+  },
+  {
+    "index": 2289,
+    "source": "Choisir d’abord la cible du projet",
+    "english": "Choose the project's target first"
+  },
+  {
+    "index": 2290,
+    "source": "Bibliothèque hors catalogue",
+    "english": "Library outside the catalogue"
+  },
+  {
+    "index": 2291,
+    "source": "Aucun fichier répertorié dans cette bibliothèque",
+    "english": "No files listed in this library"
+  },
+  {
+    "index": 2292,
+    "source": "Catalogue modifié : importer à nouveau sous un autre nom",
+    "english": "Catalogue changed: import again under another name"
+  },
+  {
+    "index": 2293,
+    "source": "Dossier trop profond : 8 niveaux maximum",
+    "english": "Folder too deep: maximum 8 levels"
+  },
+  {
+    "index": 2294,
+    "source": "Choisir le dossier de la bibliothèque, pas la racine SD",
+    "english": "Choose the library folder, not the SD root"
+  },
+  {
+    "index": 2295,
+    "source": "Choisir un module .py, .mpy ou un dossier décompressé",
+    "english": "Choose a .py or .mpy module, or an extracted folder"
+  },
+  {
+    "index": 2296,
+    "source": "Fichier supérieur à 1 Mio",
+    "english": "File larger than 1 MiB"
+  },
+  {
+    "index": 2297,
+    "source": "Fiche projet invalide",
+    "english": "Invalid project metadata"
+  },
+  {
+    "index": 2298,
+    "source": "Source du catalogue modifiée : ",
+    "english": "Catalogue source changed: "
+  },
+  {
+    "index": 2299,
+    "source": "Limite : 64 bibliothèques par projet",
+    "english": "Limit: 64 libraries per project"
+  },
+  {
+    "index": 2300,
+    "source": "Conflit : fichier du projet conservé : ",
+    "english": "Conflict: project file preserved: "
+  },
+  {
+    "index": 2301,
+    "source": "La source a changé pendant la copie",
+    "english": "Source changed during copying"
+  },
+  {
+    "index": 2302,
+    "source": "Dossier trop grand : choisir le sous-dossier de la bibliothèque",
+    "english": "Folder too large: choose the library's subfolder"
+  },
+  {
+    "index": 2303,
+    "source": "En-tête .mpy invalide : ",
+    "english": "Invalid .mpy header: "
+  },
+  {
+    "index": 2304,
+    "source": "Registre de bibliothèque incohérent",
+    "english": "Inconsistent library registry"
+  },
+  {
+    "index": 2305,
+    "source": "Trop de sous-dossiers : choisir le dossier de la bibliothèque",
+    "english": "Too many subfolders: choose the library folder"
+  },
+  {
+    "index": 2306,
+    "source": "Fichier supérieur à 1 Mio : ",
+    "english": "File larger than 1 MiB: "
+  },
+  {
+    "index": 2307,
+    "source": "Noms incompatibles avec FAT : ",
+    "english": "Names incompatible with FAT: "
+  },
+  {
+    "index": 2308,
+    "source": "Limite : 160 fichiers et 8 Mio par bibliothèque",
+    "english": "Limit: 160 files and 8 MiB per library"
+  },
+  {
+    "index": 2309,
+    "source": "Métadonnées de bibliothèque invalides : ",
+    "english": "Invalid library metadata: "
+  },
+  {
+    "index": 2310,
+    "source": "Filtrer par carte ou catégorie (plus de 256 bibliothèques)",
+    "english": "Filter by board or category (more than 256 libraries)"
+  },
+  {
+    "index": 2311,
+    "source": "Cible MicroPython",
+    "english": "MicroPython target"
+  },
+  {
+    "index": 2312,
+    "source": "Usage de la bibliothèque",
+    "english": "Library use"
+  },
+  {
+    "index": 2313,
+    "source": "Continuer",
+    "english": "Continue"
+  },
+  {
+    "index": 2314,
+    "source": "Projet créé",
+    "english": "Project created"
+  },
+  {
+    "index": 2315,
+    "source": "Ouvrir main.py dans Écriture. Le dossier peut être ajouté aux projets de l’éditeur avec Documents → Importer un dossier.",
+    "english": "Open main.py in Writing. Add its folder to the editor's projects with Documents → Import a folder."
+  },
+  {
+    "index": 2316,
+    "source": "Projet destinataire",
+    "english": "Destination project"
+  },
+  {
+    "index": 2317,
+    "source": "Importer depuis la SD / USB",
+    "english": "Import from SD / USB"
+  },
+  {
+    "index": 2318,
+    "source": "Importer la bibliothèque",
+    "english": "Import library"
+  },
+  {
+    "index": 2319,
+    "source": "Les fichiers seront copiés sans les exécuter. Cible déclarée, compatibilité non testée.",
+    "english": "Files will be copied without running them. Declared target; compatibility untested."
+  },
+  {
+    "index": 2320,
+    "source": "Import de bibliothèque",
+    "english": "Library import"
+  },
+  {
+    "index": 2321,
+    "source": "Télécharger les sources",
+    "english": "Download sources"
+  },
+  {
+    "index": 2322,
+    "source": "Les sources .py et dépendances mip seront copiées dans le catalogue SD, sans installation globale ni exécution.",
+    "english": "The .py sources and mip dependencies will be copied to the SD catalogue, without global installation or execution."
+  },
+  {
+    "index": 2323,
+    "source": "Téléchargement des sources",
+    "english": "Downloading sources"
+  },
+  {
+    "index": 2324,
+    "source": "Bibliothèque du catalogue",
+    "english": "Catalogue library"
+  },
+  {
+    "index": 2325,
+    "source": "Cible déclarée — compatibilité non testée",
+    "english": "Declared target — compatibility untested"
+  },
+  {
+    "index": 2326,
+    "source": "Sources .py conservées sur SD, sans exécution.",
+    "english": ".py sources kept on SD, without execution."
+  },
+  {
+    "index": 2327,
+    "source": "Ajouter à un projet",
+    "english": "Add to a project"
+  },
+  {
+    "index": 2328,
+    "source": "Voir les fichiers",
+    "english": "View files"
+  },
+  {
+    "index": 2329,
+    "source": "Catalogue MicroPython sur SD",
+    "english": "MicroPython catalogue on SD"
+  },
+  {
+    "index": 2330,
+    "source": "Carte : ",
+    "english": "Board: "
+  },
+  {
+    "index": 2331,
+    "source": "Toutes",
+    "english": "All"
+  },
+  {
+    "index": 2332,
+    "source": "Usage : ",
+    "english": "Use: "
+  },
+  {
+    "index": 2333,
+    "source": "Tous",
+    "english": "All"
+  },
+  {
+    "index": 2334,
+    "source": "Afficher les bibliothèques",
+    "english": "Show libraries"
+  },
+  {
+    "index": 2335,
+    "source": "Filtres par cible déclarée et usage. Le catalogue reste disponible hors ligne.",
+    "english": "Filter by declared target and use. The catalogue remains available offline."
+  },
+  {
+    "index": 2336,
+    "source": "Bibliothèques MicroPython · toutes cartes",
+    "english": "MicroPython libraries · all boards"
+  },
+  {
+    "index": 2337,
+    "source": "Toutes les cartes",
+    "english": "All boards"
+  },
+  {
+    "index": 2338,
+    "source": "Toutes les catégories",
+    "english": "All categories"
+  },
+  {
+    "index": 2339,
+    "source": "Créer un projet",
+    "english": "Create a project"
+  },
+  {
+    "index": 2340,
+    "source": "Choisir un dossier existant",
+    "english": "Choose an existing folder"
+  },
+  {
+    "index": 2341,
+    "source": "Un module .py ou .mpy",
+    "english": "A .py or .mpy module"
+  },
+  {
+    "index": 2342,
+    "source": "Un dossier de bibliothèque décompressé",
+    "english": "An extracted library folder"
+  },
+  {
+    "index": 2343,
+    "source": "Catalogue sur SD",
+    "english": "SD catalogue"
+  },
+  {
+    "index": 2344,
+    "source": "Importer SD / USB",
+    "english": "Import SD / USB"
+  },
+  {
+    "index": 2345,
+    "source": "Obtenir les sources par Wi-Fi",
+    "english": "Get sources over Wi-Fi"
+  },
+  {
+    "index": 2346,
+    "source": "Nouveau projet MicroPython",
+    "english": "New MicroPython project"
+  },
+  {
+    "index": 2347,
+    "source": "fichier(s) .mpy : version du firmware et architecture à vérifier sur la carte cible.",
+    "english": ".mpy file(s): check the firmware version and architecture on the target board."
+  },
+  {
+    "index": 2348,
+    "source": "Dépendances locales à compléter si nécessaire.",
+    "english": "Complete local dependencies if needed."
+  },
+  {
+    "index": 2349,
+    "source": "Fichier de bibliothèque",
+    "english": "Library file"
+  },
+  {
+    "index": 2350,
+    "source": "Ouvrir ce chemin dans Écriture pour consulter sa source.",
+    "english": "Open this path in Writing to view its source."
+  },
+  {
+    "index": 2351,
+    "source": "Copie de fichiers uniquement. Les fichiers différents déjà présents bloquent la copie. Compatibilité à vérifier sur la carte cible.",
+    "english": "File copy only. Existing files with different contents block copying. Check compatibility on the target board."
+  },
+  {
+    "index": 2352,
+    "source": "Ajouter la bibliothèque",
+    "english": "Add library"
+  },
+  {
+    "index": 2353,
+    "source": "Modules installés pour la Tab5",
+    "english": "Modules installed for Tab5"
+  },
+  {
+    "index": 2354,
+    "source": "Bibliothèque ajoutée",
+    "english": "Library added"
+  },
+  {
+    "index": 2355,
+    "source": "Le transfert vers la carte et le lancement du programme sont des opérations distinctes.",
+    "english": "Transfer to the board and program execution are separate operations."
+  },
+  {
+    "index": 2356,
+    "source": "nouveaux fichiers",
+    "english": "new files"
+  },
+  {
+    "index": 2357,
+    "source": "Bibliothèques disponibles",
+    "english": "Available libraries"
+  },
+  {
+    "index": 2358,
+    "source": "Les fichiers .mpy ne sont pas convertis ni validés pour ce firmware.",
+    "english": ".mpy files are not converted or validated for this firmware."
+  },
+  {
+    "index": 2359,
+    "source": "Copie vers le projet",
+    "english": "Copying to project"
+  },
+  {
+    "index": 2360,
+    "source": "Aucune bibliothèque pour ces filtres. Utiliser Importer SD / USB ou Obtenir par Wi-Fi.",
+    "english": "No libraries match these filters. Use Import SD / USB or Get over Wi-Fi."
+  },
+  {
+    "index": 2361,
+    "source": "Couleur invalide",
+    "english": "Invalid color"
+  },
+  {
+    "index": 2362,
+    "source": "Wikipedia · CC BY-SA 4.0",
+    "english": "Wikipedia · CC BY-SA 4.0"
+  },
+  {
+    "index": 2363,
+    "source": "Connexion indisponible",
+    "english": "Connection unavailable"
+  },
+  {
+    "index": 2364,
+    "source": "Empreinte de référence invalide",
+    "english": "Invalid reference hash"
+  },
+  {
+    "index": 2365,
+    "source": "Applications ELF",
+    "english": "ELF applications"
+  },
+  {
+    "index": 2366,
+    "source": "Envoi",
+    "english": "Send"
+  },
+  {
+    "index": 2367,
+    "source": "Masquer les images · Ctrl I",
+    "english": "Hide images · Ctrl I"
+  },
+  {
+    "index": 2368,
+    "source": "Afficher les images · Ctrl I",
+    "english": "Show images · Ctrl I"
+  },
+  {
+    "index": 2369,
+    "source": "Reconnecter la microSD",
+    "english": "Reconnect microSD"
+  },
+  {
+    "index": 2370,
+    "source": "Restaurer les fichiers manquants",
+    "english": "Restore missing files"
+  },
+  {
+    "index": 2371,
+    "source": "Partage",
+    "english": "Sharing"
+  },
+  {
+    "index": 2372,
+    "source": "Portable / cible à vérifier",
+    "english": "Portable / target to check"
+  },
+  {
+    "index": 2373,
+    "source": "ESP32-P4 (autre carte)",
+    "english": "ESP32-P4 (other board)"
+  },
+  {
+    "index": 2374,
+    "source": "Autre carte",
+    "english": "Other board"
+  },
+  {
+    "index": 2375,
+    "source": "Général",
+    "english": "General"
+  },
+  {
+    "index": 2376,
+    "source": "Capteurs",
+    "english": "Sensors"
+  },
+  {
+    "index": 2377,
+    "source": "Écran",
+    "english": "Screen"
+  },
+  {
+    "index": 2378,
+    "source": "Moteurs",
+    "english": "Motors"
+  },
+  {
+    "index": 2379,
+    "source": "Dans Explorateur, Haut/Bas choisissent un élément et Entrée ouvre le fichier ou le dossier. Retour arrière remonte au dossier parent. Au tactile, touchez pour sélectionner ; touchez à nouveau l’élément sélectionné pour l’ouvrir, sans contrainte de délai. Copier / Couper prépare l’élément ; Coller agit dans le dossier courant.\n\nLes fichiers système restent accessibles pour mettre à jour les données. Leur couleur ambrée indique leur rôle ; les éléments masqués sont atténués. Modifier ou supprimer une configuration, une langue, une police ou un catalogue peut changer le fonctionnement de Tab5OS : conservez une copie avant vos propres modifications.\n\nEnregistrer écrit le document courant. Enregistrer sous choisit un autre nom ou dossier. La sauvegarde automatique suit le délai des réglages. L’explorateur se met à jour après une modification ; F5 permet aussi de le relire. Le bouton œil masque ou réaffiche l’élément sélectionné sans le renommer. Ctrl+H montre les éléments cachés. Ce choix est propre à Tab5OS et mémorisé sur le support ; il ne modifie pas les attributs utilisés par Windows. L’aperçu des dossiers compte tous les éléments visibles, puis permet de parcourir leur liste par pages. Le sous-dossier caché .Tab5Backups conserve les sauvegardes précédentes. Une sauvegarde incomplète est signalée ; gardez la SD en place pendant l’écriture.\n\nUn nom de fichier et le texte de vos documents sont des données personnelles : changer la langue de l’interface ne les traduit pas.\n\nLa loupe ou Ctrl+F cherche les noms de fichiers et dossiers dans le dossier courant et tous ses sous-dossiers. La casse et les accents latins sont ignorés ; plusieurs mots doivent tous être présents. Les résultats apparaissent progressivement, avec leur dossier. Une recherche partielle est signalée : affinez les mots si nécessaire. La croix apparaît seulement pendant une recherche et retire le filtre. Les textes et les sources, dont les scripts .py, s’ouvrent dans Écriture, sans exécution automatique.\n\nUn fichier .bin ouvre la page Firmware. Vérifier contrôle la cible ESP32-P4, sa révision, la taille et l’empreinte. Installer écrit dans la partition inactive et valide l’image avant de changer le prochain démarrage. Redémarrer l’active. Utiliser un binaire application prévu pour ce Tab5, sans bootloader ni table de partitions. Garder une alimentation stable.",
+    "english": "In Explorer, Up/Down selects an item and Enter opens the file or folder. Backspace goes to the parent folder. With touch, tap to select, then tap the selected item again to open it, with no time limit. Copy / Cut prepares the item; Paste acts in the current folder.\n\nSystem files remain accessible for updating data. Amber colouring indicates their role; hidden items are dimmed. Changing or deleting a configuration, language, font or catalogue can affect Tab5OS: keep a copy before making your own changes.\n\nSave writes the current document. Save as chooses another name or folder. Autosave follows the interval in Settings. Explorer updates after a change; F5 also refreshes it. The eye button hides or shows the selected item without renaming it. Ctrl+H shows hidden items. This choice is specific to Tab5OS and stored on the drive; it does not change the attributes used by Windows. Folder previews count all visible items, then let you browse their list page by page. The hidden .Tab5Backups subfolder keeps previous backups. Incomplete saves are reported; leave the SD card in place while writing.\n\nFile names and document text are personal data: changing the interface language does not translate them.\n\nThe magnifying glass or Ctrl+F searches file and folder names in the current folder and all its subfolders. Case and Latin accents are ignored; all search words must be present. Results appear progressively with their folder. Partial searches are indicated: refine the words if necessary. The cross appears only during a search and removes the filter. Text and source files, including .py scripts, open in Writing without running automatically.\n\nA .bin file opens the Firmware page. Verify checks the ESP32-P4 target, revision, size and fingerprint. Install writes to the inactive partition and validates the image before changing the next boot target. Restart activates it. Use an application binary made for this Tab5, without a bootloader or partition table. Keep the power supply stable."
+  },
+  {
+    "index": 2380,
+    "source": "Sur Carte, sélectionnez la carte puis Entrée pour la contrôler. Les flèches déplacent la vue ; + / − change le zoom ; Début rejoint la position d’accueil. Échap rend les flèches à la navigation entre commandes. Ctrl+F ouvre la recherche.\n\nLes lieux enregistrés permettent de rejoindre une position, de la renommer ou de la supprimer. Le style choisit le fond cartographique. Les paquets hors ligne .t5map et le cache SD permettent de consulter les tuiles déjà disponibles. Les recherches en ligne et les tuiles absentes demandent une connexion. Les noms de lieux recherchés suivent la langue choisie lorsque le service la fournit.\n\nLa lecture en portrait ouvre un texte ou un EPUB. Page précédente / suivante, Gauche / Droite et Haut / Bas tournent les pages EPUB quand les commandes ne sont pas sélectionnées. Haut / Bas fait défiler un texte. Retour arrière ou Échap quitte la lecture ou l’image plein écran. Le pourcentage et le numéro de page portent sur le livre entier. Le signe ~ indique un pourcentage provisoire pendant le premier calcul ; le total devient exact à la fin de la mise en page. Les titres et les noms fournis par vos fichiers conservent leur langue d’origine.",
+    "english": "On Map, select the map and press Enter to control it. Arrow keys move the view; + / − changes zoom; Home goes to the home position. Escape returns the arrows to navigation between controls. Ctrl+F opens search.\n\nSaved places let you visit, rename or delete a position. Style selects the map background. Offline .t5map packages and the SD cache let you view tiles already available. Online searches and missing tiles require a connection. Searched place names follow the selected language when the service provides it.\n\nPortrait reading opens text or EPUB. Previous / next page, Left / Right and Up / Down turn EPUB pages when controls are not selected. Up / Down scrolls text. Backspace or Escape exits reading or the full-screen image. The percentage and page number refer to the entire book. A ~ sign indicates a provisional percentage during the first calculation; the total becomes exact when layout finishes. Titles and names supplied by your files keep their original language."
+  },
+  {
+    "index": 2381,
+    "source": "L’accueil sépare les outils intégrés, les applications ELF et les applications Python. Les applications sont classées par type et par nom. Les outils intégrés restent accessibles sans carte SD. F5 actualise le catalogue ; ce n’est pas une boutique en ligne.\n\nRéglages → Accueil permet de choisir les applications visibles, leur ordre dans chaque section, leurs icônes, la présentation en grille ou en liste, la taille et les libellés. Enregistrer conserve ce choix dans le Tab5. Retour abandonne les changements. Réinitialiser restaure la disposition par défaut après Enregistrer ; les fichiers et applications ne sont pas supprimés. Réglages reste accessible dans le bandeau latéral.\n\nQuitter une application Python ferme son écran et revient à l’écran précédent de l’OS. Pour les applications proposant Masquer, cette commande conserve l’exécution. Le bouton de reprise du bandeau ou Ctrl+Alt+P retrouve l'application masquée lorsqu'elle reste active. Arrêter ou Ctrl+. demande son arrêt. Lorsqu'une autre application doit être arrêtée avant le lancement, confirmez le changement proposé.\n\nCartes → Télécharger ouvre le formulaire de zone avec le centre, le zoom et le fond actuels. Choisissez ville ou coordonnées, rayon et zooms, puis vérifiez l’estimation. OpenTopoMap se télécharge directement sur la tablette ; pause/reprise conserve le travail. OpenStreetMap demande une source autorisant ce téléchargement ou la préparation PC. Revenez dans Cartes pour consulter le résultat, sans redémarrer.\n\nWikipédia présente les résultats locaux et en ligne dans la même pagination, sans isoler un résultat local sur une page. Une copie locale existante est prioritaire. Après une lecture en ligne, Enregistrer cette page la rend disponible hors ligne. Options regroupe les sauvegardes automatiques, mises à jour et téléchargements complets avec choix de langue. Une nouvelle archive complète demande confirmation avant téléchargement. Le lecteur conserve le portrait, la taille du texte et l’interligne.\n\nDiscussion IRC mémorise pseudo et serveur. Salons permet de rejoindre, quitter, ajouter ou retirer un favori et retrouver les récents. Masquer conserve la connexion. Aucun historique de messages n’est enregistré sur la SD ; les préférences restent dans /System/irc.json.\n\nImporter des radios consulte Radio Browser. Le Wi-Fi et une date correcte sont nécessaires aux connexions sécurisées.\n\nDans le lecteur Wikipédia, les liens du texte ouvrent les autres articles en recherchant d’abord les copies locales. Retour arrière ou Échap revient aux résultats ; Alt+Gauche permet aussi de revenir. La commande Illustrations dans la barre de lecture active ou masque les images. Le menu d’un résultat local permet de supprimer la copie ou l’archive affichée après confirmation. Les tableaux gardent leurs cellules et leur défilement horizontal.",
+    "english": "Home separates built-in tools, ELF applications and Python applications. Applications are sorted by type and name. Built-in tools remain available without an SD card. F5 refreshes the catalogue; this is not an online store.\n\nSettings → Home lets you choose visible applications, their order within each section, icons, grid or list layout, size and labels. Save keeps these choices on the Tab5. Back discards changes. Reset restores the default layout after Save; files and applications are not deleted. Settings remains available in the sidebar.\n\nExiting a Python application closes its screen and returns to the previous OS screen. For applications offering Hide, that command keeps execution running. The sidebar resume button or Ctrl+Alt+P restores a hidden application while it remains active. Stop or Ctrl+. requests it to stop. When another application needs to stop before launching, confirm the proposed switch.\n\nMaps → Download opens the area form with the current centre, zoom and map background. Choose a city or coordinates, radius and zooms, then check the estimate. OpenTopoMap downloads directly on the tablet; pause/resume keeps progress. OpenStreetMap requires a source that allows these downloads or preparation on a PC. Return to Maps to view the result without restarting.\n\nWikipedia presents local and online results in the same pagination, without isolating a local result on its own page. An existing local copy takes priority. After reading online, Save this page makes it available offline. Options groups automatic saving, updates and complete downloads with language selection. A new complete archive requires confirmation before downloading. The reader keeps portrait orientation, text size and line spacing.\n\nIRC Chat remembers nickname and server. Channels lets you join, leave, add or remove favourites and find recent channels. Hide keeps the connection. No message history is stored on the SD card; preferences remain in /System/irc.json.\n\nImport radios uses Radio Browser. Wi-Fi and a correct date are required for secure connections.\n\nIn the Wikipedia reader, text links open other articles, searching local copies first. Backspace or Escape returns to results; Alt+Left also goes back. Illustrations in the reading toolbar shows or hides images. A local result's menu lets you delete the displayed copy or archive after confirmation. Tables keep their cells and horizontal scrolling."
+  },
+  {
+    "index": 2382,
+    "source": "Réglages → Système → Partage ouvre un partage temporaire en lecture et écriture. Réseau actuel utilise votre Wi-Fi existant : le PC doit être sur le même réseau. Réseau direct crée un Wi-Fi temporaire ; désactivez d’abord le Wi-Fi de l’OS, puis connectez le PC avec le nom et le mot de passe affichés.\n\nOuvrez l’adresse affichée dans le navigateur du PC et saisissez le code. Aucun logiciel supplémentaire n’est nécessaire. Le navigateur permet de consulter, télécharger, envoyer, renommer et supprimer des fichiers, et de créer des dossiers. Le partage s’arrête après 30 minutes ou avec Arrêter.\n\nPendant un transfert, conservez la carte en place et évitez de modifier le même fichier dans une application. Arrêtez le partage avant de changer le Wi-Fi. Il s’agit d’un accès navigateur ; la carte n’apparaît pas comme une lettre de lecteur USB dans Windows.",
+    "english": "Settings → System → Sharing opens a temporary read/write share. Current network uses your existing Wi-Fi: the PC must be on the same network. Direct network creates a temporary Wi-Fi network; first disable the OS Wi-Fi, then connect the PC using the displayed name and password.\n\nOpen the displayed address in the PC browser and enter the code. No extra software is needed. The browser lets you browse, download, upload, rename and delete files, and create folders. Sharing stops after 30 minutes or with Stop.\n\nDuring a transfer, leave the card in place and avoid editing the same file in an application. Stop sharing before changing Wi-Fi. This is browser access; the card does not appear as a USB drive letter in Windows."
+  },
+  {
+    "index": 2383,
+    "source": "L’éditeur Écriture ouvre aussi les fichiers Python et les autres sources. Le code reste brut, avec une coloration visuelle. Le menu Code rassemble Exécuter, Arrêter, Reprendre, Bibliothèques et Console. Exécuter enregistre d’abord le fichier .py ; si la sauvegarde échoue, il ne démarre pas. La console peut prendre le panneau droit.\n\nCtrl+Entrée : enregistrer puis exécuter Python. Ctrl+. : arrêter. Ctrl+Maj+R : reprendre. Ctrl+Maj+L : afficher ou masquer la console. Les raccourcis habituels de l’éditeur restent disponibles.\n\nDocuments conserve une liste des fichiers, même déchargés de la mémoire. La croix retire une inscription, jamais le fichier SD. Ctrl+Maj+O ouvre cette liste ; Ctrl+Tab / Ctrl+Maj+Tab passe au document suivant / précédent. Un changement de document enregistre les modifications ; une erreur conserve le document courant.\n\nCréer un projet avec ce document regroupe ensuite d’autres fichiers. Ajouter le document au projet complète le groupe choisi. Importer un dossier le parcourt progressivement et détecte les nouveaux fichiers pendant que l’éditeur est visible. Hors projet garde les fichiers indépendants. Un fichier retiré par la croix n’est pas réintroduit automatiquement.\n\nBibliothèques ouvre le catalogue MicroPython, avec choix de la carte cible et ajout des modules au projet correspondant. Les bibliothèques destinées à une autre carte restent séparées de celles du Tab5 ; leurs pilotes ne sont pas exécutés sur le Tab5. La compatibilité déclarée ne garantit pas le fonctionnement sur une carte précise. Les paquets CPython et leurs extensions natives ne sont pas compatibles. Aucun téléversement ou flash automatique d'une autre carte n'est fourni.\n\nLes scripts fournis restent dans /MicroPython. Vérifier la carte SD compare les ressources avant réparation, conserve les fichiers personnels et sauvegarde chaque fichier remplacé.\n\nUn fichier .elf compatible lance une application sans remplacer l’OS. Son lancement peut être mémorisé : demander un fichier, lancer sans fichier, ou toujours utiliser le même fichier. Les chemins s’écrivent sd:/Dossier/fichier.ext pour la microSD et usb:/Dossier/fichier.ext pour le disque USB. Ils ne sont pas des commandes de terminal. L’arrêt est coopératif. Ces applications ont accès à la mémoire de l’OS : utilisez des binaires de confiance construits avec le SDK fourni. Un .bin reste une mise à jour du firmware.",
+    "english": "The Writing editor also opens Python files and other source files. Code stays unchanged, with visual highlighting. The Code menu groups Run, Stop, Resume, Libraries and Console. Run saves the .py file first; if saving fails, it does not start. The console can occupy the right pane.\n\nCtrl+Enter: save and run Python. Ctrl+.: stop. Ctrl+Shift+R: resume. Ctrl+Shift+L: show or hide the console. The editor's usual shortcuts remain available.\n\nDocuments keeps a list of files, even after they are unloaded from memory. The cross removes a listing, never the SD file. Ctrl+Shift+O opens this list; Ctrl+Tab / Ctrl+Shift+Tab switches to the next / previous document. Changing documents saves modifications; an error keeps the current document open.\n\nCreate a project with this document then groups other files. Add document to project adds to the selected group. Import a folder scans it progressively and detects new files while the editor is visible. Outside project keeps independent files. A file removed with the cross is not added again automatically.\n\nLibraries opens the MicroPython catalogue, with target-board selection and modules added to the corresponding project. Libraries intended for another board stay separate from the Tab5 libraries; their drivers are not run on the Tab5. Declared compatibility does not guarantee operation on a specific board. CPython packages and native extensions are incompatible. Automatic uploading or flashing of another board is not provided.\n\nBundled scripts remain in /MicroPython. Check SD card compares resources before repair, preserves personal files and backs up each replaced file.\n\nA compatible .elf file launches an application without replacing the OS. Its launch settings can be saved: ask for a file, run without a file, or always use the same file. Paths use sd:/Folder/file.ext for microSD and usb:/Folder/file.ext for the USB drive. They are not terminal commands. Stopping is cooperative. These applications can access OS memory: use trusted binaries built with the supplied SDK. A .bin file remains a firmware update."
+  },
+  {
+    "index": 2384,
+    "source": "Créer un thème : choisissez une couleur dans la liste ou en touchant un objet de l’aperçu. Réglez R, G et B, ou saisissez #RRGGBB, puis enregistrez. Le curseur Noir / Blanc assombrit ou éclaircit la couleur de manière symétrique ; au centre, il conserve la couleur de départ.\n\nDans Explorateur, sélectionnez un fichier puis Ouvrir avec… et choisissez une application ELF compatible. Le lanceur propose aussi un sélecteur de fichiers et de dossiers, les récents et les favoris. Exécuter lance le programme ; Ctrl+. demande son arrêt.\n\nGame Boy : les flèches et les touches physiques Z/X commandent la croix et A/B. Entrée = Start, Retour arrière = Select. Échap quitte et sauvegarde l’état. Le bouton disquette sauvegarde sans quitter ; la flèche circulaire recommence la partie. Les fichiers .gb ouvrent Game Boy, les .gbc ouvrent Game Boy Color. Les sauvegardes et états sont dans /Saves/GB ou /Saves/GBC. Le dernier état compatible est repris à la prochaine ouverture de la ROM.",
+    "english": "Create a theme: choose a colour from the list or by touching an object in the preview. Adjust R, G and B or enter #RRGGBB, then save. The Black / White slider darkens or lightens the colour symmetrically; at the centre it preserves the starting colour.\n\nIn Explorer, select a file, then Open with… and choose a compatible ELF application. The launcher also offers a file and folder picker, recent items and favourites. Run starts the program; Ctrl+. requests it to stop.\n\nGame Boy: arrow keys and physical Z/X keys control the directional pad and A/B. Enter = Start, Backspace = Select. Escape exits and saves the state. The floppy-disk button saves without exiting; the circular arrow restarts the game. .gb files open Game Boy; .gbc files open Game Boy Color. Saves and states are in /Saves/GB or /Saves/GBC. The last compatible state resumes when the ROM is next opened."
+  },
+  {
+    "index": 2385,
+    "source": "Réglages → Stockage ouvre les commandes microSD et USB, même sans carte SD. Monter / retester microSD relance sa détection ; Ouvrir la microSD rejoint la racine /. Une clé ou un lecteur de carte USB compatible peut être monté automatiquement ; cette option reste désactivable. Les fichiers USB apparaissent dans /USB. Copier, coller, créer, renommer et supprimer fonctionnent sur les deux supports.\n\nEnregistrez les documents et arrêtez les applications ou transferts utilisant le support avant Éjecter microSD ou Éjecter USB. Une opération en cours peut empêcher l'éjection. Attendez sa confirmation avant de retirer la carte ou de débrancher le support. Un seul stockage USB peut être monté à la fois, avec un clavier et une souris sur le hub. FAT16/FAT32 sont pris en charge.\n\nRessources manquantes recrée progressivement les fichiers système prévus qui sont absents, depuis le firmware. Annuler la réparation interrompt ce travail. Les fichiers existants, documents et personnalisations sont conservés. Cette fonction ne remplace pas les fichiers endommagés déjà présents et ne récupère pas les fichiers supprimés. Les polices, encyclopédies et applications .app.elf restent à fournir séparément.\n\nSans police SD exploitable, l'interface utilise temporairement l'anglais et la police intégrée, sans changer la langue enregistrée ni les textes de vos documents. Redémarrer avec la police rétablit la langue choisie. Aucun formatage ni récupération de données effacées n'est proposé dans cette version.",
+    "english": "Settings → Storage opens the microSD and USB controls, even without an SD card. Mount / retest microSD restarts detection; Open microSD goes to the root /. A compatible USB drive or card reader can mount automatically; this option can be disabled. USB files appear under /USB. Copy, paste, create, rename and delete work on both drives.\n\nSave documents and stop applications or transfers using the drive before Eject microSD or Eject USB. An operation in progress may prevent ejection. Wait for confirmation before removing the card or unplugging the drive. One USB drive can be mounted at a time, alongside a keyboard and mouse on the hub. FAT16/FAT32 are supported.\n\nMissing resources progressively recreates missing standard system files from the firmware. Cancel repair interrupts this work. Existing files, documents and customisations are preserved. This function does not replace damaged files already present and does not recover deleted files. Fonts, encyclopaedias and .app.elf applications must still be supplied separately.\n\nWithout a usable SD font, the interface temporarily uses English and the built-in font, without changing the saved language or your document text. Restarting with the font restores the selected language. This version offers neither formatting nor recovery of erased data."
+  },
+  {
+    "index": 2386,
+    "source": "Réglages → Stockage ouvre les commandes microSD et USB, même sans carte SD. Reconnecter la microSD relance sa détection ; Ouvrir dans le panneau microSD rejoint la racine /. Une clé ou un lecteur de carte USB compatible peut être monté automatiquement ; cette option reste désactivable. Les fichiers USB apparaissent dans /USB. Copier, coller, créer, renommer et supprimer fonctionnent sur les deux supports.\n\nEnregistrez les documents et arrêtez les applications ou transferts utilisant le support avant de choisir Éjecter dans le panneau du support. Une opération en cours peut empêcher l'éjection. Attendez sa confirmation avant de retirer la carte ou de débrancher le support. Un seul stockage USB peut être monté à la fois, avec un clavier et une souris sur le hub. FAT16/FAT32 sont pris en charge.\n\nRestaurer les fichiers manquants recrée progressivement les fichiers système prévus qui sont absents, depuis le firmware. Annuler interrompt ce travail. Les fichiers existants, documents et personnalisations sont conservés. Cette fonction ne remplace pas les fichiers endommagés déjà présents et ne récupère pas les fichiers supprimés. Les polices, encyclopédies et applications .app.elf restent à fournir séparément.\n\nSans police SD exploitable, l'interface utilise temporairement l'anglais et la police intégrée, sans changer la langue enregistrée ni les textes de vos documents. Redémarrer avec la police rétablit la langue choisie. Aucun formatage ni récupération de données effacées n'est proposé dans cette version.",
+    "english": "Settings → Storage opens the microSD and USB controls, even without an SD card. Reconnect microSD restarts detection; Open in the microSD panel goes to the root /. A compatible USB drive or card reader can mount automatically; this option can be disabled. USB files appear under /USB. Copy, paste, create, rename and delete work on both drives.\n\nSave documents and stop applications or transfers using the drive before choosing Eject in the drive’s panel. An operation in progress may prevent ejection. Wait for confirmation before removing the card or unplugging the drive. One USB drive can be mounted at a time, alongside a keyboard and mouse on the hub. FAT16/FAT32 are supported.\n\nRestore missing files progressively recreates missing standard system files from the firmware. Cancel interrupts this work. Existing files, documents and customisations are preserved. This function does not replace damaged files already present and does not recover deleted files. Fonts, encyclopaedias and .app.elf applications must still be supplied separately.\n\nWithout a usable SD font, the interface temporarily uses English and the built-in font, without changing the saved language or your document text. Restarting with the font restores the selected language. This version offers neither formatting nor recovery of erased data."
+  }
+]

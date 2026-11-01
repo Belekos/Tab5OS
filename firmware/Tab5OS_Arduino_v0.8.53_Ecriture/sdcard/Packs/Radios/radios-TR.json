@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Radyo Şiran",
+      "style": "TR/folk",
+      "url": "https://live.radyositesihazir.com/8078/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "ALTIN SARKILAR",
+      "style": "TR/golden oldies",
+      "url": "http://37.247.98.8/stream/25/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Arabesk FM",
+      "style": "TR/müzik",
+      "url": "http://yayin.arabeskfm.biz:8042/",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "Süper FM",
+      "style": "TR/pop",
+      "url": "http://25243.live.streamtheworld.com:3690/SUPER_FMAAC_SC",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "Virgin Radio Türkiye",
+      "style": "TR/pop rock",
+      "url": "http://29073.live.streamtheworld.com:3690/VIRGIN_RADIO_SC",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "DAMAR TURK FM",
+      "style": "TR/Radio",
+      "url": "https://live.radyositesihazir.com:10997/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radyo Fenomen",
+      "style": "TR/turkey",
+      "url": "https://live.radyofenomen.com/fenomen/128/icecast.audio",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 56
+    },
+    {
+      "name": "Türkülerle Türkiye",
+      "style": "TR/türkü",
+      "url": "http://37.247.98.8/stream/22/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    }
+  ]
+}

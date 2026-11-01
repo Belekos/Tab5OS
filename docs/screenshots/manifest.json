@@ -1,0 +1,1070 @@
+{
+  "project": "Tab5OS",
+  "release": "0.8.53",
+  "sourceArchiveSha256": "a6c24e92dabb36b4eac18df4c9cff9c63b3f53d0546a54dfd863439fcc56ed58",
+  "physicalDeviceCaptures": false,
+  "photos": false,
+  "images": [
+    {
+      "file": "images/explorer-light.png",
+      "sha256": "d773ea12b615ef5d4639af4e3c3b4e8a02ff66a556654d1788a8432a45587a03",
+      "originalCaptureVersion": "0.8.53",
+      "proof": "explorer-generated",
+      "source": "generated/explorer/images-light.png",
+      "width": 1280,
+      "height": 720,
+      "physicalDeviceCapture": false,
+      "retouched": false,
+      "title_fr": "Explorateur — thème clair",
+      "title_en": "Explorer — light theme",
+      "caption_fr": "Arbre de dossiers et actions contextuelles pour les images, avec six fichiers de démonstration.",
+      "caption_en": "Folder tree and image quick actions, populated with six demonstration files."
+    },
+    {
+      "file": "images/explorer-dark.png",
+      "sha256": "22a395ba452596750184a9748a4e17525e5f6ea3a271620e4c62c371e0f0596f",
+      "originalCaptureVersion": "0.8.53",
+      "proof": "explorer-generated",
+      "source": "generated/explorer/images-dark.png",
+      "width": 1280,
+      "height": 720,
+      "physicalDeviceCapture": false,
+      "retouched": false,
+      "title_fr": "Explorateur — thème sombre",
+      "title_en": "Explorer — dark theme",
+      "caption_fr": "Même état de démonstration dans le thème sombre.",
+      "caption_en": "The same demonstration state in the dark theme."
+    },
+    {
+      "file": "images/drawing-selection.png",
+      "sha256": "93f913d58f93781e62b8bf97486bda3a77d49e2c6e59f0213db74b76bdf4b405",
+      "originalCaptureVersion": "0.8.52",
+      "proof": "image-native-0852",
+      "source": "tools/verification/image-native-ui-0852/24-gradient-in-lasso.png",
+      "width": 1280,
+      "height": 720,
+      "physicalDeviceCapture": false,
+      "retouched": false,
+      "title_fr": "Dessin — sélection et dégradé",
+      "title_en": "Drawing — selection and gradient",
+      "caption_fr": "Sélection libre et remplissage dégradé dans le moteur Dessin réel.",
+      "caption_en": "Freehand selection and gradient fill in the production Drawing engine."
+    },
+    {
+      "file": "images/drawing-layers.png",
+      "sha256": "edb7b72fa8fe813b8cfcea07fc5bb8476214a621e4b11d8ba1cf87b714750a4b",
+      "originalCaptureVersion": "0.8.52",
+      "proof": "image-native-0852",
+      "source": "tools/verification/image-native-ui-0852/03-layers.png",
+      "width": 1280,
+      "height": 720,
+      "physicalDeviceCapture": false,
+      "retouched": false,
+      "title_fr": "Dessin — calques",
+      "title_en": "Drawing — layers",
+      "caption_fr": "Panneau de calques et dessin abstrait de démonstration.",
+      "caption_en": "Layer panel with an abstract demonstration drawing."
+    },
+    {
+      "file": "images/meshtastic.png",
+      "sha256": "178b2a4a1aba313d90cf8168c37bc77c9c9661463bd4962f513d62255b0fba00",
+      "originalCaptureVersion": "0.8.53",
+      "proof": "mesh-keyboard-0853",
+      "source": "tools/verification/mesh-keyboard-0853/current/01-idle.png",
+      "width": 1280,
+      "height": 720,
+      "physicalDeviceCapture": false,
+      "retouched": false,
+      "title_fr": "Meshtastic — messagerie",
+      "title_en": "Meshtastic — messaging",
+      "caption_fr": "Écran initial hors connexion : aucun appareil ni message réel. Le bouton clavier est visible ; le transport Bluetooth n’est pas exécuté.",
+      "caption_en": "Initial offline view: no real device or messages. The keyboard button is visible; Bluetooth transport is not exercised."
+    },
+    {
+      "file": "images/sidebar-settings.png",
+      "sha256": "5a2a6e5cd6b9ff687f8822a8866d25b4e78e7b0fd120462f27fe8a8f27390b29",
+      "originalCaptureVersion": "0.8.53",
+      "proof": "dock-0853",
+      "source": "tools/verification/dock-0853/picker-dark.png",
+      "width": 1280,
+      "height": 720,
+      "physicalDeviceCapture": false,
+      "retouched": false,
+      "title_fr": "Bandeau — choix des applications",
+      "title_en": "Sidebar — app selection",
+      "caption_fr": "Sélecteur des raccourcis natifs, ELF et Python. Le catalogue et le fond de page sont fournis par le banc.",
+      "caption_en": "Native, ELF and Python shortcut picker. The catalogue and background page are supplied by the host harness."
+    },
+    {
+      "file": "images/editor-menu.png",
+      "sha256": "613f618ff492ff22b405c3d5d582fbeca47c14be63ce41b6c0d18d7a3c1204a8",
+      "originalCaptureVersion": "0.8.52",
+      "proof": "writing-hover-0852",
+      "source": "tools/verification/writing-hover-ui-0852/current-file-hover.png",
+      "width": 1280,
+      "height": 720,
+      "physicalDeviceCapture": false,
+      "retouched": false,
+      "title_fr": "Éditeur — détail du menu",
+      "title_en": "Editor — menu detail",
+      "caption_fr": "Détail du menu Fichier et du survol souris. Ce banc affiche le menu uniquement, pas la page documentaire complète.",
+      "caption_en": "File-menu detail showing pointer hover. This harness renders the menu only, not the full document editor."
+    }
+  ],
+  "sourceChecks": {
+    "image-native-0852": {
+      "report": "tools/verification/image-native-0852.json",
+      "reportSha256": "543be4e10e1aed080d1d2590bf8a59e14fdf25b542868b1de813a193cceb488a",
+      "matchingSourceCount": 109,
+      "matchingSources": [
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5ImageEditor.cpp",
+          "recordedSha256": "36d17119addb7355aa4339582c92b4fe258705adfa06f9071e71ef5a5f6d2a90",
+          "currentSha256": "36d17119addb7355aa4339582c92b4fe258705adfa06f9071e71ef5a5f6d2a90"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5ImageEditor.h",
+          "recordedSha256": "0d983ddfe266228b703048fb83e2b4d4913b69571a115d6a58f09ba85ecb85a8",
+          "currentSha256": "0d983ddfe266228b703048fb83e2b4d4913b69571a115d6a58f09ba85ecb85a8"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5ImageText.cpp",
+          "recordedSha256": "f5447ea940b5ad15ca2498510d3517ed57667c9739b5982ddf41cb7e3762823d",
+          "currentSha256": "f5447ea940b5ad15ca2498510d3517ed57667c9739b5982ddf41cb7e3762823d"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5ImageText.h",
+          "recordedSha256": "533f14ad9fdb68585ce6a2d8227ef32730ee62dddc4428e707c26b7779ba2ec6",
+          "currentSha256": "533f14ad9fdb68585ce6a2d8227ef32730ee62dddc4428e707c26b7779ba2ec6"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5LvglMemory.cpp",
+          "recordedSha256": "b07b56cf6f06348ab263fa6f2f8c28e6c5d79bcf0ae44e183c174f14a2f7ada8",
+          "currentSha256": "b07b56cf6f06348ab263fa6f2f8c28e6c5d79bcf0ae44e183c174f14a2f7ada8"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5LvglMemory.h",
+          "recordedSha256": "0cca920dcfcc2f13f1fe927d03caf9f22828b3be62cd9bff3c4a8adb9a1346ef",
+          "currentSha256": "0cca920dcfcc2f13f1fe927d03caf9f22828b3be62cd9bff3c4a8adb9a1346ef"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5ImageCore.c",
+          "recordedSha256": "f79701c212bef8c438f0e05fba845faf81fc051d7ea0a656f2f6e2ef44ce2cb1",
+          "currentSha256": "f79701c212bef8c438f0e05fba845faf81fc051d7ea0a656f2f6e2ef44ce2cb1"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/tools/native-apps/image-editor/image_core.c",
+          "recordedSha256": "3cb459ed93b7e9dd514c262cd4280027477e9de205842bc08bbaee708a746e8d",
+          "currentSha256": "3cb459ed93b7e9dd514c262cd4280027477e9de205842bc08bbaee708a746e8d"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/tools/native-apps/image-editor/image_core.h",
+          "recordedSha256": "59dd1edbcb9596865b87608487de225655bafc110c19377479ca670025bd8d83",
+          "currentSha256": "59dd1edbcb9596865b87608487de225655bafc110c19377479ca670025bd8d83"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/tools/native-apps/image-editor/image_selection.h",
+          "recordedSha256": "c3e3d56dc4410df9ce10d4d86d43182e03e52f8742cc6c889678aef56c3f1737",
+          "currentSha256": "c3e3d56dc4410df9ce10d4d86d43182e03e52f8742cc6c889678aef56c3f1737"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5ImageWrite.h",
+          "recordedSha256": "884d55efc9217db283b66171849d0b2146d8b3e214275cadbc15838097b99d0b",
+          "currentSha256": "884d55efc9217db283b66171849d0b2146d8b3e214275cadbc15838097b99d0b"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5ImageCodec.cpp",
+          "recordedSha256": "ca2d997615dd334c95a173c7e1dd7b3791031f99f441d32abf4249ee89ec53fd",
+          "currentSha256": "ca2d997615dd334c95a173c7e1dd7b3791031f99f441d32abf4249ee89ec53fd"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5ImageCodec.h",
+          "recordedSha256": "42f110d7575b51f1903af75cdcdcebacd78652cc018a75732dbbfdb62f5327b8",
+          "currentSha256": "42f110d7575b51f1903af75cdcdcebacd78652cc018a75732dbbfdb62f5327b8"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5ImageDecode.cpp",
+          "recordedSha256": "c560d560d046deaf72a252908d3fc14d27216854c27bdd4a64c5d0c123cb9d05",
+          "currentSha256": "c560d560d046deaf72a252908d3fc14d27216854c27bdd4a64c5d0c123cb9d05"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5ImageDecode.h",
+          "recordedSha256": "413e1640f3c28556e72fbcb9bd05b40e18ca5d8db17dd33bcc1180ef9e8403a7",
+          "currentSha256": "413e1640f3c28556e72fbcb9bd05b40e18ca5d8db17dd33bcc1180ef9e8403a7"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5WebPPort.cpp",
+          "recordedSha256": "59b546a879fa38b30e210233bf351133e561fc2b4b98dd66782a873dd6baeb9d",
+          "currentSha256": "59b546a879fa38b30e210233bf351133e561fc2b4b98dd66782a873dd6baeb9d"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5WebPPort.h",
+          "recordedSha256": "2250bdf938e19965eb39f5805646274a4806a565560eada0a50437f3cf4441df",
+          "currentSha256": "2250bdf938e19965eb39f5805646274a4806a565560eada0a50437f3cf4441df"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5Cooperate.h",
+          "recordedSha256": "54c34057e319c0c628dca42cc14a884bedfe8c19dceaecd391bcc05b4a1bf91d",
+          "currentSha256": "54c34057e319c0c628dca42cc14a884bedfe8c19dceaecd391bcc05b4a1bf91d"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5ImageFormats.h",
+          "recordedSha256": "89960446c3cae8c748a0b44ce7928ff81d73d0d9dcfa344ba6d247d44b7d96ba",
+          "currentSha256": "89960446c3cae8c748a0b44ce7928ff81d73d0d9dcfa344ba6d247d44b7d96ba"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5Mouse.cpp",
+          "recordedSha256": "b0a5a1d55471058a49e93f55cca5aae22317fc98527dc30005e97641f6801822",
+          "currentSha256": "b0a5a1d55471058a49e93f55cca5aae22317fc98527dc30005e97641f6801822"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5Mouse.h",
+          "recordedSha256": "c8db86d6daf5b7d027b1b216608030dabea1b47d3800392ec85d9faf7e4cc7b7",
+          "currentSha256": "c8db86d6daf5b7d027b1b216608030dabea1b47d3800392ec85d9faf7e4cc7b7"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5Focus.cpp",
+          "recordedSha256": "bacafefb62a63af126b1654ef5663c42de6f9112980c80ede0e8c84d4d356367",
+          "currentSha256": "bacafefb62a63af126b1654ef5663c42de6f9112980c80ede0e8c84d4d356367"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5Focus.h",
+          "recordedSha256": "111ae727795def12a8384898810e8f52161e494709cd749d68fa2fa1e102260e",
+          "currentSha256": "111ae727795def12a8384898810e8f52161e494709cd749d68fa2fa1e102260e"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5TextInput.cpp",
+          "recordedSha256": "7222889d2d222b17d6aa5039467f1ca4d1b1028f7e9326b48cd88313daf45f64",
+          "currentSha256": "7222889d2d222b17d6aa5039467f1ca4d1b1028f7e9326b48cd88313daf45f64"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5TextInput.h",
+          "recordedSha256": "e40881027eec8d22b1caf7e8ef7bc04eb8281eb43b98814979ee32a131caeea3",
+          "currentSha256": "e40881027eec8d22b1caf7e8ef7bc04eb8281eb43b98814979ee32a131caeea3"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5UiStyle.cpp",
+          "recordedSha256": "8528b2da9832e45c7a0bc3e5e61df0341a5fcb2d4d111447b8986c01fff4092b",
+          "currentSha256": "8528b2da9832e45c7a0bc3e5e61df0341a5fcb2d4d111447b8986c01fff4092b"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5UiStyle.h",
+          "recordedSha256": "348b81fcc0767af6473ebc4fc65fc4072c26f00904c7aed1ff7275f5234da2e7",
+          "currentSha256": "348b81fcc0767af6473ebc4fc65fc4072c26f00904c7aed1ff7275f5234da2e7"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/WriterDocument.cpp",
+          "recordedSha256": "2626c5ed469177d417ea772d0ba617de2902db0eddcf377497b7aba7eaace6df",
+          "currentSha256": "2626c5ed469177d417ea772d0ba617de2902db0eddcf377497b7aba7eaace6df"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/WriterDocument.h",
+          "recordedSha256": "83ed8096fb4df8989196fe8fba36fe1100831abab2202b5ed7e297b10f0fc464",
+          "currentSha256": "83ed8096fb4df8989196fe8fba36fe1100831abab2202b5ed7e297b10f0fc464"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/WriterKeys.h",
+          "recordedSha256": "522576b502632c111c6442e07651e764e7400c68bf8373203b5542443abcaead",
+          "currentSha256": "522576b502632c111c6442e07651e764e7400c68bf8373203b5542443abcaead"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/WriterUsb.h",
+          "recordedSha256": "e6fb1f756e7f1fd30b805061b51e211dc8dd955a7ff212f25190f68701746fa8",
+          "currentSha256": "e6fb1f756e7f1fd30b805061b51e211dc8dd955a7ff212f25190f68701746fa8"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/WriterMouse.h",
+          "recordedSha256": "9655889d31145a14cf141b0f0b04438150cc6bbaf538a02ee44c4672552c035b",
+          "currentSha256": "9655889d31145a14cf141b0f0b04438150cc6bbaf538a02ee44c4672552c035b"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/WriterGamepad.h",
+          "recordedSha256": "17207f8bd6793ccb2fd856c60082dbd9ad46f66d85e4a8e113d76d39ce9e338e",
+          "currentSha256": "17207f8bd6793ccb2fd856c60082dbd9ad46f66d85e4a8e113d76d39ce9e338e"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/lv_conf.h",
+          "recordedSha256": "4a03a0d0307fd59c26b4cc231033df13ae782e2b8ba206128c9f4e157f463fa6",
+          "currentSha256": "4a03a0d0307fd59c26b4cc231033df13ae782e2b8ba206128c9f4e157f463fa6"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/sdcard/System/font.ttf",
+          "recordedSha256": "c805f9436dbc268644c1d9584f01a601a653e028e08fd74b9b949f6cf8304d88",
+          "currentSha256": "c805f9436dbc268644c1d9584f01a601a653e028e08fd74b9b949f6cf8304d88"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/tab5_config.h",
+          "recordedSha256": "7f3e84006337cf3769d83666f2682427e09f1a3c07dbfea96c38889174b9b000",
+          "currentSha256": "7f3e84006337cf3769d83666f2682427e09f1a3c07dbfea96c38889174b9b000"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/tab5_port.h",
+          "recordedSha256": "e20db70bbbd55ec69e07ac7d7e396a532f65afe05bd83011b3d8c6b032ab81a7",
+          "currentSha256": "e20db70bbbd55ec69e07ac7d7e396a532f65afe05bd83011b3d8c6b032ab81a7"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/utils/rescaler_utils.h",
+          "recordedSha256": "1c7f845e7750ca27dd2bea03c2469260b5dd2e437997699235295d2afa963be2",
+          "currentSha256": "1c7f845e7750ca27dd2bea03c2469260b5dd2e437997699235295d2afa963be2"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/utils/quant_levels_utils.h",
+          "recordedSha256": "ecbbd7f5529eb9698d676f801b9ae92b660963c6f0ccba7e4e704b72e38f0b27",
+          "currentSha256": "ecbbd7f5529eb9698d676f801b9ae92b660963c6f0ccba7e4e704b72e38f0b27"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/utils/huffman_encode_utils.h",
+          "recordedSha256": "22710376ca9699f0d556a594b568440510a1a887a3fb7280e4813ce5f4f62196",
+          "currentSha256": "22710376ca9699f0d556a594b568440510a1a887a3fb7280e4813ce5f4f62196"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/utils/thread_utils.h",
+          "recordedSha256": "4172e6577da2fb2e12083f1690af023746a362ee0b9c57e847189d8d607ed2e1",
+          "currentSha256": "4172e6577da2fb2e12083f1690af023746a362ee0b9c57e847189d8d607ed2e1"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/utils/thread_utils.c",
+          "recordedSha256": "f87bd96bc4c044476d5f9b9f69ac95074859feb0c3e4fb45928ee021bd4d5094",
+          "currentSha256": "f87bd96bc4c044476d5f9b9f69ac95074859feb0c3e4fb45928ee021bd4d5094"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/utils/quant_levels_dec_utils.h",
+          "recordedSha256": "703c6c787794888bb250718f6ffdc600f070f3d56dfc365d0aa63d83e4f3e685",
+          "currentSha256": "703c6c787794888bb250718f6ffdc600f070f3d56dfc365d0aa63d83e4f3e685"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/utils/filters_utils.h",
+          "recordedSha256": "39e6c36cde53f4b0680b127960e8d44a1dc90599c5ac4992698637415e34b31d",
+          "currentSha256": "39e6c36cde53f4b0680b127960e8d44a1dc90599c5ac4992698637415e34b31d"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/utils/filters_utils.c",
+          "recordedSha256": "514051e53abfefbdf6964570b575389363324a8befb1a472429504050652c015",
+          "currentSha256": "514051e53abfefbdf6964570b575389363324a8befb1a472429504050652c015"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/utils/random_utils.h",
+          "recordedSha256": "e51b744a6be331e08a1741a6656959f25cf47fd30ee87d8a3b6f70c47015ca2c",
+          "currentSha256": "e51b744a6be331e08a1741a6656959f25cf47fd30ee87d8a3b6f70c47015ca2c"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/utils/color_cache_utils.h",
+          "recordedSha256": "ca72bd9acd2fccec78e0039a0ef897491d7883893cf992b7caf8ed708bd366d5",
+          "currentSha256": "ca72bd9acd2fccec78e0039a0ef897491d7883893cf992b7caf8ed708bd366d5"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/utils/palette.h",
+          "recordedSha256": "e6786915f686413bc7303bf7864a43ab14c77b88fa8f5e419b4a3455bdc622a4",
+          "currentSha256": "e6786915f686413bc7303bf7864a43ab14c77b88fa8f5e419b4a3455bdc622a4"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/utils/bit_writer_utils.h",
+          "recordedSha256": "1ef0f3c1f37bee4fa668ac8594e07973a31074ff9277eb5ea96f4d3dca2859d7",
+          "currentSha256": "1ef0f3c1f37bee4fa668ac8594e07973a31074ff9277eb5ea96f4d3dca2859d7"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/utils/bit_reader_utils.c",
+          "recordedSha256": "37746dfaaa37d6a3bd32455792e3c902b789ff0a9340ca9301158364af0676ca",
+          "currentSha256": "37746dfaaa37d6a3bd32455792e3c902b789ff0a9340ca9301158364af0676ca"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/utils/huffman_utils.h",
+          "recordedSha256": "50d7b153dbcb8b655967dfa03eca95379020fba7457ed635bec506923ecb7081",
+          "currentSha256": "50d7b153dbcb8b655967dfa03eca95379020fba7457ed635bec506923ecb7081"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/utils/utils.h",
+          "recordedSha256": "d6cae5a3b9bc214515c189816ad509b7ac354e09a03583d6af624cdf30744d27",
+          "currentSha256": "d6cae5a3b9bc214515c189816ad509b7ac354e09a03583d6af624cdf30744d27"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/utils/random_utils.c",
+          "recordedSha256": "697f80277a40a002017656dc70e94cfa6914f290dca8cf9247195fc5c783d663",
+          "currentSha256": "697f80277a40a002017656dc70e94cfa6914f290dca8cf9247195fc5c783d663"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/utils/rescaler_utils.c",
+          "recordedSha256": "eeb3d809739064a5e5f83f03b2942fc312b5407b417be799a732f643d4f3140d",
+          "currentSha256": "eeb3d809739064a5e5f83f03b2942fc312b5407b417be799a732f643d4f3140d"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/utils/palette.c",
+          "recordedSha256": "fffa88a50380ed5c2ac4843d2cd1f2fae67a630a1ab394e07baa2292e84aaa65",
+          "currentSha256": "fffa88a50380ed5c2ac4843d2cd1f2fae67a630a1ab394e07baa2292e84aaa65"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/utils/quant_levels_dec_utils.c",
+          "recordedSha256": "349783328a345185944378b41c7af0b5ff37bedecedcd13461db4a88778c9800",
+          "currentSha256": "349783328a345185944378b41c7af0b5ff37bedecedcd13461db4a88778c9800"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/utils/utils.c",
+          "recordedSha256": "0a8af43a2f43caa08056dd189e6b178bce9d9925542c59b719190ad2a0c74b29",
+          "currentSha256": "0a8af43a2f43caa08056dd189e6b178bce9d9925542c59b719190ad2a0c74b29"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/utils/endian_inl_utils.h",
+          "recordedSha256": "5c0631e2ef1751e9e3be3f9d54ba99111d07a1c8c9c9f93461073ea9db1ab2e6",
+          "currentSha256": "5c0631e2ef1751e9e3be3f9d54ba99111d07a1c8c9c9f93461073ea9db1ab2e6"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/utils/huffman_utils.c",
+          "recordedSha256": "b4821cf5e5413d98be29fe94cd8b9bbeb6d16344e0a32d2ee3330e5b7561f692",
+          "currentSha256": "b4821cf5e5413d98be29fe94cd8b9bbeb6d16344e0a32d2ee3330e5b7561f692"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/utils/bit_reader_inl_utils.h",
+          "recordedSha256": "eb08f0709f783a93c8e3ef14cf093aa4c03ef5d5fdd5b60e4c64240d2cc570e1",
+          "currentSha256": "eb08f0709f783a93c8e3ef14cf093aa4c03ef5d5fdd5b60e4c64240d2cc570e1"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/utils/bit_reader_utils.h",
+          "recordedSha256": "4810b6e223d53d8f079a4b7730e1852f2d8853356f6d2435a3b4e0c97c31f491",
+          "currentSha256": "4810b6e223d53d8f079a4b7730e1852f2d8853356f6d2435a3b4e0c97c31f491"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/utils/color_cache_utils.c",
+          "recordedSha256": "de4c522a6d7a3e63c09fb0045d848836ffbe884d9491385b2d07509534413c74",
+          "currentSha256": "de4c522a6d7a3e63c09fb0045d848836ffbe884d9491385b2d07509534413c74"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/demux/demux.c",
+          "recordedSha256": "f1f1321ff47ef8a921e0b39a0c158902f20d0c557850dff59bc5f42be2cfe972",
+          "currentSha256": "f1f1321ff47ef8a921e0b39a0c158902f20d0c557850dff59bc5f42be2cfe972"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dsp/mips_macro.h",
+          "recordedSha256": "7de2aa5c1d20047a70cce0af915baf3e83e4e8a3dc3cc30de73862ae157cb22c",
+          "currentSha256": "7de2aa5c1d20047a70cce0af915baf3e83e4e8a3dc3cc30de73862ae157cb22c"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dsp/yuv.c",
+          "recordedSha256": "2b061f118e425613afbf2e83345a181eb51d60d59b5a0a0f63a6bf9b3f12837e",
+          "currentSha256": "2b061f118e425613afbf2e83345a181eb51d60d59b5a0a0f63a6bf9b3f12837e"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dsp/lossless.c",
+          "recordedSha256": "8afeb3d0743f153915f818345b7d1312fb47d9c0599cdf672137e444708d6078",
+          "currentSha256": "8afeb3d0743f153915f818345b7d1312fb47d9c0599cdf672137e444708d6078"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dsp/cpu.c",
+          "recordedSha256": "1975d2f1107098b83d3888822436e1b26766fb0c459e386d520fe16066760cb2",
+          "currentSha256": "1975d2f1107098b83d3888822436e1b26766fb0c459e386d520fe16066760cb2"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dsp/cpu.h",
+          "recordedSha256": "118969656a90503eba35177284dbf863d1aff74e7e72d4bba7836d58b0ebe4aa",
+          "currentSha256": "118969656a90503eba35177284dbf863d1aff74e7e72d4bba7836d58b0ebe4aa"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dsp/common_sse2.h",
+          "recordedSha256": "1c299ca6a84bf59d9e0bf0c2edad93f231c0a9a35bc2f75f0789df78b65231b2",
+          "currentSha256": "1c299ca6a84bf59d9e0bf0c2edad93f231c0a9a35bc2f75f0789df78b65231b2"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dsp/common_sse41.h",
+          "recordedSha256": "d8cff4e7687b071d2fba3270f1b0dc6548e9151d1ec726d85b63c43bbc7b0df6",
+          "currentSha256": "d8cff4e7687b071d2fba3270f1b0dc6548e9151d1ec726d85b63c43bbc7b0df6"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dsp/neon.h",
+          "recordedSha256": "6a0d7633c0e20a914bd1fbc77c3a5e43c31595adcdf1e27a69fc52ee33e2a14c",
+          "currentSha256": "6a0d7633c0e20a914bd1fbc77c3a5e43c31595adcdf1e27a69fc52ee33e2a14c"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dsp/dec_clip_tables.c",
+          "recordedSha256": "ab62ff83bb87e314661c3e97a2967d6d5ee95233477b45ad3ba45b462720e990",
+          "currentSha256": "ab62ff83bb87e314661c3e97a2967d6d5ee95233477b45ad3ba45b462720e990"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dsp/upsampling.c",
+          "recordedSha256": "87668b600d7178b7414e51aa0127e1a4e6631cf6bfa2dbe755cb736f02b5d587",
+          "currentSha256": "87668b600d7178b7414e51aa0127e1a4e6631cf6bfa2dbe755cb736f02b5d587"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dsp/yuv.h",
+          "recordedSha256": "7f533e2b894987be3385671d47f176ae55ba9a07ef66fead861a3c40240b91c4",
+          "currentSha256": "7f533e2b894987be3385671d47f176ae55ba9a07ef66fead861a3c40240b91c4"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dsp/dec.c",
+          "recordedSha256": "c0cbe91a897f75fc4e075c0b376bc96698b3a31d0ddac04b49f699418a1aa498",
+          "currentSha256": "c0cbe91a897f75fc4e075c0b376bc96698b3a31d0ddac04b49f699418a1aa498"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dsp/alpha_processing.c",
+          "recordedSha256": "f6b27d99bb6a2e97126d37a9c0a4796584d981c736d124f3c57b5ae113f1602c",
+          "currentSha256": "f6b27d99bb6a2e97126d37a9c0a4796584d981c736d124f3c57b5ae113f1602c"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dsp/msa_macro.h",
+          "recordedSha256": "9e53ef92196d0f022bfadcea8b6328fd28aea753f568d4998aef82298deac087",
+          "currentSha256": "9e53ef92196d0f022bfadcea8b6328fd28aea753f568d4998aef82298deac087"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dsp/rescaler.c",
+          "recordedSha256": "379f061c2fb812aad657a8a065b58bc12c160b4d919b15f1dd854b6a9a062a82",
+          "currentSha256": "379f061c2fb812aad657a8a065b58bc12c160b4d919b15f1dd854b6a9a062a82"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dsp/lossless.h",
+          "recordedSha256": "b23f6a9b25fdec131e1f1325c3d7a9514a5c33b285ff04974456361ebcb00e8c",
+          "currentSha256": "b23f6a9b25fdec131e1f1325c3d7a9514a5c33b285ff04974456361ebcb00e8c"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dsp/dsp.h",
+          "recordedSha256": "25f86568d6fe0eb75f89656b846f322170d68114959e3dcf8dc0ee95b85c99ed",
+          "currentSha256": "25f86568d6fe0eb75f89656b846f322170d68114959e3dcf8dc0ee95b85c99ed"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dsp/quant.h",
+          "recordedSha256": "48b1f60b8dc11dad1ae5dd1239b384bbb5f90b30e609435b08753dc68dc59fa0",
+          "currentSha256": "48b1f60b8dc11dad1ae5dd1239b384bbb5f90b30e609435b08753dc68dc59fa0"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dsp/lossless_common.h",
+          "recordedSha256": "d670505e5abb2c8a578a05521b60d4c96908f7f3caabed6d7df8f78b548f2fa2",
+          "currentSha256": "d670505e5abb2c8a578a05521b60d4c96908f7f3caabed6d7df8f78b548f2fa2"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dsp/filters.c",
+          "recordedSha256": "e54b56e98ca6d68c1599a6f6d06d82f772806eaa13365d010d70cb60fdf09227",
+          "currentSha256": "e54b56e98ca6d68c1599a6f6d06d82f772806eaa13365d010d70cb60fdf09227"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dec/vp8i_dec.h",
+          "recordedSha256": "d191546868eba71aaa20eb5ef3e44ff568e11887eb41d7e816ef7c8ddb4fac71",
+          "currentSha256": "d191546868eba71aaa20eb5ef3e44ff568e11887eb41d7e816ef7c8ddb4fac71"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dec/vp8li_dec.h",
+          "recordedSha256": "e43a88e0c405981bf9005fcb2e73940f28dca9cb439816c66df9a893095e8f04",
+          "currentSha256": "e43a88e0c405981bf9005fcb2e73940f28dca9cb439816c66df9a893095e8f04"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dec/tree_dec.c",
+          "recordedSha256": "e5f5856a2629108dd1d8402c375900cf64f2bb3d40b3782cefd5c59348e8df8b",
+          "currentSha256": "e5f5856a2629108dd1d8402c375900cf64f2bb3d40b3782cefd5c59348e8df8b"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dec/webpi_dec.h",
+          "recordedSha256": "f1c3217c8008d4418f992e798e3c171c7e748246d6a3ce64795fd1a6819b686f",
+          "currentSha256": "f1c3217c8008d4418f992e798e3c171c7e748246d6a3ce64795fd1a6819b686f"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dec/vp8_dec.c",
+          "recordedSha256": "9ec8e6b1f18b80580954df2351f02167d9403b95cd1f1f9db92febb75320f30a",
+          "currentSha256": "9ec8e6b1f18b80580954df2351f02167d9403b95cd1f1f9db92febb75320f30a"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dec/idec_dec.c",
+          "recordedSha256": "29fe9db0d93175e337bf6e3a3fbd78d65b1098ec235a126a8830a3dff0ce169d",
+          "currentSha256": "29fe9db0d93175e337bf6e3a3fbd78d65b1098ec235a126a8830a3dff0ce169d"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dec/webp_dec.c",
+          "recordedSha256": "cdbd1ef21af0a4f9a6f9233a3e04416fcf26986d6e4bee68956b5e2d6e13490c",
+          "currentSha256": "cdbd1ef21af0a4f9a6f9233a3e04416fcf26986d6e4bee68956b5e2d6e13490c"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dec/frame_dec.c",
+          "recordedSha256": "26b11de4e5f38e5dda23946e57d8b09ccc75e7fce985e1a79b7ba098bb5f6a36",
+          "currentSha256": "26b11de4e5f38e5dda23946e57d8b09ccc75e7fce985e1a79b7ba098bb5f6a36"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dec/alphai_dec.h",
+          "recordedSha256": "1342cc752e1fb0293b52df1a231c313a2da1a00c1699a5500f73d256fa20a5cb",
+          "currentSha256": "1342cc752e1fb0293b52df1a231c313a2da1a00c1699a5500f73d256fa20a5cb"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dec/vp8_dec.h",
+          "recordedSha256": "a32dbdc16b35cc9fca895e565dd7b24751a1d4bcf4abcd603ac3157c0c67b557",
+          "currentSha256": "a32dbdc16b35cc9fca895e565dd7b24751a1d4bcf4abcd603ac3157c0c67b557"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dec/common_dec.h",
+          "recordedSha256": "89eb36f74a027e5e40176ba73d8e1e95e62803cb3de97bd798922079f412a2f6",
+          "currentSha256": "89eb36f74a027e5e40176ba73d8e1e95e62803cb3de97bd798922079f412a2f6"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dec/io_dec.c",
+          "recordedSha256": "8732cd141a3e50df8d9d3e36553f928742c8f5c1e92ae63ae8e20bd276c44315",
+          "currentSha256": "8732cd141a3e50df8d9d3e36553f928742c8f5c1e92ae63ae8e20bd276c44315"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dec/buffer_dec.c",
+          "recordedSha256": "ba479e077e7216303695f99659a978ed4578a4b3cd6e635c94324781f2159a77",
+          "currentSha256": "ba479e077e7216303695f99659a978ed4578a4b3cd6e635c94324781f2159a77"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dec/quant_dec.c",
+          "recordedSha256": "36df2950798c13c3ceda691e8ac99b469254f3415f7d865103797667374d8ff7",
+          "currentSha256": "36df2950798c13c3ceda691e8ac99b469254f3415f7d865103797667374d8ff7"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dec/vp8l_dec.c",
+          "recordedSha256": "ac446e2285427ed8a6d662848513b9671db396283b03d2772d3f7d50bfc443a3",
+          "currentSha256": "ac446e2285427ed8a6d662848513b9671db396283b03d2772d3f7d50bfc443a3"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/dec/alpha_dec.c",
+          "recordedSha256": "61a789176f90da44f5491b45e559110c089e8372d80e1aff7ad2256f2ebbb892",
+          "currentSha256": "61a789176f90da44f5491b45e559110c089e8372d80e1aff7ad2256f2ebbb892"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/webp/mux.h",
+          "recordedSha256": "c72cf593f8194c671efcade33f1678294380120d45a337511d612a3acb643f35",
+          "currentSha256": "c72cf593f8194c671efcade33f1678294380120d45a337511d612a3acb643f35"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/webp/demux.h",
+          "recordedSha256": "9b0d10c0fa1ac2dc750c4d687b038e40a685bb9240cb045759f5b9546017361d",
+          "currentSha256": "9b0d10c0fa1ac2dc750c4d687b038e40a685bb9240cb045759f5b9546017361d"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/webp/format_constants.h",
+          "recordedSha256": "6f26d54038b770c5f9ddcd8f8e2da05d43c92168cb30f0e7060240f90df5fd7f",
+          "currentSha256": "6f26d54038b770c5f9ddcd8f8e2da05d43c92168cb30f0e7060240f90df5fd7f"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/webp/decode.h",
+          "recordedSha256": "e554551d085f234e930f36b5879a77ef58bfea34c48ebfd620426e63b224025c",
+          "currentSha256": "e554551d085f234e930f36b5879a77ef58bfea34c48ebfd620426e63b224025c"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/webp/encode.h",
+          "recordedSha256": "928e8d3ed502baa0f47ed10913ee018ed6172afcd4f308e0ea005a126b83f27e",
+          "currentSha256": "928e8d3ed502baa0f47ed10913ee018ed6172afcd4f308e0ea005a126b83f27e"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/webp/mux_types.h",
+          "recordedSha256": "ca789c9fe2edc52f759cb3888e9171ee44b5c12f2db21458f96176d578bc897e",
+          "currentSha256": "ca789c9fe2edc52f759cb3888e9171ee44b5c12f2db21458f96176d578bc897e"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/webp/config.h",
+          "recordedSha256": "ce4cfadd3a8aacbc9ea9ba757262a0b3cfac77d77ac94a0f38d60801cd7d3490",
+          "currentSha256": "ce4cfadd3a8aacbc9ea9ba757262a0b3cfac77d77ac94a0f38d60801cd7d3490"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5webp/src/webp/types.h",
+          "recordedSha256": "992d2ffe864adb6d80cc91b7a062074d167ed96772f28d104a650148eca31794",
+          "currentSha256": "992d2ffe864adb6d80cc91b7a062074d167ed96772f28d104a650148eca31794"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5png/tab5_pngle.c",
+          "recordedSha256": "27f653453a7091212c61aa495214e3376657cb55c5a07f1f70a18d823e5e2c01",
+          "currentSha256": "27f653453a7091212c61aa495214e3376657cb55c5a07f1f70a18d823e5e2c01"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/tab5png/tab5_pngle.h",
+          "recordedSha256": "99042ddd70dcd8e087dbd7d5b34a8748a84dbfe40192b6b3c875e05eb06fab0b",
+          "currentSha256": "99042ddd70dcd8e087dbd7d5b34a8748a84dbfe40192b6b3c875e05eb06fab0b"
+        }
+      ],
+      "sourceDifferences": [
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/jpeg/jpge.cpp",
+          "recordedSha256": "79dfb06eae99f012c52c8d18d6af3a10964b6b28ce916460c275ea0d72746dd5",
+          "currentSha256": "64943eac92bbc534da3d898fb2f902f040e7930dba916a097d5eb6f0a093ad3b"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/src/jpeg/jpge.h",
+          "recordedSha256": "e3b4ae3e3f1b23ec8d4af4fbde7699c41889e7fdd895705c91f66161f634bafb",
+          "currentSha256": "94a75c0164214a6fb48e3db8cc3a0dd8bcbd8469969705948f6b762bd00a2bb5"
+        }
+      ],
+      "differenceExplanation": "Only immutable JPEG encoder tables moved to read-only flash in .53. They do not change the LVGL UI; .53 SRAM comparisons prove identical JPEG output."
+    },
+    "writing-hover-0852": {
+      "report": "tools/verification/writing-hover-0852.json",
+      "reportSha256": "857757f149b45df30f1943ee8daf56b185341a59c6fa738b752f065803970c9e",
+      "matchingSourceCount": 18,
+      "matchingSources": [
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5Focus.cpp",
+          "recordedSha256": "bacafefb62a63af126b1654ef5663c42de6f9112980c80ede0e8c84d4d356367",
+          "currentSha256": "bacafefb62a63af126b1654ef5663c42de6f9112980c80ede0e8c84d4d356367"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5Focus.h",
+          "recordedSha256": "111ae727795def12a8384898810e8f52161e494709cd749d68fa2fa1e102260e",
+          "currentSha256": "111ae727795def12a8384898810e8f52161e494709cd749d68fa2fa1e102260e"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5Mouse.cpp",
+          "recordedSha256": "b0a5a1d55471058a49e93f55cca5aae22317fc98527dc30005e97641f6801822",
+          "currentSha256": "b0a5a1d55471058a49e93f55cca5aae22317fc98527dc30005e97641f6801822"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5Mouse.h",
+          "recordedSha256": "c8db86d6daf5b7d027b1b216608030dabea1b47d3800392ec85d9faf7e4cc7b7",
+          "currentSha256": "c8db86d6daf5b7d027b1b216608030dabea1b47d3800392ec85d9faf7e4cc7b7"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5TextInput.cpp",
+          "recordedSha256": "7222889d2d222b17d6aa5039467f1ca4d1b1028f7e9326b48cd88313daf45f64",
+          "currentSha256": "7222889d2d222b17d6aa5039467f1ca4d1b1028f7e9326b48cd88313daf45f64"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5TextInput.h",
+          "recordedSha256": "e40881027eec8d22b1caf7e8ef7bc04eb8281eb43b98814979ee32a131caeea3",
+          "currentSha256": "e40881027eec8d22b1caf7e8ef7bc04eb8281eb43b98814979ee32a131caeea3"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5UiStyle.cpp",
+          "recordedSha256": "8528b2da9832e45c7a0bc3e5e61df0341a5fcb2d4d111447b8986c01fff4092b",
+          "currentSha256": "8528b2da9832e45c7a0bc3e5e61df0341a5fcb2d4d111447b8986c01fff4092b"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5UiStyle.h",
+          "recordedSha256": "348b81fcc0767af6473ebc4fc65fc4072c26f00904c7aed1ff7275f5234da2e7",
+          "currentSha256": "348b81fcc0767af6473ebc4fc65fc4072c26f00904c7aed1ff7275f5234da2e7"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5Writing.cpp",
+          "recordedSha256": "61815618fc83c3d349a45f6deb2cf0964a2c061dfbcd6a1ca6e42832b2fc325b",
+          "currentSha256": "61815618fc83c3d349a45f6deb2cf0964a2c061dfbcd6a1ca6e42832b2fc325b"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5Writing.h",
+          "recordedSha256": "3fa16906b00a08594f99eb60d037c64a5d2c629654829df3ee5ea6ccf21dea8c",
+          "currentSha256": "3fa16906b00a08594f99eb60d037c64a5d2c629654829df3ee5ea6ccf21dea8c"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/WriterDocument.cpp",
+          "recordedSha256": "2626c5ed469177d417ea772d0ba617de2902db0eddcf377497b7aba7eaace6df",
+          "currentSha256": "2626c5ed469177d417ea772d0ba617de2902db0eddcf377497b7aba7eaace6df"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/WriterDocument.h",
+          "recordedSha256": "83ed8096fb4df8989196fe8fba36fe1100831abab2202b5ed7e297b10f0fc464",
+          "currentSha256": "83ed8096fb4df8989196fe8fba36fe1100831abab2202b5ed7e297b10f0fc464"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/WriterEncoding.h",
+          "recordedSha256": "115c6721b9dc2639642e35784f6edb5ce7b1427cb5110903a06d5a73d19c09ac",
+          "currentSha256": "115c6721b9dc2639642e35784f6edb5ce7b1427cb5110903a06d5a73d19c09ac"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/WriterGamepad.h",
+          "recordedSha256": "17207f8bd6793ccb2fd856c60082dbd9ad46f66d85e4a8e113d76d39ce9e338e",
+          "currentSha256": "17207f8bd6793ccb2fd856c60082dbd9ad46f66d85e4a8e113d76d39ce9e338e"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/WriterKeys.h",
+          "recordedSha256": "522576b502632c111c6442e07651e764e7400c68bf8373203b5542443abcaead",
+          "currentSha256": "522576b502632c111c6442e07651e764e7400c68bf8373203b5542443abcaead"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/WriterMouse.h",
+          "recordedSha256": "9655889d31145a14cf141b0f0b04438150cc6bbaf538a02ee44c4672552c035b",
+          "currentSha256": "9655889d31145a14cf141b0f0b04438150cc6bbaf538a02ee44c4672552c035b"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/WriterUsb.h",
+          "recordedSha256": "e6fb1f756e7f1fd30b805061b51e211dc8dd955a7ff212f25190f68701746fa8",
+          "currentSha256": "e6fb1f756e7f1fd30b805061b51e211dc8dd955a7ff212f25190f68701746fa8"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/sdcard/System/font.ttf",
+          "recordedSha256": "c805f9436dbc268644c1d9584f01a601a653e028e08fd74b9b949f6cf8304d88",
+          "currentSha256": "c805f9436dbc268644c1d9584f01a601a653e028e08fd74b9b949f6cf8304d88"
+        }
+      ],
+      "sourceDifferences": [],
+      "differenceExplanation": null
+    },
+    "mesh-keyboard-0853": {
+      "report": "tools/verification/mesh-keyboard-0853.json",
+      "reportSha256": "fa8045ad3dfb93edf7df619cb1da4ca4f815bb1b4c866032a10cd968e0992205",
+      "matchingSourceCount": 18,
+      "matchingSources": [
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5Meshtastic.cpp",
+          "recordedSha256": "6f14b6155e5b24e895e39b7055336f7e24e6cf8396e12bfe92f92006b323e17b",
+          "currentSha256": "6f14b6155e5b24e895e39b7055336f7e24e6cf8396e12bfe92f92006b323e17b"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5Meshtastic.h",
+          "recordedSha256": "39e3c83c51935d0dc36c2605b21c98120de66abda1fe1ad4a26614b08397a2aa",
+          "currentSha256": "39e3c83c51935d0dc36c2605b21c98120de66abda1fe1ad4a26614b08397a2aa"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5MeshtasticProtocol.h",
+          "recordedSha256": "b5b9b73d609d1fd4d2c0530a4dd379f91269a307af98e011b6ece2ee2ff2bd84",
+          "currentSha256": "b5b9b73d609d1fd4d2c0530a4dd379f91269a307af98e011b6ece2ee2ff2bd84"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5MeshModel.h",
+          "recordedSha256": "248e4b9cd74373755117e374c599d40da6b8c5c398e5a877d512157f8fda5cad",
+          "currentSha256": "248e4b9cd74373755117e374c599d40da6b8c5c398e5a877d512157f8fda5cad"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5MeshMemory.h",
+          "recordedSha256": "9d2e0b4ec62b2e9d2a34ec0a16115b92afb2c370b68ec9fee919302cc194dc98",
+          "currentSha256": "9d2e0b4ec62b2e9d2a34ec0a16115b92afb2c370b68ec9fee919302cc194dc98"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5MeshAllocator.h",
+          "recordedSha256": "4b504bde68d4ac6cadb0f5b43b04066c57693f56faab7ea7315012df957a8a83",
+          "currentSha256": "4b504bde68d4ac6cadb0f5b43b04066c57693f56faab7ea7315012df957a8a83"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5MeshStore.h",
+          "recordedSha256": "119eb02688082cb18779c4858b70635ffb13577150ecbb070fd596addaad4518",
+          "currentSha256": "119eb02688082cb18779c4858b70635ffb13577150ecbb070fd596addaad4518"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5MeshCodec.h",
+          "recordedSha256": "ac7846a62252a44c132f673ab7501e240190d67150ee414e30f8be939f119728",
+          "currentSha256": "ac7846a62252a44c132f673ab7501e240190d67150ee414e30f8be939f119728"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5Focus.cpp",
+          "recordedSha256": "bacafefb62a63af126b1654ef5663c42de6f9112980c80ede0e8c84d4d356367",
+          "currentSha256": "bacafefb62a63af126b1654ef5663c42de6f9112980c80ede0e8c84d4d356367"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5Focus.h",
+          "recordedSha256": "111ae727795def12a8384898810e8f52161e494709cd749d68fa2fa1e102260e",
+          "currentSha256": "111ae727795def12a8384898810e8f52161e494709cd749d68fa2fa1e102260e"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5TextInput.cpp",
+          "recordedSha256": "7222889d2d222b17d6aa5039467f1ca4d1b1028f7e9326b48cd88313daf45f64",
+          "currentSha256": "7222889d2d222b17d6aa5039467f1ca4d1b1028f7e9326b48cd88313daf45f64"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5TextInput.h",
+          "recordedSha256": "e40881027eec8d22b1caf7e8ef7bc04eb8281eb43b98814979ee32a131caeea3",
+          "currentSha256": "e40881027eec8d22b1caf7e8ef7bc04eb8281eb43b98814979ee32a131caeea3"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5UiStyle.cpp",
+          "recordedSha256": "8528b2da9832e45c7a0bc3e5e61df0341a5fcb2d4d111447b8986c01fff4092b",
+          "currentSha256": "8528b2da9832e45c7a0bc3e5e61df0341a5fcb2d4d111447b8986c01fff4092b"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5UiStyle.h",
+          "recordedSha256": "348b81fcc0767af6473ebc4fc65fc4072c26f00904c7aed1ff7275f5234da2e7",
+          "currentSha256": "348b81fcc0767af6473ebc4fc65fc4072c26f00904c7aed1ff7275f5234da2e7"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/WriterDocument.cpp",
+          "recordedSha256": "2626c5ed469177d417ea772d0ba617de2902db0eddcf377497b7aba7eaace6df",
+          "currentSha256": "2626c5ed469177d417ea772d0ba617de2902db0eddcf377497b7aba7eaace6df"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/WriterDocument.h",
+          "recordedSha256": "83ed8096fb4df8989196fe8fba36fe1100831abab2202b5ed7e297b10f0fc464",
+          "currentSha256": "83ed8096fb4df8989196fe8fba36fe1100831abab2202b5ed7e297b10f0fc464"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/WriterKeys.h",
+          "recordedSha256": "522576b502632c111c6442e07651e764e7400c68bf8373203b5542443abcaead",
+          "currentSha256": "522576b502632c111c6442e07651e764e7400c68bf8373203b5542443abcaead"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/sdcard/System/font.ttf",
+          "recordedSha256": "c805f9436dbc268644c1d9584f01a601a653e028e08fd74b9b949f6cf8304d88",
+          "currentSha256": "c805f9436dbc268644c1d9584f01a601a653e028e08fd74b9b949f6cf8304d88"
+        }
+      ],
+      "sourceDifferences": [],
+      "differenceExplanation": null
+    },
+    "dock-0853": {
+      "report": "tools/verification/dock-0853.json",
+      "reportSha256": "b519ff22b9814dc8425d6f230e3c12bc6169627bb33b4f1b5123a854bf6873bd",
+      "matchingSourceCount": 25,
+      "matchingSources": [
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5Focus.cpp",
+          "recordedSha256": "bacafefb62a63af126b1654ef5663c42de6f9112980c80ede0e8c84d4d356367",
+          "currentSha256": "bacafefb62a63af126b1654ef5663c42de6f9112980c80ede0e8c84d4d356367"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5UiStyle.cpp",
+          "recordedSha256": "8528b2da9832e45c7a0bc3e5e61df0341a5fcb2d4d111447b8986c01fff4092b",
+          "currentSha256": "8528b2da9832e45c7a0bc3e5e61df0341a5fcb2d4d111447b8986c01fff4092b"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5TextInput.cpp",
+          "recordedSha256": "7222889d2d222b17d6aa5039467f1ca4d1b1028f7e9326b48cd88313daf45f64",
+          "currentSha256": "7222889d2d222b17d6aa5039467f1ca4d1b1028f7e9326b48cd88313daf45f64"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/WriterDocument.cpp",
+          "recordedSha256": "2626c5ed469177d417ea772d0ba617de2902db0eddcf377497b7aba7eaace6df",
+          "currentSha256": "2626c5ed469177d417ea772d0ba617de2902db0eddcf377497b7aba7eaace6df"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5OS_Arduino_v0.8.53_Ecriture.ino",
+          "recordedSha256": "1a71bdc8c696d093446691712d1155ef58afaa507340fb929c7f0a2f4333099a",
+          "currentSha256": "1a71bdc8c696d093446691712d1155ef58afaa507340fb929c7f0a2f4333099a"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5HomeUi.h",
+          "recordedSha256": "58315a27c510d2d7409c023a1ddef5737660b7dcfdbffe941c3525bfd956569f",
+          "currentSha256": "58315a27c510d2d7409c023a1ddef5737660b7dcfdbffe941c3525bfd956569f"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5ShellDock.h",
+          "recordedSha256": "ea9e755a67a042540e8a4bcc0ddfcb19c5504eed5baeac6e3d01776e227368a7",
+          "currentSha256": "ea9e755a67a042540e8a4bcc0ddfcb19c5504eed5baeac6e3d01776e227368a7"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5ShellUi.h",
+          "recordedSha256": "b5c609c54ad38b7953a6bc3359bc8da8ed1f2c4355edf6765ba6bbd7f42d6bfa",
+          "currentSha256": "b5c609c54ad38b7953a6bc3359bc8da8ed1f2c4355edf6765ba6bbd7f42d6bfa"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5ShellLayout.h",
+          "recordedSha256": "8cd215fd1d69e34feb0d273717673887fce91783ed1d6ffc7fc7e79b4c2e2971",
+          "currentSha256": "8cd215fd1d69e34feb0d273717673887fce91783ed1d6ffc7fc7e79b4c2e2971"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5ShellPolicy.h",
+          "recordedSha256": "fafcc6e58edc08ce928d8818dd969834f87b419d4bb3dbd1736844fc5cb1ea30",
+          "currentSha256": "fafcc6e58edc08ce928d8818dd969834f87b419d4bb3dbd1736844fc5cb1ea30"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5AppCataloguePolicy.h",
+          "recordedSha256": "7f84231c4b5aed6b6cba03c1a633ffcf48d81c326d932bb61d6387941e121596",
+          "currentSha256": "7f84231c4b5aed6b6cba03c1a633ffcf48d81c326d932bb61d6387941e121596"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5AppCatalogue.h",
+          "recordedSha256": "9640049a2db0f7c5c6f9d547786ab78d61c546e2026c6497a00d42ee31ac6efd",
+          "currentSha256": "9640049a2db0f7c5c6f9d547786ab78d61c546e2026c6497a00d42ee31ac6efd"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5Icons.h",
+          "recordedSha256": "2571840c256706fe9ac477279330b0e4e3cd62a966860fce41f5b96259c19c87",
+          "currentSha256": "2571840c256706fe9ac477279330b0e4e3cd62a966860fce41f5b96259c19c87"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5Mouse.cpp",
+          "recordedSha256": "b0a5a1d55471058a49e93f55cca5aae22317fc98527dc30005e97641f6801822",
+          "currentSha256": "b0a5a1d55471058a49e93f55cca5aae22317fc98527dc30005e97641f6801822"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5Mouse.h",
+          "recordedSha256": "c8db86d6daf5b7d027b1b216608030dabea1b47d3800392ec85d9faf7e4cc7b7",
+          "currentSha256": "c8db86d6daf5b7d027b1b216608030dabea1b47d3800392ec85d9faf7e4cc7b7"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5Focus.h",
+          "recordedSha256": "111ae727795def12a8384898810e8f52161e494709cd749d68fa2fa1e102260e",
+          "currentSha256": "111ae727795def12a8384898810e8f52161e494709cd749d68fa2fa1e102260e"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5UiStyle.h",
+          "recordedSha256": "348b81fcc0767af6473ebc4fc65fc4072c26f00904c7aed1ff7275f5234da2e7",
+          "currentSha256": "348b81fcc0767af6473ebc4fc65fc4072c26f00904c7aed1ff7275f5234da2e7"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5TextInput.h",
+          "recordedSha256": "e40881027eec8d22b1caf7e8ef7bc04eb8281eb43b98814979ee32a131caeea3",
+          "currentSha256": "e40881027eec8d22b1caf7e8ef7bc04eb8281eb43b98814979ee32a131caeea3"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/WriterKeys.h",
+          "recordedSha256": "522576b502632c111c6442e07651e764e7400c68bf8373203b5542443abcaead",
+          "currentSha256": "522576b502632c111c6442e07651e764e7400c68bf8373203b5542443abcaead"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/WriterMouse.h",
+          "recordedSha256": "9655889d31145a14cf141b0f0b04438150cc6bbaf538a02ee44c4672552c035b",
+          "currentSha256": "9655889d31145a14cf141b0f0b04438150cc6bbaf538a02ee44c4672552c035b"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/WriterUsb.h",
+          "recordedSha256": "e6fb1f756e7f1fd30b805061b51e211dc8dd955a7ff212f25190f68701746fa8",
+          "currentSha256": "e6fb1f756e7f1fd30b805061b51e211dc8dd955a7ff212f25190f68701746fa8"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/WriterDocument.h",
+          "recordedSha256": "83ed8096fb4df8989196fe8fba36fe1100831abab2202b5ed7e297b10f0fc464",
+          "currentSha256": "83ed8096fb4df8989196fe8fba36fe1100831abab2202b5ed7e297b10f0fc464"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5OSTypes.h",
+          "recordedSha256": "482d220c61f5217653c6d12fd64928f240fb957e0b1c0a452b181ce37cc6cc35",
+          "currentSha256": "482d220c61f5217653c6d12fd64928f240fb957e0b1c0a452b181ce37cc6cc35"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5TopBarLayout.h",
+          "recordedSha256": "d66b9ecdb93cc7062884722f7915ee9d31b1188cf8c39b668a558320a9d0c901",
+          "currentSha256": "d66b9ecdb93cc7062884722f7915ee9d31b1188cf8c39b668a558320a9d0c901"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53_Ecriture/sdcard/System/font.ttf",
+          "recordedSha256": "c805f9436dbc268644c1d9584f01a601a653e028e08fd74b9b949f6cf8304d88",
+          "currentSha256": "c805f9436dbc268644c1d9584f01a601a653e028e08fd74b9b949f6cf8304d88"
+        }
+      ],
+      "sourceDifferences": [],
+      "differenceExplanation": null
+    },
+    "explorer-generated": {
+      "sourceVersion": "0.8.53",
+      "result": {
+        "passed": true,
+        "checks": 232,
+        "frames": 2,
+        "viewerCalls": 12,
+        "drawingCalls": 12,
+        "openWithCalls": 12
+      },
+      "sourceHashes": {
+        "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5OS_Arduino_v0.8.53_Ecriture.ino": "1a71bdc8c696d093446691712d1155ef58afaa507340fb929c7f0a2f4333099a",
+        "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5ExplorerUi.inc": "a9176c6f938e37cbbf9f42b4bcfcb6f7d6f6e11ccf1e0e10e115317ec87794e2",
+        "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5ExplorerMenus.inc": "8482f2d279a4560e7d3795b01712c3f79bb54073919fbb78d0fc07b0dc2bfcf1",
+        "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5ExplorerRowStyle.inc": "818ba063b61ec3a9a4b8d755965bee857fec5419364e50c63d18b8019cda21f8",
+        "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5Icons.h": "2571840c256706fe9ac477279330b0e4e3cd62a966860fce41f5b96259c19c87",
+        "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5ImageFormats.h": "89960446c3cae8c748a0b44ce7928ff81d73d0d9dcfa344ba6d247d44b7d96ba",
+        "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5FileSort.h": "e262cb2bcd3160883bd6ac2d5323efb4a9a1e320153806236b2707c5641cedd5",
+        "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5Mouse.cpp": "b0a5a1d55471058a49e93f55cca5aae22317fc98527dc30005e97641f6801822",
+        "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5Mouse.h": "c8db86d6daf5b7d027b1b216608030dabea1b47d3800392ec85d9faf7e4cc7b7",
+        "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5Focus.cpp": "bacafefb62a63af126b1654ef5663c42de6f9112980c80ede0e8c84d4d356367",
+        "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5Focus.h": "111ae727795def12a8384898810e8f52161e494709cd749d68fa2fa1e102260e",
+        "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5UiStyle.cpp": "8528b2da9832e45c7a0bc3e5e61df0341a5fcb2d4d111447b8986c01fff4092b",
+        "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5UiStyle.h": "348b81fcc0767af6473ebc4fc65fc4072c26f00904c7aed1ff7275f5234da2e7",
+        "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5TextInput.cpp": "7222889d2d222b17d6aa5039467f1ca4d1b1028f7e9326b48cd88313daf45f64",
+        "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5TextInput.h": "e40881027eec8d22b1caf7e8ef7bc04eb8281eb43b98814979ee32a131caeea3",
+        "Tab5OS_Arduino_v0.8.53_Ecriture/WriterDocument.cpp": "2626c5ed469177d417ea772d0ba617de2902db0eddcf377497b7aba7eaace6df",
+        "Tab5OS_Arduino_v0.8.53_Ecriture/WriterDocument.h": "83ed8096fb4df8989196fe8fba36fe1100831abab2202b5ed7e297b10f0fc464",
+        "Tab5OS_Arduino_v0.8.53_Ecriture/WriterKeys.h": "522576b502632c111c6442e07651e764e7400c68bf8373203b5542443abcaead",
+        "Tab5OS_Arduino_v0.8.53_Ecriture/WriterUsb.h": "e6fb1f756e7f1fd30b805061b51e211dc8dd955a7ff212f25190f68701746fa8",
+        "Tab5OS_Arduino_v0.8.53_Ecriture/WriterMouse.h": "9655889d31145a14cf141b0f0b04438150cc6bbaf538a02ee44c4672552c035b",
+        "Tab5OS_Arduino_v0.8.53_Ecriture/sdcard/System/font.ttf": "c805f9436dbc268644c1d9584f01a601a653e028e08fd74b9b949f6cf8304d88"
+      },
+      "generatorSources": {
+        "provenance/explorer/run.py": "2587ff8dfec9234233518fe3944e411277255d5993a5f35446529a7bd20b26ea",
+        "provenance/explorer/ui.cpp": "8165ca55ca534f8ae575a9dda1e4cc0b653f9dd38a178fabb2bc099791bd83b5"
+      },
+      "limitations": [
+        "Real production createFilePage, toolbar helpers and updateFileActionState; actual image eligibility and image command branches.",
+        "Only USB transport is substituted; actual Tab5Mouse::service and LVGL run. Launch callbacks record their destination, storage/busy flags are fixtures.",
+        "No physical device. Rendering and source linkage do not prove decode or application launch on hardware."
+      ],
+      "fixtureChanges": "Only demonstration directory rows and the captured selection differ from the regression harness. Real createFilePage, row constructors, toolbar helpers and action state are executed. No bitmap was retouched."
+    }
+  },
+  "covers": {
+    "cover-en.svg": "e9af7d6c963f40bdef650a236b6eb409e6b723fe0e35f4239029ce17b1f27960",
+    "cover-en.png": "b96e3eb0207c8db5741036d6f942d6538b237d45505a99ef257025a705950629",
+    "cover-fr.svg": "4cc136ce7d1bff0076f8b868a21aed97f27f6c8b8513e01de38a56cd5e78d219",
+    "cover-fr.png": "2912f035c3f4f65524d3f0a08d4eb3d887c5698cf8ede0009d714197dc597858"
+  },
+  "excluded": [
+    "Old alarm rendering uses different font/style dependencies.",
+    "Three-column syntax example is not the Editor app layout.",
+    "No verified Media or Maps application screenshot was available.",
+    "Mesh connected-message fixtures contain artificial load-test messages."
+  ],
+  "publicationNote": "Keep host-rendered/demonstration captions with the images. Do not describe them as photographs or hardware validation."
+}

@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "radio coran",
+      "style": "TN/classical",
+      "url": "http://n0b.radiojar.com/0tpy1h0kxtzuv?",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Radio Tunisie Gafsa",
+      "style": "TN/gafsa",
+      "url": "http://rtstream.tanitweb.com/gafsa",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Tunisia Med",
+      "style": "TN/généraliste",
+      "url": "https://azuracast.conceptradio.fr:8000/radio.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "RTCI",
+      "style": "TN/international",
+      "url": "http://rtstream.tanitweb.com/rtci",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Tunisie Monastir",
+      "style": "TN/monastir",
+      "url": "http://rtstream.tanitweb.com/monastir",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Mosaique FM",
+      "style": "TN/Radio",
+      "url": "http://radio.mosaiquefm.net:8000/mosalive",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 90
+    },
+    {
+      "name": "Radio Tunisie Sfax",
+      "style": "TN/regional",
+      "url": "http://rtstream.tanitweb.com/sfax",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Tunisie Jeunes",
+      "style": "TN/youth",
+      "url": "http://rtstream.tanitweb.com/jeunes",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    }
+  ]
+}

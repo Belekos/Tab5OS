@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "1000 HITS 80s",
+      "style": "ES/70s",
+      "url": "http://c2.auracast.net:8048/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Chocolate FM",
+      "style": "ES/chr",
+      "url": "http://streaming5.elitecomunicacion.es:8082/live.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Cadena SER España",
+      "style": "ES/cultural news",
+      "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/CADENASER.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Ibiza Global Radio",
+      "style": "ES/dance",
+      "url": "http://ibizaglobalradio.streaming-pro.com:8024/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Cadena 100",
+      "style": "ES/music",
+      "url": "http://cadena100-streamers-mp3.flumotion.com/cope/cadena100.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Cadena Dial",
+      "style": "ES/música en español",
+      "url": "http://playerservices.streamtheworld.com/api/livestream-redirect/CADENADIAL.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "esRadio",
+      "style": "ES/news",
+      "url": "http://livestreaming.esradio.fm/stream64.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 56
+    },
+    {
+      "name": "Rock FM",
+      "style": "ES/Radio",
+      "url": "http://flucast-bl04.flumotion.com/cope/rockfm-low.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 96
+    }
+  ]
+}

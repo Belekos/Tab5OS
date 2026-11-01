@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Radio América 104.5 FM",
+      "style": "EC/104.5",
+      "url": "https://streamingecuador.com:7030/stream?1657848016283",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 32
+    },
+    {
+      "name": "Radio Zaracay 100.5 FM",
+      "style": "EC/106.5",
+      "url": "http://stream-36.zeno.fm/as3xhhc0ts8uv?_=1",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "La tukka Ec",
+      "style": "EC/bachata",
+      "url": "http://grupomundodigital.com:8673/live",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 32
+    },
+    {
+      "name": "RADIO MARIA ECUADOR",
+      "style": "EC/catholic",
+      "url": "http://dreamsiteradiocp4.com:8010/stream",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "Jumbo Deep Radio",
+      "style": "EC/deep",
+      "url": "http://stream.zeno.fm/juhqepbmmxqvv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Onda Positiva 94.1 FM",
+      "style": "EC/latin music",
+      "url": "https://streamingecuador.net:8011/radioondapositiva",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    },
+    {
+      "name": "JC La Bruja",
+      "style": "EC/música pop",
+      "url": "http://s7.yesstreaming.net:8040/stream?1655753305283",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio La Otra - 91.3 FM",
+      "style": "EC/Radio",
+      "url": "https://laotrafm.makrodigital.com/stream/laotrafmquito",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    }
+  ]
+}

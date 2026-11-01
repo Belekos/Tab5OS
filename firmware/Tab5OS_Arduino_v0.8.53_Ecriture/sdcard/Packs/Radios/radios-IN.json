@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "My 90s Bengali",
+      "style": "IN/90s",
+      "url": "http://stream.zeno.fm/2k6xfu1pvs8uv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Fnf.Fm Hindi",
+      "style": "IN/bollywood",
+      "url": "http://192.99.8.192:5032/;stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Rafi hit songs",
+      "style": "IN/classic hits 60s 70a 80s",
+      "url": "https://stream-143.zeno.fm/0zkr7x8ztm0uv?zs=WTPQx8TiQXSo11XU0iyTAQ",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Kalai Fm-TAMIL",
+      "style": "IN/entertainment",
+      "url": "https://stream.zenolive.com/2vghnwshsqzuv.aac",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Mirchi Love",
+      "style": "IN/india",
+      "url": "https://drive.uber.radio/uber/bollywoodlove/icecast.audio",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "radioBollyFM",
+      "style": "IN/international",
+      "url": "http://stream.zeno.fm/zu59ykebs2zuv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "2B! Radio Sangam Krishna",
+      "style": "IN/mantra",
+      "url": "http://millenniumhits.out.airtime.pro:8000/millenniumhits_a",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 48
+    },
+    {
+      "name": "Bollywood Gaane Purane",
+      "style": "IN/Radio",
+      "url": "https://stream.zeno.fm/6n6ewddtad0uv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    }
+  ]
+}

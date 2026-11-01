@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "평양FM",
+      "style": "KR/105.2",
+      "url": "https://listen7.myradio24.com/69366",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Classic Odyssey",
+      "style": "KR/classical music",
+      "url": "http://live07.inlive.co.kr:21110/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Fred Film Radio(한국어)",
+      "style": "KR/culture",
+      "url": "https://s10.webradio-hosting.com/proxy/fredradiokr/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Listen.moe Kpop (MP3)",
+      "style": "KR/kpop",
+      "url": "https://listen.moe/kpop/fallback",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Big B Radio - Kpop",
+      "style": "KR/music",
+      "url": "https://antares.dribbcast.com/proxy/kpop?mp=/s",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Oldpop Cafe",
+      "style": "KR/oldies",
+      "url": "http://cast.oldpopcafe.net:7080/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "WOW CCM",
+      "style": "KR/pop",
+      "url": "http://wowccm.iptime.org:8000/stream/1/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "JeonjuFM",
+      "style": "KR/Radio",
+      "url": "http://radiostream.communityradio.kr/jcfm1",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    }
+  ]
+}

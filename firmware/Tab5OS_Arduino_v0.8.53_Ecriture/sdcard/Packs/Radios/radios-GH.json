@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "ADUM RADIO",
+      "style": "GH/adom",
+      "url": "http://stream.zeno.fm/dmn9atfb7ehvv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Oroko Radio",
+      "style": "GH/alternative",
+      "url": "https://oroko-radio.radiocult.fm/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Angel FM",
+      "style": "GH/arts",
+      "url": "https://atunwadigital.streamguys1.com/angelfm",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "GHERLA",
+      "style": "GH/decades",
+      "url": "http://89.39.189.52:8000/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Adom Fm",
+      "style": "GH/entertainment",
+      "url": "https://mmg.streamguys1.com/AdomFM-mp3?key=9099965b0e49394af3be11b42a71f0faa90378311d2d85f5983495217e350f0a4636df5ecf5ea3f63e53cb9026d89102&awparams=playerid%3ASGplayer%3B&amsparams=playerid%3ASGplayer%3Bskey%3A1609841442537%3B&aw_0_req.gdpr=true&us_privacy=1YNN",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Box Lofi Radio",
+      "style": "GH/lofi study beats",
+      "url": "https://stream.zeno.fm/tabzverz0fctv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "ChinaGhana Fm",
+      "style": "GH/music",
+      "url": "https://stream.zeno.fm/3w43axr9mg0uv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "citi fm",
+      "style": "GH/Radio",
+      "url": "https://citi973fm.radioca.st/index.html:80/;stream.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    }
+  ]
+}

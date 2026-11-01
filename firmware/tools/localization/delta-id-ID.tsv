@@ -1,0 +1,316 @@
+0	Katalog audio dibatasi hingga 4096 entri yang dipindai
+1	Kartu SD tersambung kembali
+2	Mulai
+3	Konteks sebelum mulai ulang (penyebab belum ditentukan)\n
+4	Aplikasi dihapus dari versi ini
+5	Aplikasi tidak tersedia atau melebihi 4 MiB
+6	Menyiapkan penyalinan…
+7	Memverifikasi salinan…
+8	Menyelesaikan pemindahan…
+9	Operasi selesai
+10	Tujuan sudah ada: tidak ada yang ditimpa
+11	Memori tidak cukup untuk menyalin
+12	Penyimpanan sibuk
+13	Salin per subfolder: batas 1024 item atau 16 tingkat
+14	Sumber berubah: berkas asli dipertahankan
+15	Kesalahan penyalinan: periksa sumber dan tujuan
+16	SD menyambung kembali — coba lagi
+17	Persiapan dibatalkan
+18	PSRAM tidak cukup untuk dekoder JPEG
+19	PSRAM tidak cukup untuk menyiapkan gambar
+20	Dekode JPEG terputus atau gambar tidak lengkap
+21	Header PNG tidak lengkap
+22	PSRAM tidak cukup untuk dekoder PNG
+23	Dekode PNG terputus atau gambar tidak lengkap
+24	Brankas perangkat tidak terbaca — brankas lama dipertahankan
+25	Batas 8 kunci tercapai — brankas lama dipertahankan
+26	Kunci disalin — brankas lama dipertahankan
+27	Header T5MAP tidak sesuai
+28	Entri direktori T5MAP tidak sesuai
+29	Entri indeks T5MAP tidak sesuai
+30	Menunggu respons printer…
+31	Pencetakan: RAM internal terfragmentasi
+32	Pencetakan: PSRAM terfragmentasi
+33	Tugas lain sedang dimulai: coba lagi
+34	Membebaskan tembolok untuk pencetakan…
+35	Jaringan sementara tidak tersedia
+36	Pembacaan SD terputus: periksa antrean printer
+37	PSRAM tidak cukup untuk menyiapkan baris cetak
+38	Memori tidak cukup untuk merender font
+39	Dokumen berubah: buka kembali pilihan bagian
+40	Gambar terlalu besar untuk dekoder JPEG
+41	Mendekode gambar…
+42	Tidak dapat mendekode gambar
+43	Pengaturan cetak tidak valid
+44	Skrip dihentikan
+45	Skrip selesai
+46	RAM internal tidak cukup untuk tugas Python
+47	Panah / Page: navigasi\nSpasi: berikutnya · Shift+Spasi: sebelumnya\nHome / End: awal atau akhir dokumen\nCtrl + / -: teks · Ctrl I: gambar\nBackspace / Escape: kembali · F1: bantuan
+48	Kembali · Backspace / Escape
+49	Unduhan SD
+50	Penerimaan memori sibuk: tugas lain sedang dimulai
+51	Terlalu banyak tugas dimulai bersamaan: tunggu
+52	Sumber daya masih dilepaskan
+53	Memori tersedia
+54	RAM internal terfragmentasi
+55	PSRAM terfragmentasi
+56	%s\nRAM: %u KiB bebas; %u diperlukan (%u untuk mulai + %u dipesan + 32 cadangan).\nBlok internal: %u / %u KiB; DMA: %u / %u KiB.\nPSRAM: %u KiB bebas; %u diperlukan; blok %u / %u KiB.
+57	SD siap
+58	Tujuan sudah ada
+59	Kartu SD sibuk
+60	Kartu SD tidak terdeteksi
+61	Kartu SD tidak merespons
+62	Penulisan tidak diizinkan
+63	Kesalahan komunikasi atau penulisan SD
+64	Keluar · Escape
+65	Pilih berkas yang akan dibuka
+66	Sumber daya sistem
+67	Pengaturan peluncuran disimpan
+68	Brankas perangkat: dibuka secara native tanpa kode. Kunci tetap berada di Tab5 ini; kartu SD yang dilepas tetap terenkripsi.
+69	Siapa pun yang memakai Tab5 ini dapat membuka brankas. Cadangkan kunci agar berkas dapat dipulihkan setelah perangkat hilang atau dihapus.
+70	Salin kunci ke brankas perangkat
+71	Buat brankas perangkat
+72	Brankas lama: kata sandinya tetap diperlukan. Pembukaan pertama dapat memerlukan waktu; setelah itu salin kunci ke brankas perangkat.
+73	Lupa kata sandi: buat brankas perangkat. Brankas lama beserta berkasnya dipertahankan.
+74	Dokumen dan pengaturan Anda dipertahankan.
+75	Kunci brankas perangkat
+76	Kunci brankas lama
+77	Akses brankas
+78	Memori sibuk — coba lagi setelah tembolok dibebaskan
+79	HTML Wikipedia
+80	Pengaturan warna…
+81	Menyimpan teks untuk dicetak…
+82	Memori CSS EPUB tidak cukup
+83	Pengaturan peluncuran
+84	Telepon
+85	Aplikasi bawaan
+86	Kembali ke pengaturan
+87	Tata letak
+88	Label
+89	Tampilkan label
+90	Font terpotong: glif
+91	Font terpotong: kontur
+92	Font terpotong: komponen
+93	Font terpotong: transformasi
+94	Font terpotong: instruksi
+95	Font terpotong: cmap
+96	Font terpotong: cmap Unicode
+97	Font terpotong: cmap 0
+98	Font terpotong: cmap 6
+99	Font terpotong: segmen Unicode
+100	Font terpotong: indeks Unicode
+101	Font terpotong: grup Unicode
+102	Font tidak ada atau terpotong
+103	Font terpotong: header
+104	Font terpotong: tabel
+105	Font terpotong: batas tabel
+106	Font TrueType tidak lengkap
+107	Font tidak valid: metrik
+108	Respons terlambat setelah pengiriman — periksa antrean printer
+109	Pengiriman terputus — periksa antrean printer sebelum mencoba lagi
+110	Respons printer tidak ada atau terputus
+111	Tampilkan kembali item ini
+112	Sembunyikan item ini
+113	Tidak ada pratinjau tersedia
+114	Memori tidak cukup — gunakan pencarian
+115	Tidak dapat mengubah keterlihatan
+116	Salinan terverifikasi; berkas asli dipertahankan.
+117	Penyalinan selesai dan terverifikasi.
+118	Penyalinan dibatalkan. Berkas asli dipertahankan.
+119	Penyalinan gagal. Berkas asli dipertahankan.
+120	Salinan sebagian masih ada di tujuan.
+121	Penyalinan sudah berlangsung
+122	Folder induk · Backspace
+123	Buat berkas atau folder
+124	Salin seleksi · Ctrl+C
+125	Potong seleksi · Ctrl+X
+126	Kartu SD tidak tersedia untuk merekam
+127	Perekaman berlangsung
+128	Pilihan pertama
+129	microSD · %llu MiB
+130	USB · %s · %llu MiB
+131	Buka brankas lama
+132	USB
+133	sd:/Folder/berkas atau usb:/Folder/berkas
+134	Tutup brankas
+135	Kisi
+136	Ukuran normal
+137	Ukuran ringkas
+138	Ukuran besar
+139	Ukuran aplikasi
+140	Pembacaan penyimpanan terputus
+141	Aplikasi lainnya tersedia di Penjelajah
+142	Tempel ke
+143	Buku EPUB — buka untuk mulai membaca.
+144	Penyimpanan tidak tersedia
+145	Akar kartu SD
+146	Menghitung…
+147	Menyalin berkas
+148	Tujuan
+149	Buka drive USB
+150	Bersihkan pencarian
+151	Tampilkan di beranda
+152	Tidak ada aplikasi terlihat
+153	Font tidak valid: siklus glif
+154	Font tidak valid: dimensi glif
+155	Font tidak valid: indeks komponen
+156	Font tidak valid: transformasi
+157	Font tidak memiliki tabel Unicode yang dapat digunakan
+158	Font tidak valid: indeks Unicode
+159	Font tidak valid: cmap 4
+160	Font tidak valid: pencarian Unicode
+161	Font tidak valid: segmen Unicode
+162	Font tidak valid: akhir cmap
+163	Font tidak valid: grup Unicode
+164	Kumpulan font tidak valid
+165	Font tidak valid: offset glif
+166	Impor ABI aplikasi tidak ada
+167	Pilih aplikasi Tab5 .elf
+168	Menyalin berkas
+169	Penyalinan berkas
+170	Jalur terlalu panjang untuk disalin
+171	Ruang pada tujuan tidak cukup
+172	Jalur penyalinan tidak valid
+173	Sumber atau folder tujuan tidak ditemukan
+174	Gambar tidak tersedia atau terlalu besar
+175	JPEG tidak lengkap atau tidak valid
+176	Format brankas perangkat tidak valid
+177	Brankas perangkat dibuka tanpa kode
+178	Pencetakan: blok DMA tidak cukup
+179	Pembacaan berkas terputus
+180	Tidak dapat mengalokasikan PSRAM font
+181	Tidak dapat membaca dokumen
+182	Tidak dapat mengalokasikan penyangga baca
+183	Alamat IPP / IPPS tidak valid
+184	Skrip atau jalur tidak valid
+185	PSRAM tidak cukup untuk konsol
+186	PSRAM tidak cukup untuk MicroPython
+187	Aplikasi Python
+188	Blok DMA bebas tidak cukup
+189	Kartu SD penuh
+190	Koneksi otomatis: aktif
+191	Koneksi otomatis: nonaktif
+192	Berkas tidak tersedia
+193	Buka brankas perangkat
+194	Tanya saat diluncurkan\nTanpa berkas\nSelalu gunakan berkas ini
+195	Folder cadangan tidak tersedia
+196	Tujuan: pustaka Tab5 atau katalog terpisah
+197	Tujuan katalog tidak valid
+198	Metadata khusus katalog
+199	Modul untuk Tab5 ini
+200	Pemasangan global untuk skrip Tab5 ini. Untuk papan lain, kembali ke katalog MicroPython.
+201	Radio Browser
+202	Jurnal pemulihan tidak valid
+203	Pemulihan terputus: berkas tidak dikenal dalam jurnal
+204	Tujuan pemulihan tidak valid
+205	Cadangan pemulihan tidak valid
+206	Jurnal tidak ada: cadangan dipertahankan
+207	Tujuan khusus jurnal
+208	Hash pemulihan tidak valid
+209	Berkas berubah: diperlukan pemulihan manual
+210	Cadangan tidak ada: diperlukan pemulihan manual
+211	Kesalahan
+212	Nama wajib diisi, maksimal 80 karakter
+213	Nama harus berisi setidaknya satu huruf atau angka ASCII
+214	Pilih keluarga papan
+215	Kategori tidak valid
+216	Tidak ada modul .py atau .mpy dalam seleksi
+217	Nama sudah digunakan untuk target dan kategori ini: pilih nama lain
+218	Nama sudah digunakan: pilih nama lain
+219	Proyek dengan nama ini sudah ada
+220	Pilih proyek pada kartu SD. USB dapat digunakan sebagai sumber impor.
+221	Pilih folder proyek yang terpisah dari berkas sistem
+222	Folder proyek tidak ada
+223	Pilih target proyek terlebih dahulu
+224	Pustaka di luar katalog
+225	Tidak ada berkas terdaftar dalam pustaka ini
+226	Katalog berubah: impor ulang dengan nama lain
+227	Folder terlalu dalam: maksimal 8 tingkat
+228	Pilih folder pustaka, bukan akar SD
+229	Pilih modul .py, .mpy, atau folder yang sudah diekstrak
+230	Berkas melebihi 1 MiB
+231	Metadata proyek tidak valid
+232	Sumber katalog berubah: 
+233	Batas: 64 pustaka per proyek
+234	Konflik: berkas proyek dipertahankan: 
+235	Sumber berubah selama penyalinan
+236	Folder terlalu besar: pilih subfolder pustaka
+237	Header .mpy tidak valid: 
+238	Registri pustaka tidak konsisten
+239	Terlalu banyak subfolder: pilih folder pustaka
+240	Berkas melebihi 1 MiB: 
+241	Nama tidak cocok dengan FAT: 
+242	Batas: 160 berkas dan 8 MiB per pustaka
+243	Metadata pustaka tidak valid: 
+244	Saring menurut papan atau kategori (lebih dari 256 pustaka)
+245	Target MicroPython
+246	Kegunaan pustaka
+247	Lanjutkan
+248	Proyek dibuat
+249	Buka main.py di Menulis. Tambahkan foldernya ke proyek editor melalui Dokumen → Impor folder.
+250	Proyek tujuan
+251	Impor dari SD / USB
+252	Impor pustaka
+253	Berkas akan disalin tanpa dijalankan. Target dinyatakan; kecocokan belum diuji.
+254	Impor pustaka
+255	Unduh sumber
+256	Sumber .py dan ketergantungan mip akan disalin ke katalog SD, tanpa pemasangan global atau eksekusi.
+257	Mengunduh sumber
+258	Pustaka katalog
+259	Target dinyatakan — kecocokan belum diuji
+260	Sumber .py disimpan di SD tanpa dijalankan.
+261	Tambahkan ke proyek
+262	Lihat berkas
+263	Katalog MicroPython pada SD
+264	Papan: 
+265	Semua
+266	Kegunaan: 
+267	Semua
+268	Tampilkan pustaka
+269	Saring menurut target yang dinyatakan dan kegunaan. Katalog tetap tersedia luring.
+270	Pustaka MicroPython · semua papan
+271	Semua papan
+272	Semua kategori
+273	Buat proyek
+274	Pilih folder yang ada
+275	Modul .py atau .mpy
+276	Folder pustaka yang sudah diekstrak
+277	Katalog SD
+278	Impor SD / USB
+279	Dapatkan sumber melalui Wi-Fi
+280	Proyek MicroPython baru
+281	berkas .mpy: periksa versi firmware dan arsitektur pada papan target.
+282	Lengkapi ketergantungan lokal bila diperlukan.
+283	Berkas pustaka
+284	Buka jalur ini di Menulis untuk melihat sumbernya.
+285	Hanya menyalin berkas. Berkas yang sudah ada dengan isi berbeda menghalangi penyalinan. Periksa kecocokan pada papan target.
+286	Tambahkan pustaka
+287	Modul terpasang untuk Tab5
+288	Pustaka ditambahkan
+289	Transfer ke papan dan menjalankan program merupakan operasi terpisah.
+290	berkas baru
+291	Pustaka tersedia
+292	Berkas .mpy tidak dikonversi atau divalidasi untuk firmware ini.
+293	Menyalin ke proyek
+294	Tidak ada pustaka sesuai filter ini. Gunakan Impor SD / USB atau Dapatkan melalui Wi-Fi.
+295	Warna tidak valid
+296	Wikipedia · CC BY-SA 4.0
+297	Koneksi tidak tersedia
+298	Hash rujukan tidak valid
+299	Aplikasi ELF
+300	Aplikasi Python
+301	Membaca
+302	Unduh
+303	Kirim
+304	Sembunyikan gambar · Ctrl I
+305	Tampilkan gambar · Ctrl I
+306	Sambungkan ulang microSD
+307	Pulihkan berkas yang hilang
+308	Berbagi
+309	Portabel / target perlu diperiksa
+310	ESP32-P4 (papan lain)
+311	Papan lain
+312	Umum
+313	Sensor
+314	Layar
+315	Motor

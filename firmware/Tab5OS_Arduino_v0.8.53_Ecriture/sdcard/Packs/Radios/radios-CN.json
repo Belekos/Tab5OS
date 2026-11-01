@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "雨声轻音乐",
+      "style": "CN/ambient",
+      "url": "https://stream.zeno.fm/689zc32y4x8uv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "德云社相声合集",
+      "style": "CN/crosstalk",
+      "url": "https://stream.zeno.fm/yqawwmweq8mtv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "AsiaFM高清音乐台",
+      "style": "CN/hd",
+      "url": "http://asiafm.hk:8000/asiahd",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 96
+    },
+    {
+      "name": "RTHK Radio-1",
+      "style": "CN/hong kong",
+      "url": "http://stm.rthk.hk/radio1",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "国际新闻",
+      "style": "CN/information",
+      "url": "https://lhttp.qtfm.cn/live/20500172/64k.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "怀集音乐之声",
+      "style": "CN/music",
+      "url": "https://lhttp.qingting.fm/live/4804/64k.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "CNR-1 中国之声",
+      "style": "CN/news",
+      "url": "https://lhttp.qtfm.cn/live/15318317/64k.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "两广之声音乐台",
+      "style": "CN/oldies",
+      "url": "https://lhttp.qtfm.cn/live/20500149/64k.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    }
+  ]
+}

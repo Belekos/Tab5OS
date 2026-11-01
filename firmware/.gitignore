@@ -1,0 +1,19 @@
+# Reproducible build output and local work environments
+build-environment/
+firmware/
+__pycache__/
+*.py[cod]
+*.o
+*.obj
+*.exe
+*.d
+*.su
+*.map
+.tab5-build-*/
+*.tmp
+# Private credentials and local test keys must never enter the repository.
+*.key
+*.pem
+id_rsa
+id_ed25519
+.env

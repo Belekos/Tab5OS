@@ -1,0 +1,13 @@
+# Keep the authenticated upstream snapshot byte-for-byte unchanged.
+/firmware/** -text
+# Publication documents use LF.
+/*.md text eol=lf
+/docs/**/*.md text eol=lf
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary
+*.ttf binary
+*.gz binary
+*.woff binary
+*.woff2 binary

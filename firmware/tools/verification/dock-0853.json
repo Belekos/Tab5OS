@@ -1,0 +1,103 @@
+{
+  "version": "0.8.53",
+  "passed": true,
+  "physicalDeviceTested": false,
+  "scope": "Actual sidebar widgets and launch dispatcher, real LVGL/Focus/USB-mouse boundary.",
+  "result": {
+    "passed": true,
+    "checks": 119,
+    "cycles": 30,
+    "dockCapacity": 10,
+    "flushes": 1154,
+    "launches": 4,
+    "catalogueIconLoads": 1
+  },
+  "compilerCommand": [
+    "g++",
+    "-std=c++17",
+    "-g",
+    "-O1",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer",
+    "-no-pie",
+    "-Wno-deprecated-declarations",
+    "-Wno-cpp",
+    "-DLV_CONF_PATH=\"/workspace/scratch/644cc83c43c8/build_0853/host-lvgl/lv_conf.h\"",
+    "-I/workspace/scratch/644cc83c43c8/tab5os_0853/tools/dock-tests-0853",
+    "-I/workspace/scratch/644cc83c43c8/tab5os_0853/Tab5OS_Arduino_v0.8.53_Ecriture",
+    "-I/workspace/scratch/644cc83c43c8/build_0853/host-deps/lvgl-9.6.0",
+    "-I/workspace/scratch/644cc83c43c8/build_0853/dock-tests",
+    "/workspace/scratch/644cc83c43c8/tab5os_0853/tools/dock-tests-0853/ui.cpp",
+    "/workspace/scratch/644cc83c43c8/tab5os_0853/Tab5OS_Arduino_v0.8.53_Ecriture/Tab5Focus.cpp",
+    "/workspace/scratch/644cc83c43c8/tab5os_0853/Tab5OS_Arduino_v0.8.53_Ecriture/Tab5UiStyle.cpp",
+    "/workspace/scratch/644cc83c43c8/tab5os_0853/Tab5OS_Arduino_v0.8.53_Ecriture/Tab5TextInput.cpp",
+    "/workspace/scratch/644cc83c43c8/tab5os_0853/Tab5OS_Arduino_v0.8.53_Ecriture/WriterDocument.cpp",
+    "/workspace/scratch/644cc83c43c8/build_0853/host-lvgl/liblvgl.a",
+    "-o",
+    "/workspace/scratch/644cc83c43c8/build_0853/dock-tests/test"
+  ],
+  "compileExitCode": 0,
+  "runExitCode": 0,
+  "sanitizers": [
+    "address",
+    "undefined"
+  ],
+  "leakDetection": false,
+  "sourceHashes": {
+    "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5Focus.cpp": "bacafefb62a63af126b1654ef5663c42de6f9112980c80ede0e8c84d4d356367",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5UiStyle.cpp": "8528b2da9832e45c7a0bc3e5e61df0341a5fcb2d4d111447b8986c01fff4092b",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5TextInput.cpp": "7222889d2d222b17d6aa5039467f1ca4d1b1028f7e9326b48cd88313daf45f64",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/WriterDocument.cpp": "2626c5ed469177d417ea772d0ba617de2902db0eddcf377497b7aba7eaace6df",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5OS_Arduino_v0.8.53_Ecriture.ino": "1a71bdc8c696d093446691712d1155ef58afaa507340fb929c7f0a2f4333099a",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5HomeUi.h": "58315a27c510d2d7409c023a1ddef5737660b7dcfdbffe941c3525bfd956569f",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5ShellDock.h": "ea9e755a67a042540e8a4bcc0ddfcb19c5504eed5baeac6e3d01776e227368a7",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5ShellUi.h": "b5c609c54ad38b7953a6bc3359bc8da8ed1f2c4355edf6765ba6bbd7f42d6bfa",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5ShellLayout.h": "8cd215fd1d69e34feb0d273717673887fce91783ed1d6ffc7fc7e79b4c2e2971",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5ShellPolicy.h": "fafcc6e58edc08ce928d8818dd969834f87b419d4bb3dbd1736844fc5cb1ea30",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5AppCataloguePolicy.h": "7f84231c4b5aed6b6cba03c1a633ffcf48d81c326d932bb61d6387941e121596",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5AppCatalogue.h": "9640049a2db0f7c5c6f9d547786ab78d61c546e2026c6497a00d42ee31ac6efd",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5Icons.h": "2571840c256706fe9ac477279330b0e4e3cd62a966860fce41f5b96259c19c87",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5Mouse.cpp": "b0a5a1d55471058a49e93f55cca5aae22317fc98527dc30005e97641f6801822",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5Mouse.h": "c8db86d6daf5b7d027b1b216608030dabea1b47d3800392ec85d9faf7e4cc7b7",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5Focus.h": "111ae727795def12a8384898810e8f52161e494709cd749d68fa2fa1e102260e",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5UiStyle.h": "348b81fcc0767af6473ebc4fc65fc4072c26f00904c7aed1ff7275f5234da2e7",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5TextInput.h": "e40881027eec8d22b1caf7e8ef7bc04eb8281eb43b98814979ee32a131caeea3",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/WriterKeys.h": "522576b502632c111c6442e07651e764e7400c68bf8373203b5542443abcaead",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/WriterMouse.h": "9655889d31145a14cf141b0f0b04438150cc6bbaf538a02ee44c4672552c035b",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/WriterUsb.h": "e6fb1f756e7f1fd30b805061b51e211dc8dd955a7ff212f25190f68701746fa8",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/WriterDocument.h": "83ed8096fb4df8989196fe8fba36fe1100831abab2202b5ed7e297b10f0fc464",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5OSTypes.h": "482d220c61f5217653c6d12fd64928f240fb957e0b1c0a452b181ce37cc6cc35",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5TopBarLayout.h": "d66b9ecdb93cc7062884722f7915ee9d31b1188cf8c39b668a558320a9d0c901",
+    "Tab5OS_Arduino_v0.8.53_Ecriture/sdcard/System/font.ttf": "c805f9436dbc268644c1d9584f01a601a653e028e08fd74b9b949f6cf8304d88"
+  },
+  "testSourceHashes": {
+    "tools/dock-tests-0853/run.py": "69d6e1e177acbd6738a37a7efb64e55ecf42e078519045ea040dc378eaf1ffb7",
+    "tools/dock-tests-0853/ui.cpp": "10e7bca02b3495191c853507cec7692c657f32aed935154430e3656d2f89d046",
+    "tools/dock-tests-0853/Arduino.h": "c380ac2ba491c3dff5c05018b7ca4b12cf6f116104ef4cfdc18e2c6ee4188b79",
+    "tools/dock-tests-0853/Preferences.h": "5a57b19419e416284f7755268b2dbe0acdc32558792b2dbd64d260b0381ef78f",
+    "tools/settings-ui-tests-0841/extract.py": "a5143119b295d98d47300827093b930c4ddc893d42bea1e0464d69350a2b4cf6"
+  },
+  "evidenceHashes": {
+    "tools/verification/dock-0853/dock-ten-dark.png": "c1f873a6c54bc4c81ce5d5f1be30f736230f629b9f7869edd16311a2d0f168d4",
+    "tools/verification/dock-0853/dock-ten-light.png": "da409ef5a4fd0c9b07fe9ee1ee1d5607b3b045408ba32ea592102c3f09c541eb",
+    "tools/verification/dock-0853/run.log": "3473c0fba0bba65b659b92e322ce3d7298c707ae1218c0d0493821d2bfb59a99",
+    "tools/verification/dock-0853/picker-light.png": "10a7ed80ab5ba18c3d287425cc9c954f054871c3eee271a5313cf6e6170b25fa",
+    "tools/verification/dock-0853/picker-dark.png": "5a2a6e5cd6b9ff687f8822a8866d25b4e78e7b0fd120462f27fe8a8f27390b29",
+    "tools/verification/dock-0853/compile.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "extractHashes": {
+    "helpers.inc": "25533d3eab59267b5abf22f527b2e90a5b10bda4fd657d53d932c64215691238",
+    "home.inc": "73c55658d309300f339eedcedf21c503022ac15714d2d43723bfeba123769a2a",
+    "main.inc": "24c07275c0c52538f8445bb8ecf7962b64408adb5c229d1b6bf2f0b205b7feda"
+  },
+  "dependencies": {
+    "lvglArchiveSha256": "828f06410f931a24861175b36b7550f2dbd09b0b9d6da77892cb62e1caa9df0e",
+    "lvglConfigSha256": "479ebf122a102cea37bef5d20be63a07e91c68e51956dc0fc0ba26d4946971ff"
+  },
+  "limitations": [
+    "Display driver, USB hardware, application runtimes, filesystem worker and NVS storage are boundary simulations.",
+    "Production shell policies/widgets, stable-key launch dispatcher, actual LVGL rendering and OS pointer/focus code are executed.",
+    "LeakSanitizer is disabled in this environment; repeated object cycles and ASan/UBSan are exercised, not hardware heap measurements.",
+    "No timing, real NVS power-loss, SD removal, native ELF isolation or target audio/display claim is inferred."
+  ]
+}

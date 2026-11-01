@@ -1,0 +1,21 @@
+{
+  "version": "0.8.42",
+  "passed": true,
+  "durationMs": 60000,
+  "readerStepMs": 250,
+  "idleCopies": 1440,
+  "mutexCallsIncludingPublisher": 1439,
+  "readerMutexCalls": 240,
+  "physicalDeviceTested": false,
+  "scope": "Exact production publishSnapshot and observer methods with counted host String and mutex/device boundary adapters. No FreeRTOS task, radio, physical heap or device frame timing measured. ASan/UBSan; LSan disabled in this execution environment.",
+  "methods": {
+    "bool Tab5AudioEngine::snapshot(": "5f2e3f77dfebb1ece80b921d75e5d5958b482eb79163e84e6b329f9c972f1c96",
+    "void Tab5AudioEngine::publishSnapshot(": "be0227620e1d4a3b58f8d9aaefc2c3cbddd21233b558ef9c7a10247b55acb30d",
+    "bool Tab5AudioEngine::takeUiDirty(": "691a1075c671e11bbfb84814386a5b6c631f68bbc7aa13848a142a1a7d1c0f7a"
+  },
+  "sourceHashes": {
+    "Tab5Audio.cpp": "5b97cc63b8e7725b4942ea5046ea8683f80489204acdf204988dd51f1d5ea966",
+    "Tab5Audio.h": "51d338a56410e0cd4da97eb335cf568c8873fcdecb3c1780d40775f8b881f7d3"
+  },
+  "testSourceSha256": "9341d7235362ce59f43d41d32520472f2ca534cb77e2d98afe5b63a6749cfbcc"
+}

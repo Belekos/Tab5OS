@@ -1,0 +1,321 @@
+0	Audiocatalogus beperkt tot 4096 onderzochte items
+1	SD-kaart opnieuw verbonden
+2	Opstarten
+3	Context vóór herstart (oorzaak niet vastgesteld)\n
+4	Toepassing verwijderd uit deze versie
+5	Toepassing niet toegankelijk of groter dan 4 MiB
+6	Kopie voorbereiden…
+7	Kopie controleren…
+8	Verplaatsing afronden…
+9	Bewerking voltooid
+10	Bestemming bestaat al: niets overschreven
+11	Onvoldoende geheugen voor kopiëren
+12	Opslag bezet
+13	Kopieer per submap: limiet van 1024 items of 16 niveaus
+14	De bron is gewijzigd: origineel behouden
+15	Kopieerfout: controleer bron en bestemming
+16	SD opnieuw verbinden bezig — probeer opnieuw
+17	Voorbereiding geannuleerd
+18	Onvoldoende PSRAM voor JPEG-decoder
+19	Onvoldoende PSRAM om afbeelding voor te bereiden
+20	JPEG-decodering onderbroken of afbeelding onvolledig
+21	PNG-header onvolledig
+22	Onvoldoende PSRAM voor PNG-decoder
+23	PNG-decodering onderbroken of afbeelding onvolledig
+24	Apparaatkluis onleesbaar — oude kluis behouden
+25	Limiet van 8 sleutels bereikt — oude kluis behouden
+26	Sleutels gekopieerd — oude kluis behouden
+27	Onverwachte T5MAP-header
+28	Onverwacht T5MAP-inhoudsopgave-item
+29	Onverwacht T5MAP-indexitem
+30	Wachten op antwoord van printer…
+31	Afdrukken: intern RAM gefragmenteerd
+32	Afdrukken: PSRAM gefragmenteerd
+33	Een andere start is bezig: probeer opnieuw
+34	Caches vrijmaken voor afdrukken…
+35	Netwerkverbinding tijdelijk niet beschikbaar
+36	SD-lezing onderbroken: controleer de printerwachtrij
+37	Onvoldoende PSRAM om een afdrukregel voor te bereiden
+38	Onvoldoende geheugen om het lettertype weer te geven
+39	Document gewijzigd: open de sectiekeuze opnieuw
+40	Afbeelding te groot voor JPEG-decoder
+41	Afbeelding decoderen…
+42	Kan afbeelding niet decoderen
+43	Ongeldige afdrukinstellingen
+44	Script gestopt
+45	Script beëindigd
+46	Onvoldoende intern RAM voor Python-taak
+47	Pijltjes / Page Up/Down: navigeren\nSpatie: verder · Shift+Spatie: vorige\nHome / End: begin of einde van document\nCtrl + / -: tekst · Ctrl I: afbeeldingen\nBackspace / Escape: terug · F1: hulp
+48	Terug · Backspace / Escape
+49	SD-download
+50	Geheugentoelating bezet: een andere taak start
+51	Te veel gelijktijdige starts: even geduld
+52	Bronnen worden nog vrijgemaakt
+53	Geheugen beschikbaar
+54	Intern RAM gefragmenteerd
+55	PSRAM gefragmenteerd
+56	%s\nRAM: %u KiB vrij; %u vereist (%u start + %u gereserveerd + 32 marge).\nIntern blok: %u / %u KiB; DMA: %u / %u KiB.\nPSRAM: %u KiB vrij; %u vereist; blok %u / %u KiB.
+57	SD gereed
+58	Bestemming bestaat al
+59	SD-kaart bezet
+60	SD-kaart niet gedetecteerd
+61	SD-kaart reageert niet
+62	Schrijven niet toegestaan
+63	SD-communicatie- of schrijffout
+64	Afsluiten · Escape
+65	Kies het te openen bestand
+66	Systeembronnen
+67	Startinstellingen opgeslagen
+68	Apparaatkluis: rechtstreeks openen zonder code. De sleutels blijven in deze Tab5; een verwijderde SD-kaart blijft versleuteld.
+69	Iedereen die deze Tab5 gebruikt kan deze kluis openen. Maak back-ups van uw sleutels om bestanden na verlies of wissen van het apparaat te herstellen.
+70	Sleutels naar apparaatkluis kopiëren
+71	Apparaatkluis maken
+72	Oude kluis: het wachtwoord blijft vereist. De eerste opening kan lang duren; kopieer daarna de sleutels naar de apparaatkluis.
+73	Wachtwoord vergeten: maak een apparaatkluis. De oude kluis en bestanden blijven behouden.
+74	Uw documenten en instellingen blijven behouden.
+75	Sleutels van apparaatkluis
+76	Sleutels van oude kluis
+77	Kluistoegang
+78	Geheugen bezet — probeer opnieuw na het vrijmaken van caches
+79	Wikipedia-HTML
+80	Kleuren instellen…
+81	Af te drukken tekst opslaan…
+82	Onvoldoende geheugen voor EPUB-CSS
+83	Startinstellingen
+84	Telefoon
+85	Ingebouwde toepassingen
+86	Terug naar instellingen
+87	Weergave
+88	Labels
+89	Labels tonen
+90	Lettertype afgekapt: glyph
+91	Lettertype afgekapt: contouren
+92	Lettertype afgekapt: component
+93	Lettertype afgekapt: transformatie
+94	Lettertype afgekapt: instructies
+95	Lettertype afgekapt: cmap
+96	Lettertype afgekapt: Unicode-cmap
+97	Lettertype afgekapt: cmap 0
+98	Lettertype afgekapt: cmap 6
+99	Lettertype afgekapt: Unicode-segmenten
+100	Lettertype afgekapt: Unicode-index
+101	Lettertype afgekapt: Unicode-groepen
+102	Lettertype ontbreekt of is afgekapt
+103	Lettertype afgekapt: header
+104	Lettertype afgekapt: tabellen
+105	Lettertype afgekapt: tabelgrenzen
+106	Onvolledig TrueType-lettertype
+107	Ongeldig lettertype: metriek
+108	Laat antwoord na verzenden — controleer de printerwachtrij
+109	Verzending onderbroken — controleer de printerwachtrij voordat u opnieuw probeert
+110	Antwoord van printer ontbreekt of onderbroken
+111	Dit item niet meer verbergen
+112	Dit item verbergen
+113	Geen voorbeeld beschikbaar
+114	Onvoldoende geheugen — gebruik de zoekfunctie
+115	Kan zichtbaarheid niet wijzigen
+116	Kopie geverifieerd; origineel behouden.
+117	Kopie voltooid en geverifieerd.
+118	Kopiëren geannuleerd. Origineel behouden.
+119	Kopiëren niet mogelijk. Origineel behouden.
+120	Er blijft een gedeeltelijke kopie op de bestemming achter.
+121	Er is al een kopieeropdracht bezig
+122	Bovenliggende map · Backspace
+123	Bestand of map maken
+124	Selectie kopiëren · Ctrl+C
+125	Selectie knippen · Ctrl+X
+126	SD-kaart niet toegankelijk om op te slaan
+127	Opslaan bezig
+128	Eerste keuze
+129	microSD · %llu MiB
+130	USB · %s · %llu MiB
+131	Oude kluis openen
+132	USB
+133	sd:/Map/bestand of usb:/Map/bestand
+134	Kluis sluiten
+135	Raster
+136	Normale grootte
+137	Compacte grootte
+138	Groot
+139	Grootte van toepassingen
+140	Opslaglezing onderbroken
+141	Andere toepassingen beschikbaar in Bestandsbeheer
+142	Plakken in
+143	EPUB-boek — open het om te beginnen met lezen.
+144	Opslag niet beschikbaar
+145	Hoofdmap SD-kaart
+146	Tellen…
+147	Bestanden kopiëren
+148	Bestemming
+149	USB-schijf openen
+150	Zoekopdracht wissen
+151	Op startscherm tonen
+152	Geen zichtbare toepassingen
+153	Ongeldig lettertype: glyphcyclus
+154	Ongeldig lettertype: glyphafmetingen
+155	Ongeldig lettertype: componentindex
+156	Ongeldig lettertype: transformatie
+157	Lettertype zonder bruikbare Unicode-tabel
+158	Ongeldig lettertype: Unicode-index
+159	Ongeldig lettertype: cmap 4
+160	Ongeldig lettertype: Unicode-zoekfunctie
+161	Ongeldig lettertype: Unicode-segmenten
+162	Ongeldig lettertype: einde van cmap
+163	Ongeldig lettertype: Unicode-groep
+164	Ongeldige lettertypeverzameling
+165	Ongeldig lettertype: glyphoffsets
+166	ABI-import van toepassing ontbreekt
+167	Kies een Tab5-toepassing .elf
+168	Bestanden kopiëren
+169	Bestandskopie
+170	Pad te lang voor kopiëren
+171	Onvoldoende ruimte op bestemming
+172	Ongeldig pad voor kopiëren
+173	Bron of doelmap niet gevonden
+174	Afbeelding niet toegankelijk of te groot
+175	JPEG onvolledig of ongeldig
+176	Ongeldig apparaatkluisformaat
+177	Apparaatkluis geopend zonder code
+178	Afdrukken: DMA-blok te klein
+179	Bestandslezing onderbroken
+180	Kan PSRAM voor lettertype niet toewijzen
+181	Kan document niet lezen
+182	Kan leesbuffer niet toewijzen
+183	Ongeldig IPP-/IPPS-adres
+184	Ongeldig script of pad
+185	Onvoldoende PSRAM voor console
+186	Onvoldoende PSRAM voor MicroPython
+187	Python-toepassing
+188	Vrij DMA-blok te klein
+189	SD-kaart vol
+190	Automatisch verbinden: ja
+191	Automatisch verbinden: nee
+192	Bestand niet toegankelijk
+193	Apparaatkluis openen
+194	Vragen bij starten\nZonder bestand\nAltijd dit bestand
+195	Back-upmap niet toegankelijk
+196	Bestemming: Tab5-bibliotheek of afzonderlijke catalogus
+197	Ongeldige catalogusbestemming
+198	Metagegevens gereserveerd voor catalogus
+199	Modules voor deze Tab5
+200	Globale installatie voor scripts op deze Tab5. Ga voor een ander bord terug naar de MicroPython-catalogus.
+201	Radio Browser
+202	Ongeldig herstellogboek
+203	Herstel onderbroken: onbekend bestand in logboek
+204	Ongeldige herstelbestemming
+205	Ongeldige herstelback-up
+206	Logboek ontbreekt: back-ups behouden
+207	Bestemming gereserveerd voor logboek
+208	Ongeldige herstelvingerafdruk
+209	Bestand gewijzigd: handmatig herstel vereist
+210	Back-up ontbreekt: handmatig herstel vereist
+211	Fout
+212	Naam vereist, maximaal 80 tekens
+213	De naam moet minstens één ASCII-letter of cijfer bevatten
+214	Kies een bordfamilie
+215	Ongeldige categorie
+216	Geen .py- of .mpy-module in de selectie
+217	Naam bestaat al voor dit doel en deze categorie: kies een andere naam
+218	Naam bestaat al: kies een andere naam
+219	Er bestaat al een project met deze naam
+220	Kies een project op de SD-kaart. USB kan als importbron dienen.
+221	Kies een projectmap buiten de systeembestanden
+222	Projectmap ontbreekt
+223	Kies eerst het projectdoel
+224	Bibliotheek buiten catalogus
+225	Geen bestanden vermeld in deze bibliotheek
+226	Catalogus gewijzigd: importeer opnieuw met een andere naam
+227	Map te diep: maximaal 8 niveaus
+228	Kies de bibliotheekmap, niet de SD-hoofdmap
+229	Kies een .py- of .mpy-module of een uitgepakte map
+230	Bestand groter dan 1 MiB
+231	Ongeldige projectgegevens
+232	Catalogusbron gewijzigd: 
+233	Limiet: 64 bibliotheken per project
+234	Conflict: projectbestand behouden: 
+235	De bron is gewijzigd tijdens het kopiëren
+236	Map te groot: kies de submap van de bibliotheek
+237	Ongeldige .mpy-header: 
+238	Bibliotheekregister niet consistent
+239	Te veel submappen: kies de bibliotheekmap
+240	Bestand groter dan 1 MiB: 
+241	Namen niet compatibel met FAT: 
+242	Limiet: 160 bestanden en 8 MiB per bibliotheek
+243	Ongeldige bibliotheekmetagegevens: 
+244	Filter op bord of categorie (meer dan 256 bibliotheken)
+245	MicroPython-doel
+246	Toepassing van bibliotheek
+247	Doorgaan
+248	Project gemaakt
+249	Open main.py in Schrijven. De map kan aan de editorprojecten worden toegevoegd via Documenten → Map importeren.
+250	Doelproject
+251	Importeren vanaf SD / USB
+252	Bibliotheek importeren
+253	De bestanden worden gekopieerd zonder uitvoering. Doel opgegeven, compatibiliteit niet getest.
+254	Bibliotheekimport
+255	Bronbestanden downloaden
+256	De .py-bronbestanden en mip-afhankelijkheden worden naar de SD-catalogus gekopieerd, zonder globale installatie of uitvoering.
+257	Bronbestanden downloaden
+258	Bibliotheek uit catalogus
+259	Opgegeven doel — compatibiliteit niet getest
+260	.py-bronbestanden op SD bewaard, zonder uitvoering.
+261	Aan project toevoegen
+262	Bestanden bekijken
+263	MicroPython-catalogus op SD
+264	Bord: 
+265	Alle
+266	Toepassing: 
+267	Alle
+268	Bibliotheken tonen
+269	Filters op opgegeven doel en gebruik. De catalogus blijft offline beschikbaar.
+270	MicroPython-bibliotheken · alle borden
+271	Alle borden
+272	Alle categorieën
+273	Project maken
+274	Bestaande map kiezen
+275	Een .py- of .mpy-module
+276	Een uitgepakte bibliotheekmap
+277	Catalogus op SD
+278	SD / USB importeren
+279	Bronbestanden via wifi ophalen
+280	Nieuw MicroPython-project
+281	.mpy-bestand(en): controleer firmwareversie en architectuur op het doelbord.
+282	Vul lokale afhankelijkheden zo nodig aan.
+283	Bibliotheekbestand
+284	Open dit pad in Schrijven om de broncode te bekijken.
+285	Alleen bestanden kopiëren. Afwijkende bestaande bestanden blokkeren het kopiëren. Controleer compatibiliteit op het doelbord.
+286	Bibliotheek toevoegen
+287	Geïnstalleerde modules voor de Tab5
+288	Bibliotheek toegevoegd
+289	Overbrengen naar het bord en het programma starten zijn afzonderlijke handelingen.
+290	nieuwe bestanden
+291	Beschikbare bibliotheken
+292	.mpy-bestanden worden niet omgezet of gevalideerd voor deze firmware.
+293	Naar project kopiëren
+294	Geen bibliotheken voor deze filters. Gebruik SD / USB importeren of Via wifi ophalen.
+295	Ongeldige kleur
+296	Wikipedia · CC BY-SA 4.0
+297	Verbinding niet beschikbaar
+298	Ongeldige referentievingerafdruk
+299	ELF-toepassingen
+300	Verzenden
+301	Afbeeldingen verbergen · Ctrl I
+302	Afbeeldingen tonen · Ctrl I
+303	microSD opnieuw verbinden
+304	Ontbrekende bestanden herstellen
+305	Delen
+306	Overdraagbaar / doel te controleren
+307	ESP32-P4 (ander bord)
+308	Ander bord
+309	Algemeen
+310	Sensoren
+311	Scherm
+312	Motoren
+313	In Bestandsbeheer kiest Omhoog/Omlaag een item en opent Enter het bestand of de map. Backspace gaat naar de bovenliggende map. Bij aanraken: tik om te selecteren; tik nogmaals op het geselecteerde item om het te openen, zonder tijdslimiet. Kopiëren/Knippen zet het item klaar; Plakken werkt in de huidige map.\n\nSysteembestanden blijven toegankelijk om gegevens bij te werken. Hun amberkleur geeft hun rol aan; verborgen items worden gedimd. Een configuratie, taal, lettertype of catalogus wijzigen of verwijderen kan de werking van Tab5OS veranderen: bewaar een kopie voordat u zelf wijzigingen aanbrengt.\n\nOpslaan schrijft het huidige document. Opslaan als kiest een andere naam of map. Automatisch opslaan volgt het ingestelde interval. Bestandsbeheer wordt na een wijziging bijgewerkt; F5 leest de inhoud ook opnieuw. De oogknop verbergt of toont het geselecteerde item zonder het te hernoemen. Ctrl+H toont verborgen items. Deze keuze geldt alleen voor Tab5OS en wordt op het medium opgeslagen; ze verandert de kenmerken die Windows gebruikt niet. Het mapvoorbeeld telt alle zichtbare items en laat u vervolgens per pagina door de lijst bladeren. De verborgen submap .Tab5Backups bewaart eerdere back-ups. Een onvolledige opslag wordt gemeld; laat de SD-kaart tijdens het schrijven zitten.\n\nBestandsnamen en de tekst van uw documenten zijn persoonlijke gegevens: de interfacetaal wijzigen vertaalt deze niet.\n\nHet vergrootglas of Ctrl+F zoekt bestands- en mapnamen in de huidige map en alle submappen. Hoofdletters en Latijnse accenten worden genegeerd; meerdere woorden moeten allemaal aanwezig zijn. Resultaten verschijnen geleidelijk, met hun map. Een gedeeltelijke zoekopdracht wordt gemeld: verfijn zo nodig de woorden. Het kruis verschijnt alleen tijdens een zoekopdracht en verwijdert het filter. Teksten en bronbestanden, waaronder .py-scripts, openen in Schrijven zonder automatisch uit te voeren.\n\nEen .bin-bestand opent Firmware. Controleren controleert het ESP32-P4-doel, de revisie, de grootte en de vingerafdruk. Installeren schrijft naar de inactieve partitie en valideert het beeld voordat de volgende opstart wordt gewijzigd. Opnieuw starten activeert het. Gebruik een toepassingsbinair voor deze Tab5, zonder bootloader of partitietabel. Zorg voor een stabiele voeding.
+314	Selecteer in Kaart de kaart en druk op Enter om deze te bedienen. De pijltjes verplaatsen de weergave; + / − verandert de zoom; Home gaat naar de startpositie. Met Escape gebruikt u de pijltjes weer om tussen bedieningselementen te navigeren. Ctrl+F opent de zoekfunctie.\n\nMet opgeslagen plaatsen kunt u naar een positie gaan, deze hernoemen of verwijderen. De stijl bepaalt de kaartachtergrond. Offlinepakketten .t5map en de SD-cache bieden toegang tot al beschikbare kaarttegels. Online zoeken en ontbrekende tegels vereisen een verbinding. Plaatsnamen volgen de gekozen taal wanneer de dienst die aanbiedt.\n\nDe staande leesweergave opent tekst of een EPUB. Page Up / Page Down, Links / Rechts en Omhoog / Omlaag wisselen van EPUB-pagina wanneer de bedieningselementen niet geselecteerd zijn. Omhoog / Omlaag scrolt tekst. Backspace of Escape sluit de leesweergave of de afbeelding op volledig scherm. Het percentage en het paginanummer hebben betrekking op het hele boek. Het teken ~ geeft een voorlopig percentage aan tijdens de eerste berekening; het totaal wordt exact zodra de opmaak klaar is. Titels en namen uit uw bestanden behouden hun oorspronkelijke taal.
+315	Start scheidt ingebouwde hulpmiddelen, ELF-toepassingen en Python-toepassingen. Toepassingen worden op type en naam gesorteerd. Ingebouwde hulpmiddelen blijven zonder SD-kaart bereikbaar. F5 vernieuwt de catalogus; dit is geen onlinewinkel.\n\nVia Instellingen → Start kiest u de zichtbare toepassingen, hun volgorde binnen elke sectie, pictogrammen, raster- of lijstweergave, grootte en namen. Opslaan bewaart deze keuze in de Tab5. Terug verwerpt de wijzigingen. Herstellen zet na Opslaan de standaardindeling terug; bestanden en toepassingen worden niet verwijderd. Instellingen blijft bereikbaar in de zijbalk.\n\nEen Python-toepassing afsluiten sluit haar scherm en keert terug naar het vorige OS-scherm. Voor toepassingen met Verbergen houdt deze opdracht de uitvoering actief. De hervatknop in de balk of Ctrl+Alt+P vindt de verborgen toepassing terug zolang ze actief blijft. Stoppen of Ctrl+. vraagt om te stoppen. Wanneer een andere toepassing vóór starten moet stoppen, bevestigt u de voorgestelde wissel.\n\nKaarten → Downloaden opent het gebiedsformulier met het huidige middelpunt, zoomniveau en kaartbeeld. Kies stad of coördinaten, straal en zoomniveaus en controleer de schatting. OpenTopoMap downloadt rechtstreeks op de tablet; pauzeren/hervatten bewaart de voortgang. OpenStreetMap vereist een bron die downloaden toestaat of voorbereiding op de pc. Ga terug naar Kaarten om het resultaat te bekijken, zonder herstart.\n\nWikipedia toont lokale en onlineresultaten in dezelfde paginering, zonder een lokaal resultaat op een afzonderlijke pagina te zetten. Een bestaande lokale kopie heeft voorrang. Na online lezen maakt Deze pagina opslaan haar offline beschikbaar. Opties bevat automatisch opslaan, updates en volledige downloads met taalkeuze. Een nieuw volledig archief vereist bevestiging vóór downloaden. De lezer behoudt staande weergave, tekstgrootte en regelafstand.\n\nIRC-chat bewaart bijnaam en server. Kanalen biedt deelnemen, verlaten, favorieten toevoegen of verwijderen en recente items terugvinden. Verbergen behoudt de verbinding. Berichten worden niet als geschiedenis op de SD-kaart opgeslagen; voorkeuren blijven in /M5Writer/irc.json.\n\nRadiozenders importeren raadpleegt Radio Browser. Wifi en een correcte datum zijn vereist voor beveiligde verbindingen.\n\nIn de Wikipedia-lezer openen tekstkoppelingen andere artikelen waarbij eerst lokale kopieën worden gezocht. Backspace of Escape keert terug naar de resultaten; Alt+Links gaat ook terug. Illustraties in de leesbalk toont of verbergt afbeeldingen. Via het menu van een lokaal resultaat kunt u de weergegeven kopie of het archief na bevestiging verwijderen. Tabellen behouden hun cellen en kunnen horizontaal worden gescrold.
+316	Instellingen → Systeem → Delen opent tijdelijk delen met lees- en schrijftoegang. Huidig netwerk gebruikt uw bestaande wifi: de pc moet op hetzelfde netwerk zitten. Rechtstreeks netwerk maakt een tijdelijk wifinetwerk; schakel eerst de wifi van het OS uit en verbind daarna de pc met de weergegeven naam en het wachtwoord.\n\nOpen het weergegeven adres in de browser van de pc en voer de code in. Geen extra software vereist. Met de browser kunt u bestanden bekijken, downloaden, uploaden, hernoemen en verwijderen, en mappen maken. Delen stopt na 30 minuten of met Stoppen.\n\nLaat de kaart tijdens een overdracht zitten en bewerk hetzelfde bestand niet tegelijk in een toepassing. Stop delen voordat u wifi wijzigt. Dit is browsertoegang; de kaart verschijnt niet als USB-stationsletter in Windows.
+317	De editor Schrijven opent ook Python-bestanden en andere bronbestanden. Code blijft onbewerkte tekst, met visuele kleuring. Het menu Code bevat Uitvoeren, Stoppen, Hervatten, Bibliotheken en Console. Uitvoeren slaat eerst het .py-bestand op; als opslaan mislukt, start het niet. De console kan het rechterpaneel gebruiken.\n\nCtrl+Enter: opslaan en Python uitvoeren. Ctrl+.: stoppen. Ctrl+Shift+R: hervatten. Ctrl+Shift+L: console tonen/verbergen. De gewone sneltoetsen van de editor blijven beschikbaar.\n\nDocumenten bewaart een bestandslijst, ook als ze niet meer in het geheugen staan. Het kruis verwijdert een vermelding, nooit het SD-bestand. Ctrl+Shift+O opent deze lijst; Ctrl+Tab / Ctrl+Shift+Tab gaat naar het volgende/vorige document. Van document wisselen slaat wijzigingen op; bij een fout blijft het huidige document geopend.\n\nProject maken met dit document groepeert vervolgens andere bestanden. Document aan project toevoegen vult de gekozen groep aan. Map importeren doorloopt deze geleidelijk en vindt nieuwe bestanden terwijl de editor zichtbaar is. Buiten project bevat onafhankelijke bestanden. Een via het kruis verwijderd bestand wordt niet automatisch opnieuw toegevoegd.\n\nBibliotheken opent de MicroPython-catalogus, met keuze van het doelbord en toevoeging van modules aan het bijbehorende project. Bibliotheken voor een ander bord blijven gescheiden van die van de Tab5; hun stuurprogramma's worden niet op de Tab5 uitgevoerd. Opgegeven compatibiliteit garandeert geen werking op een specifiek bord. CPython-pakketten en hun native uitbreidingen zijn niet compatibel. Automatisch uploaden of flashen van een ander bord wordt niet aangeboden.\n\nMeegeleverde scripts blijven in /MicroPython. SD-kaart controleren vergelijkt bronnen vóór herstel, behoudt persoonlijke bestanden en maakt een back-up van elk vervangen bestand.\n\nEen compatibel .elf-bestand start een toepassing zonder het OS te vervangen. De startinstellingen kunnen worden opgeslagen: om een bestand vragen, zonder bestand starten of altijd hetzelfde bestand gebruiken. Paden worden geschreven als sd:/Map/bestand.ext voor de microSD en usb:/Map/bestand.ext voor de USB-schijf. Dit zijn geen terminalopdrachten. Stoppen gebeurt coöperatief. Deze toepassingen hebben toegang tot het OS-geheugen: gebruik vertrouwde binaire bestanden die met de meegeleverde SDK zijn gebouwd. Een .bin blijft een firmware-update.
+318	Thema maken: kies een kleur uit de lijst of door op een object in het voorbeeld te tikken. Pas R, G en B aan of voer #RRGGBB in en sla op. De schuifregelaar Zwart / Wit maakt de kleur symmetrisch donkerder of lichter; in het midden blijft de oorspronkelijke kleur behouden.\n\nSelecteer in Bestandsbeheer een bestand en vervolgens Openen met… en kies een compatibele ELF-toepassing. De starter biedt ook een bestands- en mapkiezer, recente items en favorieten. Uitvoeren start het programma; Ctrl+. vraagt om te stoppen.\n\nGame Boy: de pijltjes en fysieke toetsen Z/X bedienen de richtingen en A/B. Enter = Start, Backspace = Select. Escape sluit af en slaat de toestand op. De disketteknop slaat op zonder af te sluiten; de cirkelpijl start het spel opnieuw. Bestanden met .gb openen Game Boy; bestanden met .gbc openen Game Boy Color. Opgeslagen spellen en toestanden staan in /Saves/GB of /Saves/GBC. De laatste compatibele toestand wordt bij het volgende openen van de ROM hervat.
+319	Instellingen → Opslag opent de microSD- en USB-bediening, ook zonder SD-kaart. microSD aankoppelen/opnieuw testen start de detectie opnieuw; microSD openen gaat naar de hoofdmap /. Een compatibele USB-stick of kaartlezer kan automatisch worden aangekoppeld; deze optie kan worden uitgeschakeld. USB-bestanden verschijnen in /USB. Kopiëren, plakken, maken, hernoemen en verwijderen werken op beide media.\n\nSla documenten op en stop toepassingen of overdrachten die het medium gebruiken voordat u microSD uitwerpen of USB uitwerpen kiest. Een lopende bewerking kan uitwerpen verhinderen. Wacht op de bevestiging voordat u de kaart verwijdert of het medium loskoppelt. Eén USB-opslagmedium kan tegelijk worden aangekoppeld, samen met een toetsenbord en muis op de hub. FAT16/FAT32 worden ondersteund.\n\nOntbrekende bronnen maakt de verwachte ontbrekende systeembestanden geleidelijk opnieuw aan vanuit de firmware. Herstel annuleren onderbreekt dit werk. Bestaande bestanden, documenten en aanpassingen blijven behouden. Deze functie vervangt geen aanwezige beschadigde bestanden en haalt geen verwijderde bestanden terug. Lettertypen, encyclopedieën en .app.elf-toepassingen moeten afzonderlijk worden geleverd.\n\nZonder bruikbaar SD-lettertype gebruikt de interface tijdelijk Engels en het ingebouwde lettertype, zonder de opgeslagen taal of documentteksten te veranderen. Opnieuw starten met het lettertype herstelt de gekozen taal. Deze versie biedt geen formattering of herstel van gewiste gegevens.
+320	Instellingen → Opslag opent de microSD- en USB-bediening, ook zonder SD-kaart. microSD opnieuw verbinden start de detectie opnieuw; Openen in het microSD-paneel gaat naar de hoofdmap /. Een compatibele USB-stick of kaartlezer kan automatisch worden aangekoppeld; deze optie kan worden uitgeschakeld. USB-bestanden verschijnen in /USB. Kopiëren, plakken, maken, hernoemen en verwijderen werken op beide media.\n\nSla documenten op en stop toepassingen of overdrachten die het medium gebruiken voordat u Uitwerpen in het paneel van het medium kiest. Een lopende bewerking kan uitwerpen verhinderen. Wacht op de bevestiging voordat u de kaart verwijdert of het medium loskoppelt. Eén USB-opslagmedium kan tegelijk worden aangekoppeld, samen met een toetsenbord en muis op de hub. FAT16/FAT32 worden ondersteund.\n\nOntbrekende bestanden herstellen maakt de verwachte ontbrekende systeembestanden geleidelijk opnieuw aan vanuit de firmware. Annuleren onderbreekt dit werk. Bestaande bestanden, documenten en aanpassingen blijven behouden. Deze functie vervangt geen aanwezige beschadigde bestanden en haalt geen verwijderde bestanden terug. Lettertypen, encyclopedieën en .app.elf-toepassingen moeten afzonderlijk worden geleverd.\n\nZonder bruikbaar SD-lettertype gebruikt de interface tijdelijk Engels en het ingebouwde lettertype, zonder de opgeslagen taal of documentteksten te veranderen. Opnieuw starten met het lettertype herstelt de gekozen taal. Deze versie biedt geen formattering of herstel van gewiste gegevens.

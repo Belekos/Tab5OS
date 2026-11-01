@@ -1,0 +1,6 @@
+gnuboy from ducalex/retro-go, retrieved 2026-10-04.
+https://github.com/ducalex/retro-go/tree/master/retro-core/components/gnuboy
+GPL-2.0, see COPYING and CREDITS.
+Source archive SHA256: 254e81b3c209e53d45ed9bdb7adf688c9e39540ce4d56eeb647a25ffe2166a61
+Tab5 changes: bounded frame loop, state read bounds, full-write/close error handling; unsupported BIOS/disk-bank helpers omitted from the freestanding port.
+Additional Tab5 changes: bytewise unaligned 16-bit accesses and 16-bit bus address wrapping for RISC-V; integer sound timing; bounded state header scan.

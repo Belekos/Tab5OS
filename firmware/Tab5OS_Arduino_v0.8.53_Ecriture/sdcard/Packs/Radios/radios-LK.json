@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "தமிழீழ வானொலி - Tamil Eelam Radio (North & East)",
+      "style": "LK/classical",
+      "url": "http://stream.zeno.fm/c6mgmtfg8e9uv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "SLBC -Welanda Sewaya",
+      "style": "LK/entertaiment",
+      "url": "http://220.247.227.6:8000/Scomstream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Y FM",
+      "style": "LK/entertainment",
+      "url": "http://live.trusl.com:1180/;",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "Tube Tamil FM Radio டியூப் தமிழ் எஃப்.எம் பண்பலை ரேடியோ",
+      "style": "LK/indian music",
+      "url": "http://s2.voscast.com:12084/;stream1619441439791/1",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Parani Gee",
+      "style": "LK/music",
+      "url": "http://151.80.42.191:8288/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "SLBC Tamil National Service",
+      "style": "LK/Radio",
+      "url": "https://stream-32.zeno.fm/xekhrn4zetzuv?zs=KXT1gTNYSemcxyslV6-vdA",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Hiru FM",
+      "style": "LK/talk & speech",
+      "url": "https://radio.lotustechnologieslk.net:2020/stream/hirufmgarden/stream/1/",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Yes FM",
+      "style": "LK/welcome to generation yes",
+      "url": "http://live.trusl.com:1150/",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    }
+  ]
+}

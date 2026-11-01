@@ -1,0 +1,75 @@
+{
+  "passed": true,
+  "platform": "host; not ESP32-P4 timing",
+  "runs": [
+    {
+      "allocations": 100,
+      "physical_blocks_walked_with_lock": 101,
+      "host_lock_ns_median": 792,
+      "host_lock_ns_max": 163327,
+      "counter_reads": 10000,
+      "counter_read_total_ns": 16335,
+      "counter_walks": 0,
+      "free_bytes": 67095344
+    },
+    {
+      "allocations": 1000,
+      "physical_blocks_walked_with_lock": 1001,
+      "host_lock_ns_median": 7200,
+      "host_lock_ns_max": 10306,
+      "counter_reads": 10000,
+      "counter_read_total_ns": 16324,
+      "counter_walks": 0,
+      "free_bytes": 67019808
+    },
+    {
+      "allocations": 10000,
+      "physical_blocks_walked_with_lock": 10001,
+      "host_lock_ns_median": 72119,
+      "host_lock_ns_max": 342146,
+      "counter_reads": 10000,
+      "counter_read_total_ns": 16445,
+      "counter_walks": 0,
+      "free_bytes": 66263552
+    },
+    {
+      "allocations": 100000,
+      "physical_blocks_walked_with_lock": 100001,
+      "host_lock_ns_median": 835722,
+      "host_lock_ns_max": 1143386,
+      "counter_reads": 10000,
+      "counter_read_total_ns": 16455,
+      "counter_walks": 0,
+      "free_bytes": 58703552
+    }
+  ],
+  "limits": [
+    "Host pointer size, cache, CPU and elapsed times differ from ESP32-P4.",
+    "64 MiB host arena avoids an LP64 metadata layout issue; it is not the 32 MiB Tab5 capacity.",
+    "Platform critical-section macros record entry/exit; no real interrupts or DMA are simulated.",
+    "Counter reads and allocator walker are real native sources; no fixed heap samples.",
+    "Host variant omits LIGHT poisoning; firmware get_info wrapper calls the same impl.",
+    "No conclusion about physical display underruns or audible pops is asserted."
+  ],
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer"
+  ],
+  "leak_sanitizer": "disabled; container /proc restrictions",
+  "source": {
+    "idf": "https://github.com/espressif/esp-idf/tree/v5.5.4/components/heap",
+    "tlsf": "https://github.com/espressif/tlsf/tree/2867f6883a12920b1969ff9624c0ab0e4185c2ce",
+    "sha256": {
+      "heap_caps.c": "72d2893853b245ac525514355787e420219599d8dbd2ca60b4f0475002816e29",
+      "multi_heap.c": "2647ff6bb7284a70c94491d003acbc3cd821c02a9f7d49d643aaf7241ac5f74b",
+      "multi_heap.h": "6d9e960ee883f081b7217e71ba3071b17782ab2ec156c78c9ded045b3333ff21",
+      "multi_heap_config.h": "4418aad85f69c43d7162ffbe414139adcb6970eb9afa0798b1ba1f67917fbb3e",
+      "multi_heap_internal.h": "69f375a698b97c1d18f06735df88907f58de0f62054059a1e488f3ec58c6f21a",
+      "multi_heap_platform.h": "660fe2d674267c86cbb2c2018d1854f8a0dedb60f8f303f57b1fbc2215722cc8",
+      "tlsf.c": "ca8f8c1941e0e34a4b127a7d2bd7c77e66ad39d02450111087f32b552b2f3628",
+      "tlsf.h": "69799f4f1e7c5f8d3a35e89f5efb8014aa00e6e49f96939b93fc39ceb95d0e8b",
+      "tlsf_block_functions.h": "c0e8ccac7b83c6964a8e19d83c69e1e2651c25101e34feb36b3e10b96d3fe5a8",
+      "tlsf_control_functions.h": "2e89b64ac4357ce8c951b540355dfe3279953f96ee46fdac0ac22972bd1d070f"
+    }
+  }
+}

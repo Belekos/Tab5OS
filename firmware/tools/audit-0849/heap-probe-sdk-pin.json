@@ -1,0 +1,18 @@
+{
+  "known": true,
+  "compilerDefine": "-DTAB5_HEAP_PROBE_PINNED=1",
+  "mode": "bounded-native-fit",
+  "sdk": "build_0848/data/packages/m5stack/tools/esp32p4_es-libs/3.3.9",
+  "sha256": {
+    "lib/libheap.a": "54385a765f7d64d3a01229e276852b968eb05baee6a2250a4f7d7754c860a752",
+    "include/heap/tlsf/tlsf_control_functions.h": "2e89b64ac4357ce8c951b540355dfe3279953f96ee46fdac0ac22972bd1d070f",
+    "include/heap/tlsf/tlsf_block_functions.h": "c0e8ccac7b83c6964a8e19d83c69e1e2651c25101e34feb36b3e10b96d3fe5a8",
+    "include/heap/tlsf/include/tlsf.h": "69799f4f1e7c5f8d3a35e89f5efb8014aa00e6e49f96939b93fc39ceb95d0e8b"
+  },
+  "expectedSha256": {
+    "lib/libheap.a": "54385a765f7d64d3a01229e276852b968eb05baee6a2250a4f7d7754c860a752",
+    "include/heap/tlsf/tlsf_control_functions.h": "2e89b64ac4357ce8c951b540355dfe3279953f96ee46fdac0ac22972bd1d070f",
+    "include/heap/tlsf/tlsf_block_functions.h": "c0e8ccac7b83c6964a8e19d83c69e1e2651c25101e34feb36b3e10b96d3fe5a8",
+    "include/heap/tlsf/include/tlsf.h": "69799f4f1e7c5f8d3a35e89f5efb8014aa00e6e49f96939b93fc39ceb95d0e8b"
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Exa FM",
+      "style": "CU/93.3 fm",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/XHPSFMAAC.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 48
+    },
+    {
+      "name": "Prensa Latina - Agencia Informativa Latinoamericana",
+      "style": "CU/agencia informativa latinoamericana",
+      "url": "https://cdn4.onstream.audio:9267/stream?download=false",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "AFN 360 Guantanamo Bay",
+      "style": "CU/american forces network",
+      "url": "http://27783.live.streamtheworld.com/AFNE_GMO_SC",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 96
+    },
+    {
+      "name": "Prensa Latina",
+      "style": "CU/classical",
+      "url": "https://cdn4.onstream.audio:9267/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Cubania Radio",
+      "style": "CU/cuban",
+      "url": "https://streamingv2.shoutcast.com/cubania?type=.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Emisora de Radio \"ATodaMecha\"",
+      "style": "CU/hits",
+      "url": "https://stream.zeno.fm/gjexooyemj3uv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Cuban Flow Radio",
+      "style": "CU/latin music",
+      "url": "http://nap.casthost.net:9194/stream.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Canal Radio Cruces Cienfuegos",
+      "style": "CU/Radio",
+      "url": "https://stream.laut.fm/canalradio",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    }
+  ]
+}

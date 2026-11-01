@@ -1,0 +1,18 @@
+{
+  "version": "0.8.53",
+  "passed": true,
+  "physicalDeviceTested": false,
+  "sourceHashes": {
+    "Tab5OS_Arduino_v0.8.53_Ecriture/Tab5OS_Arduino_v0.8.53_Ecriture.ino": "1a71bdc8c696d093446691712d1155ef58afaa507340fb929c7f0a2f4333099a"
+  },
+  "testSourceHashes": {
+    "tools/build_linux/main_target.py": "62428bdff6e93d0fb88d46478c2b0dc7781531524f82f1986e78bbddea6a2337"
+  },
+  "evidenceHashes": {
+    "tools/verification/main-target-0853/generate.log": "e90d2a48f754a226d249a7c2ddb58fae7167214581701f8af6660927a5fd6f25",
+    "tools/verification/main-target-0853/compile.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "limitations": [
+    "Target object compilation; final full link and physical tests remain separate."
+  ]
+}

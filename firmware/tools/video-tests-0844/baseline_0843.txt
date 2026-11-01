@@ -1,0 +1,1596 @@
+#include "Tab5Serial.h"
+#include "Tab5SecureClient.h"
+#include "Tab5VolumeFS.h"
+#include "Tab5Storage.h"
+#include "Tab5Video.h"
+#include "Tab5ResourceManager.h"
+#include "Tab5Task.h"
+#include "Tab5Cooperate.h"
+#include "Tab5NetworkGate.h"
+#include "Tab5Diagnostics.h"
+
+#include "Tab5Audio.h"
+#include "Tab5AudioDriver.h"
+
+#ifndef ARDUINOJSON_ENABLE_STD_STREAM
+#define ARDUINOJSON_ENABLE_STD_STREAM 0
+#endif
+#ifndef ARDUINOJSON_ENABLE_STD_STRING
+#define ARDUINOJSON_ENABLE_STD_STRING 0
+#endif
+#include "Tab5Json.h"
+#include <HTTPClient.h>
+#include <NetworkClientSecure.h>
+#include "Tab5CooperativeClient.h"
+#include <SD.h>
+#include <WiFi.h>
+#include <driver/jpeg_decode.h>
+#include <esp_heap_caps.h>
+#include <esp_timer.h>
+
+#include <algorithm>
+#include <cstdlib>
+#include <cstring>
+#include <new>
+#include <strings.h>
+#include <utility>
+
+namespace {
+
+constexpr char VIDEO_ROOT[] = "/Video";
+constexpr char LEGACY_VIDEO_ROOT[] = "/Videos";
+constexpr char VIDEO_CATALOG[] = "/videos.json";
+constexpr size_t MAX_VIDEO_ITEMS = 300;
+constexpr uint8_t MAX_VIDEO_DEPTH = 6;
+constexpr size_t MAX_SCAN_ENTRIES = 4096;
+constexpr size_t MAX_CATALOG_BYTES = 256U * 1024U;
+constexpr size_t MAX_JPEG_BYTES = 2U * 1024U * 1024U;
+constexpr size_t MAX_FRAME_BYTES = 1280U * 720U * 2U;
+constexpr uint16_t MAX_VIDEO_WIDTH = 1280;
+constexpr uint16_t MAX_VIDEO_HEIGHT = 720;
+constexpr uint32_t NETWORK_STALL_MS = 5000;
+
+uint32_t le32(const uint8_t* p) {
+  return static_cast<uint32_t>(p[0]) |
+         (static_cast<uint32_t>(p[1]) << 8) |
+         (static_cast<uint32_t>(p[2]) << 16) |
+         (static_cast<uint32_t>(p[3]) << 24);
+}
+
+uint16_t le16(const uint8_t* p) {
+  return static_cast<uint16_t>(p[0]) |
+         (static_cast<uint16_t>(p[1]) << 8);
+}
+
+bool fourcc(const uint8_t* p, const char* value) {
+  return memcmp(p, value, 4) == 0;
+}
+
+bool isRemoteSource(const String& source) {
+  return source.startsWith("http://") || source.startsWith("https://");
+}
+
+bool isVideoPath(const String& source) {
+  String lower = source;
+  lower.toLowerCase();
+  const int query = lower.indexOf('?');
+  if (query >= 0) lower.remove(query);
+  return lower.endsWith(".avi") || lower.endsWith(".mjpg") ||
+         lower.endsWith(".mjpeg");
+}
+
+bool isUnsupportedContainerPath(const String& source) {
+  String lower = source;
+  lower.toLowerCase();
+  const int query = lower.indexOf('?');
+  if (query >= 0) lower.remove(query);
+  return lower.endsWith(".mov") || lower.endsWith(".mp4") ||
+         lower.endsWith(".m4v") || lower.endsWith(".webm") ||
+         lower.endsWith(".ogv") || lower.endsWith(".flv");
+}
+
+String sourceName(const String& source) {
+  String clean = source;
+  const int query = clean.indexOf('?');
+  if (query >= 0) clean.remove(query);
+  const int slash = clean.lastIndexOf('/');
+  return slash >= 0 ? clean.substring(slash + 1) : clean;
+}
+
+class MutexGuard {
+ public:
+  explicit MutexGuard(SemaphoreHandle_t mutex, TickType_t wait = portMAX_DELAY)
+      : _mutex(mutex), _locked(mutex && xSemaphoreTake(mutex, wait) == pdTRUE) {}
+  ~MutexGuard() { if (_locked) xSemaphoreGive(_mutex); }
+  explicit operator bool() const { return _locked; }
+ private:
+  SemaphoreHandle_t _mutex;
+  bool _locked;
+};
+
+struct AviInfo {
+  int videoStream = -1;
+  int audioStream = -1;
+  bool videoSeen = false;
+  bool mjpeg = false;
+  bool pcm = false;
+  char videoCodec[5] = {'?', '?', '?', '?', 0};
+  uint32_t frameUs = 40000;
+  Tab5PcmSpec pcmSpec;
+};
+
+struct AviStreamInfo {
+  uint8_t type[4] = {};
+  uint8_t handler[4] = {};
+  uint32_t scale = 0;
+  uint32_t rate = 0;
+  uint16_t audioTag = 0;
+  uint16_t channels = 0;
+  uint32_t sampleRate = 0;
+  uint16_t bits = 0;
+  uint8_t compression[4] = {};
+};
+
+}  // namespace
+
+class Tab5VideoInput {
+ public:
+  ~Tab5VideoInput() { close(); }
+
+  bool open(const String& source, std::atomic<bool>* abortFlag,
+            Tab5AudioPriorityLease& priority) {
+    close();
+    _abort = abortFlag;
+    _remote = isRemoteSource(source);
+    if (!_remote) {
+      _file = tab5FS.open(source.c_str(), FILE_READ);
+      return static_cast<bool>(_file);
+    }
+    auto stopping = [](void* context) {
+      const auto* input = static_cast<Tab5VideoInput*>(context);
+      return input->aborted();
+    };
+    _lease = new (std::nothrow) Tab5NetworkLease("video", 1500, stopping, this);
+    if ((!_lease || !*_lease) && !aborted()) {
+      delete _lease;
+      _lease = nullptr;
+      Tab5AudioSnapshot audio;
+      // A radio must close its own socket before the video takes the gate.
+      // Local music has no network lease and can keep playing with silent video.
+      if (Tab5Audio.snapshot(audio) && audio.mode == Tab5AudioMode::Radio &&
+          priority.tryAcquire() && !aborted())
+        _lease = new (std::nothrow) Tab5NetworkLease("video", 1500, stopping, this);
+    }
+    if (!_lease || !*_lease) { close(); return false; }
+    const bool secureSource=source.startsWith("https://");
+    auto admission=tab5ReserveMemory(Tab5Resources::Owner::Video,
+        secureSource?Tab5Resources::tlsBudget():Tab5Resources::Budget{16*1024,8*1024,0,32*1024,8*1024},
+        "connexion video");
+    if(!admission) { close(); return false; }
+    WiFi.setSleep(false);
+    if (source.startsWith("https://")) {
+      auto* secure = new (std::nothrow)
+          Tab5CooperativeClient<Tab5SecureClient>(stopping, this);
+      if (!secure) { close(); return false; }
+      
+      secure->setHandshakeTimeout(8);
+      _client = secure;
+    } else {
+      _client = new (std::nothrow)
+          Tab5CooperativeClient<NetworkClient>(stopping, this);
+    }
+    if (!_client || !_http.begin(*_client, source)) {
+      close();
+      return false;
+    }
+    // getStreamPtr() exposes the raw body. Request HTTP/1.0 and reject a
+    // server that still sends chunk framing into the AVI/MJPEG decoder.
+    _http.useHTTP10(true);
+    _http.setFollowRedirects(HTTPC_STRICT_FOLLOW_REDIRECTS);
+    _http.setConnectTimeout(8000);
+    _http.setTimeout(NETWORK_STALL_MS);
+    const char* responseHeaders[] = {"Content-Type", "Transfer-Encoding"};
+    _http.collectHeaders(responseHeaders, 2);
+    tab5DiagnosticMark(4, "video-http", "connexion et en-tetes", 1);
+    const int code = _http.GET();
+    // The live client is now included in the allocator's free-heap sample.
+    // Keeping its startup reservation would count it a second time.
+    admission.release();
+    if (code < 200 || code >= 300 || aborted()) {
+      close();
+      return false;
+    }
+    String encoding = _http.header("Transfer-Encoding");
+    encoding.toLowerCase();
+    if (encoding.indexOf("chunked") >= 0) {
+      Tab5DebugSerial.println("[VIDEO] chunked malgre HTTP/1.0 : flux refuse");
+      close();
+      return false;
+    }
+    _stream = _http.getStreamPtr();
+    _contentLength = _http.getSize();
+    _contentType = _http.header("Content-Type");
+    _contentType.toLowerCase();
+    Tab5DebugSerial.printf("[VIDEO] HTTP %d, type=%s, longueur=%lld\n", code,
+                  _contentType.length() ? _contentType.c_str() : "inconnu",
+                  static_cast<long long>(_contentLength));
+    return _stream != nullptr;
+  }
+
+  void close() {
+    if (_file) _file.close();
+    _stream = nullptr;
+    _http.end();
+    delete _client;
+    _client = nullptr;
+    delete _lease; _lease = nullptr;
+    _position = 0;
+    _contentLength = -1;
+    _contentType = "";
+    _stalled = false;
+    _eof = false;
+  }
+
+  size_t read(void* destination, size_t length) {
+    cooperate();
+    if (!destination || !length || aborted()) return 0;
+    _stalled = false;
+    if (!_remote) {
+      const size_t got = _file.read(static_cast<uint8_t*>(destination), length);
+      // File::read may report an invalid SD descriptor as size_t(-1).
+      // Never turn that sentinel into an out-of-bounds MJPEG parse length.
+      if (got > length) { _eof = true; return 0; }
+      _position += got;
+      _eof = got == 0;
+      return got;
+    }
+    uint8_t* out = static_cast<uint8_t*>(destination);
+    size_t done = 0;
+    uint32_t lastProgress = millis();
+    while (done < length && !aborted()) {
+      cooperate();
+      const int available = _stream ? _stream->available() : 0;
+      if (available > 0) {
+        const int got = _stream->read(out + done,
+            std::min<size_t>(length - done, static_cast<size_t>(available)));
+        if (got > 0) {
+          done += static_cast<size_t>(got);
+          _position += static_cast<size_t>(got);
+          lastProgress = millis();
+          continue;
+        }
+      }
+      if (!_stream || (!_stream->connected() && !_stream->available())) {
+        _eof = true;
+        break;
+      }
+      if (_contentLength >= 0 &&
+          _position >= static_cast<uint64_t>(_contentLength)) {
+        _eof = true;
+        break;
+      }
+      if (millis() - lastProgress >= NETWORK_STALL_MS) {
+        // Un direct MJPEG peut rester plusieurs secondes sans nouvelle image.
+        // Ce silence n'est pas une fin de fichier tant que TCP reste ouvert.
+        _stalled = true;
+        break;
+      }
+      vTaskDelay(pdMS_TO_TICKS(2));
+    }
+    return done;
+  }
+
+  bool readExact(void* destination, size_t length) {
+    uint8_t* out = static_cast<uint8_t*>(destination);
+    size_t done = 0;
+    while (done < length && !aborted()) {
+      const size_t got = read(out + done, length - done);
+      if (!got) {
+        if (_stalled && !aborted()) continue;
+        return false;
+      }
+      done += got;
+    }
+    return done == length;
+  }
+
+  bool skip(uint32_t length) {
+    // Une microSD sait se positionner directement. Lire tous les octets d'un
+    // gros JUNK/idx1 par blocs de 1 Kio bloquait l'ouverture de certains AVI
+    // pendant de longues secondes, voire plusieurs minutes.
+    if (!_remote) {
+      const uint64_t target = _position + static_cast<uint64_t>(length);
+      if (target > static_cast<uint64_t>(_file.size()) ||
+          target > 0xffffffffULL) {
+        _eof = true;
+        return false;
+      }
+      if (!_file.seek(static_cast<uint32_t>(target))) return false;
+      _position = target;
+      _eof = false;
+      return true;
+    }
+    uint8_t scratch[1024];
+    while (length && !aborted()) {
+      const size_t amount = std::min<size_t>(length, sizeof(scratch));
+      const size_t got = read(scratch, amount);
+      if (!got) {
+        if (_stalled && !aborted()) continue;
+        return false;
+      }
+      length -= static_cast<uint32_t>(got);
+    }
+    return length == 0;
+  }
+
+  bool readByte(uint8_t& value) { return read(&value, 1) == 1; }
+  bool readLine(char* destination, size_t capacity) {
+    if (!destination || capacity < 2) return false;
+    size_t length = 0;
+    bool overflow = false;
+    while (!aborted()) {
+      uint8_t value = 0;
+      if (!readByte(value)) {
+        if (_stalled && !_eof) continue;
+        return false;
+      }
+      if (value == '\n') {
+        destination[length] = 0;
+        return !overflow;
+      }
+      if (value == '\r') continue;
+      if (length + 1 < capacity) destination[length++] = static_cast<char>(value);
+      else overflow = true;
+    }
+    return false;
+  }
+  uint64_t position() const { return _position; }
+  bool remote() const { return _remote; }
+  bool stalled() const { return _stalled; }
+  bool eof() const { return _eof; }
+  bool finite() const { return !_remote || _contentLength >= 0; }
+  const String& contentType() const { return _contentType; }
+
+ private:
+  bool aborted() const { return (_remote && !tab5NetworkEnabled()) || (_abort && *_abort); }
+  bool _remote = false;
+  Tab5TimeSlice _slice;
+  void cooperate() { if (_slice.due(millis())) vTaskDelay(1); }
+  File _file;
+  Tab5NetworkLease* _lease = nullptr;
+  HTTPClient _http;
+  NetworkClient* _client = nullptr;
+  NetworkClient* _stream = nullptr;
+  std::atomic<bool>* _abort = nullptr;
+  uint64_t _position = 0;
+  int64_t _contentLength = -1;
+  String _contentType;
+  bool _stalled = false;
+  bool _eof = false;
+};
+
+namespace {
+
+bool skipChunk(Tab5VideoInput& input, uint32_t size) {
+  return input.skip(size + (size & 1U));
+}
+
+bool readChunkHeader(Tab5VideoInput& input, uint8_t id[4], uint32_t& size) {
+  uint8_t header[8];
+  if (!input.readExact(header, sizeof(header))) return false;
+  memcpy(id, header, 4);
+  size = le32(header + 4);
+  return true;
+}
+
+bool readSmallChunk(Tab5VideoInput& input, uint32_t size,
+                    uint8_t* destination, size_t capacity) {
+  const size_t kept = std::min<size_t>(size, capacity);
+  memset(destination, 0, capacity);
+  if (kept && !input.readExact(destination, kept)) return false;
+  if (size > kept && !input.skip(size - kept)) return false;
+  return !(size & 1U) || input.skip(1);
+}
+
+bool parseStrl(Tab5VideoInput& input, uint32_t remaining, int streamIndex,
+               AviInfo& avi) {
+  AviStreamInfo stream;
+  while (remaining >= 8) {
+    uint8_t id[4];
+    uint32_t size = 0;
+    if (!readChunkHeader(input, id, size)) return false;
+    const uint32_t consumed = 8U + size + (size & 1U);
+    if (consumed > remaining) return false;
+    uint8_t data[64];
+    if (fourcc(id, "strh")) {
+      if (!readSmallChunk(input, size, data, sizeof(data))) return false;
+      memcpy(stream.type, data, 4);
+      memcpy(stream.handler, data + 4, 4);
+      if (size >= 28) {
+        stream.scale = le32(data + 20);
+        stream.rate = le32(data + 24);
+      }
+    } else if (fourcc(id, "strf")) {
+      if (!readSmallChunk(input, size, data, sizeof(data))) return false;
+      if (fourcc(stream.type, "auds") && size >= 16) {
+        stream.audioTag = le16(data);
+        // FFmpeg encapsule couramment le PCM 24/32 bits dans
+        // WAVE_FORMAT_EXTENSIBLE (0xfffe). Le GUID PCM commence alors par
+        // 00000001 à l'octet 24 du WAVEFORMATEXTENSIBLE.
+        if (stream.audioTag == 0xfffe && size >= 40 && le32(data + 24) == 1)
+          stream.audioTag = 1;
+        stream.channels = le16(data + 2);
+        stream.sampleRate = le32(data + 4);
+        stream.bits = le16(data + 14);
+      } else if (size >= 20) {
+        memcpy(stream.compression, data + 16, 4);
+      }
+    } else if (!skipChunk(input, size)) {
+      return false;
+    }
+    remaining -= consumed;
+  }
+  if (remaining && !input.skip(remaining)) return false;
+
+  const bool videoType = fourcc(stream.type, "vids");
+  const bool mjpeg = fourcc(stream.handler, "MJPG") ||
+                     fourcc(stream.handler, "mjpg") ||
+                     fourcc(stream.compression, "MJPG") ||
+                     fourcc(stream.compression, "mjpg");
+  if (videoType && !avi.videoSeen) {
+    avi.videoSeen = true;
+    const bool handlerPresent = stream.handler[0] || stream.handler[1] ||
+                                stream.handler[2] || stream.handler[3];
+    const uint8_t* codec = handlerPresent ? stream.handler
+                                          : stream.compression;
+    for (uint8_t i = 0; i < 4; ++i) {
+      avi.videoCodec[i] = codec[i] >= 32 && codec[i] <= 126
+          ? static_cast<char>(codec[i]) : '?';
+    }
+  }
+  if (videoType && mjpeg && avi.videoStream < 0) {
+    avi.videoStream = streamIndex;
+    avi.mjpeg = true;
+    if (stream.scale && stream.rate)
+      avi.frameUs = static_cast<uint32_t>(
+          (1000000ULL * stream.scale) / stream.rate);
+  }
+  if (fourcc(stream.type, "auds") && stream.audioTag == 1 &&
+      stream.sampleRate && (stream.channels == 1 || stream.channels == 2) &&
+      (stream.bits == 8 || stream.bits == 16 || stream.bits == 24 ||
+       stream.bits == 32) && avi.audioStream < 0) {
+    avi.audioStream = streamIndex;
+    avi.pcm = true;
+    avi.pcmSpec.sampleRate = stream.sampleRate;
+    avi.pcmSpec.channels = static_cast<uint8_t>(stream.channels);
+    avi.pcmSpec.format = stream.bits == 8 ? Tab5PcmFormat::U8
+        : (stream.bits == 16 ? Tab5PcmFormat::S16
+        : (stream.bits == 24 ? Tab5PcmFormat::S24 : Tab5PcmFormat::S32));
+  }
+  return true;
+}
+
+bool parseHdrl(Tab5VideoInput& input, uint32_t remaining, AviInfo& avi) {
+  int streamIndex = 0;
+  while (remaining >= 8) {
+    uint8_t id[4];
+    uint32_t size = 0;
+    if (!readChunkHeader(input, id, size)) return false;
+    const uint32_t consumed = 8U + size + (size & 1U);
+    if (consumed > remaining) return false;
+    if (fourcc(id, "avih")) {
+      uint8_t data[64];
+      if (!readSmallChunk(input, size, data, sizeof(data))) return false;
+      if (size >= 4 && le32(data)) avi.frameUs = le32(data);
+    } else if (fourcc(id, "LIST") && size >= 4) {
+      uint8_t type[4];
+      if (!input.readExact(type, 4)) return false;
+      if (fourcc(type, "strl")) {
+        if (!parseStrl(input, size - 4, streamIndex++, avi)) return false;
+      } else if (!input.skip(size - 4)) {
+        return false;
+      }
+      if ((size & 1U) && !input.skip(1)) return false;
+    } else if (!skipChunk(input, size)) {
+      return false;
+    }
+    remaining -= consumed;
+  }
+  return !remaining || input.skip(remaining);
+}
+
+int streamNumber(const uint8_t id[4]) {
+  if (id[0] < '0' || id[0] > '9' || id[1] < '0' || id[1] > '9') return -1;
+  return (id[0] - '0') * 10 + (id[1] - '0');
+}
+
+}  // namespace
+
+Tab5VideoEngine Tab5Video;
+
+bool Tab5VideoEngine::begin(bool sdAvailable, BaseType_t taskCore) {
+  if (!_mutex) _mutex = xSemaphoreCreateMutex();
+  if (!_mutex) return false;
+  _sdAvailable = sdAvailable;
+  _taskCore = taskCore;
+  _catalogLoaded = false;
+  return true;
+}
+
+bool Tab5VideoEngine::setStorageAvailable(bool available) {
+  if(!_mutex) return false;
+  MutexGuard guard(_mutex);
+  if(!guard) return false;
+  // The worker uses its copied source, never this catalogue/availability
+  // flag. A remote player may coexist with an exclusive SD remount.
+  _sdAvailable=available;
+  _catalogLoaded=false;
+  std::vector<Tab5VideoItem>().swap(_items);
+  _uiDirty=true;
+  return true;
+}
+
+void Tab5VideoEngine::ensureLibraryLoaded() {
+  if(!_catalogLoaded) reload();
+}
+
+size_t Tab5VideoEngine::reclaimIdle() {
+  if(!_mutex||_taskRunning) return 0;
+  MutexGuard guard(_mutex,0);
+  if(!guard||_taskRunning||_displayAttached||_playQueued) return 0;
+  const auto before=heap_caps_get_free_size(MALLOC_CAP_8BIT);
+  releaseFrames();
+  releaseDecoderResources();
+  std::vector<Tab5VideoItem>().swap(_items);
+  _catalogLoaded=false;
+  _pendingSource=String();_pendingName=String();_pendingFormat=String();
+  const auto after=heap_caps_get_free_size(MALLOC_CAP_8BIT);
+  return after>before?after-before:0;
+}
+
+void Tab5VideoEngine::scanFolder(const String& folder, uint8_t depth) {
+  if (!_sdAvailable || depth > MAX_VIDEO_DEPTH || _items.size() >= MAX_VIDEO_ITEMS ||
+      _scanEntries >= MAX_SCAN_ENTRIES ||
+      !tab5FS.exists(folder.c_str())) return;
+  File directory = tab5FS.open(folder.c_str());
+  if (!directory || !directory.isDirectory()) return;
+  for (File entry = directory.openNextFile(); entry && _items.size() < MAX_VIDEO_ITEMS && _scanEntries < MAX_SCAN_ENTRIES;
+       entry = directory.openNextFile()) {
+    ++_scanEntries;
+    if((_scanEntries&15U)==0)vTaskDelay(1);
+    String path = entry.path();
+    if (!path.startsWith("/")) path = folder + "/" + path;
+    if (entry.isDirectory()) {
+      entry.close();
+      scanFolder(path, depth + 1);
+    } else {
+      entry.close();
+      if (!isVideoPath(path)) continue;
+      Tab5VideoItem item;
+      item.name = sourceName(path);
+      item.source = path;
+      _items.push_back(item);
+    }
+  }
+  directory.close();
+}
+
+void Tab5VideoEngine::loadRemoteCatalog() {
+  if (!_sdAvailable || !tab5FS.exists(VIDEO_CATALOG)) return;
+  File file = tab5FS.open(VIDEO_CATALOG, FILE_READ);
+  if (!file) return;
+  if(file.size()>MAX_CATALOG_BYTES){file.close();Tab5DebugSerial.println("[VIDEO] catalogue >256 Kio ignore");return;}
+  JsonDocument document(tab5JsonAllocator());
+  const DeserializationError error = deserializeJson(document, file);
+  file.close();
+  if (error) return;
+  JsonArray videos = document["videos"].as<JsonArray>();
+  for (JsonObject entry : videos) {
+    if (_items.size() >= MAX_VIDEO_ITEMS) break;
+    const String url = entry["url"] | "";
+    const char* formatValue = entry["format"] | "";
+    if (!formatValue[0]) formatValue = entry["type"] | "";
+    String format(formatValue);
+    format.toLowerCase();
+    if (format == "mjpg") format = "mjpeg";
+    if (url.length()>1024 || !isRemoteSource(url) || isUnsupportedContainerPath(url) ||
+        (!isVideoPath(url) && format != "avi" && format != "mjpeg")) continue;
+    Tab5VideoItem item;
+    item.source = url;
+    item.format = format;
+    item.name = String(entry["name"] | "");
+    if(item.name.length()>160)item.name.remove(160);
+    if (!item.name.length()) item.name = sourceName(url);
+    item.fps = constrain(entry["fps"] | 25.0f, 1.0f, 60.0f);
+    item.remote = true;
+    _items.push_back(item);
+  }
+}
+
+void Tab5VideoEngine::reload() {
+  if (!_mutex || _taskRunning) return;
+  Tab5StorageUse storage{true};
+  if(!storage) return;
+  MutexGuard guard(_mutex);
+  if (!guard) return;
+  _items.clear();
+  _scanEntries=0;
+  if (_sdAvailable) {
+    if (!tab5FS.exists(VIDEO_ROOT)) tab5FS.mkdir(VIDEO_ROOT);
+    if (!tab5FS.exists(VIDEO_CATALOG)) {
+      File catalog = tab5FS.open(VIDEO_CATALOG, FILE_WRITE);
+      if (catalog) {
+        catalog.println("{\"videos\":[]}");
+        catalog.close();
+      }
+    }
+    scanFolder(VIDEO_ROOT, 0);
+    if (tab5FS.exists(LEGACY_VIDEO_ROOT)) scanFolder(LEGACY_VIDEO_ROOT, 0);
+    loadRemoteCatalog();
+  }
+  if(_scanEntries>=MAX_SCAN_ENTRIES)Tab5DebugSerial.println("[VIDEO] parcours limite a 4096 entrees");
+  std::sort(_items.begin(), _items.end(), [](const Tab5VideoItem& a,
+                                             const Tab5VideoItem& b) {
+    return strcasecmp(a.name.c_str(), b.name.c_str()) < 0;
+  });
+  _catalogLoaded = true;
+  _uiDirty = true;
+}
+
+size_t Tab5VideoEngine::count() const {
+  MutexGuard guard(_mutex);
+  return guard ? _items.size() : 0;
+}
+
+bool Tab5VideoEngine::item(size_t index, Tab5VideoItem& result) const {
+  MutexGuard guard(_mutex);
+  if (!guard || index >= _items.size()) return false;
+  result = _items[index];
+  return true;
+}
+
+bool Tab5VideoEngine::play(size_t index) {
+  Tab5VideoItem selected;
+  if (!item(index, selected)) return false;
+  return playSource(selected.source, selected.name, selected.fps,
+                    selected.format);
+}
+
+bool Tab5VideoEngine::playSource(const String& source, const String& name,
+                                 float fps, const String& requestedFormat) {
+  String format = requestedFormat;
+  format.toLowerCase();
+  if (format == "mjpg") format = "mjpeg";
+  const bool explicitFormat = format == "avi" || format == "mjpeg";
+  if (isUnsupportedContainerPath(source) ||
+      (!isVideoPath(source) && !explicitFormat) ||
+      (!_sdAvailable && !isRemoteSource(source)))
+    return false;
+  if (_taskRunning.load(std::memory_order_acquire)) {
+    MutexGuard guard(_mutex);
+    if (!guard) return false;
+    // Do not overwrite the active startup parameters, buffers or abort flag.
+    // Its worker may still be opening TLS or not even have entered taskMain.
+    _queuedPlay.source = source;
+    _queuedPlay.name = name.length() ? name : sourceName(source);
+    _queuedPlay.format = format;
+    _queuedPlay.fps = constrain(fps, 1.0f, 60.0f);
+    _queuedPlay.remote = isRemoteSource(source);
+    _playQueued = true;
+    _stopRequested = true;
+    _uiDirty = true;
+    return true;
+  }
+  {
+    MutexGuard guard(_mutex);
+    if (!guard) return false;
+    _playQueued = false;
+    _queuedPlay = {};
+    _pendingSource = source;
+    _pendingName = name.length() ? name : sourceName(source);
+    _pendingFormat = format;
+    _pendingFps = constrain(fps, 1.0f, 60.0f);
+    _stopRequested = false;
+    _paused = false;
+    _frameGeneration = 0;
+    _uiFrame = 0xff;
+    _displayAttached = true;
+    _consecutiveDecodeErrors = 0;
+    _state = {};
+    _state.state = Tab5VideoState::Opening;
+    _state.name = _pendingName;
+    _state.status = isRemoteSource(source)
+        ? "Ouverture du flux vidéo…" : "Ouverture de la vidéo…";
+    _state.remote = isRemoteSource(source);
+    _uiDirty = true;
+  }
+  auto admission=tab5ReserveMemory(Tab5Resources::Owner::Video,
+      Tab5Resources::TaskBudget(24*1024),"tache video");
+  if(!admission){
+    {MutexGuard guard(_mutex);if(guard)_displayAttached=false;}
+    setState(Tab5VideoState::Error,"Mémoire occupée — réessayez après la libération des caches");return false;
+  }
+  _taskRunning = true;
+  const BaseType_t result = tab5CreateAdmittedTask(admission,
+      taskEntry, "tab5_video", 24 * 1024, this, 5, &_task, _taskCore);
+  if (result != pdPASS) {
+    _task = nullptr;
+    _taskRunning = false;
+    {MutexGuard guard(_mutex);if(guard)_displayAttached=false;}
+    setState(Tab5VideoState::Error, "Mémoire insuffisante pour la vidéo");
+    return false;
+  }
+  return true;
+}
+
+void Tab5VideoEngine::togglePause() {
+  if (!_taskRunning || _stopRequested) return;
+  MutexGuard guard(_mutex);
+  if (!guard || _stopRequested) return;
+  const uint64_t now = esp_timer_get_time();
+  if (!_paused) {
+    _pauseStartedUs = now;
+    _paused = true;
+  } else {
+    _paused = false;
+    if (_pauseStartedUs) _clockStartedUs += now - _pauseStartedUs;
+    _pauseStartedUs = 0;
+  }
+  _state.state = _paused ? Tab5VideoState::Paused : Tab5VideoState::Playing;
+  _state.status = _paused ? "Pause" : "Lecture vidéo";
+  _uiDirty = true;
+}
+
+void Tab5VideoEngine::stop() {
+  _stopRequested = true;
+  MutexGuard guard(_mutex);
+  if (!guard) return;
+  _playQueued = false;
+  _queuedPlay = {};
+  // The owner closes socket, decoder and audio. Never join it from LVGL or
+  // release its resources while it is using them, even after a timeout.
+  if (!_taskRunning.load(std::memory_order_acquire)) {
+    _state.state = Tab5VideoState::Idle;
+    _state.status = "Arrêté";
+  }
+  _uiDirty = true;
+}
+
+void Tab5VideoEngine::service() {
+  if (_taskRunning.load(std::memory_order_acquire)) return;
+  Tab5VideoItem next;
+  {
+    MutexGuard guard(_mutex, 0);
+    if (!guard || !_playQueued) return;
+    next = std::move(_queuedPlay);
+    _queuedPlay = {};
+    _playQueued = false;
+  }
+  // Only UI starts tasks. This point is reached after taskMain's destructors
+  // and the release publication in taskEntry; buffers have a single owner.
+  if (!playSource(next.source, next.name, next.fps, next.format)) {
+    MutexGuard guard(_mutex);
+    if (guard && _state.state != Tab5VideoState::Error) {
+      _state.state = Tab5VideoState::Error;
+      _state.name = next.name;
+      _state.status = "Vidéo inaccessible";
+      _uiDirty = true;
+    }
+  }
+}
+
+void Tab5VideoEngine::detachDisplay() {
+  MutexGuard guard(_mutex);
+  if (!guard) return;
+  _displayAttached = false;
+  _uiFrame = 0xff;
+  if (!_taskRunning) releaseFrames();
+}
+
+void Tab5VideoEngine::releaseFrames() {
+  for (auto& frame : _frames) { free(frame); frame = nullptr; }
+  _frameCapacity = 0;
+  _frameGeneration = 0;
+  _frontFrame = 0;
+  _uiFrame = 0xff;
+}
+
+bool Tab5VideoEngine::snapshot(Tab5VideoSnapshot& result) const {
+  MutexGuard guard(_mutex, pdMS_TO_TICKS(20));
+  if (!guard) return false;
+  if (_playQueued) {
+    result = {};
+    result.state = Tab5VideoState::Opening;
+    result.name = _queuedPlay.name;
+    result.status = _queuedPlay.remote
+        ? "Ouverture du flux vidéo…" : "Ouverture de la vidéo…";
+    result.remote = _queuedPlay.remote;
+    return true;
+  }
+  result = _state;
+  if (_clockStartedUs && (_state.state == Tab5VideoState::Playing ||
+                          _state.state == Tab5VideoState::Paused)) {
+    const uint64_t now = _paused ? _pauseStartedUs : esp_timer_get_time();
+    result.elapsedMs = static_cast<uint32_t>((now - _clockStartedUs) / 1000ULL);
+  }
+  return true;
+}
+
+bool Tab5VideoEngine::frame(Tab5VideoFrame& result) {
+  MutexGuard guard(_mutex, pdMS_TO_TICKS(20));
+  if (!guard || _playQueued || !_frameGeneration || !_frames[_frontFrame]) return false;
+  // LVGL conserve ce pointeur jusqu'au rendu suivant. Le producteur ne doit
+  // donc jamais recycler ce tampon pendant que l'interface l'affiche.
+  _uiFrame = _frontFrame;
+  result.data = _frames[_frontFrame];
+  result.width = _state.width;
+  result.height = _state.height;
+  result.stride = _frameStride;
+  result.generation = _frameGeneration;
+  return true;
+}
+
+bool Tab5VideoEngine::takeUiDirty() {
+  return _uiDirty.exchange(false);
+}
+
+void Tab5VideoEngine::setState(Tab5VideoState state, const String& status) {
+  MutexGuard guard(_mutex, pdMS_TO_TICKS(100));
+  if (!guard) return;
+  _state.state = state;
+  _state.status = status;
+  _uiDirty = true;
+}
+
+void Tab5VideoEngine::taskEntry(void* context) {
+  auto* engine=static_cast<Tab5VideoEngine*>(context);
+  tab5DiagnosticMark(4,"video-start","ouverture du lecteur",1);
+  bool remote=false;
+  {MutexGuard guard(engine->_mutex);if(guard)remote=isRemoteSource(engine->_pendingSource);}
+  // A network-only stream has no SD handle and must not prevent recovery.
+  if(remote)engine->taskMain();
+  else
+  {
+    Tab5StorageUse storage{true};
+    if(storage)engine->taskMain();
+    else {
+      engine->setState(Tab5VideoState::Error,"Reconnexion SD en cours — réessayez");
+    }
+  }
+  // taskMain's input, temporary strings, SD lease and audio lease have all
+  // left scope. A replacement may start only after that owner cleanup.
+  engine->logMemory("ressources libérées");
+  tab5TaskCheckpoint("video");
+  tab5DiagnosticMark(4,"video-end","ressources du lecteur liberees",0);
+  {
+    MutexGuard guard(engine->_mutex);
+    engine->_task=nullptr;
+    // UI may detach after taskMain checked the attachment but before this
+    // final publication. Close that window under the same mutex as detach.
+    if (!engine->_displayAttached) engine->releaseFrames();
+    if (engine->_stopRequested) {
+      engine->_state.state=Tab5VideoState::Idle;
+      engine->_state.status="Arrêté";
+    }
+    engine->_uiDirty=true;
+    engine->_taskRunning.store(false,std::memory_order_release);
+  }
+  vTaskDelete(nullptr);
+}
+
+void Tab5VideoEngine::taskMain() {
+  // Resume any borrowed audio only after sockets, DMA decoder and playback
+  // resources close. User Stop/new playback still supersedes this lease.
+  Tab5AudioPriorityLease priority;
+  String source;
+  String format;
+  float fps = 25.0f;
+  {
+    MutexGuard guard(_mutex);
+    source = _pendingSource;
+    format = _pendingFormat;
+    fps = _pendingFps;
+  }
+  String lower = source;
+  const int query = lower.indexOf('?');
+  if (query >= 0) lower.remove(query);
+  lower.toLowerCase();
+  const bool avi = format == "avi" ||
+                   (!format.length() && lower.endsWith(".avi"));
+  const bool reconnectable = isRemoteSource(source) && !avi;
+
+  Tab5VideoInput input;
+  bool success = false;
+  uint32_t reconnectAttempt = 0;
+  {
+    MutexGuard guard(_mutex);
+    if (guard) _clockStartedUs = esp_timer_get_time();
+  }
+
+  while (!_stopRequested) {
+    success = false;
+    Tab5DebugSerial.printf("[VIDEO] ouverture %s\n", source.c_str());
+    logMemory("avant connexion");
+    if (!input.open(source, &_stopRequested, priority)) {
+      if (!reconnectable) {
+        setState(Tab5VideoState::Error, "Vidéo inaccessible");
+        break;
+      }
+      ++reconnectAttempt;
+      setState(Tab5VideoState::Playing, "Reconnexion au direct MJPEG…");
+      const uint32_t retryMs = std::min<uint32_t>(5000U,
+          500U * std::min<uint32_t>(reconnectAttempt, 10U));
+      for (uint32_t waited = 0; waited < retryMs && !_stopRequested;
+           waited += 20U)
+        vTaskDelay(pdMS_TO_TICKS(20));
+      continue;
+    }
+    tab5DiagnosticMark(4,"video-read","lecture du flux",1);
+    logMemory("connexion ouverte");
+
+    const String contentType = input.contentType();
+    const bool multipartStream = !avi &&
+                                 contentType.indexOf("multipart/") >= 0;
+    const bool unsupportedNetworkContainer = !avi &&
+        (contentType.indexOf("video/quicktime") >= 0 ||
+         contentType.indexOf("video/mp4") >= 0 ||
+         contentType.indexOf("video/webm") >= 0 ||
+         contentType.indexOf("video/ogg") >= 0);
+    if (unsupportedNetworkContainer) {
+      setState(Tab5VideoState::Error,
+               "Conteneur réseau non pris en charge (MJPEG brut requis)");
+    } else {
+      success = avi ? playAvi(input, priority) : playMjpeg(input, fps);
+    }
+
+    const bool reconnect = !_stopRequested && reconnectable && input.eof() &&
+                           (multipartStream || !input.finite());
+    input.close();
+    if (reconnect) {
+      // Le handshake TLS suivant ne doit pas se superposer aux tampons et aux
+      // descripteurs DMA temporaires du décodeur JPEG. Les trois images
+      // publiées restent en PSRAM : LVGL peut donc continuer à afficher la
+      // dernière trame pendant la reconnexion sans conserver un pointeur mort.
+      releaseDecoderResources();
+      ++reconnectAttempt;
+      Tab5DebugSerial.printf("[VIDEO] direct interrompu, reconnexion %lu\n",
+                    static_cast<unsigned long>(reconnectAttempt));
+      logMemory("avant reconnexion");
+      setState(Tab5VideoState::Playing, "Reconnexion au direct MJPEG…");
+      const uint32_t retryMs = std::min<uint32_t>(5000U,
+          500U * std::min<uint32_t>(reconnectAttempt, 10U));
+      for (uint32_t waited = 0; waited < retryMs && !_stopRequested;
+           waited += 20U)
+        vTaskDelay(pdMS_TO_TICKS(20));
+      continue;
+    }
+    break;
+  }
+
+  if (!_stopRequested) {
+    if (success) {
+      setState(Tab5VideoState::Finished, "Fin de la vidéo");
+    } else {
+      Tab5VideoSnapshot state;
+      if (!snapshot(state) || state.state != Tab5VideoState::Error)
+        setState(Tab5VideoState::Error, "Lecture vidéo interrompue");
+    }
+  }
+  tab5DiagnosticMark(4,"video-release","fermeture et liberation",1);
+  input.close();
+  releaseDecoderResources();
+  releasePlayback();
+  {
+    MutexGuard guard(_mutex);
+    if (!_displayAttached) releaseFrames();
+    _uiDirty = true;
+  }
+}
+
+bool Tab5VideoEngine::ensureJpegInput(size_t required) {
+  if (required > MAX_JPEG_BYTES) return false;
+  if (_jpegInput && required <= _jpegInputCapacity) return true;
+  size_t capacity = _jpegInputCapacity ? _jpegInputCapacity : 128U * 1024U;
+  while (capacity < required) capacity *= 2U;
+  capacity = std::min(capacity, MAX_JPEG_BYTES);
+  auto admission=tab5ReserveMemory(Tab5Resources::Owner::Video,
+      {0,0,0,capacity,capacity},"tampon JPEG video");
+  if(!admission) return false;
+  jpeg_decode_memory_alloc_cfg_t cfg = {};
+  cfg.buffer_direction = JPEG_DEC_ALLOC_INPUT_BUFFER;
+  size_t allocated = 0;
+  uint8_t* replacement = static_cast<uint8_t*>(
+      jpeg_alloc_decoder_mem(capacity, &cfg, &allocated));
+  if (!replacement) return false;
+  if (_jpegInput && _jpegInputCapacity)
+    memcpy(replacement, _jpegInput, std::min(_jpegInputCapacity, allocated));
+  free(_jpegInput);
+  _jpegInput = replacement;
+  _jpegInputCapacity = allocated;
+  return required <= _jpegInputCapacity;
+}
+
+bool Tab5VideoEngine::ensureDecoderBuffers(size_t requiredOutput) {
+  if (!requiredOutput || requiredOutput > MAX_FRAME_BYTES) return false;
+  const bool haveFrames=_frames[0]&&_frames[1]&&_frames[2];
+  if(haveFrames&&requiredOutput>_frameCapacity)return false;
+  if(_jpegDecoder&&haveFrames)return true;
+  // Three 720p RGB565 frames need 5.3 MiB, not the former fixed 2 MiB
+  // startup estimate. Reserve only when the JPEG header gives the real size.
+  auto admission=tab5ReserveMemory(Tab5Resources::Owner::Video,
+      {12*1024,8*1024,8*1024,
+       haveFrames?0:requiredOutput*3,haveFrames?0:requiredOutput},
+      "decodeur et images video");
+  if(!admission) return false;
+  if (!_jpegDecoder) {
+    jpeg_decode_engine_cfg_t engine = {};
+    engine.timeout_ms = 1000;
+    jpeg_decoder_handle_t handle = nullptr;
+    if (jpeg_new_decoder_engine(&engine, &handle) != ESP_OK) return false;
+    _jpegDecoder = handle;
+  }
+  if (!_frames[0] || !_frames[1] || !_frames[2]) {
+    for (uint8_t i = 0; i < 3; ++i) {
+      free(_frames[i]);
+      _frames[i] = nullptr;
+    }
+    jpeg_decode_memory_alloc_cfg_t cfg = {};
+    cfg.buffer_direction = JPEG_DEC_ALLOC_OUTPUT_BUFFER;
+    size_t minimumCapacity = requiredOutput;
+    for (uint8_t i = 0; i < 3; ++i) {
+      size_t allocated = 0;
+      _frames[i] = static_cast<uint8_t*>(
+          jpeg_alloc_decoder_mem(requiredOutput, &cfg, &allocated));
+      if (!_frames[i] || allocated < requiredOutput) {
+        for (uint8_t released = 0; released < 3; ++released) {
+          free(_frames[released]);
+          _frames[released] = nullptr;
+        }
+        _frameCapacity = 0;
+        return false;
+      }
+      minimumCapacity = std::min(minimumCapacity, allocated);
+    }
+    _frameCapacity = minimumCapacity;
+  }
+  // Never reallocate a frame that LVGL may still be displaying. A stream
+  // changing to larger dimensions must be reopened through the normal join.
+  return requiredOutput <= _frameCapacity;
+}
+
+void Tab5VideoEngine::releaseDecoderResources() {
+  if (_jpegDecoder) {
+    jpeg_del_decoder_engine(
+        static_cast<jpeg_decoder_handle_t>(_jpegDecoder));
+    _jpegDecoder = nullptr;
+  }
+  free(_jpegInput);
+  _jpegInput = nullptr;
+  _jpegInputCapacity = 0;
+}
+
+void Tab5VideoEngine::logMemory(const char* stage) const {
+  const size_t internal = heap_caps_get_free_size(
+      MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT);
+  const size_t internalLargest = heap_caps_get_largest_free_block(
+      MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT);
+  const size_t dma = heap_caps_get_free_size(MALLOC_CAP_DMA);
+  const size_t psram = heap_caps_get_free_size(MALLOC_CAP_SPIRAM);
+  // ESP-IDF renvoie déjà la marge de pile en octets (contrairement à
+  // FreeRTOS amont qui la donne historiquement en mots).
+  const size_t stackBytes = static_cast<size_t>(
+      uxTaskGetStackHighWaterMark(nullptr));
+  Tab5DebugSerial.printf(
+      "[VIDEO][MEM] %s: interne=%u Ko, bloc=%u Ko, DMA=%u Ko, "
+      "PSRAM=%u Ko, pile=%u octets\n",
+      stage ? stage : "", static_cast<unsigned>(internal / 1024U),
+      static_cast<unsigned>(internalLargest / 1024U),
+      static_cast<unsigned>(dma / 1024U),
+      static_cast<unsigned>(psram / 1024U),
+      static_cast<unsigned>(stackBytes));
+}
+
+bool Tab5VideoEngine::waitUntil(uint64_t presentationUs) {
+  while (!_stopRequested) {
+    uint64_t clockStarted = 0;
+    bool remote = false;
+    {
+      MutexGuard guard(_mutex);
+      if (guard) { clockStarted = _clockStartedUs; remote = _state.remote; }
+    }
+    // A paused remote video must release its session when Wi-Fi is disabled.
+    // Local video keeps playing independently of network availability.
+    if (remote && !tab5NetworkEnabled()) return false;
+    if (_paused) {
+      vTaskDelay(pdMS_TO_TICKS(10));
+      continue;
+    }
+    const uint64_t target = clockStarted + presentationUs;
+    const uint64_t now = esp_timer_get_time();
+    if (now >= target) return true;
+    const uint64_t remaining = target - now;
+    vTaskDelay(pdMS_TO_TICKS(std::max<uint64_t>(1, std::min<uint64_t>(10,
+        remaining / 1000ULL))));
+  }
+  return false;
+}
+
+bool Tab5VideoEngine::decodeAndPublish(const uint8_t* jpeg, size_t length,
+                                       uint64_t presentationUs) {
+  // Live streams have no presentation wait. Even dropped/invalid frames
+  // must leave a real scheduling opportunity; taskYIELD alone cannot run idle.
+  vTaskDelay(1);
+  if (!jpeg || !length) {
+    setState(Tab5VideoState::Error, "Trame MJPEG vide");
+    return false;
+  }
+  jpeg_decode_picture_info_t info = {};
+  if (jpeg_decoder_get_info(jpeg, length, &info) != ESP_OK || !info.width ||
+      !info.height || info.width > MAX_VIDEO_WIDTH ||
+      info.height > MAX_VIDEO_HEIGHT) {
+    setState(Tab5VideoState::Error,
+             "Image MJPEG invalide ou supérieure à 1280×720");
+    return false;
+  }
+  const uint16_t mcuWidth =
+      (info.sample_method == JPEG_DOWN_SAMPLING_YUV444 ||
+       info.sample_method == JPEG_DOWN_SAMPLING_GRAY) ? 8U : 16U;
+  const uint16_t mcuHeight =
+      info.sample_method == JPEG_DOWN_SAMPLING_YUV420 ? 16U : 8U;
+  const uint16_t decodedWidth = static_cast<uint16_t>(
+      ((info.width + mcuWidth - 1U) / mcuWidth) * mcuWidth);
+  const uint16_t decodedHeight = static_cast<uint16_t>(
+      ((info.height + mcuHeight - 1U) / mcuHeight) * mcuHeight);
+  const size_t requiredOutput = static_cast<size_t>(decodedWidth) *
+                                decodedHeight * 2U;
+  if (!_frameGeneration)
+    tab5DiagnosticMark(4,"video-buffers","allocation des images",1);
+  if (!ensureDecoderBuffers(requiredOutput)) {
+    setState(Tab5VideoState::Error, "Mémoire vidéo insuffisante");
+    return false;
+  }
+  if (!_frameGeneration)
+    tab5DiagnosticMark(4,"video-decode","premiere image JPEG",1);
+  // Après une pause réseau, ne pas afficher en accéléré toutes les images
+  // devenues anciennes. Le flux et l'audio restent séquentiels, mais la vidéo
+  // saute les images qui ont plus de 250 ms de retard pour retrouver son PTS.
+  uint64_t clockStarted = 0;
+  {
+    MutexGuard guard(_mutex);
+    if (guard) clockStarted = _clockStartedUs;
+  }
+  const uint64_t target = clockStarted + presentationUs;
+  if (!_paused && presentationUs &&
+      static_cast<uint64_t>(esp_timer_get_time()) > target + 250000ULL) {
+    MutexGuard guard(_mutex);
+    if (guard) ++_state.droppedFrames;
+    return true;
+  }
+  uint8_t next = 0xff;
+  {
+    MutexGuard guard(_mutex);
+    if (!guard) return false;
+    for (uint8_t offset = 1; offset <= 3; ++offset) {
+      const uint8_t candidate = static_cast<uint8_t>(
+          (_frontFrame + offset) % 3U);
+      if (candidate != _frontFrame && candidate != _uiFrame) {
+        next = candidate;
+        break;
+      }
+    }
+  }
+  if (next == 0xff) {
+    MutexGuard guard(_mutex);
+    if (guard) ++_state.droppedFrames;
+    return true;
+  }
+  jpeg_decode_cfg_t decode = {};
+  decode.output_format = JPEG_DECODE_OUT_FORMAT_RGB565;
+  // Le framebuffer LVGL du Tab5 est RGB565 big-endian
+  // (LV_COLOR_FORMAT_RGB565_SWAPPED). Sur ESP32-P4, l'énumération RGB demande
+  // précisément cette sortie big-endian ; BGR produit le petit-boutiste et
+  // donne les couleurs violet/vert observées.
+  decode.rgb_order = JPEG_DEC_RGB_ELEMENT_ORDER_RGB;
+  decode.conv_std = JPEG_YUV_RGB_CONV_STD_BT601;
+  uint32_t outputLength = 0;
+  const esp_err_t decodeResult = jpeg_decoder_process(
+      static_cast<jpeg_decoder_handle_t>(_jpegDecoder), &decode, jpeg, length,
+      _frames[next], _frameCapacity, &outputLength);
+  if (decodeResult != ESP_OK) {
+    uint8_t consecutiveErrors = 0;
+    {
+      MutexGuard guard(_mutex);
+      if (guard) {
+        ++_state.droppedFrames;
+        consecutiveErrors = ++_consecutiveDecodeErrors;
+      }
+    }
+    Tab5DebugSerial.printf("[VIDEO] échec JPEG 0x%lx (%u octets), série=%u\n",
+                  static_cast<unsigned long>(decodeResult),
+                  static_cast<unsigned>(length),
+                  static_cast<unsigned>(consecutiveErrors));
+    if (consecutiveErrors >= 3) {
+      setState(Tab5VideoState::Error,
+               "Trois trames JPEG invalides consécutives");
+      return false;
+    }
+    return true;
+  }
+  _consecutiveDecodeErrors = 0;
+  if (!waitUntil(presentationUs)) return false;
+  const uint16_t decodedStride = static_cast<uint16_t>(decodedWidth * 2U);
+  const size_t visibleBytes = static_cast<size_t>(decodedStride) * info.height;
+  if (outputLength < visibleBytes || outputLength > requiredOutput ||
+      outputLength > _frameCapacity) {
+    setState(Tab5VideoState::Error, "Taille de framebuffer JPEG incohérente");
+    return false;
+  }
+  bool logPublishedFrame = false;
+  {
+    MutexGuard guard(_mutex);
+    if (!guard) return false;
+    _frontFrame = next;
+    _state.width = static_cast<uint16_t>(info.width);
+    _state.height = static_cast<uint16_t>(info.height);
+    _frameStride = decodedStride;
+    _state.frameNumber++;
+    _frameGeneration++;
+    _uiDirty = true;
+    if (_frameGeneration == 1) {
+      Tab5DebugSerial.printf("[VIDEO] JPEG %ux%u, stride=%u, sortie=%lu octets\n",
+                    static_cast<unsigned>(info.width),
+                    static_cast<unsigned>(info.height),
+                    static_cast<unsigned>(_frameStride),
+                    static_cast<unsigned long>(outputLength));
+    }
+    logPublishedFrame = _state.frameNumber == 1 ||
+                        (_state.frameNumber % 300U) == 0;
+  }
+  if (logPublishedFrame) logMemory("décodage JPEG");
+  if (_frameGeneration == 1)
+    tab5DiagnosticMark(4,"video-playing","lecture et decodage JPEG",1);
+  return true;
+}
+
+bool Tab5VideoEngine::playMjpeg(Tab5VideoInput& input, float fps) {
+  if (input.remote() && input.contentType().indexOf("multipart/") >= 0)
+    return playMultipartMjpeg(input);
+  return playRawMjpeg(input, fps);
+}
+
+bool Tab5VideoEngine::playMultipartMjpeg(Tab5VideoInput& input) {
+  setState(Tab5VideoState::Playing, "Direct MJPEG multipart");
+  char line[256];
+  uint8_t invalidFrames = 0;
+
+  while (!_stopRequested) {
+    bool boundaryFound = false;
+    while (!_stopRequested) {
+      if (!input.readLine(line, sizeof(line))) return false;
+      if (line[0] == '-' && line[1] == '-') {
+        boundaryFound = true;
+        break;
+      }
+    }
+    if (!boundaryFound) return false;
+
+    size_t contentLength = 0;
+    bool lengthFound = false;
+    bool jpegPart = true;
+    uint8_t headerCount = 0;
+    while (!_stopRequested) {
+      if (!input.readLine(line, sizeof(line))) return false;
+      if (!line[0]) break;
+      if (++headerCount > 24) {
+        setState(Tab5VideoState::Error, "En-tête multipart trop long");
+        return false;
+      }
+      if (strncasecmp(line, "Content-Length:", 15) == 0) {
+        const char* value = line + 15;
+        while (*value == ' ' || *value == '\t') ++value;
+        char* end = nullptr;
+        const unsigned long parsed = strtoul(value, &end, 10);
+        if (end != value && parsed <= MAX_JPEG_BYTES) {
+          contentLength = static_cast<size_t>(parsed);
+          lengthFound = true;
+        }
+      } else if (strncasecmp(line, "Content-Type:", 13) == 0) {
+        const char* value = line + 13;
+        while (*value == ' ' || *value == '\t') ++value;
+        jpegPart = strncasecmp(value, "image/jpeg", 10) == 0 ||
+                   strncasecmp(value, "image/jpg", 9) == 0;
+      }
+    }
+
+    if (!lengthFound) {
+      setState(Tab5VideoState::Error,
+               "Flux multipart sans taille de trame");
+      return false;
+    }
+    if (!contentLength) continue;
+    if (!ensureJpegInput(contentLength)) {
+      setState(Tab5VideoState::Error, "Trame multipart trop volumineuse");
+      return false;
+    }
+    if (!input.readExact(_jpegInput, contentLength)) return false;
+    if (!jpegPart) continue;
+
+    const bool validMarkers = contentLength >= 4 &&
+        _jpegInput[0] == 0xff && _jpegInput[1] == 0xd8 &&
+        _jpegInput[contentLength - 2] == 0xff &&
+        _jpegInput[contentLength - 1] == 0xd9;
+    if (!validMarkers) {
+      {
+        MutexGuard guard(_mutex);
+        if (guard) ++_state.droppedFrames;
+      }
+      Tab5DebugSerial.printf("[VIDEO] trame multipart rejetée (%u octets)\n",
+                    static_cast<unsigned>(contentLength));
+      if (++invalidFrames >= 3) {
+        setState(Tab5VideoState::Error,
+                 "Trois trames multipart invalides consécutives");
+        return false;
+      }
+      continue;
+    }
+    invalidFrames = 0;
+    if (!decodeAndPublish(_jpegInput, contentLength, 0)) return false;
+  }
+  return false;
+}
+
+bool Tab5VideoEngine::playRawMjpeg(Tab5VideoInput& input, float fps) {
+  setState(Tab5VideoState::Playing, "Flux MJPEG");
+  const uint64_t frameUs = static_cast<uint64_t>(1000000.0f / fps);
+  uint32_t frame = 0;
+  bool collecting = false;
+  uint8_t previous = 0;
+  size_t length = 0;
+  bool waitingForData = false;
+  uint8_t networkBlock[4096];
+  while (!_stopRequested) {
+    const size_t got = input.read(networkBlock, sizeof(networkBlock));
+    if (!got) {
+      if (input.stalled()) {
+        if (!waitingForData)
+          setState(Tab5VideoState::Playing, "Flux MJPEG en attente…");
+        waitingForData = true;
+        continue;
+      }
+      break;
+    }
+    if (waitingForData) {
+      setState(Tab5VideoState::Playing, "Direct MJPEG");
+      waitingForData = false;
+    }
+    for (size_t i = 0; i < got; ++i) {
+      const uint8_t value = networkBlock[i];
+      if (!collecting) {
+        if (previous == 0xff && value == 0xd8) {
+          if (!ensureJpegInput(128U * 1024U)) {
+            setState(Tab5VideoState::Error, "Mémoire MJPEG insuffisante");
+            return false;
+          }
+          _jpegInput[0] = 0xff;
+          _jpegInput[1] = 0xd8;
+          length = 2;
+          collecting = true;
+        }
+      } else {
+        // Un nouveau SOI avant le EOI signifie que la trame précédente a été
+        // tronquée. Repartir immédiatement évite de concaténer plusieurs JPEG
+        // et de livrer une entrée malformée au périphérique matériel.
+        if (previous == 0xff && value == 0xd8 && length > 2) {
+          _jpegInput[0] = 0xff;
+          _jpegInput[1] = 0xd8;
+          length = 2;
+          MutexGuard guard(_mutex);
+          if (guard) ++_state.droppedFrames;
+          previous = value;
+          continue;
+        }
+        if (length >= _jpegInputCapacity && !ensureJpegInput(length + 1)) {
+          setState(Tab5VideoState::Error, "Trame MJPEG trop volumineuse");
+          return false;
+        }
+        _jpegInput[length++] = value;
+        if (previous == 0xff && value == 0xd9) {
+          // Un direct MJPEG est déjà cadencé par le serveur. Lui fabriquer des
+          // PTS à partir du champ fps ferait considérer comme "en retard" un
+          // flux asynchrone ou lent (la Pendelcam annonce justement 0/1 fps).
+          const uint64_t pts = input.remote() ? 0 : frameUs * frame;
+          if (!decodeAndPublish(_jpegInput, length, pts))
+            return false;
+          ++frame;
+          collecting = false;
+          length = 0;
+        }
+      }
+      previous = value;
+    }
+  }
+  return !_stopRequested && frame > 0;
+}
+
+bool Tab5VideoEngine::playAvi(Tab5VideoInput& input, Tab5AudioPriorityLease& priority) {
+  uint8_t header[12];
+  if (!input.readExact(header, sizeof(header)) || !fourcc(header, "RIFF") ||
+      !fourcc(header + 8, "AVI ")) {
+    setState(Tab5VideoState::Error, "Conteneur AVI invalide");
+    return false;
+  }
+  Tab5DebugSerial.printf("[VIDEO] AVI RIFF, taille annoncée=%lu octets\n",
+                static_cast<unsigned long>(le32(header + 4)) + 8UL);
+  AviInfo avi;
+  bool foundMovi = false;
+  uint32_t moviBytes = 0;
+  while (!_stopRequested) {
+    const uint64_t chunkPosition = input.position();
+    uint8_t id[4];
+    uint32_t size = 0;
+    if (!readChunkHeader(input, id, size)) break;
+    char chunkName[5] = {};
+    for (uint8_t i = 0; i < 4; ++i) {
+      chunkName[i] = id[i] >= 32 && id[i] <= 126
+          ? static_cast<char>(id[i]) : '?';
+    }
+    Tab5DebugSerial.printf("[VIDEO] AVI bloc %s, taille=%lu, position=%llu\n",
+                  chunkName, static_cast<unsigned long>(size),
+                  static_cast<unsigned long long>(chunkPosition));
+    if (fourcc(id, "LIST") && size >= 4) {
+      uint8_t type[4];
+      if (!input.readExact(type, 4)) break;
+      if (fourcc(type, "hdrl")) {
+        if (!parseHdrl(input, size - 4, avi)) break;
+        if ((size & 1U) && !input.skip(1)) break;
+      } else if (fourcc(type, "movi")) {
+        foundMovi = true;
+        moviBytes = size - 4;
+        break;
+      } else {
+        if (!input.skip(size - 4 + (size & 1U))) break;
+      }
+    } else if (!skipChunk(input, size)) {
+      break;
+    }
+  }
+  if (!foundMovi) {
+    Tab5DebugSerial.printf("[VIDEO] AVI: liste movi introuvable, position=%llu, "
+                  "fin=%s\n",
+                  static_cast<unsigned long long>(input.position()),
+                  input.eof() ? "oui" : "non");
+    setState(Tab5VideoState::Error, "AVI invalide : bloc movi introuvable");
+    return false;
+  }
+  if (!avi.mjpeg) {
+    char message[96];
+    snprintf(message, sizeof(message),
+             "AVI vidéo %.4s non prise en charge ; MJPEG requis",
+             avi.videoSeen ? avi.videoCodec : "????");
+    Tab5DebugSerial.printf("[VIDEO] %s\n", message);
+    setState(Tab5VideoState::Error, message);
+    return false;
+  }
+  Tab5DebugSerial.printf("[VIDEO] AVI MJPEG: flux=%d, pas=%lu us, PCM=%s",
+                avi.videoStream, static_cast<unsigned long>(avi.frameUs),
+                avi.pcm ? "oui" : "non");
+  if (avi.pcm) {
+    Tab5DebugSerial.printf(" (%lu Hz, %u %s)",
+                  static_cast<unsigned long>(avi.pcmSpec.sampleRate),
+                  static_cast<unsigned>(avi.pcmSpec.channels),
+                  avi.pcmSpec.channels > 1 ? "canaux" : "canal");
+  }
+  Tab5DebugSerial.printf("\n");
+
+  bool audioClaimed = false;
+  if (avi.pcm) {
+    if (priority.tryAcquire() &&
+        Tab5AudioDevice.claim(Tab5AudioClient::Video, 2000)) {
+      audioClaimed = Tab5AudioDevice.configure(
+          Tab5AudioClient::Video, avi.pcmSpec);
+      if (!audioClaimed) Tab5AudioDevice.release(Tab5AudioClient::Video);
+    }
+  }
+  {
+    MutexGuard guard(_mutex);
+    if (guard) {
+      _state.hasAudio = audioClaimed;
+      _state.status = audioClaimed
+          ? "AVI/MJPEG  •  audio PCM" : "AVI/MJPEG  •  sans audio PCM";
+      _state.state = Tab5VideoState::Playing;
+      _uiDirty = true;
+    }
+  }
+
+  uint64_t videoFrame = 0;
+  struct MoviLevel {
+    uint32_t remaining;
+    bool padded;
+  };
+  std::vector<MoviLevel> levels;
+  levels.push_back({moviBytes, false});
+  uint8_t audioBuffer[4096];
+  while (!_stopRequested && !levels.empty()) {
+    MoviLevel& level = levels.back();
+    if (level.remaining < 8) {
+      if (level.remaining && !input.skip(level.remaining)) break;
+      const bool padded = level.padded;
+      levels.pop_back();
+      if (padded && !input.skip(1)) break;
+      continue;
+    }
+    uint8_t id[4];
+    uint32_t size = 0;
+    if (!readChunkHeader(input, id, size)) break;
+    const uint32_t consumed = 8U + size + (size & 1U);
+    if (consumed > level.remaining) break;
+    level.remaining -= consumed;
+    if (fourcc(id, "LIST") && size >= 4) {
+      uint8_t type[4];
+      if (!input.readExact(type, 4)) break;
+      if (fourcc(type, "rec ") || fourcc(type, "movi")) {
+        levels.push_back({size - 4, static_cast<bool>(size & 1U)});
+      } else if (!input.skip(size - 4 + (size & 1U))) {
+        break;
+      }
+      continue;
+    }
+    const int stream = streamNumber(id);
+    if (stream == avi.videoStream && (id[2] == 'd') &&
+        (id[3] == 'c' || id[3] == 'b')) {
+      // FFmpeg insère des chunks 00dc de taille zéro pour l'entrelacement
+      // audio/vidéo. Ils ne contiennent pas d'image à décoder.
+      if (!size) {
+        // Dans les AVI entrelacés de FFmpeg, un chunk 00dc vide représente
+        // bien une position dans la cadence vidéo : l'image précédente doit
+        // rester affichée pendant cette durée. Ne pas avancer videoFrame
+        // divisait ici le PTS par deux et faisait ensuite rejeter presque
+        // toutes les vraies images comme trop tardives.
+        ++videoFrame;
+        continue;
+      }
+      if (!ensureJpegInput(size) || !input.readExact(_jpegInput, size)) {
+        setState(Tab5VideoState::Error, "Trame AVI/MJPEG trop volumineuse");
+        return false;
+      }
+      if ((size & 1U) && !input.skip(1)) break;
+      if (!decodeAndPublish(_jpegInput, size, videoFrame++ * avi.frameUs))
+        return false;
+    } else if (audioClaimed && stream == avi.audioStream &&
+               id[2] == 'w' && id[3] == 'b') {
+      uint32_t left = size;
+      const size_t bytesPerSample = avi.pcmSpec.format == Tab5PcmFormat::U8 ? 1U
+          : (avi.pcmSpec.format == Tab5PcmFormat::S16 ? 2U
+          : (avi.pcmSpec.format == Tab5PcmFormat::S24 ? 3U : 4U));
+      const size_t frameBytes = bytesPerSample * avi.pcmSpec.channels;
+      while (left) {
+        size_t amount = std::min<size_t>(left, sizeof(audioBuffer));
+        amount -= amount % frameBytes;
+        if (!amount) {
+          if (!input.skip(left)) return false;
+          left = 0;
+          break;
+        }
+        if (!input.readExact(audioBuffer, amount) ||
+            !Tab5AudioDevice.writePcm(Tab5AudioClient::Video, audioBuffer,
+                                      amount / frameBytes, avi.pcmSpec))
+          return false;
+        left -= static_cast<uint32_t>(amount);
+      }
+      if ((size & 1U) && !input.skip(1)) break;
+    } else if (!skipChunk(input, size)) {
+      break;
+    }
+  }
+  if (audioClaimed) Tab5AudioDevice.flush(Tab5AudioClient::Video);
+  return !_stopRequested && videoFrame > 0;
+}
+
+void Tab5VideoEngine::releasePlayback() {
+  Tab5AudioDevice.release(Tab5AudioClient::Video);
+  MutexGuard guard(_mutex, pdMS_TO_TICKS(100));
+  if (guard) {
+    _clockStartedUs = 0;
+    _pauseStartedUs = 0;
+  }
+}

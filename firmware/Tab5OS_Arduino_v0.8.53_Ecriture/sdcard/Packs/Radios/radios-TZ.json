@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "East Africa Radio FM",
+      "style": "TZ/african music",
+      "url": "https://eatv.radioca.st/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "RADIO MARIA TANZANIA",
+      "style": "TZ/catholic",
+      "url": "http://dreamsiteradiocp2.com:8034/stream",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 32
+    },
+    {
+      "name": "Radio Uhai",
+      "style": "TZ/christian",
+      "url": "https://s2.citrus3.com:8050/stream",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 128
+    },
+    {
+      "name": "Heaven FM Radio",
+      "style": "TZ/gospel-",
+      "url": "http://stream.zeno.fm/eequgfw72hhvv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Capital Radio",
+      "style": "TZ/news",
+      "url": "https://capitalradio.radioca.st/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Clouds FM",
+      "style": "TZ/pop",
+      "url": "http://eu6.fastcast4u.com:5306/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio One Stereo",
+      "style": "TZ/Radio",
+      "url": "https://radioonetanzania.radioca.st/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "Wasafi Fm",
+      "style": "TZ/Radio",
+      "url": "http://streaming.radionomy.com/JamendoLounge",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    }
+  ]
+}

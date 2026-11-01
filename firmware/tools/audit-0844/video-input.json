@@ -1,0 +1,26 @@
+{
+  "version": "0.8.44",
+  "passed": true,
+  "physicalDeviceTested": false,
+  "baseline": {
+    "heapUseAfterFreeReproduced": true,
+    "exitCode": 1
+  },
+  "after": {
+    "passed": true,
+    "scenarios": 412,
+    "remainingTransports": 0,
+    "remainingLeases": 0,
+    "priorityBeforeEveryVideo": true,
+    "cleanupBeforeAudioResume": true
+  },
+  "scope": "Exact Tab5VideoInput class and taskMain, actual class declaration and AVI parser/playAvi, exact locked SDK HTTPClient destructor/end/disconnect/connected/getStreamPtr; network, FreeRTOS and decoder boundaries controlled. ASan+UBSan; no physical HTTP/TLS/JPEG run.",
+  "sourceHashes": {
+    "Tab5OS_Arduino_v0.8.44_Ecriture/Tab5Video.cpp": "8c0861a101756aa3ea2bc642b23bf87a857cdc442b70d60ac84ae93d3deb4526",
+    "Tab5OS_Arduino_v0.8.44_Ecriture/Tab5Video.h": "4da5725844e7fc058a77ff1f3e86e7ec08e7849a50ba62bd26a53adc45794a43",
+    "tools/video-tests-0844/input.py": "8fd827170ca070468d99ea11eb539da3eb4b49c3a18e81a118ddf14f88adf97a",
+    "tools/video-tests-0844/input_fixture.cpp": "a83138f05bfbc4303707f00d99f5469e58611ec12661e104f815d0a070467f43"
+  },
+  "baselineSha256": "6ede6f21594fb1511bc9e701d23b2bba1972ab6503d1f74bd8f064669dfc77fb",
+  "sdkHttpClientSha256": "5eb913214dd471c2fb67752a85baa74ec39eb372b60bac98f30ee1c17bd704c2"
+}

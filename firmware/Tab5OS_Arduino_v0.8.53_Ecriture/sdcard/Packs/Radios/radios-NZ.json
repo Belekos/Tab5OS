@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Easy 80s",
+      "style": "NZ/80s",
+      "url": "http://procyon.shoutca.st:8032/;",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "新西兰中文广播电台 FM90.6 Radio Chinese",
+      "style": "NZ/chinese",
+      "url": "https://s26.myradiostream.com:20274/listen.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Wandering Sheep Radio - Christian Smooth Jazz",
+      "style": "NZ/christian",
+      "url": "http://radio.wanderingsheep.tv:8021/christianjazz",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "RNZ Concert AAC (128kbps)",
+      "style": "NZ/classical",
+      "url": "http://radionz-ice.streamguys.com/Concert_aac128",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 128
+    },
+    {
+      "name": "Classic1027",
+      "style": "NZ/classical music",
+      "url": "http://edge.iono.fm/xice/49_high.aac",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 0
+    },
+    {
+      "name": "Ski FM",
+      "style": "NZ/contemporary hits",
+      "url": "https://s2.radio.co/s6436891bc/listen",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 64
+    },
+    {
+      "name": "RNZ National MP3",
+      "style": "NZ/features",
+      "url": "http://radionz-ice.streamguys.com/national.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Gaia FM New Zealand",
+      "style": "NZ/Radio",
+      "url": "http://s2.stationplaylist.com:9000/gaiafm.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    }
+  ]
+}

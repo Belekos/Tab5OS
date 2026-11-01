@@ -1,0 +1,5 @@
+Production header SHA256: 67b081f7dd95b6c5548d03d80c62ee56ec17f75d7a299b8bebbd60062950ce62
+test_file_selection.cpp
+PASS: range reversal, Ctrl toggles, additive range, cross-page retention, root exclusion, recursive overlap, 1007 items, immutable batch snapshot
+
+exit_code=0

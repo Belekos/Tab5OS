@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "DFM Дискач 90-х",
+      "style": "RU/90-е",
+      "url": "https://dfm-disc90.hostingradio.ru/disc9096.aacp",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 96
+    },
+    {
+      "name": "Ретро FM",
+      "style": "RU/classic hits",
+      "url": "http://retroserver.streamr.ru:8043/retro256.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "ROCK FM",
+      "style": "RU/classic rock",
+      "url": "http://nashe1.hostingradio.ru/rock-128.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Europa Plus",
+      "style": "RU/dance",
+      "url": "http://ep256.hostingradio.ru:8052/europaplus256.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 0
+    },
+    {
+      "name": "Дорожное радио",
+      "style": "RU/dorojnoe",
+      "url": "http://dorognoe.hostingradio.ru:8000/radio",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "Вести ФМ (Vesti FM)",
+      "style": "RU/news",
+      "url": "http://icecast.vgtrk.cdnvideo.ru/vestifm_mp3_192kbps",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 192
+    },
+    {
+      "name": "РАДИО ВАНЯ",
+      "style": "RU/pop",
+      "url": "https://icecast-radiovanya.cdnvideo.ru/radiovanya",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "Радио Русские Песни",
+      "style": "RU/russian pop",
+      "url": "http://listen.rusongs.ru/ru-mp3-128",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    }
+  ]
+}

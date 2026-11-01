@@ -1,0 +1,4 @@
+Peanut-GB https://github.com/deltabeard/Peanut-GB
+Commit d0bcca771c83a2638c93a9ae61f3d51f226dc905
+MIT, license at the top of peanut_gb.h. MiniGB APU: included upstream, MIT (LICENSE-minigb).
+Local changes: invalid opcodes return to frontend; halted CPU loops check cancellation/time budget.

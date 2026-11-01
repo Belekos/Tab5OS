@@ -1,0 +1,23 @@
+#pragma once
+#include <string>
+#include <cstdint>
+#include <cstring>
+#include <cstdio>
+#include <algorithm>
+#include <sys/types.h>
+using boolean=bool;
+#define log_e(...) ((void)0)
+#define log_w(...) ((void)0)
+class String:public std::string {
+ public:using std::string::string;
+ String()=default;String(const std::string& s):std::string(s){}
+ String(const char* p):std::string(p?p:""){}
+ String(unsigned v):std::string(std::to_string(v)){}
+ String substring(unsigned a,unsigned b)const{return substr(a,b-a);}
+ bool startsWith(const char* p)const{return rfind(p,0)==0;}
+ bool endsWith(const char* p)const{auto n=strlen(p);return size()>=n&&compare(size()-n,n,p)==0;}
+};
+class Print {int error=0;public:virtual ~Print()=default;virtual size_t write(uint8_t)=0;virtual size_t write(const uint8_t*,size_t)=0;int getWriteError()const{return error;}void setWriteError(int e=1){error=e;}void clearWriteError(){error=0;}};
+class Stream:public Print {protected:unsigned _timeout=0;public:virtual int available()=0;virtual int read()=0;virtual int peek()=0;virtual void flush()=0;};
+inline const char* pathToFileName(const char* p){if(!p)return "";auto* last=strrchr(p,'/');return last?last+1:p;}
+inline uint32_t millis(){static uint32_t time=100;return ++time;}

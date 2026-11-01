@@ -1,0 +1,954 @@
+{
+  "/System/radios.json": [
+    {
+      "file": "Tab5Audio.cpp",
+      "lines": [
+        74
+      ]
+    }
+  ],
+  "/System/fonts/cjk-": [
+    {
+      "file": "Tab5CjkFonts.cpp",
+      "lines": [
+        40
+      ]
+    }
+  ],
+  "/System/audio_favorites.json": [
+    {
+      "file": "Tab5Favorites.cpp",
+      "lines": [
+        10
+      ]
+    }
+  ],
+  "m5writer": [
+    {
+      "file": "Tab5FilePolicy.h",
+      "lines": [
+        38
+      ]
+    }
+  ],
+  "system": [
+    {
+      "file": "Tab5FilePolicy.h",
+      "lines": [
+        38
+      ]
+    }
+  ],
+  "/system": [
+    {
+      "file": "Tab5FilePolicy.h",
+      "lines": [
+        55
+      ]
+    }
+  ],
+  "/System/ime/zh-pinyin.dat": [
+    {
+      "file": "Tab5ImeDictionary.cpp",
+      "lines": [
+        13
+      ]
+    }
+  ],
+  "/System/ime/ja-kana.dat": [
+    {
+      "file": "Tab5ImeDictionary.cpp",
+      "lines": [
+        13
+      ]
+    }
+  ],
+  "/System/keyboards.json": [
+    {
+      "file": "Tab5KeyboardLayouts.cpp",
+      "lines": [
+        11
+      ]
+    }
+  ],
+  "/System/languages": [
+    {
+      "file": "Tab5Localization.cpp",
+      "lines": [
+        21
+      ]
+    },
+    {
+      "file": "Tab5OS_Arduino_v0.8.24_Ecriture.ino",
+      "lines": [
+        183
+      ]
+    }
+  ],
+  "/System/maps": [
+    {
+      "file": "Tab5Map.cpp",
+      "lines": [
+        47
+      ]
+    }
+  ],
+  "/System/maps/cache": [
+    {
+      "file": "Tab5Map.cpp",
+      "lines": [
+        48
+      ]
+    }
+  ],
+  "/System/maps/offline": [
+    {
+      "file": "Tab5Map.cpp",
+      "lines": [
+        49
+      ]
+    }
+  ],
+  "/System/maps/region_request.json": [
+    {
+      "file": "Tab5Map.cpp",
+      "lines": [
+        50
+      ]
+    }
+  ],
+  "/System/map_styles.json": [
+    {
+      "file": "Tab5Map.cpp",
+      "lines": [
+        51
+      ]
+    }
+  ],
+  "/System/map_places.json": [
+    {
+      "file": "Tab5Map.cpp",
+      "lines": [
+        52
+      ]
+    }
+  ],
+  "remember": [
+    {
+      "file": "Tab5Map.cpp",
+      "lines": [
+        343,
+        1738
+      ]
+    }
+  ],
+  "/System/map_catalog.json": [
+    {
+      "file": "Tab5Map.cpp",
+      "lines": [
+        937
+      ]
+    }
+  ],
+  "view": [
+    {
+      "file": "Tab5Map.cpp",
+      "lines": [
+        1788,
+        1792
+      ]
+    }
+  ],
+  "homeView": [
+    {
+      "file": "Tab5Map.cpp",
+      "lines": [
+        1797,
+        1803
+      ]
+    }
+  ],
+  "/System": [
+    {
+      "file": "Tab5MapPrint.cpp",
+      "lines": [
+        28
+      ]
+    },
+    {
+      "file": "Tab5OS_Arduino_v0.8.24_Ecriture.ino",
+      "lines": [
+        179
+      ]
+    },
+    {
+      "file": "Tab5PythonReader.cpp",
+      "lines": [
+        68,
+        68
+      ]
+    },
+    {
+      "file": "Tab5SdrUi.cpp",
+      "lines": [
+        56,
+        56
+      ]
+    },
+    {
+      "file": "Tab5SystemMigration.cpp",
+      "lines": [
+        10
+      ]
+    },
+    {
+      "file": "Tab5SystemPath.h",
+      "lines": [
+        17
+      ]
+    },
+    {
+      "file": "Tab5Writing.cpp",
+      "lines": [
+        437,
+        2778
+      ]
+    }
+  ],
+  "/System/print-map-": [
+    {
+      "file": "Tab5MapPrint.cpp",
+      "lines": [
+        28
+      ]
+    },
+    {
+      "file": "Tab5Print.cpp",
+      "lines": [
+        569
+      ]
+    }
+  ],
+  "Map storage requires IEEE-754 doubles": [
+    {
+      "file": "Tab5MapViewState.h",
+      "lines": [
+        16
+      ]
+    }
+  ],
+  "tab5_media": [
+    {
+      "file": "Tab5MediaSession.cpp",
+      "lines": [
+        67,
+        98
+      ]
+    }
+  ],
+  "volume": [
+    {
+      "file": "Tab5MediaSession.cpp",
+      "lines": [
+        70,
+        99,
+        100
+      ]
+    }
+  ],
+  "browser": [
+    {
+      "file": "Tab5MediaSession.cpp",
+      "lines": [
+        80,
+        101,
+        104
+      ]
+    }
+  ],
+  "<BKSP>": [
+    {
+      "file": "Tab5NumericKeyboard.h",
+      "lines": [
+        17
+      ]
+    }
+  ],
+  "<LEFT>": [
+    {
+      "file": "Tab5NumericKeyboard.h",
+      "lines": [
+        18
+      ]
+    }
+  ],
+  "<RIGHT>": [
+    {
+      "file": "Tab5NumericKeyboard.h",
+      "lines": [
+        19
+      ]
+    }
+  ],
+  "<ENTER>": [
+    {
+      "file": "Tab5NumericKeyboard.h",
+      "lines": [
+        20,
+        22
+      ]
+    }
+  ],
+  "/System/settings.ini": [
+    {
+      "file": "Tab5OS_Arduino_v0.8.24_Ecriture.ino",
+      "lines": [
+        181
+      ]
+    }
+  ],
+  "/System/font.ttf": [
+    {
+      "file": "Tab5OS_Arduino_v0.8.24_Ecriture.ino",
+      "lines": [
+        184
+      ]
+    },
+    {
+      "file": "Tab5Print.cpp",
+      "lines": [
+        334,
+        338
+      ]
+    }
+  ],
+  "/System/fonts": [
+    {
+      "file": "Tab5OS_Arduino_v0.8.24_Ecriture.ino",
+      "lines": [
+        185
+      ]
+    }
+  ],
+  "/System/fonts/bold.ttf": [
+    {
+      "file": "Tab5OS_Arduino_v0.8.24_Ecriture.ino",
+      "lines": [
+        186
+      ]
+    },
+    {
+      "file": "Tab5Print.cpp",
+      "lines": [
+        338
+      ]
+    }
+  ],
+  "/System/fonts/italic.ttf": [
+    {
+      "file": "Tab5OS_Arduino_v0.8.24_Ecriture.ino",
+      "lines": [
+        187
+      ]
+    },
+    {
+      "file": "Tab5Print.cpp",
+      "lines": [
+        338
+      ]
+    }
+  ],
+  "/System/fonts/bolditalic.ttf": [
+    {
+      "file": "Tab5OS_Arduino_v0.8.24_Ecriture.ino",
+      "lines": [
+        188
+      ]
+    },
+    {
+      "file": "Tab5Print.cpp",
+      "lines": [
+        338
+      ]
+    }
+  ],
+  "/System/progress": [
+    {
+      "file": "Tab5OS_Arduino_v0.8.24_Ecriture.ino",
+      "lines": [
+        189
+      ]
+    }
+  ],
+  "/System/themes.json": [
+    {
+      "file": "Tab5OS_Arduino_v0.8.24_Ecriture.ino",
+      "lines": [
+        278
+      ]
+    },
+    {
+      "file": "Tab5Tools.cpp",
+      "lines": [
+        418,
+        423,
+        429,
+        433
+      ]
+    }
+  ],
+  "[System] migration blocked: %s\n": [
+    {
+      "file": "Tab5OS_Arduino_v0.8.24_Ecriture.ino",
+      "lines": [
+        415
+      ]
+    }
+  ],
+  "[System] migration: %u moves, %u preserved conflicts\n": [
+    {
+      "file": "Tab5OS_Arduino_v0.8.24_Ecriture.ino",
+      "lines": [
+        416
+      ]
+    }
+  ],
+  "Touchez une vidéo pour l'ouvrir": [
+    {
+      "file": "Tab5OS_Arduino_v0.8.24_Ecriture.ino",
+      "lines": [
+        7237
+      ]
+    }
+  ],
+  "/System/printer-ca.pem": [
+    {
+      "file": "Tab5Print.cpp",
+      "lines": [
+        247
+      ]
+    }
+  ],
+  "/System/print-": [
+    {
+      "file": "Tab5Print.cpp",
+      "lines": [
+        543
+      ]
+    }
+  ],
+  "/System/python-reader": [
+    {
+      "file": "Tab5PythonReader.cpp",
+      "lines": [
+        69,
+        69
+      ]
+    }
+  ],
+  "/System/python-reader/%08lx%08lx.pos": [
+    {
+      "file": "Tab5PythonReader.cpp",
+      "lines": [
+        494
+      ]
+    }
+  ],
+  "TAB5-SDR,1\n": [
+    {
+      "file": "Tab5SdrModel.h",
+      "lines": [
+        38,
+        43
+      ]
+    }
+  ],
+  "%lu,%u,%u,%d\n": [
+    {
+      "file": "Tab5SdrModel.h",
+      "lines": [
+        39
+      ]
+    }
+  ],
+  "%lu,%u,%u,%d%n": [
+    {
+      "file": "Tab5SdrModel.h",
+      "lines": [
+        47
+      ]
+    }
+  ],
+  "/System/SDR/detections.csv": [
+    {
+      "file": "Tab5SdrUi.cpp",
+      "lines": [
+        12
+      ]
+    }
+  ],
+  "%.6f": [
+    {
+      "file": "Tab5SdrUi.cpp",
+      "lines": [
+        39
+      ]
+    }
+  ],
+  "%.3f": [
+    {
+      "file": "Tab5SdrUi.cpp",
+      "lines": [
+        39
+      ]
+    }
+  ],
+  "%.*f": [
+    {
+      "file": "Tab5SdrUi.cpp",
+      "lines": [
+        40
+      ]
+    }
+  ],
+  "%.6f MHz  %s  %d dBFS": [
+    {
+      "file": "Tab5SdrUi.cpp",
+      "lines": [
+        43
+      ]
+    }
+  ],
+  "WFM": [
+    {
+      "file": "Tab5SdrUi.cpp",
+      "lines": [
+        43
+      ]
+    }
+  ],
+  "AM": [
+    {
+      "file": "Tab5SdrUi.cpp",
+      "lines": [
+        43
+      ]
+    }
+  ],
+  "NFM": [
+    {
+      "file": "Tab5SdrUi.cpp",
+      "lines": [
+        43
+      ]
+    }
+  ],
+  "FFT": [
+    {
+      "file": "Tab5SdrUi.cpp",
+      "lines": [
+        43
+      ]
+    }
+  ],
+  "%u / %u": [
+    {
+      "file": "Tab5SdrUi.cpp",
+      "lines": [
+        45
+      ]
+    }
+  ],
+  "/System/SDR": [
+    {
+      "file": "Tab5SdrUi.cpp",
+      "lines": [
+        56,
+        56
+      ]
+    }
+  ],
+  "%.6f MHz": [
+    {
+      "file": "Tab5SdrUi.cpp",
+      "lines": [
+        67,
+        68,
+        69
+      ]
+    }
+  ],
+  "%d\n\n%d\n\n%d\ndBFS": [
+    {
+      "file": "Tab5SdrUi.cpp",
+      "lines": [
+        70
+      ]
+    }
+  ],
+  "kHz\nMHz": [
+    {
+      "file": "Tab5SdrUi.cpp",
+      "lines": [
+        95
+      ]
+    }
+  ],
+  "\nWFM\nAM\nNFM": [
+    {
+      "file": "Tab5SdrUi.cpp",
+      "lines": [
+        97
+      ]
+    }
+  ],
+  "0\n\n−50\n\n−100\ndBFS": [
+    {
+      "file": "Tab5SdrUi.cpp",
+      "lines": [
+        103
+      ]
+    }
+  ],
+  "99.880000 MHz": [
+    {
+      "file": "Tab5SdrUi.cpp",
+      "lines": [
+        106
+      ]
+    }
+  ],
+  "100.000000 MHz": [
+    {
+      "file": "Tab5SdrUi.cpp",
+      "lines": [
+        106
+      ]
+    }
+  ],
+  "100.120000 MHz": [
+    {
+      "file": "Tab5SdrUi.cpp",
+      "lines": [
+        106
+      ]
+    }
+  ],
+  "240 kHz\n120 kHz\n60 kHz\n30 kHz": [
+    {
+      "file": "Tab5SdrUi.cpp",
+      "lines": [
+        107
+      ]
+    }
+  ],
+  "/M5Writer": [
+    {
+      "file": "Tab5SystemMigration.cpp",
+      "lines": [
+        9
+      ]
+    }
+  ],
+  "/System/migration_0824": [
+    {
+      "file": "Tab5SystemMigration.cpp",
+      "lines": [
+        11
+      ]
+    }
+  ],
+  "/System/migration_0824/pending": [
+    {
+      "file": "Tab5SystemMigration.cpp",
+      "lines": [
+        12
+      ]
+    }
+  ],
+  "/System/migration_0824/pending/legacy": [
+    {
+      "file": "Tab5SystemMigration.cpp",
+      "lines": [
+        13
+      ]
+    }
+  ],
+  "/System/migration_0824/pending/replaced": [
+    {
+      "file": "Tab5SystemMigration.cpp",
+      "lines": [
+        14
+      ]
+    }
+  ],
+  "font.ttf": [
+    {
+      "file": "Tab5SystemMigration.cpp",
+      "lines": [
+        66
+      ]
+    }
+  ],
+  "CLAVIERS.txt": [
+    {
+      "file": "Tab5SystemMigration.cpp",
+      "lines": [
+        66
+      ]
+    }
+  ],
+  "fonts": [
+    {
+      "file": "Tab5SystemMigration.cpp",
+      "lines": [
+        67
+      ]
+    }
+  ],
+  "fonts/": [
+    {
+      "file": "Tab5SystemMigration.cpp",
+      "lines": [
+        67
+      ]
+    }
+  ],
+  "languages": [
+    {
+      "file": "Tab5SystemMigration.cpp",
+      "lines": [
+        68
+      ]
+    }
+  ],
+  "languages/": [
+    {
+      "file": "Tab5SystemMigration.cpp",
+      "lines": [
+        68
+      ]
+    }
+  ],
+  "ime": [
+    {
+      "file": "Tab5SystemMigration.cpp",
+      "lines": [
+        69
+      ]
+    }
+  ],
+  "ime/": [
+    {
+      "file": "Tab5SystemMigration.cpp",
+      "lines": [
+        69
+      ]
+    }
+  ],
+  "/M5Writer/migration_0824": [
+    {
+      "file": "Tab5SystemMigration.cpp",
+      "lines": [
+        168
+      ]
+    }
+  ],
+  "/System/migration_0824/pending/legacy/migration_0824": [
+    {
+      "file": "Tab5SystemMigration.cpp",
+      "lines": [
+        169
+      ]
+    }
+  ],
+  "%s/backup-%03u": [
+    {
+      "file": "Tab5SystemMigration.cpp",
+      "lines": [
+        186
+      ]
+    }
+  ],
+  "none": [
+    {
+      "file": "Tab5SystemMigration.cpp",
+      "lines": [
+        198
+      ]
+    }
+  ],
+  "not-directory": [
+    {
+      "file": "Tab5SystemMigration.cpp",
+      "lines": [
+        199
+      ]
+    }
+  ],
+  "reserved-path": [
+    {
+      "file": "Tab5SystemMigration.cpp",
+      "lines": [
+        200
+      ]
+    }
+  ],
+  "path-too-long-or-no-memory": [
+    {
+      "file": "Tab5SystemMigration.cpp",
+      "lines": [
+        201
+      ]
+    }
+  ],
+  "depth-limit": [
+    {
+      "file": "Tab5SystemMigration.cpp",
+      "lines": [
+        202
+      ]
+    }
+  ],
+  "open-failed": [
+    {
+      "file": "Tab5SystemMigration.cpp",
+      "lines": [
+        203
+      ]
+    }
+  ],
+  "directory-read-failed": [
+    {
+      "file": "Tab5SystemMigration.cpp",
+      "lines": [
+        204
+      ]
+    }
+  ],
+  "path-probe-failed": [
+    {
+      "file": "Tab5SystemMigration.cpp",
+      "lines": [
+        205
+      ]
+    }
+  ],
+  "mkdir-failed": [
+    {
+      "file": "Tab5SystemMigration.cpp",
+      "lines": [
+        206
+      ]
+    }
+  ],
+  "rename-failed": [
+    {
+      "file": "Tab5SystemMigration.cpp",
+      "lines": [
+        207
+      ]
+    }
+  ],
+  "backup-collision": [
+    {
+      "file": "Tab5SystemMigration.cpp",
+      "lines": [
+        208
+      ]
+    }
+  ],
+  "backup-names-exhausted": [
+    {
+      "file": "Tab5SystemMigration.cpp",
+      "lines": [
+        209
+      ]
+    }
+  ],
+  "unknown": [
+    {
+      "file": "Tab5SystemMigration.cpp",
+      "lines": [
+        211
+      ]
+    }
+  ],
+  "/m5writer": [
+    {
+      "file": "Tab5SystemPath.h",
+      "lines": [
+        7
+      ]
+    }
+  ],
+  "/sd": [
+    {
+      "file": "Tab5SystemPath.h",
+      "lines": [
+        52,
+        58
+      ]
+    }
+  ],
+  "/System/native-apps.json": [
+    {
+      "file": "Tab5Tools.cpp",
+      "lines": [
+        458,
+        463,
+        465,
+        466
+      ]
+    }
+  ],
+  "/System/writing": [
+    {
+      "file": "Tab5Writing.cpp",
+      "lines": [
+        2779
+      ]
+    }
+  ],
+  "/System/writing/session.txt": [
+    {
+      "file": "Tab5Writing.cpp",
+      "lines": [
+        2782,
+        2808
+      ]
+    }
+  ],
+  "/System/editor_workspace.dat": [
+    {
+      "file": "WriterWorkspace.cpp",
+      "lines": [
+        8
+      ]
+    }
+  ],
+  "/System/editor_workspace.dat.tmp": [
+    {
+      "file": "WriterWorkspace.cpp",
+      "lines": [
+        9
+      ]
+    }
+  ],
+  "/System/editor_workspace.dat.bak": [
+    {
+      "file": "WriterWorkspace.cpp",
+      "lines": [
+        10
+      ]
+    }
+  ],
+  "/System/editor_workspace.dat.recovery": [
+    {
+      "file": "WriterWorkspace.cpp",
+      "lines": [
+        11
+      ]
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Oxygen The 80s Hits",
+      "style": "HU/80's",
+      "url": "https://oxygenmusic.hu:8443/oxygenthe80shits",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 320
+    },
+    {
+      "name": "Dance Wave Retro!",
+      "style": "HU/90s dance",
+      "url": "https://dancewave.online/retrodance.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Petőfi Rádió",
+      "style": "HU/alternative",
+      "url": "http://mr-stream.mediaconnect.hu/4737/mr2.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 112
+    },
+    {
+      "name": "Dance Wave!",
+      "style": "HU/club dance electronic house trance",
+      "url": "https://dancewave.online/dance.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Mercy Rádió - Kabaré",
+      "style": "HU/comedy",
+      "url": "http://stream.mercyradio.eu/kabare.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 160
+    },
+    {
+      "name": "Kossuth Rádió",
+      "style": "HU/duna média",
+      "url": "http://mr-stream.mediaconnect.hu/4734/mr1.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 96
+    },
+    {
+      "name": "Retro Rádió",
+      "style": "HU/pop",
+      "url": "https://icast.connectmedia.hu/5001/live.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Rádió 1 - Budapest",
+      "style": "HU/Radio",
+      "url": "http://icast.connectmedia.hu/5201/live.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    }
+  ]
+}

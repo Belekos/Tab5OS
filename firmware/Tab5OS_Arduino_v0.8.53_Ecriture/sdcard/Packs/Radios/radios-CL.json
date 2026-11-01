@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "La Retro 80s Chile",
+      "style": "CL/1980s",
+      "url": "https://s2.radio.co:80/s9ecef4f68/listen",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Radio Definitiva",
+      "style": "CL/80s",
+      "url": "http://192.198.83.230:8772/;",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    },
+    {
+      "name": "RADIO CAROLINA cl",
+      "style": "CL/alternative rock",
+      "url": "http://stream.zeno.fm/sri2de2qdlivv",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 128
+    },
+    {
+      "name": "Pudahuel",
+      "style": "CL/contemporary",
+      "url": "http://26583.live.streamtheworld.com/PUDAHUEL_SC",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Imagina",
+      "style": "CL/hits",
+      "url": "http://27433.live.streamtheworld.com:3690/IMAGINA_SC",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "BioBio Chile",
+      "style": "CL/news",
+      "url": "https://unlimited3-cl.dps.live/biobiosantiago/aac/icecast.audio",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 0
+    },
+    {
+      "name": "Rock and Pop",
+      "style": "CL/pop",
+      "url": "http://24413.live.streamtheworld.com:3690/ROCK_AND_POPAAC_SC",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 56
+    },
+    {
+      "name": "Radio Sol Classic",
+      "style": "CL/Radio",
+      "url": "https://us9.maindigitalstream.com/ssl/radiosol",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    }
+  ]
+}

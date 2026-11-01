@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "baseline": true,
+  "physicalDeviceTested": false,
+  "output": "baseline confirmed: stat EIO was treated as absence and erased recovery backup; flush/close EIO without write-error flag were also reported as successful save",
+  "sourceHashes": {
+    "Tab5OS_Arduino_v0.8.42_Ecriture/Tab5Executable.cpp": "75182bdbd0f8401100bf2b4d60881fcee3cc6e55f6c607c05d5ee3c598e48e9d",
+    "Tab5OS_Arduino_v0.8.42_Ecriture/Tab5AtomicFile.h": "de8bfedc56237f3560dc9776b127e77c1bddda51fec68540af62145de8abebe5",
+    "/workspace/scratch/644cc83c43c8/tab5os_0842/Tab5OS_Ecriture_v0.8.42/tools/audit-0842/elf_save.cpp": "ad373aa9da9ae52bfdcceadf653b08c921dacd0b3899c0a1b5762c3f5ac822a1",
+    "/workspace/scratch/644cc83c43c8/tab5os_0842/Tab5OS_Ecriture_v0.8.42/tools/audit-0842/test_elf_save.py": "8a88437a94479d09ea2f59a83c38c250e8bb62997f94210c854f51ec9cbe1904",
+    "/workspace/scratch/644cc83c43c8/tab5os_0842/Tab5OS_Ecriture_v0.8.42/tools/atomic-storage-tests-0842/Platform.h": "883773585f72c00d63d786553d090fe0b1e5b0a8d89b6d202c67ea337e249a80"
+  },
+  "scope": "Exact appSave and path validator plus production AtomicFile helper; injected filesystem errors, flush EIO without Stream write-error flag (SDK behavior), and POSIX-style rename replacement. No physical card or power-loss durability claim. ASan/UBSan; LSan unavailable under executor ptrace."
+}

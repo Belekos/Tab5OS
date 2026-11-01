@@ -1,0 +1,312 @@
+[
+  {
+    "index": 0,
+    "source": "unsupported operator: ",
+    "line": 54
+  },
+  {
+    "index": 1,
+    "source": "command too long",
+    "line": 56
+  },
+  {
+    "index": 2,
+    "source": "unfinished quote or escape",
+    "line": 58
+  },
+  {
+    "index": 3,
+    "source": "cannot list ",
+    "line": 77
+  },
+  {
+    "index": 4,
+    "source": "more than 256 wildcard matches",
+    "line": 78
+  },
+  {
+    "index": 5,
+    "source": "invalid command",
+    "line": 83
+  },
+  {
+    "index": 6,
+    "source": "maximum script/loop depth is 4",
+    "line": 85
+  },
+  {
+    "index": 7,
+    "source": "missing command",
+    "line": 87
+  },
+  {
+    "index": 8,
+    "source": "usage: for name in values; do commands; done",
+    "line": 90
+  },
+  {
+    "index": 9,
+    "source": "for: expected ; do",
+    "line": 92
+  },
+  {
+    "index": 10,
+    "source": "for: missing done",
+    "line": 95
+  },
+  {
+    "index": 11,
+    "source": "invalid loop value",
+    "line": 96
+  },
+  {
+    "index": 12,
+    "source": "execution limit reached",
+    "line": 97
+  },
+  {
+    "index": 13,
+    "source": "variable limit reached",
+    "line": 97
+  },
+  {
+    "index": 14,
+    "source": "missing command separator",
+    "line": 102
+  },
+  {
+    "index": 15,
+    "source": "invalid redirection",
+    "line": 108
+  },
+  {
+    "index": 16,
+    "source": "invalid output path",
+    "line": 108
+  },
+  {
+    "index": 17,
+    "source": "argument limit reached",
+    "line": 109
+  },
+  {
+    "index": 18,
+    "source": "temporary output already exists: ",
+    "line": 113
+  },
+  {
+    "index": 19,
+    "source": "cannot create output: ",
+    "line": 114
+  },
+  {
+    "index": 20,
+    "source": "output write failed",
+    "line": 117
+  },
+  {
+    "index": 21,
+    "source": "cannot append output",
+    "line": 118
+  },
+  {
+    "index": 22,
+    "source": "append incomplete",
+    "line": 118
+  },
+  {
+    "index": 23,
+    "source": "previous output recovery required: ",
+    "line": 119
+  },
+  {
+    "index": 24,
+    "source": "cannot preserve previous output",
+    "line": 119
+  },
+  {
+    "index": 25,
+    "source": "cannot commit output",
+    "line": 119
+  },
+  {
+    "index": 26,
+    "source": "source and destination are identical",
+    "line": 123
+  },
+  {
+    "index": 27,
+    "source": "cannot read ",
+    "line": 123
+  },
+  {
+    "index": 28,
+    "source": "cannot create ",
+    "line": 124
+  },
+  {
+    "index": 29,
+    "source": "copy interrupted or failed",
+    "line": 126
+  },
+  {
+    "index": 30,
+    "source": "cannot preserve destination",
+    "line": 128
+  },
+  {
+    "index": 31,
+    "source": "cannot commit destination",
+    "line": 129
+  },
+  {
+    "index": 32,
+    "source": "directory depth limit reached",
+    "line": 132
+  },
+  {
+    "index": 33,
+    "source": "cannot access ",
+    "line": 132
+  },
+  {
+    "index": 34,
+    "source": "cannot remove ",
+    "line": 135
+  },
+  {
+    "index": 35,
+    "source": "usage: help ",
+    "line": 138
+  },
+  {
+    "index": 36,
+    "source": "\f",
+    "line": 143
+  },
+  {
+    "index": 37,
+    "source": "%",
+    "line": 145
+  },
+  {
+    "index": 38,
+    "source": "printf supports %s and %%",
+    "line": 145
+  },
+  {
+    "index": 39,
+    "source": " ",
+    "line": 146
+  },
+  {
+    "index": 40,
+    "source": "\n",
+    "line": 146
+  },
+  {
+    "index": 41,
+    "source": "PWD=",
+    "line": 148
+  },
+  {
+    "index": 42,
+    "source": "cannot query SD space",
+    "line": 153
+  },
+  {
+    "index": 43,
+    "source": "bytes free: ",
+    "line": 153
+  },
+  {
+    "index": 44,
+    "source": "invalid path",
+    "line": 156
+  },
+  {
+    "index": 45,
+    "source": "not a directory: ",
+    "line": 156
+  },
+  {
+    "index": 46,
+    "source": "invalid directory",
+    "line": 157
+  },
+  {
+    "index": 47,
+    "source": "cannot stat ",
+    "line": 158
+  },
+  {
+    "index": 48,
+    "source": "destination exists",
+    "line": 161
+  },
+  {
+    "index": 49,
+    "source": "move failed",
+    "line": 161
+  },
+  {
+    "index": 50,
+    "source": "cannot create directory: ",
+    "line": 164
+  },
+  {
+    "index": 51,
+    "source": "cannot change ",
+    "line": 166
+  },
+  {
+    "index": 52,
+    "source": "invalid script path",
+    "line": 167
+  },
+  {
+    "index": 53,
+    "source": "cannot read script",
+    "line": 167
+  },
+  {
+    "index": 54,
+    "source": "script exceeds 32 KiB",
+    "line": 167
+  },
+  {
+    "index": 55,
+    "source": "script read failed",
+    "line": 167
+  },
+  {
+    "index": 56,
+    "source": "not enough variable slots for script arguments",
+    "line": 167
+  },
+  {
+    "index": 57,
+    "source": "binary data: ",
+    "line": 177
+  },
+  {
+    "index": 58,
+    "source": "line exceeds 8 KiB",
+    "line": 177
+  },
+  {
+    "index": 59,
+    "source": "tail output exceeds 64 KiB; reduce -n",
+    "line": 177
+  },
+  {
+    "index": 60,
+    "source": "read failed: ",
+    "line": 179
+  },
+  {
+    "index": 61,
+    "source": "unknown command: ",
+    "line": 185
+  }
+]

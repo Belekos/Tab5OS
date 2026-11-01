@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "checks": 6255,
+  "cycles": 100,
+  "nativeWorkerAndDriver": true,
+  "quiescenceWhileWorkerBlocked": true,
+  "releaseContention300ms": true,
+  "pcmBuffersRemaining": 0,
+  "physicalAudioTested": false,
+  "scope": "Actual complete Tab5AudioDriver/AudioOutput and M5Unified channel definitions, request publication, stopAndWait, begin/end and full spk_task. RTOS semaphore/task and I2S hardware boundaries controlled by host threads. ASan/UBSan; no physical audio or ESP32 scheduler timing guarantee.",
+  "sourceHashes": {
+    "tools/build_linux/prepare_m5unified_audio.py": "f5a98ff0bb0d3d12fc18793750dedafe9974e1a4b51f1ed16bf03bba7f7e435b",
+    "Tab5OS_Arduino_v0.8.49_Ecriture/Tab5AudioDriver.cpp": "9bf97a53af4535e9bb4eb098837ac6a483d85c3ef726cc10b934f4624763ee21",
+    "Tab5OS_Arduino_v0.8.49_Ecriture/Tab5AudioDriver.h": "771677f7d87db77d3777651fe129047358f971758854bb1724a8067d1fec4aa1",
+    "Tab5OS_Arduino_v0.8.49_Ecriture/Tab5Audio.cpp": "8181fa0f39161e301f93e7afb3d97463174c2bee7724c88a527c358c0f583f64",
+    "Tab5OS_Arduino_v0.8.49_Ecriture/Tab5Audio.h": "791e191ae148c1efeab536eab38cf843548327dcadfe3ace0c4731a259b3e6df",
+    "Tab5OS_Arduino_v0.8.49_Ecriture/Tab5AudioPriority.h": "efc6a416cd2717a97202a495b670c38da98869b3abb51ea747ce35a8395b854d",
+    "tools/audio-contract-tests-0849/run.py": "c7ff3a86d03c7edcddab2b8ba009b9e193db4d1c2c2cf291512cc793f693214a",
+    "tools/audio-contract-tests-0849/fixture.cpp": "076708234960775fdb4957b1f7e0e49ccd8d458057fe5edf49923cdd01f1436c"
+  },
+  "speakerSha256": "62fdf712fb8d0c3b6cebb374e9a471224439449da5c229ef7738673455a01e93"
+}

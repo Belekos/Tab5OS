@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Rádio Disco Funk BR",
+      "style": "BR/80s",
+      "url": "http://streaming12.hstbr.net:8084/live",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "Rádio Saudade FM 99.7",
+      "style": "BR/adult",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/SAUDADE_FMAAC.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 64
+    },
+    {
+      "name": "Antena 1 São Paulo, SP (ZYD823 94,7 MHz FM) [aac]",
+      "style": "BR/adult contemporary",
+      "url": "http://antena1.newradio.it/stream?ext=.mp3",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 96
+    },
+    {
+      "name": "89 A Radio Rock",
+      "style": "BR/alternative rock",
+      "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO_89FM_ADP.aac?dist=site-89fm",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 128
+    },
+    {
+      "name": "Rádio Bossa Nova Brazil",
+      "style": "BR/bossa nova",
+      "url": "http://54.38.43.201:8009/stream-128kmp3-BossaNovaBrazil",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Rádio Flashback Fm",
+      "style": "BR/brasil",
+      "url": "http://hd.matutos.com.br:8008/;stream.mp3",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 52
+    },
+    {
+      "name": "Bons Tempos FM",
+      "style": "BR/nostalgia",
+      "url": "https://server02.ouvir.radio.br:8050/stream?1609720768800",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 48
+    },
+    {
+      "name": "Máquina do Tempo (MPB Brasil)",
+      "style": "BR/Radio",
+      "url": "http://servidor28.brlogic.com:8032/live",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 96
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "radios": [
+    {
+      "name": "Jakaranda FM",
+      "style": "ZA/80s",
+      "url": "https://edge.iono.fm/xice/jacarandafm_live_high.mp3",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    },
+    {
+      "name": "Jacaranda FM",
+      "style": "ZA/adult contemporary",
+      "url": "https://edge.iono.fm/xice/jacarandafm_live_medium.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 48
+    },
+    {
+      "name": "94.7",
+      "style": "ZA/classic hits",
+      "url": "http://27753.live.streamtheworld.com:3690/FM947AAC_SC",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 32
+    },
+    {
+      "name": "702 Johannesburg",
+      "style": "ZA/johannesburg",
+      "url": "http://25503.live.streamtheworld.com:3690/FM702_SC",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "Lekker FM",
+      "style": "ZA/local",
+      "url": "https://zas3.ndx.co.za:8002/stream",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 64
+    },
+    {
+      "name": "ECR - East Coast Radio -KwaZulu Natal",
+      "style": "ZA/news",
+      "url": "https://edge.iono.fm/xice/ecr_live_medium.aac",
+      "enabled": true,
+      "codec": "AAC+",
+      "bitrate": 48
+    },
+    {
+      "name": "Bosveld Stereo",
+      "style": "ZA/pop",
+      "url": "http://capeant.antfarm.co.za:8000/Bosveld",
+      "enabled": true,
+      "codec": "AAC",
+      "bitrate": 96
+    },
+    {
+      "name": "Amapiano FM",
+      "style": "ZA/Radio",
+      "url": "https://stream.zeno.fm/xs6zeac1ts8uv",
+      "enabled": true,
+      "codec": "MP3",
+      "bitrate": 128
+    }
+  ]
+}
