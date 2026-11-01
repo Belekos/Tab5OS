@@ -4,7 +4,7 @@
 
 [Français](README.fr.md) · [Installation](docs/INSTALL_EN.md) · [Applications](firmware/APPLICATIONS.md) · [Gallery](docs/screenshots/README.md)
 
-![Tab5OS 0.8.53 — presentation illustration](docs/screenshots/cover-en.png)
+![Tab5OS 0.8.53 — English interface](docs/screenshots/cover-en.png)
 
 Tab5OS brings writing, drawing, reading, media, maps and development tools to the **M5Stack Tab5 / ESP32-P4**. Use its graphical interface with touch, a USB keyboard and a mouse. Documents and applications can live on microSD or USB storage.
 
@@ -35,4 +35,4 @@ The **11 ready-to-run ELF applications** are in [Applications](firmware/Tab5OS_A
 
 Follow the [installation guide](docs/INSTALL_EN.md) to choose the right image, prepare the card or update an existing installation. Use the supplied [SHA-256 checksums](downloads/SHA256SUMS.txt) to verify downloads.
 
-The cover is an illustration. The [gallery](docs/screenshots/README.md) contains computer-rendered interface previews.
+The [gallery](docs/screenshots/README.md) shows the English interface rendered from the application source with LVGL on a computer.
