@@ -1,0 +1,31 @@
+# Local build environments and generated outputs
+.build-tab5os/
+build-environment/
+**/__pycache__/
+*.pyc
+*.o
+*.a
+*.elf
+*.map
+*.su
+*.d
+*.exe
+*.dll
+# Precompiled images are release assets, not source files
+*.bin
+# Local credentials and personal configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+# Generated duplicate SD payloads
+firmware/Tab5OS_Arduino_v0.8.53_Ecriture/sdcard/Factory/
+# Logs and rendered test intermediates
+*.log
+*.ppm
+# Editor and operating-system files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
