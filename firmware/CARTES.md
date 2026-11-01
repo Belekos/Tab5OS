@@ -135,26 +135,7 @@ la source ni les limites de l'application.
 
 - Politique OSM : <https://operations.osmfoundation.org/policies/tiles/>
 - Source, attribution et état du service OpenTopoMap : <https://opentopomap.org/about>
-- Guide PC complet : `Tab5OS_Arduino_v0.8.28_Ecriture/tools/CARTES_PC.md`.
+- Guide PC complet : `Tab5OS_Arduino_v0.8.53/tools/CARTES_PC.md`.
 
-## Vérifications de la version 0.8.23
-
-`tools/maps-tests/run.py` exécute les contrôleurs de zoom extraits du programme,
-avec LVGL réel, la géométrie et le rendu raster de production. Les importeurs PC
-et tablette sont exécutés avec un réseau simulé : correspondance des tuiles,
-limites, reprise, fréquence, erreur HTTP 429 et annulation. Le résultat est
-`tools/verification/maps-0823.json`. Les nouveaux tests exécutent aussi la fenêtre
-native complète avec LVGL, 200 ouvertures/imports/reprises/fermetures, les limites
-des sources, le changement de cadence, le passage de l’antiméridien, l’arrêt sur
-erreur et le bouton d’accueil des lieux enregistrés à 20, 26 et 32 pixels.
-Les fermetures passent par le vrai bouton et la touche Entrée du gestionnaire
-de focus de l'OS, ainsi que par le chemin Échap. AddressSanitizer surveille le
-contrôleur natif, le focus et les événements LVGL pendant ces cycles.
-Le contrôleur PC est exécuté avec uniquement ses widgets Tk simulés.
-
-Ces tests ne mesurent pas les performances du Wi-Fi, de la carte SD ou de l'écran
-sur une tablette physique.
-
-## Informations et recherche en 0.8.26
-
-Le bouton i affiche les informations du centre ; un appui long sur la carte choisit un point. La recherche conserve les huit résultats, filtre les données JSON utiles et annule les requêtes abandonnées. Les allocations et contrôles logiciels sont décrits dans [CARTES_0826.md](CARTES_0826.md) ; la disparition du redémarrage doit être confirmée sur tablette.
+## Informations et recherche
+Le bouton i affiche les informations du centre ; un appui long sur la carte choisit un point. La recherche conserve les huit résultats, filtre les données JSON utiles et annule les requêtes abandonnées. Les allocations et contrôles logiciels sont décrits dans [CARTES.md](CARTES.md) ; la disparition du redémarrage doit être confirmée sur tablette.

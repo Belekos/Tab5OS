@@ -1,4 +1,4 @@
-# SSH et SFTP — Tab5OS 0.8.22
+# SSH et SFTP
 
 `ssh` exécute une commande sur un serveur SSH et restitue sa sortie, ses erreurs et son code de retour. `sftp` transfère un fichier ou liste un dossier distant. Les connexions passent par la supervision réseau de l'OS et se ferment avec **Ctrl+C**, le bouton d'arrêt du terminal, la fermeture du terminal ou la désactivation du réseau.
 
@@ -78,8 +78,6 @@ Les adaptations locales concernent la configuration Arduino/lwIP, le profil de m
 Les allocations de session sont plafonnées à 512 Kio en PSRAM sans repli SRAM. Fenêtre de canal : 64 Kio ; paquet : 16 Kio ; tampons applicatifs : 2 Kio pour SSH, 4 Kio pour SFTP. Le gestionnaire de ressources admet en plus le budget cryptographique réel du SDK. Les allocations internes à mbedTLS utilisent l'allocateur commun installé par l'OS ; la commande ne change pas globalement cet allocateur.
 
 La pile du terminal n'est pas agrandie pour toutes les commandes. SSH est refusé si le minimum de pile libre signalé par FreeRTOS est inférieur à 8 Kio, notamment sous des scripts ou substitutions très imbriqués. Relancer directement la commande contourne cette profondeur, sans supprimer la protection. `tasks` affiche les mesures réelles de pile ; `memory` affiche les espaces et les plus grands blocs disponibles.
-
-Les rapports `tools/verification/ssh-0822.json` et `ssh-target-0822.json` distinguent les échanges SSH/SFTP réellement effectués sur boucle locale du PC, la compilation avec le SDK P4 et les mesures qui exigent une tablette. Le banc final utilise mbedTLS 3.6.5, commit `ffb280bb63c78bfec1e1ab55040671768c85c923` du sous-module ESP-IDF 5.5.4, comme le SDK cible core 3.3.9. La configuration Windows, les allocateurs et le matériel restent différents : les binaires ne sont pas identiques. L'essai initial avec mbedTLS 3.6.6/ESP-IDF 5.5.5 est conservé séparément dans `ssh-0822-mbedtls366.json`. Les tests PC ne sont pas une mesure de SRAM physique ni une certification de sécurité.
 
 Sources officielles : <https://libssh2.org/>, <https://github.com/libssh2/libssh2>, <https://libssh2.org/license.html>.
 

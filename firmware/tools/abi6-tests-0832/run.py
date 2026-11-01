@@ -1,9 +1,0 @@
-from pathlib import Path
-import subprocess,os,json,hashlib,datetime,argparse
-root=Path(__file__).resolve().parents[2];sketch=root/'Tab5OS_Arduino_v0.8.32_Ecriture';here=Path(__file__).resolve().parent
-p=argparse.ArgumentParser();p.add_argument('--build',type=Path,default=Path('/workspace/scratch/644cc83c43c8/abi6_host_0832'));a=p.parse_args();a.build.mkdir(parents=True,exist_ok=True)
-cmd=['g++','-std=c++17','-g','-O1','-fsanitize=address,undefined','-fno-omit-frame-pointer','-I'+str(sketch),str(here/'main.cpp'),'-o',str(a.build/'abi6')]
-subprocess.run(cmd,check=True);env=dict(os.environ,ASAN_OPTIONS='detect_leaks=0:halt_on_error=1',UBSAN_OPTIONS='halt_on_error=1');r=subprocess.run([str(a.build/'abi6')],env=env,check=True,text=True,capture_output=True);print(r.stdout)
-files=[here/'main.cpp',here/'run.py',*[sketch/n for n in ['Tab5ImageWrite.h','Tab5AppInputQueue.h','Tab5AppApi.h','Tab5Executable.cpp','Tab5NativeView.cpp','Tab5NativeView.h','Tab5ElfValidate.cpp']]]
-report={'version':'0.8.32','passed':True,'checks':int(r.stdout.strip().split('=')[1]),'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'sourceHashes':{f.relative_to(root).as_posix():hashlib.sha256(f.read_bytes()).hexdigest() for f in files},'scope':'Exact production streaming writer and bounded event queue; filesystem double including short writes, flush/rename failures and recovery. ASan+UBSan.','integrationInspected':['ABI6 import/validation','NativeView canvas coordinate mapping and keyboard dispatch','Executable worker-only API, cancellation and cleanup'],'limitations':['No physical touchscreen or SD power-loss tests','Filesystem double cannot model FAT power-loss atomicity','NativeView and full Executable are compiled by firmware gate, not executed by this host harness']}
-(root/'tools/verification/abi6-0832.json').write_text(json.dumps(report,indent=2)+'\n')

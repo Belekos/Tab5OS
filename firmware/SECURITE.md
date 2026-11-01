@@ -1,4 +1,4 @@
-# Coffre et sécurité — 0.8.28
+# Coffre et sécurité
 
 ## Ouvrir et verrouiller
 
@@ -39,22 +39,20 @@ Ces entrées sont **liées au maître appareil**. Copier les deux fichiers SD pe
 
 Les primitives AES-256-GCM et HMAC-SHA-256 proviennent de mbedTLS. Chaque bloc de fichier authentifie sa position et l'en-tête ; le déchiffrement vérifie tous les blocs avant de publier la copie déchiffrée. Le maître appareil enveloppe son trousseau NVS. Des domaines HMAC distincts séparent les sauvegardes locales et les mots de passe. L'entropie provient du CTR-DRBG initialisé à partir du P4 ; une panne de génération bloque l'opération, sans valeur de secours prévisible.
 
-Les tests de `tools/vault-tests/` compilent les quatre vraies unités C++ avec mbedTLS 3.6.5 natif. Ils comparent la dérivation au PBKDF2 officiel, exercent PIN, annulation, migration, changement de mot de passe, suppression de la clé initiale, exports/restaurations et erreurs de fichiers injectées. Le FS, NVS, les tâches et l'entropie sont simulés aux frontières. Les rapports de pile ciblent le compilateur ESP32-P4 réel, sans prétendre mesurer toute la chaîne SDK ou la pile maximale sur tablette. Les grosses enveloppes de vérification ont été retirées de la pile UI : les cadres openDevice et persist passent respectivement de 2864 à 192 et de 2016 à 112 octets dans cette compilation. Aucun essai physique ni audit indépendant n'est revendiqué.
-
-## Connexions réseau — protections conservées depuis la 0.8.13
+## Connexions réseau
 
 Les connexions Internet TLS utilisent désormais un même client avec le bundle de certificats ESP-IDF. Le contrôle du certificat et du nom d’hôte n’est plus désactivé dans les cartes, les archives Wikipédia, les flux multimédias HTTPS, les services Python et l’IRC TLS. La date doit être initialisée ; le client refuse une horloge antérieure à novembre 2023. Ce seuil détecte un appareil non synchronisé, sans garantir à lui seul l’exactitude de son horloge : la synchronisation reste nécessaire pour les dates de validité des certificats.
 
-Mail et le navigateur Internet sont retirés depuis la distribution 0.8.16. Les applications conservées peuvent encore utiliser une URL HTTP explicitement configurée ; cette connexion reste en clair. L’imprimante locale conserve son parcours séparé de découverte puis validation/mémorisation de certificat. La désactivation temporaire de vérification dans cette seule découverte ne doit pas être assimilée à un client Internet sans contrôle.
+Les applications conservées peuvent encore utiliser une URL HTTP explicitement configurée ; cette connexion reste en clair. L’imprimante locale conserve son parcours séparé de découverte puis validation/mémorisation de certificat. La désactivation temporaire de vérification dans cette seule découverte ne doit pas être assimilée à un client Internet sans contrôle.
 
-Le magasin de certificats est celui du socle 3.3.9/IDF 5.5.4, pas une mise à jour permanente des autorités. Un serveur avec certificat auto-signé, une chaîne inconnue ou une date invalide peut donc être refusé. Les tests sur ordinateur vérifient le routage vers le transport sécurisé, les limites et l’absence de repli ; la négociation réelle avec vos serveurs doit être confirmée sur Tab5. Aucune certification de sécurité ni audit indépendant n’est revendiqué.
+Le magasin de certificats est celui du socle 3.3.9/IDF 5.5.4, pas une mise à jour permanente des autorités. Un serveur avec certificat auto-signé, une chaîne inconnue ou une date invalide peut donc être refusé. Aucune certification de sécurité ni audit indépendant n’est revendiqué.
 
 ## Coffre inaccessible
 
-La page verrouillée propose **Coffre inaccessible ?**, avec avertissement et saisie de `RESET`. La réinitialisation supprime le maître et les clés de ce Tab5 ; les identifiants chiffrés sont archivés sur SD mais restent inaccessibles. Les fichiers chiffrés et l’ancien coffre à mot de passe sont conservés. Les sauvegardes portables des clés restent nécessaires pour déchiffrer les fichiers correspondants. Voir [COFFRE_0826.md](COFFRE_0826.md) pour les conséquences et la reprise après interruption.
+La page verrouillée propose **Coffre inaccessible ?**, avec avertissement et saisie de `RESET`. La réinitialisation supprime le maître et les clés de ce Tab5 ; les identifiants chiffrés sont archivés sur SD mais restent inaccessibles. Les fichiers chiffrés et l’ancien coffre à mot de passe sont conservés. Les sauvegardes portables des clés restent nécessaires pour déchiffrer les fichiers correspondants.
 
-## Chargement après déverrouillage — 0.8.28
+## Chargement après déverrouillage
 
 La validation du PIN et le chargement des identifiants ont des états distincts. Une erreur de lecture, de mémoire ou de déchiffrement reste visible ; l’affichage ne relance pas silencieusement la lecture des banques. Remettre la carte SD puis choisir **Réessayer** permet une nouvelle tentative explicite en arrière-plan. Ce traitement conserve les fichiers et les clés existants.
 
-Le diagnostic du coffre garde uniquement l’étape technique en mémoire RTC pour aider à comprendre un éventuel redémarrage. Il n’y enregistre ni PIN, ni identifiant, ni valeur secrète, et n’écrit pas périodiquement sur SD. Voir [COFFRE_0827.md](COFFRE_0827.md) pour la contre-épreuve logicielle et ses limites matérielles.
+Le diagnostic du coffre garde uniquement l’étape technique en mémoire RTC pour aider à comprendre un éventuel redémarrage. Il n’y enregistre ni PIN, ni identifiant, ni valeur secrète, et n’écrit pas périodiquement sur SD.

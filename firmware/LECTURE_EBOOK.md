@@ -1,4 +1,4 @@
-# Lecture EPUB — 0.8.22
+# Lecture EPUB
 
 La glissière du bas permet de choisir une page dans l'ensemble du livre. Pendant le déplacement, le numéro de la page visée et le nombre total de pages remplacent momentanément le statut. La page affichée ne change qu'après relâchement. Le lecteur prépare alors la destination progressivement et conserve la page courante pendant cette préparation.
 
@@ -9,5 +9,3 @@ Le nombre de pages dépend de la taille du texte et de la mise en page. Lors de 
 L'index est enregistré sur le stockage lorsqu'il est complet et réutilisé aux ouvertures suivantes. La version 0.8.22 recalcule une fois les index antérieurs, car la zone de lecture réserve désormais l'espace de la glissière. Les marque-pages par section et position de texte restent compatibles.
 
 Pour rejoindre un chapitre non chargé, le lecteur réutilise le document de travail de l'indexeur ; il ne charge pas plusieurs chapitres de fond simultanément. Il traite au plus une page de mise en page par passage du service, puis transfère le document prêt à la lecture sans le parser une seconde fois. Une destination déjà paginée dans le chapitre courant est immédiate. La destination ne remplace le marque-page qu'après un rendu réussi. Une allocation, une mesure ou un rendu impossible conserve le document et le marque-page précédents. Si la mémoire manque aussi pour repeindre l'ancienne page, son affichage peut rester incomplet ; sa position sauvegardée reste intacte.
-
-Les contrôles `tools/epub-pagination-tests/run_layout.py` vérifient les pages avec LVGL et les polices livrées. `run_seek.py` teste le contrôleur réel de navigation avec les événements LVGL et des lectures/mesures simulées, y compris l'annulation et le manque de mémoire. Ils ne remplacent pas un essai sur la tablette et sur vos livres.

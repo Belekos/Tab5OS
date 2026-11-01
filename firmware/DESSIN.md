@@ -1,4 +1,4 @@
-# Dessin — Tab5OS 0.8.51
+# Dessin
 
 Ouvrir **Dessin** depuis l’accueil, ou choisir **Dessin** dans **Ouvrir avec…** sur une image dans l’explorateur. Les projets T5I s’ouvrent directement dans l’éditeur. L’application utilise le thème, la police, le focus et la saisie de l’OS.
 
@@ -27,8 +27,6 @@ Choisir **Sélection**, ouvrir ses options et sélectionner la méthode. Le lass
 Les modes remplacer, ajouter, soustraire et intersection permettent de composer le masque. Les commandes d’inversion et d’adoucissement agissent sur la sélection actuelle. **Progressivité** va de −32 à +32 pixels du document : une valeur négative adoucit uniquement l’intérieur, zéro conserve un bord net et une valeur positive adoucit de part et d’autre du contour. Une forme plus étroite que la progressivité intérieure peut devenir très faible ou disparaître. Le remplissage de toute la sélection applique aussi ce réglage, en restant limité au masque actif. Après une désélection, le premier tracé crée la forme choisie même si Ajouter, Soustraire ou Intersection est encore sélectionné ; l’inversion reste une commande explicite. Le masque conserve des degrés d’opacité, pas seulement une frontière tout-ou-rien ; les outils concernés respectent cette sélection.
 
 Avec **Remplissage**, choisir la zone et le type : couleur unie, dégradé linéaire ou radial, hachures, damier ou points. Densité, direction et taille de motif adaptent le résultat. **Arrêter aux contours** et le seuil associé limitent la propagation sur les bords détectés. Les calculs longs peuvent être annulés ; une allocation refusée laisse l’image intacte.
-
-Les contrôles actuels sont décrits dans [NOUVEAUTES_v0.8.40.md](NOUVEAUTES_v0.8.40.md) et `tools/drawing-tests-0840/README.md`. Les résultats .35 cités plus loin restent historiques.
 
 ## Relief
 
@@ -76,6 +74,5 @@ Ctrl+Z annule, Ctrl+Y rétablit, Ctrl+S enregistre, Ctrl+O ouvre et Ctrl+N crée
 
 Raccourcis d’outils : B pinceau, E gomme, S sélection, V déplacement de pixels, T texte, I pipette, H ou Espace Main, L ligne, R rectangle, O ellipse, W déformation. X échange les couleurs. Ctrl+plus/moins zoome ; Ctrl+0 ajuste et Ctrl+1 affiche à 100 %.
 
-## Dossier par défaut depuis la 0.8.39
-
+## Dossier par défaut
 Les nouveaux projets et exports utilisent `/Picture`. Les projets personnels déjà présents sous `/Images` restent lisibles et peuvent être enregistrés à leur emplacement ; aucune migration ni aucun renommage automatique ne sont effectués.

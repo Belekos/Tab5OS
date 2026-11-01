@@ -1,4 +1,4 @@
-# Bibliothèques et projets MicroPython — 0.8.19
+# Bibliothèques et projets MicroPython
 
 Depuis **Code → Bibliothèques**, **Atelier → Bibliothèques** ou le script MicroPython `libraries.py` :
 
@@ -29,7 +29,3 @@ Ce fonctionnement prépare de vrais fichiers et projets sur SD **sans ordinateur
 Pour préserver la mémoire et la fluidité, un import local est limité à 160 fichiers, 1 Mio par fichier, 8 Mio au total et 8 niveaux. Le parcours utilise un seul des huit descripteurs de dossier du pont natif ; il rend régulièrement la main. Les copies utilisent des blocs de 4 Kio. Le navigateur charge les fiches de classement sans charger les sources ni conserver leurs tables d’empreintes. Au-delà de 256 bibliothèques affichées, filtrer par cible ou par usage. Le téléchargement mip conserve ses limites de 32 paquets, 128 sources et 4 Mio.
 
 Les opérations utilisent le journal de récupération existant : une interruption de copie ou de commit doit restaurer les fichiers précédents. Les temporaires internes de téléchargement sont désormais reconnus par la récupération ; une coupure pendant un téléchargement ne doit plus bloquer toutes les opérations de l’Atelier.
-
-## Vérifications et limites
-
-Les suites automatisées conservées utilisent un système SD simulé et couvrent : import sans exécution, paquet avec `__init__`, dépendances mip isolées, projets, copie répétée, conflits et fichiers personnels, source de catalogue modifiée, `.mpy`, protection des modules système, échec réseau et interruption du commit. Seuls les passages explicitement consignés dans VERIFICATION.md constituent des validations de la version courante. L’ergonomie tactile, les performances et la reprise après retrait physique de la SD restent à vérifier sur Tab5.

@@ -1,4 +1,4 @@
-# Développer pour Tab5OS 0.8.35
+# Développer pour Tab5OS
 
 ## Choisir un format
 
@@ -28,7 +28,7 @@ Un script ne peut pas supposer que tous les modules de MicroPython pour ESP32 st
 
 ## Un premier ELF
 
-Ouvrir un terminal dans `Tab5OS_Arduino_v0.8.39_Ecriture`. Avec la chaîne GCC Espressif installée :
+Ouvrir un terminal dans `Tab5OS_Arduino_v0.8.53`. Avec la chaîne GCC Espressif installée :
 
 ```text
 python tools/native-apps/build.py tools/native-apps/examples/pattern.c --toolchain CHEMIN/esp-rv32/2601/bin -o pattern.app.elf
@@ -44,7 +44,7 @@ Python 3 et les outils `clang`, `ld.lld`, `llvm-readelf`, `llvm-strip` d'Espress
 
 Copier l'ELF dans `/Apps` ou `/Applications` sur microSD ou USB. Dans le lanceur, choisir **Sans fichier** pour `pattern.app.elf`. Les deux autres modes demandent un fichier ou mémorisent un fichier fixe. `hash_file.c` est un exemple de lecture qui reçoit le document en `argv[1]` ; son empreinte FNV-1a n'est pas cryptographique.
 
-Le compilateur de projets refuse les imports extérieurs à l'API et conserve le précédent fichier de sortie si le nouveau programme échoue à compiler ou à valider. Les binaires d'exemple construits dans les tests sont des ELF32 RISC-V de type `DYN`. Cela ne prouve pas leur rendu sur une tablette physique.
+Le compilateur de projets refuse les imports extérieurs à l'API et conserve le précédent fichier de sortie si le nouveau programme échoue à compiler ou à valider.
 
 ### Contrat d'exécution
 
@@ -73,19 +73,10 @@ Ne pas appeler LVGL depuis un worker de réseau ou de stockage. Produire un rés
 
 ## Vérifier une modification
 
-Les commandes ci-dessous se lancent depuis la racine de la livraison :
-
-```text
-python tools/sdk-tests/run.py --clang-bin CHEMIN/esp-clang/bin
-python tools/usb-gamepad-tests/run_host.py Tab5OS_Arduino_v0.8.39_Ecriture
-python tools/audit_publication.py
-```
-
-Les deux premiers bancs utilisent MSVC 2022 sur Windows pour leurs tests natifs. Ils ne flashent rien. Les scripts de tests propres aux fonctionnalités sont dans `tools/*-tests`. Après modification d'une bibliothèque SD ou d'un pack, régénérer les ressources par les outils documentés dans [COMPILATION.md](COMPILATION.md) ; ne pas livrer un firmware avec des empreintes d'une autre version.
+Recompiler avec le [guide de compilation](COMPILATION.md). Après une modification de ressources SD, régénérer les fichiers concernés avec les scripts documentés.
 
 Pour un essai matériel, relever la version, les périphériques, l'application ouverte, la mémoire avant/après et la séquence exacte. Répéter les ouvertures/fermetures et annulations, puis un retrait de support à un point prévu par l'interface. Une compilation seule ne valide ni la stabilité matérielle ni les besoins SRAM maximaux.
 
-
 ## ABI ELF 6 — canevas et images
 
-`tab5_app_api_v6` conserve le préfixe ABI 5. `canvas_begin` crée un canevas de 800 × 480 au maximum, sans commandes de jeu. `input_poll` copie les événements tactiles et clavier ; CANCEL demande d’annuler le geste courant après perte ou saturation, CLOSE demande à l’application de traiter sa fermeture. `write_begin`, `write_chunk` (4 096 octets au maximum), `write_finish` exposent une écriture progressive limitée à `/Images/<nom>.bmp` ou `.t5i`, 16 Mio maximum et un seul flux. La fermeture de l’application abandonne un flux non validé. Les définitions exactes sont dans `Tab5AppApi.h`. Le source `tools/native-apps/image-editor/app.c` conserve l’exemple ELF historique de la 0.8.32 ; il n’est plus le programme distribué. L’éditeur courant utilise `Tab5ImageEditor.cpp` dans le firmware, avec LVGL et le moteur C partagé. Ne pas reprendre la reconstruction bitmap complète de l’ancien exemple pour une interface native fluide.
+`tab5_app_api_v6` conserve le préfixe ABI 5. `canvas_begin` crée un canevas de 800 × 480 au maximum, sans commandes de jeu. `input_poll` copie les événements tactiles et clavier ; CANCEL demande d’annuler le geste courant après perte ou saturation, CLOSE demande à l’application de traiter sa fermeture. `write_begin`, `write_chunk` (4 096 octets au maximum), `write_finish` exposent une écriture progressive limitée à `/Images/<nom>.bmp` ou `.t5i`, 16 Mio maximum et un seul flux. La fermeture de l’application abandonne un flux non validé. Les définitions exactes sont dans `Tab5AppApi.h`. L’éditeur courant utilise `Tab5ImageEditor.cpp` dans le firmware, avec LVGL et le moteur C partagé.

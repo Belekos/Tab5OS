@@ -1,8 +1,0 @@
-{
-  "Écrire et mettre en forme": [
-    {
-      "operation": "append",
-      "key": "Le bouton Série de la barre de l’éditeur ouvre les échanges sur le port choisi dans Réglages. En mode Données, Envoyer transmet la sélection, ou le document entier sans sélection. Écouter reçoit le texte dans un volet séparé ; Insérer le place dans le document. Réduire le volet conserve l’écoute ; quitter l’éditeur arrête sa session série. Pour les fichiers binaires et les redirections de flux, utilisez les commandes serial du terminal."
-    }
-  ]
-}

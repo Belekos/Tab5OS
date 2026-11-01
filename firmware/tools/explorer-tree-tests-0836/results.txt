@@ -1,1 +1,0 @@
-PASS: production lazy tree; expansion, collapse, depth 129, 8193 entries, 6 sorts, refresh, hidden files, cancellation, USB removal, allocation refusal, PSRAM only, max 2 handles, peak 605203 bytes.

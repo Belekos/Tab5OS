@@ -11,7 +11,7 @@ build-environment/
 *.d
 *.exe
 *.dll
-# Precompiled images are release assets, not source files
+# Ignore generated firmware images; distributed files are explicitly included
 *.bin
 # Local credentials and personal configuration
 .env
@@ -20,7 +20,7 @@ build-environment/
 *.pem
 *.key
 # Generated duplicate SD payloads
-firmware/Tab5OS_Arduino_v0.8.53_Ecriture/sdcard/Factory/
+firmware/Tab5OS_Arduino_v0.8.53/sdcard/Factory/
 # Logs and rendered test intermediates
 *.log
 *.ppm
@@ -29,3 +29,8 @@ firmware/Tab5OS_Arduino_v0.8.53_Ecriture/sdcard/Factory/
 Thumbs.db
 .vscode/
 .idea/
+
+# Ready-to-use applications and installation packages
+!/firmware/Tab5OS_Arduino_v0.8.53/sdcard/Applications/*.app.elf
+!/downloads/Tab5OS_0.8.53_OTA.bin
+!/downloads/Tab5OS_0.8.53_initial_install_16MB.bin

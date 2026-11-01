@@ -1,9 +1,0 @@
-{
-  "fr": "En WFM, l'écoute mono filtre les composantes stéréo et RDS. La désaccentuation vaut généralement 50 µs en Europe ou 75 µs selon le pays. Correction (ppm) compense l'écart de l'oscillateur de la clé ; commencez à 0 et ajustez avec une fréquence connue. Une antenne adaptée et un niveau radio suffisant restent nécessaires.",
-  "ar": "في وضع WFM، ترشّح الاستماعات الأحادية مكوّنات الستيريو وRDS. تكون إزالة التوكيد عادةً 50 µs في أوروبا أو 75 µs بحسب البلد. يعوّض تصحيح ppm انحراف مذبذب جهاز الاستقبال؛ ابدأ بالقيمة 0 واضبطها باستخدام تردد معروف. لا يزال يلزم هوائي مناسب وإشارة راديوية قوية بما يكفي.",
-  "ru": "В режиме WFM приём моно отфильтровывает компоненты стерео и RDS. Посткоррекция обычно составляет 50 µs в Европе или 75 µs в зависимости от страны. Коррекция (ppm) компенсирует отклонение частоты генератора приёмника: начните с 0 и настройте по известной частоте. По-прежнему нужны подходящая антенна и достаточный уровень радиосигнала.",
-  "zh": "WFM 单声道接收会滤除立体声和 RDS 分量。去加重时间常数在欧洲通常为 50 µs，部分国家使用 75 µs。校正（ppm）用于补偿接收棒振荡器的频率偏差；先设为 0，再根据已知频率调整。仍需合适的天线和足够强的无线电信号。",
-  "ja": "WFM のモノラル受信では、ステレオ成分と RDS 成分を除去します。ディエンファシスは通常、欧州では 50 µs、国によっては 75 µs です。補正（ppm）は受信機の発振器の周波数偏差を補正します。まず 0 に設定し、既知の周波数で調整してください。適切なアンテナと十分な信号強度も必要です。",
-  "ko": "WFM 모노 수신에서는 스테레오와 RDS 성분을 걸러냅니다. 디엠퍼시스는 일반적으로 유럽에서는 50 µs이며 국가에 따라 75 µs를 사용합니다. 보정(ppm)은 수신기 발진기의 주파수 오차를 보정합니다. 먼저 0으로 설정한 뒤 알려진 주파수에 맞춰 조정하세요. 적절한 안테나와 충분한 무선 신호 세기는 여전히 필요합니다.",
-  "id": "Pada WFM, penerimaan mono menyaring komponen stereo dan RDS. De-emphasis biasanya 50 µs di Eropa atau 75 µs, tergantung negara. Koreksi (ppm) mengompensasi penyimpangan osilator penerima; mulai dari 0 lalu sesuaikan dengan frekuensi yang diketahui. Antena yang sesuai dan sinyal radio yang cukup kuat tetap diperlukan."
-}

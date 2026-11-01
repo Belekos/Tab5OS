@@ -1,3 +1,0 @@
-test.cpp
-PASS: EPUB global counts, resume prefix, font invalidation, bounds, overflow and shared geometry.
-PASS: original and Arduino header copies included together.

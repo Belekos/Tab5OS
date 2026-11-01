@@ -1,9 +1,0 @@
-{
-  "version": "0.8.47",
-  "scope": "New distribution only; no device/card/user data accessed",
-  "removedGeneratedTree": "sdcard/Factory/Tab5OS-0.8.46",
-  "bytes": 75681460,
-  "files": 182,
-  "historicalManifestSha256": "2afedf1da0fe14f063ee23abc99b0c0d79faad3052c8533cad9b4286b9f1dc4f",
-  "previousHashesPreserved": true
-}

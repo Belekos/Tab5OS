@@ -1,9 +1,0 @@
-{
-  "version": "0.8.42",
-  "existingRegressionCasesPassed": true,
-  "initialMetadataFaultProtected": true,
-  "finalMetadataFaultProtected": true,
-  "backupMetadataFaultProtected": true,
-  "sourceSha256": "bf21efd14d98bfd322b2e15ba42d45aaa2e8d9473216152d23b54db5d2ff5741",
-  "scope": "Actual HTTP transfer implementation with fake HTTP responses and real host POSIX filesystem; initial/final/backup EIO injection plus historical truncation, write failure, cancellation, HTTPS downgrade, redirect, deadline and FD cleanup cases. ASan+UBSan. No radio/TLS/SD hardware executed."
-}

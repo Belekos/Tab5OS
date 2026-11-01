@@ -1,7 +1,0 @@
-La roue crantée ouvre les options de l’outil. Édition propose copier, couper, coller et supprimer la sélection ; les déplacements successifs conservent le fond. Le texte inséré utilise la police de l’OS.
-
-Relief ombre les couleurs existantes sans changer leur transparence. Il simule une surface, sans créer de géométrie 3D. Sur un disque, Linéaire donne un profil conique et Circulaire un profil arrondi ; sur une autre forme, ils suivent son contour. Extrusion donne une hauteur constante.
-
-Progression fixe la largeur du profil en pixels ou en proportion de la distance maximale au contour ; à 100 %, le profil atteint les points les plus éloignés du bord. Une valeur inférieure laisse un plateau. Ce réglage ne concerne pas Extrusion.
-
-Hauteur positive : saillie ; négative : creux. L’azimut de l’éclairage tourne sur 360° : 0° à droite, 90° en bas, 180° à gauche, 270° en haut. Intensité règle le contraste de l’éclairage ; zéro conserve les couleurs.

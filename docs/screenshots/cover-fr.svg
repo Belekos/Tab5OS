@@ -3,7 +3,7 @@
  <rect x="40" y="40" width="7" height="112" rx="3" fill="#365d77"/>
  <text x="68" y="94" fill="#20292c" font-family="DejaVu Sans, sans-serif" font-size="64" font-weight="bold">Tab5OS</text>
  <text x="370" y="94" fill="#647274" font-family="DejaVu Sans Mono, monospace" font-size="27">0.8.53</text>
- <text x="1240" y="69" text-anchor="end" fill="#365d77" font-family="DejaVu Sans, sans-serif" font-size="23">M5Stack Tab5</text>
+
  <text x="1240" y="105" text-anchor="end" fill="#647274" font-family="DejaVu Sans Mono, monospace" font-size="20">ESP32-P4</text>
  <text x="68" y="142" fill="#647274" font-family="DejaVu Sans, sans-serif" font-size="27">Documents · Dessin · Fichiers · Outils</text>
  <rect x="39" y="205" width="586" height="331" rx="4" fill="#b9c4c7"/>
@@ -13,5 +13,5 @@
  <text x="40" y="575" fill="#20292c" font-family="DejaVu Sans, sans-serif" font-size="25" font-weight="bold">Explorateur</text>
  <text x="656" y="575" fill="#20292c" font-family="DejaVu Sans, sans-serif" font-size="25" font-weight="bold">Dessin</text>
  <line x1="40" y1="628" x2="1240" y2="628" stroke="#ccd2d0"/>
- <text x="40" y="670" fill="#647274" font-family="DejaVu Sans, sans-serif" font-size="19">Aperçus LVGL sur ordinateur · Pas de captures sur appareil</text>
+ <text x="40" y="670" fill="#647274" font-family="DejaVu Sans, sans-serif" font-size="19">Illustration — pas une capture d’écran</text>
  </svg>

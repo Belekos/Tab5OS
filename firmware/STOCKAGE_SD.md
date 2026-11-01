@@ -1,6 +1,6 @@
 # Cartes SD : capacité, format et mémoire
 
-Les mécanismes de stockage décrits ici sont conservés en 0.8.21, avec le paquet M5Stack 3.3.9 et ESP-IDF 5.5.4. Les mesures de structures ci-dessous proviennent de l'audit initial 0.8.5 ; les essais propres à la version courante figurent dans `VERIFICATION.md`. La récupération des ressources système et la police de secours sont décrites dans `REPARATION_SD.md`.
+Les mécanismes de stockage décrits ici sont conservés en 0.8.21, avec le paquet M5Stack 3.3.9 et ESP-IDF 5.5.4. Les mesures de structures ci-dessous proviennent de l'audit initial 0.8.5. La récupération des ressources système et la police de secours sont décrites dans `REPARATION_SD.md`.
 
 **Une carte de plus de 32 Go ne nécessite pas forcément de changer de système de fichiers.** Pour cette version, le choix pratique reste une partition FAT32 sur une carte de 64, 128 ou 256 Go. Le pilote actuel sait adresser ces capacités ; chaque modèle de carte reste à vérifier sur la tablette. Cette livraison ne formate aucune carte et n'ajoute pas le support exFAT.
 
