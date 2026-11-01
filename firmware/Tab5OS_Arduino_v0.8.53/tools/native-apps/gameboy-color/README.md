@@ -24,7 +24,7 @@ The RTC does not advance while the application is stopped.
 The included Tab5_Color.gbc demonstration is original homebrew and dedicated
 to the public domain under CC0-1.0. Its make_demo.py generator uses the shipped
 DejaVu font (its licence is supplied separately). No commercial game is bundled.
-See the release BINAIRES.md for controls, save/resume and limitations.
+See [the application guide](../../../../APPLICATIONS.md) for installation and the supplied programs.
 
 Host tests exercise rendering, state resume/corruption, write failures and tracked
 allocation cleanup. Hardware framerate and game compatibility are unmeasured.

@@ -26,6 +26,6 @@ LVGL utilise son allocateur TLSF avec des pools PSRAM extensibles. Les adaptatio
 
 Les composants embarqués et leurs adaptations se trouvent dans [le sketch](Tab5OS_Arduino_v0.8.53/). Les cœurs des jeux et émulateurs sont conservés sous [tools/native-apps](Tab5OS_Arduino_v0.8.53/tools/native-apps/), avec leurs fichiers de provenance et leurs recettes de compilation.
 
-Les polices, dictionnaires CJK et données cartographiques sont des ressources SD distinctes du firmware. Les générateurs utiles se trouvent dans [build/resources](build/resources/). Le dossier `sdcard` du dépôt ne constitue pas le paquet SD complet.
+Les polices, dictionnaires CJK et données cartographiques sont des ressources SD distinctes du firmware. Les générateurs utiles se trouvent dans [build/resources](build/resources/). Le [paquet SD complet](../downloads/Tab5OS_0.8.53_SD.zip) fournit ces ressources avec les applications et la référence Factory. Les [ELF](Tab5OS_Arduino_v0.8.53/sdcard/Applications/) et [scripts Python](Tab5OS_Arduino_v0.8.53/sdcard/MicroPython/) sont également disponibles directement.
 
 Les [notices tierces](LICENCES.md) et le [manifeste des licences](LICENCES-manifest.json) recensent les composants et les chemins de leurs textes de licence. Les conditions propres à chaque composant sont conservées dans ses sources ; voir aussi [NOTICE.md](../NOTICE.md).

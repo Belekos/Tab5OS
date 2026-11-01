@@ -70,6 +70,5 @@ interruptions entre opérations sur un système de fichiers simulé. Ils ne
 reproduisent pas une panne électrique au milieu d’une écriture FAT matérielle.
 Une sauvegarde de la microSD reste utile avant toute mise à jour de firmware.
 
-## Nom de la notice des claviers en 0.8.38
-
+## Nom de la notice des claviers
 La notice officielle est désormais fournie sous `System/KEYBOARDS.txt`. Le nom `CLAVIERS.txt` ci-dessus décrit la migration historique et les fichiers déjà présents ; cette migration ne renomme pas automatiquement les documents personnels.

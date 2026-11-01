@@ -1,4 +1,4 @@
-# Keep the authenticated upstream snapshot byte-for-byte unchanged.
+# Preserve source and resource bytes without line-ending conversion.
 /firmware/** -text
 # Publication documents use LF.
 /*.md text eol=lf
@@ -11,3 +11,7 @@
 *.gz binary
 *.woff binary
 *.woff2 binary
+
+*.zip binary
+*.bin binary
+*.elf binary

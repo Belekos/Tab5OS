@@ -34,9 +34,7 @@ python3 build/build_linux/verify_linux.py --environment "$TAB5_BUILD_DIR"
 
 [dependency-downloads.json](../firmware/build/build_linux/dependency-downloads.json) pins download URLs and SHA-256 checksums. Outputs go to `.build-tab5os/build`; logs and verification results go to `.build-tab5os/qa`.
 
-The verifier checks source stability, RISC-V ABI, image integrity, embedded ELF hash, partitions and linked adaptations. Archived reports are unnecessary; `--baseline` accepts an optional prior-build reference for memory comparisons.
-
-The original 0.8.53 firmware was built with Linux/GCC. This repository cleanup is not a new full build or physical-device test.
+The verifier checks source stability, RISC-V ABI, image integrity, embedded ELF hash, partitions and linked adaptations. `--baseline` accepts an optional prior-build reference for memory comparisons.
 
 ## Windows
 
@@ -48,14 +46,18 @@ Set-Location firmware
 .\Compiler_Tab5OS.ps1 -InstallDependencies
 ```
 
-Subsequent builds use `.\Compiler_Tab5OS.ps1`. Use `-ArduinoCli` to select the CLI or `-SketchPath` to select a sketch. Results go to `firmware/build-environment`. This route has not been rerun for the cleanup.
+Subsequent builds use `.\Compiler_Tab5OS.ps1`. Use `-ArduinoCli` to select the CLI or `-SketchPath` to select a sketch. Results go to `firmware/build-environment`.
 
-The [French guide](../firmware/COMPILATION.md) describes the retained experimental Windows/Clang route.
+The [French guide](../firmware/COMPILATION.md) also describes the experimental Windows/Clang route.
 
 ## Partitions and applications
 
-There is no `partitions.csv` in the sketch. `PartitionScheme=default` selects the SDK's `tools/partitions/default_16MB.csv`, with two 6,553,600-byte application slots.
+`PartitionScheme=default` selects the SDK's `tools/partitions/default_16MB.csv`, with two 6,553,600-byte application slots.
 
-Build ELF applications separately from [their source and recipes](../firmware/Tab5OS_Arduino_v0.8.53/tools/native-apps/). The source-tree `sdcard` contains Python applications and editable resources, but is not the complete SD installation package. Precompiled ELF files and bulky generated resources are separate.
+The [11 compiled ELF applications](../firmware/Tab5OS_Arduino_v0.8.53/sdcard/Applications/) are available beside their [sources and build recipes](../firmware/Tab5OS_Arduino_v0.8.53/tools/native-apps/). Rebuild them separately when changing application code.
+
+The [complete SD package](../downloads/Tab5OS_0.8.53_SD.zip) includes ELF/Python applications, generated fonts and dictionaries, and the Factory repair reference. The source-tree [sdcard](../firmware/Tab5OS_Arduino_v0.8.53/sdcard/) exposes editable resources, Python scripts and ELF executables. [Resource tools](../firmware/build/resources/README.md) regenerate the corresponding firmware headers and SD data.
+
+For installation using the supplied firmware images, follow the [installation guide](INSTALL_EN.md). Firmware build outputs and the SD package serve separate steps of installation.
 
 See [NOTICE.md](../NOTICE.md) for component distribution information.

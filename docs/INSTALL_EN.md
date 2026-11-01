@@ -1,60 +1,64 @@
-# Install Tab5OS 0.8.53 on M5Stack Tab5
+# Install Tab5OS 0.8.53
 
-**Availability:** this repository currently provides source code. Precompiled firmware, a complete SD installation package and a Tab5OS M5Burner listing are not yet published. The image names below describe the prepared release formats; they are not download links.
+Tab5OS runs on M5Stack Tab5 / ESP32-P4 with 32 MiB PSRAM and 16 MiB Flash.
 
-This firmware targets **M5Stack Tab5 / ESP32-P4 with 32 MiB PSRAM and 16 MiB Flash**. It does not install or replace the ESP32-C6 companion firmware.
+## Downloads
 
-## Choose the installation method
+| File | Use |
+| --- | --- |
+| [OTA firmware](../downloads/Tab5OS_0.8.53_OTA.bin) | Update Tab5OS through its Explorer |
+| [16 MiB initial installation](../downloads/Tab5OS_0.8.53_initial_install_16MB.bin) | Write the merged image at address `0x0` |
+| [Complete SD package](../downloads/Tab5OS_0.8.53_SD.zip) | ELF/Python applications, fonts, languages, keyboards and Factory reference |
+| [SHA256SUMS.txt](../downloads/SHA256SUMS.txt) | Verify all three downloads |
 
-| Situation | Image | Method |
-| --- | --- | --- |
-| Tab5OS already installed | `Tab5OS_0.8.53_OTA.bin` | Built-in firmware updater |
-| First installation | `Tab5OS_0.8.53_initial_install_16MB.bin` | Merged image written at `0x0` |
+**Initial installation replaces the entire P4 Flash, including internal settings and keys. Use the OTA firmware to update an existing installation.** Back up documents, settings and portable vault exports before installation. Keep power connected while writing. The ESP32-C6 companion retains its firmware.
 
-**The first-install image replaces the entire P4 Flash, including internal settings and data. Use the OTA image to update an existing installation.** Neither image contains the microSD resources.
+In PowerShell, calculate a downloaded file’s checksum with `Get-FileHash -Algorithm SHA256 .\Tab5OS_0.8.53_SD.zip` and compare it with `SHA256SUMS.txt`. On Linux, place all three files and the checksum file in one directory, then run `sha256sum -c SHA256SUMS.txt`.
 
-Before installation, back up personal documents, settings and encryption keys as applicable. Keep power connected during firmware writing. When a binary package is available, verify its files against its supplied SHA-256 checksums.
+## First installation
 
-## Update an existing installation
+1. Extract the SD package. Copy the **contents** of its `sdcard` folder to the root of a FAT32 microSD card: `Applications`, `MicroPython`, `System`, `Factory`, etc.
+2. Install Python 3.10 or later and esptool 5:
 
-1. Copy the matching OTA image to the microSD card.
-2. Select it in Explorer, then choose **Actions → Install firmware**.
-3. Choose **Verify** and compare the displayed SHA-256 with the package checksum.
+   ```powershell
+   python -m pip install "esptool>=5,<6"
+   ```
+
+3. Connect the Tab5 USB-C port using a data cable. Hold Reset for about two seconds until the green LED flashes rapidly, then release it.
+4. Open a terminal in the directory containing the initial-install BIN. Replace `COM5` with the Tab5 serial port, then run:
+
+   ```powershell
+   python -m esptool --chip esp32p4 --port COM5 write-flash 0x0 Tab5OS_0.8.53_initial_install_16MB.bin
+   ```
+
+5. Wait for writing and verification to finish, then restart with the prepared microSD card inserted. Choose your language and configure Wi-Fi in **Settings**.
+
+On Linux or macOS, use `python3` if needed and the corresponding port, such as `/dev/ttyACM0`. The merged image includes the bootloader, partition table and application; write it in one operation at `0x0`.
+
+## Update Tab5OS
+
+1. Copy [Tab5OS_0.8.53_OTA.bin](../downloads/Tab5OS_0.8.53_OTA.bin) to the microSD card.
+2. Select this file in Explorer, then choose **Actions → Install firmware**.
+3. Choose **Verify** and compare the displayed SHA-256 with [SHA256SUMS.txt](../downloads/SHA256SUMS.txt).
 4. Choose **Install**, wait for success, then **Restart**.
-5. Update the SD resources using the procedure below.
+5. Update the SD resources as described below.
 
-This writes the application into the other OTA slot and retains the partition table and NVS. Never write the OTA image at address `0x0`.
+The updater retains the partition table and internal NVS settings. The OTA BIN is intended for this procedure; do not write it at `0x0`.
 
-## First installation with M5Burner
+## Update an existing microSD card
 
-These steps apply once the Tab5OS listing and complete SD package are published.
+The [complete SD package](../downloads/Tab5OS_0.8.53_SD.zip) includes `Factory/Tab5OS-0.8.53`, the reference used by the repair tool.
 
-1. Prepare a FAT32 microSD card. Copy the **contents** of the complete package's `sdcard` folder to the card root.
-2. Connect the Tab5 USB-C port with a data cable. Hold Reset for about two seconds, until the green LED flashes rapidly, then release it to enter download mode.
-3. In M5Burner, select **Tab5OS 0.8.53**, the Tab5 device and its serial port.
-4. Write the merged first-install image at `0x0`. Its P4 bootloader is already included at `0x2000`; no separate full-chip erase is required.
-5. Restart with the prepared card inserted, then configure language and Wi-Fi in Tab5OS.
-
-Use a M5Burner version supporting Tab5 / ESP32-P4. M5Burner import and physical boot of the prepared package have not been tested.
-
-## Prepare or update the microSD card
-
-Use a **complete resource package matching version 0.8.53**. The source tree's `firmware/Tab5OS_Arduino_v0.8.53/sdcard` is only a partial set: it omits compiled applications and some generated resources. Copying that folder alone does not provide a complete installation.
-
-The full package supplies external ELF/Python applications, languages, fonts, keyboards and offline resources. Wikipedia archives, map tiles and game data may require separate preparation. Essential built-in tools remain accessible without a card.
-
-For a new card, copy the contents of the complete package's `sdcard` folder to its root. For an existing card:
-
-1. Back up personal files, custom modules, settings, keys, Wikipedia archives, game data and saves.
-2. Copy the package's `sdcard/Factory/Tab5OS-0.8.53` folder to `/Factory/Tab5OS-0.8.53` on the card.
+1. Back up personal files, customized scripts, settings, keys, archives, games and saves.
+2. Copy the package’s `sdcard/Factory/Tab5OS-0.8.53` folder to `/Factory/Tab5OS-0.8.53` on the card.
 3. Update `MicroPython/lib/tab5factory.py`, `tab5workshop.py`, `tab5fs.py`, `tab5gui.py`, `tab5ui.py`, `tab5apps.py` and `MicroPython/update_sd.py` from the package, preserving any customized copies first.
-4. Restart, open `/MicroPython/update_sd.py` in Explorer and select the normal **repair and update** action.
-5. Restart again to load updated languages, fonts and keyboard layouts.
+4. Restart, open `/MicroPython/update_sd.py` and choose **Repair and update**.
+5. Restart to load the updated resources.
 
-**Do not replace the whole `/System` directory.** The separate **restore modified files** action deliberately replaces customized resources. The setting for restoring missing files only recreates small absent resources; it does not update existing files or supply all external data.
+**Keep your personal `/System` directory.** Normal repair preserves customized resources and valid settings; the separate **Restore modified files** action replaces them after confirmation. The [SD repair guide](../firmware/REPARATION_SD.md) describes these rules in French.
 
-## Install from source
+The [11 ELF applications](../firmware/Tab5OS_Arduino_v0.8.53/sdcard/Applications/) and [Python scripts](../firmware/Tab5OS_Arduino_v0.8.53/sdcard/MicroPython/) are also directly available. Use the ZIP to prepare a card with all resources. The [Wikipedia](../firmware/WIKIPEDIA.md), [Maps](../firmware/CARTES.md) and [Applications](../firmware/APPLICATIONS.md) guides describe how to prepare archives, tiles and game data in French.
 
-The [build guide](BUILD.md) describes the required dependencies, compilation scripts and outputs. Building the firmware does not automatically create a complete SD package or an initial-install image.
+To rebuild the firmware, follow the [build guide](BUILD.md).
 
-Official references: [M5Burner](https://docs.m5stack.com/en/uiflow/m5burner/intro) · [Tab5 download mode](https://docs.m5stack.com/en/uiflow2/Tab5/program).
+Official references: [esptool installation](https://docs.espressif.com/projects/esptool/en/latest/esp32/installation.html), [writing an image](https://docs.espressif.com/projects/esptool/en/latest/esp32p4/esptool/basic-commands.html), [Tab5 download mode](https://docs.m5stack.com/en/uiflow2/Tab5/program).

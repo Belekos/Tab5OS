@@ -1,4 +1,4 @@
-# Lecture EPUB — 0.8.22
+# Lecture EPUB
 
 La glissière du bas permet de choisir une page dans l'ensemble du livre. Pendant le déplacement, le numéro de la page visée et le nombre total de pages remplacent momentanément le statut. La page affichée ne change qu'après relâchement. Le lecteur prépare alors la destination progressivement et conserve la page courante pendant cette préparation.
 

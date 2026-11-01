@@ -1,4 +1,4 @@
-# SSH et SFTP — Tab5OS 0.8.22
+# SSH et SFTP
 
 `ssh` exécute une commande sur un serveur SSH et restitue sa sortie, ses erreurs et son code de retour. `sftp` transfère un fichier ou liste un dossier distant. Les connexions passent par la supervision réseau de l'OS et se ferment avec **Ctrl+C**, le bouton d'arrêt du terminal, la fermeture du terminal ou la désactivation du réseau.
 

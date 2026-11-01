@@ -1,4 +1,4 @@
-# Développer pour Tab5OS 0.8.35
+# Développer pour Tab5OS
 
 ## Choisir un format
 
@@ -44,7 +44,7 @@ Python 3 et les outils `clang`, `ld.lld`, `llvm-readelf`, `llvm-strip` d'Espress
 
 Copier l'ELF dans `/Apps` ou `/Applications` sur microSD ou USB. Dans le lanceur, choisir **Sans fichier** pour `pattern.app.elf`. Les deux autres modes demandent un fichier ou mémorisent un fichier fixe. `hash_file.c` est un exemple de lecture qui reçoit le document en `argv[1]` ; son empreinte FNV-1a n'est pas cryptographique.
 
-Le compilateur de projets refuse les imports extérieurs à l'API et conserve le précédent fichier de sortie si le nouveau programme échoue à compiler ou à valider. Les binaires d'exemple construits dans les tests sont des ELF32 RISC-V de type `DYN`. Cela ne prouve pas leur rendu sur une tablette physique.
+Le compilateur de projets refuse les imports extérieurs à l'API et conserve le précédent fichier de sortie si le nouveau programme échoue à compiler ou à valider.
 
 ### Contrat d'exécution
 
@@ -79,4 +79,4 @@ Pour un essai matériel, relever la version, les périphériques, l'application 
 
 ## ABI ELF 6 — canevas et images
 
-`tab5_app_api_v6` conserve le préfixe ABI 5. `canvas_begin` crée un canevas de 800 × 480 au maximum, sans commandes de jeu. `input_poll` copie les événements tactiles et clavier ; CANCEL demande d’annuler le geste courant après perte ou saturation, CLOSE demande à l’application de traiter sa fermeture. `write_begin`, `write_chunk` (4 096 octets au maximum), `write_finish` exposent une écriture progressive limitée à `/Images/<nom>.bmp` ou `.t5i`, 16 Mio maximum et un seul flux. La fermeture de l’application abandonne un flux non validé. Les définitions exactes sont dans `Tab5AppApi.h`. Le source `tools/native-apps/image-editor/app.c` conserve l’exemple ELF historique de la 0.8.32 ; il n’est plus le programme distribué. L’éditeur courant utilise `Tab5ImageEditor.cpp` dans le firmware, avec LVGL et le moteur C partagé. Ne pas reprendre la reconstruction bitmap complète de l’ancien exemple pour une interface native fluide.
+`tab5_app_api_v6` conserve le préfixe ABI 5. `canvas_begin` crée un canevas de 800 × 480 au maximum, sans commandes de jeu. `input_poll` copie les événements tactiles et clavier ; CANCEL demande d’annuler le geste courant après perte ou saturation, CLOSE demande à l’application de traiter sa fermeture. `write_begin`, `write_chunk` (4 096 octets au maximum), `write_finish` exposent une écriture progressive limitée à `/Images/<nom>.bmp` ou `.t5i`, 16 Mio maximum et un seul flux. La fermeture de l’application abandonne un flux non validé. Les définitions exactes sont dans `Tab5AppApi.h`. L’éditeur courant utilise `Tab5ImageEditor.cpp` dans le firmware, avec LVGL et le moteur C partagé.

@@ -1,8 +1,11 @@
-Tab5OS 0.8.16
+Tab5OS — Jeux
 
-Applications contains GB, GBC, NES, Sega8 (SMS/Game Gear), GBA, SNES, MegaDrive, Doom and Maze3D.
-Quake and Duke Nukem 3D are removed from this release. Existing game data and saves on the user's card are not deleted.
-Open a ROM/data file in Files, or choose Open with and select its application. MegaDrive .md files require Open with because .md remains Markdown by default. The launcher also has a file picker.
-Doom: choose an IWAD .wad. Commercial game data is not supplied. See BINAIRES.md and VERIFICATION.md in the distribution.
-F1: controls; Page Up/Down: volume; M: mute; Ctrl+S: save; Escape: exit. In Doom, Ctrl+R opens the game menu; save before exit and load saves through that menu.
-On-device performance and stability remain to be verified.
+Place ROMs and game data in the corresponding folders, or select them from another folder with Files > Open with.
+Applications are installed in /Applications. Mega Drive .md files need Open with because .md also means Markdown.
+Doom requires a compatible IWAD .wad. Commercial game ROMs and data are not included.
+
+F1: controls and gamepad setup; Page Up/Down: volume; M: mute; Ctrl+S: save; Escape: exit.
+In Doom, Ctrl+R opens the game menu. Save before exiting and load the saved game through that menu.
+Maze3D runs without external game data.
+
+See the repository's firmware/APPLICATIONS.md for the application list and controls.

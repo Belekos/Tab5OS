@@ -1,4 +1,4 @@
-# Projets Git sur Tab5OS 0.8.35
+# Projets Git sur Tab5OS
 
 Git permet de conserver l'historique d'un projet, de préparer des modifications et de les échanger avec un dépôt distant. Il est accessible depuis l'explorateur et le terminal. Un projet peut se trouver sur la carte SD ou sur un disque USB connecté.
 
@@ -138,7 +138,7 @@ Lancer cette commande dans le dépôt concerné, puis vérifier `git status`. Au
 
 Le marqueur `.git/tab5-pull.pending` conserve l'ancien commit, le commit cible et la référence à avancer. La référence reste sur l'ancien commit tant que la mise à jour des fichiers, leur synchronisation et l'index ne sont pas achevés. La reprise refuse d'écraser un fichier divergent, un index modifié ou un fichier modifié manquant ; elle refuse aussi une branche changée entre-temps. Les fichiers non suivis et les modifications non concernées sont conservés.
 
-Un journal corrompu ou un fichier partiellement écrit nécessite une inspection sur ordinateur. Conserver les fichiers et le journal pour analyser le diagnostic ; ne pas supprimer le marqueur pour contourner le blocage. La synchronisation des écritures réduit le risque, mais ne garantit pas l'intégrité du système de fichiers FAT lors d'une coupure électrique. Les tests de reprise tuent le processus aux transitions du moteur ; ils ne simulent pas une coupure physique de la carte SD.
+Un journal corrompu ou un fichier partiellement écrit nécessite une inspection sur ordinateur. Conserver les fichiers et le journal pour analyser le diagnostic ; ne pas supprimer le marqueur pour contourner le blocage. La synchronisation des écritures réduit le risque, mais ne garantit pas l'intégrité du système de fichiers FAT lors d'une coupure électrique.
 
 ## Périmètre et limites de cette version
 
@@ -149,9 +149,3 @@ Les comparaisons du contenu ne se fient plus uniquement à la taille et à la da
 L'allocateur du moteur Git est limité à 8 Mio de PSRAM, sans repli vers la SRAM pour ces allocations. Son cache est limité à 256 Kio ; les fenêtres de lecture des packs utilisent 128 Kio chacune, 256 Kio au total et au plus quatre fichiers. Un pack est limité à 32 768 objets et une réception à 128 Mio. L'affichage textuel des différences traite des fichiers de 2 Mio au plus. Un dépôt dépassant ces limites peut être refusé : la profondeur réduite du clonage diminue l'historique téléchargé, mais ne réduit pas la taille de son état courant.
 
 Le `pull` exige un arbre de travail propre pour appliquer une avancée directe de la branche courante. Un état déjà à jour ou une branche locale uniquement en avance est indiqué explicitement ; une divergence ou une branche amont supprimée sur le serveur est refusée sans déplacer la branche locale. Les fusions, rebase, changements de branche, sous-modules, LFS, dépôts avec alternates et worktrees liés ne sont pas pris en charge. Les racines des volumes ne peuvent pas devenir des dépôts. Le transport Git par SSH n'est pas pris en charge par ce moteur ; la commande SSH du terminal est distincte.
-
-## Corrections 0.8.26
-
-`git`, `git help`, `git --help` et `git --version` répondent sans démarrer de tâche Git ni initialiser TLS. Les commandes locales ne réservent plus le budget TLS et n’initialisent plus son générateur aléatoire. Le transport réseau libère chaque socket une seule fois, y compris si la création de la session TLS manque de mémoire. Les compteurs de pile sur l’appareil restent la référence pour les limites matérielles.
-
-Après Tab, toucher ou cliquer un autre champ change immédiatement la cible du clavier physique et tactile. Le même routage est partagé avec les autres formulaires de l’OS.

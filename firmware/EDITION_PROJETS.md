@@ -1,4 +1,4 @@
-# Édition, code et projets — v0.8.19
+# Édition, code et projets
 
 L’application Écriture est aussi l’éditeur de code. Les fichiers Python, C/C++, Arduino, JavaScript/TypeScript, JSON, HTML/CSS, XML, YAML, TOML, scripts et configurations usuelles s’ouvrent dans le même éditeur. Leur source reste intégralement visible : `#`, `*`, liens et tableaux ne sont jamais interprétés comme du Markdown. La coloration est seulement visuelle ; elle n’ajoute aucune balise au fichier. Les documents Markdown conservent leur édition mise en forme, avec ajout du souligné et du barré.
 
@@ -33,8 +33,7 @@ Les numéros de lignes occupent une marge étroite au fond distinct. Les menus a
 
 La liste, les groupes et les positions sont sauvegardés dans `/System/editor_workspace.dat` par une transaction vérifiée, avec une version précédente. La reprise du document porte son identifiant de projet explicite : après une coupure entre deux sauvegardes, un ancien document n’est jamais rattaché au projet actuellement sélectionné. Une reprise n’est acceptée que si l’inscription exacte existe encore. Le dernier document retiré ne réapparaît donc pas à cause d’une ancienne session. Aucune liste personnelle n’est fournie dans le paquet initial.
 
-# Editor, source files and projects — v0.8.19
-
+# Editor, source files and projects
 Writing is also the code editor. Python and common source/configuration formats use the same editing surface, displaying every source character without Markdown interpretation. Syntax colours are visual only and never add markup to saved files. Markdown documents retain rich editing.
 
 Use **Code** for New Python script, Run, Stop, Resume, Libraries and Console. Run first completes a verified save and then executes the saved `.py` file. Failed saves cancel execution. Editing is limited to 2 MiB of UTF-8; Python execution is limited to 64 KiB. The right console holds at most 8 KiB and only refreshes while visible, at most four times per second.

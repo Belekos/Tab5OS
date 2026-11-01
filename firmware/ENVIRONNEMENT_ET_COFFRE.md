@@ -1,4 +1,4 @@
-# Environnement partagé et coffre — 0.8.28
+# Environnement partagé et coffre
 
 Le coffre conserve des entrées nommées chiffrées. Son premier accès impose un PIN ; modifier ce PIN exige le PIN actuel. Une entrée devient une variable protégée après déverrouillage. Sa valeur est relue à chaque demande ; verrouiller le coffre bloque les nouvelles lectures, y compris depuis un terminal déjà ouvert. La suppression de l'entrée rend sa référence inutilisable : elle ne revient jamais à une ancienne valeur publique homonyme.
 
@@ -75,8 +75,5 @@ git config --unset tab5.tokenSecret
 
 Seuls les noms sont enregistrés dans `.git/config`. Les identifiants sont résolus au moment où le serveur les demande, uniquement pour l'origine HTTPS attendue. Une référence incomplète, supprimée ou verrouillée fait échouer l'authentification sans repli vers le fichier d'identification. Les valeurs ne sont placées ni dans l'URL ni dans les états Git. Le transfert déjà authentifié peut continuer après un verrouillage : les données déjà confiées à la connexion ne sont pas rappelées.
 
-Les tests hôtes exécutent les vrais parseur, environnement, callback d'authentification et commandes de configuration Git. Ils simulent la frontière du coffre ; la cryptographie, les interruptions SD et la tablette nécessitent leurs validations propres.
-
-## Chargement des identifiants en 0.8.28
-
-Les identifiants ne deviennent disponibles qu’après le chargement réussi de leur banque. Un échec de lecture reste mémorisé pendant la session ; les appels de l’interface ne provoquent pas une boucle de lecture/déchiffrement. **Réessayer** déclenche une nouvelle tentative explicite. Les variables secrètes restent indisponibles si le coffre ou la banque d’identifiants n’est pas ouvert. Voir [COFFRE_0827.md](COFFRE_0827.md).
+## Chargement des identifiants
+Les identifiants ne deviennent disponibles qu’après le chargement réussi de leur banque. Un échec de lecture reste mémorisé pendant la session ; les appels de l’interface ne provoquent pas une boucle de lecture/déchiffrement. **Réessayer** déclenche une nouvelle tentative explicite. Les variables secrètes restent indisponibles si le coffre ou la banque d’identifiants n’est pas ouvert. Voir [SECURITE.md](SECURITE.md).

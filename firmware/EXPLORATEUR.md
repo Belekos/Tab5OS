@@ -1,4 +1,4 @@
-# Explorateur — 0.8.38
+# Explorateur
 
 Le panneau gauche est un arbre de **dossiers**. Le panneau droit présente les fichiers et dossiers du répertoire ouvert, ou une vue associée. La sélection détermine les commandes ; déplacer le focus ne change pas à lui seul leur cible.
 

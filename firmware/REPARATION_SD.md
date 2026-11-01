@@ -1,4 +1,4 @@
-# Ressources système et vérification SD — 0.8.53
+# Ressources système et vérification SD
 
 ## Ressources de secours dans le firmware
 
@@ -14,7 +14,7 @@ Sans police externe chargeable à `/System/font.ttf`, l'interface utilise tempor
 
 L’outil contrôle les ressources de Tab5OS. Il ne répare pas la structure FAT et ne formate pas la carte.
 
-L’audit est en lecture seule. Il exige la référence `Factory/Tab5OS-0.8.53`, les ressources attendues de son manifeste et leurs empreintes SHA-256. Cette version est définie par le module livré `MicroPython/lib/tab5factory.py` ; mettre à jour ce module et la référence ensemble selon [LISEZ_MOI.md](LISEZ_MOI.md). Une référence incomplète, corrompue ou d’une autre version interrompt l’audit avant toute modification. Ce contrôle est distinct de la restauration des fichiers absents depuis le firmware, qui ne dépend pas de Factory.
+L’audit est en lecture seule. Il exige la référence `Factory/Tab5OS-0.8.53`, les ressources attendues de son manifeste et leurs empreintes SHA-256. Cette version est définie par le module livré `MicroPython/lib/tab5factory.py` ; mettre à jour ce module et la référence ensemble selon [../docs/INSTALL_FR.md](../docs/INSTALL_FR.md). Une référence incomplète, corrompue ou d’une autre version interrompt l’audit avant toute modification. Ce contrôle est distinct de la restauration des fichiers absents depuis le firmware, qui ne dépend pas de Factory.
 
 | Différence | Réparation normale |
 |---|---|
@@ -33,6 +33,6 @@ Avant remplacement, une copie complète est créée sous `/.tab5-backups/repair/
 
 Le plan est relu avant application ; un fichier changé entre aperçu et réparation entraîne l’arrêt. Les écritures passent par un journal privé. Une interruption pendant le renommage peut être annulée depuis ce journal. Des traces inconnues, des empreintes incohérentes ou une destination modifiée entraînent une demande de récupération manuelle : les données sont laissées en place. Un ancien journal ambigu ne doit pas être effacé pour contourner ce contrôle.
 
-Ces protections ne rendent pas une carte défectueuse ni une coupure pendant une écriture FAT inoffensives. Les essais sur ordinateur injectent des erreurs de lecture et des interruptions de renommage ; les coupures électriques réelles n’ont pas été testées.
+Ces protections ne rendent pas une carte défectueuse ni une coupure pendant une écriture FAT inoffensives.
 
 Ni la récupération depuis le firmware ni l'audit Factory ne restaurent un document supprimé, ne réparent la structure FAT ou ne formatent un support.

@@ -137,6 +137,5 @@ la source ni les limites de l'application.
 - Source, attribution et état du service OpenTopoMap : <https://opentopomap.org/about>
 - Guide PC complet : `Tab5OS_Arduino_v0.8.53/tools/CARTES_PC.md`.
 
-## Informations et recherche en 0.8.26
-
-Le bouton i affiche les informations du centre ; un appui long sur la carte choisit un point. La recherche conserve les huit résultats, filtre les données JSON utiles et annule les requêtes abandonnées. Les allocations et contrôles logiciels sont décrits dans [CARTES_0826.md](CARTES_0826.md) ; la disparition du redémarrage doit être confirmée sur tablette.
+## Informations et recherche
+Le bouton i affiche les informations du centre ; un appui long sur la carte choisit un point. La recherche conserve les huit résultats, filtre les données JSON utiles et annule les requêtes abandonnées. Les allocations et contrôles logiciels sont décrits dans [CARTES.md](CARTES.md) ; la disparition du redémarrage doit être confirmée sur tablette.

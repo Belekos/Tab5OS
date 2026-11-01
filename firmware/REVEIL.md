@@ -18,6 +18,6 @@ La RTC RX8130CE conserve le compte à rebours et commande le réveil matériel. 
 
 Garder une batterie chargée ou une alimentation branchée. La charge de la batterie est interrompue quand le Tab5 est éteint : pour charger durant la nuit, utiliser la veille de l’écran. Le double appui matériel d’extinction n’est pas équivalent au bouton Veille jusqu’au réveil et ne programme pas ce réveil.
 
-Ces mécanismes sont implémentés et vérifiés sur ordinateur avec RTC et audio simulés. Avant de s’en servir comme réveil quotidien, faire un essai à quelques minutes sur la tablette, puis un essai de veille prolongée sur batterie et/ou sur alimentation. La consommation réelle et le réveil physique doivent encore être mesurés.
+Avant de s’en servir comme réveil quotidien, faire un essai à quelques minutes sur la tablette, puis un essai de veille prolongée sur batterie et/ou sur alimentation. La consommation réelle et le réveil physique doivent encore être mesurés.
 
 Référence matérielle : https://docs.m5stack.com/en/core/Tab5 (RTC RX8130CE, commande de réveil et charge appareil allumé).

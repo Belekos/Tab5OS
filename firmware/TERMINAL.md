@@ -1,4 +1,4 @@
-# Terminal - 0.8.23
+# Terminal
 
 `help` classe les commandes ; `help commande` et `commande --help` détaillent leurs paramètres et donnent un exemple. Les commandes réseau de la version précédente sont conservées.
 
@@ -62,7 +62,7 @@ Le test d'annulation ne suspend plus la tâche à chaque fichier ou morceau de t
 
 La sortie, son instantané d'affichage, les valeurs de variables, l'historique des commandes, les tubes, les substitutions capturées et le contenu conservé par `tail` utilisent explicitement la PSRAM. Les petites structures, chaînes de travail, arguments et la pile de la tâche utilisent encore l'allocateur du système. La pile n'est libérée que par la terminaison effective de la tâche ; le contexte est détruit après ce signal, jamais pendant une commande. Les données temporaires sont libérées en quittant leur portée ; fermer le terminal libère aussi l'historique et les variables.
 
-`memory` affiche séparément la RAM interne libre, son plus grand bloc libre, la PSRAM libre et son plus grand bloc. Il permet de contrôler l'état réel de la tablette après plusieurs commandes. Les tests fournis exécutent le moteur de production sur hôte et instrumentent les allocations du runtime ; ils ne constituent pas une mesure de SRAM sur le matériel.
+`memory` affiche séparément la RAM interne libre, son plus grand bloc libre, la PSRAM libre et son plus grand bloc. Il permet de contrôler l'état réel de la tablette après plusieurs commandes.
 
 ## Référence complète
 
@@ -853,7 +853,7 @@ curl -L -o sd:/Documents/page.html https://example.org
 
 Un port TCP ouvert indique qu’une connexion a été acceptée ; cela ne prouve pas la sécurité ni le bon fonctionnement du service. Un dépassement de délai peut venir d’un filtrage ou d’un appareil inaccessible. Le DNS et les tests réseau utilisent IPv4 ; fournir les domaines internationaux sous leur forme DNS/Punycode.
 
-L’application **Pentest** offre des opérations d’audit et un rapport exportable dans une interface dédiée. Les détails de supervision, de VPN et de Tor figurent dans [RESEAU_DIAGNOSTIC.md](RESEAU_DIAGNOSTIC.md).
+L’application **Pentest** offre des opérations d’audit et un rapport exportable dans une interface dédiée. Les commandes réseau sont décrites dans [RESEAU_DIAGNOSTIC.md](RESEAU_DIAGNOSTIC.md).
 
 ## SSH, SFTP et tâches
 
@@ -863,4 +863,4 @@ help ssh décrit les commandes distantes, la confiance explicite dans la clé du
 
 ## Port série
 
-`serial` affiche l’état, `serial mode data` active les échanges et `serial send "Bonjour"` envoie du texte. `serial write` conserve les octets et accepte une entrée par tube ou fichier ; `serial read` et `serial listen` reçoivent des données. Les réglages sont partagés avec Réglages → Système → Série. Voir [SERIAL_0828.md](SERIAL_0828.md) pour les ports, délais, fins de ligne et commandes complètes.
+`serial` affiche l’état, `serial mode data` active les échanges et `serial send "Bonjour"` envoie du texte. `serial write` conserve les octets et accepte une entrée par tube ou fichier ; `serial read` et `serial listen` reçoivent des données. Les réglages sont partagés avec Réglages → Système → Série. Voir [SERIE.md](SERIE.md) pour les ports, délais, fins de ligne et commandes complètes.
