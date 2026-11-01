@@ -1,45 +1,17 @@
-# Tab5OS gallery
+English UI captured from the production application code running with LVGL on a computer and demonstration data. These are not physical-tablet captures.
 
-Interface illustrations rendered on a computer with LVGL and demonstration data; these are not captures from a physical tablet.
+![Explorer](images/explorer-light.png)
 
-## Explorer — light theme
+![Explorer, dark theme](images/explorer-dark.png)
 
-Folder tree and image actions.
+![Drawing, layers](images/drawing-layers.png)
 
-![Explorer — light theme](images/explorer-light.png)
+![Drawing, selection](images/drawing-selection.png)
 
-## Explorer — dark theme
+![Drawing, dark theme](images/drawing-brush-dark.png)
 
-The same interface with the dark theme.
+![Meshtastic](images/meshtastic.png)
 
-![Explorer — dark theme](images/explorer-dark.png)
+![Meshtastic settings](images/meshtastic-settings.png)
 
-## Drawing — selection and gradient
-
-Freehand selection and gradient fill.
-
-![Drawing — selection and gradient](images/drawing-selection.png)
-
-## Drawing — layers
-
-Layer panel and demonstration artwork.
-
-![Drawing — layers](images/drawing-layers.png)
-
-## Meshtastic — messaging
-
-Messaging view, shown offline.
-
-![Meshtastic — messaging](images/meshtastic.png)
-
-## Sidebar — application selection
-
-Native, ELF and Python shortcut selection.
-
-![Sidebar — application selection](images/sidebar-settings.png)
-
-## Editor — File menu
-
-File menu and pointer hover.
-
-![Editor — File menu](images/editor-menu.png)
+![Home, ELF and Python shortcuts](images/sidebar-settings.png)

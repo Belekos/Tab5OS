@@ -1,45 +1,17 @@
-# Galerie Tab5OS
+Interface anglaise capturée depuis le code des applications exécuté avec LVGL sur ordinateur et des données de démonstration. Il ne s’agit pas de captures d’une tablette physique.
 
-Illustrations de l’interface produites sur ordinateur avec LVGL et des données de démonstration ; ce ne sont pas des captures d’une tablette physique.
+![Explorer](images/explorer-light.png)
 
-## Explorateur — thème clair
+![Explorer, dark theme](images/explorer-dark.png)
 
-Arborescence des dossiers et actions sur les images.
+![Drawing, layers](images/drawing-layers.png)
 
-![Explorateur — thème clair](images/explorer-light.png)
+![Drawing, selection](images/drawing-selection.png)
 
-## Explorateur — thème sombre
+![Drawing, dark theme](images/drawing-brush-dark.png)
 
-La même interface avec le thème sombre.
+![Meshtastic](images/meshtastic.png)
 
-![Explorateur — thème sombre](images/explorer-dark.png)
+![Meshtastic settings](images/meshtastic-settings.png)
 
-## Dessin — sélection et dégradé
-
-Sélection libre et remplissage dégradé.
-
-![Dessin — sélection et dégradé](images/drawing-selection.png)
-
-## Dessin — calques
-
-Panneau des calques et composition de démonstration.
-
-![Dessin — calques](images/drawing-layers.png)
-
-## Meshtastic — messagerie
-
-Vue de messagerie, présentée hors connexion.
-
-![Meshtastic — messagerie](images/meshtastic.png)
-
-## Bandeau — choix des applications
-
-Choix des raccourcis natifs, ELF et Python.
-
-![Bandeau — choix des applications](images/sidebar-settings.png)
-
-## Éditeur — menu Fichier
-
-Menu Fichier et survol souris.
-
-![Éditeur — menu Fichier](images/editor-menu.png)
+![Home, ELF and Python shortcuts](images/sidebar-settings.png)
