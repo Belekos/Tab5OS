@@ -1,39 +1,39 @@
-# Explorateur
+# Explorer
 
-Le panneau gauche est un arbre de **dossiers**. Le panneau droit présente les fichiers et dossiers du répertoire ouvert, ou une vue associée. La sélection détermine les commandes ; déplacer le focus ne change pas à lui seul leur cible.
+The left pane is a **folder** tree. The right pane shows the files and folders in the open directory, or a related view. The selection determines which items commands affect; moving the focus alone does not change their target.
 
-## Démarrage et supports
+## Startup and storage
 
-La racine **SD** est ouverte au premier accès, ou **USB** si la SD est absente. **USB** apparaît comme un autre support de l’arbre uniquement lorsqu’un volume est monté. La navigation est conservée en mémoire pendant que l’OS reste allumé : quitter l’explorateur puis y revenir ne remet pas systématiquement la racine. Elle n’est pas écrite comme une nouvelle préférence persistante entre redémarrages.
+The **SD** root opens on first access, or **USB** if no SD card is available. **USB** appears as another volume in the tree only while a volume is mounted. Navigation is kept in memory while the OS is running: leaving Explorer and returning does not always reset it to the root. This state is not stored as a new persistent preference between restarts.
 
-## Gestes
+## Gestures
 
-| Geste | Résultat |
+| Gesture | Result |
 |---|---|
-| Clic sur un dossier à gauche | Sélection du dossier et affichage de son contenu à droite |
-| Clic sur un dossier ou fichier à droite | Sélection uniquement ; la liste et le chemin affichés restent ceux du dossier ouvert |
-| Double-clic sur un dossier à droite | Ouverture du dossier dans le panneau droit et révélation/focus du dossier correspondant à gauche |
-| Double-clic sur un fichier à droite | Ouverture avec l’application adaptée ; un fichier non reconnu ne s’exécute pas arbitrairement |
-| Chevron d’un dossier à gauche | Dépliage/repli de cette branche uniquement |
-| Ctrl/Maj ou sélection multiple | Modification de la sélection sans navigation |
-| Clic droit | Menu correspondant à la sélection ou à la cible explicite |
+| Click a folder on the left | Select the folder and display its contents on the right |
+| Click a folder or file on the right | Select it only; the displayed list and path still refer to the open folder |
+| Double-click a folder on the right | Open the folder in the right pane and reveal/focus the corresponding folder on the left |
+| Double-click a file on the right | Open it with the appropriate application; an unrecognized file is not executed arbitrarily |
+| Click a folder's chevron on the left | Expand/collapse that branch only |
+| Ctrl/Shift or multiple selection | Change the selection without navigating |
+| Right-click | Open the menu for the selection or the explicitly targeted item |
 
-Le chevron n’est affiché qu’après détection d’un sous-dossier. Cette détection se fait progressivement sur les lignes utiles à l’affichage et ne parcourt pas récursivement tout le support au démarrage. Un dossier contenant seulement des fichiers n’a pas de chevron.
+A chevron appears only after a subfolder has been detected. Detection runs progressively for rows needed on screen and does not recursively scan the entire volume at startup. A folder containing only files has no chevron.
 
-Le chemin de l’en-tête droit désigne le contenu affiché. Sélectionner une ligne n’affiche pas son chemin à la place de celui du dossier ouvert. Les deux panneaux restent séparés par une ligne fine.
+The path in the right-hand header identifies the displayed contents. Selecting a row does not replace the open folder's path with that row's path. A thin line separates the two panes.
 
 ## Menus
 
-- **Fichier** : créer les éléments proposés par l’OS.
-- **Édition** : copier, couper, coller, renommer, supprimer et gérer la sélection.
-- **Actions** : ouvrir, choisir une application, consulter les informations et accéder aux actions adaptées au type sélectionné.
-- **Git** : un sous-menu contextuel d’Actions ou du menu de la sélection, adapté au dossier choisi ; un dossier ordinaire et un dépôt ne proposent pas les mêmes opérations. Le raccourci Git n’est visible que pour un dossier reconnu comme Git.
-- **Affichage** : options de présentation et fichiers cachés.
-- **Icône de tri** : choix de l’ordre de classement.
-- **Loupe** : recherche. Le choix SD/USB se fait directement dans l’arbre.
+- **File**: create the types of items offered by the OS.
+- **Edit**: copy, cut, paste, rename, delete and manage the selection.
+- **Actions**: open an item, choose an application, view information and access actions suited to the selected type.
+- **Git**: a contextual submenu of Actions or the selection menu, adapted to the chosen folder; an ordinary folder and a repository offer different operations. The Git shortcut is visible only for a folder recognized as a Git repository.
+- **View**: presentation options and hidden files.
+- **Sort icon**: choose the sort order.
+- **Magnifying glass**: search. Select SD or USB directly in the tree.
 
-Les commandes de modification visent la sélection explicite. Sans sélection, un Suppr dans l’explorateur ne vise pas un document ouvert dans une autre application. Annuler une suppression conserve le contenu consulté. Les destinations de création et de collage utilisent le contexte choisi ; après Parent, elles suivent le dossier affiché.
+Commands that modify items act on the explicit selection. With no selection, pressing Delete in Explorer does not target a document open in another application. Cancelling a deletion preserves the contents being viewed. Creation and paste destinations use the chosen context; after navigating to Parent, they follow the displayed folder.
 
-## Noms et validation
+## Names and validation
 
-Les noms de fichiers et dossiers proposés par défaut sont en anglais, quelle que soit la langue d’affichage. Les fichiers personnels existants et les chemins configurés ne sont pas renommés automatiquement. Les anciens noms reconnus restent des chemins de compatibilité lorsqu’ils sont nécessaires.
+Suggested file and folder names are in English, regardless of the interface language. Existing personal files and configured paths are not renamed automatically. Recognized legacy names remain available as compatibility paths where needed.

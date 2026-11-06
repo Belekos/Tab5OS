@@ -1,28 +1,28 @@
 # RTL-SDR
 
-## Interface et réception
+## Interface and reception
 
-Le bandeau garde la fréquence, l’unité, le pas, la démodulation et les commandes de réception. **Recevoir** devient **Appliquer** pendant la réception ; ce bouton n’est actif que lorsqu’un réglage de réception a changé. **Arrêter** est grisé à l’arrêt et pendant la fermeture de la session USB. Le statut reste affiché sous les onglets. Les commandes **Balayer**, **Pause**/**Reprendre** et **Fixer** reflètent également l’état du balayage.
+The top bar contains the frequency, unit, step, demodulation mode and reception controls. **Receive** becomes **Apply** during reception; this button is enabled only when a reception setting has changed. **Stop** is disabled when reception is stopped and while the USB session is closing. Status remains visible below the tabs. **Scan**, **Pause**/**Resume** and **Hold** also reflect the current scanning state.
 
-Les onglets sont **Spectre**, **Balayage**, **Détections** et **Réglages**. Les explications longues ont quitté les pages de travail ; elles restent dans l’aide et dans cette documentation. Les réglages de correction ppm, de désaccentuation, d’entrée et d’axes se trouvent ensemble dans **Réglages**. Les champs utilisent une largeur, une longueur et des caractères cohérents avec la valeur : décimales pour les fréquences, nombres entiers pour les ppm, niveaux, décalage et durée. Une nouvelle sélection de champ au clavier remplace la cible de saisie tactile précédente.
+The tabs are **Spectrum**, **Scan**, **Detections** and **Settings**. Lengthy explanations have moved out of the working pages and remain in Help and this documentation. PPM correction, de-emphasis, input and axis settings are grouped in **Settings**. Fields use widths, lengths and allowed characters appropriate to their values: decimals for frequencies, integers for PPM, levels, offset and duration. Selecting another field with the keyboard replaces the previous touch input target.
 
-Le spectre conserve ses angles droits, indépendamment du thème. Ses repères Y sont répartis sur la hauteur réelle du graphique. L’application se recalcule lorsque la place disponible diminue, notamment avec le clavier ouvert ; les pages et la liste défilent dans leur propre surface. Les boutons de sélection, d’action et leurs états désactivés utilisent les couleurs du thème.
+The spectrum keeps square corners regardless of the theme. Its Y-axis marks are distributed over the actual graph height. The application adjusts its layout when available space shrinks, particularly with the keyboard open; pages and the list scroll within their own areas. Selection buttons, action buttons and disabled states use theme colors.
 
-**Fixer** conserve la fréquence courante et arrête le balayage pour écouter. Ce n’est pas une correction automatique de dérive. Les minima/maxima Y restent exprimés en dBFS, sans prétendre mesurer une puissance RF calibrée. Les plages proposées demeurent modifiables ; le tuner détermine les fréquences réellement acceptées.
+**Hold** keeps the current frequency and stops scanning so you can listen. It is not automatic drift correction. Y-axis minimum and maximum values remain in dBFS and do not claim to measure calibrated RF power. The suggested ranges remain editable; the tuner determines which frequencies are actually accepted.
 
-## Détections : 2 048 mémoires
+## Detections: 2,048 entries
 
-La liste accepte **2 048 détections**. Elle présente **24 lignes par page** et crée seulement les widgets de cette page. Le compteur, la pagination et les actions restent hors de la liste défilante. Le changement de page sélectionne sa première ligne ; **Écouter** et **Supprimer** ne peuvent donc pas agir sur une sélection masquée dans une autre page. Sélectionner une ligne seul ne modifie pas la réception.
+The list holds **2,048 detections**. It displays **24 rows per page** and creates widgets only for that page. The counter, pagination and actions remain outside the scrolling list. Changing pages selects its first row, so **Listen** and **Delete** cannot act on a selection hidden on another page. Selecting a row alone does not change reception.
 
-- **Écouter** rétablit la fréquence, le mode et l’entrée de la sélection.
-- **Mémoriser** ajoute la fréquence courante ; les doublons sont fusionnés.
-- **Supprimer** retire la ligne sélectionnée ; **Vider** efface la liste de travail.
-- **Enregistrer** conserve la liste et les suppressions dans `/System/SDR/detections.csv`.
+- **Listen** restores the selected entry's frequency, mode and input.
+- **Store** adds the current frequency; duplicates are merged.
+- **Delete** removes the selected row; **Clear** empties the working list.
+- **Save** persists the list and its deletions in `/System/SDR/detections.csv`.
 
-L’astérisque indique des changements non enregistrés. Il n’y a aucune écriture automatique à chaque détection. Le format CSV version 1 reste compatible avec les sauvegardes précédentes. Les enregistrements utilisent le remplacement atomique existant ; un fichier tronqué/invalide est rejeté entièrement. La capacité du lecteur de fichier a été augmentée avec celle de la liste, afin d’éviter une sauvegarde de grande liste impossible à recharger.
+The asterisk indicates unsaved changes. There is no automatic write for every detection. CSV format version 1 remains compatible with earlier saves. Saving uses the existing atomic replacement mechanism; a truncated or invalid file is rejected in full. The file reader's capacity was increased together with the list capacity so a large saved list can be loaded again.
 
-La liste de données occupe environ 16 Kio de PSRAM et appartient à l’interface, libérée à sa fermeture. Le tampon temporaire CSV de lecture est borné à 98 320 octets ; celui d’écriture est dimensionné sur la liste réelle (16 à 49 168 octets). Il existe seulement pendant une lecture ou une écriture ; aucune collection de 2 048 boutons n’est créée. La file de détections entre le récepteur et l’interface reste bornée et suspend le balayage en cas de saturation.
+The data list uses about 16 KiB of PSRAM, belongs to the interface and is released when it closes. The temporary CSV read buffer is limited to 98,320 bytes; the write buffer is sized for the actual list (16 to 49,168 bytes). These buffers exist only during reading or writing; no collection of 2,048 buttons is created. The detection queue between the receiver and interface remains bounded and pauses scanning when full.
 
-## USB et qualité FM
+## USB and FM quality
 
-Le traitement FM comprend : retrait de composante continue après démodulation, filtre mono avant conversion à 48 kHz, désaccentuation 50/75 µs au choix et gain numérique RTL désactivé. La correction ppm reste réglable de −200 à +200. Un changement de fréquence/réglage réutilise la session USB ; il ne force pas une fermeture/réouverture de la clé.
+FM processing includes DC removal after demodulation, a mono filter before conversion to 48 kHz, selectable 50/75 microsecond de-emphasis and disabled RTL digital gain. PPM correction remains adjustable from -200 to +200. Changing the frequency or settings reuses the USB session instead of forcing the receiver to close and reopen.

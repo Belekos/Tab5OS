@@ -1,8 +1,8 @@
-# Sources de Tab5OS 0.8.53
+# Tab5OS 0.8.53 sources
 
-Ce dossier contient le sketch Arduino, les composants embarqués, les ressources SD et les sources des applications natives.
+This directory contains the Arduino sketch, embedded components, SD resources and native application sources.
 
-- [Installation](../../docs/INSTALL_FR.md)
-- [Compilation du firmware](../COMPILATION.md)
-- [Applications ELF et Python](../APPLICATIONS.md)
-- [Développer une application](../DEVELOPPEMENT.md)
+- [Installation](../../docs/INSTALL_EN.md)
+- [Firmware compilation](../COMPILATION.md)
+- [ELF and Python applications](../APPLICATIONS.md)
+- [Developing an application](../DEVELOPPEMENT.md)

@@ -1,82 +1,82 @@
-# Développer pour Tab5OS
+# Developing for Tab5OS
 
-## Choisir un format
+## Choose a format
 
-| Besoin | Format |
+| Need | Format |
 | --- | --- |
-| Interface de formulaires, scripts, traitement de petits fichiers | MicroPython et `tab5ui` |
-| Calcul soutenu ou rendu de pixels avec budget mémoire maîtrisé | C compilé en ELF avec `Tab5AppApi.h` |
-| Nouveau pilote ou service système | Modification du firmware et compilation complète |
+| Form-based interfaces, scripts, small-file processing | MicroPython and `tab5ui` |
+| Sustained computation or pixel rendering within a controlled memory budget | C compiled to ELF with `Tab5AppApi.h` |
+| New driver or system service | Firmware changes and a full build |
 
-Le SDK n'est pas le SDK Linux ou Arduino au complet. Un ELF ne peut importer que les points d'entrée `tab5_app_api_v1` à `tab5_app_api_v6`. Les fichiers `.bin` sont des firmwares, pas des applications.
+The SDK is not a complete Linux or Arduino SDK. An ELF can import only the entry points `tab5_app_api_v1` through `tab5_app_api_v6`. A `.bin` file is firmware, not an application.
 
-## Un premier projet Python
+## A first Python project
 
-Copier `examples/micropython/compteur` sur la carte dans `/Apps/compteur`. Le fichier `main.py` est le point d'entrée. Ouvrir **Applications Python**, puis actualiser avec **F5** si nécessaire. Le même script peut être ouvert dans l'éditeur et exécuté : sa vue est présentée directement.
+Copy `examples/micropython/compteur` to `/Apps/compteur` on the card. The entry point is `main.py`. Open **Python Apps**, then refresh with **F5** if needed. The same script can be opened in the editor and run: its view is displayed directly.
 
-L'exemple emploie les widgets natifs, le thème actif et des clés déjà traduites. Il montre une boucle qui attend 20 ms, lit les événements, ferme proprement dans `finally`, et associe Retour/précédent/suivant aux actions. Les raccourcis d'édition des champs demeurent ceux de l'OS.
+The example uses native widgets, the active theme and keys that already have translations. It demonstrates a loop that waits 20 ms, reads events, closes cleanly in `finally`, and maps Back/previous/next to actions. Field-editing shortcuts remain those of the OS.
 
-Le module `tab5ui` expose une surface logique de `1100 × 500` et au plus 24 widgets par page. Utiliser `ui.WIDTH` et `ui.HEIGHT` pour les placements, garder de l'espace pour les traductions longues et prévoir plusieurs vues si le formulaire dépasse ce cadre. Ne pas copier les coordonnées de l'écran physique, créer sa propre boucle LVGL, ni réinitialiser l'affichage.
+The `tab5ui` module exposes a logical surface of `1100 × 500` with at most 24 widgets per page. Use `ui.WIDTH` and `ui.HEIGHT` for placement, leave room for longer translations and use several views if the form exceeds this area. Do not copy physical screen coordinates, create a separate LVGL loop or reset the display.
 
-Les libellés passent par `ui.tr("Clé française")`. Pour une nouvelle clé, compléter les packs de langue et vérifier les glyphes ; changer seulement la langue du commentaire Python ne traduit pas l'interface. Les boutons de fermeture, remise à zéro et suppression doivent être espacés.
+Labels go through `ui.tr("Clé française")`: translation keys are French source strings. For a new key, update the language packs and check the glyphs; changing only the language of a Python comment does not translate the interface. Leave space between close, reset and delete buttons.
 
-Les chemins Python sont logiques et absolus : `/Documents/texte.txt` pour la microSD et `/USB/Documents/texte.txt` pour le disque USB. Les notations `sd:/` et `usb:/` appartiennent aux champs du lanceur ; ne pas les envoyer à `open()`.
+Python paths are logical and absolute: `/Documents/texte.txt` for microSD and `/USB/Documents/texte.txt` for USB storage. The `sd:/` and `usb:/` notations belong to launcher fields; do not pass them to `open()`.
 
-Utiliser `with open(...)` pour les fichiers et `try/finally` pour les ressources. Lire par blocs ; ne pas charger un ebook, une carte ou une archive entière dans une chaîne. `tab5fs.ilistdir()` est un itérateur à fermer si on interrompt son parcours. Pour un téléchargement, `tab5fs.download(url, destination, limit=...)` utilise le service HTTPS natif ; donner une limite adaptée. Ce module n'autorise pas une deuxième pile réseau autonome.
+Use `with open(...)` for files and `try/finally` for resources. Read in blocks; do not load an entire ebook, map or archive into a string. `tab5fs.ilistdir()` is an iterator that must be closed if iteration is interrupted. For downloads, `tab5fs.download(url, destination, limit=...)` uses the native HTTPS service; provide an appropriate limit. This module does not authorize a second independent network stack.
 
-Un script ne peut pas supposer que tous les modules de MicroPython pour ESP32 standard sont inclus. Les modules disponibles sont ceux du port intégré et de `sdcard/MicroPython/lib`. Voir [MICROPYTHON_BIBLIOTHEQUES.md](MICROPYTHON_BIBLIOTHEQUES.md) pour l'installation de bibliothèques.
+A script cannot assume that every module from standard ESP32 MicroPython is included. Available modules are those in the embedded port and `sdcard/MicroPython/lib`. See [MICROPYTHON_BIBLIOTHEQUES.md](MICROPYTHON_BIBLIOTHEQUES.md) for library installation.
 
-## Un premier ELF
+## A first ELF
 
-Ouvrir un terminal dans `Tab5OS_Arduino_v0.8.53`. Avec la chaîne GCC Espressif installée :
+Open a terminal in `Tab5OS_Arduino_v0.8.53`. With the Espressif GCC toolchain installed (replace `PATH` with its location):
 
 ```text
-python tools/native-apps/build.py tools/native-apps/examples/pattern.c --toolchain CHEMIN/esp-rv32/2601/bin -o pattern.app.elf
+python tools/native-apps/build.py tools/native-apps/examples/pattern.c --toolchain PATH/esp-rv32/2601/bin -o pattern.app.elf
 ```
 
-Alternative vérifiée pour les exemples indépendants d'une bibliothèque C :
+A verified alternative for examples that do not depend on a C library:
 
 ```text
-python tools/native-apps/build.py tools/native-apps/examples/pattern.c --compiler clang --toolchain CHEMIN/esp-clang/bin -o pattern.app.elf
+python tools/native-apps/build.py tools/native-apps/examples/pattern.c --compiler clang --toolchain PATH/esp-clang/bin -o pattern.app.elf
 ```
 
-Python 3 et les outils `clang`, `ld.lld`, `llvm-readelf`, `llvm-strip` d'Espressif sont nécessaires pour cette alternative. Elle compile des objets RISC-V, puis les lie explicitement en ELF partagé. `--math` reste réservé à GCC et ses bibliothèques ; la voie Clang n'invente pas une libc embarquée.
+This alternative requires Python 3 and Espressif's `clang`, `ld.lld`, `llvm-readelf` and `llvm-strip` tools. It compiles RISC-V objects, then explicitly links them into a shared ELF. `--math` remains exclusive to GCC and its libraries; the Clang path does not provide an embedded libc.
 
-Copier l'ELF dans `/Apps` ou `/Applications` sur microSD ou USB. Dans le lanceur, choisir **Sans fichier** pour `pattern.app.elf`. Les deux autres modes demandent un fichier ou mémorisent un fichier fixe. `hash_file.c` est un exemple de lecture qui reçoit le document en `argv[1]` ; son empreinte FNV-1a n'est pas cryptographique.
+Copy the ELF to `/Apps` or `/Applications` on microSD or USB. In the launcher, choose **No file** for `pattern.app.elf`. The other two modes request a file or remember a fixed file. `hash_file.c` is a file-reading example that receives its document in `argv[1]`; its FNV-1a hash is not cryptographic.
 
-Le compilateur de projets refuse les imports extérieurs à l'API et conserve le précédent fichier de sortie si le nouveau programme échoue à compiler ou à valider.
+The project compiler rejects imports outside the API and preserves the previous output file if the new program fails to build or validate.
 
-### Contrat d'exécution
+### Execution contract
 
-L'entrée est `int tab5_app_main(int argc, char **argv)`. Vérifier `version` et `size` avant d'appeler une API. Les chemins transmis sont `/...` ou `/USB/...`. Ne conserver aucun pointeur de l'OS après le retour de l'application.
+The entry point is `int tab5_app_main(int argc, char **argv)`. Check `version` and `size` before calling an API. Supplied paths are `/...` or `/USB/...`. Do not retain any OS pointer after the application returns.
 
-- Allouer avec `api->base.allocate()` et libérer avec `release()` ; vérifier chaque échec. Le programme `pattern.c` utilise 24 Kio pour son image.
-- Lire `should_stop()` régulièrement et appeler `sleep_ms()` pour rendre la main. Les pixels et échantillons sont copiés avant le retour des callbacks de présentation.
-- Ne pas créer de tâches, de callbacks persistants, d'instance LVGL, ni appeler directement des symboles Arduino/ESP-IDF. Une interface native particulière nécessite d'étendre le service du firmware et son contrat.
-- Après une annulation, fermer les fichiers et libérer les ressources, puis retourner. Le bouton d'arrêt ne justifie pas la suppression brutale d'une tâche encore propriétaire de fichiers ou de mémoire.
-- Les limites de tas sont des plafonds, pas une promesse de mémoire libre. ABI 1 : 1 Mio ; ABI 2/3 : 8 Mio ; ABI 4 : 20 Mio, selon l'admission et les ressources déjà occupées. Les limites par bloc et de fichiers sont dans `Tab5AppApi.h`.
-- Les ABI actuelles ne fournissent pas un client réseau générique. Ne pas contourner cette limite par des imports privés. L'accès matériel ABI 3 passe par le service commun décrit dans `tools/native-apps/HARDWARE.md`.
+- Allocate with `api->base.allocate()` and free with `release()`; check every failure. The `pattern.c` program uses 24 KiB for its image.
+- Check `should_stop()` regularly and call `sleep_ms()` to yield. Pixels and samples are copied before presentation callbacks return.
+- Do not create tasks, persistent callbacks or an LVGL instance, or call Arduino/ESP-IDF symbols directly. A specialized native interface requires extending the firmware service and its contract.
+- After cancellation, close files, free resources, then return. The stop button does not justify forcibly deleting a task that still owns files or memory.
+- Heap limits are ceilings, not a promise of free memory. ABI 1: 1 MiB; ABI 2/3: 8 MiB; ABI 4: 20 MiB, subject to admission and resources already in use. Per-block and file limits are in `Tab5AppApi.h`.
+- Current ABIs do not provide a generic network client. Do not bypass this limit with private imports. ABI 3 hardware access uses the shared service described in `tools/native-apps/HARDWARE.md`.
 
-L'API ELF ne traduit pas automatiquement les messages propres à l'application. Le champ `language` permet de sélectionner ses traductions ; les exemples graphiques sans texte s'appuient sur les commandes communes de la vue native. La boîte de dialogue de l'OS ne suffit pas à rendre une application tierce multilingue.
+The ELF API does not automatically translate application-specific messages. The `language` field lets an application select its translations; graphical examples without text use the native view's shared controls. An OS dialog alone does not make a third-party application multilingual.
 
-## Organisation du firmware
+## Firmware organization
 
-| Couche | Responsabilité |
+| Layer | Responsibility |
 | --- | --- |
-| Sketch principal et vues `Tab5*` | Navigation, LVGL, thème, interaction |
-| `Tab5Task`, `Tab5Memory`, `Tab5ResourceManager` | Tâches, budgets et état des ressources |
-| `Tab5NetworkGate` et services réseau | Admission des connexions et opérations natives |
-| Stockage commun et hôte USB | Accès aux volumes, partage des périphériques |
-| MicroPython / chargeur ELF | Exécution coopérative des applications et nettoyage |
+| Main sketch and `Tab5*` views | Navigation, LVGL, theme, interaction |
+| `Tab5Task`, `Tab5Memory`, `Tab5ResourceManager` | Tasks, budgets and resource state |
+| `Tab5NetworkGate` and network services | Connection admission and native operations |
+| Shared storage and USB host | Volume access, device sharing |
+| MicroPython / ELF loader | Cooperative application execution and cleanup |
 
-Ne pas appeler LVGL depuis un worker de réseau ou de stockage. Produire un résultat borné et laisser la tâche UI l'afficher. Lorsqu'un traitement se termine, les destructeurs C++ doivent s'exécuter avant `vTaskDelete()` ; cette fonction ne déroule pas la pile C++.
+Do not call LVGL from a network or storage worker. Produce a bounded result and let the UI task display it. When processing ends, C++ destructors must run before `vTaskDelete()`; that function does not unwind the C++ stack.
 
-## Vérifier une modification
+## Verify a change
 
-Recompiler avec le [guide de compilation](COMPILATION.md). Après une modification de ressources SD, régénérer les fichiers concernés avec les scripts documentés.
+Rebuild using the [build guide](COMPILATION.md). After changing SD resources, regenerate the affected files using the documented scripts.
 
-Pour un essai matériel, relever la version, les périphériques, l'application ouverte, la mémoire avant/après et la séquence exacte. Répéter les ouvertures/fermetures et annulations, puis un retrait de support à un point prévu par l'interface. Une compilation seule ne valide ni la stabilité matérielle ni les besoins SRAM maximaux.
+For a hardware test, record the version, peripherals, open application, memory before/after and exact sequence. Repeat open/close cycles and cancellations, then remove storage at a point supported by the interface. A successful build alone validates neither hardware stability nor peak SRAM requirements.
 
-## ABI ELF 6 — canevas et images
+## ELF ABI 6 — canvas and images
 
-`tab5_app_api_v6` conserve le préfixe ABI 5. `canvas_begin` crée un canevas de 800 × 480 au maximum, sans commandes de jeu. `input_poll` copie les événements tactiles et clavier ; CANCEL demande d’annuler le geste courant après perte ou saturation, CLOSE demande à l’application de traiter sa fermeture. `write_begin`, `write_chunk` (4 096 octets au maximum), `write_finish` exposent une écriture progressive limitée à `/Images/<nom>.bmp` ou `.t5i`, 16 Mio maximum et un seul flux. La fermeture de l’application abandonne un flux non validé. Les définitions exactes sont dans `Tab5AppApi.h`. L’éditeur courant utilise `Tab5ImageEditor.cpp` dans le firmware, avec LVGL et le moteur C partagé.
+`tab5_app_api_v6` retains the ABI 5 prefix. `canvas_begin` creates a canvas up to 800 × 480, without game controls. `input_poll` copies touch and keyboard events; CANCEL asks the application to cancel the current gesture after event loss or overflow, while CLOSE asks it to handle closing. `write_begin`, `write_chunk` (at most 4,096 bytes) and `write_finish` expose progressive writing restricted to `/Images/<name>.bmp` or `.t5i`, with a 16 MiB limit and a single stream. Closing the application abandons an uncommitted stream. Exact definitions are in `Tab5AppApi.h`. The current editor uses `Tab5ImageEditor.cpp` in the firmware, with LVGL and the shared C engine.

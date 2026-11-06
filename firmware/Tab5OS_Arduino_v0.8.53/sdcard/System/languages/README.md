@@ -1,29 +1,29 @@
-# Langues de Tab5OS
+# Tab5OS languages
 
-Les packs JSON de ce dossier personnalisent les textes de l'interface. Les langues
-fournies sont `ar`, `de-DE`, `en-US`, `es-ES`, `fr-FR`, `id-ID`,
-`it-IT`, `ja-JP`, `ko-KR`, `nl-NL`, `pt-BR`, `pt-PT`, `ru-RU` et
+The JSON packs in this directory customize interface text. The supplied
+languages are `ar`, `de-DE`, `en-US`, `es-ES`, `fr-FR`, `id-ID`,
+`it-IT`, `ja-JP`, `ko-KR`, `nl-NL`, `pt-BR`, `pt-PT`, `ru-RU` and
 `zh-CN`.
 
-Installer les packs dans `/System/languages/` sur la microSD, choisir la langue
-dans Réglages → Langue, puis redémarrer pour appliquer le choix à toutes les pages.
-Redémarrer également après une modification des fichiers.
+Install the packs in `/System/languages/` on the microSD card, select the
+language in Settings → Language, then restart to apply it to all pages.
+Also restart after changing the files.
 
-Pour préparer une carte, utiliser le [paquet SD complet](../../../../../downloads/Tab5OS_0.8.53_SD.zip),
-qui contient aussi les polices nécessaires. La langue de l'interface et la
-disposition du clavier se règlent séparément.
+To prepare a card, use the [complete SD package](../../../../../downloads/Tab5OS_0.8.53_SD.zip),
+which also contains the required fonts. Interface language and keyboard
+layout are configured separately.
 
-## Personnaliser un pack
+## Customize a pack
 
-Dupliquer un JSON, renseigner son `id` et son `name`, puis traduire les valeurs de
-`translations`. Conserver les clés exactement, avec leurs accents, espaces,
-ponctuation et retours à la ligne. Les noms de fichiers, documents, stations et
-lieux personnels restent des données et ne sont pas traduits par l'interface.
+Duplicate a JSON file, set its `id` and `name`, then translate the values in
+`translations`. Preserve the keys exactly, including accents, spaces,
+punctuation and line breaks. Personal filenames, documents, stations and
+place names remain data and are not translated by the interface.
 
-Les modèles comportant `%s`, `%u`, `%ld` ou un autre champ printf doivent
-conserver les mêmes types de champs et le même ordre. Les listes séparées par
-`\n` doivent conserver le même nombre d'options dans le même ordre. Enregistrer
-en UTF-8 sans clés JSON en double.
+Templates containing `%s`, `%u`, `%ld` or another printf placeholder must
+retain the same placeholder types in the same order. Lists separated by
+`\n` must retain the same number of options in the same order. Save as
+UTF-8 without duplicate JSON keys.
 
-La police installée doit contenir les caractères de la langue. Le rendu des textes
-dans une application ELF dépend de cette application.
+The installed font must contain the language's characters. Text rendering
+inside an ELF application depends on that application.

@@ -1,21 +1,20 @@
-# Moteur de Dessin
+# Drawing engine
 
-[`image_core.c`](image_core.c) et [`image_core.h`](image_core.h) fournissent le
-moteur raster de Dessin. Le firmware compile ce moteur via
-[`Tab5ImageCore.c`](../../../Tab5ImageCore.c) ; son interface intégrée se trouve
-dans [`Tab5ImageEditor.cpp`](../../../Tab5ImageEditor.cpp).
+[`image_core.c`](image_core.c) and [`image_core.h`](image_core.h) provide the
+Drawing raster engine. The firmware compiles this engine through
+[`Tab5ImageCore.c`](../../../Tab5ImageCore.c); its integrated interface is in
+[`Tab5ImageEditor.cpp`](../../../Tab5ImageEditor.cpp).
 
-Le [guide de Dessin](../../../../DESSIN.md) décrit les outils, les formats et
-l'utilisation de l'application intégrée.
+The [Drawing guide](../../../../DESSIN.md) describes the tools, formats and use
+of the built-in application.
 
-Les sources `app.c` et `runtime.c`, avec leur recette `build.py`, permettent
-également de compiler un exemple ELF ABI 6 à partir du même moteur. Depuis le
-dossier du sketch :
+The `app.c` and `runtime.c` sources, together with their `build.py` recipe,
+also build an ABI 6 ELF example using the same engine. From the sketch directory:
 
 ```bash
-python3 tools/native-apps/image-editor/build.py --toolchain /chemin/esp-rv32/2601/bin -o sdcard/Applications/AtelierImage.app.elf
+python3 tools/native-apps/image-editor/build.py --toolchain /path/esp-rv32/2601/bin -o sdcard/Applications/AtelierImage.app.elf
 python3 tools/native-apps/image-editor/run_tests.py
 ```
 
-L'exemple possède sa propre interface ; les fonctions de l'application intégrée
-sont documentées dans le guide de Dessin.
+The example has its own interface; the features of the built-in application
+are documented in the Drawing guide.

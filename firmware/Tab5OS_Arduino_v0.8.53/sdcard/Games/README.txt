@@ -1,4 +1,4 @@
-Tab5OS — Jeux
+Tab5OS — Games
 
 Place ROMs and game data in the corresponding folders, or select them from another folder with Files > Open with.
 Applications are installed in /Applications. Mega Drive .md files need Open with because .md also means Markdown.

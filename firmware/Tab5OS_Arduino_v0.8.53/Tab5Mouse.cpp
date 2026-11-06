@@ -25,6 +25,7 @@ void begin(lv_display_t* display){
  input=lv_indev_create();if(!input)return;lv_indev_set_type(input,LV_INDEV_TYPE_POINTER);lv_indev_set_display(input,display);lv_indev_set_mode(input,LV_INDEV_MODE_EVENT);
  lv_indev_set_read_cb(input,[](lv_indev_t*,lv_indev_data_t* d){d->point={x,y};d->state=(buttons&(config.leftHanded?2:1))?LV_INDEV_STATE_PRESSED:LV_INDEV_STATE_RELEASED;});
 }
+bool isInput(const lv_indev_t* device){return device&&device==input;}
 bool service(){
  if(!input)return false;bool connected=writing::usbMouseConnected();
  const bool notifyDisconnect=!connected&&(showing||buttons);

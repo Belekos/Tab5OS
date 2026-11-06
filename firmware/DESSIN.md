@@ -1,78 +1,79 @@
-# Dessin
+# Drawing
 
-Ouvrir **Dessin** depuis l’accueil, ou choisir **Dessin** dans **Ouvrir avec…** sur une image dans l’explorateur. Les projets T5I s’ouvrent directement dans l’éditeur. L’application utilise le thème, la police, le focus et la saisie de l’OS.
+Open **Drawing** from the home screen, or choose **Drawing** in **Open with...** for an image in Explorer. T5I projects open directly in the editor. The application uses the OS theme, font, focus and input system.
 
-## Outils et couleurs
+## Tools and colors
 
-Le rail gauche contient les outils ; l’icône sélectionnée est mise en évidence. Le volet de réglages est fermé au départ ; son ouverture le superpose à l’image sans changer son zoom ni son cadrage. Les menus du haut regroupent les fichiers, l’historique, la vue, les réglages d’image et les calques. Les deux couleurs du bandeau indiquent premier plan et arrière-plan ; le bouton gauche utilise la première couleur et le bouton droit utilise la seconde. La permutation reste disponible dans Couleurs et avec X.
+The left rail contains the tools; the selected icon is highlighted. The settings panel starts closed; opening it overlays the image without changing its zoom or framing. The top menus group file operations, history, view, image adjustments and layers. The two toolbar colors represent foreground and background: the left mouse button uses color 1 and the right mouse button uses color 2. In the color palette, left-click a swatch to set color 1 and right-click it to set color 2. Touch and keyboard selection update the color slot selected in the panel. Swap remains available in Colors and with X.
 
-| Outil | Usage |
+| Tool | Purpose |
 | --- | --- |
-| Pinceau / gomme | Tracer ou effacer avec taille, opacité, dureté et diffusion. Taille initiale : 2 px. |
-| Sélection | Rectangle, ellipse, lasso libre, baguette contiguë et plage de couleurs. |
-| Remplissage | Couleur unie, dégradés et motifs, sur zone contiguë ou toute la sélection. |
-| Déplacer | Déplacer les pixels de la sélection. |
-| Rectangle / ellipse / ligne | Glisser avec aperçu de la forme, puis relâcher pour valider. Épaisseur initiale : 2 px. |
-| Texte | Cliquer dans l’image puis écrire à cet endroit. Entrée valide ; Échap annule. |
-| Pipette | Prélever une couleur dans l’image. |
-| Main | Déplacer la vue sans modifier les pixels. |
-| Déformation locale | Pousser, gonfler ou pincer localement au pinceau. |
+| Brush / eraser | Paint or erase with size, opacity, hardness and scatter controls. Initial size: 2 px. |
+| Selection | Rectangle, ellipse, freehand lasso, contiguous magic wand and color range. |
+| Fill | Solid color, gradients, patterns and relief, over a contiguous area or the entire selection. |
+| Move | Move the selected pixels. |
+| Rectangle / ellipse / line | Drag to preview the shape, then release to apply it. Initial thickness: 2 px. |
+| Text | Click in the image and type at that position. Enter applies; Escape cancels. |
+| Eyedropper | Sample a color from the image. |
+| Hand | Move the view without changing pixels. |
+| Local deformation | Push, expand or pinch locally with a brush. |
 
-L’opacité limite la contribution de chaque geste : repasser sans relâcher ne rend pas le trait progressivement opaque. Relâcher puis commencer un nouveau trait ajoute une nouvelle contribution. La dureté règle le bord ; la diffusion disperse les points. Les formes de pinceau sont rond, carré, barre horizontale, verticale et deux diagonales.
+Opacity limits each gesture's contribution: painting over the same area without releasing does not gradually make the stroke opaque. Release and start a new stroke to add another contribution. Hardness controls the edge; scatter disperses the points. Brush shapes include round, square, horizontal bar, vertical bar and two diagonals.
 
-## Sélections et remplissages
+## Selections and fills
 
-Choisir **Sélection**, ouvrir ses options et sélectionner la méthode. Le lasso suit le geste de la souris ou du doigt ; au moins trois points sont nécessaires. La baguette travaille sur une zone contiguë, la plage de couleurs recherche les pixels similaires. La tolérance règle l’écart de couleur accepté. L’échantillonnage peut utiliser les calques visibles.
+Choose **Selection**, open its options and select a method. The lasso follows the mouse or finger gesture; at least three points are required. The magic wand works on a contiguous area, while color range finds similar pixels. Tolerance sets the accepted color difference. Sampling can use visible layers.
 
-Les modes remplacer, ajouter, soustraire et intersection permettent de composer le masque. Les commandes d’inversion et d’adoucissement agissent sur la sélection actuelle. **Progressivité** va de −32 à +32 pixels du document : une valeur négative adoucit uniquement l’intérieur, zéro conserve un bord net et une valeur positive adoucit de part et d’autre du contour. Une forme plus étroite que la progressivité intérieure peut devenir très faible ou disparaître. Le remplissage de toute la sélection applique aussi ce réglage, en restant limité au masque actif. Après une désélection, le premier tracé crée la forme choisie même si Ajouter, Soustraire ou Intersection est encore sélectionné ; l’inversion reste une commande explicite. Le masque conserve des degrés d’opacité, pas seulement une frontière tout-ou-rien ; les outils concernés respectent cette sélection.
+Replace, add, subtract and intersect modes combine the mask. Invert and feather commands act on the current selection. **Feathering** ranges from -32 to +32 document pixels: a negative value softens only the inside, zero keeps a sharp edge, and a positive value softens both sides of the boundary. A shape narrower than the inward feathering width may become faint or disappear. Filling the entire selection also applies this setting while staying within the active mask. After deselecting, the first gesture creates the chosen shape even if Add, Subtract or Intersect is still selected; inversion remains an explicit command. The mask stores opacity levels rather than an all-or-nothing boundary; the relevant tools respect that selection.
 
-Avec **Remplissage**, choisir la zone et le type : couleur unie, dégradé linéaire ou radial, hachures, damier ou points. Densité, direction et taille de motif adaptent le résultat. **Arrêter aux contours** et le seuil associé limitent la propagation sur les bords détectés. Les calculs longs peuvent être annulés ; une allocation refusée laisse l’image intacte.
+With **Fill**, choose the area and type: solid color, linear or radial gradient, hatching, checkerboard or dots. Density, direction and pattern size adjust the result. **Stop at edges** and its threshold limit propagation across detected edges. Long calculations can be canceled; a failed allocation leaves the image intact.
 
 ## Relief
 
-Le mode **Relief** de Remplissage ombre les couleurs déjà présentes sur le calque, en conservant leur transparence ; il ne peint pas avec la couleur de premier plan. Il simule une surface éclairée et ne produit pas de maillage 3D.
+The **Relief** fill mode paints with the selected color and shades it to simulate a lit surface. Left-click uses color 1; right-click uses color 2. It also works on transparent areas of the active layer, respecting the fill opacity and selection. It produces a 2D image, not a 3D mesh.
 
-- **Conique** : profil linéaire, pente constante vers l’intérieur du contour.
-- **Sphérique** : profil circulaire arrondi, dont l’amplitude dépend de Hauteur.
-- **Extrusion** : hauteur constante dans la zone, avec changement de hauteur au bord.
+- **Conical**: a linear profile with a constant slope toward the inside of the boundary.
+- **Spherical**: a rounded circular profile whose amplitude depends on Height.
+- **Extrusion**: constant height within the area, with a height change at the edge.
 
-**Progression** fixe la largeur du profil, en pixels du document ou en proportion de la distance maximale au contour. À 100 %, le profil atteint les points les plus éloignés du bord, sans plateau imposé ; une valeur plus faible laisse volontairement une zone plane. Les trous participent au contour. La proportion utilise le maximum de la zone entière : elle n’égalise pas la hauteur de toutes les branches étroites d’une forme. Extrusion n’utilise pas ce réglage.
+**Progression** sets the profile width, in document pixels or as a proportion of the maximum distance to the boundary. At 100%, the profile reaches the points furthest from the edge without imposing a plateau; a lower value intentionally leaves a flat area. Holes form part of the boundary. The proportion uses the maximum for the entire area: it does not equalize the height of all narrow branches in a shape. Extrusion does not use this setting.
 
-**Hauteur** positive crée une saillie et une valeur négative un creux. **Azimut** règle la direction de la lumière de 0 à 359° : 0° à droite, 90° en bas, 180° à gauche, 270° en haut. **Intensité** règle le contraste de l’éclairage ; zéro conserve les couleurs d’origine. Ces réglages restent des paramètres de simulation sur une image 2D.
+A positive **Height** creates a raised surface and a negative value creates a recess. **Azimuth** controls the light direction from 0 to 359°: 0° right, 90° down, 180° left, 270° up. **Intensity** controls lighting contrast. Zero intensity or zero height produces a flat fill in the selected color. These controls remain simulation parameters for a 2D image.
 
-La roue crantée ouvre les options de l’outil ; cette commande n’est plus dupliquée dans Affichage. Les menus de commandes ne répètent pas leur titre dans la liste et ne conservent pas une ligne fictive sélectionnée. Le menu Aide contient également la page **Dessin : sélection et relief**.
+The gear opens the tool options; this command is no longer duplicated in View. Command menus do not repeat their title in the list or keep a dummy row selected. The Help menu also includes **Drawing: selection and relief**.
 
-Dans **Édition**, copier, couper, coller et supprimer agissent sur la sélection. Les raccourcis Ctrl+C/X/V et Suppr sont disponibles hors saisie de texte. Les flèches déplacent la sélection d’un pixel, Maj+flèches de dix pixels. Les déplacements successifs restaurent leur fond ; le presse-papiers reste disponible lors de Nouveau ou Ouvrir dans la même session de Dessin.
+In **Edit**, copy, cut, paste and delete act on the selection. Ctrl+C/X/V and Delete are available outside text entry. Arrow keys move the selection by one pixel; Shift+arrows move it by ten pixels. Successive moves restore the background beneath them; the clipboard remains available when using New or Open in the same Drawing session.
 
-## Navigation et formes
+## Navigation and shapes
 
-La molette zoome autour du pointeur. Main ou bouton central déplace la vue sans ajouter d’état d’historique. Les commandes Ajuster et 100 % sont disponibles dans Affichage. Le clic droit utilise la seconde couleur pour les outils de dessin, sans ouvrir de menu contextuel. Échap annule le geste en cours ou ferme le dialogue actif.
+The mouse wheel zooms around the pointer. Hand or the middle mouse button moves the view without adding a history state. Fit and 100% are available in View. Right-click uses the second color for drawing tools without opening a context menu. Escape cancels the current gesture or closes the active dialog.
 
-L’ellipse se définit depuis deux coins de son cadre ou depuis son centre. L’option cercle impose des axes égaux. Les coordonnées apparaissent dès que le pointeur survole l’image. Pendant un geste, le bas de l’écran affiche aussi dimensions, longueur et angle selon l’outil. Le pourcentage de zoom reste lisible jusqu’à 1 600 %.
+An ellipse is defined from two corners of its bounding box or from its center. The circle option enforces equal axes. Coordinates appear as soon as the pointer hovers over the image. During a gesture, the bottom of the screen also displays dimensions, length and angle as appropriate for the tool. The zoom percentage remains readable up to 1,600%.
 
-La déformation locale respecte le calque actif et la sélection. **Image → Transformation** applique rotation, échelle ou cisaillement à la sélection du calque actif, ou à l’image entière sans sélection. Annuler et rétablir fonctionnent sur les modifications du document ; les déplacements de vue ne créent pas d’état d’historique.
+Local deformation respects the active layer and selection. **Image → Transform** applies rotation, scaling or shearing to the active layer's selection, or to the entire image when nothing is selected. Undo and redo operate on document changes; moving the view does not create a history state.
 
-## Fichiers et limites
+## Files and limits
 
-| Format | Ouverture | Enregistrement |
+| Format | Opening | Saving |
 | --- | --- | --- |
-| T5I | Projet avec calques et transparence. | Format de travail, conserve calques et transparence. |
-| BMP | BMP non compressé 24/32 bits. | Image aplatie sur blanc. |
-| JPG/JPEG | JPEG standard ou gris, dimensions originales. | Composite aplati sur blanc, qualité 92. |
-| PNG | Image avec transparence, dimensions originales. | Enregistrer en T5I pour conserver la transparence. |
-| WebP | Image avec transparence ; première image d’un fichier animé. | Enregistrer en T5I, BMP ou JPEG. |
+| T5I | Project with layers and transparency. | Working format; preserves layers and transparency. |
+| BMP | Uncompressed 24/32-bit BMP. | Image flattened onto white. |
+| JPG/JPEG | Standard or grayscale JPEG, original dimensions. | Composite flattened onto white, quality 92. |
+| PNG | Image with transparency, original dimensions. | Save as T5I to preserve transparency. |
+| WebP | Image with transparency; first frame of an animated file. | Save as T5I, BMP or JPEG. |
 
-Les imports conservent les dimensions originales : **aucune réduction automatique**, y compris pour JPEG et BMP. Si le format, les dimensions ou la mémoire ne permettent pas l’ouverture, un message explique le refus et le document déjà ouvert reste intact. Le zoom d’affichage ne change pas la résolution du document. Les fichiers JPEG et PNG sont limités à 16 Mio, et WebP à 2 Mio. JPEG progressif et orientation EXIF automatique ne sont pas gérés.
+Imports preserve the original dimensions: **no automatic downscaling**, including JPEG and BMP. If the format, dimensions or available memory prevent opening, a message explains why and the current document remains intact. View zoom does not change document resolution. JPEG and PNG files are limited to 16 MiB, and WebP to 2 MiB. Progressive JPEG and automatic EXIF orientation are not supported.
 
-Le moteur accepte jusqu’à 8 192 pixels sur un côté, sous son budget de 8 Mio pour les pixels de tous les calques : la limite de côté n’autorise donc pas un carré de 8 192 pixels. Huit calques au maximum ; historique borné à seize états et 8 Mio selon mémoire. Le document, l’historique, la vue et les zones de travail partagent l’enveloppe native de 18 Mio. Une importation, un calque ou un geste peut être refusé si la mémoire nécessaire manque ; l’image n’est pas réduite pour contourner ce refus.
+The engine accepts up to 8,192 pixels on one side, within an 8 MiB pixel budget across all layers: the side limit therefore does not allow an 8,192-pixel square. There are at most eight layers; history is limited to sixteen states and 8 MiB, subject to available memory. The document, history, view and work areas share the native 18 MiB allowance. An import, layer or gesture may be refused if the required memory is unavailable; the image is not downscaled to work around that refusal.
 
-Enregistrer explicitement, de préférence en T5I pour continuer le travail. L’import conserve le fichier source. Changer d’application conserve le document et l’historique ; fermer une image modifiée demande confirmation. Les contrôles et le texte inséré dans les pixels utilisent la police de l’OS. La taille du texte se règle de 25 à 400 % ; le rendu est préparé avant validation, et un manque de mémoire conserve le texte et l’image.
+Save explicitly, preferably as T5I to continue editing. Importing preserves the source file. Switching applications preserves the document and history; closing a modified image requires confirmation. Controls and text inserted into pixels use the OS font. Text size ranges from 25 to 400%; rendering is prepared before applying it, and a memory shortage preserves both the text and image.
 
-La saisie de texte se fait à la position choisie dans l’image et constitue une seule opération dans l’historique après validation. Pendant la saisie, les lettres servent à écrire et ne changent pas d’outil.
+Text is entered at the chosen image position and becomes a single history operation when applied. During text entry, letters type text instead of switching tools.
 
-Ctrl+Z annule, Ctrl+Y rétablit, Ctrl+S enregistre, Ctrl+O ouvre et Ctrl+N crée un document. Entrée et Échap fonctionnent dans les dialogues ; le clavier peut piloter les contrôles natifs.
+Ctrl+Z undoes, Ctrl+Y redoes, Ctrl+S saves, Ctrl+O opens and Ctrl+N creates a document. Enter and Escape work in dialogs; the keyboard can operate native controls.
 
-Raccourcis d’outils : B pinceau, E gomme, S sélection, V déplacement de pixels, T texte, I pipette, H ou Espace Main, L ligne, R rectangle, O ellipse, W déformation. X échange les couleurs. Ctrl+plus/moins zoome ; Ctrl+0 ajuste et Ctrl+1 affiche à 100 %.
+Tool shortcuts: B brush, E eraser, S selection, V move pixels, T text, I eyedropper, H or Space Hand, L line, R rectangle, O ellipse, W deformation. X swaps colors. Ctrl+plus/minus zooms; Ctrl+0 fits the image and Ctrl+1 displays it at 100%.
 
-## Dossier par défaut
-Les nouveaux projets et exports utilisent `/Picture`. Les projets personnels déjà présents sous `/Images` restent lisibles et peuvent être enregistrés à leur emplacement ; aucune migration ni aucun renommage automatique ne sont effectués.
+## Default folder
+
+New projects and exports use `/Picture`. Existing personal projects under `/Images` remain readable and can be saved in their current location; no automatic migration or renaming takes place.

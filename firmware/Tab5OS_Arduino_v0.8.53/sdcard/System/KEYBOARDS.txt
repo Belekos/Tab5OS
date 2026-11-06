@@ -1,9 +1,10 @@
-Dispositions tactiles et USB, Tab5OS 0.8.7
+Touch and USB keyboard layouts - Tab5OS
 
-keyboards.json garde les couches lower/upper/symbols. Le champ hid est facultatif :
-[usage_HID, texte_normal, texte_Maj, texte_AltGr, lettre_avec_CapsLock, masque_touches_mortes].
-Le masque utilise bits 0/1/2 pour normal/Maj/AltGr. Accents : ^, tréma, aigu, grave, tilde.
-Les entrées absentes gardent le comportement américain, ou français pour fr-FR.
-Les nouvelles tables USB proviennent des dispositions XKB gb/de/es/it/pt/br/us.
-Neuf dispositions fournies. Le néerlandais utilise les touches physiques US.
-La langue de l’interface et le clavier sont des choix séparés.
+keyboards.json retains the lower/upper/symbols layers. The hid field is optional:
+[HID_usage, normal_text, Shift_text, AltGr_text, CapsLock_letter, dead_key_mask].
+The mask uses bits 0/1/2 for normal/Shift/AltGr. Accents: circumflex (^), diaeresis,
+acute, grave and tilde.
+Missing entries retain the US behavior, or French behavior for fr-FR.
+The additional USB tables come from the XKB gb/de/es/it/pt/br/us layouts.
+The available layouts are listed in keyboards.json. Dutch uses physical US keys.
+The interface language and keyboard layout are separate choices.

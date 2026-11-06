@@ -1,25 +1,25 @@
-# Licences des composants de Tab5OS 0.8.53
+# Component licenses in Tab5OS 0.8.53
 
-Les notices des composants tiers sont conservées dans leurs dossiers. [LICENCES-manifest.json](LICENCES-manifest.json) donne leurs chemins et empreintes. Cet inventaire décrit les fichiers fournis ; il n'attribue pas une nouvelle licence aux auteurs.
+Third-party component notices are retained in their directories. [LICENCES-manifest.json](LICENCES-manifest.json) lists their paths and hashes. This inventory describes the supplied files; it does not assign a new license to their authors.
 
-**Aucun fichier de licence principale n'a été trouvé pour les parties propres à Tab5OS.** Son titulaire doit choisir les conditions de redistribution avant de présenter le dépôt comme un projet open source sous une licence déterminée. La préparation du dépôt et de sa documentation ne constitue pas ce choix.
+**No main license file has been found for the parts specific to Tab5OS.** The rights holder must choose redistribution terms before describing the repository as an open-source project under a particular license. Preparing the repository and its documentation does not make that choice.
 
-## Composants
+## Components
 
-| Périmètre | Notices conservées |
+| Scope | Retained notices |
 | --- | --- |
-| Firmware, pilote RTL-SDR | Sources GPL avec notices par fichier : conserver leur code source et leur provenance, examiner la licence du firmware lié |
-| Chargeur ELF et pilotes USB Espressif | Apache-2.0, textes conservés ; ne pas les réétiqueter MIT |
-| MicroPython et parser Markdown Draftling | MIT, notices conservées |
-| Client libssh2 | BSD-3-Clause, notice et provenance dans `src/tab5ssh` |
-| libgit2 | GPL-2.0 avec exception de liaison explicite amont ; conserver `COPYING`, `AUTHORS`, `UPSTREAM.json` et les notices par fichier dans `src/tab5git` |
-| Décodeurs WebP/Zstandard/XZ, encodeur JPEG, stb | Licences distinctes indiquées dans le manifeste et les fichiers amont |
-| Applications ELF GB/GBC/NES/Sega8/GBA/Doom | Plusieurs licences MIT/GPL selon le cœur ; adaptateurs, sources et notices restent fournis avec chaque application |
-| MegaDrive / Gwenesis | AGPL-3.0 dans le dossier du cœur ; application ELF distincte, sans reclassement en licence permissive |
-| SNES / ndssfc / Snes9x | Notice mixte : GPL pour certaines parties et restriction **non commerciale / usage personnel** Snes9x. Ce composant ne peut pas être annoncé comme intégralement sous une licence open source permissive |
-| Police principale DejaVu Sans Mono | Licence Bitstream Vera et modifications DejaVu, présentes dans les métadonnées du TTF et reproduites dans le manifeste |
-| Polices CJK et dictionnaires de saisie | OFL-1.1, Apache-2.0 et GPL selon la ressource ; notices et sources des dictionnaires dans `sdcard/System/ime` |
+| Firmware, RTL-SDR driver | GPL sources with per-file notices: retain their source code and provenance, and examine the license of the linked firmware |
+| ELF loader and Espressif USB drivers | Apache-2.0, with license texts retained; do not relabel them MIT |
+| MicroPython and Draftling Markdown parser | MIT, with notices retained |
+| libssh2 client | BSD-3-Clause, with notice and provenance in `src/tab5ssh` |
+| libgit2 | GPL-2.0 with an explicit upstream linking exception; retain `COPYING`, `AUTHORS`, `UPSTREAM.json` and per-file notices in `src/tab5git` |
+| WebP/Zstandard/XZ decoders, JPEG encoder, stb | Separate licenses listed in the manifest and upstream files |
+| GB/GBC/NES/Sega8/GBA/Doom ELF applications | Multiple MIT/GPL licenses depending on the core; adapters, sources and notices remain supplied with each application |
+| MegaDrive / Gwenesis | AGPL-3.0 in the core directory; a separate ELF application, without reclassification as a permissive license |
+| SNES / ndssfc / Snes9x | Mixed notices: GPL for some parts and the Snes9x **non-commercial / personal-use** restriction. This component cannot be described as entirely under a permissive open-source license |
+| Main DejaVu Sans Mono font | Bitstream Vera license and DejaVu modifications, present in the TTF metadata and reproduced in the manifest |
+| CJK fonts and input dictionaries | OFL-1.1, Apache-2.0 and GPL depending on the resource; notices and dictionary sources in `sdcard/System/ime` |
 
-Les fichiers de bibliothèques Arduino externes restent ceux des versions documentées dans [BIBLIOTHEQUES.md](BIBLIOTHEQUES.md). Ils ne deviennent pas des fichiers propres au projet lors de la compilation. Les textes de licence dans les sources, y compris ceux propres à certains fichiers, restent la référence ; une étiquette de tableau ne les remplace pas.
+External Arduino library files remain those of the versions documented in [BIBLIOTHEQUES.md](BIBLIOTHEQUES.md). Compilation does not make them project-owned files. License texts in the sources, including those specific to individual files, remain authoritative; a table label does not replace them.
 
-Les textes de licence des composants restent la référence pour leur utilisation et leur redistribution.
+Component license texts remain authoritative for their use and redistribution.

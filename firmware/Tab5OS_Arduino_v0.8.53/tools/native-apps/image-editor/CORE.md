@@ -1,35 +1,37 @@
-# Moteur raster de Dessin
+# Drawing raster engine
 
-`image_core.c` est le moteur C compilé dans le firmware pour Dessin et réutilisé par l’exemple ELF de ce dossier. Il ne dépend ni de LVGL, ni d’un écran, ni d’un système de fichiers : l’hôte fournit allocation/libération, transferts de fichiers et coopération avec l’ordonnanceur.
+`image_core.c` is the C engine compiled into the firmware for Drawing and reused by the ELF example in this directory. It depends on neither LVGL, a display nor a filesystem: the host supplies allocation/deallocation, file transfers and scheduler cooperation.
 
-## Représentation et limites
+## Representation and limits
 
-Les pixels sont RGBA non prémultipliés (`0xAABBGGRR`). Chaque calque contient un tableau de pixels, un nom de 23 octets, une opacité de 0 à 255 et un état visible/masqué. L’image accepte jusqu’à 8 calques et 8192 pixels par dimension ; la somme des pixels des calques reste inférieure à 8 Mio, avec 64 Kio réservés aux métadonnées et à l’allocateur. Ainsi, 1024 × 1024 convient à un calque et 512 × 512 à sept calques. La limite effective dépend également de la mémoire disponible.
+Pixels use non-premultiplied RGBA (`0xAABBGGRR`). Each layer contains a pixel array, a 23-byte name, opacity from 0 to 255 and a visible/hidden state. The image supports up to 8 layers and 8192 pixels per dimension; combined layer pixel storage stays below 8 MiB, with 64 KiB reserved for metadata and the allocator. Thus 1024 × 1024 fits one layer, and 512 × 512 fits seven layers. The effective limit also depends on available memory.
 
-L’historique conserve au plus 16 états et 8 Mio. Les états les plus anciens sont libérés quand la limite ou une allocation l’exige. Il n’y a pas de nombre fixe garanti d’annulations : une grande image en conserve moins. Les transformations réutilisent le dernier état d’annulation comme source afin d’éviter une troisième copie de l’image.
+History retains at most 16 states and 8 MiB. The oldest states are freed when a limit or allocation requires it. There is no guaranteed fixed number of undo steps: larger images retain fewer. Transformations reuse the most recent undo state as their source to avoid a third image copy.
 
-Avant de modifier les pixels, le moteur doit pouvoir conserver l’état précédent. En cas d’échec, il retourne une erreur et conserve le document ; une partie de l’ancien historique peut avoir été libérée pour tenter l’allocation. Les imports construisent un état séparé et ne remplacent l’image qu’après validation et lecture complète. Le moteur ne peut pas garantir à lui seul une écriture atomique sur SD ; l’application utilise la transaction de fichier de l’OS.
+Before changing pixels, the engine must be able to retain the previous state. On failure, it returns an error and preserves the document; part of the older history may have been freed to attempt the allocation. Imports build a separate state and replace the image only after validation and a complete read. The engine alone cannot guarantee atomic SD writes; the application uses the OS file transaction.
 
 ## Transactions
 
-- `ie_begin` crée une étape d’annulation pour les primitives de dessin exécutées ensuite.
-- `ie_gesture_begin` ouvre un geste pouvant être annulé ; `ie_commit` valide et `ie_cancel` restaure son état précédent. Les états de rétablissement antérieurs sont conservés jusqu’à la validation, sauf éviction due au manque de mémoire.
-- Les opérations de calques, réglages, géométrie et déplacement créent elles-mêmes leur étape d’annulation.
-- Le callback défini par `ie_set_yield` ne doit qu’offrir du temps à l’ordonnanceur. Il ne doit pas modifier le document ni appeler l’interface. Une opération engagée termine son état cohérent avant le traitement de la prochaine commande d’annulation/fermeture.
+- `ie_begin` creates an undo step for drawing primitives executed afterwards.
+- `ie_gesture_begin` opens a cancellable gesture; `ie_commit` commits it and `ie_cancel` restores its previous state. Earlier redo states are preserved until commit, unless evicted under memory pressure.
+- Layer operations, adjustments, geometry and movement create their own undo steps.
+- The callback set by `ie_set_yield` must only give time to the scheduler. It must not modify the document or call the interface. A started operation completes a consistent state before processing the next cancellation/close command.
 
-## Outils et formats
+## Tools and formats
 
-Le pinceau rond ou carré possède diamètre, opacité, dureté/contraste du bord et diffusion par points. La gomme modifie l’alpha. Le moteur propose ligne, rectangle/ellipse pleins et/ou contour, sélection rectangulaire, déplacement, mise à l’échelle indépendante des axes, cisaillement horizontal et rotations par quarts de tour. Le redimensionnement et les déformations utilisent le voisin le plus proche. Les réglages luminosité, contraste, saturation et gains rouge/vert/bleu s’appliquent à la sélection ou à l’image, sur le calque actif ou tous les calques visibles.
+The round or square brush has diameter, opacity, edge hardness/contrast and point scatter. The eraser changes alpha. The engine provides lines, filled and/or outlined rectangles/ellipses, rectangular selection, movement, independent scaling on each axis, horizontal shear and quarter-turn rotations. Resizing and distortions use nearest-neighbour sampling. Brightness, contrast, saturation and red/green/blue gains apply to the selection or image, on the active layer or all visible layers.
 
-Le texte utilise une police bitmap originale de 5 × 7 pixels, agrandie par facteur entier. Les lettres latines, chiffres, ponctuation et accents français/cédille sont disponibles ; les caractères non couverts sont remplacés par `?`. Les calques sont des images raster : le texte dessiné n’est pas un objet typographique séparé.
+Relief fill paints the supplied foreground color and shades it according to the selected profile and lighting, using normal alpha compositing. It also works on a transparent layer. Zero intensity or zero height produces a flat fill in that color. The built-in interface supplies color 1 for a left-button/touch fill and color 2 for a right-button fill.
 
-- **BMP** : import non compressé 24 ou 32 bits `BI_RGB`, orientations haut-bas ou bas-haut ; le quatrième octet de `BI_RGB` est réservé et n’est pas interprété comme alpha. Export 24 bits, image aplatie sur fond blanc. Les BMP compressés ou à masques de couleur sont refusés.
-- **T5I** : format de projet conservant les calques, leur ordre, leurs noms, l’alpha, l’opacité, la visibilité et le calque actif. L’historique et la sélection ne sont pas enregistrés. En-tête de 32 octets : magie `T5IMG001`, largeur, hauteur, nombre de calques, calque actif, indicateurs réservés à zéro et somme FNV-1a 32 bits. Les entiers sont en petit-boutiste. Chaque calque possède 28 octets de métadonnées (opacité, visibilité, deux octets réservés et nom de 24 octets), puis largeur × hauteur pixels RGBA. La somme couvre les 28 premiers octets de l’en-tête, les métadonnées et les pixels ; elle détecte les altérations ordinaires, sans servir d’authentification.
+Text uses an original 5 × 7 bitmap font, enlarged by an integer factor. Latin letters, digits, punctuation, French accents and cedilla are available; unsupported characters are replaced with `?`. Layers are raster images: drawn text is not a separate typographic object.
 
-Les callbacks de lecture/écriture acceptent des transferts partiels, et chaque requête est limitée à 4096 octets.
+- **BMP**: uncompressed 24-bit or 32-bit `BI_RGB` import, top-down or bottom-up orientation; the fourth `BI_RGB` byte is reserved and is not interpreted as alpha. Export is 24-bit, flattened onto white. Compressed BMPs and BMPs with color masks are rejected.
+- **T5I**: project format preserving layers, their order, names, alpha, opacity, visibility and the active layer. History and selection are not saved. The 32-byte header contains magic `T5IMG001`, width, height, layer count, active layer, reserved zero flags and a 32-bit FNV-1a checksum. Integers are little-endian. Each layer has 28 bytes of metadata (opacity, visibility, two reserved bytes and a 24-byte name), followed by width × height RGBA pixels. The checksum covers the first 28 header bytes, metadata and pixels; it detects ordinary corruption and does not provide authentication.
 
-## Vérification
+Read/write callbacks accept partial transfers, and each request is limited to 4096 bytes.
 
-Lancer `python3 run_tests.py`. Le programme compile le moteur de production avec AddressSanitizer et UndefinedBehaviorSanitizer, puis vérifie les outils, les calques, l’annulation/rétablissement, l’annulation d’un geste après une annulation, les codecs et entrées corrompues, 336 scénarios d’échec d’allocation et 400 cycles d’édition. Chaque scénario doit libérer toutes ses allocations. Le rapport lie les résultats aux SHA-256 des sources.
+## Verification
 
-Ces tests sur ordinateur ne remplacent pas l’essai de l’écran, du tactile, de la SD et du chargeur ELF sur la tablette ESP32-P4.
+Run `python3 run_tests.py`. The program compiles the production engine with AddressSanitizer and UndefinedBehaviorSanitizer, then checks tools, layers, undo/redo, gesture cancellation after undo, codecs and corrupted inputs, 336 allocation-failure scenarios and 400 editing cycles. The separate relief suite checks selected colors, transparency, flat fills and 16 additional allocation-failure scenarios. Every scenario must release all of its allocations. The report links results to source SHA-256 hashes.
+
+These computer tests do not replace checking the display, touch input, SD and ELF loader on the ESP32-P4 tablet.

@@ -1,30 +1,30 @@
-# Outils réseau
+# Network tools
 
-Le **Terminal** et l’application ELF **Pentest** utilisent les mêmes opérations réseau supervisées par l'OS. Le Wi-Fi doit déjà être connecté. Pentest s'ouvre depuis **Applications ELF → Pentest** et demande son fichier ELF et son profil de lancement sur SD ; voir [PENTEST.md](PENTEST.md). L’aide intégrée décrit chaque paramètre ; la référence complète se trouve dans [TERMINAL.md](TERMINAL.md).
+The **Terminal** and the **Pentest** ELF application use the same network operations supervised by the OS. Wi-Fi must already be connected. Open Pentest from **ELF applications > Pentest**; its ELF file and launch profile must be on the SD card. See [PENTEST.md](PENTEST.md). Built-in help describes each parameter; the complete reference is in [TERMINAL.md](TERMINAL.md).
 
-| Commande | Usage |
+| Command | Purpose |
 |---|---|
-| `netinfo`, `ifconfig`, `ip addr`, `ip route` | Configuration actuelle : adresse, masque, passerelle, DNS et signal |
-| `dns hôte`, `nslookup hôte` | Résolution IPv4 d’un nom |
-| `ping -c 3 -W 0.5 hôte` | Trois requêtes ICMP, délai de 0,5 seconde par réponse |
-| `tcp -w 2 hôte 443`, `nc -z -w 2 hôte 443` | Test de connexion TCP |
-| `ports -w 0.35 hôte 22,80,443,8000-8010` | Test de ports explicitement choisis, jusqu’à 1024 ports distincts |
-| `headers -L https://example.org` | En-têtes HTTP, validation TLS et observations sur les protections annoncées |
-| `wget -L -O usb:/Documents/page.html URL` | Téléchargement vers USB, avec redirections |
-| `curl -L -o sd:/Documents/page.html URL` | Téléchargement vers SD ; sans `-o`, sortie limitée à 32 Kio |
+| `netinfo`, `ifconfig`, `ip addr`, `ip route` | Current configuration: address, subnet mask, gateway, DNS and signal |
+| `dns host`, `nslookup host` | Resolve a name to IPv4 |
+| `ping -c 3 -W 0.5 host` | Three ICMP requests, with a 0.5-second timeout per reply |
+| `tcp -w 2 host 443`, `nc -z -w 2 host 443` | Test a TCP connection |
+| `ports -w 0.35 host 22,80,443,8000-8010` | Test explicitly selected ports, up to 1,024 distinct ports |
+| `headers -L https://example.org` | HTTP headers, TLS validation and observations about advertised protections |
+| `wget -L -O usb:/Documents/page.html URL` | Download to USB, following redirects |
+| `curl -L -o sd:/Documents/page.html URL` | Download to SD; without `-o`, output is limited to 32 KiB |
 
-Pour les transferts HTTP, `-T` fixe une durée totale de 1 à 3600 secondes, 120 par défaut. Les attentes d’une connexion ou d’une lecture sont bornées séparément. Une annulation ou une expiration peut attendre la fin de la résolution DNS ou de la connexion en cours. La date du système doit être correcte pour HTTPS. Le certificat et le nom du serveur sont vérifiés ; un retour de HTTPS vers HTTP est refusé. Le fichier existant reste préservé si le transfert échoue ou est annulé.
+For HTTP transfers, `-T` sets a total duration of 1 to 3,600 seconds, with a default of 120. Connection and read waits have separate limits. Cancellation or a timeout may have to wait for the current DNS resolution or connection attempt to finish. The system date must be correct for HTTPS. The certificate and server name are verified; redirects from HTTPS back to HTTP are rejected. An existing file is preserved if the transfer fails or is cancelled.
 
-## Application Pentest
+## Pentest application
 
-L’accueil contient une application dédiée. Choisir une adresse IP ou un nom d’hôte, puis le type d’analyse :
+The home screen provides a dedicated application. Choose an IP address or hostname, then the analysis type:
 
-- **Vue d’ensemble** : résolution DNS, quatre essais de ping et liste de ports TCP configurables.
-- **DNS**, **Réponse réseau** ou **Ports TCP** : exécution de l’opération choisie.
-- **HTTP et TLS** : saisir une URL ; le rapport indique le statut et les en-têtes, vérifie TLS pour HTTPS et relève notamment l’absence de HSTS, CSP ou X-Content-Type-Options. Ces observations doivent être interprétées selon le service ; elles ne prouvent pas seules une vulnérabilité.
+- **Overview**: DNS resolution, four ping attempts and a configurable list of TCP ports.
+- **DNS**, **Network response** or **TCP ports**: run only the selected operation.
+- **HTTP and TLS**: enter a URL. The report shows the status and headers, verifies TLS for HTTPS and notes issues such as missing HSTS, CSP or X-Content-Type-Options. Interpret these observations in the context of the service; they do not by themselves prove a vulnerability.
 
-**Ctrl+Entrée** lance, **Ctrl+.** arrête et **Ctrl+S** ouvre le choix du dossier d’export du rapport. **Ctrl+L**, la corbeille et **clic droit → Effacer la sortie** vident le rapport affiché sans arrêter une analyse en cours ni supprimer un export déjà enregistré. Le texte du rapport se sélectionne et se copie avec les commandes d’édition communes. Les rapports portent un nom unique `pentest-…txt` sur SD ou USB.
+**Ctrl+Enter** starts an analysis, **Ctrl+.** stops it and **Ctrl+S** opens the destination folder picker for exporting the report. **Ctrl+L**, the trash icon and **right-click > Clear output** clear the displayed report without stopping an active analysis or deleting a previously saved export. Report text can be selected and copied using the standard editing commands. Reports receive a unique `pentest-*.txt` name on SD or USB.
 
-Un port ouvert correspond à une connexion acceptée. Un délai dépassé ne distingue pas un pare-feu d’un appareil inaccessible. L’application actuelle ne fournit pas de capture radio générale, d’injection Wi-Fi ni de moteur d’exploitation. Les opérations réseau restent annulables.
+An open port means that a connection was accepted. A timeout does not distinguish a firewall from an unreachable device. The current application does not provide general radio capture, Wi-Fi injection or an exploitation engine. Network operations remain cancellable.
 
-Les commandes réseau du terminal sont décrites dans [TERMINAL.md](TERMINAL.md). Voir [PENTEST.md](PENTEST.md) pour l’application de diagnostic et [SSH.md](SSH.md) pour SSH/SFTP.
+Terminal network commands are described in [TERMINAL.md](TERMINAL.md). See [PENTEST.md](PENTEST.md) for the diagnostic application and [SSH.md](SSH.md) for SSH/SFTP.

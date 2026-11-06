@@ -1,6 +1,6 @@
 {
   "version": "0.8.53",
-  "generatedAt": "2026-11-01T19:47:17.941031+00:00",
+  "generatedAt": "2026-11-06T22:21:51.399Z",
   "scope": "Bundled source notices and SD resources. External Arduino libraries are documented in BIBLIOTHEQUES.md and docs/BUILD.md.",
   "firstPartyLicense": "Not selected by the project owner",
   "components": [
@@ -371,7 +371,7 @@
       "notices": [
         {
           "path": "Tab5OS_Arduino_v0.8.53/sdcard/System/maps/gazetteer/README.txt",
-          "sha256": "7d097eb73e7a89f5c28153fb6cb69a87923fb1f3dc8cfa6af005ebbea9405edc"
+          "sha256": "f6ab59b599bfaf8d7effaad712857d2cc47d6267a7a0c36c008ca34e9d7ceae0"
         },
         {
           "path": "Tab5OS_Arduino_v0.8.53/sdcard/System/maps/gazetteer/cities.json",
@@ -398,7 +398,7 @@
         },
         {
           "path": "Tab5OS_Arduino_v0.8.53/sdcard/System/ime/README.md",
-          "sha256": "cad3e47a08fd43a7ecd393c7ffc8da5fac852e9be161a939f4823af44051c3db"
+          "sha256": "80d03a8a849a9777fbae7a02af5a5ec43cbb16e0b794a76acbde96f88e6daf2c"
         }
       ]
     }

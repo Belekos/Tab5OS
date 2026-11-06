@@ -1,8 +1,8 @@
 # Terminal
 
-`help` classe les commandes ; `help commande` et `commande --help` détaillent leurs paramètres et donnent un exemple. Les commandes réseau de la version précédente sont conservées.
+`help` groups commands by category; `help COMMAND` and `COMMAND --help` describe their parameters and provide an example. Network commands from the previous version remain available.
 
-## Premiers exemples
+## First examples
 
 ```sh
 pwd
@@ -19,54 +19,54 @@ curl -L -o sd:/Documents/page.html https://example.org
 sha256 /USB/firmware.bin
 ```
 
-Remplacer les hôtes et les chemins par ceux à utiliser. Le dossier de destination doit déjà exister. Un téléchargement préserve le fichier antérieur jusqu’à la réussite du transfert. Ajouter `--overwrite` pour remplacer un fichier existant ; une erreur ou une annulation supprime le fichier temporaire. HTTPS vérifie le certificat et le nom d’hôte ; une redirection de HTTPS vers HTTP est refusée.
+Replace the hosts and paths with the ones you want to use. The destination directory must already exist. A download preserves any previous file until the transfer succeeds. Add `--overwrite` to replace an existing file; an error or cancellation removes the temporary file. HTTPS checks both the certificate and the hostname; redirects from HTTPS to HTTP are rejected.
 
-## Chemins et édition
+## Paths and editing
 
-| Écriture | Destination |
+| Path syntax | Destination |
 |---|---|
-| `/Documents/notes.txt` ou `sd:/Documents/notes.txt` | Carte SD |
-| `/USB/Documents/notes.txt` ou `usb:/Documents/notes.txt` | Support USB monté |
-| `notes.txt` | Dossier courant |
-| `..` | Dossier parent |
+| `/Documents/notes.txt` or `sd:/Documents/notes.txt` | SD card |
+| `/USB/Documents/notes.txt` or `usb:/Documents/notes.txt` | Mounted USB storage |
+| `notes.txt` | Current directory |
+| `..` | Parent directory |
 
-Les chemins contenant des espaces doivent être entre guillemets. Les racines des supports ne peuvent pas être supprimées. Le terminal propose les mêmes actions d’édition que les autres champs : **Ctrl+A/C/X/V/Z/Y**, et **Ctrl+Maj+Z** pour rétablir. Les boutons correspondants portent des icônes et s’adaptent au champ actif. La sortie est sélectionnable mais reste en lecture seule.
+Paths containing spaces must be quoted. Storage roots cannot be deleted. The terminal offers the same editing actions as other text fields: **Ctrl+A/C/X/V/Z/Y**, and **Ctrl+Shift+Z** to redo. The corresponding buttons use icons and adapt to the active field. Output can be selected but remains read-only.
 
-**Haut/Bas** parcourt l’historique dans le champ de commande ; **Tab** complète. **Ctrl+C** copie une sélection, ou interrompt l’opération en l’absence de sélection. **Ctrl+.** interrompt également. **Ctrl+Entrée** exécute. La touche Meta peut remplacer Ctrl pour l’édition.
+**Up/Down** browses history in the command field; **Tab** completes input. **Ctrl+C** copies a selection, or interrupts the operation when nothing is selected. **Ctrl+.** also interrupts. **Ctrl+Enter** executes the command. The Meta key can replace Ctrl for editing.
 
-**Ctrl+L**, le bouton corbeille ou **clic droit → Effacer la sortie** effacent le contenu mémorisé de la sortie. Le dossier courant, les variables et l'historique des commandes restent disponibles. L'effacement ne stoppe pas une commande en cours : les nouvelles lignes continuent de s'afficher, sans réintroduire les anciennes au rafraîchissement. La commande `clear` reste disponible.
+**Ctrl+L**, the trash button, or **right-click → Clear output** clears the stored output. The current directory, variables and command history remain available. Clearing output does not stop a running command: new lines continue to appear, without restoring old lines on refresh. The `clear` command is also available.
 
-## Tubes, entrée et substitutions
+## Pipes, input and substitutions
 
 ```sh
 ls /Documents | grep .txt
-cat journal.txt | grep -i erreur | tail -n 20
+cat journal.txt | grep -i error | tail -n 20
 seq 1 100 | head -n 5 | wc -l
-grep -in erreur < journal.txt > erreurs.txt
-echo "Le dossier courant est $(pwd)"
-set dossier "$(dirname /Documents/notes.txt)"
+grep -in error < journal.txt > erreurs.txt
+echo "The current directory is $(pwd)"
+set directory "$(dirname /Documents/notes.txt)"
 echo `pwd`
 ```
 
-`|` passe la sortie d'une commande à l'entrée de la suivante. `cat`, `head`, `tail`, `grep` et `wc` lisent cette entrée quand aucun fichier n'est précisé ; `-` la désigne explicitement parmi les fichiers. Sans tube ni redirection, cette entrée est vide : ces commandes n'attendent pas une saisie interactive. `< fichier` remplace l'entrée ; `>` et `>>` conservent leur mécanisme de remplacement ou d'ajout. Les diagnostics d'erreur restent dans le terminal et ne sont pas injectés dans le tube.
+`|` passes one command's output to the next command's input. `cat`, `head`, `tail`, `grep` and `wc` read this input when no file is specified; `-` explicitly refers to it in a list of files. Without a pipe or redirection, this input is empty: these commands do not wait for interactive input. `< FILE` replaces the input; `>` and `>>` retain their overwrite and append behavior. Error messages remain in the terminal and are not sent through the pipe.
 
-Les commandes d'un tube s'exécutent successivement. Le résultat intermédiaire est conservé en PSRAM, sans écrire un fichier temporaire sur SD. Le statut `$?` est celui de la dernière commande, comme pour un tube de shell habituel. Les changements de variables ou de dossier effectués dans un tube restent locaux à sa commande.
+Commands in a pipeline run sequentially. Intermediate output is stored in PSRAM, without writing a temporary file to the SD card. The `$?` status is that of the last command, as with a conventional shell pipeline. Variable or directory changes made in a pipeline remain local to the command that makes them.
 
-`$(commande)` et les accents graves capturent la sortie et retirent les sauts de ligne finaux. Les guillemets doubles préservent les espaces et les sauts de ligne internes ; sans guillemets, la sortie est découpée en arguments. Les apostrophes désactivent cette interprétation. Les substitutions peuvent contenir des tubes et d'autres substitutions. Leur dossier et leurs variables ne remplacent pas ceux du terminal. Une affectation seule, comme `resultat=$(false)`, garde le statut de la substitution.
+`$(COMMAND)` and backticks capture output and remove trailing newlines. Double quotes preserve spaces and internal newlines; without quotes, the output is split into arguments. Single quotes disable this interpretation. Substitutions may contain pipes and other substitutions. Their directory and variables do not replace those of the terminal. An assignment on its own, such as `result=$(false)`, retains the substitution's exit status.
 
-Limites explicites : 16 commandes par tube ; 256 Kio entre deux commandes ; 4 niveaux de substitution et 8 Kio par substitution ; 512 arguments et 32 Kio d'arguments développés. Le cumul des appels de scripts, boucles et substitutions est également borné à six blocs d’exécution simultanés, afin de préserver la pile de la tâche. Un dépassement produit une erreur. Les tubes sont adaptés aux flux finis ; les producteurs infinis, les tâches en arrière-plan `&`, les groupes `(commandes)` et les redirections séparées `2>` ne sont pas implémentés. `Ctrl+C` sans sélection et le bouton Arrêter annulent l'exécution.
+Explicit limits: 16 commands per pipeline; 256 KiB between commands; 4 substitution levels and 8 KiB per substitution; 512 arguments and 32 KiB of expanded arguments. The combined nesting of script calls, loops and substitutions is also limited to six simultaneous execution blocks to protect the task stack. Exceeding a limit produces an error. Pipes are intended for finite streams; infinite producers, background tasks (`&`), command groups (`(COMMANDS)`) and separate error redirection (`2>`) are not implemented. `Ctrl+C` with no selection and the Stop button cancel execution.
 
-## Réactivité et mémoire
+## Responsiveness and memory
 
-Le test d'annulation ne suspend plus la tâche à chaque fichier ou morceau de texte : il vérifie immédiatement l'annulation et cède le processeur à une cadence de cinq millisecondes. La sortie utilise un tampon circulaire de 32 Kio, sans déplacer tout le texte à chaque ligne quand il est plein. Pendant une commande, l'affichage est actualisé au plus deux fois par seconde ; le résultat final est affiché dès le passage suivant du service UI. Une sélection active reste intacte.
+The cancellation check no longer suspends the task for every file or text fragment: it checks cancellation immediately and yields the CPU every five milliseconds. Output uses a 32 KiB circular buffer, avoiding moving all the text for every new line when the buffer is full. While a command runs, the display refreshes at most twice per second; the final result appears on the next UI service pass. An active selection remains intact.
 
-La sortie, son instantané d'affichage, les valeurs de variables, l'historique des commandes, les tubes, les substitutions capturées et le contenu conservé par `tail` utilisent explicitement la PSRAM. Les petites structures, chaînes de travail, arguments et la pile de la tâche utilisent encore l'allocateur du système. La pile n'est libérée que par la terminaison effective de la tâche ; le contexte est détruit après ce signal, jamais pendant une commande. Les données temporaires sont libérées en quittant leur portée ; fermer le terminal libère aussi l'historique et les variables.
+Output, its display snapshot, variable values, command history, pipes, captured substitutions and the content retained by `tail` explicitly use PSRAM. Small structures, working strings, arguments and the task stack still use the system allocator. The stack is freed only when the task has actually terminated; the context is destroyed after that signal, never while a command is running. Temporary data is released when it goes out of scope; closing the terminal also releases history and variables.
 
-`memory` affiche séparément la RAM interne libre, son plus grand bloc libre, la PSRAM libre et son plus grand bloc. Il permet de contrôler l'état réel de la tablette après plusieurs commandes.
+`memory` separately reports free internal RAM, its largest free block, free PSRAM and its largest free block. Use it to check the tablet's actual memory state after running several commands.
 
-## Référence complète
+## Complete reference
 
-Dans les syntaxes ci-dessous, les crochets indiquent un paramètre facultatif et `...` plusieurs arguments. Ils ne sont pas à saisir littéralement. Dans les syntaxes de `test` et `ip`, `|` sépare des choix possibles : ce caractère ne doit pas être saisi pour choisir un argument.
+In the syntax below, square brackets indicate an optional parameter and `...` indicates multiple arguments. Do not type these markers literally. In the syntax for `test` and `ip`, `|` separates possible choices: do not type this character when selecting an argument.
 
 ### `help`
 
@@ -74,9 +74,9 @@ Dans les syntaxes ci-dessous, les crochets indiquent un paramètre facultatif et
 help [COMMAND]
 ```
 
-Liste les commandes ; ajoutez un nom pour ses paramètres et un exemple.
+Lists commands; add a command name to see its parameters and an example.
 
-Exemple :
+Example:
 
 ```sh
 help wget
@@ -88,9 +88,9 @@ help wget
 pwd
 ```
 
-Affiche le dossier courant.
+Displays the current directory.
 
-Exemple :
+Example:
 
 ```sh
 pwd
@@ -102,9 +102,9 @@ pwd
 cd [DIR]
 ```
 
-Change de dossier. Sans paramètre : racine SD. .. désigne le parent ; /USB désigne le disque USB.
+Changes directory. With no parameter, switches to the SD root. `..` denotes the parent directory; `/USB` denotes USB storage.
 
-Exemple :
+Example:
 
 ```sh
 cd /USB/Documents
@@ -116,9 +116,9 @@ cd /USB/Documents
 ls [-a] [-l] [DIR]
 ```
 
-Liste le dossier courant ou indiqué. -a inclut les fichiers cachés ; -l affiche le type et la taille.
+Lists the current or specified directory. `-a` includes hidden files; `-l` displays the type and size.
 
-Exemple :
+Example:
 
 ```sh
 ls -al /Documents
@@ -130,9 +130,9 @@ ls -al /Documents
 tree [DIR]
 ```
 
-Liste tous les chemins du dossier et de ses sous-dossiers, jusqu'à 16 niveaux.
+Lists all paths in a directory and its subdirectories, up to 16 levels deep.
 
-Exemple :
+Example:
 
 ```sh
 tree /Documents
@@ -144,9 +144,9 @@ tree /Documents
 stat FILE...
 ```
 
-Affiche le type, la taille en octets et la date de modification de chaque chemin.
+Displays the type, size in bytes and modification date of each path.
 
-Exemple :
+Example:
 
 ```sh
 stat /Documents/notes.txt
@@ -158,9 +158,9 @@ stat /Documents/notes.txt
 du [DIR]
 ```
 
-Calcule la taille des fichiers d'un dossier, sous-dossiers et fichiers cachés inclus.
+Calculates the total file size in a directory, including subdirectories and hidden files.
 
-Exemple :
+Example:
 
 ```sh
 du /Documents
@@ -172,9 +172,9 @@ du /Documents
 cat [FILE...]
 ```
 
-Affiche les fichiers texte dans l'ordre indiqué. Sans fichier, lit l'entrée du tube ou de la redirection `<` ; `-` désigne cette entrée.
+Displays text files in the specified order. With no file, reads input from a pipe or `<` redirection; `-` refers to that input.
 
-Exemple :
+Example:
 
 ```sh
 cat notes.txt
@@ -186,9 +186,9 @@ cat notes.txt
 head [-n COUNT] [FILE...]
 ```
 
-Affiche les premières lignes. -n : de 1 à 500 lignes ; 10 par défaut. Sans fichier, lit l'entrée du tube ou de la redirection `<`.
+Displays the first lines. `-n`: 1 to 500 lines; default: 10. With no file, reads input from a pipe or `<` redirection.
 
-Exemple :
+Example:
 
 ```sh
 head -n 20 notes.txt
@@ -200,9 +200,9 @@ head -n 20 notes.txt
 tail [-n COUNT] [FILE...]
 ```
 
-Affiche les dernières lignes. -n : de 1 à 500 lignes ; 10 par défaut. Maximum conservé : 64 Kio. Sans fichier, lit l'entrée du tube ou de la redirection `<`.
+Displays the last lines. `-n`: 1 to 500 lines; default: 10. Retains at most 64 KiB. With no file, reads input from a pipe or `<` redirection.
 
-Exemple :
+Example:
 
 ```sh
 tail -n 30 journal.txt
@@ -214,9 +214,9 @@ tail -n 30 journal.txt
 wc [-lwc] [FILE...]
 ```
 
-Compte les sauts de ligne, mots et octets. -l, -w et -c choisissent les compteurs. Sans fichier, lit l'entrée du tube ou de la redirection `<`.
+Counts newlines, words and bytes. `-l`, `-w` and `-c` select the counts to display. With no file, reads input from a pipe or `<` redirection.
 
-Exemple :
+Example:
 
 ```sh
 wc notes.txt
@@ -228,12 +228,12 @@ wc notes.txt
 grep [-i] [-n] TEXT [FILE...]
 ```
 
-Cherche un texte littéral. -i ignore la casse ASCII ; -n affiche les numéros de ligne. Aucun résultat : code 1. Sans fichier, lit l'entrée du tube ou de la redirection `<`.
+Searches for literal text. `-i` ignores ASCII case; `-n` displays line numbers. No match returns exit code 1. With no file, reads input from a pipe or `<` redirection.
 
-Exemple :
+Example:
 
 ```sh
-grep -in erreur journal.txt
+grep -in error journal.txt
 ```
 
 ### `find`
@@ -242,9 +242,9 @@ grep -in erreur journal.txt
 find [DIR] [-name PATTERN]
 ```
 
-Cherche récursivement jusqu'à 16 niveaux. -name filtre le nom ; placez les motifs entre apostrophes.
+Searches recursively, up to 16 levels deep. `-name` filters by filename; enclose patterns in single quotes.
 
-Exemple :
+Example:
 
 ```sh
 find /Documents -name '*.txt'
@@ -256,9 +256,9 @@ find /Documents -name '*.txt'
 hexdump [-n BYTES] [-s OFFSET] FILE
 ```
 
-Affiche octets hexadécimaux et texte. -n : 1 à 65536 octets, 256 par défaut ; -s : position de départ en octets.
+Displays hexadecimal bytes and text. `-n`: 1 to 65536 bytes; default: 256. `-s`: starting offset in bytes.
 
-Exemple :
+Example:
 
 ```sh
 hexdump -n 64 -s 16 image.bin
@@ -270,9 +270,9 @@ hexdump -n 64 -s 16 image.bin
 cmp FILE1 FILE2
 ```
 
-Compare deux fichiers, indique le premier octet différent et renvoie 1 s'ils diffèrent.
+Compares two files, reports the first differing byte and returns 1 if they differ.
 
-Exemple :
+Example:
 
 ```sh
 cmp original.bin copie.bin
@@ -284,9 +284,9 @@ cmp original.bin copie.bin
 mkdir [-p] DIR...
 ```
 
-Crée les dossiers. -p crée aussi les parents manquants et accepte un dossier déjà présent.
+Creates directories. `-p` also creates missing parent directories and accepts a directory that already exists.
 
-Exemple :
+Example:
 
 ```sh
 mkdir -p /Documents/Projet
@@ -298,9 +298,9 @@ mkdir -p /Documents/Projet
 rmdir DIR...
 ```
 
-Supprime uniquement des dossiers vides. La racine d'un support reste protégée.
+Removes only empty directories. Storage roots remain protected.
 
-Exemple :
+Example:
 
 ```sh
 rmdir /Documents/Vide
@@ -312,9 +312,9 @@ rmdir /Documents/Vide
 touch FILE...
 ```
 
-Crée un fichier vide s'il n'existe pas ; conserve le contenu d'un fichier existant.
+Creates an empty file if it does not exist; preserves the contents of an existing file.
 
-Exemple :
+Example:
 
 ```sh
 touch notes.txt
@@ -326,9 +326,9 @@ touch notes.txt
 cp SOURCE DEST
 ```
 
-Copie un fichier vers un fichier ou dossier. L'ancienne destination reste intacte si la copie échoue.
+Copies a file to another file or directory. The previous destination remains intact if copying fails.
 
-Exemple :
+Example:
 
 ```sh
 cp notes.txt /USB/Documents
@@ -340,9 +340,9 @@ cp notes.txt /USB/Documents
 mv SOURCE DEST
 ```
 
-Déplace ou renomme un fichier ou dossier sur le même support. Refuse d'écraser une destination existante.
+Moves or renames a file or directory on the same storage device. Refuses to overwrite an existing destination.
 
-Exemple :
+Example:
 
 ```sh
 mv brouillon.txt notes.txt
@@ -354,9 +354,9 @@ mv brouillon.txt notes.txt
 rm [-r] PATH...
 ```
 
-Supprime immédiatement les chemins. -r inclut le contenu des dossiers. La racine d'un support reste protégée.
+Deletes the specified paths immediately. `-r` includes directory contents. Storage roots remain protected.
 
-Exemple :
+Example:
 
 ```sh
 rm brouillon.txt
@@ -368,9 +368,9 @@ rm brouillon.txt
 basename PATH
 ```
 
-Affiche le dernier composant d'un chemin.
+Displays the last component of a path.
 
-Exemple :
+Example:
 
 ```sh
 basename /Documents/notes.txt
@@ -382,9 +382,9 @@ basename /Documents/notes.txt
 dirname PATH
 ```
 
-Affiche le dossier parent d'un chemin.
+Displays the parent directory of a path.
 
-Exemple :
+Example:
 
 ```sh
 dirname /Documents/notes.txt
@@ -396,12 +396,12 @@ dirname /Documents/notes.txt
 echo [-n] TEXT...
 ```
 
-Affiche les paramètres séparés par des espaces. -n omet le saut de ligne final.
+Displays arguments separated by spaces. `-n` omits the trailing newline.
 
-Exemple :
+Example:
 
 ```sh
-echo 'Bonjour' > notes.txt
+echo 'Hello' > notes.txt
 ```
 
 ### `printf`
@@ -410,12 +410,12 @@ echo 'Bonjour' > notes.txt
 printf FORMAT [TEXT...]
 ```
 
-Affiche un format : %s insère un paramètre, %% un pourcentage, \n un saut de ligne et \t une tabulation.
+Prints formatted text: `%s` inserts an argument, `%%` a percent sign, `\n` a newline and `\t` a tab.
 
-Exemple :
+Example:
 
 ```sh
-printf '%s\n' Bonjour
+printf '%s\n' Hello
 ```
 
 ### `seq`
@@ -424,9 +424,9 @@ printf '%s\n' Bonjour
 seq [START] END
 ```
 
-Affiche une suite d'entiers croissants, un par ligne. Début : 1 par défaut ; maximum : 10000 valeurs.
+Displays a sequence of increasing integers, one per line. Default starting value: 1; maximum: 10000 values.
 
-Exemple :
+Example:
 
 ```sh
 seq 3 8
@@ -438,9 +438,9 @@ seq 3 8
 clear
 ```
 
-Efface l'affichage du terminal ; conserve l'historique et les variables.
+Clears the terminal display; preserves history and variables.
 
-Exemple :
+Example:
 
 ```sh
 clear
@@ -452,12 +452,12 @@ clear
 set NAME VALUE
 ```
 
-Définit une variable ; nom=valeur est aussi accepté. Utilisez $nom ou ${nom}. Maximum : 32 variables.
+Sets a variable; `name=value` is also accepted. Use `$name` or `${name}` to read it. Maximum: 32 variables.
 
-Exemple :
+Example:
 
 ```sh
-set dossier /Documents
+set directory /Documents
 ```
 
 ### `unset`
@@ -466,12 +466,12 @@ set dossier /Documents
 unset NAME
 ```
 
-Supprime une variable.
+Removes a variable.
 
-Exemple :
+Example:
 
 ```sh
-unset dossier
+unset directory
 ```
 
 ### `env`
@@ -480,9 +480,9 @@ unset dossier
 env
 ```
 
-Affiche les variables et PWD, le dossier courant.
+Displays variables and `PWD`, the current directory.
 
-Exemple :
+Example:
 
 ```sh
 env
@@ -494,9 +494,9 @@ env
 test -e PATH | -f PATH | -d PATH | TEXT = TEXT | TEXT != TEXT
 ```
 
-Teste une existence (-e), un fichier (-f), un dossier (-d) ou deux textes. Résultat vrai : 0 ; faux : 1.
+Tests whether a path exists (`-e`), is a file (`-f`), is a directory (`-d`), or compares two strings. Returns 0 for true and 1 for false.
 
-Exemple :
+Example:
 
 ```sh
 test -f notes.txt && cat notes.txt
@@ -508,12 +508,12 @@ test -f notes.txt && cat notes.txt
 true
 ```
 
-Renvoie le code 0 ; utile dans les conditions de scripts.
+Returns exit code 0; useful in script conditions.
 
-Exemple :
+Example:
 
 ```sh
-true && echo oui
+true && echo yes
 ```
 
 ### `false`
@@ -522,12 +522,12 @@ true && echo oui
 false
 ```
 
-Renvoie le code 1 ; utile dans les conditions de scripts.
+Returns exit code 1; useful in script conditions.
 
-Exemple :
+Example:
 
 ```sh
-false || echo non
+false || echo no
 ```
 
 ### `source`
@@ -536,9 +536,9 @@ false || echo non
 source FILE.sh [ARGS...]
 ```
 
-Exécute un script dans le terminal courant. $0 à $9 contiennent son chemin et ses paramètres. Taille maximale : 32 Kio.
+Runs a script in the current terminal. `$0` to `$9` contain its path and arguments. Maximum script size: 32 KiB.
 
-Exemple :
+Example:
 
 ```sh
 source /Scripts/sauvegarde.sh /Documents
@@ -550,9 +550,9 @@ source /Scripts/sauvegarde.sh /Documents
 sh FILE.sh [ARGS...]
 ```
 
-Exécute un script dans le terminal courant, comme source. Les changements de dossier et de variables persistent.
+Runs a script in the current terminal, like `source`. Directory and variable changes persist.
 
-Exemple :
+Example:
 
 ```sh
 sh /Scripts/sauvegarde.sh /Documents
@@ -564,9 +564,9 @@ sh /Scripts/sauvegarde.sh /Documents
 for NAME in VALUES; do COMMANDS; done
 ```
 
-Répète les commandes pour chaque valeur. Maximum : 4 niveaux de scripts ou boucles et 10000 commandes par lancement.
+Repeats commands for each value. Maximum: 4 levels of scripts or loops and 10000 commands per invocation.
 
-Exemple :
+Example:
 
 ```sh
 for f in /Documents/*.txt; do wc "$f"; done
@@ -578,9 +578,9 @@ for f in /Documents/*.txt; do wc "$f"; done
 date
 ```
 
-Affiche la date et l'heure de l'OS.
+Displays the OS date and time.
 
-Exemple :
+Example:
 
 ```sh
 date
@@ -592,9 +592,9 @@ date
 df [DIR]
 ```
 
-Affiche l'espace libre et la capacité du support contenant le dossier ; dossier courant par défaut.
+Displays free space and capacity for the storage device containing the specified directory; defaults to the current directory.
 
-Exemple :
+Example:
 
 ```sh
 df /USB
@@ -606,9 +606,9 @@ df /USB
 memory
 ```
 
-Affiche séparément la mémoire libre et le plus grand bloc allouable en SRAM interne et en PSRAM.
+Separately displays free memory and the largest allocatable block in internal SRAM and PSRAM.
 
-Exemple :
+Example:
 
 ```sh
 memory
@@ -620,9 +620,9 @@ memory
 uptime
 ```
 
-Affiche les secondes écoulées depuis le démarrage.
+Displays the number of seconds since startup.
 
-Exemple :
+Example:
 
 ```sh
 uptime
@@ -634,9 +634,9 @@ uptime
 sleep SECONDS
 ```
 
-Attend une durée de 0 à 3600 secondes ; les fractions utilisent un point. Ctrl+C interrompt l'attente.
+Waits for 0 to 3600 seconds; use a decimal point for fractions. Ctrl+C interrupts the wait.
 
-Exemple :
+Example:
 
 ```sh
 sleep 0.5
@@ -648,9 +648,9 @@ sleep 0.5
 sha256 FILE...
 ```
 
-Calcule l'empreinte SHA-256 de chaque fichier, sur SD ou USB.
+Calculates the SHA-256 checksum of each file on SD or USB storage.
 
-Exemple :
+Example:
 
 ```sh
 sha256 /USB/firmware.bin
@@ -662,9 +662,9 @@ sha256 /USB/firmware.bin
 wifi
 ```
 
-Affiche le nom du réseau et l'adresse IPv4, ou l'état déconnecté.
+Displays the network name and IPv4 address, or the disconnected state.
 
-Exemple :
+Example:
 
 ```sh
 wifi
@@ -676,9 +676,9 @@ wifi
 netinfo
 ```
 
-Affiche le réseau Wi-Fi, IPv4, masque, passerelle, DNS et signal. Alias : ifconfig, ip addr, ip route.
+Displays the Wi-Fi network, IPv4 address, netmask, gateway, DNS and signal strength. Aliases: `ifconfig`, `ip addr`, `ip route`.
 
-Exemple :
+Example:
 
 ```sh
 netinfo
@@ -690,9 +690,9 @@ netinfo
 ifconfig
 ```
 
-Alias de netinfo : affiche la configuration réseau actuelle.
+Alias for `netinfo`: displays the current network configuration.
 
-Exemple :
+Example:
 
 ```sh
 ifconfig
@@ -704,9 +704,9 @@ ifconfig
 ip [addr|route]
 ```
 
-Affiche IPv4, masque, passerelle et DNS. La modification des routes n'est pas disponible.
+Displays the IPv4 address, netmask, gateway and DNS. Route modification is not available.
 
-Exemple :
+Example:
 
 ```sh
 ip route
@@ -718,9 +718,9 @@ ip route
 dns HOST
 ```
 
-Résout un nom DNS en IPv4, avec un délai maximal de 5 secondes. Alias : nslookup.
+Resolves a DNS name to IPv4, with a maximum timeout of 5 seconds. Alias: `nslookup`.
 
-Exemple :
+Example:
 
 ```sh
 dns example.org
@@ -732,9 +732,9 @@ dns example.org
 nslookup HOST
 ```
 
-Alias de dns : résout un nom DNS en IPv4.
+Alias for `dns`: resolves a DNS name to IPv4.
 
-Exemple :
+Example:
 
 ```sh
 nslookup example.org
@@ -746,9 +746,9 @@ nslookup example.org
 ping [-c COUNT] [-W SECONDS] HOST
 ```
 
-Teste les réponses ICMP. -c : 1 à 100 requêtes, 4 par défaut ; -W : attente par requête, 1 seconde par défaut.
+Tests ICMP responses. `-c`: 1 to 100 requests; default: 4. `-W`: timeout per request; default: 1 second.
 
-Exemple :
+Example:
 
 ```sh
 ping -c 3 -W 0.5 192.168.1.1
@@ -760,9 +760,9 @@ ping -c 3 -W 0.5 192.168.1.1
 tcp [-w SECONDS] HOST PORT
 ```
 
-Teste l'ouverture d'un port TCP sans envoyer de données. Port : 1 à 65535 ; -w : délai de connexion, 1.5 seconde par défaut.
+Tests whether a TCP port accepts connections, without sending data. Port: 1 to 65535. `-w`: connection timeout; default: 1.5 seconds.
 
-Exemple :
+Example:
 
 ```sh
 tcp -w 2 example.org 443
@@ -774,9 +774,9 @@ tcp -w 2 example.org 443
 nc [-z] [-w SECONDS] HOST PORT
 ```
 
-Alias de tcp. -z teste la connexion sans envoyer de données. Ce client ne crée pas de session interactive.
+Alias for `tcp`. `-z` tests the connection without sending data. This client does not create an interactive session.
 
-Exemple :
+Example:
 
 ```sh
 nc -z -w 2 192.168.1.1 80
@@ -788,9 +788,9 @@ nc -z -w 2 192.168.1.1 80
 ports [-w SECONDS] HOST PORTS
 ```
 
-Teste les ports d'un appareil. Liste : 22,80,443 ou 8000-8010 ; maximum 1024 ports. -w : délai par port, 1.5 seconde par défaut.
+Tests ports on a device. Specify a list such as `22,80,443` or a range such as `8000-8010`; maximum: 1024 ports. `-w`: timeout per port; default: 1.5 seconds.
 
-Exemple :
+Example:
 
 ```sh
 ports -w 0.35 192.168.1.1 22,80,443,8000-8010
@@ -802,9 +802,9 @@ ports -w 0.35 192.168.1.1 22,80,443,8000-8010
 headers [-L] [-T SECONDS] URL
 ```
 
-Affiche statut HTTP, certificat HTTPS vérifié et en-têtes utiles à l'audit. -L suit 5 redirections au maximum ; -T limite la durée totale de 1 à 3600 secondes, 120 par défaut.
+Displays HTTP status, the verified HTTPS certificate and headers useful for auditing. `-L` follows up to 5 redirects; `-T` limits the total duration to 1–3600 seconds, with a default of 120.
 
-Exemple :
+Example:
 
 ```sh
 headers -L https://example.org
@@ -816,9 +816,9 @@ headers -L https://example.org
 wget [-O FILE] [-L] [-T SECONDS] [--overwrite] URL
 ```
 
-Télécharge sur SD ou USB. -O choisit le fichier ; sinon le nom vient de l'URL. -L suit les redirections ; -T limite la durée totale de 1 à 3600 secondes (120 par défaut). --overwrite remplace un fichier après réussite.
+Downloads to SD or USB storage. `-O` selects the file; otherwise, its name comes from the URL. `-L` follows redirects; `-T` limits the total duration to 1–3600 seconds (default: 120). `--overwrite` replaces an existing file after a successful transfer.
 
-Exemple :
+Example:
 
 ```sh
 wget -L -O usb:/Documents/page.html https://example.org
@@ -830,37 +830,37 @@ wget -L -O usb:/Documents/page.html https://example.org
 curl [-I] [-o FILE|-O] [-L] [-T SECONDS] [--overwrite] URL
 ```
 
-Affiche une réponse HTTP (32 Kio maximum), ou l'enregistre avec -o fichier ou -O (nom de l'URL). -I demande les en-têtes ; -L suit les redirections ; -T limite la durée totale de 1 à 3600 secondes, 120 par défaut. HTTPS vérifie certificat et nom d'hôte.
+Displays an HTTP response (up to 32 KiB), or saves it with `-o FILE` or `-O` (filename from the URL). `-I` requests headers; `-L` follows redirects; `-T` limits the total duration to 1–3600 seconds, with a default of 120. HTTPS checks both the certificate and the hostname.
 
-Exemple :
+Example:
 
 ```sh
 curl -L -o sd:/Documents/page.html https://example.org
 ```
 
-## Scripts et codes de retour
+## Scripts and exit codes
 
-`;` sépare les commandes, `&&` continue si la précédente réussit et `||` si elle échoue. `>` remplace un fichier et `>>` ajoute du texte. Les variables s’utilisent avec `$nom`, `${nom}`, `$PWD` et `$?`. Les arguments de script sont accessibles par `$0` à `$9`.
+`;` separates commands, `&&` continues if the previous command succeeds, and `||` continues if it fails. `>` overwrites a file and `>>` appends text. Variables are accessed with `$name`, `${name}`, `$PWD` and `$?`. Script arguments are available as `$0` to `$9`.
 
-`sh` et `source` emploient le même interpréteur que le terminal : hors tube ou substitution, les changements de dossier et de variables persistent. Dans un tube ou une substitution, ces changements restent locaux. Les tubes et substitutions sont décrits plus haut ; les tâches en arrière-plan `&` restent indisponibles.
+`sh` and `source` use the same interpreter as the terminal: outside a pipe or substitution, directory and variable changes persist. Inside a pipe or substitution, these changes remain local. Pipes and substitutions are described above; background tasks (`&`) remain unavailable.
 
-| Code | Sens |
+| Code | Meaning |
 |---|---|
-| 0 | Commande réussie ou condition vraie |
-| 1 | Échec opérationnel, condition fausse ou aucun résultat selon la commande |
-| 2 | Paramètres ou syntaxe invalides ; lire l’explication et la syntaxe affichées |
-| 130 | Opération interrompue |
+| 0 | Command succeeded or condition is true |
+| 1 | Operational failure, false condition or no result, depending on the command |
+| 2 | Invalid parameters or syntax; read the displayed explanation and syntax |
+| 130 | Operation interrupted |
 
-Un port TCP ouvert indique qu’une connexion a été acceptée ; cela ne prouve pas la sécurité ni le bon fonctionnement du service. Un dépassement de délai peut venir d’un filtrage ou d’un appareil inaccessible. Le DNS et les tests réseau utilisent IPv4 ; fournir les domaines internationaux sous leur forme DNS/Punycode.
+An open TCP port means that a connection was accepted; it does not prove that the service is secure or working correctly. A timeout may be caused by filtering or an unreachable device. DNS and network tests use IPv4; supply internationalized domain names in their DNS/Punycode form.
 
-L’application **Pentest** offre des opérations d’audit et un rapport exportable dans une interface dédiée. Les commandes réseau sont décrites dans [RESEAU_DIAGNOSTIC.md](RESEAU_DIAGNOSTIC.md).
+The **Pentest** application offers auditing operations and an exportable report in a dedicated interface. Network commands are described in [RESEAU_DIAGNOSTIC.md](RESEAU_DIAGNOSTIC.md).
 
-## SSH, SFTP et tâches
+## SSH, SFTP and tasks
 
-help ssh décrit les commandes distantes, la confiance explicite dans la clé du serveur et les fichiers de clés ou de mot de passe. help sftp décrit la liste et les transferts de fichiers sans écrasement implicite. Les exemples complets, les formats de clés, les délais et les limites figurent dans [SSH.md](SSH.md). Cette version exécute des commandes distantes et leurs tubes ; elle ne fournit pas encore de terminal interactif VT/PTY.
+`help ssh` describes remote commands, explicit trust in the server key, and key or password files. `help sftp` describes directory listings and file transfers without implicit overwriting. Complete examples, key formats, timeouts and limits are in [SSH.md](SSH.md). This version runs remote commands and their pipelines; it does not yet provide an interactive VT/PTY terminal.
 
-	asks affiche un instantané réel des tâches FreeRTOS : identifiant, nom OS connu, état, priorité, minimum de pile libre en octets et compteur de temps du SDK. Le compteur est brut, pas un pourcentage CPU. memory complète cet instantané par l’état des ressources mémoire.
+`tasks` displays an actual snapshot of FreeRTOS tasks: identifier, known OS name, state, priority, minimum free stack in bytes, and the SDK runtime counter. The counter is a raw value, not a CPU percentage. `memory` complements this snapshot with memory resource information.
 
-## Port série
+## Serial port
 
-`serial` affiche l’état, `serial mode data` active les échanges et `serial send "Bonjour"` envoie du texte. `serial write` conserve les octets et accepte une entrée par tube ou fichier ; `serial read` et `serial listen` reçoivent des données. Les réglages sont partagés avec Réglages → Système → Série. Voir [SERIE.md](SERIE.md) pour les ports, délais, fins de ligne et commandes complètes.
+`serial` displays the status, `serial mode data` enables data exchange, and `serial send "Hello"` sends text. `serial write` preserves bytes and accepts input from a pipe or file; `serial read` and `serial listen` receive data. Settings are shared with Settings → System → Serial. See [SERIE.md](SERIE.md) for ports, timeouts, line endings and the complete command reference.

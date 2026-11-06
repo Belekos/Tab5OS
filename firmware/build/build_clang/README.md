@@ -1,15 +1,15 @@
 # Windows / Espressif Clang
 
-Cette voie historique reste expérimentale pour Tab5OS 0.8.53. Elle n'a pas été réexécutée et ne reproduit pas encore tous les réglages de cache et de détection de l'allocateur des parcours GCC. La [voie Linux/GCC](../../../docs/BUILD.md#linux-x86_64) est la référence.
+This historical build path remains experimental for Tab5OS 0.8.53. It has not been rerun and does not yet reproduce all cache and allocator-detection settings used by the GCC builds. The [Linux/GCC build](../../../docs/BUILD.md#linux-x86_64) is the reference.
 
-Installer Arduino CLI, le core M5Stack 3.3.9, GCC esp-rv32/2601, Espressif Clang esp-20.1.1_20250829 et les bibliothèques aux versions du [guide](../../COMPILATION.md). Depuis `firmware`, adapter les chemins :
+Install Arduino CLI, M5Stack core 3.3.9, GCC esp-rv32/2601, Espressif Clang esp-20.1.1_20250829 and the library versions listed in the [guide](../../COMPILATION.md). From `firmware`, adjust the paths:
 
 ```powershell
-python build/build_clang/compile_tab5_clang.py --release-root . --libraries-dir C:/Tab5Deps --work-dir C:/Tab5Build --arduino-data C:/Users/VOTRE_COMPTE/AppData/Local/Arduino15
+python build/build_clang/compile_tab5_clang.py --release-root . --libraries-dir C:/Tab5Deps --work-dir C:/Tab5Build --arduino-data C:/Users/YOUR_ACCOUNT/AppData/Local/Arduino15
 ```
 
-`--arduino-cli`, `--clang-root` et `--gcc-root` sélectionnent les outils. `--clang-root` désigne le dossier contenant `bin/clang.exe`. Les en-têtes et bibliothèques GCC restent nécessaires. Le dossier de travail doit être hors du sketch.
+`--arduino-cli`, `--clang-root` and `--gcc-root` select the tools. `--clang-root` names the directory containing `bin/clang.exe`. GCC headers and libraries are still required. The work directory must be outside the sketch.
 
-`--mode prepare` prépare les arguments ; `--mode database` produit la base des commandes ; le mode `build` compile. Les scripts ne téléchargent pas Clang et ne téléversent pas le Tab5.
+`--mode prepare` prepares the arguments; `--mode database` creates the compilation database; `build` mode compiles. The scripts do not download Clang or flash the Tab5.
 
-Les préparateurs vérifient les empreintes et modifient des copies isolées. `ctags_declared.py` vérifie les déclarations du sketch avec Clang. `normalize_clang_deps.py` harmonise les chemins de dépendances vérifiés. Les anciens vérificateurs liés à des chemins locaux de 0.8.28 ne sont plus conservés.
+The preparation scripts verify hashes and modify isolated copies. `ctags_declared.py` checks sketch declarations with Clang. `normalize_clang_deps.py` normalizes verified dependency paths. The old checkers tied to local 0.8.28 paths are no longer retained.

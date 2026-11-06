@@ -2,7 +2,7 @@
 
 **A portable workspace for M5Stack Tab5.**
 
-[Français](README.fr.md) · [Installation](docs/INSTALL_EN.md) · [Applications](firmware/APPLICATIONS.md) · [Gallery](docs/screenshots/README.md)
+[Installation](docs/INSTALL_EN.md) · [Applications](firmware/APPLICATIONS.md) · [Gallery](docs/screenshots/README.md)
 
 ![Tab5OS 0.8.53 — English interface](docs/screenshots/cover-en.png)
 
@@ -32,6 +32,8 @@ The **11 ready-to-run ELF applications** are in [Applications](firmware/Tab5OS_A
 | [OTA firmware](downloads/Tab5OS_0.8.53_OTA.bin?raw=1) | Update an existing Tab5OS installation |
 | [First-install image](downloads/Tab5OS_0.8.53_initial_install_16MB.bin?raw=1) | Install from a computer; replaces internal Flash |
 | [Complete microSD package](downloads/Tab5OS_0.8.53_SD.zip?raw=1) | Applications, resources and Factory recovery files |
+
+The downloads above are the published 0.8.53 build. The current source also fixes Drawing relief colors and mouse palette selection (left click: color 1; right click: color 2). [Build the current source](docs/BUILD.md) to use these fixes.
 
 Follow the [installation guide](docs/INSTALL_EN.md) to choose the right image, prepare the card or update an existing installation. Use the supplied [SHA-256 checksums](downloads/SHA256SUMS.txt) to verify downloads.
 

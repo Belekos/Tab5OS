@@ -55,9 +55,9 @@ The [complete SD package](../downloads/Tab5OS_0.8.53_SD.zip) includes `Factory/T
 4. Restart, open `/MicroPython/update_sd.py` and choose **Repair and update**.
 5. Restart to load the updated resources.
 
-**Keep your personal `/System` directory.** Normal repair preserves customized resources and valid settings; the separate **Restore modified files** action replaces them after confirmation. The [SD repair guide](../firmware/REPARATION_SD.md) describes these rules in French.
+**Keep your personal `/System` directory.** Normal repair preserves customized resources and valid settings; the separate **Restore modified files** action replaces them after confirmation. The [SD repair guide](../firmware/REPARATION_SD.md) describes these rules.
 
-The [11 ELF applications](../firmware/Tab5OS_Arduino_v0.8.53/sdcard/Applications/) and [Python scripts](../firmware/Tab5OS_Arduino_v0.8.53/sdcard/MicroPython/) are also directly available. Use the ZIP to prepare a card with all resources. The [Wikipedia](../firmware/WIKIPEDIA.md), [Maps](../firmware/CARTES.md) and [Applications](../firmware/APPLICATIONS.md) guides describe how to prepare archives, tiles and game data in French.
+The [11 ELF applications](../firmware/Tab5OS_Arduino_v0.8.53/sdcard/Applications/) and [Python scripts](../firmware/Tab5OS_Arduino_v0.8.53/sdcard/MicroPython/) are also directly available. Use the ZIP to prepare a card with all resources. The [Wikipedia](../firmware/WIKIPEDIA.md), [Maps](../firmware/CARTES.md) and [Applications](../firmware/APPLICATIONS.md) guides describe how to prepare archives, tiles and game data.
 
 To rebuild the firmware, follow the [build guide](BUILD.md).
 

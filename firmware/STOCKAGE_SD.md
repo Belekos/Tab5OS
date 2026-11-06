@@ -1,74 +1,74 @@
-# Cartes SD : capacité, format et mémoire
+# SD cards: capacity, format and memory
 
-Les mécanismes de stockage décrits ici sont conservés en 0.8.21, avec le paquet M5Stack 3.3.9 et ESP-IDF 5.5.4. Les mesures de structures ci-dessous proviennent de l'audit initial 0.8.5. La récupération des ressources système et la police de secours sont décrites dans `REPARATION_SD.md`.
+The storage mechanisms described here are retained in 0.8.21, with M5Stack package 3.3.9 and ESP-IDF 5.5.4. The structure measurements below come from the initial 0.8.5 audit. System-resource recovery and the fallback font are described in `REPARATION_SD.md`.
 
-**Une carte de plus de 32 Go ne nécessite pas forcément de changer de système de fichiers.** Pour cette version, le choix pratique reste une partition FAT32 sur une carte de 64, 128 ou 256 Go. Le pilote actuel sait adresser ces capacités ; chaque modèle de carte reste à vérifier sur la tablette. Cette livraison ne formate aucune carte et n'ajoute pas le support exFAT.
+**A card larger than 32 GB does not necessarily require a different file system.** For this version, a FAT32 partition on a 64, 128 or 256 GB card remains the practical choice. The current driver can address these capacities; each card model still needs testing on the tablet. This release does not format cards or add exFAT support.
 
-## Deux limites différentes
+## Two different limits
 
-| Élément | Limite ou comportement |
+| Item | Limit or behavior |
 | --- | --- |
-| Capacité de la carte | 32 Go est la frontière entre les normes SDHC et SDXC ; ce n'est pas la capacité maximale du format FAT32. |
-| Fichier individuel en FAT32 | Au maximum 4 294 967 295 octets, soit 4 Gio moins un octet. |
-| Cartes SDXC neuves | Généralement formatées en exFAT, format que le firmware livré ne sait pas monter. Une carte non reconnue n'est donc pas nécessairement trop grande. |
-| Bibliothèque Wikipédia Tab5OS | Archives découpées en segments de 64 Mio, avec une taille totale et des positions logiques sur 64 bits. L'encyclopédie entière peut dépasser 4 Gio. |
-| Tuiles cartographiques | PNG séparés ou paquets de 1 900 Mio par défaut (2 000 Mio maximum), car les positions de lecture du SDK sont signées sur 32 bits. Jusqu’à 128 paquets sont reconnus sur la SD. |
+| Card capacity | 32 GB is the boundary between the SDHC and SDXC standards; it is not FAT32's maximum capacity. |
+| Individual FAT32 file | At most 4,294,967,295 bytes, or 4 GiB minus one byte. |
+| New SDXC cards | Usually formatted as exFAT, which the supplied firmware cannot mount. An unrecognized card is therefore not necessarily too large. |
+| Tab5OS Wikipedia library | Archives split into 64 MiB segments, with a 64-bit total size and logical offsets. The complete encyclopedia can exceed 4 GiB. |
+| Map tiles | Separate PNGs or packages of 1,900 MiB by default (2,000 MiB maximum), because SDK read offsets are signed 32-bit values. Up to 128 packages are recognized on the SD card. |
 
-Le pilote SPI de cette compilation utilise des numéros de secteurs sur 32 bits et des secteurs de 512 octets. Il n'a pas de limite à 32 Go ; sa limite d'adressage est de l'ordre de 2 Tio. Cela ne vaut pas certification des cartes de 2 To : le calcul du nombre de secteurs atteint lui-même sa limite à 2³² secteurs. Les cartes SDUC au-delà de 2 To ne sont pas une cible de cette version.
+The SPI driver in this build uses 32-bit sector numbers and 512-byte sectors. It has no 32 GB limit; its addressable range is around 2 TiB. This does not certify 2 TB cards: the sector-count calculation itself reaches its limit at 2^32 sectors. SDUC cards above 2 TB are not a target of this version.
 
-La page Espressif liée dans la discussion est une documentation évolutive ; sa branche `stable` peut différer du SDK compilé ici. Le tableau mentionne notamment une limite théorique de FAT32 qui n'est pas la limite du pilote SPI compilé ici. Pour cette analyse, les en-têtes et bibliothèques réellement utilisés par le firmware ont aussi été examinés.
+The Espressif page linked in the discussion is evolving documentation; its `stable` branch may differ from the SDK compiled here. Its table includes a theoretical FAT32 limit that is not the limit of the SPI driver compiled here. The headers and libraries actually used by the firmware were also examined for this analysis.
 
-## Le format ne libère pas la RAM des applications
+## The format does not free application RAM
 
-Le contenu de la carte et la table d'allocation entière ne sont pas chargés en RAM. Passer de 32 à 128 Go ne multiplie donc pas par quatre la mémoire réservée au système de fichiers. Une grande carte peut en revanche rendre plus longues certaines recherches de place libre ou opérations sur des répertoires très remplis.
+Neither the card contents nor the entire allocation table are loaded into RAM. Moving from 32 to 128 GB therefore does not quadruple the memory reserved for the file system. A larger card can, however, make some free-space searches or operations on densely populated directories take longer.
 
-Vérification des réglages compilés et des tailles de structures avec le compilateur RISC-V du firmware :
+Compiled settings and structure sizes checked with the firmware's RISC-V compiler:
 
-| Réglage ou structure | Valeur constatée | Conséquence |
+| Setting or structure | Observed value | Consequence |
 | --- | --- | --- |
-| `FF_FS_EXFAT` | `0` | exFAT désactivé. |
-| `FF_LBA64` | `0` | Adressage des secteurs sur 32 bits. |
-| `FSIZE_t`, `off_t`, `size_t` | 4 octets chacun | Les gros fichiers exigeraient aussi un audit des API, pas seulement l'activation d'exFAT. `off_t` est signé. |
-| Cache privé par fichier | Activé | Les fichiers disposent de leur propre cache de secteur. |
-| Taille maximale de secteur configurée | 4 096 octets | Les caches sont dimensionnés pour 4 Kio, même lorsque la carte utilise des secteurs de 512 octets. |
-| `sizeof(FIL)` | 4 136 octets | Coût d'un emplacement de fichier dans le montage FatFs. |
-| `sizeof(FATFS)` | 4 152 octets | Structure du volume, hors autres éléments du contexte VFS. |
-| Nombre maximal de fichiers du montage | 24 | 99 264 octets, environ 97 Kio, réservés pour ces emplacements dès le montage. |
-| Allocation FatFs | PSRAM préférée, SRAM en secours | Ces réservations utilisent normalement la PSRAM disponible. |
-| Noms longs | Tampon de 512 octets sur la pile | Coût temporaire à prendre en compte dans les tâches qui accèdent aux fichiers. |
+| `FF_FS_EXFAT` | `0` | exFAT disabled. |
+| `FF_LBA64` | `0` | 32-bit sector addressing. |
+| `FSIZE_t`, `off_t`, `size_t` | 4 bytes each | Large files would also require an API audit, not just enabling exFAT. `off_t` is signed. |
+| Private per-file cache | Enabled | Files have their own sector cache. |
+| Configured maximum sector size | 4,096 bytes | Caches are sized for 4 KiB even when the card uses 512-byte sectors. |
+| `sizeof(FIL)` | 4,136 bytes | Cost of a file slot in the FatFs mount. |
+| `sizeof(FATFS)` | 4,152 bytes | Volume structure, excluding other VFS-context elements. |
+| Maximum files per mount | 24 | 99,264 bytes, approximately 97 KiB, reserved for these slots at mount time. |
+| FatFs allocation | PSRAM preferred, SRAM fallback | These reservations normally use available PSRAM. |
+| Long filenames | 512-byte stack buffer | Temporary cost to account for in tasks that access files. |
 
-Les 24 emplacements sont réservés au montage, indépendamment du nombre de fichiers actuellement ouverts. Fermer une application ferme ses fichiers et libère ses propres buffers, mais ne détruit pas le contexte commun de la carte. Cette réserve n'est donc pas une fuite du cache de l'application précédente.
+The 24 slots are reserved at mount time, regardless of the number of files currently open. Closing an application closes its files and frees its own buffers, but does not destroy the card's shared context. This reservation is therefore not a cache leak from the previous application.
 
-Réduire arbitrairement les 24 emplacements ferait surtout gagner quelques dizaines de Kio de PSRAM, avec un risque de manquer de fichiers ouverts lorsque plusieurs fonctions sont actives. Cela ne résout pas les pénuries de SRAM des décodeurs, piles de tâches ou transferts DMA.
+Arbitrarily reducing the 24 slots would mainly save a few tens of KiB of PSRAM, while risking exhaustion of open-file slots when several features are active. It does not resolve SRAM shortages in decoders, task stacks or DMA transfers.
 
-Une reconstruction contrôlée du SDK pourrait activer les caches adaptés à la taille réelle des secteurs (`CONFIG_FATFS_USE_DYN_BUFFERS`), actuellement désactivés. C'est une optimisation plus pertinente que changer le format de la carte, mais elle n'est pas activable correctement par un simple `#define` dans le programme lorsque FatFs est déjà précompilé.
+A controlled SDK rebuild could enable caches sized for the actual sector size (`CONFIG_FATFS_USE_DYN_BUFFERS`), currently disabled. This is a more relevant optimization than changing the card format, but cannot be enabled correctly by a simple `#define` in the application when FatFs is already precompiled.
 
-## exFAT et LittleFS : intérêt réel
+## What exFAT and LittleFS would offer
 
-**exFAT** serait utile pour copier directement de très gros fichiers uniques et conserver la compatibilité PC. Il n'est pas un remède à la consommation de SRAM. L'activation change les structures de FatFs, les tailles et les positions de fichiers ; changer seulement un en-tête sans recompiler les bibliothèques correspondantes serait incorrect. Il faudrait reconstruire la pile de stockage compatible, puis adapter et vérifier les chemins Arduino, POSIX, lecteurs multimédias et Python qui utilisent encore des positions sur 32 bits. Les archives segmentées permettent déjà les grosses bibliothèques Wikipédia sans cette migration.
+**exFAT** would be useful for copying very large individual files directly and retaining PC compatibility. It is not a remedy for SRAM consumption. Enabling it changes FatFs structures, file sizes and offsets; changing only a header without rebuilding the corresponding libraries would be incorrect. It would require rebuilding the compatible storage stack, then adapting and verifying Arduino, POSIX, media-player and Python code paths that still use 32-bit offsets. Segmented archives already support large Wikipedia libraries without this migration.
 
-**LittleFS** présente un intérêt pour la résistance aux coupures et la maîtrise des caches. Il est peu pratique pour une carte amovible qui doit être remplie directement sous Windows : le PC ne la monte pas nativement comme FAT32 ou exFAT. Le changer ne corrigerait pas une perte de communication SPI, une alimentation instable ou un démontage concurrent. Ce n'est donc pas le format retenu pour la carte de documents, cartes et encyclopédies.
+**LittleFS** offers benefits for power-loss resilience and cache control. It is inconvenient for removable media that must be populated directly from Windows: the PC does not mount it natively like FAT32 or exFAT. Switching to it would not fix a loss of SPI communication, unstable power or concurrent unmounting. It is therefore not the selected format for the card holding documents, maps and encyclopedias.
 
-## Utilisation conseillée pour cette version
+## Recommended use for this version
 
-Conserver FAT32, y compris sur une carte supérieure à 32 Go. Pour préparer une nouvelle carte, sauvegarder auparavant ses données, utiliser une partition FAT32 principale de type MBR, puis recopier les ressources SD de Tab5OS. L'outil de formatage doit effectivement proposer FAT32 pour toute la capacité : les possibilités de l'interface Windows et de sa commande de formatage dépendent de la version de Windows. Le simple choix « format par défaut » d'un outil pour carte SDXC peut produire de l'exFAT.
+Keep FAT32, including on cards larger than 32 GB. To prepare a new card, back up its data first, create a primary FAT32 partition using an MBR partition table, then copy the Tab5OS SD resources back onto it. The formatting tool must actually offer FAT32 across the full capacity: the capabilities of the Windows interface and its format command depend on the Windows version. Simply choosing an SDXC tool's default format may produce exFAT.
 
-Le partage Wi-Fi de cette version utilise aussi ces positions signées : les transferts sont limités à 2 Gio moins un octet par fichier. Les segments Wikipédia de 64 Mio et les nouveaux volumes cartographiques restent compatibles.
+Wi-Fi sharing in this version also uses signed offsets: transfers are limited to 2 GiB minus one byte per file. The 64 MiB Wikipedia segments and new map volumes remain compatible.
 
-Ne pas changer le format d'une carte qui fonctionne dans le seul but d'économiser de la RAM. Pour les archives Wikipédia reçues sur PC, utiliser l'import ou le découpage fourni dans le projet ; copier un ZIM de plusieurs dizaines de Go en un seul fichier sur FAT32 n'est pas possible.
+Do not change the format of a working card solely to save RAM. For Wikipedia archives obtained on a PC, use the project's import or splitting tools; copying a ZIM of several tens of GB as one file onto FAT32 is not possible.
 
-La fréquence SPI de cette version est fixée à 10 MHz. Les téléchargements réessaient les erreurs transitoires. Un programme Python peut relâcher temporairement son droit d’accès au stockage pour laisser l’interface remonter la SD ; cette opération exige la fermeture de tous ses fichiers et itérateurs de dossier. Un défaut réseau possède un code distinct d’une erreur SD.
+The SPI clock in this version is fixed at 10 MHz. Downloads retry transient errors. A Python program can temporarily release its storage access to let the interface remount the SD card; this requires closing all its files and directory iterators. A network fault has a different error code from an SD error.
 
-Les sauvegardes de secours des documents sont placées dans `/.tab5-backups`. L’explorateur masque les noms commençant par un point et les fichiers `.bak` ; Ctrl+H ou la commande discrète d’affichage des éléments cachés les rend visibles. L’œil masque ou réaffiche une sélection sans la renommer ; cette préférence Tab5OS ne modifie pas les attributs Windows.
+Document backup copies are stored in `/.tab5-backups`. Explorer hides names beginning with a dot and `.bak` files; Ctrl+H or the unobtrusive show-hidden-items control makes them visible. The eye icon hides or shows a selection without renaming it; this Tab5OS preference does not change Windows attributes.
 
-La récupération automatique de Tab5OS reste bornée et attend la fermeture des utilisateurs de la carte avant un remontage. Elle ne peut pas réparer les structures FAT endommagées par une coupure pendant une écriture. Dans ce cas, sauvegarder les fichiers lisibles et vérifier la carte depuis le PC avant de reprendre les téléchargements.
+Tab5OS automatic recovery remains bounded and waits for card users to close before remounting. It cannot repair FAT structures damaged by a power loss during a write. In that case, back up readable files and check the card on a PC before resuming downloads.
 
-## Sources et provenance
+## Sources and provenance
 
-- [Espressif : choix des systèmes de fichiers, version 5.5.4](https://docs.espressif.com/projects/esp-idf/en/v5.5.4/esp32p4/api-guides/file-system-considerations.html).
-- [Espressif : même guide, branche stable](https://docs.espressif.com/projects/esp-idf/en/stable/esp32p4/api-guides/file-system-considerations.html).
-- [FatFs : limites et usage mémoire](https://elm-chan.org/fsw/ff/doc/appnote.html), [options de configuration](https://elm-chan.org/fsw/ff/doc/config.html).
-- [SD Association : normes de capacité SD, SDHC, SDXC, SDUC](https://www.sdcard.org/developers/sd-standard-overview/capacity-sd-sdhc-sdxc-sduc/).
-- [M5Stack : utilisation de la microSD sur Tab5 en Arduino](https://docs.m5stack.com/en/arduino/m5tab5/microsd).
-- [Espressif : Arduino comme composant ESP-IDF et reconstruction du cœur](https://docs.espressif.com/projects/arduino-esp32/en/latest/esp-idf_component.html).
-- Audit local : `sdkconfig`, `ffconf.h`, `ff.h`, `SD.cpp`, `sd_diskio.cpp` du paquet M5Stack 3.3.9 utilisé, plus [`vfs_fat.c`](https://github.com/espressif/esp-idf/blob/v5.5.4/components/fatfs/vfs/vfs_fat.c) et [`ffsystem.c`](https://github.com/espressif/esp-idf/blob/v5.5.4/components/fatfs/port/freertos/ffsystem.c). Les tailles de structures ci-dessus ont été vérifiées par compilation pour la cible ESP32-P4 de ce projet, pas déduites d'une compilation PC.
+- [Espressif: file-system choices, version 5.5.4](https://docs.espressif.com/projects/esp-idf/en/v5.5.4/esp32p4/api-guides/file-system-considerations.html).
+- [Espressif: the same guide, stable branch](https://docs.espressif.com/projects/esp-idf/en/stable/esp32p4/api-guides/file-system-considerations.html).
+- [FatFs: limits and memory usage](https://elm-chan.org/fsw/ff/doc/appnote.html), [configuration options](https://elm-chan.org/fsw/ff/doc/config.html).
+- [SD Association: SD, SDHC, SDXC and SDUC capacity standards](https://www.sdcard.org/developers/sd-standard-overview/capacity-sd-sdhc-sdxc-sduc/).
+- [M5Stack: using Tab5 microSD with Arduino](https://docs.m5stack.com/en/arduino/m5tab5/microsd).
+- [Espressif: Arduino as an ESP-IDF component and rebuilding the core](https://docs.espressif.com/projects/arduino-esp32/en/latest/esp-idf_component.html).
+- Local audit: `sdkconfig`, `ffconf.h`, `ff.h`, `SD.cpp` and `sd_diskio.cpp` from the M5Stack 3.3.9 package used, plus [`vfs_fat.c`](https://github.com/espressif/esp-idf/blob/v5.5.4/components/fatfs/vfs/vfs_fat.c) and [`ffsystem.c`](https://github.com/espressif/esp-idf/blob/v5.5.4/components/fatfs/port/freertos/ffsystem.c). The structure sizes above were verified by compilation for this project's ESP32-P4 target, not inferred from a PC build.

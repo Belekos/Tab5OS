@@ -13,6 +13,7 @@
 #include "Tab5Storage.h"
 #include "Tab5ResourceManager.h"
 #include "WriterUsb.h"
+#include "Tab5Mouse.h"
 #include <Arduino.h>
 #include <esp_heap_caps.h>
 #include <algorithm>
@@ -26,6 +27,8 @@ namespace Tab5ImageEditor {
 namespace {
 constexpr size_t MemoryLimit=18u*1024u*1024u;
 constexpr int CanvasMaxW=2048,CanvasMaxH=1200;
+constexpr uint32_t PaletteColors[]={0x181818,0xffffff,0xd32f2f,0xf57c00,0xfbc02d,0x388e3c,0x0097a7,0x1976d2,0x512da8,0xc2185b,0x795548,0x78909c};
+constexpr size_t PaletteCount=sizeof(PaletteColors)/sizeof(PaletteColors[0]);
 enum Tool { Brush,Eraser,Select,Move,Rectangle,Ellipse,Line,Text,Pick,Hand,Warp,Fill,ToolCount };
 enum Action { None,New,Open,Save,Export,Quit,Undo,Redo,Clear,Deselect,Crop,ApplyAdjust,ApplyTransform,ApplySize,LayerAdd,LayerDuplicate,LayerDelete,LayerUp,LayerDown,LayerMerge,LayerRename,ExportJpeg,Fit,Actual,ZoomIn,ZoomOut,ShowColor,ShowLayer,ShowAdjust,ShowTransform,ShowFormat,ToolOptions,UseHand,UsePick,SwapColors,ShowBackground,ToggleOptions,SelectAll,InvertSelection,SoftenSelection,CopySelection,CutSelection,PasteSelection,DeleteSelection };
 enum Dialog { NoDialog,ConfirmDiscard,InputPath,InputName,ConfirmOverwrite,NewSize };
@@ -34,7 +37,7 @@ struct Allocation { size_t bytes; uint64_t alignment; };
 struct State {
  IEDoc doc{};
  lv_obj_t *root=nullptr,*toolbar=nullptr,*workspace=nullptr,*canvas=nullptr,*selection=nullptr,*panel=nullptr,*body=nullptr,*tab=nullptr,*status=nullptr,*undo=nullptr,*redo=nullptr,*rail=nullptr,*zoomLabel=nullptr,*foreground=nullptr,*background=nullptr,*optionsButton=nullptr,*textInput=nullptr,*textLayout=nullptr;
- lv_obj_t* toolButtons[ToolCount]{};
+ lv_obj_t* toolButtons[ToolCount]{};lv_obj_t* paletteButtons[PaletteCount]{};
  lv_obj_t *modal=nullptr,*dialogStatus=nullptr,*fields[3]{},*dialogSubmit=nullptr,*layerList=nullptr;
  lv_obj_t* sliders[SliderCount]{};lv_obj_t* sliderLabels[SliderCount]{};
  lv_image_dsc_t image{};
@@ -120,6 +123,12 @@ void swatches(){
  const uint32_t foreground=(s.red<<16)|(s.green<<8)|s.blue;
  if(s.foreground&&foreground!=s.foregroundStamp){lv_obj_set_style_bg_color(s.foreground,lv_color_hex(foreground),0);s.foregroundStamp=foreground;}
  if(s.background&&s.backgroundColor!=s.backgroundStamp){lv_obj_set_style_bg_color(s.background,lv_color_hex(s.backgroundColor),0);s.backgroundStamp=s.backgroundColor;}
+}
+void choosePalette(uint32_t c,bool secondary){
+ if(!finishText(true))return;cancelGesture();s.editingBackground=secondary;
+ if(secondary){s.backgroundColor=c;s.backRed=c>>16;s.backGreen=(c>>8)&255;s.backBlue=c&255;}
+ else{s.red=c>>16;s.green=(c>>8)&255;s.blue=c&255;}
+ panel();status();
 }
 void toolState(){for(int i=0;i<ToolCount;++i)if(s.toolButtons[i]){if(i==int(s.tool))lv_obj_add_state(s.toolButtons[i],LV_STATE_CHECKED);else lv_obj_remove_state(s.toolButtons[i],LV_STATE_CHECKED);}swatches();}
 void shapeCoords(int& x0,int& y0,int& x1,int& y1){
@@ -439,7 +448,7 @@ int choice(lv_obj_t* parent,const char* title,int y,int* value,const char* const
 }
 int wrapButton(lv_obj_t* o){auto* l=lv_obj_get_child(o,0);lv_label_set_long_mode(l,LV_LABEL_LONG_WRAP);lv_obj_set_height(l,LV_SIZE_CONTENT);lv_obj_update_layout(l);const int height=std::max(64,int(lv_obj_get_height(l))+12);lv_obj_set_height(o,height);lv_obj_center(l);return height+8;}
 void panel(){
- if(!s.panel||!s.initialized)return;if(Tab5Focus.contains(s.panel,Tab5Focus.focused()))Tab5Focus.clear();lv_obj_clean(s.panel);s.body=s.tab=s.layerList=nullptr;for(auto& l:s.sliderLabels)l=nullptr;for(auto& o:s.sliders)o=nullptr;
+ if(!s.panel||!s.initialized)return;if(Tab5Focus.contains(s.panel,Tab5Focus.focused()))Tab5Focus.clear();lv_obj_clean(s.panel);s.body=s.tab=s.layerList=nullptr;for(auto& l:s.sliderLabels)l=nullptr;for(auto& o:s.sliders)o=nullptr;for(auto& o:s.paletteButtons)o=nullptr;
  if(s.tabIndex==1||s.tabIndex==7)s.tabIndex=0;
  const char* title=s.tabIndex==2?(s.editingBackground?"Couleur d’arrière-plan":"Couleur de premier plan"):s.tabIndex==3?"Calques":s.tabIndex==4?"Couleurs et luminosité":s.tabIndex==5?"Transformation":s.tabIndex==6?"Format et résolution":toolNames[s.tool];
  auto* hide=command(s.panel,"",s.panelWidth-42,4,36,ToggleOptions);auto* closeLabel=lv_obj_get_child(hide,0);lv_obj_set_style_text_font(closeLabel,&lv_font_montserrat_24,0);lv_label_set_text(closeLabel,LV_SYMBOL_CLOSE);Tab5Focus.describe(hide,tr("Masquer les options"));
@@ -472,7 +481,7 @@ void panel(){
    slider(body,Opacity,y,0,100);y+=76;slider(body,Density,y,0,100);y+=76;slider(body,Feather,y,-32,32);y+=66;
    {auto* hint=label(body,"− : intérieur · + : autour du bord",0,y,w);lv_obj_update_layout(hint);y+=int(lv_obj_get_height(hint))+16;}
    if(s.fillRegion!=IE_FILL_SELECTION){slider(body,Tolerance,y,0,255);y+=76;y+=checkbox(body,"Échantillonner les calques visibles",y,&s.sampleMerged);if(s.fillRegion==IE_FILL_CONTIGUOUS){y+=checkbox(body,"Arrêter aux contours",y,&s.edgeStop);if(s.edgeStop){slider(body,EdgeThreshold,y,1,255);y+=76;}}}
-   if(s.fillKind!=IE_FILL_RELIEF){y+=wrapButton(command(body,"Couleur de premier plan",0,y,w,ShowColor));wrapButton(command(body,"Couleur d’arrière-plan",0,y,w,ShowBackground));}
+   y+=wrapButton(command(body,"Couleur de premier plan",0,y,w,ShowColor));wrapButton(command(body,"Couleur d’arrière-plan",0,y,w,ShowBackground));
   }
   else if(s.tool==Warp){const char* modes[]={"Pousser","Gonfler","Pincer"};choice(body,"Mode",0,&s.warpMode,modes,3);slider(body,Size,90,1,256);slider(body,Strength,156,0,100);label(body,"La déformation locale agit sur le calque actif et respecte la sélection.",0,232,w);}
   else if(s.tool==Line||s.tool==Rectangle||s.tool==Ellipse){slider(body,Opacity,0,0,100);slider(body,Thickness,66,1,64);if(s.tool!=Line){checkbox(body,"Forme pleine",140,&s.fill);checkbox(body,"Contour",186,&s.outline);}if(s.tool==Ellipse){checkbox(body,"Cercle",232,&s.ellipseCircle);checkbox(body,"Depuis le centre",278,&s.ellipseCenter);label(body,"Tracer depuis deux coins opposés, ou depuis le centre.",0,334,w);}}
@@ -481,8 +490,7 @@ void panel(){
   else if(s.tool==Pick){label(body,"Toucher une couleur dans l’image",0,0,w);command(body,"Couleur",0,84,w,ShowColor);}
   else {int y=0;for(const auto& item: {std::pair<const char*,Action>{"Copier la sélection",CopySelection},{"Couper la sélection",CutSelection},{"Coller la sélection",PasteSelection},{"Supprimer la sélection",DeleteSelection},{"Tout désélectionner",Deselect}})y+=wrapButton(command(body,item.first,0,y,w,item.second));label(body,"Glisser la sélection · Flèches : 1 px · Maj+flèches : 10 px",0,y,w);}
  }else if(s.tabIndex==2){
-  static const uint32_t colors[]={0x181818,0xffffff,0xd32f2f,0xf57c00,0xfbc02d,0x388e3c,0x0097a7,0x1976d2,0x512da8,0xc2185b,0x795548,0x78909c};
-  for(int i=0;i<12;++i){auto* o=lv_button_create(body);lv_obj_set_pos(o,i%6*(w/6),i/6*42);lv_obj_set_size(o,w/6-6,34);lv_obj_set_style_border_width(o,1,0);lv_obj_set_style_border_color(o,color(3),0);lv_obj_set_style_shadow_width(o,0,0);Tab5UiStyle::control(o);lv_obj_set_style_bg_color(o,lv_color_hex(colors[i]),0);lv_obj_set_style_bg_color(o,lv_color_hex(colors[i]),LV_STATE_PRESSED);char desc[32];snprintf(desc,sizeof(desc),"#%06X",unsigned(colors[i]));Tab5Focus.describe(o,desc);lv_obj_add_event_cb(o,[](lv_event_t* e){uint32_t c=static_cast<uint32_t>(reinterpret_cast<uintptr_t>(lv_event_get_user_data(e)));if(!finishText(true))return;cancelGesture();if(s.editingBackground){s.backgroundColor=c;s.backRed=c>>16;s.backGreen=(c>>8)&255;s.backBlue=c&255;}else{s.red=c>>16;s.green=(c>>8)&255;s.blue=c&255;}panel();status();},LV_EVENT_CLICKED,reinterpret_cast<void*>(uintptr_t(colors[i])));}
+  for(size_t i=0;i<PaletteCount;++i){auto* o=lv_button_create(body);s.paletteButtons[i]=o;lv_obj_set_pos(o,i%6*(w/6),i/6*42);lv_obj_set_size(o,w/6-6,34);lv_obj_set_style_border_width(o,1,0);lv_obj_set_style_border_color(o,color(3),0);lv_obj_set_style_shadow_width(o,0,0);Tab5UiStyle::control(o);lv_obj_set_style_bg_color(o,lv_color_hex(PaletteColors[i]),0);lv_obj_set_style_bg_color(o,lv_color_hex(PaletteColors[i]),LV_STATE_PRESSED);char desc[32];snprintf(desc,sizeof(desc),"#%06X",unsigned(PaletteColors[i]));Tab5Focus.describe(o,desc);lv_obj_add_event_cb(o,[](lv_event_t* e){uint32_t c=static_cast<uint32_t>(reinterpret_cast<uintptr_t>(lv_event_get_user_data(e)));choosePalette(c,Tab5Mouse::isInput(lv_event_get_indev(e))?false:s.editingBackground);},LV_EVENT_CLICKED,reinterpret_cast<void*>(uintptr_t(PaletteColors[i])));}
   slider(body,Red,96,0,255);slider(body,Green,162,0,255);slider(body,Blue,228,0,255);command(body,"Pipette dans l’image",0,302,w,UsePick);wrapButton(command(body,"Permuter les couleurs",0,356,w,SwapColors));
  }else if(s.tabIndex==3){
   s.layerList=lv_dropdown_create(body);lv_obj_set_pos(s.layerList,0,0);lv_obj_set_size(s.layerList,w,44);char layers[400]{};for(int i=0;i<s.doc.current.count;++i){const char* name=s.doc.current.layers[i].name;if(!strcmp(name,"Image BMP")||!strcmp(name,"Image JPEG")||!strcmp(name,"Image PNG")||!strcmp(name,"Image WebP"))name=tr(name);char line[100];snprintf(line,sizeof(line),"%s%d · %s",i?"\n":"",i+1,name);strncat(layers,line,sizeof(layers)-strlen(layers)-1);}lv_dropdown_set_options(s.layerList,layers);lv_dropdown_set_selected(s.layerList,s.doc.current.active);Tab5UiStyle::control(s.layerList);lv_obj_add_event_cb(s.layerList,[](lv_event_t* e){const int selected=lv_dropdown_get_selected(lv_event_get_target_obj(e));if(!finishText(true))return;cancelGesture();s.doc.current.active=selected;panel();status();},LV_EVENT_VALUE_CHANGED,nullptr);
@@ -640,6 +648,11 @@ void cancelPointer(){s.pointerKnown=false;cancelGesture();s.mouseButtons=0;if(s.
 bool mouse(int x,int y,uint8_t buttons,int wheel){
  if(!visible()||s.working||s.modal){cancelPointer();return false;}
  s.pointerKnown=true;s.pointerX=x;s.pointerY=y;lv_area_t a;lv_obj_get_coords(s.workspace,&a);const int px=x-a.x1,py=y-a.y1;const bool inside=canvasHit(px,py);const uint8_t previous=s.mouseButtons;s.mouseButtons=buttons;hover(px,py,inside);
+ // The colour palette owns secondary presses too; touch and keyboard keep
+ // the selected colour panel, whereas mouse primary always chooses colour 1.
+ if((buttons&2)&&!(previous&2)&&!(buttons&5)&&s.panelVisible&&s.tabIndex==2&&inObject(s.body,x,y)&&!dropdownOpen(s.root)){
+  for(size_t i=0;i<PaletteCount;++i)if(inObject(s.paletteButtons[i],x,y)){choosePalette(PaletteColors[i],true);return true;}
+ }
  if((buttons&4)&&!(previous&4)&&inside){panStart(px,py);s.gestureButton=4;}
  if((buttons&4)&&s.panning&&s.gestureButton==4)panMove(px,py);
  if((previous&4)&&!(buttons&4)&&s.panning&&s.gestureButton==4){panMove(px,py);s.panning=false;s.gestureButton=0;return true;}

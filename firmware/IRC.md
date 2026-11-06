@@ -1,45 +1,45 @@
-# Discussion IRC
+# IRC chat
 
-Utiliser le firmware **0.8.19** et les modules SD correspondants. Depuis l’accueil, ouvrir **Applications Python → Discussion IRC**.
+Use firmware **0.8.19** with its matching SD modules. From the home screen, open **Python applications → IRC chat**.
 
-Choisir un serveur, saisir son pseudo et, si souhaité, un salon commençant par `#`. **Se connecter** ouvre la connexion ; l'application ne se connecte jamais toute seule. Le dernier serveur et le pseudo restent mémorisés. **Options** permet de saisir un serveur personnalisé, modifier le pseudo enregistré ou effacer les récents. Le pseudo est enregistré localement ; cela ne crée pas de compte NickServ sur le réseau.
+Choose a server, enter your nickname and, optionally, a channel beginning with `#`. **Connect** opens the connection; the application never connects on its own. The last server and nickname are remembered. **Options** lets you enter a custom server, change the saved nickname or clear recent entries. The nickname is saved locally; this does not create a NickServ account on the network.
 
-Les serveurs proposés utilisent les points d'entrée TLS publiés par leurs opérateurs :
+The suggested servers use the TLS endpoints published by their operators:
 
-| Réseau | Serveur | Port TLS |
+| Network | Server | TLS port |
 |---|---|---|
 | Libera Chat | `irc.libera.chat` | 6697 |
 | OFTC | `irc.oftc.net` | 6697 |
 | hackint | `irc.hackint.org` | 6697 |
 
-Libera est celui validé sur la tablette par l'utilisateur. Les deux autres adresses ont été vérifiées dans leur documentation officielle ; leur accès dépend du réseau et de leurs règles. La date de la tablette doit être correcte pour vérifier les certificats. Les huit derniers serveurs utilisés sont proposés dans la liste ; choisir un serveur ne lance pas la connexion.
+Libera was validated on the tablet by the user. The other two addresses were checked against their official documentation; access depends on the network and its rules. The tablet's date must be correct for certificate verification. The eight most recently used servers appear in the list; choosing a server does not start a connection.
 
-Le bouton **Salons** ouvre la gestion des salons pendant la connexion :
+The **Channels** button opens channel management while connected:
 
-- **Actifs**, **Favoris** ou **Récents** affichent les salons du serveur courant. Choisir un nom remplit le champ sans rejoindre automatiquement le salon.
-- **Rejoindre** ouvre le salon saisi et revient à la conversation.
-- **Ajouter aux favoris** et **Retirer des favoris** modifient les favoris sans rejoindre ni quitter un salon.
-- **Quitter le salon** envoie PART et ferme cette conversation. Son favori éventuel reste enregistré.
+- **Active**, **Favorites** and **Recent** show channels for the current server. Choosing a name fills the field without automatically joining the channel.
+- **Join** opens the entered channel and returns to the conversation.
+- **Add to favorites** and **Remove from favorites** change the favorites without joining or leaving a channel.
+- **Leave channel** sends PART and closes the conversation. Its favorite entry, if any, remains saved.
 
-Les seize favoris et seize salons récents sont associés au serveur et au port. Une connexion accepte jusqu'à huit conversations simultanées. Les salons entrent dans les récents quand le serveur confirme leur ouverture. Les favoris ne sont jamais rejoints automatiquement. PING/PONG continue dans la page Salons et lorsque l'application est masquée.
+The sixteen favorites and sixteen recent channels are associated with the server and port. A connection supports up to eight simultaneous conversations. Channels are added to recent entries when the server confirms that they have been joined. Favorites are never joined automatically. PING/PONG continues on the Channels page and while the application is hidden.
 
-Saisir un texte puis **Entrée** sur le clavier USB ou tactile, ou **Envoyer**. L'édition reste ouverte pour le message suivant. La liste supérieure change de conversation ; **Serveur** affiche les réponses et erreurs IRC. Les flèches remontent l'historique ou reviennent aux messages récents.
+Enter text, then press **Enter** on the USB or touch keyboard, or choose **Send**. The input remains open for the next message. The top list switches conversations; **Server** displays IRC responses and errors. The arrows move back through history or return to recent messages.
 
-| Commande | Action |
+| Command | Action |
 |---|---|
-| `/join #salon` | Rejoindre un salon |
-| `/msg pseudo texte` | Message privé |
-| `/me texte` | Action dans la conversation active |
-| `/nick nouveau_pseudo` | Changer de pseudo ; le pseudo confirmé par le serveur sera mémorisé |
-| `/part` | Quitter et fermer le salon actif |
-| `/close` | Fermer la conversation, effacer son historique et quitter le salon le cas échéant |
-| `/quit` | Déconnecter |
-| `/help` | Rappeler les commandes |
+| `/join #channel` | Join a channel |
+| `/msg nickname text` | Send a private message |
+| `/me text` | Send an action in the active conversation |
+| `/nick new_nickname` | Change nickname; the nickname confirmed by the server will be saved |
+| `/part` | Leave and close the active channel |
+| `/close` | Close the conversation, clear its history and leave the channel if applicable |
+| `/quit` | Disconnect |
+| `/help` | Show the commands |
 
-**Masquer** conserve la connexion ; reprendre l'app avec son icône ou **Ctrl+Alt+P**. **Arrêter**, ou **Ctrl+.**, termine le script. Une seule application Python fonctionne à la fois ; les applications natives peuvent continuer selon les ressources disponibles.
+**Hide** keeps the connection open; resume the application through its icon or **Ctrl+Alt+P**. **Stop**, or **Ctrl+.**, terminates the script. Only one Python application runs at a time; native applications can continue as resources permit.
 
-Les préférences sont stockées dans `/System/irc.json`, avec remplacement journalisé sur SD. Les changements reçus du serveur sont regroupés avant écriture ; une erreur SD laisse la conversation fonctionner et affiche l'échec de sauvegarde. Après remise en état de la SD, **Options → Enregistrer** permet de réessayer. Les messages ne sont pas enregistrés. L'historique total en mémoire reste limité à 128 lignes de protocole ; les longues lignes peuvent occuper plusieurs lignes d'affichage. La file d'envoi comporte huit messages, espacés d'au moins 500 ms ; l'affichage d'un message envoyé n'est pas un accusé de lecture. Les réponses PONG passent avant cette file.
+Preferences are stored in `/System/irc.json`, using journaled replacement on SD. Changes received from the server are grouped before writing; an SD error leaves the conversation running and displays the save failure. Once the SD card is working again, **Options → Save** retries the operation. Messages are not saved. Total in-memory history is limited to 128 protocol lines; long lines can occupy several display lines. The send queue holds eight messages, spaced at least 500 ms apart; displaying a sent message is not a read receipt. PONG responses take priority over this queue.
 
-La connexion reste exclusivement **TLS avec certificats vérifiés**. Cette version ne gère pas l'authentification SASL automatique, les mots de passe serveur, DCC ou les transferts de fichiers. Un réseau ou un salon peut imposer un compte authentifié. Il n'y a pas de reconnexion automatique après coupure.
+The connection uses **TLS with verified certificates** exclusively. This version does not support automatic SASL authentication, server passwords, DCC or file transfers. A network or channel may require an authenticated account. There is no automatic reconnection after a disconnection.
 
-Sources vérifiées le 27 septembre 2026 : [Libera.Chat](https://libera.chat/guides/connect), [OFTC](https://www.oftc.net/) et [hackint](https://www.hackint.org/connect).
+Sources checked on 27 September 2026: [Libera.Chat](https://libera.chat/guides/connect), [OFTC](https://www.oftc.net/) and [hackint](https://www.hackint.org/connect).

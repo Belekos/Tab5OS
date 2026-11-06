@@ -1,12 +1,12 @@
-# Compilation Linux / GCC
+# Linux / GCC compilation
 
-Suivre la [procédure complète](../../../docs/BUILD.md#linux-x86_64) pour Tab5OS 0.8.53.
+Follow the [complete procedure](../../../docs/BUILD.md#linux-x86_64) for Tab5OS 0.8.53.
 
-- `prepare_linux.py` prépare l'environnement Arduino isolé.
-- `verify_downloads.py` vérifie les archives contre `dependency-downloads.json`.
-- `compile_linux.py` sélectionne le sketch, prépare les adaptations et compile.
-- `verify_linux.py` contrôle l'image et les adaptations liées. `--baseline` accepte une référence facultative ; les rapports historiques ne sont pas nécessaires.
+- `prepare_linux.py` prepares the isolated Arduino environment.
+- `verify_downloads.py` verifies archives against `dependency-downloads.json`.
+- `compile_linux.py` selects the sketch, prepares adaptations and compiles.
+- `verify_linux.py` checks the image and linked adaptations. `--baseline` accepts an optional reference; historical reports are not required.
 
-Conserver ensemble les scripts `prepare_*` et `verify_*`, ainsi que le préparateur LVGL dans le dossier voisin `build_clang`.
+Keep the `prepare_*` and `verify_*` scripts together, along with the LVGL preparation script in the neighbouring `build_clang` directory.
 
-Pour compiler un objet ciblé, générer la base avec `compile_linux.py --database-only`, puis utiliser `target_compile.py --database <compile_commands.json> --build <dossier> --report <rapport.json> <Source.cpp>`. `main_target.py --environment <dossier>` régénère et compile le sketch principal ; les résultats vont dans `qa` dans cet environnement. Ces contrôles d'objets ne remplacent pas le lien complet.
+To compile a specific object, generate the database with `compile_linux.py --database-only`, then use `target_compile.py --database <compile_commands.json> --build <directory> --report <report.json> <Source.cpp>`. `main_target.py --environment <directory>` regenerates and compiles the main sketch; results go into `qa` in that environment. These object checks do not replace a full link.

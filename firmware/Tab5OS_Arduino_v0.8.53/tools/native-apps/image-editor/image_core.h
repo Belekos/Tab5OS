@@ -106,14 +106,15 @@ typedef struct {
  int kind, region, x,y, tolerance, feather, sample_merged, edge;
  int opacity, density, scale, direction;
  uint32_t foreground,background;
- /* Relief shades existing RGB without changing layer alpha. Percent extent
+ /* Relief shades the selected foreground and composites it like other fills.
+    Percent extent
     refers to the largest boundary distance across this region, not a local
     medial axis. Extrusion has constant height; its extent is unused.
     Azimuth is clockwise in image coordinates: 0 right, 90 down. */
  int relief_profile, relief_unit, relief_extent;
- int relief_height;    /* signed pixels, -256..256; zero is unchanged */
+ int relief_height;    /* signed pixels, -256..256; zero gives a flat fill */
  int relief_azimuth;   /* degrees, wrapped to 0..359 */
- int relief_intensity; /* 0..200 percent; zero is unchanged */
+ int relief_intensity; /* 0..200 percent; zero gives a flat fill */
 } IEFillOptions;
 typedef struct IEJob IEJob;
 IEJob *ie_selection_start(IEDoc *, const IESelectionOptions *);

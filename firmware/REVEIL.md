@@ -1,23 +1,23 @@
-# Réveil
+# Alarm
 
-Depuis l’accueil, dans les applications intégrées, ouvrir Réveil. Vérifier d’abord la date, l’heure et le fuseau horaire dans Réglages. Activer l’interrupteur, choisir l’heure, Une fois ou Tous les jours, puis Enregistrer. Prochain réveil affiche l’échéance réellement enregistrée. Un changement de champ n’est appliqué qu’après Enregistrer.
+Open Alarm from the built-in applications on the home screen. First check the date, time and time zone in Settings. Enable the switch, choose a time and either Once or Every day, then select Save. Next alarm shows the saved alarm time. Changes to fields take effect only after Save.
 
-Le volume du réveil est séparé du volume habituel. Essayer la sonnerie enregistre les réglages et joue dix secondes ; Arrêter termine immédiatement l’essai. Vérifier le son avec la sortie audio souhaitée : le routage habituel vers le haut-parleur ou le casque est conservé.
+The alarm volume is separate from the normal volume. Test alarm saves the settings and plays for ten seconds; Stop ends the test immediately. Test the sound with the intended audio output: normal speaker or headphone routing is preserved.
 
-À l’heure prévue, l’écran se rallume et la sonnerie joue pendant cinq minutes au maximum. Arrêter ou Échap la termine. Reporter de 5 minutes, ou Espace pendant la sonnerie, programme un nouveau rappel. Une lecture audio peut être suspendue puis reprise par le pilote partagé ; vidéo, application ELF et enregistrement en cours reçoivent une demande d’arrêt pour laisser la sortie sonore disponible. Un échec de son reste visible à l’écran.
+At the scheduled time, the screen turns back on and the alarm plays for up to five minutes. Stop or Escape ends it. Snooze for 5 minutes, or Space while the alarm is sounding, schedules another reminder. Audio playback may be paused and resumed by the shared driver; active video playback, an ELF application and recording receive a stop request to make the audio output available. Audio failures remain visible on screen.
 
-Les réglages sont mémorisés en mémoire interne. Une échéance dépassée de moins de dix minutes peut sonner après un redémarrage ; une échéance plus ancienne est signalée comme manquée et n’entraîne pas une sonnerie plusieurs jours après. Une alarme quotidienne est recalculée en heure locale et ne sonne qu’une fois dans l’heure répétée lors du passage à l’heure d’hiver.
+Settings are stored in internal memory. An alarm less than ten minutes overdue may sound after a restart; an older alarm is marked as missed and will not sound days later. A daily alarm is recalculated in local time and sounds only once during the repeated hour when daylight saving time ends.
 
-## Choisir la veille
+## Choosing a sleep mode
 
-La mise en veille habituelle de l’écran conserve les applications en cours. Le réveil y fonctionne également, mais l’OS continue de tourner.
+Normal screen sleep preserves running applications. The alarm also works in this mode, but the OS continues running.
 
-Veille jusqu’au réveil permet une économie plus forte. Enregistrer les documents, terminer les applications/transferts et éjecter proprement tout stockage USB. L’OS refuse de s’arrêter lorsqu’une activité ou une écriture reste en cours. Si le Wi-Fi est actif, le premier appui demande son arrêt ; réappuyer quand il est arrêté. Le réveil doit être enregistré et distant d’au moins trois minutes.
+Sleep until alarm saves more power. Save documents, finish applications/transfers and safely eject any USB storage. The OS refuses to shut down while an activity or write is still in progress. If Wi-Fi is active, the first press requests that it stop; press again after it has stopped. The alarm must be saved and at least three minutes away.
 
-La RTC RX8130CE conserve le compte à rebours et commande le réveil matériel. Le P4 et le C6 ne restent pas actifs pour compter les secondes. Le redémarrage est programmé environ deux minutes avant l’alarme pour absorber l’arrondi matériel et le temps de démarrage ; la sonnerie attend ensuite son heure. La session des applications en RAM ne reprend pas. Un appui sur le bouton permet aussi de rallumer la tablette.
+The RX8130CE RTC keeps the countdown and controls the hardware wake-up. The P4 and C6 do not stay active to count seconds. Restart is scheduled about two minutes before the alarm to allow for hardware rounding and startup time; the sound then waits for its scheduled time. Application sessions in RAM are not resumed. Pressing the button can also turn the tablet back on.
 
-Garder une batterie chargée ou une alimentation branchée. La charge de la batterie est interrompue quand le Tab5 est éteint : pour charger durant la nuit, utiliser la veille de l’écran. Le double appui matériel d’extinction n’est pas équivalent au bouton Veille jusqu’au réveil et ne programme pas ce réveil.
+Keep the battery charged or connect a power supply. Battery charging stops while the Tab5 is off: use screen sleep to charge overnight. The hardware double-press power-off action is not equivalent to Sleep until alarm and does not schedule this wake-up.
 
-Avant de s’en servir comme réveil quotidien, faire un essai à quelques minutes sur la tablette, puis un essai de veille prolongée sur batterie et/ou sur alimentation. La consommation réelle et le réveil physique doivent encore être mesurés.
+Before relying on it as a daily alarm, test an alarm a few minutes ahead on the tablet, then test prolonged sleep on battery and/or external power. Actual power consumption and physical wake-up still need to be measured.
 
-Référence matérielle : https://docs.m5stack.com/en/core/Tab5 (RTC RX8130CE, commande de réveil et charge appareil allumé).
+Hardware reference: [M5Stack Tab5](https://docs.m5stack.com/en/core/Tab5) (RX8130CE RTC, wake-up control and charging while powered on).

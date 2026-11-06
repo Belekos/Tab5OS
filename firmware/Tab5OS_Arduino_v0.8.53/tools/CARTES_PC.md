@@ -1,75 +1,73 @@
-# OpenStreetMap et OpenTopoMap pour Tab5OS
+# OpenStreetMap and OpenTopoMap for Tab5OS
 
-Ce programme prépare une zone complète sur le PC puis la copie sur la carte SD. Il propose uniquement **OpenStreetMap** et **OpenTopoMap**, avec leurs identifiants de cache reconnus par Tab5OS.
+This program prepares a complete area on the PC and copies it to the SD card. It offers only **OpenStreetMap** and **OpenTopoMap**, using cache identifiers recognized by Tab5OS.
 
-## Démarrage Windows
+## Getting started on Windows
 
-Installer Python 3.10 ou plus récent avec Tkinter (inclus dans l’installateur Windows officiel), puis ouvrir **`Cartes_Tab5.cmd`**. Aucun paquet Python supplémentaire n’est nécessaire.
+Install Python 3.10 or later with Tkinter (included in the official Windows installer), then open **`Cartes_Tab5.cmd`**. No additional Python packages are required. The PC tool currently uses French interface labels; their English meanings are given below.
 
-1. Choisir **OpenTopoMap** pour télécharger directement, sans compte ni Docker. C’est le choix initial ; une préférence déjà enregistrée reste conservée.
-2. Rechercher une ville et sélectionner le bon résultat, ou saisir latitude/longitude.
-3. Choisir le rayon, par exemple **100 km**, puis les zooms. Commencer par **0 à 12** pour évaluer le volume.
-4. Choisir un dossier PC et, facultativement, la racine de la carte SD.
-5. Dans **Vitesse de téléchargement**, régler **Requêtes par seconde** (0,1–100).
-   La cadence effective et la limite de la source s’affichent immédiatement.
-   Le choix est conservé entre les ouvertures.
-6. Cliquer **Estimer**, puis **Télécharger / reprendre**.
+1. Choose **OpenTopoMap** to download directly, without an account or Docker. This is the initial choice; an already saved preference is preserved.
+2. Search for a city and select the correct result, or enter latitude/longitude.
+3. Choose the radius, for example **100 km**, then zoom levels. Start with **0 to 12** to assess the size.
+4. Choose a PC directory and, optionally, the SD card root.
+5. Under **Download speed** (`Vitesse de téléchargement`), set **Requests per second** (`Requêtes par seconde`, 0.1-100).
+   The effective rate and source limit are displayed immediately.
+   Your choice is retained between sessions.
+6. Click **Estimate** (`Estimer`), then **Download / resume** (`Télécharger / reprendre`).
 
-Cet outil PC est facultatif. Sur la tablette, l’icône de téléchargement de
-Cartes ouvre directement un import natif de la zone affichée, avec son propre
-curseur de fréquence (0,1–4 requêtes/s). Il n’ouvre pas une application Python.
+This PC tool is optional. On the tablet, the Maps download icon directly opens a native import of the displayed area, with its own rate slider (0.1-4 requests/s). It does not open a Python application.
 
-Le calcul couvre les tuiles intersectant le cercle, y compris près de l’antiméridien. Il ne se limite pas aux tuiles actuellement visibles. Chaque niveau de zoom supplémentaire peut multiplier par environ quatre les tuiles détaillées. L’estimation utilise 32 Kio par tuile, mais le contenu de chaque PNG varie. Le PC conserve à la fois les PNG du cache et les paquets, soit environ deux fois le volume annoncé pour les cartes. La carte SD reçoit uniquement les paquets.
+The calculation covers tiles intersecting the circle, including near the antimeridian. It is not limited to currently visible tiles. Each additional zoom level can roughly quadruple the detailed tile count. Estimates use 32 KiB per tile, but each PNG's content varies. The PC keeps both cached PNGs and packages, using roughly twice the stated map size. The SD card receives only the packages.
 
-**Pause** garde les PNG terminés. Relancer exactement la même zone reprend ces fichiers après vérification. Changer de source ou de zone exige un nouveau nom de paquet pour éviter de mélanger les données. Un téléchargement incomplet n’est jamais annoncé comme une zone terminée.
+**Pause** keeps completed PNGs. Running exactly the same area again resumes using these files after verification. Changing the source or area requires a new package name to avoid mixing data. An incomplete download is never reported as a completed area.
 
-Les paquets sont publiés après écriture complète et sont découpés en volumes de **1 900 Mio maximum par défaut** (limite configurable : 2 000 Mio). Cette taille permet de lire entièrement chaque fichier avec le firmware actuel ; la capacité totale de la carte SD peut être bien supérieure. Il peut donc y avoir plusieurs fichiers `.t5map`. Tous sont nécessaires. Tab5OS lit jusqu’à **128 paquets dans ce dossier, toutes cartes confondues**. Le programme refuse une zone qui dépasserait cette limite et vérifie le nombre de paquets avant la copie SD ; les anciens volumes remplacés et inchangés sont pris en compte dans ce calcul. Conserver aussi le fichier `.t5map.manifest.json` généré : un export ultérieur l’utilise pour retirer uniquement ses anciens volumes inchangés. Les fichiers personnels, modifiés ou anciens sans manifeste restent conservés. Si la SD n’était pas sélectionnée, copier les volumes et le manifeste dans :
+Packages are published only after writing is complete and are split into volumes of **at most 1,900 MiB by default** (configurable limit: 2,000 MiB). This size allows the current firmware to read every file completely; the SD card's total capacity may be much larger. There may therefore be several `.t5map` files. All are required. Tab5OS reads up to **128 packages in this directory, across all maps**. The program rejects an area that would exceed this limit and checks the package count before copying to SD; old unchanged volumes being replaced are included in that calculation. Also retain the generated `.t5map.manifest.json`: subsequent exports use it to remove only their own old, unchanged volumes. Personal, modified or old files without a manifest are preserved. If no SD card was selected, copy the volumes and manifest into:
 
 ```
 System/maps/offline/
 ```
 
-Si un ancien paquet dépasse 2 Gio, le reconstruire depuis le cache PC avec cette version de `build_t5map.py`, ou relancer la même commande de téléchargement : les PNG terminés seront réutilisés sans les télécharger à nouveau. Le découpage inclut les données et leurs index.
+If an old package exceeds 2 GiB, rebuild it from the PC cache with this version of `build_t5map.py`, or rerun the same download command: completed PNGs are reused without downloading them again. Splitting accounts for both data and indexes.
 
-Sur la Tab5, ouvrir **Cartes** et choisir **OSM Standard** ou **OpenTopoMap**. Les paquets sont lus directement ; aucune conversion ni base SQLite n’est chargée en RAM. Conserver le cache PC si l’on souhaite reprendre ou reconstruire les paquets. Le supprimer ensuite ne retire pas les cartes de la SD.
+On Tab5, open **Maps** and choose **OSM Standard** or **OpenTopoMap**. Packages are read directly; no conversion or SQLite database is loaded into RAM. Keep the PC cache if you want to resume or rebuild packages. Deleting it later does not remove maps from the SD card.
 
-## OpenTopoMap : source réelle, débit modéré
+## OpenTopoMap: direct source, moderate rate
 
-Laisser **URL XYZ** vide : le programme utilise directement `https://a.tile.opentopomap.org/{z}/{x}/{y}.png`, jusqu’au zoom 17. Une URL personnelle reste associée à la carte choisie ; passer d’OSM à OpenTopoMap ne réutilise plus accidentellement l’adresse du serveur OSM. Le projet autorise l’intégration de sa carte à condition de ne pas surcharger son serveur, notamment par des téléchargements massifs. Il ne publie pas de quota garantissant qu’une zone de taille quelconque sera acceptée.
+Leave **XYZ URL** (`URL XYZ`) blank: the program directly uses `https://a.tile.opentopomap.org/{z}/{x}/{y}.png`, up to zoom 17. A custom URL stays associated with the selected map; switching from OSM to OpenTopoMap no longer accidentally reuses the OSM server address. The project allows its map to be integrated provided its server is not overloaded, particularly through bulk downloads. It does not publish a quota guaranteeing that an area of any size will be accepted.
 
-Le programme impose donc **une seule connexion et au plus une tuile toutes les deux secondes** sur ce serveur public. Il affiche la durée minimale correspondante avant le téléchargement ; le temps de réponse du serveur s’ajoute à ce minimum. Par exemple, Paris avec 100 km de rayon et les zooms 0 à 14 représente 16 735 tuiles, environ 523 Mio à 32 Kio/tuile et un minimum de 9 h 18 min hors cache. Une zone détaillée peut prendre plusieurs jours. En cas de refus HTTP 403 ou 429, il s’arrête et conserve la reprise ; il ne change pas de sous-domaine pour contourner ce refus. Ce débit prudent n’est pas une permission de téléchargement illimité, ni une garantie de disponibilité.
+The program therefore enforces **one connection and at most one tile every two seconds** on this public server. It displays the corresponding minimum duration before downloading; server response time adds to that minimum. For example, Paris with a 100 km radius and zoom levels 0 to 14 represents 16,735 tiles, about 523 MiB at 32 KiB/tile and a minimum of 9 h 18 min without cached tiles. A detailed area may take several days. On HTTP 403 or 429, it stops and retains resume data; it does not switch subdomains to bypass the refusal. This conservative rate is neither permission for unlimited downloads nor a guarantee of availability.
 
-Pour de très grandes zones, renseigner un serveur personnel ou explicitement autorisé dans le champ URL. Le [projet OpenTopoMap](https://github.com/der-stefan/OpenTopoMap) publie son style et les instructions pour produire ses propres tuiles ; ce rendu topographique nécessite aussi les données de relief et est plus complexe que l’installation OSM fournie ici. Les fichiers Garmin ne sont pas des PNG et ne sont pas directement compatibles avec Tab5OS.
+For very large areas, enter a personal or explicitly authorized server in the URL field. The [OpenTopoMap project](https://github.com/der-stefan/OpenTopoMap) publishes its style and instructions for generating your own tiles; this topographic rendering also requires elevation data and is more complex than the OSM setup supplied here. Garmin files are not PNGs and are not directly compatible with Tab5OS.
 
-Le projet OpenTopoMap annonce une transition future vers des tuiles vectorielles. Ce programme utilise les PNG raster encore servis ; les futurs fichiers vectoriels ne seront pas directement lisibles par Tab5OS. Les paquets déjà copiés sur la SD restent utilisables hors ligne.
+The OpenTopoMap project has announced a future transition to vector tiles. This program uses the raster PNGs still served; future vector files will not be directly readable by Tab5OS. Packages already copied to SD remain usable offline.
 
-L’attribution reste visible sur la tablette : données © OpenStreetMap, SRTM ; carte © OpenTopoMap, CC-BY-SA.
+Attribution remains visible on the tablet: data © OpenStreetMap, SRTM; map © OpenTopoMap, CC-BY-SA.
 
-## OpenStreetMap : le même fond, calculé sur le PC
+## OpenStreetMap: the same map, rendered on the PC
 
-Le serveur public `tile.openstreetmap.org` interdit la préparation de zones hors ligne. Ce point dépend du serveur, pas du fait d’utiliser une tablette ou un PC. Les données OSM, elles, sont disponibles en téléchargement régional. La solution fournie utilise ces données et le véritable style **OpenStreetMap Carto** via le projet libre `overv/openstreetmap-tile-server`.
+The public `tile.openstreetmap.org` server prohibits preparing offline areas. This restriction depends on the server, not on whether a tablet or PC is used. OSM data itself is available as regional downloads. The supplied solution uses that data and the actual **OpenStreetMap Carto** style through the open-source `overv/openstreetmap-tile-server` project.
 
-Installer et démarrer **Docker Desktop avec les conteneurs Linux**, puis choisir **Préparer OSM sur ce PC**. Sélectionner un fichier `.osm.pbf` déjà téléchargé ou son URL HTTPS depuis [Geofabrik](https://download.geofabrik.de/). Choisir une région couvrant **tout le cercle demandé**, quitte à prendre un pays lorsque la zone traverse plusieurs régions. Les routes hors de l’extrait ne peuvent pas être inventées par le moteur de rendu.
+Install and start **Docker Desktop with Linux containers**, then choose **Prepare OSM on this PC** (`Préparer OSM sur ce PC`). Select an already downloaded `.osm.pbf` file or its HTTPS URL from [Geofabrik](https://download.geofabrik.de/). Choose a region covering **the entire requested circle**, using a country extract if the area spans several regions. The renderer cannot invent roads outside the extract.
 
-Avant l’import, le programme affiche les ressources prévues et demande confirmation : jusqu’à **12 Gio de RAM**, **4 threads**, et au moins **40 Gio de disque disponible dans le stockage Docker** pour un petit extrait ; une grande région demande davantage. L’import et les premiers rendus peuvent être longs. Le GPU n’est pas requis. Les composants complémentaires sont téléchargés lors du premier import ; le rendu local fonctionne ensuite sans Internet.
+Before importing, the program displays the planned resources and asks for confirmation: up to **12 GiB RAM**, **4 threads**, and at least **40 GiB free disk space in Docker storage** for a small extract; a large region needs more. Importing and initial renders can take a long time. A GPU is not required. Additional components are downloaded during the first import; local rendering then works without Internet access.
 
-Après l’import, le serveur écoute seulement sur le PC :
+After importing, the server listens only on the PC:
 
 ```
 http://127.0.0.1:8080/tile/{z}/{x}/{y}.png
 ```
 
-C’est la source OSM utilisée par défaut dans le programme. Le rendu des tuiles basses peut dépasser une minute sur de grandes régions ; si nécessaire, le mode console accepte `--timeout 300`. Le fond est celui d’OpenStreetMap Carto, avec les données de l’extrait choisi ; son apparence peut légèrement varier selon la révision du style dans l’image Docker.
+This is the program's default OSM source. Rendering low-zoom tiles may take more than a minute for large regions; if needed, command-line mode accepts `--timeout 300`. The map uses OpenStreetMap Carto with data from the selected extract; its appearance may vary slightly with the style revision in the Docker image.
 
-La préparation ne détruit jamais une base existante. Pour un nouvel extrait ou une actualisation, utiliser un nouveau nom d’instance :
+Preparation never destroys an existing database. For a new extract or update, use a new instance name:
 
 ```powershell
 py setup_osm_server.py --pbf "C:\Cartes\region.osm.pbf" --instance region-2026-09
 ```
 
-Pour voir les commandes sans rien lancer : ajouter `--plan-only`. Pour arrêter le serveur et libérer la RAM, reprendre la commande `docker stop tab5-osm-…` affichée à la fin. Les volumes restent disponibles. L’import PostgreSQL interrompu ne se reprend pas comme les PNG : le programme le signale et conserve ses volumes ; un nouvel import demande un nouveau nom d’instance.
+To inspect commands without running them, add `--plan-only`. To stop the server and free RAM, use the `docker stop tab5-osm-…` command displayed at the end. Volumes remain available. An interrupted PostgreSQL import cannot resume like PNG downloads: the program reports this and preserves its volumes; a new import requires a new instance name.
 
-## Mode console
+## Command-line mode
 
 ```powershell
 py download_t5map.py "C:\Cartes\zone-topo.t5map" --center 48.39,-4.49 --radius-km 100 --min-zoom 0 --max-zoom 12
@@ -78,38 +76,37 @@ py download_t5map.py "C:\Cartes\zone-osm.t5map" --provider osm --center 48.39,-4
 py download_t5map.py "C:\Cartes\zone-topo.t5map" --provider opentopomap --center 48.39,-4.49 --radius-km 100 --min-zoom 0 --max-zoom 12
 ```
 
-Sans `--provider`, le mode console utilise **OpenTopoMap**. OSM reste disponible avec `--provider osm`.
+Without `--provider`, command-line mode uses **OpenTopoMap**. OSM remains available with `--provider osm`.
 
-La recherche en console accepte `--city "Brest, France"`. Si plusieurs résultats sont possibles, le programme les affiche et demande de préciser `--city-index`. Il ne choisit pas silencieusement une ville homonyme. `--url-template` accepte aussi un serveur XYZ local ou autorisé ; `--header` permet l’authentification prévue par ce serveur. Le programme ne contient aucune clé commerciale.
+Command-line search accepts `--city "Brest, France"`. If several results are possible, the program displays them and asks you to specify `--city-index`. It does not silently choose a city with the same name. `--url-template` also accepts a local or authorized XYZ server; `--header` supplies authentication supported by that server. The program contains no commercial key.
 
-Un ancien dossier `z/x/y.png` ou un MBTiles raster peut être converti sans nouveau téléchargement :
+An old `z/x/y.png` directory or raster MBTiles file can be converted without downloading again:
 
 ```powershell
 py build_t5map.py "C:\AncienCache" "C:\Cartes\ancien-osm.t5map" --cache-id osm
 py build_t5map.py "C:\Topo.mbtiles" "C:\Cartes\ancien-topo.t5map" --cache-id opentopomap
 ```
 
-Les images doivent être des PNG de 256 × 256. Un MBTiles vectoriel n’est pas un raster et nécessite d’abord un rendu sur PC.
+Images must be 256 × 256 PNGs. Vector MBTiles is not raster data and must first be rendered on the PC.
 
-## En cas d’interruption
+## Handling interruptions
 
-- **HTTP 403 ou 429** : arrêter et attendre ; le serveur a refusé ou limité les requêtes. Le message affiche `Retry-After` si le serveur le fournit.
-- **Certificat HTTPS** : vérifier la date du PC et son installation Python ; la vérification des certificats reste active.
-- **Connexion refusée à 127.0.0.1** : OpenStreetMap est sélectionné sans serveur démarré. Choisir OpenTopoMap et laisser son champ URL vide pour télécharger directement.
-- **Disque plein ou dossier non inscriptible** : libérer de la place ou choisir un dossier accessible. Le cache est conservé.
+- **HTTP 403 or 429**: stop and wait; the server refused or limited requests. The message displays `Retry-After` if the server supplies it.
+- **HTTPS certificate**: check the PC date and Python installation; certificate verification stays enabled.
+- **Connection refused at 127.0.0.1**: OpenStreetMap is selected but its server is not running. Choose OpenTopoMap and leave its URL field blank to download directly.
+- **Disk full or unwritable directory**: free some space or choose an accessible directory. The cache is preserved.
 
-Le détail affiche la tuile concernée. Reprendre la même zone et le même dossier réutilise les PNG vérifiés ; une erreur ne publie pas un paquet complet. Sur la tablette, **Cartes hors ligne → Télécharger une zone** utilise également OpenTopoMap au premier lancement, et affiche le volume et la durée minimale avant confirmation.
+Error details identify the affected tile. Resuming the same area and directory reuses verified PNGs; an error does not publish a complete package. On the tablet, **Offline maps → Download an area** also uses OpenTopoMap on first launch, and displays the size and minimum duration before confirmation.
 
 ## Sources
 
-- [Politique officielle des tuiles OSM](https://operations.osmfoundation.org/policies/tiles/)
-- [Rendu local OSM : guide Switch2OSM](https://switch2osm.org/serving-tiles/using-a-docker-container/)
-- [Moteur Docker et commandes d’import](https://github.com/Overv/openstreetmap-tile-server)
-- [Usage, attribution et FAQ OpenTopoMap](https://opentopomap.org/about)
+- [Official OSM tile policy](https://operations.osmfoundation.org/policies/tiles/)
+- [Local OSM rendering: Switch2OSM guide](https://switch2osm.org/serving-tiles/using-a-docker-container/)
+- [Docker renderer and import commands](https://github.com/Overv/openstreetmap-tile-server)
+- [OpenTopoMap usage, attribution and FAQ](https://opentopomap.org/about)
 
+## Version 0.8.22: zoom and request rate
 
-## Version 0.8.22 : zoom et fréquence
+Zoom fields accept 0-22 (the level displayed on the tablet). Import downloads the levels actually available: up to 19 for OSM and 17 for OpenTopoMap; higher levels display enlarged parent tiles. The estimate shows both ranges. Existing packages remain compatible.
 
-Les champs de zoom acceptent 0–22 (niveau affiché sur la tablette). L’import télécharge les niveaux réellement disponibles : jusqu’à 19 pour OSM, 17 pour OpenTopoMap ; les niveaux supérieurs affichent les tuiles parentes agrandies. L’estimation indique les deux plages. Les paquets existants restent compatibles.
-
-Le champ **Requêtes par seconde** conserve votre choix entre 0,1 et 100. Le plafond est global pour les connexions, et OpenTopoMap public reste limité à 0,5 requête/s. En ligne de commande, ajouter --requests-per-second 0.5. Le bouton Pause laisse finir la requête en cours et conserve les tuiles terminées. Le guide ../../CARTES.md décrit aussi le mode information et le réglage sur la tablette.
+The **Requests per second** (`Requêtes par seconde`) field retains your choice between 0.1 and 100. The limit applies across all connections, and the public OpenTopoMap server remains limited to 0.5 requests/s. On the command line, add `--requests-per-second 0.5`. Pause allows the current request to finish and retains completed tiles. The [Maps guide](../../CARTES.md) also describes information mode and the tablet setting.

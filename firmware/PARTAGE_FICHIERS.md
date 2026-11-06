@@ -1,43 +1,17 @@
-# Partage de fichiers
+# File sharing
 
-Aucune installation sur l’ordinateur. Le partage donne accès aux fichiers dans
-un navigateur moderne, en lecture et en écriture. Ce n’est pas un disque USB
-ni un lecteur réseau avec une lettre Windows.
+No software needs to be installed on the computer. Sharing provides read and write access to files in a modern browser. It is not a USB disk or a network drive with a Windows drive letter.
 
-1. Ouvrir **Réglages → Système → Partage**.
-2. Choisir **Réseau actuel** si le PC et la tablette sont sur le même réseau.
-   Ou désactiver le Wi-Fi dans les réglages, puis choisir **Réseau direct** :
-   la tablette crée un réseau temporaire protégé par un mot de passe. Connecter
-   le PC à ce réseau avec le nom et le mot de passe affichés sur la tablette.
-3. Ouvrir dans le navigateur l’adresse affichée, par exemple
-   `http://192.168.4.1:8080`, puis saisir le code à six chiffres.
-4. Naviguer dans les dossiers, télécharger des fichiers, en envoyer plusieurs,
-   créer un dossier, renommer ou supprimer un élément.
-5. Arrêter le partage sur la tablette une fois terminé. Il s’arrête aussi
-   automatiquement après 30 minutes. Le réseau direct disparaît alors. La commande **Arrêter** est visible uniquement pendant un partage actif.
+1. Open **Settings > System > Sharing**.
+2. Choose **Current network** if the computer and tablet are on the same network. Alternatively, disable Wi-Fi in Settings, then choose **Direct network**: the tablet creates a temporary password-protected network. Connect the computer using the network name and password displayed on the tablet.
+3. Open the displayed address in the browser, for example `http://192.168.4.1:8080`, then enter the six-digit code.
+4. Browse folders, download files, upload several files, create a folder, rename or delete an item.
+5. Stop sharing on the tablet when finished. Sharing also stops automatically after 30 minutes, at which point the direct network disappears. The **Stop** command is visible only while sharing is active.
 
-Le réseau direct fonctionne sans routeur et sans Internet. Il ne modifie pas
-le réseau mémorisé ni l’option de connexion automatique. Les réglages Wi-Fi
-restent bloqués pendant un partage pour éviter une coupure en pleine copie.
+The direct network works without a router or Internet connection. It does not change the saved network or the automatic connection setting. Wi-Fi settings remain locked during sharing to prevent a connection loss during a copy.
 
-Un remplacement demande confirmation. Les fichiers remplacés ou supprimés
-sont conservés dans `/.Tab5Trash/<identifiant>/<nom original>`. Ce dossier est
-visible dans le navigateur : on peut télécharger une ancienne version, puis
-supprimer définitivement les fichiers devenus inutiles. Il n’est jamais vidé
-automatiquement. Les dossiers doivent être vides avant suppression.
+Replacing a file requires confirmation. Replaced or deleted files are kept in `/.Tab5Trash/<identifier>/<original name>`. This folder is visible in the browser: you can download an earlier version and then permanently delete files you no longer need. It is never emptied automatically. Folders must be empty before deletion.
 
-Les transferts utilisent un tampon de 16 Kio, sans charger le fichier entier
-sur la tablette. La taille maximale d’un fichier est de 2 147 483 647 octets
-(moins de 2 Gio), limite actuelle des positions de fichiers du SDK. Les volumes
-de cartes de 1 900 Mio restent compatibles. Les envois incomplets sont nettoyés
-lors d’une interruption ordinaire ; après une coupure d’alimentation, un fichier
-`.t5upload-…` peut rester dans le dossier cible. Ce fichier temporaire peut être
-supprimé. Une panne pendant un remplacement peut laisser l’ancienne version
-uniquement dans `/.Tab5Trash` ; elle y reste récupérable.
+Transfers use a 16 KiB buffer without loading the entire file on the tablet. The maximum file size is 2,147,483,647 bytes (less than 2 GiB), the current limit of SDK file positions. Map volumes of 1,900 MiB remain compatible. Incomplete uploads are cleaned up after an ordinary interruption; after a power loss, a `.t5upload-*` file may remain in the destination folder. This temporary file can be deleted. A failure during replacement may leave the previous version only in `/.Tab5Trash`, where it remains recoverable.
 
-Les modifications finales attendent une période sans travail SD incompatible.
-Si la carte reste occupée, fermer le document en cours ou arrêter l’enregistrement,
-puis réessayer. Une radio réseau peut rester active. Une seule requête de fichiers
-est traitée à la fois ; éviter de lancer un téléchargement et un envoi simultanés.
-Le partage HTTP est limité au sous-réseau local choisi. Il est activé uniquement
-à la demande et nécessite le code affiché sur la tablette.
+Final changes wait for a period without incompatible SD activity. If the card stays busy, close the current document or stop recording, then try again. A network radio can remain active. Only one file request is processed at a time; avoid starting a download and an upload simultaneously. HTTP sharing is restricted to the selected local subnet. It is enabled only on request and requires the code displayed on the tablet.

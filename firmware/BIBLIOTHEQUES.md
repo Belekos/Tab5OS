@@ -1,31 +1,31 @@
-# Bibliothèques de Tab5OS 0.8.53
+# Tab5OS 0.8.53 libraries
 
-Le [guide de compilation](../docs/BUILD.md) décrit l'installation des dépendances et les commandes. Les versions externes sont épinglées dans [dependency-downloads.json](build/build_linux/dependency-downloads.json).
+The [build guide](../docs/BUILD.md) describes dependency installation and commands. External versions are pinned in [dependency-downloads.json](build/build_linux/dependency-downloads.json).
 
-| Composant | Version utilisée |
+| Component | Version used |
 | --- | --- |
 | Arduino CLI | 1.5.1 |
-| Core M5Stack / ESP-IDF | 3.3.9 / 5.5.4 |
+| M5Stack core / ESP-IDF | 3.3.9 / 5.5.4 |
 | M5Unified / M5GFX | 0.2.23 / 0.2.30 |
 | LVGL | 9.6.0 |
 | ArduinoJson | 7.4.3 |
-| ESP8266Audio | tag 2.4.2 ; métadonnées amont 2.4.1 |
-| MicroPython intégré | 1.27.0, port Tab5OS |
-| Git | libgit2 1.9.7, adaptateur ESP32-P4 |
-| SSH / SFTP | libssh2 1.11.2_DEV, révision `18aebe08962c1878d84c373ad85caff25ec67771` |
+| ESP8266Audio | Tag 2.4.2; upstream metadata 2.4.1 |
+| Embedded MicroPython | 1.27.0, Tab5OS port |
+| Git | libgit2 1.9.7, ESP32-P4 adapter |
+| SSH / SFTP | libssh2 1.11.2_DEV, revision `18aebe08962c1878d84c373ad85caff25ec67771` |
 | Zstandard / WebP | 1.5.7 / 1.6.0 |
-| Stockage USB MSC | 1.1.4, adaptations P4 et synchronisation SCSI |
+| USB MSC storage | 1.1.4, P4 adaptations and SCSI synchronization |
 
-## Adaptations de compilation
+## Build adaptations
 
-Les scripts de [build/build_linux](build/build_linux/) préparent des copies isolées des dépendances. Ils vérifient les empreintes attendues avant les adaptations LVGL, M5GFX, M5Unified, JPEG, FS, DSI et mémoire. Les bibliothèques installées globalement et le SDK d'origine sont conservés.
+The scripts in [build/build_linux](build/build_linux/) prepare isolated copies of dependencies. They verify the expected hashes before applying the LVGL, M5GFX, M5Unified, JPEG, FS, DSI and memory adaptations. Globally installed libraries and the original SDK are preserved.
 
-LVGL utilise son allocateur TLSF avec des pools PSRAM extensibles. Les adaptations M5Unified coordonnent l'activation audio et la restitution des buffers PCM. Le guide de compilation précise les voies GCC et Clang et leurs limites de validation.
+LVGL uses its TLSF allocator with expandable PSRAM pools. M5Unified adaptations coordinate audio activation and the release of PCM buffers. The build guide describes the GCC and Clang paths and their validation limits.
 
-## Sources et ressources intégrées
+## Included sources and resources
 
-Les composants embarqués et leurs adaptations se trouvent dans [le sketch](Tab5OS_Arduino_v0.8.53/). Les cœurs des jeux et émulateurs sont conservés sous [tools/native-apps](Tab5OS_Arduino_v0.8.53/tools/native-apps/), avec leurs fichiers de provenance et leurs recettes de compilation.
+Embedded components and their adaptations are in [the sketch](Tab5OS_Arduino_v0.8.53/). Game and emulator cores are kept under [tools/native-apps](Tab5OS_Arduino_v0.8.53/tools/native-apps/), with provenance files and build recipes.
 
-Les polices, dictionnaires CJK et données cartographiques sont des ressources SD distinctes du firmware. Les générateurs utiles se trouvent dans [build/resources](build/resources/). Le [paquet SD complet](../downloads/Tab5OS_0.8.53_SD.zip) fournit ces ressources avec les applications et la référence Factory. Les [ELF](Tab5OS_Arduino_v0.8.53/sdcard/Applications/) et [scripts Python](Tab5OS_Arduino_v0.8.53/sdcard/MicroPython/) sont également disponibles directement.
+Fonts, CJK dictionaries and map data are SD resources separate from the firmware. Relevant generators are in [build/resources](build/resources/). The [complete SD package](../downloads/Tab5OS_0.8.53_SD.zip) supplies these resources, applications and the Factory reference. [ELF files](Tab5OS_Arduino_v0.8.53/sdcard/Applications/) and [Python scripts](Tab5OS_Arduino_v0.8.53/sdcard/MicroPython/) are also available directly.
 
-Les [notices tierces](LICENCES.md) et le [manifeste des licences](LICENCES-manifest.json) recensent les composants et les chemins de leurs textes de licence. Les conditions propres à chaque composant sont conservées dans ses sources ; voir aussi [NOTICE.md](../NOTICE.md).
+The [third-party notices](LICENCES.md) and [license manifest](LICENCES-manifest.json) list the components and paths to their license texts. Each component's terms are preserved in its sources; also see [NOTICE.md](../NOTICE.md).

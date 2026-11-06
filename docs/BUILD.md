@@ -48,7 +48,7 @@ Set-Location firmware
 
 Subsequent builds use `.\Compiler_Tab5OS.ps1`. Use `-ArduinoCli` to select the CLI or `-SketchPath` to select a sketch. Results go to `firmware/build-environment`.
 
-The [French guide](../firmware/COMPILATION.md) also describes the experimental Windows/Clang route.
+The [build guide](../firmware/COMPILATION.md) also describes the experimental Windows/Clang route.
 
 ## Partitions and applications
 

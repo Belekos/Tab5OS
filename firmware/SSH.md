@@ -1,49 +1,49 @@
-# SSH et SFTP
+# SSH and SFTP
 
-`ssh` exécute une commande sur un serveur SSH et restitue sa sortie, ses erreurs et son code de retour. `sftp` transfère un fichier ou liste un dossier distant. Les connexions passent par la supervision réseau de l'OS et se ferment avec **Ctrl+C**, le bouton d'arrêt du terminal, la fermeture du terminal ou la désactivation du réseau.
+`ssh` executes a command on an SSH server and returns its output, errors and exit status. `sftp` transfers a file or lists a remote directory. Connections use the OS network supervisor and close with **Ctrl+C**, the terminal's stop button, closing the terminal or disabling the network.
 
-La commande distante est une opération ponctuelle : cette version ne fournit pas de terminal interactif PTY/VT100. Utilisez des commandes sans interface plein écran, ou des scripts sur le serveur. Par exemple, `uname`, `git status`, un script de sauvegarde ou `systemctl status --no-pager` conviennent ; `vim`, `top` interactif et une invite de mot de passe distante nécessitent un autre terminal.
+A remote command is a single operation: this version does not provide an interactive PTY/VT100 terminal. Use commands without full-screen interfaces, or scripts on the server. For example, `uname`, `git status`, a backup script or `systemctl status --no-pager` are suitable; `vim`, interactive `top` and a remote password prompt require another terminal.
 
-## Préparer la confiance du serveur
+## Establish server trust
 
-1. Sur le serveur ou depuis une connexion déjà fiable, relever l'empreinte de sa clé hôte. Avec OpenSSH, par exemple : `ssh-keygen -lf /etc/ssh/ssh_host_ecdsa_key.pub -E sha256` ou la clé RSA utilisée par ce serveur.
-2. Sur Tab5OS, exécuter `ssh keyscan serveur.example`. Cette commande affiche l'empreinte reçue sans envoyer d'identifiants ; elle ne prouve pas l'identité du serveur.
-3. Comparer **toute** l'empreinte avec celle relevée indépendamment, puis enregistrer la valeur exacte :
+1. On the server, or through an already trusted connection, obtain its host-key fingerprint. With OpenSSH, for example: `ssh-keygen -lf /etc/ssh/ssh_host_ecdsa_key.pub -E sha256`, or use the RSA key used by that server.
+2. On Tab5OS, run `ssh keyscan serveur.example`. This command displays the received fingerprint without sending credentials; it does not prove the server's identity.
+3. Compare the **entire** fingerprint with the one obtained independently, then record the exact value:
 
 ```sh
 ssh trust serveur.example SHA256:EMPREINTE_VERIFIEE
 ```
 
-`SHA256:EMPREINTE_VERIFIEE` est un emplacement à remplacer, pas une empreinte utilisable. Une vraie empreinte contient 43 caractères base64 après `SHA256:`.
+`SHA256:EMPREINTE_VERIFIEE` is a placeholder to replace with your verified fingerprint, not a usable fingerprint. A real fingerprint contains 43 base64 characters after `SHA256:`.
 
-Les empreintes sont conservées dans la mémoire de configuration de la tablette, indépendamment de la carte SD, pour 32 couples hôte/port. Le port fait partie de l'identité : utiliser `-p 2222` dans `keyscan`, `trust` et les connexions si nécessaire. Si la clé change, l'authentification est bloquée. Après avoir vérifié la cause sur le serveur, `ssh forget serveur.example` retire uniquement l'ancienne entrée. Une commande `trust` n'écrase jamais silencieusement une autre empreinte.
+Fingerprints are stored in the tablet's configuration memory, independently of the SD card, for up to 32 host/port pairs. The port is part of the identity: use `-p 2222` in `keyscan`, `trust` and connection commands when needed. If the key changes, authentication is blocked. After checking the cause on the server, `ssh forget serveur.example` removes only the old entry. A `trust` command never silently overwrites a different fingerprint.
 
-## Authentification
+## Authentication
 
-La méthode recommandée est une clé privée **RSA ou ECDSA au format PEM**. Les clés Ed25519 et le conteneur `OPENSSH PRIVATE KEY` ne sont pas pris en charge par le profil mbedTLS livré. Une clé ECDSA compatible peut être créée sur un PC avec :
+The recommended method is an **RSA or ECDSA private key in PEM format**. Ed25519 keys and the `OPENSSH PRIVATE KEY` container are not supported by the supplied mbedTLS profile. A compatible ECDSA key can be created on a PC with:
 
 ```sh
 ssh-keygen -t ecdsa -b 256 -m PEM -f id_tab5
 ```
 
-Installer la clé publique sur le serveur, puis placer la clé privée et son fichier public compagnon `id_tab5.pub` dans le même dossier sur la tablette. Ce compagnon au format OpenSSH est nécessaire aux clés ECDSA ; les clés RSA PEM peuvent aussi être utilisées seules. Exemple :
+Install the public key on the server, then place the private key and its companion public-key file `id_tab5.pub` in the same directory on the tablet. This companion file in OpenSSH format is required for ECDSA keys; RSA PEM keys can also be used alone. Example:
 
 ```sh
 ssh -i sd:/Keys/id_tab5 user@serveur.example 'uname -a'
 ssh -i usb:/Keys/id_tab5 user@serveur.example 'git -C /home/user/projet status --short'
 ```
 
-`--passphrase-file FILE` fournit la phrase de chiffrement d'une clé PEM. Pour un serveur autorisant les mots de passe, `--password-file FILE` remplace `-i KEY` :
+`--passphrase-file FILE` supplies the encryption passphrase for a PEM key. For a server that permits passwords, `--password-file FILE` replaces `-i KEY`:
 
 ```sh
 ssh --password-file sd:/Keys/server.secret user@serveur.example 'uname -a'
 ```
 
-Le contenu du fichier secret n'entre ni dans la ligne de commande, ni dans l'historique, ni dans l'affichage ; son tampon est effacé avant libération. Les fins de ligne CR/LF finales sont retirées. Limites : 16 Kio pour la clé privée, 1 Kio pour un secret. Aucun argument `--password MOT_DE_PASSE` n'est accepté.
+The secret file's contents are not included in the command line, history or display; its buffer is wiped before being freed. Trailing CR/LF line endings are removed. Limits: 16 KiB for a private key, 1 KiB for a secret. No `--password MOT_DE_PASSE` argument is accepted.
 
-Ces fichiers restent lisibles sur leur support. Le transfert SSH les protège sur le réseau, pas au repos. Un fichier de phrase secrète placé à côté de la clé chiffrée n'offre pas une protection équivalente à une phrase saisie et conservée séparément. Cette version n'a pas d'invite secrète ni de liaison automatique au coffre.
+These files remain readable on their storage device. SSH protects their transfer over the network, not their storage at rest. A passphrase file placed beside an encrypted key does not offer equivalent protection to a passphrase entered and kept separately. This version has neither a secret-entry prompt nor automatic vault integration.
 
-## Tubes, délais et résultats
+## Pipes, timeouts and results
 
 ```sh
 cat sd:/Documents/notes.txt | ssh -i sd:/Keys/id_tab5 user@serveur.example 'cat > /home/user/notes.txt'
@@ -51,13 +51,13 @@ ssh -i sd:/Keys/id_tab5 user@serveur.example 'printf "resultat\n"' | grep result
 ssh --timeout 300 -i sd:/Keys/id_tab5 user@serveur.example '/home/user/traitement.sh'
 ```
 
-Entourer la commande distante d'apostrophes évite son expansion prématurée par le terminal local. Les octets d'entrée sont envoyés dans stdin ; stdout peut alimenter un tube ou une redirection. stderr reste dans le terminal. Le statut retourné par la commande distante est conservé ; l'annulation locale renvoie 130.
+Single-quoting the remote command prevents premature expansion by the local terminal. Input bytes are sent to stdin; stdout can feed a pipe or redirection. stderr remains in the terminal. The remote command's exit status is preserved; local cancellation returns 130.
 
-`--timeout SECONDS` règle le délai sans données, de 1 à 3600 secondes, avec 30 secondes par défaut. La résolution DNS et la connexion TCP ont une limite de 5 secondes ; la négociation et l'authentification, 20 secondes. Un serveur qui ne produit rien pendant le délai choisi est interrompu même si son programme travaille encore. L'arrêt ferme le canal ; le comportement du programme distant après déconnexion dépend du serveur et de ce programme.
+`--timeout SECONDS` sets the idle timeout from 1 to 3600 seconds, with a default of 30 seconds. DNS resolution and TCP connection have a 5-second limit; negotiation and authentication have a 20-second limit. A server that produces nothing within the selected timeout is interrupted even if its program is still working. Stopping closes the channel; what the remote program does after disconnection depends on the server and that program.
 
-Les adresses IPv4 et noms DNS sont pris en charge ; les noms internationaux doivent utiliser leur forme Punycode. IPv6, tunnel SSH, agent SSH, authentification interactive PAM/MFA, SCP et émulation ANSI ne sont pas proposés par ces commandes.
+IPv4 addresses and DNS names are supported; internationalized names must use their Punycode form. IPv6, SSH tunnelling, an SSH agent, interactive PAM/MFA authentication, SCP and ANSI emulation are not provided by these commands.
 
-## Transferts SFTP
+## SFTP transfers
 
 ```sh
 sftp ls -i sd:/Keys/id_tab5 user@serveur.example /home/user
@@ -65,23 +65,23 @@ sftp get -i sd:/Keys/id_tab5 user@serveur.example /home/user/document.txt sd:/Do
 sftp put -i sd:/Keys/id_tab5 user@serveur.example /home/user/document.txt sd:/Documents/document.txt
 ```
 
-L'ordre est toujours **chemin distant, chemin local**. `get` reçoit, `put` envoie. Les mêmes options `-p`, `-i`, `--password-file`, `--passphrase-file` et `--timeout` s'appliquent. Le dossier destination doit déjà exister. Les fichiers existants sont refusés ; choisir un autre nom pour conserver l'original.
+The order is always **remote path, local path**. `get` receives; `put` sends. The same `-p`, `-i`, `--password-file`, `--passphrase-file` and `--timeout` options apply. The destination directory must already exist. Existing files are refused; choose another name to preserve the original.
 
-Le transfert utilise un fichier temporaire portant le suffixe `.tab5-sftp-part`, puis le renomme après succès. Une réception annulée efface son fichier temporaire local. Une interruption de liaison ou une annulation pendant l'envoi peut laisser un fichier temporaire distant : il reste explicitement incomplet et peut être supprimé sur le serveur avant de recommencer. Les fichiers temporaires préexistants ne sont pas écrasés. Le transfert ne charge jamais tout le fichier en RAM.
+Transfers use a temporary file with the `.tab5-sftp-part` suffix and rename it after success. Cancelling a download deletes its local temporary file. A connection interruption or cancellation during an upload may leave a remote temporary file: it remains explicitly incomplete and can be removed on the server before retrying. Pre-existing temporary files are not overwritten. A transfer never loads the entire file into RAM.
 
-## Dépendance, mémoire et validation
+## Dependency, memory and validation
 
-Les sources de **libssh2 1.11.2_DEV**, licence BSD-3-Clause, sont incluses dans `src/tab5ssh`, avec `COPYING` et `UPSTREAM.json`. Il s'agit du snapshot officiel épinglé au commit `18aebe08962c1878d84c373ad85caff25ec67771`, pas d'une version stable 1.11.2 publiée. Il inclut des corrections de mémoire et de vérification des paquets absentes de la dernière version publiée 1.11.1. Le choix et les commits concernés sont décrits dans `MBEDTLS_BACKPORTS.md`. Le moteur cryptographique est mbedTLS fourni par le SDK ESP32-P4 ; aucun chiffrement propre à Tab5OS n'est ajouté.
+The sources of **libssh2 1.11.2_DEV**, under BSD-3-Clause, are included in `src/tab5ssh`, with `COPYING` and `UPSTREAM.json`. This is the official snapshot pinned to commit `18aebe08962c1878d84c373ad85caff25ec67771`, not a published stable 1.11.2 release. It includes memory and packet-validation fixes absent from the latest published release, 1.11.1. The choice and relevant commits are described in `MBEDTLS_BACKPORTS.md`. The cryptographic engine is mbedTLS supplied by the ESP32-P4 SDK; no Tab5OS-specific encryption is added.
 
-Les adaptations locales concernent la configuration Arduino/lwIP, le profil de mémoire et la libération d'un tampon de préférences KEX lorsque l'allocation suivante échoue. Cette fuite a été reproduite par injection d'échec mémoire ; elle est corrigée sans changer les algorithmes. Le conteneur RSA est accepté avec une signature SHA-2 tout en maintenant désactivées les signatures RSA/SHA-1. Les méthodes proposées sont ECDH P-256 ou DH groupe14/SHA-256, clés hôtes ECDSA P-256 ou RSA/SHA-2, AES-CTR et HMAC-SHA-256, avec strict KEX lorsque le serveur le prend en charge.
+Local adaptations cover Arduino/lwIP configuration, the memory profile and freeing a KEX-preference buffer when the next allocation fails. This leak was reproduced through allocation-failure injection and fixed without changing the algorithms. RSA keys are accepted with SHA-2 signatures while RSA/SHA-1 signatures remain disabled. Offered methods are ECDH P-256 or DH group14/SHA-256, ECDSA P-256 or RSA/SHA-2 host keys, AES-CTR and HMAC-SHA-256, with strict KEX when the server supports it.
 
-Les allocations de session sont plafonnées à 512 Kio en PSRAM sans repli SRAM. Fenêtre de canal : 64 Kio ; paquet : 16 Kio ; tampons applicatifs : 2 Kio pour SSH, 4 Kio pour SFTP. Le gestionnaire de ressources admet en plus le budget cryptographique réel du SDK. Les allocations internes à mbedTLS utilisent l'allocateur commun installé par l'OS ; la commande ne change pas globalement cet allocateur.
+Session allocations are capped at 512 KiB in PSRAM, with no SRAM fallback. Channel window: 64 KiB; packet: 16 KiB; application buffers: 2 KiB for SSH, 4 KiB for SFTP. The resource manager also admits the SDK's actual cryptographic memory budget. Internal mbedTLS allocations use the shared allocator installed by the OS; the command does not change this allocator globally.
 
-La pile du terminal n'est pas agrandie pour toutes les commandes. SSH est refusé si le minimum de pile libre signalé par FreeRTOS est inférieur à 8 Kio, notamment sous des scripts ou substitutions très imbriqués. Relancer directement la commande contourne cette profondeur, sans supprimer la protection. `tasks` affiche les mesures réelles de pile ; `memory` affiche les espaces et les plus grands blocs disponibles.
+The terminal stack is not enlarged for all commands. SSH is refused if the minimum free stack reported by FreeRTOS is below 8 KiB, notably within deeply nested scripts or substitutions. Running the command directly avoids that nesting depth without removing the protection. `tasks` shows actual stack measurements; `memory` shows available memory spaces and their largest free blocks.
 
-Sources officielles : <https://libssh2.org/>, <https://github.com/libssh2/libssh2>, <https://libssh2.org/license.html>.
+Official sources: <https://libssh2.org/>, <https://github.com/libssh2/libssh2>, <https://libssh2.org/license.html>.
 
-## English usage summary
+## Usage summary
 
 `ssh` executes one remote command; it is not a PTY/VT100 emulator. Verify the complete host fingerprint independently, record it with `ssh trust HOST SHA256:...`, then use `ssh -i sd:/Keys/id_tab5 USER@HOST 'command'`. A changed host key is rejected before credentials are sent. `ssh forget HOST` removes the old pin after the server change has been checked. Hostname and port identify each pin separately.
 

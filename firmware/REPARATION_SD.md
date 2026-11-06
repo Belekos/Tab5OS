@@ -1,38 +1,38 @@
-# Ressources système et vérification SD
+# System resources and SD verification
 
-## Ressources de secours dans le firmware
+## Recovery resources in the firmware
 
-Le firmware contient une copie des petits modules MicroPython officiels et des fichiers de configuration système initiaux. Le manifeste de la livraison et le générateur des ressources indiquent la liste et la taille effectives. Après le montage de la SD au démarrage, la récupération recrée les fichiers absents par petites étapes. Dans **Réglages → Stockage**, **Restaurer les fichiers manquants** relance l’opération et **Annuler** l’arrête. L'écran affiche l'avancement et le nombre de fichiers recréés.
+The firmware contains copies of the small official MicroPython modules and initial system configuration files. The release manifest and resource generator specify the actual list and sizes. After the SD card is mounted at startup, recovery recreates missing files in small steps. In **Settings > Storage**, **Restore missing files** starts the operation again and **Cancel** stops it. The screen displays progress and the number of files recreated.
 
-Les fichiers sont écrits dans un temporaire, relus et publiés après vérification. Un fichier déjà présent, même vide ou personnalisé, n'est pas écrasé par cette récupération. Une erreur de support est signalée ; elle ne déclenche aucun formatage.
+Files are written to a temporary file, read back and published after verification. An existing file, even if empty or customized, is not overwritten by this recovery. Storage errors are reported; they never trigger formatting.
 
-Ce secours ne contient pas les polices externes, les ELF, les archives Wikipédia, les documents ni les données personnelles. Les fonctions natives indispensables restent dans le firmware. Pour une ressource présente mais altérée ou pour les ressources officielles plus volumineuses, utiliser le contrôle Factory ci-dessous après avoir remis sa référence sur la SD.
+This recovery set does not include external fonts, ELF applications, Wikipedia archives, documents or personal data. Essential native functions remain in the firmware. For a resource that exists but is damaged, or for larger official resources, use the Factory check below after restoring its reference set to the SD card.
 
-Sans police externe chargeable à `/System/font.ttf`, l'interface utilise temporairement l'anglais et sa police intégrée. La langue préférée est conservée dans les réglages. Au prochain démarrage avec la police disponible, cette langue revient ; les documents ne sont pas modifiés.
+Without a loadable external font at `/System/font.ttf`, the interface temporarily uses English and its built-in font. The preferred language remains saved in Settings. It returns at the next startup with the font available; documents are not modified.
 
-## Audit et mise à jour conservatrice
+## Audit and conservative update
 
-L’outil contrôle les ressources de Tab5OS. Il ne répare pas la structure FAT et ne formate pas la carte.
+The tool checks Tab5OS resources. It does not repair the FAT structure or format the card.
 
-L’audit est en lecture seule. Il exige la référence `Factory/Tab5OS-0.8.53`, les ressources attendues de son manifeste et leurs empreintes SHA-256. Cette version est définie par le module livré `MicroPython/lib/tab5factory.py` ; mettre à jour ce module et la référence ensemble selon [../docs/INSTALL_FR.md](../docs/INSTALL_FR.md). Une référence incomplète, corrompue ou d’une autre version interrompt l’audit avant toute modification. Ce contrôle est distinct de la restauration des fichiers absents depuis le firmware, qui ne dépend pas de Factory.
+The audit is read-only. It requires the `Factory/Tab5OS-0.8.53` reference set, the resources listed in its manifest and their SHA-256 checksums. This version is defined by the supplied `MicroPython/lib/tab5factory.py` module; update the module and reference set together following the [installation guide](../docs/INSTALL_EN.md). An incomplete, corrupted or different-version reference set stops the audit before any changes. This check is separate from restoring missing files from the firmware, which does not depend on Factory.
 
-| Différence | Réparation normale |
+| Difference | Normal repair |
 |---|---|
-| Fichier officiel absent | Installation depuis la référence |
-| Ancien fichier officiel reconnu par son empreinte | Mise à jour avec sauvegarde |
-| Script ou ressource modifiée par l’utilisateur | Conservé |
-| Réglages JSON valides ou fichier INI existant | Conservés |
-| Traductions personnalisées | Conservation des valeurs présentes ; ajout des clés manquantes |
-| JSON invalide | Sauvegarde intégrale puis remplacement |
-| JSON dépassant le budget de lecture | Conservé comme fichier modifié ; il n’est pas déclaré corrompu |
-| Dossier à la place d’un fichier attendu | Signalé, jamais remplacé |
-| Document, téléchargement ou autre fichier hors liste | Ignoré, jamais supprimé |
-| Erreur EIO/5 ou autre problème de communication | Arrêt ; aucune suppression déduite de cette erreur |
+| Missing official file | Installed from the reference set |
+| Older official file recognized by its checksum | Updated with a backup |
+| User-modified script or resource | Preserved |
+| Valid JSON settings or existing INI file | Preserved |
+| Custom translations | Existing values preserved; missing keys added |
+| Invalid JSON | Backed up in full, then replaced |
+| JSON exceeding the read budget | Preserved as a modified file; not declared corrupted |
+| Directory where a file is expected | Reported, never replaced |
+| Document, download or other unlisted file | Ignored, never deleted |
+| EIO/5 error or another communication problem | Operation stops; no deletion is inferred from this error |
 
-Avant remplacement, une copie complète est créée sous `/.tab5-backups/repair/0.8.53/`, avec son chemin d’origine et un suffixe numérique distinct. Aucun nettoyage automatique de ces sauvegardes n’est effectué. L’option de restauration des fichiers modifiés est séparée et demande confirmation ; elle conserve également une sauvegarde.
+Before replacement, a complete copy is created under `/.tab5-backups/repair/0.8.53/`, retaining its original path and adding a distinct numeric suffix. These backups are never cleaned up automatically. Restoring modified files is a separate option that requires confirmation; it also keeps a backup.
 
-Le plan est relu avant application ; un fichier changé entre aperçu et réparation entraîne l’arrêt. Les écritures passent par un journal privé. Une interruption pendant le renommage peut être annulée depuis ce journal. Des traces inconnues, des empreintes incohérentes ou une destination modifiée entraînent une demande de récupération manuelle : les données sont laissées en place. Un ancien journal ambigu ne doit pas être effacé pour contourner ce contrôle.
+The plan is checked again before application; a file changed between preview and repair stops the operation. Writes use a private journal. An interruption during renaming can be rolled back using that journal. Unknown traces, inconsistent checksums or a changed destination prompt manual recovery: data is left in place. An ambiguous old journal must not be deleted to bypass this check.
 
-Ces protections ne rendent pas une carte défectueuse ni une coupure pendant une écriture FAT inoffensives.
+These safeguards do not make a defective card or power loss during a FAT write harmless.
 
-Ni la récupération depuis le firmware ni l'audit Factory ne restaurent un document supprimé, ne réparent la structure FAT ou ne formatent un support.
+Neither firmware recovery nor the Factory audit restores a deleted document, repairs the FAT structure or formats storage.

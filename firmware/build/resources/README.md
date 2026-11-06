@@ -1,52 +1,52 @@
-# Ressources et utilitaires PC
+# Resources and PC utilities
 
-Ces scripts sont indépendants de la compilation. Les en-têtes générés nécessaires au firmware sont déjà présents dans le sketch. Exécuter les commandes suivantes depuis `firmware/`, avec Python 3.10 ou plus récent (`python3` sous Linux).
+These scripts are independent of compilation. Generated headers required by the firmware are already present in the sketch. Run the following commands from `firmware/`, using Python 3.10 or later (`python3` on Linux).
 
-## Ressources intégrées
+## Embedded resources
 
-Après modification des modules Python ou des traductions du dossier `sdcard`, ces commandes régénèrent les en-têtes correspondants :
+After modifying Python modules or translations in the `sdcard` directory, these commands regenerate the corresponding headers:
 
 ```powershell
 python build/resources/generate_locale_fallback.py Tab5OS_Arduino_v0.8.53
 python build/resources/generate_system_resources.py Tab5OS_Arduino_v0.8.53
 ```
 
-Elles écrivent dans le sketch sélectionné. Elles n'incorporent ni polices, ni applications ELF, ni encyclopédies dans le firmware.
+They write into the selected sketch. They do not embed fonts, ELF applications or encyclopedias in the firmware.
 
-## Recherche de villes hors ligne
+## Offline city search
 
-Le générateur reçoit une archive GeoNames `cities1000.zip` obtenue séparément et produit l'index binaire ainsi qu'un rapport JSON :
+The generator takes a separately obtained GeoNames `cities1000.zip` archive and produces the binary index and a JSON report:
 
 ```powershell
 python build/resources/build_gazetteer.py C:/Sources/cities1000.zip C:/Tab5SD/System/maps/gazetteer/cities.t5geo
 ```
 
-Conserver l'attribution et la licence CC BY 4.0 de GeoNames avec les données. L'option `--fold-header CHEMIN` régénère aussi la table de normalisation C++ ; elle est réservée aux modifications coordonnées du générateur et du lecteur natif. Le script ne télécharge aucune donnée.
+Keep the GeoNames attribution and CC BY 4.0 license with the data. `--fold-header PATH` also regenerates the C++ normalization table; reserve it for coordinated changes to the generator and native reader. The script downloads no data.
 
-## Dictionnaires et polices CJK
+## CJK dictionaries and fonts
 
-Les sources `pinyin_simp.dict.yaml` et `SKK-JISYO.L` doivent être fournies dans un même dossier. Conserver leurs notices `pinyin-LICENSE.txt` et `SKK-COPYING.txt` ; elles sont copiées lorsqu'elles sont présentes.
+The source files `pinyin_simp.dict.yaml` and `SKK-JISYO.L` must be supplied in the same directory. Keep their `pinyin-LICENSE.txt` and `SKK-COPYING.txt` notices; they are copied when present.
 
 ```powershell
 python build/resources/build_cjk_assets.py --sketch Tab5OS_Arduino_v0.8.53 --sources C:/Sources/CJK
 ```
 
-La commande écrit les dictionnaires dans `sdcard/System/ime` et un rapport avec les empreintes des entrées. Elle conserve `keyboards.json`. Pour reconstruire également les polices, ajouter `--fonts` et installer `fonttools`. Il faut alors fournir `NotoSansSC.ttf`, `NotoSansJP.ttf`, `NotoSansKR.ttf`, leur licence OFL, ainsi que la police principale `sdcard/System/font.ttf` et les packs de langue du sketch. Ces fichiers volumineux ne sont pas tous inclus dans le dépôt.
+The command writes dictionaries to `sdcard/System/ime` and a report containing input hashes. It preserves `keyboards.json`. To rebuild fonts as well, add `--fonts` and install `fonttools`. You must then supply `NotoSansSC.ttf`, `NotoSansJP.ttf`, `NotoSansKR.ttf`, their OFL license, the main `sdcard/System/font.ttf` font and the sketch's language packs. Not all of these large files are included in the repository.
 
-## Wikipédia sur une carte FAT32
+## Wikipedia on a FAT32 card
 
 ```powershell
 python build/resources/preparer_wikipedia.py C:/Sources/wikipedia_fr_all_nopic_2026-05.zim E:/
 ```
 
-Remplacer le nom par celui de l'archive Kiwix réellement téléchargée et `E:/` par la racine de la carte. Le script copie l'archive en parties de 64 Mio, vérifie leur intégrité et reprend une copie interrompue. Il peut aussi écrire dans un dossier de préparation sur PC.
+Replace the filename with the Kiwix archive actually downloaded and `E:/` with the card root. The script copies the archive in 64 MiB parts, verifies their integrity and resumes interrupted copies. It can also write into a staging directory on the PC.
 
-## Récupérer un fichier du coffre sur PC
+## Recovering a vault file on a PC
 
-Installer le paquet Python `cryptography`, puis :
+Install the Python `cryptography` package, then run:
 
 ```powershell
 python build/resources/dechiffrer_coffre.py C:/Sauvegarde/document.t5v C:/Recuperation/document.txt
 ```
 
-Pour un coffre T5VAULT2, ajouter `--cle C:/Sauvegarde/secours.t5key`. Le mot de passe est demandé sans affichage. Le fichier source est conservé et une destination existante n'est jamais écrasée.
+For a T5VAULT2 vault, add `--cle C:/Sauvegarde/secours.t5key`. The password is requested without displaying it. The source file is preserved and an existing destination is never overwritten.

@@ -1,34 +1,34 @@
-# Accès matériel — Tab5OS 0.8.9
+# Hardware access - Tab5OS 0.8.9
 
-Le firmware complet, une application `.app.elf` et un script MicroPython n’ont pas le même environnement. L’ABI documentée est extensible avec les sources fournies ; aucun export absent ne doit être présenté comme disponible.
+The complete firmware, an `.app.elf` application and a MicroPython script do not have the same environment. The documented ABI can be extended using the supplied sources; an absent export must not be described as available.
 
-| Fonction | Application C `.app.elf` | MicroPython fourni | Firmware C/C++ complet |
+| Feature | C `.app.elf` application | Supplied MicroPython | Complete C/C++ firmware |
 |---|---|---|---|
-| GPIO externes, PWM, ADC | Callback ABI 3 `hardware` | `machine.Pin`, `PWM`, `ADC` | Arduino / ESP-IDF |
-| I²C, SPI, série externes | Callback ABI 3 | `machine.I2C`, `SPI`, `UART` | Pilotes du SDK |
-| Alimentation 5 V du port externe | Opération 40 | `tab5.external_power()` | M5Unified |
-| Écran, boutons, audio | ABI 2/3, surfaces et PCM gérés par l’OS | Pont `tab5ui`, API existantes | Pilotes de l’OS |
-| Fichiers | Lecture ABI 1 ; sauvegardes de jeux ABI 2/3 | `open`, `tab5fs` | Arduino FS / POSIX |
-| Réseau via C6 | Pas d’API réseau générale exportée dans l’ABI | Services réseau existants de Tab5OS | ESP-Hosted / Wi-Fi |
-| GPIO internes du C6, BLE, Thread, Zigbee | Non exportés | Non exportés | Nécessite un firmware C6/protocole adaptés |
-| Interruptions GPIO, RMT, DMA ou autres pilotes bruts | Non exportés | Non exportés par ce module `machine` | À intégrer avec ESP-IDF |
+| External GPIO, PWM, ADC | ABI 3 `hardware` callback | `machine.Pin`, `PWM`, `ADC` | Arduino / ESP-IDF |
+| External I²C, SPI, serial | ABI 3 callback | `machine.I2C`, `SPI`, `UART` | SDK drivers |
+| External port 5 V power | Operation 40 | `tab5.external_power()` | M5Unified |
+| Display, buttons, audio | ABI 2/3, OS-managed surfaces and PCM | `tab5ui` bridge, existing APIs | OS drivers |
+| Files | ABI 1 reading; ABI 2/3 game saves | `open`, `tab5fs` | Arduino FS / POSIX |
+| Network through C6 | No general network API exported in this ABI | Existing Tab5OS network services | ESP-Hosted / Wi-Fi |
+| Internal C6 GPIO, BLE, Thread, Zigbee | Not exported | Not exported | Requires suitable C6 firmware/protocol |
+| GPIO interrupts, RMT, DMA or other raw drivers | Not exported | Not exported by this `machine` module | Requires ESP-IDF integration |
 
-Le C6 est un processeur compagnon relié au P4 par SDIO. Les numéros passés à `machine.Pin` et à l’ABI sont ceux du **P4**, pas du C6. Recompiler seulement une application ne change pas le firmware du C6. Les broches et bus internes utilisés par l’affichage, la SD, le tactile, l’alimentation ou la liaison radio restent réservés tant que l’OS fonctionne. Pour une intégration nécessitant ces pilotes, modifier le firmware complet et organiser leur propriété ; le chargeur d’applications n’importe pas arbitrairement les symboles du SDK.
+The C6 is a companion processor connected to the P4 through SDIO. Numbers passed to `machine.Pin` and the ABI identify **P4** pins, not C6 pins. Recompiling an application alone does not change the C6 firmware. Internal pins and buses used by the display, SD, touch, power or radio link remain reserved while the OS runs. An integration requiring these drivers must modify the complete firmware and manage their ownership; the application loader does not import arbitrary SDK symbols.
 
-## Propriété et durée de vie
+## Ownership and lifetime
 
-Une application Python et une application C peuvent coexister. Le courtier `Tab5Hardware` réserve les broches et les bus à leur utilisateur et renvoie `-EBUSY` si une autre application les possède. `deinit` ou le retour effectif du programme libère ses ressources. Une demande d’arrêt est coopérative : elle n’interrompt pas brutalement une transaction matérielle. Pas de callbacks ni de threads conservés après le retour de l’application.
+A Python application and a C application can coexist. The `Tab5Hardware` broker reserves pins and buses for their user and returns `-EBUSY` if another application owns them. `deinit` or actual program return releases its resources. Stop requests are cooperative: they do not abruptly interrupt a hardware transaction. No callbacks or threads are retained after the application returns.
 
-Broches P4 proposées par cette version : **2, 3, 4, 5, 6, 7, 16, 17, 18, 19, 20, 21, 34, 35, 37, 38, 45, 47, 48, 51, 52, 53, 54**. Vérifier le connecteur correspondant et l’affectation physique dans le [brochage M5Stack Tab5](https://docs.m5stack.com/en/core/Tab5). Certaines sont partagées avec les fonctions du connecteur d’extension/RS485 ; la réservation logicielle ne détecte pas le câblage externe.
+P4 pins offered by this version: **2, 3, 4, 5, 6, 7, 16, 17, 18, 19, 20, 21, 34, 35, 37, 38, 45, 47, 48, 51, 52, 53, 54**. Check the corresponding connector and physical mapping in the [M5Stack Tab5 pinout](https://docs.m5stack.com/en/core/Tab5). Some are shared with expansion/RS485 connector functions; software reservations do not detect external wiring.
 
-L’ADC n’accepte que les broches disposant réellement d’un canal analogique selon le SDK P4 compilé. `Pin.deinit()`, `PWM.deinit()` et `ADC.deinit()` remettent la broche en entrée ; pour une broche appartenant à un bus, fermer le bus. Un objet Pin utilisé comme paramètre d’un bus doit être réservé par la même application.
+ADC accepts only pins that actually have an analog channel according to the compiled P4 SDK. `Pin.deinit()`, `PWM.deinit()` and `ADC.deinit()` return the pin to input mode; for a pin owned by a bus, close the bus. A Pin object passed to a bus must be reserved by the same application.
 
 ## MicroPython
 
 ```python
 from machine import I2C, UART, ADC, pin_available
 
-print(pin_available(53))  # 0 réservé, 1 disponible/à nous, 2 utilisé par une autre app
+print(pin_available(53))  # 0 reserved, 1 available/ours, 2 used by another app
 bus = I2C(1, sda=53, scl=54, freq=100000)
 try:
     print(bus.scan())
@@ -47,13 +47,13 @@ finally:
     serial.deinit()
 ```
 
-UART : 8N1, lecture non bloquante, `write` retourne le nombre d’octets acceptés ; gérer les écritures partielles, `any()` et `txdone()`. Le débit est entre 1 200 et 1 000 000 bauds. SPI : contrôleur logique 2, 8 bits MSB, 1 kHz à 10 MHz, mode 0 à 3. I²C : identifiant logique 1, contrôleur matériel externe 0, 10 kHz à 1 MHz, temporisation 100 ms. Le bus I²C interne de l’OS n’est pas réinitialisé.
+UART: 8N1, non-blocking reads; `write` returns the number of bytes accepted, so handle partial writes, `any()` and `txdone()`. Baud rates range from 1,200 to 1,000,000. SPI: logical controller 2, 8-bit MSB-first, 1 kHz to 10 MHz, modes 0 to 3. I²C: logical ID 1, external hardware controller 0, 10 kHz to 1 MHz, 100 ms timeout. The OS internal I²C bus is not reset.
 
-`ADC.read()` donne une valeur 12 bits, `read_u16()` la ramène à 16 bits, `read_uv()` utilise la conversion millivolts du SDK. Les classes fournies sont un sous-ensemble explicite de l’API MicroPython, pas une promesse de compatibilité avec toutes ses bibliothèques matérielles.
+`ADC.read()` returns a 12-bit value, `read_u16()` scales it to 16 bits, and `read_uv()` uses the SDK millivolt conversion. The supplied classes are an explicit subset of the MicroPython API, not a promise of compatibility with all of its hardware libraries.
 
-## ABI 3 pour C
+## ABI 3 for C
 
-Importer seulement `tab5_app_api_v3()` depuis `Tab5AppApi.h` et vérifier `base.base.version == 3` et `base.base.size >= sizeof(*api)`. Les API 1/2 restent compatibles pour les anciennes applications. Le callback est :
+Import only `tab5_app_api_v3()` from `Tab5AppApi.h` and check `base.base.version == 3` and `base.base.size >= sizeof(*api)`. APIs 1/2 remain compatible with older applications. The callback is:
 
 ```c
 int hardware(int op, int a, int b, int c,
@@ -61,32 +61,32 @@ int hardware(int op, int a, int b, int c,
              void *output, size_t capacity);
 ```
 
-Résultat négatif : `-errno`. Au plus 4 096 octets en entrée/sortie par appel ; pointeur obligatoire si longueur non nulle. Toutes les opérations s’exécutent depuis le worker de l’application.
+A negative result is `-errno`. Input/output is limited to 4,096 bytes per call; a pointer is required for nonzero lengths. All operations run on the application's worker.
 
-| Opération | Paramètres / résultat |
+| Operation | Parameters / result |
 |---|---|
-| 2 | a=GPIO, b=entrée 0/sortie 1/open-drain 2, c=sans pull 0/up 1/down 2 ; réserve la broche |
-| 3 / 4 | Lire GPIO a / écrire GPIO a avec b booléen |
-| 5 | a=GPIO ADC, b=atténuation 0..3, c=0 valeur brute / c=1 millivolts ; réserve au premier appel |
-| 6 / 7 | PWM : a=GPIO, b=1..40 000 Hz, c=rapport 0..65 535 / libérer PWM a |
-| 9 | Libérer la broche a (GPIO, PWM ou ADC) |
-| 10 | Ouvrir I²C : a=SDA, b=SCL, c=fréquence |
-| 11 | Écrire I²C : a=adresse 8..119, b=STOP booléen, input/length ; retourne le nombre écrit |
-| 12 | Lire I²C : a=adresse, b=STOP, output/capacity <=128 ; retourne le nombre lu |
-| 13 | Fermer I²C |
-| 20 | Ouvrir SPI : a=SCK, b=MOSI, c=MISO ; CS géré séparément par GPIO |
-| 21 | Transférer SPI : a=fréquence, b=mode ; length==capacity ; retourne la longueur |
-| 22 | Fermer SPI |
-| 30 | Ouvrir UART : a=TX, b=RX, c=bauds |
-| 31 / 32 | Écrire input/length (peut être partiel) / lire output/capacity |
-| 33 / 34 / 35 | Fermer UART / nombre d’octets disponibles / TX fini (0 ou 1) |
-| 36 | a=GPIO : 0 réservé, 1 disponible/à nous, 2 détenu par l’autre application |
-| 40 | a booléen : alimentation externe port A ; pas la recharge ni l’alimentation USB |
+| 2 | a=GPIO, b=input 0/output 1/open-drain 2, c=no pull 0/up 1/down 2; reserves the pin |
+| 3 / 4 | Read GPIO a / write GPIO a with boolean b |
+| 5 | a=ADC GPIO, b=attenuation 0..3, c=0 raw value / c=1 millivolts; reserves on first call |
+| 6 / 7 | PWM: a=GPIO, b=1..40,000 Hz, c=duty 0..65,535 / release PWM a |
+| 9 | Release pin a (GPIO, PWM or ADC) |
+| 10 | Open I²C: a=SDA, b=SCL, c=frequency |
+| 11 | Write I²C: a=address 8..119, b=boolean STOP, input/length; returns bytes written |
+| 12 | Read I²C: a=address, b=STOP, output/capacity <=128; returns bytes read |
+| 13 | Close I²C |
+| 20 | Open SPI: a=SCK, b=MOSI, c=MISO; CS managed separately through GPIO |
+| 21 | Transfer SPI: a=frequency, b=mode; length==capacity; returns length |
+| 22 | Close SPI |
+| 30 | Open UART: a=TX, b=RX, c=baud rate |
+| 31 / 32 | Write input/length (may be partial) / read output/capacity |
+| 33 / 34 / 35 | Close UART / number of available bytes / TX complete (0 or 1) |
+| 36 | a=GPIO: 0 reserved, 1 available/ours, 2 owned by the other application |
+| 40 | Boolean a: external port A power; not charging or USB power |
 
-Exemple de consultation sans modification du matériel : `examples/hardware.c`.
+Read-only query example that does not change hardware: `examples/hardware.c`.
 
 ```text
-python tools/native-apps/build.py tools/native-apps/examples/hardware.c --toolchain CHEMIN/esp-rv32/2601/bin -o hardware.app.elf
+python tools/native-apps/build.py tools/native-apps/examples/hardware.c --toolchain PATH/esp-rv32/2601/bin -o hardware.app.elf
 ```
 
-Le binaire C partage la mémoire de l’OS, sans isolation matérielle. Un pointeur invalide ou une corruption mémoire peut donc faire tomber le système. Les erreurs Python ordinaires doivent remonter à la console ; une défaillance du pont C ou d’un pilote peut néanmoins réinitialiser le P4. L’absence de reset n’est pas une garantie fournie par ces API.
+The C binary shares OS memory without hardware isolation. An invalid pointer or memory corruption can therefore crash the system. Ordinary Python errors should reach the console; a C bridge or driver failure can nevertheless reset the P4. These APIs do not guarantee that resets cannot occur.

@@ -1,41 +1,41 @@
-# Manettes USB
+# USB gamepads
 
 ## 8BitDo SN30 Pro
 
-La SN30 Pro possède plusieurs modes : elle ne présente pas le même protocole dans chacun. Le modèle Bluetooth peut aussi fonctionner par câble. Le modèle nommé **SN30 Pro USB**, avec câble fixe, est différent.
+The SN30 Pro has several modes, each exposing a different protocol. The Bluetooth model can also work over a cable. The model named **SN30 Pro USB**, with a fixed cable, is a different device.
 
-| Modèle / mode | Connexion pour Tab5OS | Prise en charge dans cette version |
+| Model / mode | Connection for Tab5OS | Support in this version |
 | --- | --- | --- |
-| SN30 Pro Bluetooth, mode Android (`B` + `Start`) | Éteindre la manette, maintenir `B` + `Start`, puis brancher un câble USB de données à l’USB-A du Tab5 | Pilote générique HID, selon le descripteur présenté par la manette |
-| SN30 Pro Bluetooth, mode Windows (`X` + `Start`) | Éteindre la manette, maintenir `X` + `Start`, puis brancher le câble | Ajout du transport USB XInput de type Xbox 360 |
-| SN30 Pro USB, mode Windows | Brancher son câble à l’USB-A | Même transport XInput ajouté |
-| Mode Switch (`Y` + `Start` sur le modèle Bluetooth) | — | Initialisation spécifique Switch non implémentée ; utiliser l’un des modes ci-dessus |
-| Connexion Bluetooth sans câble | — | Aucun appairage Bluetooth de manette dans cette version |
+| SN30 Pro Bluetooth, Android mode (`B` + `Start`) | Turn off the gamepad, hold `B` + `Start`, then connect a USB data cable to the Tab5's USB-A port | Generic HID driver, depending on the descriptor exposed by the gamepad |
+| SN30 Pro Bluetooth, Windows mode (`X` + `Start`) | Turn off the gamepad, hold `X` + `Start`, then connect the cable | Added support for Xbox 360-style USB XInput transport |
+| SN30 Pro USB, Windows mode | Connect its cable to USB-A | The same added XInput transport |
+| Switch mode (`Y` + `Start` on the Bluetooth model) | - | Switch-specific initialization is not implemented; use one of the modes above |
+| Wireless Bluetooth connection | - | No Bluetooth gamepad pairing in this version |
 
-Le manuel officiel indique les combinaisons de démarrage ; il ne constitue pas un essai de cette manette sur Tab5OS. Le mode Android est le choix à essayer avec le pilote HID. Le nouveau chemin XInput permet aussi la lecture des interfaces USB filaires `FF/5D/01` d’8BitDo et Microsoft. Les protocoles Xbox One et les récepteurs Xbox sans fil sont distincts et ne sont pas ajoutés.
+The official manual describes the startup combinations; it does not constitute a test of this gamepad on Tab5OS. Android mode is the mode to try with the HID driver. The added XInput path also reads wired `FF/5D/01` USB interfaces from 8BitDo and Microsoft. Xbox One protocols and wireless Xbox receivers are separate and are not included.
 
-HID et XInput restent disponibles simultanément : Tab5OS choisit le décodeur d'après l'interface USB annoncée, pas d'après le seul nom ou identifiant du fabricant. Aucun choix exclusif n'est imposé dans les réglages. Débrancher la manette avant de changer son mode puis la rebrancher avec un câble de données. Le mode HID est aussi appelé D-input dans la documentation 8BitDo.
+HID and XInput remain available simultaneously: Tab5OS chooses the decoder from the advertised USB interface, not solely from the device name or vendor ID. Settings do not impose an exclusive choice. Disconnect the gamepad before changing modes, then reconnect it with a data cable. 8BitDo documentation also calls HID mode D-input.
 
-Dans **Réglages → Interface → Manette**, la connexion et les commandes reçues sont visibles sans lancer de jeu. Le bouton **Configurer la manette** assigne les huit commandes A, B, Select, Start, X, Y, L et R. Relâcher les boutons entre chaque étape ; **Annuler** ou **Échap** abandonne sans changer le réglage. Un changement de page ou d’onglet annule aussi la capture. Dans un jeu, l’aide (`F1` ou bouton Aide) conserve son affichage et sa configuration. Le nom **8BitDo SN30 Pro** est affiché pour l’identifiant connu `2dc8:6001`, **8BitDo** pour les autres identifiants de ce constructeur. Les commandes actives s’affichent quand on appuie. **Configurer la manette** permet d’associer A, B, Select, Start et, dans les jeux concernés, X, Y, L, R. Le réglage est mémorisé par modèle et protocole.
+In **Settings → Interface → Gamepad**, you can see the connection and incoming controls without launching a game. **Configure gamepad** assigns the eight controls A, B, Select, Start, X, Y, L and R. Release the buttons between steps; **Cancel** or **Escape** exits without changing the configuration. Changing pages or tabs also cancels capture. Within a game, help (`F1` or the Help button) retains its display and configuration. The name **8BitDo SN30 Pro** is shown for the known ID `2dc8:6001`, and **8BitDo** for other IDs from this manufacturer. Active controls are displayed when pressed. **Configure gamepad** maps A, B, Select, Start and, in supported games, X, Y, L and R. The configuration is saved per model and protocol.
 
-Les vibrations, capteurs de mouvement et fonctions propres au fabricant ne sont pas pilotés. La disposition physique des lettres Nintendo/Xbox peut varier avec le mode : utiliser la configuration si A et B paraissent inversés.
+Vibration, motion sensors and manufacturer-specific features are not controlled. The physical Nintendo/Xbox button labels can vary with the mode: use configuration if A and B appear reversed.
 
-## Navigation dans l'OS et MicroPython
+## OS navigation and MicroPython
 
-La manette est servie dès le démarrage, sans ouverture de F1 ni d'émulateur. Hors d'une vue de jeu native :
+The gamepad is serviced from startup, without opening F1 help or an emulator. Outside a native game view:
 
-| Commande configurée | Action |
+| Configured control | Action |
 | --- | --- |
-| Croix ou stick gauche | Déplacer le focus ; répétition après maintien |
-| A / B | Valider / Retour |
-| X ou Select | Menu contextuel |
-| Y | Changer de zone de navigation |
-| Start | Aide |
-| L / R | Page précédente / suivante |
+| D-pad or left stick | Move focus; repeat while held |
+| A / B | Confirm / Back |
+| X or Select | Context menu |
+| Y | Switch navigation area |
+| Start | Help |
+| L / R | Previous / next page |
 
-Dans un jeu ELF, ses commandes restent celles du jeu ; Guide continue d'ouvrir les contrôles F1. Pendant l'association des boutons dans les réglages, la navigation est suspendue pour éviter de quitter l'assistant au moment où l'on attribue B.
+Within an ELF game, controls remain assigned to the game; Guide still opens the F1 controls. Navigation is suspended while mapping buttons in Settings, so assigning B does not accidentally exit the wizard.
 
-Les interfaces `tab5ui` ordinaires bénéficient de la navigation sans modification. Un script peut aussi lire directement l'état, indépendamment des autres lecteurs :
+Standard `tab5ui` interfaces benefit from navigation without changes. A script can also read the state directly, independently of other readers:
 
 ```python
 import gamepad
@@ -48,12 +48,12 @@ while True:
     sleep_ms(30)
 ```
 
-`gamepad.buttons()` renvoie le masque courant (sans clavier). `state()` fournit aussi les boutons bruts, quatre axes signés X/Y/RX/RY, le masque des axes présents, protocole et statistiques. Les valeurs vont de -32768 à 32767 ; Y positif vers le bas. Les gâchettes sont accessibles comme boutons selon le protocole. `gamepad.capture(True)` désactive les raccourcis de navigation uniquement quand l'interface Python est au premier plan, pour un jeu qui traite lui-même les commandes ; `capture(False)` les rétablit. La capture est réinitialisée au lancement de chaque script. Aucun de ces appels ne consomme les événements utilisés par l'OS ou les ELF.
+`gamepad.buttons()` returns the current button mask (excluding keyboard input). `state()` also provides raw buttons, four signed axes X/Y/RX/RY, the available-axis mask, the protocol and statistics. Values range from -32768 to 32767; positive Y points down. Triggers are available as buttons depending on the protocol. `gamepad.capture(True)` disables navigation shortcuts only while the Python interface is in the foreground, for games that handle their own controls; `capture(False)` restores them. Capture is reset when each script starts. None of these calls consumes the events used by the OS or ELF applications.
 
-## USB rapide et hubs
+## High-speed USB and hubs
 
-**USB rapide** reste un réglage global de l’hôte USB. Il doit être accessible même sans disque branché, notamment pour le RTL-SDR. La 0.8.17 avait placé ce choix dans la carte de stockage USB, masquée en l’absence de disque ; c’était une erreur d’emplacement, pas la suppression du pilote haute vitesse.
+**High-speed USB** remains a global USB host setting. It must be accessible even with no disk connected, particularly for RTL-SDR. Version 0.8.17 placed this option in the USB storage card, hidden when no disk was present; that was an incorrect location, not removal of the high-speed driver.
 
-Le choix est conservé et prend effet après redémarrage. Le mode **USB compatible hubs** reste le réglage par défaut. Avec la pile ESP-IDF utilisée, les périphériques basse/pleine vitesse derrière un hub haute vitesse ne sont pas pris en charge lorsque l’hôte reste en haute vitesse. Pour vérifier une manette non reconnue, la brancher d’abord directement ; avec un hub, essayer le mode compatible puis redémarrer.
+The choice is saved and takes effect after restarting. **Hub-compatible USB** remains the default. With the ESP-IDF stack in use, low/full-speed devices behind a high-speed hub are unsupported while the host remains in high-speed mode. To check an unrecognized gamepad, first connect it directly; with a hub, try compatible mode and restart.
 
-La vitesse USB n’ajoute pas le Bluetooth et n’est pas nécessaire au simple décodage d’une manette. Les boutons d’éjection et de montage d’un disque restent liés à la présence réelle du disque.
+USB speed does not add Bluetooth support and is not needed merely to decode a gamepad. Disk eject and mount buttons remain tied to the actual presence of a disk.

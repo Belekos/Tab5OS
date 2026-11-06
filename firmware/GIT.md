@@ -1,100 +1,100 @@
-# Projets Git sur Tab5OS
+# Git projects on Tab5OS
 
-Git permet de conserver l'historique d'un projet, de préparer des modifications et de les échanger avec un dépôt distant. Il est accessible depuis l'explorateur et le terminal. Un projet peut se trouver sur la carte SD ou sur un disque USB connecté.
+Git keeps a project's history, stages changes and exchanges them with a remote repository. It is available from Explorer and the terminal. A project can reside on the SD card or a connected USB drive.
 
-## Ouvrir ou créer un projet dans l'explorateur
+## Open or create a project in Explorer
 
-Ouvrir **Actions → Git : état et commandes**, l’icône Git ou le menu du clic droit. La dernière sélection dans l’un des deux panneaux de l’explorateur détermine la cible. Sans sélection, la cible est le dossier du panneau actif. Un dossier sélectionné devient la cible ; un fichier sélectionné est conservé comme cible des opérations de fichier. La recherche du dépôt remonte jusqu’à sa racine : être dans un sous-dossier fonctionne également.
+Open **Actions → Git: status and commands**, the Git icon or the right-click menu. The latest selection in either Explorer pane determines the target. With no selection, the target is the active pane's folder. A selected folder becomes the target; a selected file remains the target for file operations. Repository detection walks up to the repository root, so it also works from a subfolder.
 
-Git occupe le volet droit de l’explorateur. La liste des fichiers à gauche reste utilisable et le panneau suit le contexte choisi après la fin d’une commande en cours. **Revenir à l’aperçu · Échap** ferme le volet sans perdre le dossier parcouru. Le dossier courant et la racine du dépôt sont conservés séparément.
+Git occupies Explorer's right pane. The file list on the left remains usable, and the panel follows the chosen context after any running command finishes. **Back to preview · Esc** closes the pane without losing the browsed folder. The current folder and repository root are stored separately.
 
-Le menu **Fichier** propose **Créer un dossier Git** (nom du nouveau sous-dossier) et **Cloner un dépôt Git** (adresse HTTPS et nom du nouveau sous-dossier). Le clonage refuse une destination déjà existante. Pour transformer un dossier ordinaire existant en projet, le sélectionner et choisir **Actions → Initialiser ce dossier avec Git**. Son contenu reste en place et l'initialisation crée les métadonnées Git dans ce dossier.
+The **File** menu offers **Create Git folder** (the new subfolder's name) and **Clone Git repository** (an HTTPS address and the new subfolder's name). Cloning refuses an existing destination. To turn an existing ordinary folder into a project, select it and choose **Actions → Initialize this folder with Git**. Its contents remain in place, and initialization creates Git metadata in that folder.
 
-Les commandes ordinaires de l'explorateur restent accessibles : copier/couper/coller et sélection multiple dans **Édition** ; renommer, masquer, supprimer, informations et outils de fichier dans **Actions** ; affichage des fichiers cachés et actualisation dans **Affichage**. Un clic droit sur une ligne cible cet élément et conserve une sélection multiple lorsqu'il en fait déjà partie. Un clic droit dans le fond d’un panneau vise son dossier courant.
+Ordinary Explorer commands remain available: copy/cut/paste and multiple selection in **Edit**; rename, hide, delete, information and file tools in **Actions**; hidden files and refresh in **View**. Right-clicking a row targets that item and preserves a multiple selection when the item is already part of it. Right-clicking a pane's background targets its current folder.
 
-Les commandes de dépôt deviennent disponibles lorsque le dossier contient un dépôt reconnu. Les commandes réseau apparaissent lorsque le dépôt distant de la branche amont est configuré (ou `origin` en l’absence d’amont). La mise à jour et l'envoi exigent une branche ayant déjà un commit ; ils sont masqués dans un dépôt vide ou lorsque le dépôt est détaché d'une branche. Le bouton d'arrêt apparaît pendant une opération.
+Repository commands become available when the folder contains a recognized repository. Network commands appear when the upstream branch's remote is configured (or `origin` if no upstream is defined). Updating and pushing require a branch with at least one commit; these actions are hidden for an empty repository or a detached HEAD. The stop button appears during an operation.
 
-| Action | Effet |
+| Action | Effect |
 | --- | --- |
-| Actualiser | Relit la branche et les fichiers modifiés. |
-| Préparer le fichier / ce dossier | Prépare le fichier ciblé ou les changements du dossier courant, sans englober les autres sous-dossiers du dépôt. |
-| Tout préparer | Prépare explicitement toutes les modifications du dépôt. |
-| Enregistrer un commit | Enregistre tout l’index du dépôt, avec le message saisi : un commit n’est pas limité au fichier affiché. |
-| Voir les différences | Propose les modifications locales ou préparées du fichier ciblé ou du dossier courant. Un fichier non suivi n’a pas de diff Git avant son ajout à l’index. |
-| Historique | Affiche les 20 derniers commits. |
-| Récupérer les commits distants | Télécharge les nouveaux commits sans changer les fichiers de travail. |
-| Mettre à jour sans fusion | Télécharge puis applique une avancée directe de la branche, si les fichiers de travail sont propres. |
-| Envoyer les commits | Demande confirmation, puis envoie les commits de la branche courante vers sa branche amont configurée (ou le même nom sur `origin` si aucun amont n’est défini). |
-| Configurer | Règle l’identité de l’auteur, l’adresse du dépôt distant de la branche amont (ou `origin` en l’absence d’amont) et les noms des identifiants du coffre. |
-| Ouvrir le terminal ici | Ouvre le terminal dans le dossier de travail conservé par l’explorateur. |
+| Refresh | Reread the branch and changed files. |
+| Stage file / this folder | Stage the targeted file or changes in the current folder, without including other subfolders of the repository. |
+| Stage all | Explicitly stage all changes in the repository. |
+| Create commit | Commit the repository's entire index using the entered message: a commit is not limited to the displayed file. |
+| View differences | Show local or staged changes for the targeted file or current folder. An untracked file has no Git diff until it is added to the index. |
+| History | Display the last 20 commits. |
+| Fetch remote commits | Download new commits without changing working files. |
+| Update without merging | Download changes, then fast-forward the branch if the working files are clean. |
+| Push commits | Request confirmation, then send the current branch's commits to its configured upstream branch (or the same branch name on `origin` if no upstream is defined). |
+| Configure | Set the author identity, the upstream branch's remote address (or `origin` if no upstream is defined) and the names of vault credentials. |
+| Open terminal here | Open the terminal in the working folder retained by Explorer. |
 
-**Préparer** et **Commit** enregistrent localement. **Envoyer** publie les commits sur le serveur. **Récupérer** ne modifie pas les fichiers locaux : utiliser **Mettre à jour** pour appliquer les commits reçus. La sortie indique les références modifiées et leurs anciens et nouveaux identifiants ; l’envoi affiche aussi sa branche de destination. Une récupération sans nouvelle référence ou une branche déjà à jour est signalée explicitement. Un rejet du serveur reste une erreur, même si le transport s’est terminé correctement.
+**Stage** and **Commit** save locally. **Push** publishes commits to the server. **Fetch** does not modify local files: use **Update** to apply received commits. Output lists changed references and their old and new IDs; pushing also displays the destination branch. A fetch with no new references or an already up-to-date branch is reported explicitly. A server rejection remains an error even if transport completed successfully.
 
-La branche locale et sa branche amont peuvent avoir des noms différents. Les commandes utilisent maintenant la configuration `branch.<nom>.remote` et `branch.<nom>.merge` et les références de récupération du dépôt distant. La confirmation d’envoi affiche la destination exacte. Les compteurs **à envoyer** et **à recevoir (dernier relevé)** comparent l’état local aux dernières références récupérées ; Actualiser seul ne contacte pas le serveur. La configuration de l’adresse distante vise également ce dépôt amont.
+The local branch and its upstream branch may have different names. Commands now use `branch.<name>.remote`, `branch.<name>.merge` and the remote's fetch references. The push confirmation displays the exact destination. The **To push** and **To receive (last checked)** counters compare local state with the most recently fetched references; Refresh alone does not contact the server. Remote-address configuration also targets that upstream remote.
 
-Le nom et l'adresse e-mail de l'auteur doivent être renseignés avant le premier commit. Si ces valeurs manquent, l’action Commit ouvre Configurer avec une instruction ; renseigner le nom puis l’e-mail et relancer Commit. Ces réglages sont enregistrés dans le projet.
+The author's name and email address must be set before the first commit. If either is missing, Commit opens Configure with instructions; enter the name and email, then run Commit again. These settings are saved in the project.
 
-Les actions sans effet sont grisées : **Préparer** si le fichier sélectionné (ou le dossier sans sélection) n'a plus de modification à préparer ; **Enregistrer un commit** tant que rien n'est préparé, si un conflit subsiste  ; **Voir les différences** si le projet est propre ; la corbeille si la sortie est vide. **Mettre à jour sans fusion** exige un projet sans modification locale. Les changements et conflits des autres pages sont également pris en compte. Pendant une opération, les commandes qui modifieraient le dépôt restent désactivées.
+Actions with nothing to do are disabled: **Stage** when the selected file (or folder, with no selection) has no more changes to stage; **Create commit** when nothing is staged or a conflict remains; **View differences** when the project is clean; and the output trash icon when output is empty. **Update without merging** requires a project with no local changes. Changes and conflicts on other pages are also taken into account. During an operation, commands that would modify the repository remain disabled.
 
-La liste indique son intervalle et le nombre réel de fichiers modifiés, par exemple `129–256 / 300`. Elle défile à l'intérieur d'une page de 128 fichiers ; les flèches de page donnent accès à la suite. Cette pagination ne limite pas le nombre total de fichiers accessibles. La sélection et la page sont conservées après la préparation d'un fichier. Les indicateurs des lignes sont : `+` pour une modification préparée, `M` pour une modification locale, `?` pour un nouveau fichier, `D` pour une suppression et `!` pour un conflit signalé par le dépôt.
+The list shows its range and the actual number of changed files, for example `129–256 / 300`. It scrolls within a page of 128 files; page arrows provide access to the rest. Pagination does not limit the total number of accessible files. Selection and page are preserved after staging a file. Row indicators are: `+` for a staged change, `M` for a local change, `?` for a new file, `D` for a deletion and `!` for a conflict reported by the repository.
 
-La zone de sortie du volet contient le résultat de la commande et son état final. Pour un résultat très long, les dernières lignes sont conservées et l'interface le signale. Ce texte reste sélectionnable et copiable. La corbeille de sortie, **Ctrl+L** ou **clic droit → Effacer la sortie** efface uniquement ce texte ; aucun fichier, commit ou processus n’est supprimé.
+The pane's output area contains the command result and its final status. For very long output, the last lines are retained and the interface indicates this. The text remains selectable and copyable. The output trash icon, **Ctrl+L**, or **right-click → Clear output** clears only this text; no file, commit or process is deleted.
 
-Le bouton **Nouveau** crée un dépôt local. **Cloner** télécharge un dépôt HTTPS dans un nouveau sous-dossier. **Configurer** distingue l’identité de l’auteur des accès au serveur : le nom et l’e-mail signent les commits ; les sélecteurs **Identifiant du coffre** et **Jeton du coffre** servent à l’authentification. Un dépôt public peut être cloné sans les renseigner. Pour un dépôt privé, utiliser **Déverrouiller le coffre** dans le parcours Git, saisir le PIN, puis choisir les deux secrets déjà enregistrés dans le coffre. Leur création se fait dans les réglages du coffre ; le déverrouillage depuis Git permet de les utiliser sans quitter l’explorateur. Le fichier d’identifiants reste une option avancée. Aucun jeton n’est placé dans l’URL du dépôt.
+**New** creates a local repository. **Clone** downloads an HTTPS repository into a new subfolder. **Configure** separates author identity from server access: the name and email identify the author of commits; **Vault username** and **Vault token** select authentication credentials. A public repository can be cloned without these fields. For a private repository, use **Unlock vault** in the Git workflow, enter the PIN, then select the two secrets already saved in the vault. Create secrets in the vault settings; unlocking from Git allows their use without leaving Explorer. A credentials file remains an advanced option. No token is placed in the repository URL.
 
-## Clavier et saisie
+## Keyboard and text input
 
-| Raccourci | Action |
+| Shortcut | Action |
 | --- | --- |
-| Tab / Maj+Tab | Déplacer le focus entre les commandes et les champs. |
-| Flèche haut / bas | Parcourir les fichiers, y compris au-delà des lignes actuellement visibles. |
-| Alt+Gauche / Alt+Droite | Page précédente / suivante de fichiers. |
-| F5 | Actualiser le projet. |
-| Ctrl+L | Effacer la sortie Git, hors fenêtre de saisie. |
-| Ctrl+. | Demander l'arrêt de l'opération en cours. |
-| Entrée | Valider un champ à une ligne ; dans Cloner, avancer de l’adresse au dossier, puis valider. |
-| Ctrl+Entrée | Valider le formulaire depuis n’importe quel champ. |
-| Échap | Fermer d'abord une liste déroulante ouverte, puis la fenêtre de saisie ou le projet. |
-| Ctrl+A/C/X/V/Z/Y | Sélectionner, copier, couper, coller, annuler ou rétablir dans un champ éditable. |
+| Tab / Shift+Tab | Move focus between controls and fields. |
+| Up / Down arrow | Browse files, including beyond the currently visible rows. |
+| Alt+Left / Alt+Right | Previous / next page of files. |
+| F5 | Refresh the project. |
+| Ctrl+L | Clear Git output when outside an input dialog. |
+| Ctrl+. | Request cancellation of the current operation. |
+| Enter | Confirm a single-line field; in Clone, move from the address to the folder, then confirm. |
+| Ctrl+Enter | Submit the form from any field. |
+| Escape | Close an open dropdown first, then the input dialog or project. |
+| Ctrl+A/C/X/V/Z/Y | Select, copy, cut, paste, undo or redo in an editable field. |
 
-Les champs disposent aussi des icônes d'édition de l'OS. À l'ouverture d'une fenêtre, le premier champ nécessaire reçoit le focus. Lors de l'affichage du clavier tactile, le formulaire défile et la validation reste au-dessus du clavier.
+Fields also provide the OS editing icons. When a dialog opens, the first required field receives focus. When the touch keyboard appears, the form scrolls and the confirmation control remains above the keyboard.
 
-## Parcours dans le terminal
+## Terminal workflow
 
-Les chemins `sd:/…` désignent la carte SD et `usb:/…` le disque USB. Les chemins relatifs partent du dossier courant. Entourer de guillemets les noms contenant des espaces.
+Paths such as `sd:/…` refer to the SD card and `usb:/…` to the USB drive. Relative paths start from the current folder. Put names containing spaces in quotes.
 
 ```text
 cd sd:/Projects
 git init demo
 cd demo
-git config user.name "Votre nom"
-git config user.email "vous@example.org"
+git config user.name "Your name"
+git config user.email "you@example.org"
 git status
 git add -- programme.py
 git diff --cached
-git commit -m "Premier programme"
+git commit -m "First program"
 git log -n 20
 ```
 
-Pour agir depuis un autre dossier, placer `-C` avant le nom de commande :
+To operate from another folder, place `-C` before the command name:
 
 ```text
 git -C usb:/Projects/demo status
 ```
 
-Pour cloner un dépôt public dans un nouveau dossier :
+To clone a public repository into a new folder:
 
 ```text
 git clone https://example.org/equipe/projet.git projet
 ```
 
-Le clonage récupère par défaut le dernier état avec une profondeur de 1. Pour demander l'historique complet, dans les limites du périphérique :
+By default, cloning retrieves the latest state with a depth of 1. To request the complete history, within the device's limits:
 
 ```text
 git clone --depth 0 https://example.org/equipe/projet.git projet-complet
 ```
 
-Pour configurer un dépôt distant et échanger les changements :
+To configure a remote and exchange changes:
 
 ```text
 git remote set-url origin https://example.org/equipe/projet.git
@@ -104,48 +104,48 @@ git pull --ff-only
 git push
 ```
 
-`remote set-url origin` crée aussi `origin` s'il n'existe pas. `fetch` récupère les objets et références distants ; `pull --ff-only` met également à jour les fichiers locaux ; `push` publie les commits locaux. Une archive de fichiers seule ne remplace pas un dépôt Git : copier l'ensemble du dossier, y compris `.git`, conserve son historique local.
+`remote set-url origin` also creates `origin` if it does not exist. `fetch` retrieves remote objects and references; `pull --ff-only` also updates local files; `push` publishes local commits. A file archive alone is not a replacement for a Git repository: copying the entire folder, including `.git`, preserves its local history.
 
-## Dépôts privés et identification
+## Private repositories and authentication
 
-Les échanges Git utilisent HTTPS. Le formulaire **Cloner** permet de choisir **Identifiant du coffre** et **Jeton du coffre**, après déverrouillage par PIN si nécessaire. Les deux noms sont mémorisés dans le dépôt créé pour les échanges suivants. Dans un dépôt déjà ouvert, ces choix se règlent avec **Configurer**.
+Git transfers use HTTPS. The **Clone** form lets you choose **Vault username** and **Vault token**, after unlocking with a PIN if necessary. Both names are saved in the new repository for future transfers. In an already open repository, set these choices through **Configure**.
 
-En option avancée, un fichier texte peut contenir deux lignes : le nom d’utilisateur, puis le jeton fourni par l’hébergeur. Ce fichier contient un secret : le garder hors du dossier du projet, pour ne pas l’ajouter à un commit. Par exemple, conserver son chemin dans `sd:/Secrets/git-host.txt`. Dans un dépôt déjà ouvert, le saisir dans **Configurer → Fichier d’identifiants (avancé)**. Pour utiliser ce fichier dès le premier clonage, passer par le terminal avec `--credential-file` ci-dessous.
+As an advanced option, a text file may contain two lines: the username, then the token supplied by the hosting service. This file contains a secret: keep it outside the project folder so it is not added to a commit. For example, store it at `sd:/Secrets/git-host.txt`. In an already open repository, enter its path under **Configure → Credentials file (advanced)**. To use this file for the initial clone, use the terminal's `--credential-file` option below.
 
-Le terminal reçoit uniquement le chemin du fichier, jamais le jeton lui-même :
+The terminal receives only the file path, never the token itself:
 
 ```text
 git clone --credential-file sd:/Secrets/git-host.txt https://example.org/equipe/prive.git prive
 ```
 
-Le clonage mémorise le chemin du fichier d'identification dans le dépôt créé pour les échanges suivants. Seul ce chemin est enregistré dans la configuration, pas le contenu secret.
+Cloning saves the credentials file path in the new repository for subsequent transfers. Only the path is stored in the configuration, not the secret contents.
 
-Le fichier ne doit pas contenir d'autre ligne. Une lecture échouée produit une erreur explicite. Les identifiants dans l'URL sont refusés. Les certificats et le nom du serveur sont vérifiés ; les redirections sont refusées. Les connexions passent par la supervision réseau de l'OS.
+The file must not contain any additional lines. A failed read produces an explicit error. Credentials embedded in the URL are rejected. Certificates and the server name are verified; redirects are rejected. Connections use the OS network supervisor.
 
-## Arrêt et reprise
+## Cancellation and recovery
 
-Le bouton d'arrêt et `Ctrl+.` demandent une annulation coopérative. Une lecture réseau déjà commencée peut durer jusqu'à son délai d'expiration. Fermer le projet pendant une commande demande aussi son arrêt. Le contexte reste conservé jusqu'au dernier accès du travailleur ; FreeRTOS libère ensuite sa pile.
+The stop button and `Ctrl+.` request cooperative cancellation. A network read already in progress may last until its timeout. Closing the project during a command also requests cancellation. The context is retained until the worker's final access; FreeRTOS then releases its stack.
 
-Un clonage utilise d'abord un dossier temporaire portant le suffixe `.git-import`, renommé à la fin. Après un clonage interrompu, ce dossier peut rester présent et une nouvelle tentative vers le même nom est refusée. Inspecter ce dossier sur ordinateur ou choisir une autre destination pour recommencer ; la reprise décrite ci-dessous concerne une mise à jour par `pull`, pas un clonage incomplet.
+A clone first uses a temporary folder with the `.git-import` suffix, renamed on completion. After an interrupted clone, this folder may remain and a new attempt using the same name is rejected. Inspect the folder on a computer or choose another destination to start again; the recovery described below applies to a `pull` update, not an incomplete clone.
 
-La mise à jour des fichiers par `pull` est journalisée. Après une interruption, le diagnostic peut demander :
+File updates performed by `pull` are journaled. After an interruption, diagnostics may request:
 
 ```text
 git recover --continue
 ```
 
-Lancer cette commande dans le dépôt concerné, puis vérifier `git status`. Aucune reprise de fichiers n'est effectuée automatiquement au démarrage. Tant que la reprise est nécessaire, les commandes de modification sont bloquées ; le statut, l'historique, les différences et la lecture de la configuration restent consultables.
+Run this command inside the affected repository, then check `git status`. File recovery is not performed automatically at startup. While recovery is required, modifying commands are blocked; status, history, differences and configuration remain readable.
 
-Le marqueur `.git/tab5-pull.pending` conserve l'ancien commit, le commit cible et la référence à avancer. La référence reste sur l'ancien commit tant que la mise à jour des fichiers, leur synchronisation et l'index ne sont pas achevés. La reprise refuse d'écraser un fichier divergent, un index modifié ou un fichier modifié manquant ; elle refuse aussi une branche changée entre-temps. Les fichiers non suivis et les modifications non concernées sont conservés.
+The `.git/tab5-pull.pending` marker stores the old commit, target commit and reference to advance. The reference remains at the old commit until file updates, synchronization and the index are complete. Recovery refuses to overwrite a divergent file, a modified index or a missing modified file; it also refuses if the branch has changed in the meantime. Untracked files and unrelated changes are preserved.
 
-Un journal corrompu ou un fichier partiellement écrit nécessite une inspection sur ordinateur. Conserver les fichiers et le journal pour analyser le diagnostic ; ne pas supprimer le marqueur pour contourner le blocage. La synchronisation des écritures réduit le risque, mais ne garantit pas l'intégrité du système de fichiers FAT lors d'une coupure électrique.
+A corrupt journal or partially written file requires inspection on a computer. Keep the files and journal to investigate the diagnostic; do not delete the marker to bypass the block. Synchronizing writes reduces risk but does not guarantee FAT filesystem integrity during a power failure.
 
-## Périmètre et limites de cette version
+## Scope and limits of this version
 
-L’interface exécute ses opérations hors de la boucle d’affichage et recycle ses lignes visibles. Une consultation, une préparation, un commit, une configuration ou un fetch ne reconstruit plus la liste de l’explorateur. Les créations et mises à jour de fichiers signalent leur fin à l’OS, y compris depuis le terminal, afin d’invalider la liste et la détection du dépôt au bon moment.
+The interface runs operations outside the display loop and reuses its visible rows. Reading status, staging, committing, configuring or fetching no longer rebuilds Explorer's list. File creation and updates notify the OS when finished, including from the terminal, so the list and repository detection are invalidated at the appropriate time.
 
-Les comparaisons du contenu ne se fient plus uniquement à la taille et à la date du fichier : deux sauvegardes de même taille dans la résolution d’horodatage FAT sont détectées par Status, Diff et Préparer. Le cache de date de l’index est invalidé en mémoire au début de ces opérations, puis le contenu est comparé. Les consultations ne réécrivent pas l’index sur disque et il n’y a pas de scan périodique Git. Son état est borné à 128 entrées par page, avec un rapport de 32 Kio. Le moteur Git est sérialisé : une seule opération Git est exécutée à la fois, depuis l'interface ou le terminal.
+Content comparisons no longer rely only on file size and date: Status, Diff and Stage detect two saves of the same size within FAT timestamp resolution. The index's timestamp cache is invalidated in memory at the start of these operations, then contents are compared. Read-only queries do not rewrite the index on disk, and there is no periodic Git scan. The status view is bounded to 128 entries per page, with a 32 KiB report. The Git engine is serialized: only one Git operation runs at a time, from either the interface or the terminal.
 
-L'allocateur du moteur Git est limité à 8 Mio de PSRAM, sans repli vers la SRAM pour ces allocations. Son cache est limité à 256 Kio ; les fenêtres de lecture des packs utilisent 128 Kio chacune, 256 Kio au total et au plus quatre fichiers. Un pack est limité à 32 768 objets et une réception à 128 Mio. L'affichage textuel des différences traite des fichiers de 2 Mio au plus. Un dépôt dépassant ces limites peut être refusé : la profondeur réduite du clonage diminue l'historique téléchargé, mais ne réduit pas la taille de son état courant.
+The Git engine's allocator is limited to 8 MiB of PSRAM, with no SRAM fallback for those allocations. Its cache is limited to 256 KiB; pack read windows use 128 KiB each, 256 KiB in total and at most four files. A pack is limited to 32,768 objects and an incoming transfer to 128 MiB. Text diffs handle files of at most 2 MiB. A repository exceeding these limits may be rejected: a shallow clone reduces the downloaded history, but not the size of its current state.
 
-Le `pull` exige un arbre de travail propre pour appliquer une avancée directe de la branche courante. Un état déjà à jour ou une branche locale uniquement en avance est indiqué explicitement ; une divergence ou une branche amont supprimée sur le serveur est refusée sans déplacer la branche locale. Les fusions, rebase, changements de branche, sous-modules, LFS, dépôts avec alternates et worktrees liés ne sont pas pris en charge. Les racines des volumes ne peuvent pas devenir des dépôts. Le transport Git par SSH n'est pas pris en charge par ce moteur ; la commande SSH du terminal est distincte.
+`pull` requires a clean working tree to fast-forward the current branch. An already up-to-date state or a local branch that is only ahead is reported explicitly; divergence or an upstream branch deleted on the server is rejected without moving the local branch. Merges, rebase, branch switching, submodules, LFS, repositories with alternates and linked worktrees are unsupported. Volume roots cannot become repositories. This engine does not support Git over SSH; the terminal's SSH command is separate.

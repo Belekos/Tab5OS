@@ -13,7 +13,7 @@ RELEASE = Path(__file__).resolve().parents[4]
 parser = argparse.ArgumentParser()
 parser.add_argument('--output', type=Path, default=RELEASE / 'tools/verification/image-core-0832.json')
 args = parser.parse_args()
-sources = [HERE / name for name in ('image_core.c', 'image_core.h', 'test_core.c', 'run_tests.py')]
+sources = [HERE / name for name in ('image_core.c', 'image_core.h', 'image_selection.h', 'test_core.c', 'test_relief.c', 'run_tests.py')]
 flags = ['-std=c11', '-Wall', '-Wextra', '-Werror', '-g', '-O1', '-fsanitize=address,undefined', '-fno-omit-frame-pointer']
 compiler = os.environ.get('CC', 'cc')
 with tempfile.TemporaryDirectory(prefix='tab5-image-core-') as work:
@@ -30,6 +30,14 @@ with tempfile.TemporaryDirectory(prefix='tab5-image-core-') as work:
         print(result.stderr, end='')
     result.check_returncode()
     summary = json.loads(result.stdout.strip().splitlines()[-1])
+    relief_binary = Path(work) / 'test-relief'
+    subprocess.run([compiler, *flags, str(HERE / 'image_core.c'), str(HERE / 'test_relief.c'), '-o', str(relief_binary)], check=True)
+    relief = subprocess.run([str(relief_binary)], env=env, text=True, capture_output=True)
+    print(relief.stdout, end='')
+    if relief.stderr:
+        print(relief.stderr, end='')
+    relief.check_returncode()
+    summary['reliefRegression'] = json.loads(relief.stdout.strip().splitlines()[-1])
 report = {
     'release': '0.8.32',
     'component': 'native-image-editor-core',
@@ -49,7 +57,8 @@ report = {
         'T5I exact layered round trip, BMP24 flattened round trip, truncated/corrupt inputs, partial/failed streams',
         '336 transient/persistent injected allocation-failure scenarios with atomic image preservation',
         '16MiB allocator limit, maximum1024 dimensions, history reclamation and 400 repeated editing cycles',
-        'cooperative scheduler callback invoked during pixel processing'
+        'cooperative scheduler callback invoked during pixel processing',
+        'relief selected colors across all profiles, transparent layers, flat settings, soft selection and opacity, undo/redo, cancellation, allocation failure'
     ],
     'limitations': [
         'Host tests execute production C core; they do not execute ESP32-P4 ELF loading, touch/display hardware or SD filesystem.',

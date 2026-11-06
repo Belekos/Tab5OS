@@ -186,7 +186,9 @@ static int job_relief_height(const IEJob*j,int x,int y){
  int value;x-=j->minx;y-=j->miny;if(x<0||y<0||x>=j->relief_w||y>=j->relief_h)return 0;value=j->relief[(size_t)y*j->relief_w+x];return j->fill.relief_height<0?-value:value;
 }
 static uint32_t job_relief_color(IEJob*j,int x,int y){
- static const int weights[5]={1,4,6,4,1},derivative[5]={1,2,0,-2,-1};int xx,yy,nx=0,ny=0,shade;unsigned norm,k;uint32_t base=j->doc->current.layers[j->doc->current.active].pixels[(size_t)y*j->doc->current.width+x],result=base&0xff000000u;
+ static const int weights[5]={1,4,6,4,1},derivative[5]={1,2,0,-2,-1};int xx,yy,nx=0,ny=0,shade;unsigned norm,k;uint32_t base=j->fill.foreground,result=base&0xff000000u;
+ /* Relief is a fill: shade the colour captured when the gesture started. */
+ if(!j->fill.relief_height||!j->fill.relief_intensity)return base;
  /* Smoothed derivatives affect only lighting; neither coverage nor image
     alpha is blurred. Sample spacing grows to at most 3 pixels on wider
     profiles, retaining 25 reads and reducing discrete-contour normal bands.
@@ -224,9 +226,11 @@ int ie_job_step(IEJob*j,size_t budget){
   else if(j->stage==JOB_COMBINE){
    job_combine(j,j->y++);processed+=(size_t)w;if(j->y==h){
     if(j->fill_job){
-     if(j->maxx<0||!j->fill.opacity||!j->fill.density||(j->fill.kind==IE_FILL_RELIEF&&(!j->fill.relief_height||!j->fill.relief_intensity))){j->complete=1;job_buffers(j);break;}
-     if(j->fill.kind==IE_FILL_RELIEF&&!job_relief_allocate(j)){j->complete=-1;job_buffers(j);break;}
-     if(!ie_gesture_begin(d)){j->complete=-1;job_buffers(j);break;}j->transaction=1;j->stage=j->fill.kind==IE_FILL_RELIEF?JOB_RELIEF_FORWARD:JOB_PAINT;j->y=0;
+     if(j->maxx<0||!j->fill.opacity||!j->fill.density){j->complete=1;job_buffers(j);break;}
+     /* A flat relief needs only the normal fill buffers, even on a large region. */
+     const int shaded_relief=j->fill.kind==IE_FILL_RELIEF&&j->fill.relief_height&&j->fill.relief_intensity;
+     if(shaded_relief&&!job_relief_allocate(j)){j->complete=-1;job_buffers(j);break;}
+     if(!ie_gesture_begin(d)){j->complete=-1;job_buffers(j);break;}j->transaction=1;j->stage=shaded_relief?JOB_RELIEF_FORWARD:JOB_PAINT;j->y=0;
     }else{
      floating_finish(d);
      if(d->current.selection_mask)d->release(d->memory_context,d->current.selection_mask);
@@ -238,7 +242,7 @@ int ie_job_step(IEJob*j,size_t budget){
   else if(j->stage==JOB_RELIEF_BACKWARD){job_relief_backward(j,j->y++);processed+=(size_t)j->relief_h*3;if(j->y==j->relief_w){d->release(d->memory_context,j->envelope);j->envelope=0;job_relief_prepare_height(j);j->stage=JOB_RELIEF_HEIGHT;j->y=0;}}
   else if(j->stage==JOB_RELIEF_HEIGHT){job_relief_height_row(j,j->y++);processed+=(size_t)j->relief_w*2;if(j->y==j->relief_h){j->stage=JOB_PAINT;j->y=0;}}
   else if(j->stage==JOB_PAINT){
-   int x,y=j->y++;for(x=0;x<w;x++){size_t at=(size_t)y*w+x;unsigned a=(j->mask[at]*(unsigned)j->fill.opacity+50)/100;uint32_t c;if(!a)continue;c=job_fill_color(j,x,y,&a);if(a){uint32_t*pixel=&d->current.layers[d->current.active].pixels[at];if(j->fill.kind==IE_FILL_RELIEF){if(*pixel>>24)*pixel=gradient_color(*pixel,c,a);}else *pixel=over(*pixel,c,a);}}processed+=(size_t)w*(j->fill.kind==IE_FILL_RELIEF?3u:1u);
+   int x,y=j->y++;for(x=0;x<w;x++){size_t at=(size_t)y*w+x;unsigned a=(j->mask[at]*(unsigned)j->fill.opacity+50)/100;uint32_t c;if(!a)continue;c=job_fill_color(j,x,y,&a);if(a){uint32_t*pixel=&d->current.layers[d->current.active].pixels[at];*pixel=over(*pixel,c,a);}}processed+=(size_t)w*(j->fill.kind==IE_FILL_RELIEF?3u:1u);
    if(j->y==h){ie_commit(d);j->transaction=0;j->complete=1;d->error=0;job_buffers(j);}
   }else {j->complete=-1;job_buffers(j);}
  }
