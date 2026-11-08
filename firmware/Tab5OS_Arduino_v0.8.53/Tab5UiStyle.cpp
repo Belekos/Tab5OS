@@ -1,5 +1,6 @@
 #include "Tab5UiStyle.h"
 #include "Tab5TextInput.h"
+#include "Tab5ThemeLive.h"
 #include <algorithm>
 namespace Tab5UiStyle {
 namespace {
@@ -161,7 +162,7 @@ void switchColors(lv_obj_t* o,uint32_t off,uint32_t on,uint32_t knobOff,uint32_t
  lv_obj_set_style_border_color(o,lv_color_hex(edge(knobOn)),LV_PART_KNOB|LV_STATE_CHECKED);
 }
 void control(lv_obj_t* o){
- if(!o||!lv_obj_is_valid(o))return;
+ if(!o||!lv_obj_is_valid(o)||Tab5ThemeLive::preserved(o))return;
  if(lv_obj_check_type(o,&lv_switch_class)){
   switchColors(o,switchOffColor,switchOnColor,switchKnobOffColor,switchKnobOnColor);
   lv_obj_set_style_border_width(o,1,LV_PART_MAIN);lv_obj_set_style_border_color(o,c(3),LV_PART_MAIN);
@@ -193,7 +194,7 @@ void control(lv_obj_t* o){
   if(!watches(o,cardMarker))lv_obj_add_event_cb(o,cardMarker,LV_EVENT_DELETE,nullptr);lv_obj_set_style_radius(o,corners,0);
  }
 }
-void tree(lv_obj_t* root){if(!root||!lv_obj_is_valid(root))return;control(root);for(unsigned i=0;i<lv_obj_get_child_count(root);++i)tree(lv_obj_get_child(root,i));}
+void tree(lv_obj_t* root){if(!root||!lv_obj_is_valid(root)||Tab5ThemeLive::preserved(root))return;control(root);for(unsigned i=0;i<lv_obj_get_child_count(root);++i)tree(lv_obj_get_child(root,i));}
 void pointer(lv_indev_t* input,int x,int y,uint8_t buttons){
  pointerActive=true;pointerX=x;pointerY=y;pointerButtons=buttons;
  lv_point_t point{x,y};auto* display=lv_indev_get_display(input);if(!display)return;

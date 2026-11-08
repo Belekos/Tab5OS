@@ -7,6 +7,7 @@
 #include "psram_app.h"
 #include <string.h>
 #include <stdint.h>
+#include "doom_input.h"
 
 /* prboom engine headers */
 #include <doomdef.h>
@@ -25,30 +26,18 @@ extern void app_return_to_launcher(void);
 
 /* ── Input keymap ────────────────────────────────────────────────────── */
 
-/* Map PAPP_INPUT_* bitmask positions to Doom key globals.
- * The retro-go version used bitmask keys; we use the papp_gamepad array. */
-typedef struct {
-    int papp_id;    /* PAPP_INPUT_* index */
-    int *key;       /* pointer to Doom key variable */
-} doom_keymap_t;
+/* Map the Tab5OS button snapshot to Doom's configurable key globals. */
+static doom_input_state_t input_state;
+static doom_clock_t input_clock;
 
-static const doom_keymap_t keymap[] = {
-    {PAPP_INPUT_UP,     &key_up},
-    {PAPP_INPUT_DOWN,   &key_down},
-    {PAPP_INPUT_LEFT,   &key_left},
-    {PAPP_INPUT_RIGHT,  &key_right},
-    {PAPP_INPUT_A,      &key_fire},
-    {PAPP_INPUT_A,      &key_enter},
-    {PAPP_INPUT_B,      &key_speed},
-    {PAPP_INPUT_B,      &key_strafe},
-    {PAPP_INPUT_B,      &key_backspace},
-    {PAPP_INPUT_MENU,   &key_escape},
-    {PAPP_INPUT_Y,      &key_map},
-    {PAPP_INPUT_START,  &key_use},
-    {PAPP_INPUT_SELECT, &key_weapontoggle},
-};
-
-#define NUM_KEYS (sizeof(keymap) / sizeof(keymap[0]))
+static void post_key(int key, int down, void *context)
+{
+    event_t event = {0};
+    (void)context;
+    event.type = down ? ev_keydown : ev_keyup;
+    event.data1 = key;
+    D_PostEvent(&event);
+}
 
 /* ── I_StartTic — Input polling ──────────────────────────────────────── */
 
@@ -56,45 +45,64 @@ void I_StartTic(void)
 {
     extern void tab5_doom_audio(void);
     tab5_doom_audio();
-    static int prev_vals[PAPP_INPUT_MAX] = {0};
     papp_gamepad_state_t state;
-    event_t event = {0};
 
     _papp_svc->input_gamepad_read(&state);
     extern uint32_t tab5_game_buttons;
-    if((tab5_game_buttons&512)&&gamestate==GS_LEVEL)G_SaveGame(0,"Tab5OS");
 
     /* Check for exit request (watchdog already handles long press) */
     if (papp_exit_requested) {
         app_return_to_launcher();
     }
 
-    /* Generate key events for changed buttons */
-    for (int i = 0; i < (int)NUM_KEYS; i++) {
-        int id = keymap[i].papp_id;
-        int cur = state.values[id];
-        if (cur != prev_vals[id]) {
-            event.type = cur ? ev_keydown : ev_keyup;
-            event.data1 = *keymap[i].key;
-            D_PostEvent(&event);
-        }
-    }
+    /* D_PostEvent drops startup events; do not consume a held button yet. */
+    if (gametic < 3) return;
 
-    /* Update prev state for all buttons (not just mapped ones) */
-    for (int i = 0; i < PAPP_INPUT_MAX; i++)
-        prev_vals[i] = state.values[i];
+    /* Snapshot context before posting: responders can open/close a menu. */
+    int mode = menuactive ? DOOM_INPUT_MENU :
+        (demoplayback || gamestate == GS_DEMOSCREEN)
+            ? DOOM_INPUT_DEMO : DOOM_INPUT_PLAY;
+    const int bindings[DOOM_BUTTON_COUNT][3] = {
+        {key_right,        key_menu_right, key_menu_right},
+        {key_left,         key_menu_left,  key_menu_left},
+        {key_up,           key_menu_up,    key_menu_up},
+        {key_down,         key_menu_down,  key_menu_down},
+        {key_fire,         key_enter,      key_escape}, /* A */
+        {key_speed,        key_backspace,  key_escape}, /* B */
+        {key_weapontoggle, key_backspace,  key_escape}, /* SELECT */
+        {key_use,          key_enter,      key_escape}, /* START */
+        {-1, -1, -1}, /* Exit is handled by the app service. */
+        {-1, -1, -1}, /* Save is an OS request, not a held key. */
+        {key_escape,       key_escape,     key_escape}, /* MENU */
+        {-1, -1, -1}, /* X/S is also asserted before the OS delivers Ctrl+S. */
+        {key_map,          -1,             -1},         /* Y */
+        {key_strafeleft,   -1,             -1},         /* L */
+        {key_straferight,  -1,             -1},         /* R */
+        {key_strafe,       -1,             -1},         /* B's original strafe modifier */
+    };
+    uint32_t buttons = tab5_game_buttons;
+    if (buttons & (UINT32_C(1) << DOOM_BUTTON_B))
+        buttons |= UINT32_C(1) << DOOM_BUTTON_B_STRAFE;
+    if (buttons & (UINT32_C(1) << DOOM_BUTTON_SAVE)) {
+        if (mode == DOOM_INPUT_PLAY && gamestate == GS_LEVEL)
+            G_SaveGame(0, "Tab5OS");
+    }
+    doom_input_update(&input_state, buttons, mode, bindings, post_key, NULL);
 }
 
 /* ── Timing ──────────────────────────────────────────────────────────── */
 
 int I_GetTimeMS(void)
 {
-    return (int)(_papp_svc->get_time_us() / 1000);
+    return (int)doom_clock_update(&input_clock,
+        (uint32_t)(_papp_svc->get_time_us() / 1000));
 }
 
 int I_GetTime(void)
 {
-    return I_GetTimeMS() * TICRATE * realtic_clock_rate / 100000;
+    uint64_t elapsed = doom_clock_update(&input_clock,
+        (uint32_t)(_papp_svc->get_time_us() / 1000));
+    return doom_clock_tics(elapsed, TICRATE, realtic_clock_rate);
 }
 
 void I_uSleep(unsigned long usecs)
@@ -111,6 +119,10 @@ void I_Init(void)
 {
     extern int snd_channels;
     extern int snd_samplerate;
+
+    memset(&input_state, 0, sizeof(input_state));
+    memset(&input_clock, 0, sizeof(input_clock));
+    (void)I_GetTimeMS();
 
     snd_channels = 8;
     snd_samplerate = 22050;

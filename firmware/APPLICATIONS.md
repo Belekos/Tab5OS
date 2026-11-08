@@ -46,7 +46,27 @@ Enter the path directly, even if it contains spaces. Recent items and favorites 
 | Mute | M |
 | Quit | Escape |
 
-Games using the shared input system also support touch controls and [USB gamepads](MANETTES_USB.md). Saves are stored under `/Saves`, in each application's folder. In Doom, **Ctrl+R** opens the menu: save before quitting and load the game from that menu. In Maze3D, **X** runs, **Backspace** displays the map and **Enter** creates a maze.
+Games using the shared input system also support touch controls and [USB gamepads](MANETTES_USB.md). Saves are stored under `/Saves`, in each application's folder. In Maze3D, **X** runs, **Backspace** displays the map and **Enter** creates a maze.
+
+### Doom controls
+
+At the title screen or during an automatic demo, press **Enter / START** or **Z/W / A** to open the menu. Press again to confirm the highlighted item. Use the arrows or D-pad to move through menus; **X / B** or **Backspace / SELECT** goes back. A held button performs one menu action: release it before confirming again.
+
+| In-game action | Keyboard | Gamepad / touch control |
+| --- | --- | --- |
+| Move forward/backward, turn | Arrow keys | D-pad / arrows |
+| Fire | Z or W | A |
+| Run and strafe with the arrows | Hold X | Hold B |
+| Use a door or switch | Enter | START |
+| Change weapon | Backspace | SELECT |
+| Map | A on QWERTY; Q on AZERTY | Y |
+| Strafe left | Q on QWERTY; A on AZERTY | L |
+| Strafe right | E | R |
+| Open/close the Doom menu | Ctrl+R | Menu button on screen |
+| Quick save | Ctrl+S | Save button on screen |
+| Quit to Tab5OS | Escape | Quit button on screen |
+
+The table uses Tab5OS gamepad assignments, which you can configure in **Settings > Interface > Gamepad**. Save before quitting; load a saved game from Doom's menu. **F1** opens the OS controls panel. Doom does not use Escape to open its menu because Tab5OS reserves it for quitting.
 
 Compatibility depends on the format, cartridge and emulator core. ELF programs must target the Tab5OS API: they share the OS memory. A PC program or a `.bin` firmware cannot be used as a Tab5OS ELF application.
 

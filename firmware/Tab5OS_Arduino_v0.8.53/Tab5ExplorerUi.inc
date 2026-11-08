@@ -6,7 +6,7 @@ static void createFilePage() {
   lv_obj_set_style_border_width(filesPage, 0, 0);
   lv_obj_set_style_radius(filesPage, 0, 0);
   lv_obj_set_style_pad_all(filesPage, 8, 0);
-  lv_obj_set_style_bg_color(filesPage, C_BG(), 0);
+  lv_obj_set_style_bg_color(filesPage, C_BG(), 0);Tab5ThemeLive::bind(filesPage,LV_STYLE_BG_COLOR,0,0);
   lv_obj_set_style_bg_opa(filesPage, LV_OPA_COVER, 0);
   lv_obj_remove_flag(filesPage, LV_OBJ_FLAG_SCROLLABLE);
 
@@ -16,9 +16,9 @@ static void createFilePage() {
   lv_obj_t* left = lv_obj_create(filesPage);
   lv_obj_set_size(left, FILE_LEFT_W, PAGE_H - 74);
   lv_obj_set_pos(left, 0, 58);
-  lv_obj_set_style_bg_color(left, C_SURFACE(), 0);
+  lv_obj_set_style_bg_color(left, C_SURFACE(), 0);Tab5ThemeLive::bind(left,LV_STYLE_BG_COLOR,0,1);
   lv_obj_set_style_bg_opa(left, LV_OPA_COVER, 0);
-  lv_obj_set_style_border_color(left, C_BORDER(), 0);
+  lv_obj_set_style_border_color(left, C_BORDER(), 0);Tab5ThemeLive::bind(left,LV_STYLE_BORDER_COLOR,0,3);
   lv_obj_set_style_border_width(left, 0, 0);
   lv_obj_set_style_radius(left, 8, 0);
   lv_obj_set_style_pad_all(left, 8, 0);
@@ -29,7 +29,7 @@ static void createFilePage() {
   lv_label_set_long_mode(filePathLabel,LV_LABEL_LONG_DOT);
   lv_obj_set_height(filePathLabel,28);
   lv_obj_set_style_text_font(filePathLabel,uiFont(),0);
-  lv_obj_set_style_text_color(filePathLabel,C_MUTED(),0);
+  lv_obj_set_style_text_color(filePathLabel,C_MUTED(),0);Tab5ThemeLive::bind(filePathLabel,LV_STYLE_TEXT_COLOR,0,5);
   lv_obj_set_pos(filePathLabel,0,2);
 
   fileList = lv_list_create(left);
@@ -37,7 +37,7 @@ static void createFilePage() {
   lv_obj_set_pos(fileList, 0, 0);
   lv_obj_set_scroll_dir(fileList,LV_DIR_VER);
   lv_obj_set_scrollbar_mode(fileList,LV_SCROLLBAR_MODE_AUTO);
-  lv_obj_set_style_bg_color(fileList, C_SURFACE(), 0);
+  lv_obj_set_style_bg_color(fileList, C_SURFACE(), 0);Tab5ThemeLive::bind(fileList,LV_STYLE_BG_COLOR,0,1);
   lv_obj_set_style_border_width(fileList, 0, 0);
   lv_obj_set_style_radius(fileList, 0, 0);
   lv_obj_set_style_pad_all(fileList, 0, 0);
@@ -48,7 +48,7 @@ static void createFilePage() {
 
   filePaneDivider=lv_obj_create(filesPage);lv_obj_remove_style_all(filePaneDivider);
   lv_obj_set_pos(filePaneDivider,FILE_LEFT_W+4,58);lv_obj_set_size(filePaneDivider,1,PAGE_H-74);
-  lv_obj_set_style_bg_color(filePaneDivider,C_BORDER(),0);lv_obj_set_style_bg_opa(filePaneDivider,LV_OPA_COVER,0);
+  lv_obj_set_style_bg_color(filePaneDivider,C_BORDER(),0);Tab5ThemeLive::bind(filePaneDivider,LV_STYLE_BG_COLOR,0,3);lv_obj_set_style_bg_opa(filePaneDivider,LV_OPA_COVER,0);
   lv_obj_remove_flag(filePaneDivider,static_cast<lv_obj_flag_t>(LV_OBJ_FLAG_CLICKABLE|LV_OBJ_FLAG_SCROLLABLE));
 
   // Right: a full-width path, then metadata and contextual actions.
@@ -57,9 +57,9 @@ static void createFilePage() {
   const int rightW = WORK_W - rightX - 16;
   lv_obj_set_size(right, rightW, PAGE_H - 74);Tab5Shell::width(right,-FILE_LEFT_W-26-0);
   lv_obj_set_pos(right, rightX, 58);
-  lv_obj_set_style_bg_color(right, C_SURFACE(), 0);
+  lv_obj_set_style_bg_color(right, C_SURFACE(), 0);Tab5ThemeLive::bind(right,LV_STYLE_BG_COLOR,0,1);
   lv_obj_set_style_bg_opa(right, LV_OPA_COVER, 0);
-  lv_obj_set_style_border_color(right, C_BORDER(), 0);
+  lv_obj_set_style_border_color(right, C_BORDER(), 0);Tab5ThemeLive::bind(right,LV_STYLE_BORDER_COLOR,0,3);
   lv_obj_set_style_border_width(right, 0, 0);
   lv_obj_set_style_radius(right, 8, 0);
   lv_obj_set_style_pad_all(right, 12, 0);
@@ -76,7 +76,7 @@ static void createFilePage() {
   filePreviewMeta = lv_label_create(right);lv_label_set_text(filePreviewMeta,"");
   lv_obj_set_width(filePreviewMeta, rightW - 366);Tab5Shell::width(filePreviewMeta,-FILE_LEFT_W-26-366);
   lv_label_set_long_mode(filePreviewMeta, LV_LABEL_LONG_DOT);
-  lv_obj_set_style_text_color(filePreviewMeta, C_MUTED(), 0);
+  lv_obj_set_style_text_color(filePreviewMeta, C_MUTED(), 0);Tab5ThemeLive::bind(filePreviewMeta,LV_STYLE_TEXT_COLOR,0,5);
   lv_obj_set_style_text_font(filePreviewMeta,uiFont(),0);
   lv_obj_set_height(filePreviewMeta,28);
   lv_obj_set_pos(filePreviewMeta, 0, 50);
@@ -84,7 +84,7 @@ static void createFilePage() {
   lv_obj_t* previewScroll = filePreviewScroll = lv_obj_create(right);lv_obj_add_flag(previewScroll,LV_OBJ_FLAG_HIDDEN);
   lv_obj_set_size(previewScroll, rightW - 24, PAGE_H - 186);Tab5Shell::width(previewScroll,-FILE_LEFT_W-26-24);
   lv_obj_set_pos(previewScroll, 0, 88);
-  lv_obj_set_style_bg_color(previewScroll, C_BG(), 0);
+  lv_obj_set_style_bg_color(previewScroll, C_BG(), 0);Tab5ThemeLive::bind(previewScroll,LV_STYLE_BG_COLOR,0,0);
   lv_obj_set_style_bg_opa(previewScroll, LV_OPA_COVER, 0);
   lv_obj_set_style_border_width(previewScroll, 0, 0);
   lv_obj_set_style_radius(previewScroll, 6, 0);
@@ -95,7 +95,7 @@ static void createFilePage() {
   lv_obj_set_width(filePreviewLabel, rightW - 66);Tab5Shell::width(filePreviewLabel,-FILE_LEFT_W-26-66);
   lv_label_set_long_mode(filePreviewLabel, LV_LABEL_LONG_WRAP);
   lv_obj_set_style_text_font(filePreviewLabel, documentFont(), 0);
-  lv_obj_set_style_text_color(filePreviewLabel, C_TEXT(), 0);
+  lv_obj_set_style_text_color(filePreviewLabel, C_TEXT(), 0);Tab5ThemeLive::bind(filePreviewLabel,LV_STYLE_TEXT_COLOR,0,4);
   lv_obj_set_style_text_line_space(filePreviewLabel, 5, 0);
   lv_label_set_text(filePreviewLabel, "");
 
@@ -113,7 +113,7 @@ static void createFilePage() {
   lv_obj_add_event_cb(folderPreviewNext,folderPreviewPageEvent,LV_EVENT_CLICKED,reinterpret_cast<void*>(intptr_t(1)));
   folderPreviewPageLabel=lv_label_create(folderBar);lv_label_set_text(folderPreviewPageLabel,"");lv_obj_center(folderPreviewPageLabel);
   lv_obj_set_style_text_font(folderPreviewPageLabel,uiFont(),0);
-  lv_obj_set_style_text_color(folderPreviewPageLabel,C_MUTED(),0);
+  lv_obj_set_style_text_color(folderPreviewPageLabel,C_MUTED(),0);Tab5ThemeLive::bind(folderPreviewPageLabel,LV_STYLE_TEXT_COLOR,0,5);
   folderPreviewRows=lv_obj_create(folderPreviewHost);lv_obj_remove_style_all(folderPreviewRows);
   lv_obj_set_pos(folderPreviewRows,0,0);lv_obj_set_width(folderPreviewRows,lv_pct(100));lv_obj_set_height(folderPreviewRows,PAGE_H-230);
   lv_obj_set_flex_flow(folderPreviewRows,LV_FLEX_FLOW_COLUMN);lv_obj_set_style_pad_row(folderPreviewRows,0,0);

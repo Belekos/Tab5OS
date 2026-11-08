@@ -1,5 +1,6 @@
 #include "Tab5ThemePreview.h"
 #include "Tab5UiStyle.h"
+#include "Tab5ThemeLive.h"
 #ifndef TAB5_THEME_TEST
 #include "Tab5Localization.h"
 #endif
@@ -18,20 +19,20 @@ const char* tr(const char* text) {
 }
 struct Zone {int x,y,w,h; Role role;};
 const Zone zones[]={{881,106,28,28,SwitchKnobOn},{851,151,28,28,SwitchKnobOff},
- {8,42,176,42,Raised},{192,42,176,42,Active},{376,42,176,42,Selected},{560,42,176,42,Muted},
+ {8,42,176,42,Raised},{192,42,176,42,Selected},{376,42,176,42,Selected},{560,42,176,42,Raised},
  {756,42,295,24,Text},{756,67,295,25,Muted},{8,96,250,152,Surface},{272,99,330,48,Cursor},
  {272,160,330,44,Border},{618,102,190,32,Selected},{618,145,190,32,Surface},{846,103,210,34,SwitchOn},{846,148,210,34,SwitchOff},
- {630,188,408,40,Cursor},{272,222,330,26,Active}};
+ {883,190,28,30,Text},{630,198,253,14,Active},{911,198,127,14,Raised},{272,228,198,13,Active},{470,228,132,13,Raised}};
 const char* names[]={"Fond","Surface","Relief","Bordure","Texte","Texte secondaire","Actif","Curseur","Sélection","Pointeur","Contour du pointeur","Interrupteur : fond inactif","Interrupteur : fond actif","Interrupteur : bouton inactif","Interrupteur : bouton actif"};
 void render(lv_event_t* e,Demo& d) {
  auto* obj=lv_event_get_current_target_obj(e); auto* layer=lv_event_get_layer(e);
  lv_area_t bounds;lv_obj_get_coords(obj,&bounds);const auto* font=lv_obj_get_style_text_font(obj,LV_PART_MAIN);
- auto rect=[&](int x,int y,int w,int h,Role bg,int radius=4){lv_draw_rect_dsc_t r;lv_draw_rect_dsc_init(&r);r.bg_color=lv_color_hex(d.colors[bg]);r.bg_opa=LV_OPA_COVER;r.radius=radius;r.border_width=1;r.border_color=lv_color_hex(d.colors[Border]);lv_area_t a={bounds.x1+x,bounds.y1+y,bounds.x1+x+w-1,bounds.y1+y+h-1};lv_draw_rect(layer,&r,&a);};
- auto text=[&](const char* value,int x,int y,int w,Role fg=Text){char shortText[256];snprintf(shortText,sizeof(shortText),"%s",tr(value));lv_point_t size;lv_text_get_size(&size,shortText,font,0,0,LV_COORD_MAX,LV_TEXT_FLAG_NONE);while(size.x>w&&shortText[0]){size_t n=strlen(shortText)-1;while(n&&(uint8_t(shortText[n])&0xc0)==0x80)--n;shortText[n]=0;lv_text_get_size(&size,shortText,font,0,0,LV_COORD_MAX,LV_TEXT_FLAG_NONE);}lv_draw_label_dsc_t l;lv_draw_label_dsc_init(&l);l.text=shortText;l.font=font;l.color=lv_color_hex(d.colors[fg]);l.text_local=1;lv_area_t a={bounds.x1+x,bounds.y1+y,bounds.x1+x+w-1,bounds.y1+y+int(font->line_height)-1};lv_draw_label(layer,&l,&a);};
+ auto rect=[&](int x,int y,int w,int h,Role bg,int radius=4,lv_opa_t opacity=LV_OPA_COVER){lv_draw_rect_dsc_t r;lv_draw_rect_dsc_init(&r);r.bg_color=lv_color_hex(d.colors[bg]);r.bg_opa=opacity;r.radius=radius;r.border_width=1;r.border_opa=opacity;r.border_color=lv_color_hex(d.colors[Border]);lv_area_t a={bounds.x1+x,bounds.y1+y,bounds.x1+x+w-1,bounds.y1+y+h-1};lv_draw_rect(layer,&r,&a);};
+ auto text=[&](const char* value,int x,int y,int w,Role fg=Text,lv_opa_t opacity=LV_OPA_COVER){char shortText[256];snprintf(shortText,sizeof(shortText),"%s",tr(value));lv_point_t size;lv_text_get_size(&size,shortText,font,0,0,LV_COORD_MAX,LV_TEXT_FLAG_NONE);while(size.x>w&&shortText[0]){size_t n=strlen(shortText)-1;while(n&&(uint8_t(shortText[n])&0xc0)==0x80)--n;shortText[n]=0;lv_text_get_size(&size,shortText,font,0,0,LV_COORD_MAX,LV_TEXT_FLAG_NONE);}lv_draw_label_dsc_t l;lv_draw_label_dsc_init(&l);l.text=shortText;l.font=font;l.color=lv_color_hex(d.colors[fg]);l.opa=opacity;l.text_local=1;lv_area_t a={bounds.x1+x,bounds.y1+y,bounds.x1+x+w-1,bounds.y1+y+int(font->line_height)-1};lv_draw_label(layer,&l,&a);};
  rect(0,0,lv_obj_get_width(obj),lv_obj_get_height(obj),Bg,6);
  for(unsigned i=0;i<d.count;++i){rect(8+i*(1053/d.count),6,1053/d.count-4,29,Role(i));text(names[i],12+i*(1053/d.count),8,1053/d.count-12,i==Text||i==Muted||i==Cursor?Bg:Text);}
  const char* buttons[]={"Bouton normal","Bouton actif","Bouton sélectionné","Bouton désactivé"};
- for(unsigned i=0;i<4;++i){rect(8+i*184,42,176,42,i==0?Raised:i==1?Active:i==2?Selected:Surface);text(buttons[i],14+i*184,51,164,i==3?Muted:Text);}
+ for(unsigned i=0;i<4;++i){const lv_opa_t opacity=i==3?LV_OPA_50:LV_OPA_COVER;rect(8+i*184,42,176,42,i==0||i==3?Raised:Selected,4,opacity);text(buttons[i],14+i*184,51,164,Text,opacity);}
  text("Aperçu interactif",756,42,295);text("Couleurs du thème",756,67,295,Muted);
  rect(8,96,250,152,Surface);text("Liste",18,104,230,Muted);text("Document",18,146,230);rect(14,186,238,44,Selected);text("Sélection",20,196,226);
  rect(272,99,330,48,Surface);rect(350,105,94,34,Selected);text("Texte et curseur",280,111,312);rect(444,105,2,34,Cursor,0);
@@ -40,7 +41,7 @@ void render(lv_event_t* e,Demo& d) {
  rect(618,150,26,26,Surface);text("Case libre",654,150,156);
   text("Interrupteur actif",922,108,150);
   text("Interrupteur inactif",922,153,150);
- rect(630,198,408,14,Raised,7);rect(630,198,265,14,Active,7);rect(883,190,28,30,Cursor,15);
+ rect(630,198,408,14,Raised,7);rect(630,198,265,14,Active,7);rect(883,190,28,30,Text,15);
  rect(272,228,330,13,Raised,6);rect(272,228,198,13,Active,6);
  if(d.count>9){
   const lv_point_t p[]={{0,0},{0,38},{10,28},{18,42},{24,38},{16,24},{30,24},{0,0}};
@@ -68,7 +69,7 @@ void event(lv_event_t* e) {
 }
 }
 lv_obj_t* create(lv_obj_t* parent) {
- auto* obj=lv_obj_create(parent);lv_obj_remove_style_all(obj);lv_obj_remove_flag(obj,LV_OBJ_FLAG_SCROLLABLE);
+ auto* obj=lv_obj_create(parent);Tab5ThemeLive::preserve(obj);lv_obj_remove_style_all(obj);lv_obj_remove_flag(obj,LV_OBJ_FLAG_SCROLLABLE);
  lv_obj_add_flag(obj,static_cast<lv_obj_flag_t>(LV_OBJ_FLAG_CLICKABLE|LV_OBJ_FLAG_USER_1|LV_OBJ_FLAG_USER_2));
  auto* d=new Demo;lv_obj_set_user_data(obj,d);lv_obj_add_event_cb(obj,event,LV_EVENT_ALL,d);
  for(unsigned i=0;i<2;++i){auto* sw=d->switches[i]=lv_switch_create(obj);lv_obj_set_pos(sw,846,i?103:148);lv_obj_set_size(sw,68,34);

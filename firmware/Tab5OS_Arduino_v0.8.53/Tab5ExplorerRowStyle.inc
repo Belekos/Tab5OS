@@ -26,6 +26,9 @@ static void filePrepareRowStyles() {
   lv_style_set_bg_color(&fileRowSelectedStyle,C_SELECTED());
   lv_style_set_bg_color(&fileRowPressedStyle,C_ACTIVE());
   lv_style_set_border_color(&fileRowFocusStyle,C_MUTED());
+  // Shared styles are not visited by the generic local-style theme updater.
+  for(auto* style:{&fileRowBaseStyle,&fileRowSelectedStyle,&fileRowPressedStyle,&fileRowFocusStyle})
+    lv_obj_report_style_change(style);
 }
 static void fileStyleRow(lv_obj_t* row,bool selected,lv_color_t textColor) {
   if(!row)return;

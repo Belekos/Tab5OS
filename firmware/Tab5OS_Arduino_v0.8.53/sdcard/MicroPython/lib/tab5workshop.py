@@ -206,7 +206,11 @@ def repair_plan():
             previous=fs.sha256(dest)
             if previous==digest:
                 continue
-            if relative.startswith('System/') and relative.endswith('.json') and fs.stat(dest)[1]>262144:
+            if relative.startswith('System/languages/') and relative.endswith('.json') and previous in PREVIOUS.get(relative,()):
+                # Known official packs may exceed the JSON parser budget. Their
+                # exact hashes permit replacement without parsing user content.
+                kind='update'
+            elif relative.startswith('System/') and relative.endswith('.json') and fs.stat(dest)[1]>262144:
                 # A resource above the parser budget is not evidence of corruption.
                 kind='modified'
             elif relative.startswith('System/languages/') and relative.endswith('.json'):

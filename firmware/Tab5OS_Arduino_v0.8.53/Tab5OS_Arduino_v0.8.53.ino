@@ -3233,6 +3233,24 @@ static void restoreFileContent(){
 static lv_color_t fileRowColor(const String& path){
   return Tab5HiddenFiles::hidden(path.c_str())?C_MUTED():(isProtectedSystemPath(path)?lv_color_mix(lv_color_hex(0xE3A642),C_TEXT(),150):C_TEXT());
 }
+// Restyle the existing model rows, never rebuild the browser or change its
+// selection/scroll/focus. Hidden and protected paths have semantic/derived colours
+// that cannot be recovered reliably by matching old RGB values.
+static void fileRefreshAppearance(){
+  filePrepareRowStyles();
+  for(auto& row:fileSelectionRows){
+    fileStyleRow(row.object,row.checked,fileRowColor(row.path.c_str()));
+    if(row.directory&&lv_obj_get_child_count(row.object)>2){
+      auto* toggle=lv_obj_get_child(row.object,2);
+      lv_obj_set_style_bg_color(toggle,C_ACTIVE(),LV_STATE_PRESSED);
+      if(auto* glyph=lv_obj_get_child(toggle,0))lv_obj_set_style_text_color(glyph,C_MUTED(),0);
+    }
+  }
+  for(auto* label:{filePathLabel,filePreviewMeta,folderPreviewPageLabel})
+    if(label)lv_obj_set_style_text_color(label,C_MUTED(),0);
+  for(auto* label:{filePreviewTitle,filePreviewLabel})
+    if(label)lv_obj_set_style_text_color(label,C_TEXT(),0);
+}
 static std::vector<std::string> fileVisiblePaths(){
   std::vector<std::string> paths;paths.reserve(fileSelectionRows.size());
   for(const auto& row:fileSelectionRows)if(row.right==fileActiveRight)paths.push_back(row.path);
@@ -4551,6 +4569,7 @@ static void applySelectedTheme() {
   Tab5UiStyle::tree(lv_layer_top());
   Tab5Writing.refreshAppearance();
   Tab5Focus.theme(C_SELECTED(),C_TEXT(),C_SURFACE());
+  fileRefreshAppearance();
   Tab5Mouse::palette(appliedTheme.pointer,appliedTheme.pointerOutline);
   markSettingsDirty();
 }
@@ -5521,7 +5540,7 @@ static void readerApplyEpubGeometry(float aspect) {
 
   lv_obj_set_size(readerContent, pageW, pageH);
   lv_obj_set_pos(readerContent, (rw - pageW) / 2, zoneY + (zoneH - pageH) / 2);
-  lv_obj_set_style_bg_color(readerContent, C_SURFACE(), 0);
+  lv_obj_set_style_bg_color(readerContent, C_SURFACE(), 0);Tab5ThemeLive::bind(readerContent,LV_STYLE_BG_COLOR,0,1);
   lv_obj_set_style_border_width(readerContent, 0, 0);
   lv_obj_set_style_radius(readerContent, 0, 0);
   // These are reading margins inside the page, not unused screen gutters.
@@ -6399,9 +6418,9 @@ static void startReader(const String& path) {
 
   readerScreen = lv_obj_create(nullptr);
   lv_obj_set_size(readerScreen, rw, rh);
-  lv_obj_set_style_bg_color(readerScreen, C_BG(), 0);
+  lv_obj_set_style_bg_color(readerScreen, C_BG(), 0);Tab5ThemeLive::bind(readerScreen,LV_STYLE_BG_COLOR,0,0);
   lv_obj_set_style_bg_opa(readerScreen, LV_OPA_COVER, 0);
-  lv_obj_set_style_text_color(readerScreen, C_TEXT(), 0);
+  lv_obj_set_style_text_color(readerScreen, C_TEXT(), 0);Tab5ThemeLive::bind(readerScreen,LV_STYLE_TEXT_COLOR,0,4);
   lv_obj_set_style_text_font(readerScreen, uiFont(), 0);
   lv_obj_set_style_pad_all(readerScreen, 0, 0);
   lv_obj_remove_flag(readerScreen, LV_OBJ_FLAG_SCROLLABLE);
@@ -6437,7 +6456,7 @@ static void startReader(const String& path) {
   readerContent = lv_obj_create(readerScreen);
   lv_obj_set_size(readerContent, rw, rh - 94);
   lv_obj_set_pos(readerContent, 0, 58);
-  lv_obj_set_style_bg_color(readerContent, C_BG(), 0);
+  lv_obj_set_style_bg_color(readerContent, C_BG(), 0);Tab5ThemeLive::bind(readerContent,LV_STYLE_BG_COLOR,0,0);
   lv_obj_set_style_bg_opa(readerContent, LV_OPA_COVER, 0);
   lv_obj_set_style_border_width(readerContent, 0, 0);
   lv_obj_set_style_radius(readerContent, 0, 0);
@@ -6650,11 +6669,11 @@ static void createTopBar() {
   lv_obj_set_pos(topBar, 0, 0);
   lv_obj_set_style_radius(topBar, 0, 0);
   lv_obj_set_style_pad_all(topBar, 0, 0);
-  lv_obj_set_style_bg_color(topBar, C_SURFACE(), 0);
+  lv_obj_set_style_bg_color(topBar, C_SURFACE(), 0);Tab5ThemeLive::bind(topBar,LV_STYLE_BG_COLOR,0,1);
   lv_obj_set_style_bg_opa(topBar, LV_OPA_COVER, 0);
   lv_obj_set_style_border_width(topBar, 1, 0);
   lv_obj_set_style_border_side(topBar, LV_BORDER_SIDE_BOTTOM, 0);
-  lv_obj_set_style_border_color(topBar, C_BORDER(), 0);
+  lv_obj_set_style_border_color(topBar, C_BORDER(), 0);Tab5ThemeLive::bind(topBar,LV_STYLE_BORDER_COLOR,0,3);
   lv_obj_remove_flag(topBar, LV_OBJ_FLAG_SCROLLABLE);
 
   topHomeButton=makeIconButton(topBar,LV_SYMBOL_HOME,52,40);lv_obj_set_pos(topHomeButton,6,4);
@@ -6765,7 +6784,7 @@ static void createDock() {
   lv_obj_set_style_radius(dock, 0, 0);
   lv_obj_set_style_border_width(dock, 0, 0);
   lv_obj_set_style_pad_all(dock, 0, 0);
-  lv_obj_set_style_bg_color(dock, C_SURFACE(), 0);
+  lv_obj_set_style_bg_color(dock, C_SURFACE(), 0);Tab5ThemeLive::bind(dock,LV_STYLE_BG_COLOR,0,1);
   lv_obj_set_style_bg_opa(dock, LV_OPA_COVER, 0);
   lv_obj_remove_flag(dock, LV_OBJ_FLAG_SCROLLABLE);
 
@@ -6860,7 +6879,7 @@ static void createEditorPage() {
   lv_obj_set_style_border_width(editorPage, 0, 0);
   lv_obj_set_style_radius(editorPage, 0, 0);
   lv_obj_set_style_pad_all(editorPage, 0, 0);
-  lv_obj_set_style_bg_color(editorPage, C_BG(), 0);
+  lv_obj_set_style_bg_color(editorPage, C_BG(), 0);Tab5ThemeLive::bind(editorPage,LV_STYLE_BG_COLOR,0,0);
   lv_obj_set_style_bg_opa(editorPage, LV_OPA_COVER, 0);
   lv_obj_remove_flag(editorPage, LV_OBJ_FLAG_SCROLLABLE);
 
@@ -6874,7 +6893,7 @@ static void createEditorPage() {
   lv_textarea_set_max_length(editor, MAX_DOCUMENT_BYTES);
   lv_obj_set_style_radius(editor, 0, 0);
   lv_obj_set_style_border_width(editor, 0, 0);
-  lv_obj_set_style_bg_color(editor, C_BG(), 0);
+  lv_obj_set_style_bg_color(editor, C_BG(), 0);Tab5ThemeLive::bind(editor,LV_STYLE_BG_COLOR,0,0);
   lv_obj_set_style_bg_opa(editor, LV_OPA_COVER, 0);
   lv_obj_set_style_text_color(editor, C_TEXT(), LV_PART_MAIN);
   lv_obj_set_style_text_letter_space(editor, 0, LV_PART_MAIN);
@@ -6903,7 +6922,7 @@ static void createPreviewPage() {
   lv_obj_set_style_border_width(previewPage, 0, 0);
   lv_obj_set_style_radius(previewPage, 0, 0);
   lv_obj_set_style_pad_all(previewPage, 0, 0);
-  lv_obj_set_style_bg_color(previewPage, C_BG(), 0);
+  lv_obj_set_style_bg_color(previewPage, C_BG(), 0);Tab5ThemeLive::bind(previewPage,LV_STYLE_BG_COLOR,0,0);
   lv_obj_set_style_bg_opa(previewPage, LV_OPA_COVER, 0);
   lv_obj_remove_flag(previewPage, LV_OBJ_FLAG_SCROLLABLE);
 
@@ -8000,7 +8019,7 @@ static void createAudioPage() {
   lv_obj_set_style_border_width(audioPage, 0, 0);
   lv_obj_set_style_radius(audioPage, 0, 0);
   lv_obj_set_style_pad_all(audioPage, 10, 0);
-  lv_obj_set_style_bg_color(audioPage, C_BG(), 0);
+  lv_obj_set_style_bg_color(audioPage, C_BG(), 0);Tab5ThemeLive::bind(audioPage,LV_STYLE_BG_COLOR,0,0);
   lv_obj_set_style_bg_opa(audioPage, LV_OPA_COVER, 0);
   lv_obj_remove_flag(audioPage, LV_OBJ_FLAG_SCROLLABLE);
 
@@ -8065,7 +8084,7 @@ static void createAudioPage() {
   lv_obj_add_event_cb(audioList,[](lv_event_t*){audioRememberScroll();},LV_EVENT_SCROLL_END,nullptr);
   lv_obj_set_size(audioList, LV_PCT(100), PAGE_H - 154);
   lv_obj_set_pos(audioList, 0, 104);
-  lv_obj_set_style_bg_color(audioList, C_SURFACE(), 0);
+  lv_obj_set_style_bg_color(audioList, C_SURFACE(), 0);Tab5ThemeLive::bind(audioList,LV_STYLE_BG_COLOR,0,1);
   lv_obj_set_style_border_width(audioList, 0, 0);
   lv_obj_set_style_pad_all(audioList, 0, 0);
   lv_obj_set_style_pad_right(audioList, 28, 0);
@@ -9294,7 +9313,7 @@ static void createMapPage() {
   lv_obj_set_style_border_width(mapPage, 0, 0);
   lv_obj_set_style_radius(mapPage, 0, 0);
   lv_obj_set_style_pad_all(mapPage, 0, 0);
-  lv_obj_set_style_bg_color(mapPage, C_BG(), 0);
+  lv_obj_set_style_bg_color(mapPage, C_BG(), 0);Tab5ThemeLive::bind(mapPage,LV_STYLE_BG_COLOR,0,0);
   lv_obj_set_style_bg_opa(mapPage, LV_OPA_COVER, 0);
   lv_obj_remove_flag(mapPage, LV_OBJ_FLAG_SCROLLABLE);
 
@@ -9777,7 +9796,7 @@ static void createSettingsPage() {
   lv_obj_set_style_border_width(settingsPage, 0, 0);
   lv_obj_set_style_radius(settingsPage, 0, 0);
   lv_obj_set_style_pad_all(settingsPage, 0, 0);
-  lv_obj_set_style_bg_color(settingsPage, C_BG(), 0);
+  lv_obj_set_style_bg_color(settingsPage, C_BG(), 0);Tab5ThemeLive::bind(settingsPage,LV_STYLE_BG_COLOR,0,0);
   lv_obj_set_style_bg_opa(settingsPage, LV_OPA_COVER, 0);
   lv_obj_remove_flag(settingsPage, LV_OBJ_FLAG_SCROLLABLE);
 
@@ -9995,9 +10014,9 @@ static void createSettingsPage() {
   lv_obj_t* clockPanel = lv_obj_create(systemCard);
   lv_obj_set_size(clockPanel, 550, 116);
   lv_obj_set_pos(clockPanel, 20, 46);
-  lv_obj_set_style_bg_color(clockPanel, C_BG(), 0);
+  lv_obj_set_style_bg_color(clockPanel, C_BG(), 0);Tab5ThemeLive::bind(clockPanel,LV_STYLE_BG_COLOR,0,0);
   lv_obj_set_style_bg_opa(clockPanel, LV_OPA_COVER, 0);
-  lv_obj_set_style_border_color(clockPanel, C_BORDER(), 0);
+  lv_obj_set_style_border_color(clockPanel, C_BORDER(), 0);Tab5ThemeLive::bind(clockPanel,LV_STYLE_BORDER_COLOR,0,3);
   lv_obj_set_style_border_width(clockPanel, 1, 0);
   lv_obj_set_style_radius(clockPanel, 10, 0);
   lv_obj_set_style_pad_all(clockPanel, 0, 0);
@@ -10040,9 +10059,9 @@ static void createSettingsPage() {
   lv_obj_t* wifiPanel = lv_obj_create(systemCard);
   lv_obj_set_size(wifiPanel, 540, 116);
   lv_obj_set_pos(wifiPanel, 590, 46);
-  lv_obj_set_style_bg_color(wifiPanel, C_BG(), 0);
+  lv_obj_set_style_bg_color(wifiPanel, C_BG(), 0);Tab5ThemeLive::bind(wifiPanel,LV_STYLE_BG_COLOR,0,0);
   lv_obj_set_style_bg_opa(wifiPanel, LV_OPA_COVER, 0);
-  lv_obj_set_style_border_color(wifiPanel, C_BORDER(), 0);
+  lv_obj_set_style_border_color(wifiPanel, C_BORDER(), 0);Tab5ThemeLive::bind(wifiPanel,LV_STYLE_BORDER_COLOR,0,3);
   lv_obj_set_style_border_width(wifiPanel, 1, 0);
   lv_obj_set_style_radius(wifiPanel, 10, 0);
   lv_obj_set_style_pad_all(wifiPanel, 0, 0);
@@ -10212,10 +10231,10 @@ static void createKeyboard() {
   lv_obj_set_style_pad_row(keyboardPanel, 1, 0);
   lv_obj_set_style_border_width(keyboardPanel, 1, 0);
   lv_obj_set_style_border_side(keyboardPanel, LV_BORDER_SIDE_TOP, 0);
-  lv_obj_set_style_border_color(keyboardPanel, C_BORDER(), 0);
+  lv_obj_set_style_border_color(keyboardPanel, C_BORDER(), 0);Tab5ThemeLive::bind(keyboardPanel,LV_STYLE_BORDER_COLOR,0,3);
   lv_obj_set_style_radius(keyboardPanel, 0, 0);
   lv_obj_set_style_bg_opa(keyboardPanel, LV_OPA_COVER, 0);
-  lv_obj_set_style_bg_color(keyboardPanel, C_SURFACE(), 0);
+  lv_obj_set_style_bg_color(keyboardPanel, C_SURFACE(), 0);Tab5ThemeLive::bind(keyboardPanel,LV_STYLE_BG_COLOR,0,1);
   lv_obj_set_flex_flow(keyboardPanel, LV_FLEX_FLOW_COLUMN);
   lv_obj_set_flex_align(keyboardPanel, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
   lv_obj_remove_flag(keyboardPanel, LV_OBJ_FLAG_SCROLLABLE);
@@ -10228,9 +10247,9 @@ static void createUi() {
   Tab5Shell::load();WORK_W=SCREEN_W-Tab5Shell::choices.dockWidth();MAP_VIEW_W=WORK_W-16;Tab5Shell::workspaceWidth=WORK_W;
   root = lv_screen_active();
   lv_obj_set_style_pad_all(root, 0, 0);
-  lv_obj_set_style_bg_color(root, C_BG(), 0);
+  lv_obj_set_style_bg_color(root, C_BG(), 0);Tab5ThemeLive::bind(root,LV_STYLE_BG_COLOR,0,0);
   lv_obj_set_style_bg_opa(root, LV_OPA_COVER, 0);
-  lv_obj_set_style_text_color(root, C_TEXT(), 0);
+  lv_obj_set_style_text_color(root, C_TEXT(), 0);Tab5ThemeLive::bind(root,LV_STYLE_TEXT_COLOR,0,4);
   lv_obj_set_style_text_font(root, uiFont(), 0);
   lv_obj_set_style_text_letter_space(root, 0, 0);
 #if LVGL_VERSION_MAJOR > 9 || (LVGL_VERSION_MAJOR == 9 && LVGL_VERSION_MINOR >= 4)
@@ -10247,7 +10266,7 @@ static void createUi() {
   lv_obj_set_style_border_width(pageHost, 0, 0);
   lv_obj_set_style_radius(pageHost, 0, 0);
   lv_obj_set_style_pad_all(pageHost, 0, 0);
-  lv_obj_set_style_bg_color(pageHost, C_BG(), 0);
+  lv_obj_set_style_bg_color(pageHost, C_BG(), 0);Tab5ThemeLive::bind(pageHost,LV_STYLE_BG_COLOR,0,0);
   lv_obj_set_style_bg_opa(pageHost, LV_OPA_COVER, 0);
   lv_obj_remove_flag(pageHost, LV_OBJ_FLAG_SCROLLABLE);
 

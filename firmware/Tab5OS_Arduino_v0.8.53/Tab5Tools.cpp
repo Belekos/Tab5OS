@@ -6,6 +6,7 @@
 #include "Tab5AudioDriver.h"
 #include "Tab5VolumeFS.h"
 #include "Tab5ThemePreview.h"
+#include "Tab5ThemeLive.h"
 #include "Tab5ThemeTone.h"
 #include "Tab5FilePicker.h"
 #include "Tab5Terminal.h"
@@ -397,7 +398,7 @@ struct Tab5ToolsApp::Impl {
  }
  void themeRefresh(){themeUpdating=true;char hex[8];snprintf(hex,sizeof(hex),"#%06lX",static_cast<unsigned long>(themeColors[themeRole]&0xffffff));lv_textarea_set_text(themeHex,hex);lv_dropdown_set_selected(themeRoles,themeRole);for(unsigned i=0;i<3;++i)lv_slider_set_value(themeSliders[i],(themeColors[themeRole]>>(16-i*8))&255,LV_ANIM_OFF);lv_obj_set_style_bg_color(themeSwatch,lv_color_hex(themeColors[themeRole]),0);Tab5ThemePreview::update(themePreview,themeColors,Tab5ThemePreview::Count);themeUpdating=false;}
  bool themeReadHex(){const char* text=lv_textarea_get_text(themeHex);if(strlen(text)!=7||text[0]!='#'){note("Couleur : #RRGGBB");return false;}for(unsigned i=1;i<7;++i)if(!isxdigit(text[i])){note("Couleur : #RRGGBB");return false;}themeColors[themeRole]=strtoul(text+1,nullptr,16);themeToneReset();return true;}
- void themeSelect(unsigned role){if(role>=Tab5ThemePreview::Count||themeUpdating)return;if(!themeReadHex())return;themeRole=role;themeToneReset();themeRefresh();}
+ void themeSelect(unsigned role){if(role>=Tab5ThemePreview::Count||themeUpdating)return;if(!themeReadHex()){themeUpdating=true;lv_dropdown_set_selected(themeRoles,themeRole);themeUpdating=false;return;}themeRole=role;themeToneReset();themeRefresh();}
  void themeChoices(){
   if(!themeLoad)return;unsigned selected=lv_dropdown_get_selected(themeLoad);String selectedId=themeDeleteId;
   if(hooks.themeReload)hooks.themeReload();
@@ -430,7 +431,7 @@ struct Tab5ToolsApp::Impl {
   for(JsonObject item:list)if(!strcmp(item["id"]|"",id)){found=item;break;}
   if(found.isNull()){if(list.size()>=16){note("Maximum : 16 thèmes personnels");return;}found=list.add<JsonObject>();}
    found["id"]=id;found["name"]=name;tab5theme::writePalette(themeColors,[&](const char* key,char* hex){found[key]=hex;});
-  if(!writeJson("/System/themes.json",doc)){note("Enregistrement impossible");return;}if(hooks.themesChanged)hooks.themesChanged();if(hooks.themeApply)hooks.themeApply(id);themeChoices();note("Thème enregistré");
+  if(!writeJson("/System/themes.json",doc)){note("Enregistrement impossible");return;}if(hooks.themesChanged)hooks.themesChanged();if(hooks.themeApply)hooks.themeApply(id);themeChoices();themeRefresh();note("Thème enregistré");
  }
  void themeDelete(){
   if(!themeDeleteId.length())return;
@@ -453,7 +454,7 @@ struct Tab5ToolsApp::Impl {
    String roles;for(auto* title:{"Fond","Surface","Relief","Bordure","Texte","Texte secondaire","Actif","Curseur","Sélection","Pointeur","Contour du pointeur","Interrupteur : fond inactif","Interrupteur : fond actif","Interrupteur : bouton inactif","Interrupteur : bouton actif"}){if(roles.length())roles+='\n';roles+=tr(title);}themeRoles=dropdown(roles.c_str(),426,158,380);
   lv_obj_add_event_cb(themeRoles,[](lv_event_t* e){auto* a=static_cast<Impl*>(lv_event_get_user_data(e));a->themeSelect(lv_dropdown_get_selected(a->themeRoles));},LV_EVENT_VALUE_CHANGED,this);
   themeHex=field("#000000",822,158,220);lv_textarea_set_max_length(themeHex,7);
-  themeSwatch=lv_obj_create(root);lv_obj_set_pos(themeSwatch,1060,158);lv_obj_set_size(themeSwatch,48,48);lv_obj_remove_flag(themeSwatch,LV_OBJ_FLAG_SCROLLABLE);
+  themeSwatch=lv_obj_create(root);Tab5ThemeLive::preserve(themeSwatch);lv_obj_set_pos(themeSwatch,1060,158);lv_obj_set_size(themeSwatch,48,48);lv_obj_remove_flag(themeSwatch,LV_OBJ_FLAG_SCROLLABLE);
   for(unsigned i=0;i<3;++i){label(i==0?"R":i==1?"G":"B",i*270,224,30);auto* slider=themeSliders[i]=lv_slider_create(root);lv_obj_set_pos(slider,i*270+36,230);lv_obj_set_size(slider,204,24);lv_slider_set_range(slider,0,255);lv_obj_add_event_cb(slider,[](lv_event_t* e){auto* a=static_cast<Impl*>(lv_event_get_user_data(e));if(a->themeUpdating)return;uint32_t value=0;for(auto* s:a->themeSliders)value=(value<<8)|lv_slider_get_value(s);a->themeColors[a->themeRole]=value;a->themeToneReset();a->themeRefresh();},LV_EVENT_VALUE_CHANGED,this);}
   button("Valider couleur",826,218,284,202);
   label("Noir",0,282,88);label("Blanc",698,282,98);

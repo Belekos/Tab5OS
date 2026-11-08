@@ -1,0 +1,77 @@
+name: Validate Tab5OS firmware
+on:
+  push:
+    branches: [validation/themes-doom-package-20261108]
+permissions:
+  contents: read
+concurrency:
+  group: tab5os-firmware-validation-20261108
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - name: Check out the validation commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Prepare pinned toolchain and dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          BUILD="$RUNNER_TEMP/tab5os-build"
+          mkdir -p "$BUILD/qa"
+          git rev-parse HEAD > "$BUILD/qa/validated-commit.txt"
+          curl --fail --location --retry 3 https://downloads.arduino.cc/arduino-cli/arduino-cli_1.5.1_Linux_64bit.tar.gz --output "$BUILD/arduino-cli.tar.gz"
+          printf '%s  %s\n' 28a8e119c498a25607821c36cb2dc49e8463941b261a0d99091baa7bc692dd2b "$BUILD/arduino-cli.tar.gz" | sha256sum --check
+          tar --no-same-owner -xzf "$BUILD/arduino-cli.tar.gz" -C "$BUILD" arduino-cli
+          "$BUILD/arduino-cli" version
+          python3 firmware/build/build_linux/prepare_linux.py --environment "$BUILD" 2>&1 | tee "$BUILD/qa/dependencies.log"
+          python3 firmware/build/build_linux/verify_downloads.py --environment "$BUILD"
+      - name: Build and verify the Doom application
+        shell: bash
+        run: |
+          set -euo pipefail
+          BUILD="$RUNNER_TEMP/tab5os-build"
+          TOOLCHAIN="$BUILD/data/packages/m5stack/tools/esp-rv32/2601/bin"
+          mkdir -p "$BUILD/native"
+          python3 firmware/Tab5OS_Arduino_v0.8.53/tools/native-apps/doom/tests/run_tests.py --output "$BUILD/qa/doom-input-report.json" 2>&1 | tee "$BUILD/qa/doom-input-tests.log"
+          python3 firmware/Tab5OS_Arduino_v0.8.53/tools/native-apps/doom/build.py --toolchain "$TOOLCHAIN" --output "$BUILD/native/Doom.app.elf" 2>&1 | tee "$BUILD/qa/doom-build.log"
+          python3 firmware/Tab5OS_Arduino_v0.8.53/tools/native-apps/doom/tests/verify_build.py "$BUILD/native/Doom.app.elf" --output "$BUILD/qa/doom-build-report.json"
+          "$TOOLCHAIN/riscv32-esp-elf-readelf" -h -l -r -Ws "$BUILD/native/Doom.app.elf" > "$BUILD/qa/doom-elf.txt"
+          sha256sum "$BUILD/native/Doom.app.elf" > "$BUILD/qa/doom-sha256.txt"
+      - name: Compile ESP32-P4 firmware
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 firmware/build/build_linux/compile_linux.py --release-root "$GITHUB_WORKSPACE/firmware" --environment "$RUNNER_TEMP/tab5os-build" --sketch-name Tab5OS_Arduino_v0.8.53 --jobs 4
+      - name: Verify the firmware image and linked adaptations
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 firmware/build/build_linux/verify_linux.py --environment "$RUNNER_TEMP/tab5os-build"
+          git diff --exit-code -- firmware
+      - name: Retain validation evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: tab5os-validation-${{ github.sha }}
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            ${{ runner.temp }}/tab5os-build/qa/*.json
+            ${{ runner.temp }}/tab5os-build/qa/*.log
+            ${{ runner.temp }}/tab5os-build/qa/*.d
+            ${{ runner.temp }}/tab5os-build/qa/*.txt
+            ${{ runner.temp }}/tab5os-build/qa/firmware/*-patch.json
+            ${{ runner.temp }}/tab5os-build/qa/firmware/dsi-cache-safe/report.json
+            ${{ runner.temp }}/tab5os-build/build/*.bin
+            ${{ runner.temp }}/tab5os-build/build/*.elf
+            ${{ runner.temp }}/tab5os-build/build/*.map
+            ${{ runner.temp }}/tab5os-build/build/partitions.csv
+            ${{ runner.temp }}/tab5os-build/build/sdkconfig
+            ${{ runner.temp }}/tab5os-build/native/*.elf

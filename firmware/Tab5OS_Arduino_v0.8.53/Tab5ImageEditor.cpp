@@ -81,7 +81,7 @@ void copy(char* out,size_t capacity,const char* source){
 }
 uint32_t stamp(){uint32_t value=Tab5UiStyle::radius();for(unsigned i=0;i<9;++i)value=value*33+Tab5UiStyle::color(i);return value;}
 void info(const char* message){copy(s.message,sizeof(s.message),message);if(s.status)lv_label_set_text(s.status,tr(message));}
-void finishJob(bool cancel);void startSelection(int method);void refreshHover();void status();void panel();void swatches();void toolState();bool finishText(bool commit);void textChanged();void textCursor();void optionsVisible(bool value);void fitView();void zoomAt(int,int,int);void render(int x,int y,int width,int height);void renderAll();void layout();void action(Action);void cancelGesture();void closeDialog();void dialogSubmit();void request(Action);
+void finishJob(bool cancel);void startSelection(int method);void refreshHover();void status();void panel(bool preserveScroll=false);void swatches();void toolState();bool finishText(bool commit);void textChanged();void textCursor();void optionsVisible(bool value);void fitView();void zoomAt(int,int,int);void render(int x,int y,int width,int height);void renderAll();void layout();void action(Action);void cancelGesture();void closeDialog();void dialogSubmit();void request(Action);
 void* allocate(void*,size_t bytes){
  if(!bytes||bytes>SIZE_MAX-sizeof(Allocation))return nullptr;
  const size_t total=bytes+sizeof(Allocation);
@@ -441,14 +441,17 @@ void slider(lv_obj_t* parent,Slider id,int y,int low,int high,bool precise=false
 int checkbox(lv_obj_t* parent,const char* text,int y,int* value){
  auto* o=lv_checkbox_create(parent);lv_obj_set_pos(o,0,y);lv_obj_set_width(o,s.panelWidth-32);lv_checkbox_set_text(o,"");if(*value)lv_obj_add_state(o,LV_STATE_CHECKED);Tab5UiStyle::control(o);Tab5Focus.describe(o,tr(text));
  auto* caption=label(o,text,40,0,s.panelWidth-72);lv_obj_update_layout(caption);const int height=std::max(36,int(lv_obj_get_height(caption)));lv_obj_set_height(o,height);
- lv_obj_add_event_cb(o,[](lv_event_t* e){auto* value=static_cast<int*>(lv_event_get_user_data(e));const int checked=lv_obj_has_state(lv_event_get_target_obj(e),LV_STATE_CHECKED)?1:0;if(!finishText(true))return;cancelGesture();*value=checked;if(value==&s.edgeStop)panel();},LV_EVENT_VALUE_CHANGED,value);return height+16;
+ lv_obj_add_event_cb(o,[](lv_event_t* e){auto* value=static_cast<int*>(lv_event_get_user_data(e));const int checked=lv_obj_has_state(lv_event_get_target_obj(e),LV_STATE_CHECKED)?1:0;if(!finishText(true))return;cancelGesture();*value=checked;if(value==&s.edgeStop)panel(true);},LV_EVENT_VALUE_CHANGED,value);return height+16;
 }
 int choice(lv_obj_t* parent,const char* title,int y,int* value,const char* const* names,int count){
- const int w=s.panelWidth-32;auto* caption=label(parent,title,0,y,w);lv_obj_update_layout(caption);const int offset=int(lv_obj_get_height(caption))+8;auto* o=lv_dropdown_create(parent);lv_obj_set_pos(o,0,y+offset);lv_obj_set_size(o,w,42);char options[700]{};for(int i=0;i<count;++i){if(i)strncat(options,"\n",sizeof(options)-strlen(options)-1);strncat(options,tr(names[i]),sizeof(options)-strlen(options)-1);}lv_dropdown_set_options(o,options);lv_dropdown_set_selected(o,*value);Tab5UiStyle::control(o);Tab5Focus.describe(o,tr(title));lv_obj_add_event_cb(o,[](lv_event_t* e){auto* value=static_cast<int*>(lv_event_get_user_data(e));const int selected=lv_dropdown_get_selected(lv_event_get_target_obj(e));if(!finishText(true))return;cancelGesture();*value=selected;if(value==&s.selectMethod||value==&s.fillKind||value==&s.fillRegion||value==&s.reliefProfile||value==&s.reliefUnit)panel();},LV_EVENT_VALUE_CHANGED,value);return offset+58;
+ const int w=s.panelWidth-32;auto* caption=label(parent,title,0,y,w);lv_obj_update_layout(caption);const int offset=int(lv_obj_get_height(caption))+8;auto* o=lv_dropdown_create(parent);lv_obj_set_pos(o,0,y+offset);lv_obj_set_size(o,w,42);char options[700]{};for(int i=0;i<count;++i){if(i)strncat(options,"\n",sizeof(options)-strlen(options)-1);strncat(options,tr(names[i]),sizeof(options)-strlen(options)-1);}lv_dropdown_set_options(o,options);lv_dropdown_set_selected(o,*value);Tab5UiStyle::control(o);Tab5Focus.describe(o,tr(title));lv_obj_add_event_cb(o,[](lv_event_t* e){auto* value=static_cast<int*>(lv_event_get_user_data(e));const int selected=lv_dropdown_get_selected(lv_event_get_target_obj(e));if(!finishText(true))return;cancelGesture();*value=selected;if(value==&s.selectMethod||value==&s.fillKind||value==&s.fillRegion||value==&s.reliefProfile||value==&s.reliefUnit)panel(true);},LV_EVENT_VALUE_CHANGED,value);return offset+58;
 }
 int wrapButton(lv_obj_t* o){auto* l=lv_obj_get_child(o,0);lv_label_set_long_mode(l,LV_LABEL_LONG_WRAP);lv_obj_set_height(l,LV_SIZE_CONTENT);lv_obj_update_layout(l);const int height=std::max(64,int(lv_obj_get_height(l))+12);lv_obj_set_height(o,height);lv_obj_center(l);return height+8;}
-void panel(){
- if(!s.panel||!s.initialized)return;if(Tab5Focus.contains(s.panel,Tab5Focus.focused()))Tab5Focus.clear();lv_obj_clean(s.panel);s.body=s.tab=s.layerList=nullptr;for(auto& l:s.sliderLabels)l=nullptr;for(auto& o:s.sliders)o=nullptr;for(auto& o:s.paletteButtons)o=nullptr;
+void panel(bool preserveScroll){
+ if(!s.panel||!s.initialized)return;
+ // Rebuilding dependent controls must not move the option being edited.
+ const int32_t scrollY=preserveScroll&&s.body?lv_obj_get_scroll_y(s.body):0;
+ if(Tab5Focus.contains(s.panel,Tab5Focus.focused()))Tab5Focus.clear();lv_obj_clean(s.panel);s.body=s.tab=s.layerList=nullptr;for(auto& l:s.sliderLabels)l=nullptr;for(auto& o:s.sliders)o=nullptr;for(auto& o:s.paletteButtons)o=nullptr;
  if(s.tabIndex==1||s.tabIndex==7)s.tabIndex=0;
  const char* title=s.tabIndex==2?(s.editingBackground?"Couleur d’arrière-plan":"Couleur de premier plan"):s.tabIndex==3?"Calques":s.tabIndex==4?"Couleurs et luminosité":s.tabIndex==5?"Transformation":s.tabIndex==6?"Format et résolution":toolNames[s.tool];
  auto* hide=command(s.panel,"",s.panelWidth-42,4,36,ToggleOptions);auto* closeLabel=lv_obj_get_child(hide,0);lv_obj_set_style_text_font(closeLabel,&lv_font_montserrat_24,0);lv_label_set_text(closeLabel,LV_SYMBOL_CLOSE);Tab5Focus.describe(hide,tr("Masquer les options"));
@@ -500,6 +503,7 @@ void panel(){
  }else if(s.tabIndex==5){slider(body,ScaleX,0,25,400);slider(body,ScaleY,66,25,400);slider(body,Shear,132,-200,200);const char* angles[]={"0°","90°","180°","270°"};choice(body,"Rotation",204,&s.turns,angles,4);command(body,"Appliquer",0,296,w,ApplyTransform);label(body,"La transformation agit sur la sélection du calque actif, ou sur l’image entière sans sélection.",0,354,w);
  }else if(s.tabIndex==6){wrapButton(command(body,"Modifier la résolution",0,0,w,ApplySize));wrapButton(command(body,"Recadrer la sélection",0,74,w,Crop));command(body,"Exporter en BMP",0,148,w,Export);command(body,"Exporter en JPEG",0,202,w,ExportJpeg);command(body,"Enregistrer le projet",0,256,w,Save);label(body,"T5I conserve les calques. BMP et JPEG exportent l’image aplatie sur fond blanc.",0,316,w);}
  toolState();appearance();
+ if(preserveScroll){lv_obj_update_layout(body);lv_obj_scroll_to_y(body,std::max<int32_t>(0,scrollY),LV_ANIM_OFF);}
 }
 void toolIcon(lv_event_t* e){
  auto* o=lv_event_get_target_obj(e);lv_area_t a;lv_obj_get_coords(o,&a);const int cx=(a.x1+a.x2)/2,cy=(a.y1+a.y2)/2;auto* layer=lv_event_get_layer(e);const int tool=int(reinterpret_cast<uintptr_t>(lv_event_get_user_data(e)));

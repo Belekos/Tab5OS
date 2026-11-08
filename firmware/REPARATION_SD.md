@@ -22,12 +22,16 @@ The audit is read-only. It requires the `Factory/Tab5OS-0.8.53` reference set, t
 | Older official file recognized by its checksum | Updated with a backup |
 | User-modified script or resource | Preserved |
 | Valid JSON settings or existing INI file | Preserved |
-| Custom translations | Existing values preserved; missing keys added |
+| Custom translations | Existing values preserved; missing keys added when the file fits the JSON read budget |
 | Invalid JSON | Backed up in full, then replaced |
 | JSON exceeding the read budget | Preserved as a modified file; not declared corrupted |
 | Directory where a file is expected | Reported, never replaced |
 | Document, download or other unlisted file | Ignored, never deleted |
 | EIO/5 error or another communication problem | Operation stops; no deletion is inferred from this error |
+
+Official language packs recognized by an earlier release checksum can be updated
+without parsing their JSON, including packs larger than 256 KiB. Larger custom
+packs are preserved for manual comparison; they are not treated as corrupted.
 
 Before replacement, a complete copy is created under `/.tab5-backups/repair/0.8.53/`, retaining its original path and adding a distinct numeric suffix. These backups are never cleaned up automatically. Restoring modified files is a separate option that requires confirmation; it also keeps a backup.
 

@@ -10,8 +10,11 @@ struct Binding {
   lv_style_prop_t property;
   uint32_t last;
   uint8_t role;
+  bool explicitRole=false;
 };
 struct Bindings {std::vector<Binding> values;};
+char preserveTag;
+void preserveMarker(lv_event_t*) {}
 
 void destroyed(lv_event_t* e) {
   if(lv_event_get_target_obj(e)==lv_event_get_current_target_obj(e))
@@ -42,7 +45,7 @@ int roleFor(lv_obj_t* obj,lv_style_prop_t property,lv_style_selector_t selector,
   return -1;
 }
 void visit(lv_obj_t* obj,const uint32_t* old,const uint32_t* next) {
-  if(!obj)return;
+  if(!obj||preserved(obj))return;
   Bindings* saved=bindings(obj);
   const lv_style_prop_t properties[]={LV_STYLE_BG_COLOR,LV_STYLE_BG_GRAD_COLOR,
     LV_STYLE_BORDER_COLOR,LV_STYLE_OUTLINE_COLOR,LV_STYLE_SHADOW_COLOR,
@@ -61,7 +64,7 @@ void visit(lv_obj_t* obj,const uint32_t* old,const uint32_t* next) {
     Binding* known=nullptr;
     if(saved)for(auto& b:saved->values)
       if(b.selector==selectors[i]&&b.property==property){known=&b;break;}
-    const int role=known&&known->last==rgb?int(known->role):roleFor(obj,property,selectors[i],rgb,old);
+    const int role=known&&(known->explicitRole||known->last==rgb)?int(known->role):roleFor(obj,property,selectors[i],rgb,old);
     if(role<0)continue; // e.g. syntax highlighting, cover art or status colours
     if(!saved) {
       saved=new(std::nothrow) Bindings;
@@ -79,6 +82,30 @@ void visit(lv_obj_t* obj,const uint32_t* old,const uint32_t* next) {
   }
   for(uint32_t i=0;i<lv_obj_get_child_count(obj);++i)visit(lv_obj_get_child(obj,i),old,next);
 }
+}
+void bind(lv_obj_t* obj,lv_style_prop_t property,lv_style_selector_t selector,unsigned role) {
+  if(!obj||role>=9)return;
+  lv_style_value_t value;
+  if(lv_obj_get_local_style_prop(obj,property,&value,selector)!=LV_STYLE_RES_FOUND)return;
+  const uint32_t rgb=lv_color_to_u32(value.color)&0xffffff;
+  auto* saved=bindings(obj);
+  if(!saved){saved=new(std::nothrow) Bindings;if(!saved)return;if(!lv_obj_add_event_cb(obj,destroyed,LV_EVENT_DELETE,saved)){delete saved;return;}}
+  for(auto& b:saved->values)if(b.selector==selector&&b.property==property){b.last=rgb;b.role=uint8_t(role);b.explicitRole=true;return;}
+  saved->values.push_back({selector,property,rgb,uint8_t(role),true});
+}
+bool preserved(lv_obj_t* obj) {
+  if(!obj)return false;
+  // Linkers may fold identical empty callbacks; the unique tag keeps this
+  // marker distinct from the other style markers even in optimized builds.
+  for(uint32_t i=0;i<lv_obj_get_event_count(obj);++i) {
+    auto* descriptor=lv_obj_get_event_dsc(obj,i);
+    if(lv_event_dsc_get_cb(descriptor)==preserveMarker&&
+       lv_event_dsc_get_user_data(descriptor)==&preserveTag)return true;
+  }
+  return false;
+}
+void preserve(lv_obj_t* obj) {
+  if(obj&&!preserved(obj))lv_obj_add_event_cb(obj,preserveMarker,LV_EVENT_DELETE,&preserveTag);
 }
 void apply(lv_obj_t* root,const uint32_t* oldPalette,const uint32_t* newPalette) {
   if(!root||!oldPalette||!newPalette)return;
