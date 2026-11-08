@@ -115,6 +115,8 @@ typedef struct {
  int relief_height;    /* signed pixels, -256..256; zero gives a flat fill */
  int relief_azimuth;   /* degrees, wrapped to 0..359 */
  int relief_intensity; /* 0..200 percent; zero gives a flat fill */
+ uint32_t relief_light; /* IE_RGBA light RGB; alpha zero keeps legacy white */
+ int relief_gloss;     /* 0..100: matte to glossy; zero keeps legacy shading */
 } IEFillOptions;
 typedef struct IEJob IEJob;
 IEJob *ie_selection_start(IEDoc *, const IESelectionOptions *);

@@ -7,6 +7,7 @@
 bool tab5ExecutableRun(const char* path,const char* argument=nullptr,const char* language="en");
 void tab5ExecutableStop();
 void tab5ExecutableService();
+// Loader and non-cancelled application failures open the existing console once.
 bool tab5ExecutableTakeLaunchError(); // UI-only one-shot, after Service
 bool tab5ExecutableRunning();
 bool tab5ExecutableBusy();

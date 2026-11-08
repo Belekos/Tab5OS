@@ -33,10 +33,11 @@ static IEFillOptions options(void){
  q.relief_profile=IE_RELIEF_CIRCULAR;q.relief_unit=IE_RELIEF_PERCENT;q.relief_extent=100;q.relief_height=16;q.relief_azimuth=225;q.relief_intensity=100;return q;
 }
 static void test_selected_colors(void){
+ static const uint64_t legacy[]={0xeb5fb61ce1762da8ull,0xcbfa56d13c3905b2ull,0x30c7ebf8aa41c28aull};
  int profile;for(profile=IE_RELIEF_LINEAR;profile<=IE_RELIEF_EXTRUDE;profile++){
   IEDoc d;Memory m;IEFillOptions q=options();uint32_t first[40*36];uint64_t before,after;int x,y;
   setup(&d,&m,IE_RGBA(30,190,90,255));ie_select(&d,4,4,35,31);q.relief_profile=profile;before=pixels(&d);
-  CHECK(finish(ie_fill_start(&d,&q))==1);after=pixels(&d);CHECK(after!=before);
+  CHECK(finish(ie_fill_start(&d,&q))==1);after=pixels(&d);CHECK(after!=before);CHECK(after==legacy[profile]);
   memcpy(first,d.current.layers[0].pixels,sizeof(first));
   if(profile==IE_RELIEF_EXTRUDE)CHECK(first[18*40+20]==q.foreground);
   CHECK(ie_undo(&d));CHECK(pixels(&d)==before);CHECK(ie_redo(&d));CHECK(pixels(&d)==after);CHECK(ie_undo(&d));
@@ -60,6 +61,7 @@ static void test_flat_fill_and_transparency(void){
   IEDoc d,e;Memory m,n;IEFillOptions q=options(),solid;uint64_t before;
   setup(&d,&m,backgrounds[base]);setup(&e,&n,backgrounds[base]);soften_selection(&d);soften_selection(&e);before=pixels(&d);
   q.foreground=IE_RGBA(200,30,80,mode&1?128:255);q.opacity=mode&1?43:100;
+  q.relief_light=IE_RGBA(20,80,255,255);q.relief_gloss=100;
   if(mode&2)q.relief_height=0;else q.relief_intensity=0;
   solid=q;solid.kind=IE_FILL_SOLID;
   /* Flat relief must fit the same allocation allowance as an ordinary fill. */
@@ -81,6 +83,7 @@ static void test_no_op_settings(void){
 }
 static void test_cancel(void){
  IEDoc d;Memory m;IEFillOptions q=options();IEJob* job;uint64_t before,redo;int dirty,result=0;unsigned step=0;
+ q.relief_light=IE_RGBA(255,100,20,255);q.relief_gloss=100;
  setup(&d,&m,IE_RGBA(40,60,80,190));CHECK(ie_begin(&d));ie_shape(&d,IE_SHAPE_RECT,10,10,20,20,IE_RGBA(120,40,200,255),100,1,1,0);redo=pixels(&d);CHECK(ie_undo(&d));
  ie_select(&d,4,4,35,31);before=pixels(&d);dirty=d.dirty;CHECK(d.redo_count==1);job=ie_fill_start(&d,&q);CHECK(job!=0);
  while(!result&&pixels(&d)==before){result=ie_job_step(job,1);CHECK(++step<20000);}
@@ -88,9 +91,10 @@ static void test_cancel(void){
  ie_job_cancel(job);ie_job_destroy(job);CHECK(pixels(&d)==before);CHECK(d.dirty==dirty);CHECK(d.redo_count==1);CHECK(ie_redo(&d));CHECK(pixels(&d)==redo);cleanup(&d,&m);
 }
 static void test_allocation_failure(void){
- int fail;unsigned failed=0,succeeded=0;
- for(fail=0;fail<16;fail++){
+ int fail,mode;unsigned failed=0,succeeded=0;
+ for(mode=0;mode<3;mode++)for(fail=0;fail<16;fail++){
   IEDoc d;Memory m;IEFillOptions q=options();IEJob* job;uint64_t before;int result=-1;
+  q.relief_light=mode?IE_RGBA(20,180,255,255):0;q.relief_gloss=mode==2?100:0;
   setup(&d,&m,IE_RGBA(40,60,80,190));ie_select(&d,4,4,35,31);before=pixels(&d);m.fail_at=(long)m.calls+fail;
   job=ie_fill_start(&d,&q);if(job)result=finish(job);
   if(result<0){failed++;CHECK(pixels(&d)==before);}else {succeeded++;CHECK(pixels(&d)!=before);}
@@ -98,7 +102,39 @@ static void test_allocation_failure(void){
  }
  CHECK(failed>=6);CHECK(succeeded>0);
 }
+static void render_options(IEFillOptions q,uint32_t* out){
+ IEDoc d;Memory m;IEJob* job;setup(&d,&m,0);ie_select(&d,4,4,35,31);job=ie_fill_start(&d,&q);
+ /* Options belong to the job once a gesture starts, not the live UI sliders. */
+ memset(&q,0,sizeof(q));CHECK(finish(job)==1);memcpy(out,d.current.layers[0].pixels,40*36*sizeof(*out));cleanup(&d,&m);
+}
+static void test_light_colors(void){
+ int profile,sign,gloss;uint32_t red[40*36],blue[40*36];
+ for(profile=IE_RELIEF_LINEAR;profile<=IE_RELIEF_EXTRUDE;profile++)for(sign=-1;sign<=1;sign+=2)for(gloss=0;gloss<=100;gloss+=100){
+  IEFillOptions q=options();unsigned i,tinted=0;q.relief_profile=profile;q.relief_height*=sign;q.relief_gloss=gloss;q.foreground=IE_RGBA(110,110,110,171);q.opacity=73;
+  q.relief_light=IE_RGBA(255,80,20,255);render_options(q,red);q.relief_light=IE_RGBA(20,80,255,255);render_options(q,blue);
+  for(i=0;i<40*36;i++){
+   CHECK((red[i]>>24)==(blue[i]>>24));CHECK((red[i]&255)==((blue[i]>>16)&255));CHECK(((red[i]>>16)&255)==(blue[i]&255));CHECK((red[i]&0xff00)==(blue[i]&0xff00));
+   if(red[i]>>24){CHECK((red[i]&255)>=((red[i]>>16)&255));if((red[i]&255)>((red[i]>>16)&255))++tinted;}
+  }
+  CHECK(tinted>100);
+ }
+}
+static void test_gloss_and_limits(void){
+ int profile;uint32_t matte[40*36],glossy[40*36],other[40*36];
+ for(profile=IE_RELIEF_LINEAR;profile<=IE_RELIEF_EXTRUDE;profile++){
+  IEFillOptions q=options();unsigned i,k,changed=0;q.relief_profile=profile;q.foreground=IE_RGBA(50,100,150,203);q.relief_light=IE_RGBA(255,255,255,255);
+  render_options(q,matte);q.relief_gloss=100;render_options(q,glossy);
+  for(i=0;i<40*36;i++){CHECK((matte[i]>>24)==(glossy[i]>>24));for(k=0;k<24;k+=8)CHECK(((glossy[i]>>k)&255)>=((matte[i]>>k)&255));if(glossy[i]!=matte[i])++changed;}
+  CHECK(changed>0);
+  q.relief_gloss=999;render_options(q,other);CHECK(!memcmp(glossy,other,sizeof(other)));
+  q.relief_gloss=-99;render_options(q,other);CHECK(!memcmp(matte,other,sizeof(other)));
+  q.relief_light=IE_RGBA(0,0,0,255);render_options(q,matte);q.relief_gloss=100;render_options(q,other);CHECK(!memcmp(matte,other,sizeof(other)));
+  for(i=0;i<40*36;i++)for(k=0;k<24;k+=8)CHECK(((other[i]>>k)&255)<=((glossy[i]>>k)&255));
+  q.relief_light=IE_RGBA(255,80,20,1);render_options(q,matte);q.relief_light=IE_RGBA(255,80,20,255);render_options(q,other);CHECK(!memcmp(matte,other,sizeof(other)));
+  q.relief_light=IE_RGBA(255,80,20,0);render_options(q,other);q.relief_light=IE_RGBA(255,255,255,255);render_options(q,matte);CHECK(!memcmp(matte,other,sizeof(other)));
+ }
+}
 int main(void){
- test_selected_colors();test_flat_fill_and_transparency();test_no_op_settings();test_cancel();test_allocation_failure();
- printf("{\"checks\":%u,\"allocation_scenarios\":16,\"status\":\"passed\"}\n",checks);return 0;
+ test_selected_colors();test_flat_fill_and_transparency();test_no_op_settings();test_cancel();test_allocation_failure();test_light_colors();test_gloss_and_limits();
+ printf("{\"checks\":%u,\"allocation_scenarios\":48,\"status\":\"passed\"}\n",checks);return 0;
 }

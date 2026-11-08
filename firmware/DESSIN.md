@@ -38,7 +38,11 @@ The **Relief** fill mode paints with the selected color and shades it to simulat
 
 **Progression** sets the profile width, in document pixels or as a proportion of the maximum distance to the boundary. At 100%, the profile reaches the points furthest from the edge without imposing a plateau; a lower value intentionally leaves a flat area. Holes form part of the boundary. The proportion uses the maximum for the entire area: it does not equalize the height of all narrow branches in a shape. Extrusion does not use this setting.
 
-A positive **Height** creates a raised surface and a negative value creates a recess. **Azimuth** controls the light direction from 0 to 359°: 0° right, 90° down, 180° left, 270° up. **Intensity** controls lighting contrast. Zero intensity or zero height produces a flat fill in the selected color. These controls remain simulation parameters for a 2D image.
+A positive **Height** creates a raised surface and a negative value creates a recess. **Azimuth** controls the light direction from 0 to 359°: 0° right, 90° down, 180° left, 270° up.
+
+**Light color** opens a separate palette and RGB editor. Either mouse button, touch or keyboard changes the light in this panel; colors 1 and 2 remain the material colors used to paint the relief. The small swatch shows the current light color. **Tool options** returns to the same position in the relief settings.
+
+**Light intensity** ranges from 0 to 200%; 100% is the default. **Gloss** ranges from 0 (matte) to 100 (glossy), adding a stronger, narrower highlight as it increases. White light and zero gloss retain the original matte appearance. Zero intensity or zero height produces a flat fill in the selected paint color, regardless of light color or gloss. These controls simulate lighting in a 2D image.
 
 The gear opens the tool options; this command is no longer duplicated in View. Command menus do not repeat their title in the list or keep a dummy row selected. The Help menu also includes **Drawing: selection and relief**.
 

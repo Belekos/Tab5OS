@@ -21,7 +21,9 @@ Before changing pixels, the engine must be able to retain the previous state. On
 
 The round or square brush has diameter, opacity, edge hardness/contrast and point scatter. The eraser changes alpha. The engine provides lines, filled and/or outlined rectangles/ellipses, rectangular selection, movement, independent scaling on each axis, horizontal shear and quarter-turn rotations. Resizing and distortions use nearest-neighbour sampling. Brightness, contrast, saturation and red/green/blue gains apply to the selection or image, on the active layer or all visible layers.
 
-Relief fill paints the supplied foreground color and shades it according to the selected profile and lighting, using normal alpha compositing. It also works on a transparent layer. Zero intensity or zero height produces a flat fill in that color. The built-in interface supplies color 1 for a left-button/touch fill and color 2 for a right-button fill.
+Relief fill paints the supplied foreground color and shades it according to the selected profile and lighting, using normal alpha compositing. It also works on a transparent layer. The built-in interface supplies color 1 for a left-button/touch fill and color 2 for a right-button fill.
+
+Light color is independent of both paint colors. `relief_intensity` ranges from 0 to 200 percent, with 100 percent as the interface default. `relief_gloss` ranges from 0 (matte) to 100 (glossy), adding a stronger, narrower directional highlight. `relief_light` supplies the light RGB; a zero alpha value selects white for compatibility with zero-initialized options. White light and zero gloss preserve the earlier matte shading. Zero intensity or zero height produces a flat fill in the selected paint color, regardless of light color or gloss; alpha, selection coverage and fill opacity retain their normal behavior. The interface's separate light palette and RGB controls change the light without changing colors 1 and 2.
 
 Text uses an original 5 × 7 bitmap font, enlarged by an integer factor. Latin letters, digits, punctuation, French accents and cedilla are available; unsupported characters are replaced with `?`. Layers are raster images: drawn text is not a separate typographic object.
 
@@ -32,6 +34,6 @@ Read/write callbacks accept partial transfers, and each request is limited to 40
 
 ## Verification
 
-Run `python3 run_tests.py`. The program compiles the production engine with AddressSanitizer and UndefinedBehaviorSanitizer, then checks tools, layers, undo/redo, gesture cancellation after undo, codecs and corrupted inputs, 336 allocation-failure scenarios and 400 editing cycles. The separate relief suite checks selected colors, transparency, flat fills and 16 additional allocation-failure scenarios. Every scenario must release all of its allocations. The report links results to source SHA-256 hashes.
+Run `python3 run_tests.py`. The program compiles the production engine with AddressSanitizer and UndefinedBehaviorSanitizer, then checks tools, layers, undo/redo, gesture cancellation after undo, codecs and corrupted inputs, 336 allocation-failure scenarios and 400 editing cycles. The separate relief suite checks selected colors, transparency, light color, gloss, flat fills and 48 additional allocation-failure scenarios. Every scenario must release all of its allocations. The report links results to source SHA-256 hashes.
 
 These computer tests do not replace checking the display, touch input, SD and ELF loader on the ESP32-P4 tablet.

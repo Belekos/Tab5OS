@@ -32,6 +32,12 @@ jobs:
           "$BUILD/arduino-cli" version
           python3 firmware/build/build_linux/prepare_linux.py --environment "$BUILD" 2>&1 | tee "$BUILD/qa/dependencies.log"
           python3 firmware/build/build_linux/verify_downloads.py --environment "$BUILD"
+      - name: Validate the drawing core and relief lighting
+        shell: bash
+        run: |
+          set -euo pipefail
+          BUILD="$RUNNER_TEMP/tab5os-build"
+          python3 firmware/Tab5OS_Arduino_v0.8.53/tools/native-apps/image-editor/run_tests.py --output "$BUILD/qa/image-core-report.json" 2>&1 | tee "$BUILD/qa/image-core-tests.log"
       - name: Build and verify the Doom application
         shell: bash
         run: |
@@ -44,6 +50,20 @@ jobs:
           python3 firmware/Tab5OS_Arduino_v0.8.53/tools/native-apps/doom/tests/verify_build.py "$BUILD/native/Doom.app.elf" --output "$BUILD/qa/doom-build-report.json"
           "$TOOLCHAIN/riscv32-esp-elf-readelf" -h -l -r -Ws "$BUILD/native/Doom.app.elf" > "$BUILD/qa/doom-elf.txt"
           sha256sum "$BUILD/native/Doom.app.elf" > "$BUILD/qa/doom-sha256.txt"
+      - name: Exercise Doom startup and gameplay
+        shell: bash
+        run: |
+          set -euo pipefail
+          BUILD="$RUNNER_TEMP/tab5os-build"
+          TESTS=firmware/Tab5OS_Arduino_v0.8.53/tools/native-apps/doom/tests
+          mkdir -p "$BUILD/fixtures"
+          curl --fail --location --retry 3 https://raw.githubusercontent.com/x213212/gba-p4/03aeeb07d026fe3138e8cf906e42fb14d00e48b7/prboom-go/components/prboom/data/doom1.wad --output "$BUILD/fixtures/doom1.wad"
+          printf '%s  %s\n' 1d7d43be501e67d927e415e0b8f3e29c3bf33075e859721816f652a526cac771 "$BUILD/fixtures/doom1.wad" | sha256sum --check
+          python3 -m venv "$BUILD/emulator-venv"
+          "$BUILD/emulator-venv/bin/python" -m pip install --disable-pip-version-check unicorn==2.1.4
+          "$BUILD/emulator-venv/bin/python" "$TESTS/emulate_startup.py" --elf "$BUILD/native/Doom.app.elf" --wad "$BUILD/fixtures/doom1.wad" --output "$BUILD/qa/doom-startup-report.json" --frames 120 --instruction-limit 1000000000 --timeout-seconds 180 2>&1 | tee "$BUILD/qa/doom-startup.log"
+          "$BUILD/emulator-venv/bin/python" "$TESTS/emulate_startup.py" --elf "$BUILD/native/Doom.app.elf" --wad "$BUILD/fixtures/doom1.wad" --output "$BUILD/qa/doom-play-report.json" --play --frames 240 --instruction-limit 3000000000 --timeout-seconds 180 2>&1 | tee "$BUILD/qa/doom-play.log"
+          python3 "$TESTS/run_startup_host.py" --wad "$BUILD/fixtures/doom1.wad" --output "$BUILD/qa/doom-startup-host.json" 2>&1 | tee "$BUILD/qa/doom-startup-host.log"
       - name: Compile ESP32-P4 firmware
         shell: bash
         run: |

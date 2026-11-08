@@ -30,14 +30,14 @@ constexpr int CanvasMaxW=2048,CanvasMaxH=1200;
 constexpr uint32_t PaletteColors[]={0x181818,0xffffff,0xd32f2f,0xf57c00,0xfbc02d,0x388e3c,0x0097a7,0x1976d2,0x512da8,0xc2185b,0x795548,0x78909c};
 constexpr size_t PaletteCount=sizeof(PaletteColors)/sizeof(PaletteColors[0]);
 enum Tool { Brush,Eraser,Select,Move,Rectangle,Ellipse,Line,Text,Pick,Hand,Warp,Fill,ToolCount };
-enum Action { None,New,Open,Save,Export,Quit,Undo,Redo,Clear,Deselect,Crop,ApplyAdjust,ApplyTransform,ApplySize,LayerAdd,LayerDuplicate,LayerDelete,LayerUp,LayerDown,LayerMerge,LayerRename,ExportJpeg,Fit,Actual,ZoomIn,ZoomOut,ShowColor,ShowLayer,ShowAdjust,ShowTransform,ShowFormat,ToolOptions,UseHand,UsePick,SwapColors,ShowBackground,ToggleOptions,SelectAll,InvertSelection,SoftenSelection,CopySelection,CutSelection,PasteSelection,DeleteSelection };
+enum Action { None,New,Open,Save,Export,Quit,Undo,Redo,Clear,Deselect,Crop,ApplyAdjust,ApplyTransform,ApplySize,LayerAdd,LayerDuplicate,LayerDelete,LayerUp,LayerDown,LayerMerge,LayerRename,ExportJpeg,Fit,Actual,ZoomIn,ZoomOut,ShowColor,ShowLayer,ShowAdjust,ShowTransform,ShowFormat,ToolOptions,UseHand,UsePick,SwapColors,ShowBackground,ToggleOptions,SelectAll,InvertSelection,SoftenSelection,CopySelection,CutSelection,PasteSelection,DeleteSelection,ShowLightColor };
 enum Dialog { NoDialog,ConfirmDiscard,InputPath,InputName,ConfirmOverwrite,NewSize };
-enum Slider { Size,Opacity,Hardness,Diffusion,Red,Green,Blue,Bright,Contrast,Saturation,GainR,GainG,GainB,ScaleX,ScaleY,Shear,Thickness,TextScale,LayerOpacity,Strength,Tolerance,Feather,EdgeThreshold,Density,PatternScale,ReliefExtent,ReliefHeight,ReliefAzimuth,ReliefIntensity,SliderCount };
+enum Slider { Size,Opacity,Hardness,Diffusion,Red,Green,Blue,Bright,Contrast,Saturation,GainR,GainG,GainB,ScaleX,ScaleY,Shear,Thickness,TextScale,LayerOpacity,Strength,Tolerance,Feather,EdgeThreshold,Density,PatternScale,ReliefExtent,ReliefHeight,ReliefAzimuth,ReliefIntensity,ReliefGloss,SliderCount };
 struct Allocation { size_t bytes; uint64_t alignment; };
 struct State {
  IEDoc doc{};
  lv_obj_t *root=nullptr,*toolbar=nullptr,*workspace=nullptr,*canvas=nullptr,*selection=nullptr,*panel=nullptr,*body=nullptr,*tab=nullptr,*status=nullptr,*undo=nullptr,*redo=nullptr,*rail=nullptr,*zoomLabel=nullptr,*foreground=nullptr,*background=nullptr,*optionsButton=nullptr,*textInput=nullptr,*textLayout=nullptr;
- lv_obj_t* toolButtons[ToolCount]{};lv_obj_t* paletteButtons[PaletteCount]{};
+ lv_obj_t* toolButtons[ToolCount]{};lv_obj_t* paletteButtons[PaletteCount]{};lv_obj_t* lightSwatch=nullptr;
  lv_obj_t *modal=nullptr,*dialogStatus=nullptr,*fields[3]{},*dialogSubmit=nullptr,*layerList=nullptr;
  lv_obj_t* sliders[SliderCount]{};lv_obj_t* sliderLabels[SliderCount]{};
  lv_image_dsc_t image{};
@@ -49,13 +49,14 @@ struct State {
  lv_obj_t *jobOverlay=nullptr,*jobBar=nullptr,*jobLabel=nullptr;unsigned jobPercent=101;
  int selectMethod=0,selectCombine=0,tolerance=32,feather=0,sampleMerged=1,edgeStop=0,edgeThreshold=48;
  int fillKind=0,fillRegion=0,fillDensity=100,fillScale=12,fillDirection=0;
- int reliefProfile=IE_RELIEF_CIRCULAR,reliefUnit=IE_RELIEF_PERCENT,reliefPixels=32,reliefPercent=100,reliefHeight=16,reliefAzimuth=225,reliefIntensity=100;
+ int reliefProfile=IE_RELIEF_CIRCULAR,reliefUnit=IE_RELIEF_PERCENT,reliefPixels=32,reliefPercent=100,reliefHeight=16,reliefAzimuth=225,reliefIntensity=100,reliefGloss=0;
+ int lightRed=255,lightGreen=255,lightBlue=255;int32_t lightReturnScroll=0;
  IEBrush brush{IE_RGBA(24,24,24,255),2,100,100,0,0,0};
  int brightness=0,contrast=0,saturation=0,redGain=100,greenGain=100,blueGain=100,allLayers=0;
  int scaleX=100,scaleY=100,shear=0,turns=0,thickness=2,fill=1,outline=1,textScale=100;
  int red=24,green=24,blue=24,backRed=255,backGreen=255,backBlue=255,layerOpacity=255;
  uint32_t backgroundColor=0xffffff,gestureColor=0;
- bool panelVisible=false,editingBackground=false,hovering=false,textEditing=false,textDirty=false,finishingText=false,pointerKnown=false,textPending=false;
+ bool panelVisible=false,editingBackground=false,editingLight=false,hovering=false,textEditing=false,textDirty=false,finishingText=false,pointerKnown=false,textPending=false;
  int pointerX=0,pointerY=0;
  int hoverX=0,hoverY=0,textX=0,textY=0,textW=0,textH=0;uint32_t textColor=0,textCaret=UINT32_MAX,textSelectionStart=UINT32_MAX,textSelectionEnd=UINT32_MAX;uint8_t gestureButton=0;
  int zoom=100,viewDocW=0,viewDocH=0,toolbarHeight=50,ellipseCenter=0,ellipseCircle=0,warpStrength=50,warpMode=0;
@@ -65,7 +66,7 @@ struct State {
  bool initialized=false,pathProject=false;int sx=0,sy=0,lx=0,ly=0;
  Dialog dialog=NoDialog;Action pending=None;
  char path[261]{},pendingPath[261]{},text[768]{},message[256]{};
- uint32_t palette=0,lastYield=0,foregroundStamp=UINT32_MAX,backgroundStamp=UINT32_MAX;
+ uint32_t palette=0,lastYield=0,foregroundStamp=UINT32_MAX,backgroundStamp=UINT32_MAX,lightStamp=UINT32_MAX;
  const lv_font_t* font=nullptr;
  size_t renderedPixels=0;unsigned regionalRenders=0,fullRenders=0;
 };
@@ -100,6 +101,7 @@ void cooperate(void*){
 }
 uint32_t paint(){return IE_RGBA(s.red,s.green,s.blue,255);}
 uint32_t secondPaint(){return IE_RGBA(s.backgroundColor>>16,(s.backgroundColor>>8)&255,s.backgroundColor&255,255);}
+uint32_t lightPaint(){return IE_RGBA(s.lightRed,s.lightGreen,s.lightBlue,255);}
 bool supported(const char* path){return Tab5ImageFormats::supported(path); }
 void enabled(lv_obj_t* object,bool value){if(!object)return;if(value)lv_obj_remove_state(object,LV_STATE_DISABLED);else lv_obj_add_state(object,LV_STATE_DISABLED);}
 lv_obj_t* label(lv_obj_t* parent,const char* value,int x,int y,int width){auto* o=lv_label_create(parent);lv_obj_set_pos(o,x,y);lv_obj_set_width(o,width);lv_label_set_long_mode(o,LV_LABEL_LONG_WRAP);lv_label_set_text(o,tr(value));return o;}
@@ -113,7 +115,7 @@ void stylePanel(lv_obj_t* object,unsigned role){lv_obj_set_style_bg_color(object
 void appearance(){
  if(!s.root)return;s.palette=stamp();s.font=hooks.font?hooks.font():lv_obj_get_style_text_font(host,LV_PART_MAIN);
  lv_obj_set_style_text_font(s.root,s.font,0);stylePanel(s.root,0);stylePanel(s.toolbar,0);stylePanel(s.panel,1);if(s.body)stylePanel(s.body,1);stylePanel(s.workspace,2);if(s.rail)stylePanel(s.rail,1);
- Tab5UiStyle::tree(s.root);if(s.modal){lv_obj_set_style_text_font(s.modal,s.font,0);Tab5UiStyle::tree(s.modal);}s.foregroundStamp=s.backgroundStamp=UINT32_MAX;swatches();
+ Tab5UiStyle::tree(s.root);if(s.modal){lv_obj_set_style_text_font(s.modal,s.font,0);Tab5UiStyle::tree(s.modal);}s.foregroundStamp=s.backgroundStamp=s.lightStamp=UINT32_MAX;swatches();
 }
 const char* toolNames[]={"Pinceau","Gomme","Sélection","Déplacer","Rectangle","Ellipse","Ligne","Texte","Pipette","Main","Déformation locale","Remplissage"};
 int screenCoord(int value,int32_t origin){const int64_t n=(int64_t(value)*65536-origin)*s.zoom;const int64_t d=6553600;return int(n>=0?n/d:-((-n+d-1)/d));}
@@ -123,9 +125,13 @@ void swatches(){
  const uint32_t foreground=(s.red<<16)|(s.green<<8)|s.blue;
  if(s.foreground&&foreground!=s.foregroundStamp){lv_obj_set_style_bg_color(s.foreground,lv_color_hex(foreground),0);s.foregroundStamp=foreground;}
  if(s.background&&s.backgroundColor!=s.backgroundStamp){lv_obj_set_style_bg_color(s.background,lv_color_hex(s.backgroundColor),0);s.backgroundStamp=s.backgroundColor;}
+ const uint32_t light=(s.lightRed<<16)|(s.lightGreen<<8)|s.lightBlue;
+ if(s.lightSwatch&&light!=s.lightStamp){lv_obj_set_style_bg_color(s.lightSwatch,lv_color_hex(light),0);s.lightStamp=light;}
 }
 void choosePalette(uint32_t c,bool secondary){
- if(!finishText(true))return;cancelGesture();s.editingBackground=secondary;
+ if(!finishText(true))return;cancelGesture();
+ if(s.editingLight){s.lightRed=c>>16;s.lightGreen=(c>>8)&255;s.lightBlue=c&255;panel(true);status();return;}
+ s.editingBackground=secondary;
  if(secondary){s.backgroundColor=c;s.backRed=c>>16;s.backGreen=(c>>8)&255;s.backBlue=c&255;}
  else{s.red=c>>16;s.green=(c>>8)&255;s.blue=c&255;}
  panel();status();
@@ -266,7 +272,7 @@ void startSelection(int method){
 }
 void startFill(int x,int y,uint32_t ink){
  IEFillOptions q{};q.kind=s.fillKind;q.region=s.fillRegion;q.x=x;q.y=y;q.tolerance=s.tolerance;q.feather=s.feather;q.sample_merged=s.sampleMerged;q.edge=s.edgeStop?s.edgeThreshold:0;q.opacity=s.brush.opacity;q.density=s.fillDensity;q.scale=s.fillScale;q.direction=s.fillDirection;q.foreground=ink;q.background=ink==paint()?secondPaint():paint();
- q.relief_profile=s.reliefProfile;q.relief_unit=s.reliefUnit;q.relief_extent=s.reliefUnit==IE_RELIEF_PERCENT?s.reliefPercent:s.reliefPixels;q.relief_height=s.reliefHeight;q.relief_azimuth=s.reliefAzimuth;q.relief_intensity=s.reliefIntensity;
+ q.relief_profile=s.reliefProfile;q.relief_unit=s.reliefUnit;q.relief_extent=s.reliefUnit==IE_RELIEF_PERCENT?s.reliefPercent:s.reliefPixels;q.relief_height=s.reliefHeight;q.relief_azimuth=s.reliefAzimuth;q.relief_intensity=s.reliefIntensity;q.relief_light=lightPaint();q.relief_gloss=s.reliefGloss;
  startJob(ie_fill_start(&s.doc,&q),"Remplissage en cours…");
 }
 void lassoPoint(int x,int y){
@@ -402,7 +408,16 @@ void action(Action a){
  case Save:case Export:case ExportJpeg:{s.working=false;const char* path=a==Export?"/Picture/image.bmp":a==ExportJpeg?"/Picture/image.jpg":s.pathProject&&Writer::valid(s.path)&&!strcasecmp(strrchr(s.path,'.'),".t5i")?s.path:"/Picture/image.t5i";dialog(InputPath,a,a==Export?"Exporter une image BMP":a==ExportJpeg?"Exporter une image JPEG":"Enregistrer le projet T5I",path);return;}
  case Fit:s.working=false;fitView();return;
  case Actual:case ZoomIn:case ZoomOut:s.working=false;zoomAt(a==Actual?100:a==ZoomIn?s.zoom*5/4+1:s.zoom*4/5,s.displayW/2,s.displayH/2);return;
- case ShowColor:case ShowBackground:case ShowLayer:case ShowAdjust:case ShowTransform:case ShowFormat:case ToolOptions:s.working=false;if(a==ShowColor||a==ShowBackground){s.editingBackground=a==ShowBackground;s.backRed=s.backgroundColor>>16;s.backGreen=(s.backgroundColor>>8)&255;s.backBlue=s.backgroundColor&255;}s.tabIndex=(a==ShowColor||a==ShowBackground)?2:a==ShowLayer?3:a==ShowAdjust?4:a==ShowTransform?5:a==ShowFormat?6:0;optionsVisible(true);panel();return;
+ case ShowColor:case ShowBackground:case ShowLightColor:case ShowLayer:case ShowAdjust:case ShowTransform:case ShowFormat:case ToolOptions:{
+  s.working=false;const bool returnToRelief=a==ToolOptions&&s.editingLight;
+  if(a==ShowLightColor)s.lightReturnScroll=s.tabIndex==0&&s.body?lv_obj_get_scroll_y(s.body):0;
+  s.editingLight=a==ShowLightColor;
+  if(a==ShowColor||a==ShowBackground){s.editingBackground=a==ShowBackground;s.backRed=s.backgroundColor>>16;s.backGreen=(s.backgroundColor>>8)&255;s.backBlue=s.backgroundColor&255;}
+  s.tabIndex=(a==ShowColor||a==ShowBackground||a==ShowLightColor)?2:a==ShowLayer?3:a==ShowAdjust?4:a==ShowTransform?5:a==ShowFormat?6:0;
+  optionsVisible(true);panel();
+  if(returnToRelief&&s.body){lv_obj_update_layout(s.body);lv_obj_scroll_to_y(s.body,s.lightReturnScroll,LV_ANIM_OFF);}
+  return;
+ }
  case ToggleOptions:s.working=false;optionsVisible(!s.panelVisible);return;
  case UseHand:case UsePick:s.working=false;s.tool=a==UseHand?Hand:Pick;s.tabIndex=0;panel();return;
  case SwapColors:{s.working=false;uint32_t old=(s.red<<16)|(s.green<<8)|s.blue;s.red=s.backgroundColor>>16;s.green=(s.backgroundColor>>8)&255;s.blue=s.backgroundColor&255;s.backgroundColor=old;s.backRed=old>>16;s.backGreen=(old>>8)&255;s.backBlue=old&255;panel();status();return;}
@@ -427,14 +442,14 @@ void action(Action a){
  }
  s.working=false;result(ok);if(s.tabIndex==3)panel();
 }
-int& sliderValue(Slider id){switch(id){case Size:return s.brush.size;case Opacity:return s.brush.opacity;case Hardness:return s.brush.hardness;case Diffusion:return s.brush.diffusion;case Red:return s.editingBackground?s.backRed:s.red;case Green:return s.editingBackground?s.backGreen:s.green;case Blue:return s.editingBackground?s.backBlue:s.blue;case Bright:return s.brightness;case Contrast:return s.contrast;case Saturation:return s.saturation;case GainR:return s.redGain;case GainG:return s.greenGain;case GainB:return s.blueGain;case ScaleX:return s.scaleX;case ScaleY:return s.scaleY;case Shear:return s.shear;case Thickness:return s.thickness;case TextScale:return s.textScale;case LayerOpacity:return s.layerOpacity;case Strength:return s.warpStrength;case Tolerance:return s.tolerance;case Feather:return s.feather;case EdgeThreshold:return s.edgeThreshold;case Density:return s.fillDensity;case PatternScale:return s.fillScale;case ReliefExtent:return s.reliefUnit==IE_RELIEF_PERCENT?s.reliefPercent:s.reliefPixels;case ReliefHeight:return s.reliefHeight;case ReliefAzimuth:return s.reliefAzimuth;case ReliefIntensity:return s.reliefIntensity;case SliderCount:break;}return s.brush.size;}
-const char* sliderCaption(Slider id){switch(id){case Size:return "Taille";case Opacity:return "Opacité";case Hardness:return "Dureté";case Diffusion:return "Diffusion";case Red:case GainR:return "Rouge";case Green:case GainG:return "Vert";case Blue:case GainB:return "Bleu";case Bright:return "Luminosité";case Contrast:return "Contraste";case Saturation:return "Saturation";case ScaleX:return "Échelle horizontale";case ScaleY:return "Échelle verticale";case Shear:return "Inclinaison";case Thickness:return "Épaisseur du contour";case TextScale:return "Taille du texte · %";case LayerOpacity:return "Opacité du calque";case Strength:return "Force";case Tolerance:return "Tolérance";case Feather:return "Progressivité du bord";case EdgeThreshold:return "Seuil du contour";case Density:return "Densité";case PatternScale:return "Taille du motif";case ReliefExtent:return s.reliefUnit==IE_RELIEF_PERCENT?"Progression · %":"Progression · px";case ReliefHeight:return "Hauteur · px";case ReliefAzimuth:return "Azimut · °";case ReliefIntensity:return "Intensité · %";case SliderCount:break;}return "";}
+int& sliderValue(Slider id){switch(id){case Size:return s.brush.size;case Opacity:return s.brush.opacity;case Hardness:return s.brush.hardness;case Diffusion:return s.brush.diffusion;case Red:return s.editingLight?s.lightRed:s.editingBackground?s.backRed:s.red;case Green:return s.editingLight?s.lightGreen:s.editingBackground?s.backGreen:s.green;case Blue:return s.editingLight?s.lightBlue:s.editingBackground?s.backBlue:s.blue;case Bright:return s.brightness;case Contrast:return s.contrast;case Saturation:return s.saturation;case GainR:return s.redGain;case GainG:return s.greenGain;case GainB:return s.blueGain;case ScaleX:return s.scaleX;case ScaleY:return s.scaleY;case Shear:return s.shear;case Thickness:return s.thickness;case TextScale:return s.textScale;case LayerOpacity:return s.layerOpacity;case Strength:return s.warpStrength;case Tolerance:return s.tolerance;case Feather:return s.feather;case EdgeThreshold:return s.edgeThreshold;case Density:return s.fillDensity;case PatternScale:return s.fillScale;case ReliefExtent:return s.reliefUnit==IE_RELIEF_PERCENT?s.reliefPercent:s.reliefPixels;case ReliefHeight:return s.reliefHeight;case ReliefAzimuth:return s.reliefAzimuth;case ReliefIntensity:return s.reliefIntensity;case ReliefGloss:return s.reliefGloss;case SliderCount:break;}return s.brush.size;}
+const char* sliderCaption(Slider id){switch(id){case Size:return "Taille";case Opacity:return "Opacité";case Hardness:return "Dureté";case Diffusion:return "Diffusion";case Red:case GainR:return "Rouge";case Green:case GainG:return "Vert";case Blue:case GainB:return "Bleu";case Bright:return "Luminosité";case Contrast:return "Contraste";case Saturation:return "Saturation";case ScaleX:return "Échelle horizontale";case ScaleY:return "Échelle verticale";case Shear:return "Inclinaison";case Thickness:return "Épaisseur du contour";case TextScale:return "Taille du texte · %";case LayerOpacity:return "Opacité du calque";case Strength:return "Force";case Tolerance:return "Tolérance";case Feather:return "Progressivité du bord";case EdgeThreshold:return "Seuil du contour";case Density:return "Densité";case PatternScale:return "Taille du motif";case ReliefExtent:return s.reliefUnit==IE_RELIEF_PERCENT?"Progression · %":"Progression · px";case ReliefHeight:return "Hauteur · px";case ReliefAzimuth:return "Azimut · °";case ReliefIntensity:return "Intensité lumineuse · %";case ReliefGloss:return "Brillance · %";case SliderCount:break;}return "";}
 void sliderLabel(lv_obj_t* object,Slider id){char text[24];snprintf(text,sizeof(text),"%d",sliderValue(id));if(object)lv_label_set_text(object,text);}
 void slider(lv_obj_t* parent,Slider id,int y,int low,int high,bool precise=false){
- const int w=s.panelWidth-32;const char* shortCaption=id==Hardness?"Dureté":id==Thickness?"Contour":id==LayerOpacity?"Opacité":id==Feather?"Progressivité":sliderCaption(id);auto* caption=label(parent,shortCaption,0,y,w-52);lv_obj_set_height(caption,28);lv_label_set_long_mode(caption,LV_LABEL_LONG_DOT);
+ const int w=s.panelWidth-32;const char* shortCaption=id==Hardness?"Dureté":id==Thickness?"Contour":id==LayerOpacity?"Opacité":id==Feather?"Progressivité":id==ReliefIntensity?"Intensité · %":sliderCaption(id);auto* caption=label(parent,shortCaption,0,y,w-52);lv_obj_set_height(caption,28);lv_label_set_long_mode(caption,LV_LABEL_LONG_DOT);
  auto* value=label(parent,"",w-48,y,48);lv_obj_set_height(value,28);lv_obj_set_style_text_align(value,LV_TEXT_ALIGN_RIGHT,0);s.sliderLabels[id]=value;sliderLabel(value,id);
  auto* o=lv_slider_create(parent);lv_obj_set_pos(o,precise?54:10,y+(precise?42:34));lv_obj_set_size(o,w-(precise?108:20),15);lv_slider_set_range(o,low,high);lv_slider_set_value(o,sliderValue(id),LV_ANIM_OFF);Tab5UiStyle::control(o);Tab5Focus.describe(o,tr(sliderCaption(id)));
- lv_obj_add_event_cb(o,[](lv_event_t* e){auto* slider=lv_event_get_target_obj(e);auto id=static_cast<Slider>(reinterpret_cast<uintptr_t>(lv_event_get_user_data(e)));const int value=lv_slider_get_value(slider);if(!finishText(true))return;cancelGesture();sliderValue(id)=value;if(s.editingBackground&&(id==Red||id==Green||id==Blue))s.backgroundColor=(s.backRed<<16)|(s.backGreen<<8)|s.backBlue;sliderLabel(s.sliderLabels[id],id);swatches();},LV_EVENT_VALUE_CHANGED,reinterpret_cast<void*>(uintptr_t(id)));
+ lv_obj_add_event_cb(o,[](lv_event_t* e){auto* slider=lv_event_get_target_obj(e);auto id=static_cast<Slider>(reinterpret_cast<uintptr_t>(lv_event_get_user_data(e)));const int value=lv_slider_get_value(slider);if(!finishText(true))return;cancelGesture();sliderValue(id)=value;if(!s.editingLight&&s.editingBackground&&(id==Red||id==Green||id==Blue))s.backgroundColor=(s.backRed<<16)|(s.backGreen<<8)|s.backBlue;sliderLabel(s.sliderLabels[id],id);swatches();},LV_EVENT_VALUE_CHANGED,reinterpret_cast<void*>(uintptr_t(id)));
  s.sliders[id]=o;
  if(precise)for(int sign:{-1,1}){auto* step=button(parent,sign<0?"−":"+",sign<0?0:w-42,y+28,42,[](lv_event_t* e){auto* control=static_cast<lv_obj_t*>(lv_event_get_user_data(e));const int delta=lv_obj_get_x(lv_event_get_target_obj(e))==0?-1:1;const int value=lv_slider_get_value(control);lv_slider_set_value(control,value+delta,LV_ANIM_OFF);if(value!=lv_slider_get_value(control))lv_obj_send_event(control,LV_EVENT_VALUE_CHANGED,nullptr);},o);char desc[160];snprintf(desc,sizeof(desc),"%s %s",tr(sliderCaption(id)),sign<0?"−":"+");Tab5Focus.describe(step,desc);}
 }
@@ -447,13 +462,20 @@ int choice(lv_obj_t* parent,const char* title,int y,int* value,const char* const
  const int w=s.panelWidth-32;auto* caption=label(parent,title,0,y,w);lv_obj_update_layout(caption);const int offset=int(lv_obj_get_height(caption))+8;auto* o=lv_dropdown_create(parent);lv_obj_set_pos(o,0,y+offset);lv_obj_set_size(o,w,42);char options[700]{};for(int i=0;i<count;++i){if(i)strncat(options,"\n",sizeof(options)-strlen(options)-1);strncat(options,tr(names[i]),sizeof(options)-strlen(options)-1);}lv_dropdown_set_options(o,options);lv_dropdown_set_selected(o,*value);Tab5UiStyle::control(o);Tab5Focus.describe(o,tr(title));lv_obj_add_event_cb(o,[](lv_event_t* e){auto* value=static_cast<int*>(lv_event_get_user_data(e));const int selected=lv_dropdown_get_selected(lv_event_get_target_obj(e));if(!finishText(true))return;cancelGesture();*value=selected;if(value==&s.selectMethod||value==&s.fillKind||value==&s.fillRegion||value==&s.reliefProfile||value==&s.reliefUnit)panel(true);},LV_EVENT_VALUE_CHANGED,value);return offset+58;
 }
 int wrapButton(lv_obj_t* o){auto* l=lv_obj_get_child(o,0);lv_label_set_long_mode(l,LV_LABEL_LONG_WRAP);lv_obj_set_height(l,LV_SIZE_CONTENT);lv_obj_update_layout(l);const int height=std::max(64,int(lv_obj_get_height(l))+12);lv_obj_set_height(o,height);lv_obj_center(l);return height+8;}
+void lightSample(lv_obj_t* parent,int x,int y){
+ auto* o=s.lightSwatch=lv_obj_create(parent);lv_obj_remove_style_all(o);lv_obj_set_pos(o,x,y);lv_obj_set_size(o,32,32);
+ lv_obj_remove_flag(o,static_cast<lv_obj_flag_t>(LV_OBJ_FLAG_CLICKABLE|LV_OBJ_FLAG_SCROLLABLE));
+ lv_obj_set_style_bg_opa(o,LV_OPA_COVER,0);lv_obj_set_style_border_width(o,1,0);lv_obj_set_style_border_color(o,color(3),0);
+ s.lightStamp=UINT32_MAX;swatches();
+}
 void panel(bool preserveScroll){
  if(!s.panel||!s.initialized)return;
  // Rebuilding dependent controls must not move the option being edited.
  const int32_t scrollY=preserveScroll&&s.body?lv_obj_get_scroll_y(s.body):0;
- if(Tab5Focus.contains(s.panel,Tab5Focus.focused()))Tab5Focus.clear();lv_obj_clean(s.panel);s.body=s.tab=s.layerList=nullptr;for(auto& l:s.sliderLabels)l=nullptr;for(auto& o:s.sliders)o=nullptr;for(auto& o:s.paletteButtons)o=nullptr;
+ if(Tab5Focus.contains(s.panel,Tab5Focus.focused()))Tab5Focus.clear();lv_obj_clean(s.panel);s.body=s.tab=s.layerList=s.lightSwatch=nullptr;for(auto& l:s.sliderLabels)l=nullptr;for(auto& o:s.sliders)o=nullptr;for(auto& o:s.paletteButtons)o=nullptr;
  if(s.tabIndex==1||s.tabIndex==7)s.tabIndex=0;
- const char* title=s.tabIndex==2?(s.editingBackground?"Couleur d’arrière-plan":"Couleur de premier plan"):s.tabIndex==3?"Calques":s.tabIndex==4?"Couleurs et luminosité":s.tabIndex==5?"Transformation":s.tabIndex==6?"Format et résolution":toolNames[s.tool];
+ if(s.tabIndex!=2)s.editingLight=false;
+ const char* title=s.tabIndex==2?(s.editingLight?"Couleur de la lumière":s.editingBackground?"Couleur d’arrière-plan":"Couleur de premier plan"):s.tabIndex==3?"Calques":s.tabIndex==4?"Couleurs et luminosité":s.tabIndex==5?"Transformation":s.tabIndex==6?"Format et résolution":toolNames[s.tool];
  auto* hide=command(s.panel,"",s.panelWidth-42,4,36,ToggleOptions);auto* closeLabel=lv_obj_get_child(hide,0);lv_obj_set_style_text_font(closeLabel,&lv_font_montserrat_24,0);lv_label_set_text(closeLabel,LV_SYMBOL_CLOSE);Tab5Focus.describe(hide,tr("Masquer les options"));
  auto* heading=label(s.panel,title,12,8,s.panelWidth-64);lv_label_set_long_mode(heading,LV_LABEL_LONG_WRAP);lv_obj_update_layout(heading);int head=std::max(48,int(lv_obj_get_height(heading))+18);
  if(s.tabIndex){wrapButton(command(s.panel,"Options de l’outil",12,head,s.panelWidth-24,ToolOptions));head+=72;}
@@ -479,7 +501,10 @@ void panel(bool preserveScroll){
     if(s.reliefProfile!=IE_RELIEF_EXTRUDE){y+=choice(body,"Unité de progression",y,&s.reliefUnit,units,2);slider(body,ReliefExtent,y,1,s.reliefUnit==IE_RELIEF_PERCENT?100:8192,true);y+=86;}
     slider(body,ReliefHeight,y,-256,256,true);y+=86;
     auto* hint=label(body,"− : creux · + : saillie",0,y,w);lv_obj_update_layout(hint);y+=int(lv_obj_get_height(hint))+16;
-    slider(body,ReliefAzimuth,y,0,359,true);y+=86;slider(body,ReliefIntensity,y,0,200,true);y+=86;
+    slider(body,ReliefAzimuth,y,0,359,true);y+=86;
+    const int lightButtonHeight=wrapButton(command(body,"Couleur de la lumière",0,y,w-44,ShowLightColor));lightSample(body,w-32,y+(lightButtonHeight-8-32)/2);y+=lightButtonHeight;
+    slider(body,ReliefIntensity,y,0,200,true);y+=86;slider(body,ReliefGloss,y,0,100,true);y+=86;
+    auto* glossHint=label(body,"0 : mat · 100 : brillant",0,y,w);lv_obj_update_layout(glossHint);y+=int(lv_obj_get_height(glossHint))+16;
    }else if(s.fillKind>=IE_FILL_CHECKER){slider(body,PatternScale,y,2,64);y+=76;}
    slider(body,Opacity,y,0,100);y+=76;slider(body,Density,y,0,100);y+=76;slider(body,Feather,y,-32,32);y+=66;
    {auto* hint=label(body,"− : intérieur · + : autour du bord",0,y,w);lv_obj_update_layout(hint);y+=int(lv_obj_get_height(hint))+16;}
@@ -494,7 +519,9 @@ void panel(bool preserveScroll){
   else {int y=0;for(const auto& item: {std::pair<const char*,Action>{"Copier la sélection",CopySelection},{"Couper la sélection",CutSelection},{"Coller la sélection",PasteSelection},{"Supprimer la sélection",DeleteSelection},{"Tout désélectionner",Deselect}})y+=wrapButton(command(body,item.first,0,y,w,item.second));label(body,"Glisser la sélection · Flèches : 1 px · Maj+flèches : 10 px",0,y,w);}
  }else if(s.tabIndex==2){
   for(size_t i=0;i<PaletteCount;++i){auto* o=lv_button_create(body);s.paletteButtons[i]=o;lv_obj_set_pos(o,i%6*(w/6),i/6*42);lv_obj_set_size(o,w/6-6,34);lv_obj_set_style_border_width(o,1,0);lv_obj_set_style_border_color(o,color(3),0);lv_obj_set_style_shadow_width(o,0,0);Tab5UiStyle::control(o);lv_obj_set_style_bg_color(o,lv_color_hex(PaletteColors[i]),0);lv_obj_set_style_bg_color(o,lv_color_hex(PaletteColors[i]),LV_STATE_PRESSED);char desc[32];snprintf(desc,sizeof(desc),"#%06X",unsigned(PaletteColors[i]));Tab5Focus.describe(o,desc);lv_obj_add_event_cb(o,[](lv_event_t* e){uint32_t c=static_cast<uint32_t>(reinterpret_cast<uintptr_t>(lv_event_get_user_data(e)));choosePalette(c,Tab5Mouse::isInput(lv_event_get_indev(e))?false:s.editingBackground);},LV_EVENT_CLICKED,reinterpret_cast<void*>(uintptr_t(PaletteColors[i])));}
-  slider(body,Red,96,0,255);slider(body,Green,162,0,255);slider(body,Blue,228,0,255);command(body,"Pipette dans l’image",0,302,w,UsePick);wrapButton(command(body,"Permuter les couleurs",0,356,w,SwapColors));
+  slider(body,Red,96,0,255);slider(body,Green,162,0,255);slider(body,Blue,228,0,255);
+  if(s.editingLight){lightSample(body,0,310);label(body,"Cette couleur éclaire le relief sans modifier les couleurs 1 et 2.",44,302,w-44);}
+  else{command(body,"Pipette dans l’image",0,302,w,UsePick);wrapButton(command(body,"Permuter les couleurs",0,356,w,SwapColors));}
  }else if(s.tabIndex==3){
   s.layerList=lv_dropdown_create(body);lv_obj_set_pos(s.layerList,0,0);lv_obj_set_size(s.layerList,w,44);char layers[400]{};for(int i=0;i<s.doc.current.count;++i){const char* name=s.doc.current.layers[i].name;if(!strcmp(name,"Image BMP")||!strcmp(name,"Image JPEG")||!strcmp(name,"Image PNG")||!strcmp(name,"Image WebP"))name=tr(name);char line[100];snprintf(line,sizeof(line),"%s%d · %s",i?"\n":"",i+1,name);strncat(layers,line,sizeof(layers)-strlen(layers)-1);}lv_dropdown_set_options(s.layerList,layers);lv_dropdown_set_selected(s.layerList,s.doc.current.active);Tab5UiStyle::control(s.layerList);lv_obj_add_event_cb(s.layerList,[](lv_event_t* e){const int selected=lv_dropdown_get_selected(lv_event_get_target_obj(e));if(!finishText(true))return;cancelGesture();s.doc.current.active=selected;panel();status();},LV_EVENT_VALUE_CHANGED,nullptr);
   command(body,"Ajouter",0,54,half,LayerAdd);command(body,"Dupliquer",half+8,54,half,LayerDuplicate);command(body,"Monter",0,104,half,LayerUp);command(body,"Descendre",half+8,104,half,LayerDown);command(body,"Fusionner",0,154,half,LayerMerge);command(body,"Supprimer",half+8,154,half,LayerDelete);command(body,"Renommer",0,204,w,LayerRename);s.layerOpacity=s.doc.current.layers[s.doc.current.active].opacity;slider(body,LayerOpacity,263,0,255);
@@ -653,7 +680,8 @@ bool mouse(int x,int y,uint8_t buttons,int wheel){
  if(!visible()||s.working||s.modal){cancelPointer();return false;}
  s.pointerKnown=true;s.pointerX=x;s.pointerY=y;lv_area_t a;lv_obj_get_coords(s.workspace,&a);const int px=x-a.x1,py=y-a.y1;const bool inside=canvasHit(px,py);const uint8_t previous=s.mouseButtons;s.mouseButtons=buttons;hover(px,py,inside);
  // The colour palette owns secondary presses too; touch and keyboard keep
- // the selected colour panel, whereas mouse primary always chooses colour 1.
+ // the selected colour panel, whereas mouse primary chooses colour 1. The
+ // dedicated relief-light panel edits only its light, with either button.
  if((buttons&2)&&!(previous&2)&&!(buttons&5)&&s.panelVisible&&s.tabIndex==2&&inObject(s.body,x,y)&&!dropdownOpen(s.root)){
   for(size_t i=0;i<PaletteCount;++i)if(inObject(s.paletteButtons[i],x,y)){choosePalette(PaletteColors[i],true);return true;}
  }

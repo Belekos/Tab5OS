@@ -384,7 +384,7 @@ void tab5ExecutableService(){
  if(context&&context->externalStack&&context->worker&&!context->startReady.load(std::memory_order_acquire)&&eTaskGetState(context->worker)==eSuspended){vTaskDeleteWithCaps(context->worker);context->worker=nullptr;released.store(true,std::memory_order_release);}
  if(!released.exchange(false,std::memory_order_acquire))return;
  if(loadFailed.exchange(false,std::memory_order_acquire))launchErrorPending=true;
- else status=cancelled.load()?"Application arrêtée":context&&context->result?"Erreur de l'application — voir la console":"Application terminée";
+ else {const bool failed=!cancelled.load()&&context&&context->result;status=cancelled.load()?"Application arrêtée":context&&context->result?"Erreur de l'application — voir la console":"Application terminée";if(failed)launchErrorPending=true;}
  cleanup();running.store(false,std::memory_order_release);
  tab5LogMemory("ELF ressources liberees");memoryCheckAt=millis();memoryCheckPending=true;
 }

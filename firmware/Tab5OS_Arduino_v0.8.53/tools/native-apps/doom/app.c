@@ -25,9 +25,10 @@ static void audio_init(int rate){audio_rate=rate;}
 static void audio(short* samples,int count){if(count>0&&count<=2048)tab5_api->audio_pcm(samples,count,audio_rate);}
 __attribute__((visibility("default"))) int tab5_app_main(int argc,char** argv){
  const struct tab5_app_api4* api=tab5_app_api_v4();if(!api)return 1;tab5_runtime_init(&api->base.base);if(__builtin_setjmp(tab5_escape))return result_code;
- if(argc<2||!argv[1][0]){tab5_message("Choose your Doom .wad file.","Choisissez votre fichier Doom .wad.");return 2;}
+ if(argc<2||!argv||!argv[1]||!argv[1][0]){tab5_message("Choose your Doom .wad file.","Choisissez votre fichier Doom .wad.");return 2;}
+ printf("Doom: opening %s\n",argv[1]);
  tab5_runtime_capacity(10*1024*1024);tab5_runtime_game(argv[1],"Doom");
  static app_services_t services;services.abi_version=1;services.mem_alloc=malloc;services.mem_calloc=calloc;services.mem_realloc=realloc;services.mem_free=free;services.mem_caps_alloc=alloc_caps;services.log_printf=printf;services.log_vprintf=vlog;services.input_gamepad_read=gamepad;services.get_time_us=micros;services.delay_ms=delay;services.audio_init=audio_init;services.audio_submit=audio;services.display_write_frame_custom=video;_papp_svc=&services;
- SCREENWIDTH=320;SCREENHEIGHT=200;if(tab5_api->video_begin(320,200))return 3;
+ SCREENWIDTH=320;SCREENHEIGHT=200;if(tab5_api->video_begin(320,200)){puts("Doom: unable to create the game display; close other applications and try again.");return 3;}
  char* args[]={"doom","-save",(char*)tab5_game_saves(),"-iwad",argv[1],"-config","doom.cfg",NULL};myargc=7;myargv=args;Z_Init();tab5_runtime_reclaimer(tab5_doom_free_caches);D_DoomMain();return 0;
 }

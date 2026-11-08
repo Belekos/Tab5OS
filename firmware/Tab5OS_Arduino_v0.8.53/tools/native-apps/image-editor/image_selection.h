@@ -10,6 +10,7 @@ struct IEJob {
  uint16_t *relief;
  int32_t *envelope;
  int relief_w,relief_h,relief_max,relief_limit,relief_step,light_x,light_y;
+ int half_x,half_y,half_z;
  IEPoint *points;
  int32_t *crossings;
  size_t n,at,head,tail;
@@ -58,6 +59,8 @@ IEJob*ie_fill_start(IEDoc*d,const IEFillOptions*options){
  j->fill.relief_height=clampi(options->relief_height,-256,256);
  j->fill.relief_azimuth=options->relief_azimuth%360;if(j->fill.relief_azimuth<0)j->fill.relief_azimuth+=360;
  j->fill.relief_intensity=clampi(options->relief_intensity,0,200);
+ j->fill.relief_light=options->relief_light>>24?options->relief_light:IE_RGBA(255,255,255,255);
+ j->fill.relief_gloss=clampi(options->relief_gloss,0,100);
  if(j->stage==JOB_FLOOD&&ie_selection_alpha(&d->current,q.x0,q.y0)){size_t at=(size_t)q.y0*d->current.width+q.x0;j->mask[at]=255;j->queue[j->tail++]=(uint32_t)at;}return j;
 }
 static void job_after_generation(IEJob*j){if(j->queue){j->doc->release(j->doc->memory_context,j->queue);j->queue=0;}j->at=0;j->y=0;j->stage=j->select.feather?JOB_HORIZONTAL:JOB_COMBINE;}
@@ -147,7 +150,13 @@ static int job_relief_allocate(IEJob*j){
  j->relief=d->alloc(d->memory_context,n*sizeof(*j->relief));
  j->envelope=d->alloc(d->memory_context,(2*(size_t)j->relief_h+5)*sizeof(*j->envelope)+(size_t)j->relief_h*sizeof(uint16_t));
  if(!j->relief||!j->envelope)return fail(d,"Mémoire insuffisante pour la sélection ; image conservée");
- j->light_x=relief_sine(j->fill.relief_azimuth+90)*724/1024;j->light_y=relief_sine(j->fill.relief_azimuth)*724/1024;return 1;
+ j->light_x=relief_sine(j->fill.relief_azimuth+90)*724/1024;j->light_y=relief_sine(j->fill.relief_azimuth)*724/1024;
+ if(j->fill.relief_gloss){
+  /* Blinn half vector for a viewer facing the canvas. All lighting is Q10. */
+  unsigned norm=isqrtu((unsigned)(j->light_x*j->light_x+j->light_y*j->light_y)+1748u*1748u);
+  j->half_x=j->light_x*1024/(int)norm;j->half_y=j->light_y*1024/(int)norm;j->half_z=1748*1024/(int)norm;
+ }
+ return 1;
 }
 static void job_relief_forward(IEJob*j,int y){
  const int w=j->relief_w;int x;uint16_t*row=j->relief+(size_t)y*w;const uint8_t*mask=j->mask+(size_t)(y+j->miny)*j->doc->current.width+j->minx;
@@ -185,8 +194,11 @@ static void job_relief_height_row(IEJob*j,int y){
 static int job_relief_height(const IEJob*j,int x,int y){
  int value;x-=j->minx;y-=j->miny;if(x<0||y<0||x>=j->relief_w||y>=j->relief_h)return 0;value=j->relief[(size_t)y*j->relief_w+x];return j->fill.relief_height<0?-value:value;
 }
+static unsigned relief_power(unsigned value,unsigned exponent){
+ unsigned result=1024;while(exponent){if(exponent&1)result=(result*value+512)/1024;value=(value*value+512)/1024;exponent>>=1;}return result;
+}
 static uint32_t job_relief_color(IEJob*j,int x,int y){
- static const int weights[5]={1,4,6,4,1},derivative[5]={1,2,0,-2,-1};int xx,yy,nx=0,ny=0,shade;unsigned norm,k;uint32_t base=j->fill.foreground,result=base&0xff000000u;
+ static const int weights[5]={1,4,6,4,1},derivative[5]={1,2,0,-2,-1};int xx,yy,nx=0,ny=0,shade,diffuse,tint,specular=0;unsigned norm,k;uint32_t base=j->fill.foreground,result=base&0xff000000u;
  /* Relief is a fill: shade the colour captured when the gesture started. */
  if(!j->fill.relief_height||!j->fill.relief_intensity)return base;
  /* Smoothed derivatives affect only lighting; neither coverage nor image
@@ -195,8 +207,27 @@ static uint32_t job_relief_color(IEJob*j,int x,int y){
     Height is Q6, with a fixed 45-degree light elevation. */
  for(yy=-2;yy<=2;yy++)for(xx=-2;xx<=2;xx++){int value=job_relief_height(j,x+xx*j->relief_step,y+yy*j->relief_step);nx+=value*derivative[xx+2]*weights[yy+2];ny+=value*weights[xx+2]*derivative[yy+2];}
  nx/=128*j->relief_step;ny/=128*j->relief_step;norm=isqrtu((unsigned)(nx*nx)+(unsigned)(ny*ny)+64u*64u);
- shade=clampi((((nx*j->light_x+ny*j->light_y+64*724)/(int)norm)-724)*j->fill.relief_intensity/100,-1024,1024);
- for(k=0;k<24;k+=8){int v=(base>>k)&255;v=shade<0?(v*(1024+shade)+512)/1024:v+((255-v)*shade+512)/1024;result|=(uint32_t)v<<k;}return result;
+ diffuse=(nx*j->light_x+ny*j->light_y+64*724)/(int)norm;
+ shade=clampi((diffuse-724)*j->fill.relief_intensity/100,-1024,1024);
+ /* Keep an ambient share of the material colour under a coloured light.
+    White leaves the legacy diffuse shading bit-for-bit unchanged. Light RGB
+    controls reflected light only; it never changes coverage or paint alpha. */
+ tint=clampi(maxi(0,diffuse)*j->fill.relief_intensity/200,0,512);
+ if(j->fill.relief_gloss&&diffuse>0){
+  unsigned facing=(unsigned)clampi((nx*j->half_x+ny*j->half_y+64*j->half_z)/(int)norm,0,1024);
+  unsigned lobe=relief_power(facing,4u+(unsigned)j->fill.relief_gloss*28u/100u);
+  /* Increasing gloss makes a stronger, narrower highlight. At maximum light
+     intensity it blends at most 75% toward the light, avoiding hard clipping. */
+  specular=(int)((lobe*(unsigned)j->fill.relief_gloss*(unsigned)j->fill.relief_intensity*3u+40000u)/80000u);
+ }
+ for(k=0;k<24;k+=8){
+  int v=(base>>k)&255,light=(j->fill.relief_light>>k)&255;
+  v=(v*(1024-tint*(255-light)/255)+512)/1024;
+  v=shade<0?(v*(1024+shade)+512)/1024:v+(maxi(0,light-v)*shade+512)/1024;
+  v+=(maxi(0,light-v)*specular+512)/1024;
+  result|=(uint32_t)v<<k;
+ }
+ return result;
 }
 static uint32_t gradient_color(uint32_t a,uint32_t b,unsigned weight){unsigned k;uint32_t c=0;for(k=0;k<32;k+=8)c|=((((a>>k)&255)*(255-weight)+((b>>k)&255)*weight+127)/255)<<k;return c;}
 static uint32_t job_fill_color(IEJob*j,int x,int y,unsigned*alpha){

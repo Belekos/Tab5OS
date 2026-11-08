@@ -39,7 +39,7 @@ with tempfile.TemporaryDirectory(prefix='tab5-image-core-') as work:
     relief.check_returncode()
     summary['reliefRegression'] = json.loads(relief.stdout.strip().splitlines()[-1])
 report = {
-    'release': '0.8.32',
+    'release': '0.8.53',
     'component': 'native-image-editor-core',
     **summary,
     'sanitizers': ['AddressSanitizer', 'UndefinedBehaviorSanitizer'],
@@ -58,7 +58,8 @@ report = {
         '336 transient/persistent injected allocation-failure scenarios with atomic image preservation',
         '16MiB allocator limit, maximum1024 dimensions, history reclamation and 400 repeated editing cycles',
         'cooperative scheduler callback invoked during pixel processing',
-        'relief selected colors across all profiles, transparent layers, flat settings, soft selection and opacity, undo/redo, cancellation, allocation failure'
+        'relief selected colors across all profiles, transparent layers, flat settings, soft selection and opacity, undo/redo, cancellation, 48 allocation-failure scenarios',
+        'relief legacy white/matte golden rasters, colored light channel symmetry, matte/glossy highlights, black/white light defaults, alpha invariance, setting clamps and captured options'
     ],
     'limitations': [
         'Host tests execute production C core; they do not execute ESP32-P4 ELF loading, touch/display hardware or SD filesystem.',
