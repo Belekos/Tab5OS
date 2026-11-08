@@ -1,0 +1,80 @@
+name: Package the validated Tab5OS candidate
+on:
+  push:
+    branches: [validation/package-b224223-20261108]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: tab5os-complete-package-b224223
+  cancel-in-progress: false
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+  PYTHONUNBUFFERED: '1'
+jobs:
+  package:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    outputs:
+      artifact_id: ${{ steps.complete.outputs.artifact-id }}
+      artifact_digest: ${{ steps.complete.outputs.artifact-digest }}
+    steps:
+      - name: Check out the packaging recipe
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Select the exact compiled source commit
+        run: git worktree add --detach "$RUNNER_TEMP/tab5os-source" b224223535a81efdd0076639d77827ae4725b9d7
+      - name: Download the verified build artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 .github/scripts/download_validation_artifact.py --artifact-id 13636557451 --sha256 364896cfbeaf2dc445c29b1dda8b5b302e3485f7704b786f150b07ee8154e523 --output "$RUNNER_TEMP/build-artifact.zip"
+      - name: Stage the complete candidate and verify all resources
+        run: |
+          set -euo pipefail
+          python3 firmware/build/package_candidate.py --repo "$RUNNER_TEMP/tab5os-source" --artifact "$RUNNER_TEMP/build-artifact.zip" --staging-dir "$RUNNER_TEMP/complete-package"
+          git -C "$RUNNER_TEMP/tab5os-source" diff --exit-code
+      - name: Store the complete package
+        id: complete
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: Tab5OS_0.8.53_b224223_complete
+          path: ${{ runner.temp }}/complete-package/
+          include-hidden-files: true
+          if-no-files-found: error
+          compression-level: 6
+          retention-days: 30
+  audit:
+    needs: package
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out the independent archive inspector
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Select the exact compiled source commit
+        run: git worktree add --detach "$RUNNER_TEMP/tab5os-source" b224223535a81efdd0076639d77827ae4725b9d7
+      - name: Download the exact build and complete package archives
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PACKAGE_ID: ${{ needs.package.outputs.artifact_id }}
+          PACKAGE_SHA: ${{ needs.package.outputs.artifact_digest }}
+        run: |
+          set -euo pipefail
+          python3 .github/scripts/download_validation_artifact.py --artifact-id 13636557451 --sha256 364896cfbeaf2dc445c29b1dda8b5b302e3485f7704b786f150b07ee8154e523 --output "$RUNNER_TEMP/build-artifact.zip"
+          python3 .github/scripts/download_validation_artifact.py --artifact-id "$PACKAGE_ID" --sha256 "$PACKAGE_SHA" --output "$RUNNER_TEMP/complete-package.zip"
+      - name: Independently verify the downloadable ZIP
+        run: |
+          set -euo pipefail
+          python3 firmware/build/audit_candidate.py --repo "$RUNNER_TEMP/tab5os-source" --artifact "$RUNNER_TEMP/build-artifact.zip" --package "$RUNNER_TEMP/complete-package.zip" --output "$RUNNER_TEMP/package-audit.json"
+      - name: Store the independent audit
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: Tab5OS_b224223_package_audit
+          path: ${{ runner.temp }}/package-audit.json
+          if-no-files-found: warn
+          retention-days: 30
