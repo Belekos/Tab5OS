@@ -17,6 +17,7 @@ import tempfile
 
 from frame_text import decode
 from make_examples import create
+from peripheral_fixture import create_mouse_probe
 
 HERE = Path(__file__).resolve().parent
 DOS = HERE.parent
@@ -35,8 +36,12 @@ API7_OFFSETS = dict(common.API_OFFSETS, panel_open=92, panel_poll=96,
                    directory_open=140, directory_next=144)
 common.API_OFFSETS = API7_OFFSETS
 BOOT_SHA256 = "8c25e36d0a72a77a8c3541ba12f4dd5f4b2dbb12c15e660cc18d7da545020688"
+DRIVERS_SHA256 = "0bb65a1c38cb2a94e4f7f7a7d899c905f4c2f7443adf67b413f2d82c34bd2030"
 MOUNT = "/DOS/DOS sample folder with spaces"
-MARKERS = ("TAB5OS DOS READY", "TAB5 MZ EXE OK", "TAB5 ADJACENT DATA OK", "TAB5 COM OK")
+MARKERS = ("TAB5OS DOS READY", "TAB5 MZ EXE OK", "TAB5 ADJACENT DATA OK", "TAB5 COM OK",
+           "TAB5 MOUSE READY", "TAB5 MOUSE MOVE OK", "TAB5 MOUSE LEFT OK",
+           "TAB5 MOUSE RIGHT OK", "TAB5 AUDIO READY", "TAB5 INPUT AUDIO OK")
+KEYBOARD_COMMAND = "hello.com\rmouse.com\r"
 
 
 def sha(data):
@@ -44,7 +49,7 @@ def sha(data):
 
 
 class Application(common.Startup):
-    def __init__(self, elf, image, fixtures, scenario, frame_limit):
+    def __init__(self, elf, image, drivers, fixtures, scenario, frame_limit):
         super().__init__(elf, image, frame_limit)
         # Reuse the Doom harness's RV32 loader and bounded callback trampoline;
         # the first stub now resolves only the actual ABI7 import.
@@ -54,6 +59,7 @@ class Application(common.Startup):
         self.virtual_files = {MOUNT + "/" + name: data for name, data in fixtures.items()}
         if scenario != "missing-boot":
             self.virtual_files["/DOS/FREEDOS.IMG"] = image
+        self.virtual_files["/System/DOS/DRIVERS.IMG"] = drivers
         self.virtual_files_before = {name: sha(data) for name, data in self.virtual_files.items()}
         self.saves = {}
         self.saved_calls = []
@@ -71,6 +77,17 @@ class Application(common.Startup):
         self.key_events = []
         self.duplicate_text_events = 0
         self.exit_tap_sent = False
+        self.mouse_steps = []
+        self.audio_probe_stage = 0
+        self.audio_probe_blocks = 0
+        self.muted_guest_frames = 0
+        self.mute_call_count = 0
+        self.muted_nonzero_seen = False
+        self.audio_nonzero_seen = False
+        self.audio_muted_seen = False
+        self.audio_resumed_seen = False
+        self.audio_continue_polls = 0
+        self.volume_taps = []
         self.input_events = []
         self.minimum_sp = common.STACK_BASE + elf.stack_bytes - 16
         self.uc.mem_write(common.STACK_BASE, b"\xa5" * elf.stack_bytes)
@@ -108,12 +125,20 @@ class Application(common.Startup):
             raise ValueError("Undersized ABI structure: " + str(supplied))
 
     def keyboard(self):
+        if self.audio_probe_stage == 1 and self.volume_taps == [1]:
+            # keyboard_state occurs once before each real pc_run_frame call.
+            # Muting drains already buffered host audio with a bounded silent
+            # tail. Every newly submitted sample must be zero throughout mute.
+            self.muted_guest_frames += 1
+            if self.muted_guest_frames >= 8:
+                self.audio_muted_seen = not self.muted_nonzero_seen
+                self.audio_probe_stage = 2
         keys = bytearray(32)
         if not self.keyboard_started and all(marker in self.marker_frames for marker in MARKERS[1:3]):
             self.keyboard_started = True
         connected = int(self.keyboard_started and not self.keyboard_complete)
         if connected:
-            command = "hello.com\r"
+            command = KEYBOARD_COMMAND
             index, phase = divmod(self.keyboard_step, 4)
             if index < len(command):
                 char = command[index]
@@ -129,6 +154,11 @@ class Application(common.Startup):
             else:
                 self.keyboard_complete = True
                 connected = 0
+        elif self.audio_probe_stage == 3 and self.audio_continue_polls < 4:
+            connected = 1
+            if self.audio_continue_polls < 2:
+                keys[40 // 8] |= 1 << (40 % 8)
+            self.audio_continue_polls += 1
         self.keyboard_reports += 1
         return struct.pack("<III32s", 44, 0, connected, bytes(keys))
 
@@ -194,9 +224,9 @@ class Application(common.Startup):
             self.uc.mem_write(a[1], struct.pack("<III256s", 268, 0, size, filename.encode() + b"\0"))
             return 1
         if name == "canvas_begin":
-            if self.video_size is not None or a[:2] != [800, 480]:
+            if self.video_size is not None or a[:2] != [800 | 0x8000, 480]:
                 return -1
-            self.video_size = a[:2]
+            self.video_size = [800, 480]
             return 0
         if name == "video_present":
             if self.video_size != [800, 480] or a[1] != 800 * 480:
@@ -225,6 +255,22 @@ class Application(common.Startup):
             return 1
         if name == "input_poll":
             self.expect_struct(a[0], 36)
+            steps = (("TAB5 MOUSE READY", 40, 0, 0),
+                     ("TAB5 MOUSE MOVE OK", 0, 0, 1),
+                     ("TAB5 MOUSE LEFT OK", 0, 0, 2))
+            index = len(self.mouse_steps)
+            if index < len(steps) and steps[index][0] in self.marker_frames:
+                marker, dx, dy, buttons = steps[index]
+                self.input_events.extend(((7, 400, 200, buttons, 0x80000000, b""),
+                                          (8, dx, dy, buttons, 0x80000000, b"")))
+                self.mouse_steps.append(marker)
+            if self.audio_probe_stage in (1, 2) and len(self.volume_taps) < self.audio_probe_stage:
+                # The center volume button toggles mute/restore.
+                self.input_events.extend(((1, 592, 14, 0, 0, b""), (3, 592, 14, 0, 0, b"")))
+                self.volume_taps.append(self.audio_probe_stage)
+                self.audio_probe_blocks = 0
+                if self.audio_probe_stage == 1:
+                    self.mute_call_count = self.calls["audio_pcm"]
             if (not self.exit_tap_sent and self.keyboard_complete
                     and all(marker in self.marker_frames for marker in MARKERS)):
                 self.input_events.append((1, 740, 14, 0, 0, b""))
@@ -236,6 +282,22 @@ class Application(common.Startup):
             self.duplicate_text_events += int(kind == 4)
             self.uc.mem_write(a[0], struct.pack("<IIiiII12s", 36, kind, x, y, key, modifiers, text))
             return 1
+        if name == "audio_pcm":
+            if a[1] > 2048 or a[2] != 22050:
+                raise ValueError("Unexpected DOS audio format")
+            raw = bytes(self.uc.mem_read(a[0], a[1] * 4))
+            if self.audio_probe_stage == 1 and self.volume_taps == [1]:
+                self.muted_nonzero_seen |= any(raw)
+            if "TAB5 AUDIO READY" in self.marker_frames and a[1]:
+                nonzero = any(raw)
+                self.audio_probe_blocks += 1
+                if self.audio_probe_stage == 0 and nonzero:
+                    self.audio_nonzero_seen = True
+                    self.audio_probe_stage = 1
+                elif self.audio_probe_stage == 2 and len(self.volume_taps) == 2 and self.audio_probe_blocks >= 3 and nonzero:
+                    self.audio_resumed_seen = True
+                    self.audio_probe_stage = 3
+            return 0
         if name == "save":
             path = self.string(a[0])
             if not path.startswith("/Saves/DOS/") or not path.endswith(".state") or a[2] > 2 * 1024 * 1024:
@@ -261,8 +323,11 @@ class Application(common.Startup):
             checks.update({"return_code_zero": self.return_code == 0,
                            "boot_ready_logged": "FreeDOS ready. C: contains the selected SD folder." in logs,
                            "rendered_boot_com_mz_data": all(marker in self.marker_frames for marker in MARKERS),
-                           "physical_keyboard_completed": self.keyboard_complete and len(self.key_events) == 10,
-                           "queued_text_did_not_duplicate_input": self.duplicate_text_events == 10,
+                           "physical_keyboard_completed": self.keyboard_complete and len(self.key_events) == len(KEYBOARD_COMMAND),
+                           "queued_text_did_not_duplicate_input": self.duplicate_text_events == len(KEYBOARD_COMMAND),
+                           "driver_disk_opened": "/System/DOS/DRIVERS.IMG" in self.open_attempts,
+                           "mouse_motion_left_right": len(self.mouse_steps) == 3 and all(m in self.marker_frames for m in MARKERS[4:8]),
+                           "audible_pcm_mute_restore": self.audio_nonzero_seen and self.audio_muted_seen and self.audio_resumed_seen,
                            "pointer_exit": self.exit_tap_sent,
                            "adjacent_data_opened": MOUNT + "/DATA.TXT" in self.open_attempts,
                            "selected_directory_enumerated": MOUNT in self.directory_attempts,
@@ -281,6 +346,9 @@ class Application(common.Startup):
         report.update(scenario=self.scenario, passed=all(checks.values()), checks=checks,
                       renderedMarkers=self.marker_frames, lastRenderedText=self.last_screen,
                       keyboardEvents=self.key_events, duplicateQueuedTextEvents=self.duplicate_text_events,
+                      mouseSteps=self.mouse_steps, volumeTaps=self.volume_taps,
+                      audioProbe={"nonzero": self.audio_nonzero_seen, "muted": self.audio_muted_seen,
+                                  "resumed": self.audio_resumed_seen, "mutedGuestFrames": self.muted_guest_frames},
                       directoryOpenAttempts=self.directory_attempts, directoryEntryNames=self.directory_names,
                       peakHeapBytes=self.peak_heap_bytes, heapBytesAtReturn=sum(self.allocations.values()),
                       peakOpenHandles=self.peak_open_handles, openHandlesAtReturn=len(self.files),
@@ -293,12 +361,13 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--elf", type=Path, required=True)
     parser.add_argument("--image", type=Path, required=True)
+    parser.add_argument("--drivers", type=Path, default=SKETCH / "sdcard/System/DOS/DRIVERS.IMG")
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--instruction-limit", type=int, default=15000000000)
     parser.add_argument("--timeout-seconds", type=int, default=600)
     parser.add_argument("--frame-limit", type=int, default=3000)
     args = parser.parse_args()
-    if args.output.resolve() in (args.elf.resolve(), args.image.resolve()):
+    if args.output.resolve() in (args.elf.resolve(), args.image.resolve(), args.drivers.resolve()):
         parser.error("Output must differ from the read-only inputs")
     if min(args.instruction_limit, args.timeout_seconds, args.frame_limit) <= 0:
         parser.error("Execution limits must be positive")
@@ -308,11 +377,14 @@ def main():
                               "Original COM/MZ samples and adjacent data only; no claim that arbitrary DOS software works.",
                               "The runtime arena is reclaimed by the OS after return; live arena bytes are reported separately."]}
     try:
-        elf_data, image_data = args.elf.read_bytes(), args.image.read_bytes()
+        elf_data, image_data, driver_data = args.elf.read_bytes(), args.image.read_bytes(), args.drivers.read_bytes()
         if sha(image_data) != BOOT_SHA256:
             raise ValueError("Unexpected FreeDOS fixture image")
+        if sha(driver_data) != DRIVERS_SHA256:
+            raise ValueError("Unexpected FreeDOS mouse driver image")
         report["elf"] = {"bytes": len(elf_data), "sha256": sha(elf_data)}
         report["image"] = {"bytes": len(image_data), "sha256": sha(image_data)}
+        report["drivers"] = {"bytes": len(driver_data), "sha256": sha(driver_data)}
         source_files = {p for root in (DOS, NATIVE / "common") for p in root.rglob("*")
                         if p.is_file() and p.suffix in (".c", ".h", ".py")}
         source_files.update((DOOM_RUNNER, NATIVE / "build.py", SKETCH / "Tab5AppApi.h"))
@@ -320,18 +392,20 @@ def main():
         with tempfile.TemporaryDirectory(prefix="tab5-dos-examples-") as temp:
             folder = Path(temp)
             create(folder)
+            (folder / "MOUSE.COM").write_bytes(create_mouse_probe())
             (folder / "HELLO.EXE").rename(folder / "Hello long name.EXE")
             fixtures = {p.name: p.read_bytes() for p in folder.iterdir()}
             report["fixtureHashes"] = {name: sha(data) for name, data in fixtures.items()}
         for scenario in ("allocation-failure", "missing-boot", "launch"):
             print("Executing DOS ELF scenario: " + scenario, flush=True)
-            result = Application(common.ElfImage(elf_data), image_data, fixtures, scenario, args.frame_limit).run(
+            result = Application(common.ElfImage(elf_data), image_data, driver_data, fixtures, scenario, args.frame_limit).run(
                 args.instruction_limit, args.timeout_seconds)
             report["scenarios"].append(result)
             print(json.dumps({key: result[key] for key in ("scenario", "passed", "stopReason", "returnCode", "frameCount", "checks")}), flush=True)
         after = {p.relative_to(REPO).as_posix(): sha(p.read_bytes()) for p in sorted(source_files)}
         report.update(sourceHashes=after, sourcesUnchanged=before == after,
-                      inputsUnchanged=sha(args.elf.read_bytes()) == sha(elf_data) and sha(args.image.read_bytes()) == sha(image_data))
+                      inputsUnchanged=sha(args.elf.read_bytes()) == sha(elf_data) and sha(args.image.read_bytes()) == sha(image_data)
+                                      and sha(args.drivers.read_bytes()) == sha(driver_data))
         report["passed"] = report["sourcesUnchanged"] and report["inputsUnchanged"] and all(s["passed"] for s in report["scenarios"])
     except Exception as error:
         report["error"] = repr(error)

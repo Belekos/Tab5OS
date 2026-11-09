@@ -8,9 +8,9 @@
  * speaker's task: the register writes go there in a ring, each stamped with
  * the sound ring's sample it happened at, and sound_mix() applies them as
  * it reaches those samples. The chip runs at its own 49,716 Hz, resampled
- * to 44.1 kHz.
+ * to PC_AUDIO_HZ (22.05 kHz in the native Tab5 build).
  *
- * The DSP takes its bytes from DMA as speaker.c makes each 44.1 kHz sample
+ * The DSP takes its bytes from DMA as speaker.c makes each output sample
  * (sound_sample()): at the time constant's rate, held between them; a
  * block's last byte raises IRQ 7 (an event wakes speaker.c for it), then
  * auto-init goes on or single-cycle stops. Direct DAC output, the speaker
@@ -71,11 +71,15 @@ static uint64_t us(uint32_t n)
 static uint8_t opl_status(void)
 {
     uint64_t now = pc_now();
-    if (o.t1_on && !(o.reg[4] & 0x40) && now - o.t1_start >= us((256u - o.reg[2]) * 80u)) {
-        o.status |= 0xC0;
+    uint64_t period = us((256u - o.reg[2]) * 80u);
+    if (o.t1_on && period && now - o.t1_start >= period) {
+        o.t1_start += (now - o.t1_start) / period * period;
+        if (!(o.reg[4] & 0x40)) o.status |= 0xC0;
     }
-    if (o.t2_on && !(o.reg[4] & 0x20) && now - o.t2_start >= us((256u - o.reg[3]) * 320u)) {
-        o.status |= 0xA0;
+    period = us((256u - o.reg[3]) * 320u);
+    if (o.t2_on && period && now - o.t2_start >= period) {
+        o.t2_start += (now - o.t2_start) / period * period;
+        if (!(o.reg[4] & 0x20)) o.status |= 0xA0;
     }
     return (uint8_t)(o.status | 0x06);  /* (the YM3812's low bits: not an OPL3) */
 }
@@ -84,6 +88,9 @@ static void opl_write(uint8_t v)
 {
     uint8_t r = o.index;
     if (r == 4) {
+        /* Consume elapsed overflows before clearing their status. Otherwise
+         * the very next read immediately re-latches the already-acked event. */
+        (void)opl_status();
         if (v & 0x80) {
             o.status = 0;           /* the IRQ reset: the flags clear, nothing else */
             return;
@@ -176,7 +183,7 @@ static struct {
     bool paused, speaker, exit_auto, silence, record;
     uint8_t per_byte;               /* samples a byte (ADPCM: 2-4, their sound left out) */
     uint32_t rate;                  /* samples a second */
-    uint32_t phase;                 /* x PC_AUDIO_HZ: towards the next byte */
+    uint32_t phase;                 /* towards PC_AUDIO_HZ * per_byte */
     uint32_t block;                 /* the auto-init and high-speed length (48h), bytes */
     uint32_t left;                  /* this block's bytes */
     uint8_t level;                  /* the last byte out */
@@ -214,6 +221,7 @@ static void dsp_start(int mode, uint32_t bytes, bool silence, uint8_t per_byte, 
     d.paused = false;
     d.exit_auto = false;
     d.phase = 0;
+    if (silence) d.level = 0x80;
     wake_for_block();
 }
 
@@ -246,9 +254,10 @@ static void dsp_byte(void)
 int32_t sound_sample(void)
 {
     if (d.mode != DSP_IDLE && !d.paused && d.rate) {
-        d.phase += d.rate / d.per_byte;
-        while (d.phase >= PC_AUDIO_HZ && d.mode != DSP_IDLE) {
-            d.phase -= PC_AUDIO_HZ;
+        d.phase += d.rate;
+        const uint32_t threshold = PC_AUDIO_HZ * d.per_byte;
+        while (d.phase >= threshold && d.mode != DSP_IDLE) {
+            d.phase -= threshold;
             dsp_byte();
         }
     }
@@ -405,8 +414,8 @@ uint64_t sound_next_event(void)
         return NEVER;
     }
     /* the output samples till the block's last byte */
-    uint64_t need = (uint64_t)d.left * PC_AUDIO_HZ;
-    uint32_t per = d.rate / d.per_byte;
+    uint64_t need = (uint64_t)d.left * PC_AUDIO_HZ * d.per_byte;
+    uint32_t per = d.rate;
     uint64_t samples = need > d.phase ? (need - d.phase + per - 1) / per : 1;
     return speaker_clock_after((uint32_t)(samples < 0x7FFFFFFF ? samples : 0x7FFFFFFF));
 }
@@ -502,6 +511,11 @@ void sound_reset(void)
         }
     }
     memset(&o, 0, sizeof(o));
+    s_head = s_tail = 0;
+    s_resync = false;
+    s_opl_prev = s_opl_cur = 0;
+    s_opl_frac = s_quiet = 0;
+    s_opl_on = false;
     queue(0x100, 0);                /* the chip's reset, in turn */
     d.rate = 0;
     dsp_reset();

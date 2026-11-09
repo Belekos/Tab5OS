@@ -23,6 +23,8 @@ lv_obj_t* lv_event_get_target_obj(lv_event_t* event){return event->target;}
 lv_obj_t* lv_event_get_current_target_obj(lv_event_t* event){return event->current;}
 bool lv_obj_has_flag(lv_obj_t* object,int){return object->hidden;}
 bool canvasMode=false;
+bool mouseInside=false;
+namespace Tab5Mouse{void capture(bool){}}
 std::atomic<bool> keyboardActive{false};
 std::atomic<uint32_t> requests{0};
 uint8_t (*getVolume)()=nullptr;
@@ -51,8 +53,10 @@ int main(){
  event={LV_EVENT_SCREEN_UNLOAD_START,&screen,&screen};keyboardScreenEvent(&event);
  assert(keyboardState(&state)==1&&!state.connected&&!state.modifiers);
  for(auto key:state.keys)assert(!key);
+ tab5_app_input_event cancelled{};assert(queue.pop(cancelled)&&cancelled.type==TAB5_INPUT_CANCEL);
  event.code=LV_EVENT_SCREEN_LOADED;keyboardScreenEvent(&event);assert(keyboardState(&state)==1&&state.connected);
  event.code=LV_EVENT_SCREEN_UNLOADED;keyboardScreenEvent(&event);assert(keyboardState(&state)==1&&!state.connected);
+ assert(queue.pop(cancelled)&&cancelled.type==TAB5_INPUT_CANCEL);
  canvasMode=false;event.code=LV_EVENT_SCREEN_LOADED;keyboardScreenEvent(&event);assert(keyboardState(&state)==1&&!state.connected);
  state.size=sizeof(state)-1;assert(keyboardState(&state)==-1&&keyboardState(nullptr)==-1);
  // The old canvas queue still carries Escape/text; game Escape still stops.

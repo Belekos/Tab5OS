@@ -19,8 +19,9 @@ import zlib
 VERSION = "0.8.53"
 COMMIT = None
 TREE = None
-PREVIOUS_COMMIT = "b224223535a81efdd0076639d77827ae4725b9d7"
-PREVIOUS_PACKAGE_SHA = "d53bf57f99d8c619c5076aff5b845ea64fe5dea17653db9e51c73a7a77fd50c3"
+PREVIOUS_COMMIT = "c08b0facb6db1c6bc136299444de13bbe81a4648"
+PREVIOUS_PACKAGE_SHA = "6f306ef5657975038f68e9a968b9c6b150bcf856cc5e71c8bac62db1110dee33"
+PREVIOUS_FACTORY_FILES = 186
 ARTIFACT_SHA = None
 BASE_SD_SHA = "d0a3d7987de2d1feb5aa91a1ee6ce1dc10170c0b453f63f7dd9438678e780463"
 WORKFLOW = None
@@ -256,7 +257,9 @@ def verify_new_reports(z, repo):
     dos = z.read("native/DOS.app.elf")
     require(dos[:6] == b"\x7fELF\x01\x01" and int.from_bytes(dos[18:20], "little") == 243
             and int.from_bytes(dos[16:18], "little") == 3, "Wrong DOS ELF target/type")
-    for name in ("dos-folder-tests.json", "dos-overlay-tests.json", "dos-app-report.json"):
+    for name in ("dos-folder-tests.json", "dos-overlay-tests.json", "dos-video-tests.json",
+                 "dos-runtime-tests.json", "dos-runtime-rv32.json", "mouse-tests.json",
+                 "dos-app-report.json"):
         raw = z.read("qa/" + name)
         report = json.loads(raw)
         require(report.get("passed") is True, "DOS feature validation failed: " + name)
@@ -273,6 +276,28 @@ def verify_new_reports(z, repo):
             require({SKETCH_REL + "/tools/native-apps/dos/" + path for path in
                      ("overlay.c", "tests/test_overlay.c", "tests/run_overlay_tests.py")}
                     <= set(report["sourceHashes"]), "DOS overlay source manifest is incomplete")
+        elif name == "dos-video-tests.json":
+            require(report.get("schema") == 1 and
+                    all(report.get("checks", {}).get(key) is True for key in
+                        ("same_pixels_across_six_bios_modes_and_blink", "downscale_matches_original",
+                         "synchronous_skips_vram_copy")), "DOS video equivalence coverage failed")
+        elif name == "dos-runtime-tests.json":
+            require(report.get("component") == "dos-runtime-primitives" and
+                    set(report.get("sanitizers", [])) ==
+                    {"AddressSanitizer", "UndefinedBehaviorSanitizer", "LeakSanitizer"},
+                    "DOS memory/arithmetic sanitizer coverage missing")
+        elif name == "dos-runtime-rv32.json":
+            require(report.get("component") == "dos-runtime-rv32-instructions" and
+                    report.get("baselineCommit") == PREVIOUS_COMMIT and report.get("rows"),
+                    "DOS target runtime comparison is missing or uses another baseline")
+        elif name == "mouse-tests.json":
+            tests = report.get("tests", [])
+            require(len(tests) == 2 and all(case.get("passed") is True for case in tests),
+                    "DOS mouse frontend/guest driver validation is incomplete")
+            require(report.get("imageSha256") == sha((repo / SD_REL / "DOS/FREEDOS.IMG").read_bytes())
+                    and report.get("driversSha256") ==
+                    sha((repo / SD_REL / "System/DOS/DRIVERS.IMG").read_bytes()),
+                    "DOS mouse tests used different boot/driver images")
         else:
             require(report.get("sourcesUnchanged") is True and report.get("inputsUnchanged") is True,
                     "DOS execution changed its sources or inputs")
@@ -281,12 +306,33 @@ def verify_new_reports(z, repo):
             image = (repo / SD_REL / "DOS/FREEDOS.IMG").read_bytes()
             require(report["image"] == {"sha256": sha(image), "bytes": len(image)},
                     "DOS execution used a different boot image")
+            drivers = (repo / SD_REL / "System/DOS/DRIVERS.IMG").read_bytes()
+            require(report["drivers"] == {"sha256": sha(drivers), "bytes": len(drivers)},
+                    "DOS execution used a different mouse driver image")
             scenarios = report.get("scenarios", [])
             require(len(scenarios) == 3 and {case.get("scenario") for case in scenarios} ==
                     {"allocation-failure", "missing-boot", "launch"} and
                     all(case.get("passed") is True for case in scenarios),
                     "DOS frontend validation coverage is incomplete")
+            launch = next(case for case in scenarios if case["scenario"] == "launch")
+            require(all(launch.get("checks", {}).get(key) is True for key in
+                        ("driver_disk_opened", "mouse_motion_left_right", "audible_pcm_mute_restore")),
+                    "DOS mouse/audio frontend validation failed")
         reports[name] = {"passed": True, "sha256": sha(raw)}
+    raw = z.read("qa/dos-audio-tests.json")
+    report = json.loads(raw)
+    require(report.get("passed") is True and report.get("sample_rate") == 22050 and
+            report.get("core_checks", 0) >= 168226 and report.get("opl_pcm_hash") == "91f11fc9"
+            and report.get("audio_output_passed") is True
+            and "OPL NATIVE EQUIVALENCE PASS" in report.get("core_stdout", ""),
+            "DOS audio core/output/equivalence regression coverage failed")
+    require({"app_audio.h", "tests/run_audio_tests.py", "tests/audio_host.c",
+             "tests/audio_output_host.c"} <= set(report.get("source_sha256", {})),
+            "DOS audio source manifest is incomplete")
+    for path, digest in report["source_sha256"].items():
+        require(sha((repo / SKETCH_REL / "tools/native-apps/dos" / safe_name(path)).read_bytes()) == digest,
+                "DOS audio validation source differs: " + path)
+    reports["dos-audio-tests.json"] = {"passed": True, "sha256": sha(raw)}
     return dos, reports
 
 
@@ -311,24 +357,37 @@ def prepare_sd(repo, tracked, doom, dos, previous_package):
     require(sha(previous_package.read_bytes()) == PREVIOUS_PACKAGE_SHA, "Wrong previous complete package")
     with zipfile.ZipFile(previous_package) as previous:
         check_archive(previous)
-        prefix = "Tab5OS_0.8.53_b224223_complete/"
+        prefix = "Tab5OS_0.8.53_c08b0fa_complete/"
         info = json.loads(previous.read(prefix + "BUILD_INFO.json"))
         require(info["validatedCommit"] == PREVIOUS_COMMIT, "Wrong previous candidate source")
         previous_factory = json.loads(previous.read(prefix + SD_REL + "/" + FACTORY + "/manifest.json"))
         previous_hashes = previous_factory["files"]
-        require(set(previous_hashes) == set(old["files"]), "Unexpected previous managed resources")
+        require(len(previous_hashes) == PREVIOUS_FACTORY_FILES and set(old["files"]) <= set(previous_hashes),
+                "Unexpected previous managed resources")
         for name, digest in previous_hashes.items():
             for path in (name, FACTORY + "/" + name):
                 require(sha(previous.read(prefix + SD_REL + "/" + safe_name(path))) == digest,
                         "Previous Factory/live mismatch: " + name)
+        previous_dos_prefix = prefix + SD_REL + "/DOS/"
+        previous_dos = {"DOS/" + item.filename[len(previous_dos_prefix):]: previous.read(item)
+                        for item in previous.infolist()
+                        if not item.is_dir() and item.filename.startswith(previous_dos_prefix)}
+        require(len(previous_dos) == 5 and "DOS/FREEDOS.IMG" in previous_dos,
+                "Previous DOS session resources are incomplete")
     for relative, name in local.items():
         require(not relative.startswith("Factory/"), "Unexpected tracked Factory")
         sd[relative] = (repo / name).read_bytes()
     sd["Applications/Doom.app.elf"] = doom
     sd["Applications/DOS.app.elf"] = dos
+    # c08 snapshots identify both the boot bytes and the mounted folder layout.
+    # Keep the default /DOS mount unchanged too; new drivers belong in /System/DOS.
+    require({name for name in sd if name.startswith("DOS/")} == set(previous_dos),
+            "The DOS mount layout changed; this would hide existing prompt snapshots")
+    for name, raw in previous_dos.items():
+        require(sd[name] == raw, "DOS session base changed from the delivered candidate: " + name)
     module = assignments(sd["MicroPython/lib/tab5factory.py"])
     require(module["VERSION"] == VERSION and len(module["FILES"]) == CONFIG["factoryFiles"]
-            and set(old["files"]) <= set(module["FILES"]), "Unexpected Factory names/version")
+            and set(previous_hashes) <= set(module["FILES"]), "Unexpected Factory names/version")
     upgraded = []
     for name in module["FILES"]:
         require(name in sd, "Factory resource missing")
@@ -360,6 +419,7 @@ def prepare_sd(repo, tracked, doom, dos, previous_package):
         require(len(raw) == int(size) and raw == sd[name[1:]], "Embedded resource differs: " + name)
     history = {"passed": True, "previousCommit": PREVIOUS_COMMIT, "previousPackageSha256": PREVIOUS_PACKAGE_SHA,
                "resourcesVerified": len(module["FILES"]), "changedResources": sorted(upgraded),
+               "dosSessionBasePreserved": {name: sha(raw) for name, raw in sorted(previous_dos.items())},
                "method": "Every previous delivered live and Factory resource checked in the exact complete ZIP"}
     return sd, sorted(missing), history
 
@@ -438,6 +498,18 @@ Physical Tab5 validation remains pending.
 Keep personal System files, documents, games, ROMs, maps, Wikipedia archives,
 vaults and saves. Do not replace the whole live System directory or clear the
 card. Copying only firmware does not update the external ELF applications.
+
+## Existing DOS disk snapshots
+
+The FreeDOS boot image and existing /DOS resources are byte-for-byte identical
+to candidate c08b0fa. Additional driver resources live in /System/DOS, outside
+the default mounted folder. This preserves the boot and default-folder identity
+used by its saved floppy sectors. The update does not replace /Saves/DOS files.
+Sessions launched from other program folders retain their identity when their
+paths and directory layout are unchanged. Moving a program or changing that
+layout can select a different snapshot; it does not erase the earlier file.
+
+For the current DOS controls and capabilities, see {SKETCH_REL}/DOS.md.
 
 ## First installation or new card
 

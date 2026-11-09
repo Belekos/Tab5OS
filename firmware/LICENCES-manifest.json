@@ -491,6 +491,56 @@
           "sha256": "cb868f6d2244ab22f0fb58f69bab7af339fa5001ba293bc9cd17fb46935ae9d9"
         }
       ]
+    },
+    {
+      "component": "CuteMouse 2.1b4 DOS driver and corresponding sources",
+      "directory": "Tab5OS_Arduino_v0.8.53/tools/native-apps/dos/licenses/cutemouse",
+      "licenseLabel": "GPL-2.0 driver; ASMLIB LGPL-2.1 notice retained",
+      "notices": [
+        {
+          "path": "Tab5OS_Arduino_v0.8.53/tools/native-apps/dos/licenses/cutemouse/ctmouse-package.lsm",
+          "sha256": "6ef2a63eabd39c9a57574d00fd1de1321e00452ace37f0c0227c674314f41bc7"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53/tools/native-apps/dos/licenses/cutemouse/ctmouse-source.zip",
+          "sha256": "3dd29f829496032d4440a0633ca2587b8ef9b452a6d6feb48d713010529c27d6"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53/tools/native-apps/dos/licenses/cutemouse/CTMOUSE.txt",
+          "sha256": "d309cbf5159c4d1095ac5d3b1cb66b193f103f87651ed44ad4b32386f429b43e"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53/tools/native-apps/dos/licenses/cutemouse/INT33.txt",
+          "sha256": "b8b814de36a46ef7c821f1057d3d3bc232d384e5461a166f1695e2cc987e5d0c"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53/tools/native-apps/dos/licenses/cutemouse/LICENSE-asmlib.txt",
+          "sha256": "9179341e2df1fb3e833d4f25f2b82ca758f24fb9585ce7f5a8ac008fb1faee39"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53/tools/native-apps/dos/licenses/cutemouse/LICENSE-ctmouse.txt",
+          "sha256": "19404e184cf45ec991b54e1e6f05f847ad8f13fee2a51f3a2d9a960c8f7cb26b"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53/tools/native-apps/dos/licenses/cutemouse/provenance.json",
+          "sha256": "095c17998418eba41db922f883a7f051369b7503ee8fa65340bfacf6f4408ffe"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53/tools/native-apps/dos/licenses/cutemouse/README.md",
+          "sha256": "18fc484675084e2723d21193a28df62bb9cf2c310cf711748d0bda2de6ed37f4"
+        }
+      ]
+    },
+    {
+      "component": "emu8950 OPL2 sound synthesis",
+      "directory": "Tab5OS_Arduino_v0.8.53/tools/native-apps/dos/core/emu8950",
+      "licenseLabel": "MIT; Mitsutaka Okazaki original license retained",
+      "notices": [
+        {
+          "path": "Tab5OS_Arduino_v0.8.53/tools/native-apps/dos/core/emu8950/LICENSE",
+          "sha256": "e0db14654c1f977ec384c3fad3baf6e1f4d21c8369946823bbb6d4e06ebc372b"
+        }
+      ]
     }
   ],
   "primaryFontNames": [

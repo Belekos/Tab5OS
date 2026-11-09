@@ -2,7 +2,7 @@
  * ADPCM for Y8950
  */
 #include "emuadpcm.h"
-#include <memory.h>
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 

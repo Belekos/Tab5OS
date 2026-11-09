@@ -42,6 +42,49 @@ Manual commands are `KEYB FR,437,A:\KEYBOARD.SYS` for French and `KEYB /U`
 to restore the BIOS US layout. The matching driver and layout sources are
 included with the boot image's licences.
 
+## Mouse and touchpad
+
+A USB mouse moves the DOS cursor and supplies left/right buttons, including
+hover, held buttons and dragging. The emulated mouse is a Microsoft serial
+mouse on COM1/IRQ4. The real CuteMouse 2.1b4 driver is loaded automatically from
+the read-only driver disk `B:` with `B:\CTMOUSE /S14 /R11`; its normal INT33
+services and application callbacks are available to DOS programs. Wheel and
+middle-button actions are not exposed by this two-button guest device.
+
+For games, tap the OS toolbar's **Mouse** button to capture the USB mouse. Its
+status changes from **Free** to **Captured**, the desktop pointer disappears, and movement can continue
+without desktop screen-edge limits. Tap that same button on the touchscreen
+to release capture; the touchscreen remains available throughout. Leaving DOS
+or disconnecting the mouse also releases capture. No guest keyboard shortcut
+is intercepted. Without capture, the mouse controls DOS while over its canvas.
+
+The area below the DOS toolbar acts as a touchpad: slide a finger to move the
+cursor, tap for a left click, hold still for half a second for a right click,
+or tap and hold the second touch to drag. Lifting the finger releases a held
+button. The on-screen keyboard keeps its existing key controls. Changing the
+display layout, leaving the application or losing queued input releases buttons.
+
+Install the matching firmware and SD files together for mouse support. Only
+DOS opts into the extended canvas mouse events; other applications retain their
+existing pointer behaviour. The auxiliary `/System/DOS/DRIVERS.IMG` contains the
+driver, matching source and licence texts. It does not replace `FREEDOS.IMG` or
+change the original `/DOS` folder, so existing saved floppy overlays retain
+their identity.
+
+## Sound and volume
+
+PC speaker, AdLib OPL2 music and Sound Blaster 2.0 8-bit PCM sound are available.
+For games with a sound setup program, select AdLib or Sound Blaster, with base
+port `220`, interrupt `7` and DMA channel `1`. The frontend sets
+`BLASTER=A220 I7 D1 T3` before launching the program. MIDI/MT-32, CD audio and
+Sound Blaster Pro/16, ADPCM playback and recording are not provided by this application.
+
+Use **Vol -** and **Vol +** in the top bar to adjust the application volume from
+0 to 100%. Tap the middle volume value to mute and tap it again to restore the
+previous level. This gain is also subject to the OS's master volume. The guest's
+sound hardware continues advancing while muted. A busy or failed host audio
+output is reported; adjusting volume retries output without restarting DOS.
+
 ## Files and saved changes
 
 `C:` is a **read-only projection** of the selected SD folder. Programs can read
@@ -65,19 +108,37 @@ available capacity. `C:` remains read-only.
 ## Compatibility and limits
 
 The machine exposes an 80286 at a nominal 6 MHz, 640 KiB conventional memory,
-1 MiB extended memory, VGA/CGA/EGA-compatible video and a PC speaker. Graphics
-are scaled into the application canvas. Actual emulation speed depends on the
-program and must still be assessed on the physical Tab5.
+1 MiB extended memory and VGA/CGA/EGA-compatible video. Graphics are scaled into
+the application canvas. The renderer now avoids redundant VGA snapshots,
+unchanged screen submissions and per-pixel scaling divisions. The runtime and
+speaker timing also avoid costly general-purpose 64-bit divisions where their
+inputs fit the P4's native arithmetic.
+
+The bottom status shows **PC %**, the speed of the emulated machine relative to
+its nominal timing, and **fps**, changed images submitted to the OS. PC 100%
+means the guest keeps up with its configured timing; it does not mean the P4's
+CPU is fully occupied. A stationary DOS prompt naturally has a low image rate.
+These indicators make a physical game test more useful than an image count
+alone. The console also records guest CPU, video and audio processing time.
+
+The previous build was reported at 1–2 fps in Monkey Island on a physical Tab5.
+The new tests verify output equivalence and reduced work; they do not establish
+a new hardware frame rate or guarantee that every game is playable.
 
 Use 16-bit DOS COM and MZ EXE programs. Windows PE/NE/LE/LX executables are
-rejected. 386 instructions, DOS/4GW and other 386/DPMI extenders, Windows,
-an x87 coprocessor, AdLib and Sound Blaster are outside this version's scope.
+rejected. 386 instructions, DOS/4GW and other 386/DPMI extenders, Windows and
+an x87 coprocessor remain outside this version's scope. 386/486 compatibility
+requires a different CPU core; increasing a MHz setting cannot add it.
 Arbitrary disk-image mounting, host drive writes and networking are not exposed.
 
 Host tests boot the real FreeDOS kernel, run original COM/MZ programs, resolve
 long names in directories containing spaces, and read an adjacent data file.
 Firmware and native ELF validation provide additional checks; these tests do
 not replace a final hardware test of timing, USB input, display and audio.
+
+The original `/DOS` contents and `FREEDOS.IMG` remain unchanged in this update.
+The new driver disk is outside that directory so existing disk-overlay identities
+remain valid when the program directory itself has not changed.
 
 ## Sources and licences
 

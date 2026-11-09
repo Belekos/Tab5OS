@@ -2231,6 +2231,7 @@ static bool initLvgl() {
   Tab5Mouse::begin(lvDisplay);
   Tab5Mouse::contextMenu(showContextMenu);
   Tab5Mouse::pointerEvents(imageMouseEvent);
+  Tab5Mouse::relativeEvents(Tab5NativeView::mouse);
   Tab5ContextMenu::configure(uiFont,[](const char* text){return T(text);});
   return true;
 }

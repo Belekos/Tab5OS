@@ -26,9 +26,50 @@ void tab5_runtime_capacity(size_t bytes){if(!heap&&bytes>=65536&&bytes<=(tab5_ap
 void tab5_runtime_init(const struct tab5_app_api2* api){tab5_api=api;heap=NULL;heapCapacity=1024u*1024u;reclaim_cache=NULL;reclaiming=0;gameRoot[0]=gameSaves[0]=0;}
 void abort(void){tab5_api->base.log("Application stopped.\n",21);__builtin_longjmp(tab5_escape,1);}
 void exit(int code){(void)code;abort();}
+/* DOS_MEMORY_PRIMITIVES_BEGIN
+ * RV32 has inexpensive aligned 32-bit accesses. The DOS framebuffer and guest
+ * RAM copies must not pay a byte load/store and loop branch for every byte.
+ * may_alias keeps these accesses legal for pixels, structs and byte arrays;
+ * unequal alignments stay on the byte path, and no read crosses the range. */
+#if defined(TAB5_DOS)
+#if defined(__GNUC__) || defined(__clang__)
+typedef uint32_t dos_alias_word __attribute__((__may_alias__));
+#else
+typedef uint32_t dos_alias_word;
+#endif
+void* memset(void* p,int c,size_t n){
+ unsigned char* d=p;uint32_t v=(uint32_t)(unsigned char)c*0x01010101u;
+ while(n&&((uintptr_t)d&3u)){*d++=(unsigned char)c;--n;}
+ while(n>=16){dos_alias_word* w=(void*)d;w[0]=v;w[1]=v;w[2]=v;w[3]=v;d+=16;n-=16;}
+ while(n>=4){*(dos_alias_word*)(void*)d=v;d+=4;n-=4;}
+ while(n--)*d++=(unsigned char)c;return p;
+}
+void* memcpy(void* p,const void* s,size_t n){
+ unsigned char* d=p;const unsigned char* b=s;
+ if(!(((uintptr_t)d^(uintptr_t)b)&3u)){
+  while(n&&((uintptr_t)d&3u)){*d++=*b++;--n;}
+  while(n>=16){dos_alias_word* w=(void*)d;const dos_alias_word* r=(const void*)b;w[0]=r[0];w[1]=r[1];w[2]=r[2];w[3]=r[3];d+=16;b+=16;n-=16;}
+  while(n>=4){*(dos_alias_word*)(void*)d=*(const dos_alias_word*)(const void*)b;d+=4;b+=4;n-=4;}
+ }
+ while(n--)*d++=*b++;return p;
+}
+void* memmove(void* p,const void* s,size_t n){
+ if(!n||p==s)return p;
+ if((uintptr_t)p<(uintptr_t)s||(uintptr_t)p-(uintptr_t)s>=n)return memcpy(p,s,n);
+ unsigned char* d=(unsigned char*)p+n;const unsigned char* b=(const unsigned char*)s+n;
+ if(!(((uintptr_t)d^(uintptr_t)b)&3u)){
+  while(n&&((uintptr_t)d&3u)){*--d=*--b;--n;}
+  while(n>=16){d-=16;b-=16;dos_alias_word* w=(void*)d;const dos_alias_word* r=(const void*)b;w[3]=r[3];w[2]=r[2];w[1]=r[1];w[0]=r[0];n-=16;}
+  while(n>=4){d-=4;b-=4;*(dos_alias_word*)(void*)d=*(const dos_alias_word*)(const void*)b;n-=4;}
+ }
+ while(n--)*--d=*--b;return p;
+}
+#else
 void* memset(void* p,int c,size_t n){unsigned char* d=p;while(n--)*d++=(unsigned char)c;return p;}
 void* memcpy(void* p,const void* s,size_t n){unsigned char* d=p;const unsigned char* b=s;while(n--)*d++=*b++;return p;}
 void* memmove(void* p,const void* s,size_t n){if((uintptr_t)p<(uintptr_t)s)return memcpy(p,s,n);unsigned char* d=p;const unsigned char* b=s;while(n){--n;d[n]=b[n];}return p;}
+#endif
+/* DOS_MEMORY_PRIMITIVES_END */
 int memcmp(const void* a,const void* b,size_t n){const unsigned char* x=a,*y=b;while(n--){if(*x!=*y)return *x-*y;++x;++y;}return 0;}
 size_t strlen(const char* s){size_t n=0;while(s[n])++n;return n;}
 int strcmp(const char* a,const char* b){while(*a&&*a==*b){++a;++b;}return (unsigned char)*a-(unsigned char)*b;}
@@ -102,11 +143,43 @@ int memcmp(const void* a,const void* b,size_t n){return tab5_rt_memcmp(a,b,n);}
 void* memmove(void* p,const void* s,size_t n){return tab5_rt_memmove(p,s,n);}
 #endif
 #ifndef TAB5_HOST_TEST
+/* DOS_DIVISION_PRIMITIVES_BEGIN
+ * PIT/speaker arithmetic is uint64_t, but almost every per-sample numerator
+ * fits in 32 bits after the timer rebases. Use the RV32 M division there.
+ * Large operands need only bit_length(n)-bit_length(d)+1 subtract/shift steps,
+ * rather than 64 steps. Remainders reuse that operation without a 64-bit mul. */
+#if defined(TAB5_DOS)
+int __clzsi2(unsigned x){
+ if(!x)return 32;int n=0;
+ if(!(x&0xffff0000u)){n+=16;x<<=16;}
+ if(!(x&0xff000000u)){n+=8;x<<=8;}
+ if(!(x&0xf0000000u)){n+=4;x<<=4;}
+ if(!(x&0xc0000000u)){n+=2;x<<=2;}
+ if(!(x&0x80000000u))++n;return n;
+}
+static unsigned dos_bits64(unsigned long long x){
+ unsigned hi=(unsigned)(x>>32);return hi?64u-(unsigned)__clzsi2(hi):32u-(unsigned)__clzsi2((unsigned)x);
+}
+static unsigned long long dos_divmod64(unsigned long long n,unsigned long long d,unsigned long long* remainder){
+ if(!d)abort();
+ if(n<d){if(remainder)*remainder=n;return 0;}
+ if(!(n>>32)){unsigned a=(unsigned)n,b=(unsigned)d,q=a/b;if(remainder)*remainder=a-q*b;return q;}
+ if(!(d&(d-1))){if(remainder)*remainder=n&(d-1);return n>>(dos_bits64(d)-1);}
+ unsigned shift=dos_bits64(n)-dos_bits64(d);
+ unsigned long long step=d<<shift,bit=1ULL<<shift,q=0;
+ do{if(n>=step){n-=step;q|=bit;}step>>=1;bit>>=1;}while(bit);
+ if(remainder)*remainder=n;return q;
+}
+unsigned long long __udivdi3(unsigned long long n,unsigned long long d){return dos_divmod64(n,d,NULL);}
+unsigned long long __umoddi3(unsigned long long n,unsigned long long d){unsigned long long r;dos_divmod64(n,d,&r);return r;}
+#else
 int __clzsi2(unsigned x){int n=32;while(x){--n;x>>=1;}return n;}
 unsigned long long __udivdi3(unsigned long long n,unsigned long long d){if(!d)abort();unsigned long long q=0,r=0;for(int i=63;i>=0;--i){unsigned top=(unsigned)(r>>63);r=(r<<1)|((n>>i)&1);if(top||r>=d){r-=d;q|=1ULL<<i;}}return q;}
-long long __divdi3(long long a,long long b){unsigned long long x=a<0?0ULL-(unsigned long long)a:a,y=b<0?0ULL-(unsigned long long)b:b;unsigned long long q=__udivdi3(x,y);return (a<0)^(b<0)?0ULL-q:q;}
 unsigned long long __umoddi3(unsigned long long a,unsigned long long b){return a-__udivdi3(a,b)*b;}
+#endif
+long long __divdi3(long long a,long long b){unsigned long long x=a<0?0ULL-(unsigned long long)a:a,y=b<0?0ULL-(unsigned long long)b:b;unsigned long long q=__udivdi3(x,y);return (a<0)^(b<0)?0ULL-q:q;}
 long long __moddi3(long long a,long long b){return a-__divdi3(a,b)*b;}
+/* DOS_DIVISION_PRIMITIVES_END */
 #endif
 int abs(int x){return x<0?-x:x;}
 void __assert_func(const char* file,int line,const char* func,const char* expr){(void)file;(void)line;(void)func;(void)expr;abort();}

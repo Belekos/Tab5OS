@@ -1,0 +1,36 @@
+{
+  "component": "CuteMouse 2.1b4, official FreeDOS 1.4 package",
+  "source_package": "PACKAGES/BASE/CTMOUSE.ZIP",
+  "source_release": "https://download.freedos.org/1.4/FD14-LiteUSB.zip",
+  "expected": {
+    "CTMOUSE.ZIP": "dd378ddfe5b6948d3073c12acaf0ca31bf60d0898f1cd708b6858083a14a41c7",
+    "CTMOUSE.EXE": "822cf550c9e19a22785722d2306aa08ede10ff20bfe931d5a81a15f77c5f363e",
+    "ctmouse-source.zip": "3dd29f829496032d4440a0633ca2587b8ef9b452a6d6feb48d713010529c27d6"
+  },
+  "image": {
+    "size": 1474560,
+    "sha256": "0bb65a1c38cb2a94e4f7f7a7d899c905f4c2f7443adf67b413f2d82c34bd2030"
+  },
+  "files": {
+    "CTMOUSE.EXE": {
+      "size": 5829,
+      "sha256": "822cf550c9e19a22785722d2306aa08ede10ff20bfe931d5a81a15f77c5f363e"
+    },
+    "COPYGPL.TXT": {
+      "size": 18349,
+      "sha256": "19404e184cf45ec991b54e1e6f05f847ad8f13fee2a51f3a2d9a960c8f7cb26b"
+    },
+    "ASMLGPL.TXT": {
+      "size": 26928,
+      "sha256": "9179341e2df1fb3e833d4f25f2b82ca758f24fb9585ce7f5a8ac008fb1faee39"
+    },
+    "SOURCE.ZIP": {
+      "size": 168462,
+      "sha256": "3dd29f829496032d4440a0633ca2587b8ef9b452a6d6feb48d713010529c27d6"
+    },
+    "README.TXT": {
+      "size": 390,
+      "sha256": "7f6b4c950bebfd295c24183125a41232f206d9400fe17da5d7d295add4910254"
+    }
+  }
+}

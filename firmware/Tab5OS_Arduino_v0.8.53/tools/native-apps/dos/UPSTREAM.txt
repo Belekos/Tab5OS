@@ -11,6 +11,11 @@ https://github.com/rlucencic/esp32emu
 Commit 7d6db01763bfe7980bd439b8a80e6b1f423d22cb
 MIT licence: core/LICENSE
 
+AdLib OPL2 synthesis: emu8950 v1.2.2 by Mitsutaka Okazaki,
+https://github.com/digital-sound-antiques/emu8950
+Imported with the pinned esp32emu snapshot above (including its local state
+save/load extensions). MIT licence: core/emu8950/LICENSE
+
 The font data in core/ibmpc/font.c reproduces the Ultimate Oldschool PC Font
 Pack by VileR (https://int10h.org/oldschool-pc-fonts/), under CC BY-SA 4.0:
 https://creativecommons.org/licenses/by-sa/4.0/
@@ -19,14 +24,21 @@ and attribution must be retained when redistributing this application.
 
 Local changes:
 - SDK ABI7 adapter; bounded allocations, directory reads, USB scan states,
-  cooperative frame loop, canvas controls and PC speaker PCM output.
+  cooperative frame loop, canvas controls and 22.05 kHz PCM output.
 - Real FreeDOS boot and automatic COM/MZ launch using actual DOS short aliases.
 - Read-only host folders and base image; persistent bounded floppy COW sectors.
 - Strict folder count/depth/path limits and propagated file-read errors.
-- Hardware-absent x87 and optional sound-card stubs; PC speaker still emulated.
+- Hardware-absent x87. PC speaker, AdLib OPL2 and Sound Blaster 2.0 PCM8
+  (BLASTER=A220 I7 D1 T3). Sound Blaster ADPCM playback, SB16 PCM16, MIDI,
+  MT-32, CD audio and recording are not implemented.
+- Native-rate OPL2 synthesis with integer external interpolation; optional
+  sinc converter excluded from the freestanding build, no transient Y8950
+  sample-RAM allocation. Original native-rate synthesis is retained.
+- PIT square-wave integration avoids repeated 64-bit division per sample.
+  Visible volume/mute controls, silent-output skipping, output-failure notice.
 - US/French synthetic key mapping alongside FreeDOS KEYB.
 - Portable register copy in BIOS printer code for host compiler compatibility.
-- Host boot tests and original public-domain COM/MZ examples.
+- Host boot/audio/PIT tests and original public-domain COM/MZ examples.
 
 No Microsoft MS-DOS, proprietary BIOS or third-party games are bundled.
 The separately licensed FreeDOS kernel, FreeCOM, KEYB and keyboard layouts,

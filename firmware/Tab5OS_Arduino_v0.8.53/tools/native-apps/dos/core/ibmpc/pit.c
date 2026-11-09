@@ -380,12 +380,25 @@ uint32_t pit_high2(uint64_t a, uint64_t b)
     }
     if (c->mode == 3 && c->counting && c->gate && !c->frozen) {
         uint32_t r = c->reload, half = (r + 1) / 2;
-        /* high ticks from the count's start up to t */
-        uint64_t sa = a > c->start ? a - c->start : 0, sb = b > c->start ? b - c->start : 0;
-        uint64_t ha = sa / r * half + ((sa % r) < half ? sa % r : half);
-        uint64_t hb = sb / r * half + ((sb % r) < half ? sb % r : half);
-        uint64_t before = (a < c->start ? (c->start < b ? c->start : b) - a : 0);  /* high before it starts */
-        return (uint32_t)(hb - ha + before);
+        uint32_t before = 0;
+        if (a < c->start) {
+            uint64_t end = c->start < b ? c->start : b;
+            before = (uint32_t)(end - a); /* high before it starts */
+            a = end;
+            if (a == b) return before;
+        }
+        /* Integrate just this sample's interval, not two large integrals.
+         * pit_rebase keeps the usual phase small: one hardware 32-bit modulo
+         * per sample, with a 64-bit fallback for callers far in the future. */
+        uint64_t elapsed = a - c->start, span = b - a;
+        uint32_t phase = elapsed <= UINT32_MAX ? (uint32_t)elapsed % r : (uint32_t)(elapsed % r);
+        uint32_t first = span < r - phase ? (uint32_t)span : r - phase;
+        uint32_t high = phase < half ? (first < half - phase ? first : half - phase) : 0;
+        span -= first;
+        if (!span) return before + high;
+        uint64_t periods = span <= UINT32_MAX ? (uint32_t)span / r : span / r;
+        uint32_t tail = (uint32_t)(span - periods * r);
+        return before + high + (uint32_t)(periods * half) + (tail < half ? tail : half);
     }
     uint32_t n = 0;
     for (uint64_t t = a; t < b; t++) {

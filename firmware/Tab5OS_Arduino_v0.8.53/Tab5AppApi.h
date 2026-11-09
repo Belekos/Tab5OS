@@ -122,6 +122,19 @@ extern const struct tab5_app_api5* tab5_app_api_v5(void);
 #define TAB5_INPUT_KEY 4u
 #define TAB5_INPUT_CANCEL 5u
 #define TAB5_INPUT_CLOSE 6u
+/* Optional mouse reports preserve the ABI-6 event layout. POINTER_POSITION
+ * gives absolute canvas coordinates (possibly outside); POINTER_RELATIVE gives
+ * raw HID motion before desktop edge clamping. They arrive as one ordered pair.
+ * key is the held logical button mask: primary=1, secondary=2, middle=4.
+ * Older apps may ignore these types and retain legacy primary-click events. */
+#define TAB5_INPUT_POINTER_POSITION 7u
+#define TAB5_INPUT_POINTER_RELATIVE 8u
+#define TAB5_POINTER_MOUSE 0x80000000u
+/* OR this opt-in flag into canvas_begin's width. The remaining 15 bits are
+ * the real width (1..800). The app receives rich mouse pairs instead of duplicate
+ * legacy USB pointer events; touch DOWN/MOVE/UP is unchanged. Older firmware
+ * rejects the flagged dimensions instead of silently delivering incomplete input. */
+#define TAB5_CANVAS_MOUSE_EVENTS 0x8000u
 #define TAB5_KEY_TEXT 0u
 #define TAB5_KEY_ENTER 1u
 #define TAB5_KEY_ESCAPE 2u

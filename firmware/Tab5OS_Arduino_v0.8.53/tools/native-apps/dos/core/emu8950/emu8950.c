@@ -4,7 +4,9 @@
  * Copyright (C) 2001-2020 Mitsutaka Okazaki
  */
 #include "emu8950.h"
+#ifndef EMU8950_NATIVE_RATE_ONLY
 #include <math.h>
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -147,15 +149,25 @@ static uint32_t ml_table[16] = {1,     1 * 2, 2 * 2,  3 * 2,  4 * 2,  5 * 2,  6 
                                 8 * 2, 9 * 2, 10 * 2, 10 * 2, 12 * 2, 12 * 2, 15 * 2, 15 * 2};
 
 #define dB2(x) ((x) * 2)
+#ifdef EMU8950_NATIVE_RATE_ONLY
+/* Truncation matches the original double expression for every positive tmp.
+ * Negative values are clamped below, so their fractional part is irrelevant. */
+static const int32_t kl_table[16] = {0,18,24,27,30,32,33,35,36,37,38,39,39,40,41,42};
+#else
 static double kl_table[16] = {dB2(0.000),  dB2(9.000),  dB2(12.000), dB2(13.875), dB2(15.000), dB2(16.125),
                               dB2(16.875), dB2(17.625), dB2(18.000), dB2(18.750), dB2(19.125), dB2(19.500),
                               dB2(19.875), dB2(20.250), dB2(20.625), dB2(21.000)};
+#endif
 
 static uint16_t tll_table[8 * 16][4];
 static int32_t rks_table[2][32][2];
 
+#ifndef min
 #define min(i, j) (((i) < (j)) ? (i) : (j))
+#endif
+#ifndef max
 #define max(i, j) (((i) > (j)) ? (i) : (j))
+#endif
 
 /***************************************************
 
@@ -177,6 +189,16 @@ static int32_t rks_table[2][32][2];
 #define SINC_RESO 256
 #define SINC_AMP_BITS 12
 
+#ifdef EMU8950_NATIVE_RATE_ONLY
+/* The Tab5 mixer performs integer interpolation outside this core. Only the
+ * chip's native rate is accepted below, so no floating-point/libm converter
+ * (or its sample buffers) is reachable in the freestanding application. */
+OPL_RateConv *OPL_RateConv_new(double in, double out, int ch) {(void)in;(void)out;(void)ch;return NULL;}
+void OPL_RateConv_reset(OPL_RateConv *conv) {(void)conv;}
+void OPL_RateConv_putData(OPL_RateConv *conv, int ch, int16_t data) {(void)conv;(void)ch;(void)data;}
+int16_t OPL_RateConv_getData(OPL_RateConv *conv, int ch) {(void)conv;(void)ch;return 0;}
+void OPL_RateConv_delete(OPL_RateConv *conv) {(void)conv;}
+#else
 // double hamming(double x) { return 0.54 - 0.46 * cos(2 * PI * x); }
 static double blackman(double x) { return 0.42 - 0.5 * cos(2 * _PI_ * x) + 0.08 * cos(4 * _PI_ * x); }
 static double sinc(double x) { return (x == 0.0 ? 1.0 : sin(_PI_ * x) / (_PI_ * x)); }
@@ -262,6 +284,7 @@ void OPL_RateConv_delete(OPL_RateConv *conv) {
   free(conv->sinc_table);
   free(conv);
 }
+#endif
 
 /***************************************************
 
@@ -322,11 +345,11 @@ static void makeTllTable(void) {
         if (KL == 0) {
           tll_table[(block << 4) | fnum][KL] = 0;
         } else {
-          tmp = (int32_t)(kl_table[fnum] - dB2(3.000) * (7 - block));
+          tmp = (int32_t)(kl_table[fnum] - 6 * (7 - block));
           if (tmp <= 0)
             tll_table[(block << 4) | fnum][KL] = 0;
           else
-            tll_table[(block << 4) | fnum][KL] = (uint16_t)((tmp >> (3 - kx)) / EG_STEP);
+            tll_table[(block << 4) | fnum][KL] = (uint16_t)(((tmp >> (3 - kx)) * 16) / 3);
         }
       }
     }
@@ -994,6 +1017,9 @@ INLINE static void mix_output_stereo(OPL *opl) {
 
 OPL *OPL_new(uint32_t clk, uint32_t rate) {
   OPL *opl;
+#ifdef EMU8950_NATIVE_RATE_ONLY
+  if (rate != clk / 72 || !rate) return NULL;
+#endif
 
   if (!table_initialized) {
     initializeTables();
@@ -1014,6 +1040,10 @@ OPL *OPL_new(uint32_t clk, uint32_t rate) {
   opl->timer1_user_data = NULL;
   opl->timer2_func = NULL;
   opl->timer2_user_data = NULL;
+#ifdef EMU8950_NATIVE_RATE_ONLY
+  /* No transient Y8950 allocation (512 KiB) for an AdLib/SB OPL2. */
+  opl->chip_type = TYPE_YM3812;
+#endif
 
   OPL_reset(opl);
 
@@ -1033,6 +1063,12 @@ void OPL_delete(OPL *opl) {
 }
 
 static void reset_rate_conversion_params(OPL *opl) {
+#ifdef EMU8950_NATIVE_RATE_ONLY
+  opl->out_time = 0;
+  opl->out_step = (opl->clk / 72) << 8;
+  opl->inp_step = opl->out_step;
+  opl->conv = NULL;
+#else
   const double f_out = opl->rate;
   const double f_inp = opl->clk / 72;
 
@@ -1052,6 +1088,7 @@ static void reset_rate_conversion_params(OPL *opl) {
   if (opl->conv) {
     OPL_RateConv_reset(opl->conv);
   }
+#endif
 }
 
 static void refresh_adpcm_object(OPL *opl) {
@@ -1133,6 +1170,9 @@ void OPL_reset(OPL *opl) {
 }
 
 void OPL_setRate(OPL *opl, uint32_t rate) {
+#ifdef EMU8950_NATIVE_RATE_ONLY
+  if (rate != opl->clk / 72) return;
+#endif
   opl->rate = rate;
   reset_rate_conversion_params(opl);
 }

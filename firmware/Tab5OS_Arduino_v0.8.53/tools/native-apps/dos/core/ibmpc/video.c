@@ -49,6 +49,12 @@ static int s_copying;
 static uint32_t s_taken;
 static uint32_t s_since_taken, s_interval = 2 << 4;
 static bool s_copied;
+static bool s_capture = true;
+
+void pc_video_capture_next(bool capture)
+{
+    s_capture = capture;
+}
 
 const uint16_t cga_rgb565[16] = {
     0x0000, 0x0015, 0x0540, 0x0555, 0xA800, 0xA815, 0xAAA0, 0xAD55,
@@ -206,17 +212,18 @@ void video_reset(void)
     s_frame_acc = 0;
     uint32_t bytes = s_card->vram_size < 64 * 1024 ? 64 * 1024 : s_card->vram_size;
     for (int i = 0; i < 3; i++) {
-        if (s_frames[i].data && s_frame_bytes < bytes) {
+        if (s_frames[i].data && (s_frame_bytes < bytes || pc.cfg.synchronous_video)) {
             free(s_frames[i].data);
             s_frames[i].data = NULL;
         }
-        if (s_frames[i].data == NULL) {
+        if (s_frames[i].data == NULL && !pc.cfg.synchronous_video) {
             s_frames[i].data = pc_calloc(1, bytes);
         }
         s_frames[i].pic.valid = false;
     }
     s_frame_bytes = bytes;
     memset(&s_now, 0, sizeof(s_now));
+    s_capture = true;
     __atomic_store_n(&s_state, 0, __ATOMIC_RELEASE);
 }
 
@@ -224,6 +231,14 @@ void video_reset(void)
 
 static void queue_copy(void)
 {
+    if (pc.cfg.synchronous_video) {
+        if (!s_capture) return;
+        s_frames[0].pic = s_now;
+        s_copying = 0;
+        __atomic_store_n(&s_state, COPYING, __ATOMIC_RELEASE);
+        pc_copy_picture();
+        return;
+    }
     /* Only the frame before the presenter's next picture (copying each
      * would take the memory from the emulation for nothing)
      */
@@ -324,13 +339,15 @@ void pc_copy_picture(void)
     }
     frame_t *fr = &s_frames[s_copying];
     picture_t *p = &fr->pic;
-    if (fr->data) {
+    if (fr->data || pc.cfg.synchronous_video) {
         uint32_t from = 0, to = s_card->vram_size;
         if (s_card->span) {
             s_card->span(p, &from, &to);
         }
         const uint8_t *mem = s_card->memory ? s_card->memory() : pc.ram + s_card->vram;
-        uint32_t h = copy_and_hash(fr->data + from, mem + from, to - from, 0x811C9DC5u);
+        uint32_t h = pc.cfg.synchronous_video
+                   ? hash(mem + from, to - from, 0x811C9DC5u)
+                   : copy_and_hash(fr->data + from, mem + from, to - from, 0x811C9DC5u);
         h = (h ^ from) * 0x01000193u;
         const uint8_t *r = (const uint8_t *)&p->regs;
         for (uint32_t i = 0; i < sizeof(p->regs); i++) {
@@ -409,13 +426,16 @@ static PC_DRAW_HOT void render_line(int y, uint16_t *dst)
     }
     const frame_t *fr = shown();
     const picture_t *p = &fr->pic;
-    if (!p->valid || !fr->data || y < 0 || y >= p->height) {
+    if (!p->valid || (!fr->data && !pc.cfg.synchronous_video) || y < 0 || y >= p->height) {
         int w, h;
         pc_screen_size(&w, &h);
         memset(dst, 0, (size_t)w * sizeof(uint16_t));
         return;
     }
     const card_t *card = card_of(p->type);
+    const uint8_t *data = pc.cfg.synchronous_video
+                        ? (card->memory ? card->memory() : pc.ram + card->vram)
+                        : fr->data;
     if (p->changes && card->apply && p->change[0].line <= y) {
         /* the registers as the beam drew this line: the lines come in
          * order, so the changes are applied as they're reached
@@ -436,8 +456,8 @@ static PC_DRAW_HOT void render_line(int y, uint16_t *dst)
             card->apply(at, &p->change[at->applied]);
             at->applied++;
         }
-        card->render(at, fr->data, y, dst);
+        card->render(at, data, y, dst);
         return;
     }
-    card->render(p, fr->data, y, dst);
+    card->render(p, data, y, dst);
 }

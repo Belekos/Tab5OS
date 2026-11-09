@@ -61,6 +61,10 @@ struct folder {
     uint32_t run_count;
     FILE *file;                     /* the file last read */
     int32_t file_entry;
+#ifdef TAB5_DOS
+    uint8_t *file_cache;            /* bounded read-ahead for 512-byte guest IO */
+    uint32_t cache_start, cache_bytes;
+#endif
 };
 
 static void put16(uint8_t *p, uint32_t v)
@@ -483,15 +487,51 @@ static uint32_t file_sectors(struct folder *fd, int32_t i, uint32_t s, uint32_t 
         char path[256];
         fd->file = path_of(fd, i, path, sizeof(path)) >= 0 ? fopen(path, "rb") : NULL;
         fd->file_entry = i;
+#ifdef TAB5_DOS
+        fd->cache_bytes = 0;
+#endif
     }
     uint64_t bytes = (uint64_t)n * 512;
     if (at + bytes > e->size) {
         bytes = e->size - at;
     }
-    if (!fd->file || fseek(fd->file, (long)at, SEEK_SET) != 0 || fread(dst, 1, (size_t)bytes, fd->file) != bytes) {
+    if (!fd->file) {
         PC_LOG("folder file read failed (entry %ld)", (long)i);
         return 0;
     }
+#ifdef TAB5_DOS
+    /* The host adapter has no stdio buffering. Without this bounded window,
+     * every 512-byte ATA read acquires the SD service and seeks the same file.
+     * Publish the cache length only after a complete successful read; an error
+     * must never expose data from a previous file or partially filled window. */
+    enum { CACHE_BYTES = 16 * 1024 };
+    if (!fd->file_cache) fd->file_cache = pc_calloc(1, CACHE_BYTES);
+    if (!fd->file_cache) return 0;
+    uint32_t offset = (uint32_t)at, remaining = (uint32_t)bytes;
+    while (remaining) {
+        if (offset < fd->cache_start || offset - fd->cache_start >= fd->cache_bytes) {
+            fd->cache_bytes = 0;
+            fd->cache_start = offset & ~(uint32_t)(CACHE_BYTES - 1);
+            uint32_t want = e->size - fd->cache_start;
+            if (want > CACHE_BYTES) want = CACHE_BYTES;
+            if (fseek(fd->file, (long)fd->cache_start, SEEK_SET) != 0 ||
+                fread(fd->file_cache, 1, want, fd->file) != want) {
+                PC_LOG("folder file read failed (entry %ld)", (long)i);
+                return 0;
+            }
+            fd->cache_bytes = want;
+        }
+        uint32_t available = fd->cache_bytes - (offset - fd->cache_start);
+        uint32_t take = remaining < available ? remaining : available;
+        memcpy(dst, fd->file_cache + (offset - fd->cache_start), take);
+        dst += take;offset += take;remaining -= take;
+    }
+#else
+    if (fseek(fd->file, (long)at, SEEK_SET) != 0 || fread(dst, 1, (size_t)bytes, fd->file) != bytes) {
+        PC_LOG("folder file read failed (entry %ld)", (long)i);
+        return 0;
+    }
+#endif
     return n;
 }
 
@@ -548,6 +588,9 @@ void folder_close(struct folder *fd)
         free(fd->e);
         free(fd->pool);
         free(fd->runs);
+#ifdef TAB5_DOS
+        free(fd->file_cache);
+#endif
         free(fd);
     }
 }

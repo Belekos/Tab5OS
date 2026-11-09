@@ -40,8 +40,13 @@ with tempfile.TemporaryDirectory(prefix='tab5-abi7-') as temp:
     usb = (FIRMWARE / 'WriterUsb.cpp').read_bytes().replace(b'\r', b'').decode('utf-8')
     (work / 'native_keyboard.inc').write_text(''.join(extract(s, native) for s in
         ['void keyboardScreenEvent(', 'int keyboardState(', 'void key(']), encoding='utf-8')
+    (work / 'native_mouse.inc').write_text(''.join(extract(s, native) for s in
+        ['void canvasPointer(', 'bool beginMode(', 'bool mouse(']), encoding='utf-8')
+    mouse_source = (FIRMWARE / 'Tab5Mouse.cpp').read_text(encoding='utf8')
+    (work / 'mouse_service.inc').write_text('\n'.join(line for line in mouse_source.splitlines()
+        if not line.startswith('#include')), encoding='utf8')
     (work / 'usb_snapshot.inc').write_text(extract('bool usbKeyboardState(', usb), encoding='utf-8')
-    for name in ['test_keyboard_directory', 'test_broker', 'test_native_keyboard']:
+    for name in ['test_keyboard_directory', 'test_broker', 'test_native_keyboard', 'test_native_mouse', 'test_mouse_capture']:
         executable = work / (name + ('.exe' if os.name == 'nt' else ''))
         if msvc:
             command = [compiler, '/nologo', '/std:c++17', '/EHsc', '/W4', '/WX',
@@ -57,7 +62,7 @@ with tempfile.TemporaryDirectory(prefix='tab5-abi7-') as temp:
         result = subprocess.run([str(executable)], cwd=work, env=env, text=True, capture_output=True, check=True)
         print(result.stdout, end='')
         results.append({'test': name, 'result': 'passed', 'output': result.stdout.strip()})
-sources = [source_path, FIRMWARE / 'Tab5NativeView.cpp', FIRMWARE / 'WriterUsb.cpp', FIRMWARE / 'Tab5AppApi.h', FIRMWARE / 'Tab5AppDirectory.h',
+sources = [source_path, FIRMWARE / 'Tab5NativeView.cpp', FIRMWARE / 'Tab5Mouse.cpp', FIRMWARE / 'Tab5Mouse.h', FIRMWARE / 'WriterMouse.h', FIRMWARE / 'WriterUsb.cpp', FIRMWARE / 'Tab5AppApi.h', FIRMWARE / 'Tab5AppDirectory.h',
            FIRMWARE / 'Tab5KeyboardState.h', FIRMWARE / 'WriterKeys.h', FIRMWARE / 'Tab5AppInputQueue.h', *sorted(HERE.glob('*.*'))]
 report = {'component': 'native-abi7', 'passed': True, 'compiler': compiler, 'tests': results,
           'sanitizers': [] if msvc else ['AddressSanitizer', 'UndefinedBehaviorSanitizer'],

@@ -5,6 +5,7 @@
 #include "WriterUsb.h"
 #include "Tab5Focus.h"
 #include "Tab5AppInputQueue.h"
+#include "Tab5Mouse.h"
 #include <new>
 #include <esp_heap_caps.h>
 #include <freertos/FreeRTOS.h>
@@ -19,8 +20,10 @@ std::atomic<bool> ready{false};std::atomic<uint32_t> touchButtons{0},requests{0}
 std::atomic<bool> keyboardActive{false};
 uint16_t* front=nullptr;uint16_t* back=nullptr;unsigned width=0,height=0;bool dirty=false;
 static bool extendedButtons=false;
-bool canvasMode=false;Tab5AppInputQueue* input=nullptr;
+bool canvasMode=false,canvasMouseEvents=false;Tab5AppInputQueue* input=nullptr;
 int canvasLeft=0,canvasTop=0,canvasWidth=0,canvasHeight=0;
+bool mouseInside=false;
+lv_obj_t* mouseCaptureLabel=nullptr;bool mouseCaptureShown=false;
 
 uint32_t received=0,shown=0,lastStats=0;lv_obj_t* fpsLabel=nullptr;lv_obj_t* volumeSlider=nullptr;lv_obj_t* volumeLabel=nullptr;lv_obj_t* controls=nullptr;lv_obj_t* padLabel=nullptr;lv_obj_t* padConfigure=nullptr;writing::GamepadInfo padInfo;int padStep=-1;bool padReleased=false;uint8_t padMapping[8]{};uint32_t padId=0;uint8_t unmutedVolume=150;
 lv_obj_t* screen=nullptr;lv_obj_t* previous=nullptr;lv_obj_t* picture=nullptr;lv_image_dsc_t image{};
@@ -38,7 +41,10 @@ void keyboardScreenEvent(lv_event_t* e){
  if(lv_event_get_target_obj(e)!=lv_event_get_current_target_obj(e))return;
  auto code=lv_event_get_code(e);
  if(code==LV_EVENT_SCREEN_LOADED)keyboardActive.store(canvasMode,std::memory_order_release);
- else if(code==LV_EVENT_SCREEN_UNLOAD_START||code==LV_EVENT_SCREEN_UNLOADED||code==LV_EVENT_DELETE)keyboardActive.store(false,std::memory_order_release);
+ else if(code==LV_EVENT_SCREEN_UNLOAD_START||code==LV_EVENT_SCREEN_UNLOADED||code==LV_EVENT_DELETE){
+  keyboardActive.store(false,std::memory_order_release);mouseInside=false;Tab5Mouse::capture(false);
+  tab5_app_input_event cancel{};cancel.size=sizeof(cancel);cancel.type=TAB5_INPUT_CANCEL;queueInput(cancel);
+ }
 }
 void canvasPointer(lv_event_t* e){
  auto code=lv_event_get_code(e);tab5_app_input_event event{};event.size=sizeof(event);
@@ -47,6 +53,8 @@ void canvasPointer(lv_event_t* e){
  else if(code==LV_EVENT_RELEASED)event.type=TAB5_INPUT_UP;
  else if(code==LV_EVENT_PRESS_LOST)event.type=TAB5_INPUT_CANCEL;else return;
  auto* indev=lv_indev_active();if(!indev)return;lv_point_t point{};lv_indev_get_point(indev,&point);
+ if(canvasMouseEvents&&Tab5Mouse::isInput(indev))return;
+ if(Tab5Mouse::isInput(indev))event.modifiers|=TAB5_POINTER_MOUSE;
  event.x=std::max(0,std::min(int(width)-1,int((point.x-canvasLeft)*int(width)/canvasWidth)));
  event.y=std::max(0,std::min(int(height)-1,int((point.y-canvasTop)*int(height)/canvasHeight)));
  queueInput(event);
@@ -55,7 +63,7 @@ void button(const char* text,int x,int y,int w,unsigned bit,int h=88){
  auto* b=lv_button_create(screen);lv_obj_set_pos(b,x,y);lv_obj_set_size(b,w,h);
  auto* label=lv_label_create(b);lv_label_set_text(label,tr(text));lv_obj_center(label);
  lv_obj_add_event_cb(b,[](lv_event_t* e){auto bit=unsigned(uintptr_t(lv_event_get_user_data(e)));auto c=lv_event_get_code(e);
- if(bit>=8&&bit<=10){if(c==LV_EVENT_CLICKED){if(bit==8){if(canvasMode){tab5_app_input_event event{};event.size=sizeof(event);event.type=TAB5_INPUT_CLOSE;queueInput(event);}else tab5ExecutableStop();}else requests.fetch_or(1u<<bit);}return;}
+ if(bit>=8&&bit<=10){if(c==LV_EVENT_CLICKED){if(bit==8){Tab5Mouse::capture(false);if(canvasMode){tab5_app_input_event event{};event.size=sizeof(event);event.type=TAB5_INPUT_CLOSE;queueInput(event);}else tab5ExecutableStop();}else requests.fetch_or(1u<<bit);}return;}
  if(c==LV_EVENT_PRESSED)touchButtons.fetch_or(1u<<bit);
  if(c==LV_EVENT_RELEASED||c==LV_EVENT_PRESS_LOST)touchButtons.fetch_and(~(1u<<bit));
  },LV_EVENT_ALL,reinterpret_cast<void*>(uintptr_t(bit)));
@@ -117,6 +125,7 @@ void key(const writing::KeyEvent& e){
  if(c=='m')changeVolume(volume?0:unmutedVolume);
 }
 bool beginMode(unsigned w,unsigned h,bool canvas){
+ const bool mouseEvents=canvas&&(w&TAB5_CANVAS_MOUSE_EVENTS);if(canvas)w&=~TAB5_CANVAS_MOUSE_EVENTS;
  if(ready.load()||!w||!h||w>(canvas?800u:320u)||h>(canvas?480u:240u))return false;
  size_t bytes=w*h*2;Tab5Resources::Budget budget{};budget.psram=bytes*2+(canvas?sizeof(Tab5AppInputQueue):0);budget.psramBlock=std::max(bytes,canvas?sizeof(Tab5AppInputQueue):size_t(0));
  auto admission=tab5ReserveMemory(Tab5Resources::Owner::Tools,budget,"native video");if(!admission)return false;
@@ -124,7 +133,7 @@ bool beginMode(unsigned w,unsigned h,bool canvas){
  auto* b=static_cast<uint16_t*>(heap_caps_calloc(1,bytes,MALLOC_CAP_SPIRAM|MALLOC_CAP_8BIT));
  auto* q=canvas?static_cast<Tab5AppInputQueue*>(heap_caps_malloc(sizeof(Tab5AppInputQueue),MALLOC_CAP_SPIRAM|MALLOC_CAP_8BIT)):nullptr;
  if(!a||!b||(canvas&&!q)){heap_caps_free(a);heap_caps_free(b);heap_caps_free(q);return false;}
- if(q)new(q)Tab5AppInputQueue();input=q;canvasMode=canvas;
+ if(q)new(q)Tab5AppInputQueue();input=q;canvasMode=canvas;canvasMouseEvents=mouseEvents;mouseInside=false;
  admission.allocated(0,bytes*2+(canvas?sizeof(Tab5AppInputQueue):0));front=a;back=b;width=w;height=h;dirty=false;touchButtons=0;requests=0;received=shown=lastStats=0;ready.store(true,std::memory_order_release);return true;
 }
 bool begin(unsigned w,unsigned h){return beginMode(w,h,false);}
@@ -138,6 +147,20 @@ int keyboardState(tab5_app_keyboard_state* state){
  uint8_t modifiers=0;state->size=sizeof(*state);
  state->connected=writing::usbKeyboardState(keyboardActive.load(std::memory_order_acquire),state->keys,modifiers)?1:0;
  state->modifiers=modifiers;return 1;
+}
+bool mouse(int x,int y,int dx,int dy,uint8_t buttons,int wheel){
+ (void)wheel;
+ if(!canvasMode||!canvasMouseEvents||!ready.load(std::memory_order_acquire)||!keyboardActive.load(std::memory_order_acquire)||
+    !visible()||canvasWidth<=0||canvasHeight<=0){mouseInside=false;return false;}
+ const bool inside=x>=canvasLeft&&y>=canvasTop&&x<canvasLeft+canvasWidth&&y<canvasTop+canvasHeight;
+ if(!inside&&!mouseInside)return false;
+ tab5_app_input_event p{},r{};p.size=r.size=sizeof(p);
+ p.type=TAB5_INPUT_POINTER_POSITION;r.type=TAB5_INPUT_POINTER_RELATIVE;
+ p.x=(x-canvasLeft)*int(width)/canvasWidth;p.y=(y-canvasTop)*int(height)/canvasHeight;
+ p.key=r.key=inside?buttons:0;p.modifiers=r.modifiers=TAB5_POINTER_MOUSE;
+ r.x=inside?dx:0;r.y=inside?dy:0;
+ xSemaphoreTake(inputLock(),portMAX_DELAY);if(input)input->pushPointer(p,r);xSemaphoreGive(inputLock());
+ mouseInside=inside;return inside;
 }
 bool present(const uint16_t* pixels,size_t count){
  if(!ready.load(std::memory_order_acquire)||!pixels||count!=width*height)return false;
@@ -164,7 +187,15 @@ void service(){
    picture=lv_image_create(screen);lv_image_set_src(picture,&image);lv_image_set_scale(picture,factor);lv_image_set_antialias(picture,false);
    lv_obj_set_pos(picture,canvasLeft+(canvasWidth-int(width))/2,canvasTop+(canvasHeight-int(height))/2);
    auto* hit=lv_obj_create(screen);lv_obj_remove_style_all(hit);lv_obj_set_pos(hit,canvasLeft,canvasTop);lv_obj_set_size(hit,canvasWidth,canvasHeight);lv_obj_add_flag(hit,LV_OBJ_FLAG_CLICKABLE);lv_obj_remove_flag(hit,LV_OBJ_FLAG_SCROLLABLE);lv_obj_add_event_cb(hit,canvasPointer,LV_EVENT_ALL,nullptr);
-   auto* label=lv_label_create(screen);String name=tab5ExecutableSourcePath();name=name.substring(name.lastIndexOf('/')+1);name.replace(".app.elf","");lv_label_set_text(label,name.c_str());lv_obj_set_pos(label,24,22);lv_obj_set_width(label,std::max(100,sw-240));lv_label_set_long_mode(label,LV_LABEL_LONG_DOT);
+   auto* label=lv_label_create(screen);String name=tab5ExecutableSourcePath();name=name.substring(name.lastIndexOf('/')+1);name.replace(".app.elf","");lv_label_set_text(label,name.c_str());lv_obj_set_pos(label,24,22);lv_obj_set_width(label,std::max(100,sw-(canvasMouseEvents?438:240)));lv_label_set_long_mode(label,LV_LABEL_LONG_DOT);
+   if(canvasMouseEvents){
+    auto* captureButton=lv_button_create(screen);lv_obj_set_pos(captureButton,sw-390,8);lv_obj_set_size(captureButton,196,64);
+    mouseCaptureLabel=lv_label_create(captureButton);mouseCaptureShown=false;lv_label_set_text_fmt(mouseCaptureLabel,"%s\n%s",tr("Souris"),"Free");lv_obj_center(mouseCaptureLabel);
+    lv_obj_add_event_cb(captureButton,[](lv_event_t*){
+     Tab5Mouse::capture(!Tab5Mouse::captured(),canvasLeft+canvasWidth/2,canvasTop+canvasHeight/2);mouseInside=false;
+     tab5_app_input_event cancel{};cancel.size=sizeof(cancel);cancel.type=TAB5_INPUT_CANCEL;queueInput(cancel);
+    },LV_EVENT_CLICKED,nullptr);
+   }
    button("Quitter",sw-182,8,170,8,64);lastStats=lv_tick_get();Tab5Focus.clear();lv_screen_load(screen);
   }else{
   image.header.magic=LV_IMAGE_HEADER_MAGIC;image.header.cf=LV_COLOR_FORMAT_RGB565;image.header.w=width;image.header.h=height;image.header.stride=width*2;image.data_size=width*height*2;image.data=reinterpret_cast<uint8_t*>(front);
@@ -196,6 +227,7 @@ void service(){
   Tab5Focus.clear();lv_screen_load(screen);
   }
  }
+ if(mouseCaptureLabel&&mouseCaptureShown!=Tab5Mouse::captured()){mouseCaptureShown=Tab5Mouse::captured();lv_label_set_text_fmt(mouseCaptureLabel,"%s\n%s",tr("Souris"),mouseCaptureShown?"Captured":"Free");lv_obj_center(mouseCaptureLabel);}
  if(controls&&!lv_obj_has_flag(controls,LV_OBJ_FLAG_HIDDEN)){updatePad();configuring=padStep>=0;}else configuring=false;
  static uint32_t painted=0;uint32_t now=lv_tick_get();if(uint32_t(now-painted)<16)return;
  // A producer can be copying 768 KiB. Keep the pending frame and retry on
@@ -212,6 +244,7 @@ void service(){
  if(statsDue){char text[64];snprintf(text,sizeof(text),"%u / %u %s",unsigned(frames*1000/(now-lastStats)),unsigned(shown*1000/(now-lastStats)),tr("images/s"));if(fpsLabel)lv_label_set_text(fpsLabel,text);shown=0;lastStats=now;}
 }
 void close(){
+ Tab5Mouse::capture(false);mouseCaptureLabel=nullptr;mouseCaptureShown=false;
  keyboardActive.store(false,std::memory_order_release);
  ready.store(false,std::memory_order_release);
  if(screen){if(lv_screen_active()==screen&&previous&&lv_obj_is_valid(previous))lv_screen_load(previous);Tab5Focus.clear();lv_obj_delete(screen);screen=picture=previous=fpsLabel=volumeSlider=volumeLabel=controls=padLabel=padConfigure=nullptr;padStep=-1;configuring=false;}

@@ -533,7 +533,7 @@ static PC_DRAW_HOT void render(const picture_t *p, const uint8_t *vram, int y, u
     uint32_t ma = start + (uint32_t)row * c[0x13] * 2;
     uint8_t mc = c[0x17];
     bool word = !(mc & 0x40), dw = vga && (c[0x14] & 0x40);
-    int div = (vga && (c[0x14] & 0x20)) ? 4 : (mc & 0x08) ? 2 : 1;
+    unsigned div_shift = (vga && (c[0x14] & 0x20)) ? 2u : (mc & 0x08) ? 1u : 0u;
     int pan = r->attr[0x13] & 0x0F;
     if (split && (r->attr[0x10] & 0x20)) {
         pan = 0;
@@ -546,10 +546,18 @@ static PC_DRAW_HOT void render(const picture_t *p, const uint8_t *vram, int y, u
         pan &= 7;
     }
 
-    uint16_t pal[16];
+    static uint16_t pal[16];
+    static uint32_t pal_signature;
+    static int pal_applied = -1, pal_type = -1;
     uint8_t enable = r->attr[0x12] & 0x0F;
-    for (int i = 0; i < 16; i++) {
-        pal[i] = colour(r, vga, r->attr[i]);
+    /* Like the 256-colour table below, text/EGA palettes are constant until
+     * a new captured picture or raster register change. Do not rebuild the
+     * same sixteen RGB colours hundreds of times per displayed frame. */
+    if (!c256 && (pal_signature != p->signature || pal_applied != p->applied || pal_type != (int)p->type)) {
+        pal_signature = p->signature;
+        pal_applied = p->applied;
+        pal_type = (int)p->type;
+        for (int i = 0; i < 16; i++) pal[i] = colour(r, vga, r->attr[i]);
     }
     static uint16_t line[(132 + 2) * 9];
     uint16_t *o = line;
@@ -579,7 +587,7 @@ static PC_DRAW_HOT void render(const picture_t *p, const uint8_t *vram, int y, u
     }
 
     for (int i = 0; i < clocks; i++) {
-        uint32_t m = ma + (uint32_t)(i / div);
+        uint32_t m = ma + ((uint32_t)i >> div_shift);
         uint32_t a;
         if (dw) {
             a = m;                  /* (chain-4's linear layout: offset A >> 2) */

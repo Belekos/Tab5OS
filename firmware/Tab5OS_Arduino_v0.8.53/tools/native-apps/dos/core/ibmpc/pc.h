@@ -59,6 +59,9 @@ typedef struct {
      * AT's IRQ 13, the XT's NMI)
      */
     bool fpu;
+    /* A single task runs the CPU then renders before running it again. The
+     * presenter can use live VRAM and avoid the asynchronous triple copies. */
+    bool synchronous_video;
 } pc_config_t;
 
 bool pc_init(const pc_config_t *cfg);
@@ -76,9 +79,15 @@ uint32_t pc_screen_signature(void);
 void pc_render_line_rgb565(int y, uint16_t *dst);
 /* Copy the frame pc_config_t.picture_ready announced (another task) */
 void pc_copy_picture(void);
+/* In synchronous_video mode, capture only frames the frontend will present.
+ * Must be set before pc_run_frame(); defaults to true after reset. Rendering
+ * a captured frame must finish before the next pc_run_frame(). */
+void pc_video_capture_next(bool capture);
 
 /* ---- Sound (the speaker's task): 16-bit stereo ---- */
+#ifndef PC_AUDIO_HZ
 #define PC_AUDIO_HZ         44100
+#endif
 void pc_audio_enable(bool on);
 int pc_audio_pending(void);
 int pc_audio_render(int16_t *dst, int frames);

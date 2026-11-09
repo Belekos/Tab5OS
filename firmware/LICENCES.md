@@ -16,7 +16,9 @@ Third-party component notices are retained in their directories. [LICENCES-manif
 | WebP/Zstandard/XZ decoders, JPEG encoder, stb | Separate licenses listed in the manifest and upstream files |
 | GB/GBC/NES/Sega8/GBA/Doom ELF applications | Multiple MIT/GPL licenses depending on the core; adapters, sources and notices remain supplied with each application |
 | DOS emulator / esp32pc and esp32emu | MIT, with pinned upstream sources and both original license files retained |
+| DOS OPL2 sound synthesis / emu8950 | Mitsutaka Okazaki's MIT license is retained in `tools/native-apps/dos/core/emu8950/LICENSE` |
 | FreeDOS guest boot disk | Kernel, FreeCOM, KEYB and keyboard layouts keep their original GPL and library notices. Corresponding source archives and build documentation are supplied in `tools/native-apps/dos/licenses/freedos` and in the SD ZIP notices directory |
+| CuteMouse DOS mouse driver | The separate read-only driver disk contains the official FreeDOS CuteMouse 2.1b4 executable, corresponding assembly sources, GPL-2.0 license and ASMLIB LGPL-2.1 notice. The same notices and sources are retained in `tools/native-apps/dos/licenses/cutemouse` |
 | MegaDrive / Gwenesis | AGPL-3.0 in the core directory; a separate ELF application, without reclassification as a permissive license |
 | SNES / ndssfc / Snes9x | Mixed notices: GPL for some parts and the Snes9x **non-commercial / personal-use** restriction. This component cannot be described as entirely under a permissive open-source license |
 | Main DejaVu Sans Mono font | Bitstream Vera license and DejaVu modifications, present in the TTF metadata and reproduced in the manifest |
@@ -33,3 +35,8 @@ extracted binaries. Keep its corresponding source archives, provenance and
 license texts with any redistributed image. In the separate SD ZIP these files
 are included under `notices/`, alongside `LICENCES-manifest.json`; the complete
 package also retains them with the emulator sources.
+
+The additional `/System/DOS/DRIVERS.IMG` disk is produced separately by
+`prepare_drivers.py`. Its provenance pins the CuteMouse executable and source
+archive and records the generated image hash. Its files do not alter the existing
+FreeDOS boot image or saved floppy sectors.

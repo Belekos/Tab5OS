@@ -11,8 +11,10 @@ import subprocess
 import zipfile
 import zlib
 
-PREVIOUS_SHA = "d53bf57f99d8c619c5076aff5b845ea64fe5dea17653db9e51c73a7a77fd50c3"
-PREVIOUS_PREFIX = "Tab5OS_0.8.53_b224223_complete/"
+PREVIOUS_SHA = "6f306ef5657975038f68e9a968b9c6b150bcf856cc5e71c8bac62db1110dee33"
+PREVIOUS_PREFIX = "Tab5OS_0.8.53_c08b0fa_complete/"
+PREVIOUS_COMMIT = "c08b0facb6db1c6bc136299444de13bbe81a4648"
+PREVIOUS_FACTORY_FILES = 186
 BASE_SHA = "d0a3d7987de2d1feb5aa91a1ee6ce1dc10170c0b453f63f7dd9438678e780463"
 VERSION = "0.8.53"
 SKETCH = "firmware/Tab5OS_Arduino_v0.8.53/"
@@ -207,7 +209,14 @@ def verify_dos_boot(read):
     for name, digest in report["fixtureHashes"].items():
         require(sha(read(SD + "DOS/Examples/" + name)) == digest,
                 "Distributed DOS example was not guest-tested: " + name)
+    drivers = read(SD + "System/DOS/DRIVERS.IMG")
+    mouse = json.loads(read(prefix + "licenses/cutemouse/provenance.json"))
+    require(mouse["image"]["size"] == len(drivers) == 1474560 and
+            mouse["image"]["sha256"] == sha(drivers), "Mouse driver image provenance differs")
+    require(sha(read(prefix + "licenses/cutemouse/ctmouse-source.zip")) ==
+            mouse["expected"]["ctmouse-source.zip"], "Mouse driver corresponding sources differ")
     return {"passed": True, "freedosImageSha256": sha(image), "checks": len(required_checks),
+            "driversImageSha256": sha(drivers),
             "reportSha256": sha(read("qa/dos-boot-report.json")),
             "sourceFilesVerified": len(source_hashes)}
 
@@ -276,11 +285,13 @@ def verify_dos_execution(read):
             report.get("component") == "Exact DOS RV32 frontend" and
             report.get("sourcesUnchanged") is True and report.get("inputsUnchanged") is True,
             "Exact DOS frontend execution failed or changed sources/inputs")
-    for name, raw in (("elf", read("native/DOS.app.elf")), ("image", read(SD + "DOS/FREEDOS.IMG"))):
+    for name, raw in (("elf", read("native/DOS.app.elf")), ("image", read(SD + "DOS/FREEDOS.IMG")),
+                      ("drivers", read(SD + "System/DOS/DRIVERS.IMG"))):
         require(report[name] == {"bytes": len(raw), "sha256": sha(raw)},
                 "Exact DOS execution used a different " + name)
     required_sources = {prefix + path for path in
                         ("app.c", "platform.c", "core/x86/x86.c", "core/ibmpc/pc.c",
+                         "app_mouse.h", "app_audio.h", "tests/peripheral_fixture.py",
                          "tests/emulate_app.py", "tests/frame_text.py", "tests/make_examples.py")}
     require(required_sources <= set(report.get("sourceHashes", {})),
             "DOS frontend execution source manifest is incomplete")
@@ -288,7 +299,10 @@ def verify_dos_execution(read):
         safe(name)
         require(sha(read(name)) == digest, "DOS frontend source differs: " + name)
     fixtures = {"HELLO.COM": "HELLO.COM", "Hello long name.EXE": "HELLO.EXE", "DATA.TXT": "DATA.TXT"}
-    require(set(report.get("fixtureHashes", {})) == set(fixtures), "DOS frontend fixture inventory differs")
+    require(set(report.get("fixtureHashes", {})) == set(fixtures) | {"MOUSE.COM"},
+            "DOS frontend fixture inventory differs")
+    require(re.fullmatch(r"[0-9a-f]{64}", report["fixtureHashes"]["MOUSE.COM"]),
+            "DOS peripheral fixture identity is missing")
     for fixture, packaged in fixtures.items():
         require(report["fixtureHashes"][fixture] == sha(read(SD + "DOS/Examples/" + packaged)),
                 "DOS frontend fixture differs from the distributed example: " + fixture)
@@ -301,7 +315,8 @@ def verify_dos_execution(read):
     launch_checks = {"return_code_zero", "boot_ready_logged", "rendered_boot_com_mz_data",
                      "physical_keyboard_completed", "queued_text_did_not_duplicate_input", "pointer_exit",
                      "adjacent_data_opened", "selected_directory_enumerated", "files_closed_on_exit",
-                     "canvas_started"}
+                     "canvas_started", "driver_disk_opened", "mouse_motion_left_right",
+                     "audible_pcm_mute_restore"}
     for case in scenarios:
         require(case.get("passed") is True and case.get("stopReason") == "application-returned" and
                 case.get("returnCode") == expected[case["scenario"]] and case.get("error") is None,
@@ -312,14 +327,108 @@ def verify_dos_execution(read):
                 "DOS frontend scenario coverage is incomplete")
         require(case["loader"]["imports"] == ["tab5_app_api_v7"], "DOS execution bypassed ABI7")
         if case["scenario"] == "launch":
-            require({"TAB5OS DOS READY", "TAB5 MZ EXE OK", "TAB5 ADJACENT DATA OK", "TAB5 COM OK"}
+            require({"TAB5OS DOS READY", "TAB5 MZ EXE OK", "TAB5 ADJACENT DATA OK", "TAB5 COM OK",
+                     "TAB5 MOUSE READY", "TAB5 MOUSE MOVE OK", "TAB5 MOUSE LEFT OK",
+                     "TAB5 MOUSE RIGHT OK", "TAB5 AUDIO READY", "TAB5 INPUT AUDIO OK"}
                     <= set(case.get("renderedMarkers", {})), "DOS rendered guest output is missing")
             require(case.get("openHandlesAtReturn") == 0, "DOS frontend leaked file handles")
+            require(len(case.get("mouseSteps", [])) == 3 and case.get("volumeTaps") == [1, 2],
+                    "DOS peripheral interaction sequence is incomplete")
+            require(all(case.get("audioProbe", {}).get(key) is True for key in ("nonzero", "muted", "resumed")),
+                    "DOS audio mute/restore did not complete")
     return {"passed": True, "scenarios": len(scenarios),
             "folderReportSha256": sha(read("qa/dos-folder-tests.json")),
             "overlayReportSha256": sha(read("qa/dos-overlay-tests.json")),
             "executionReportSha256": sha(read("qa/dos-app-report.json")),
+            "peripheralFixtureSha256": report["fixtureHashes"]["MOUSE.COM"],
             "executionSourcesVerified": len(report["sourceHashes"])}
+
+
+def verify_dos_optimizations(read):
+    prefix = SKETCH + "tools/native-apps/dos/"
+    runtime_source = SKETCH + "tools/native-apps/common/runtime.c"
+    result = {}
+    for name, required in (
+            ("dos-video-tests.json", {prefix + path for path in (
+                "presentation.h", "core/ibmpc/video.c", "tests/test_video.c",
+                "tests/test_presentation.c", "tests/run_video_tests.py")}),
+            ("dos-runtime-tests.json", {runtime_source, prefix + "tests/test_runtime_primitives.c",
+                                        prefix + "tests/run_runtime_tests.py"}),
+            ("dos-runtime-rv32.json", {runtime_source, prefix + "core/ibmpc/pit.c",
+                                      prefix + "tests/measure_runtime_rv32.py"})):
+        raw = read("qa/" + name)
+        report = json.loads(raw)
+        require(report.get("passed") is True, "DOS optimization verification failed: " + name)
+        require(required <= set(report.get("sourceHashes", {})),
+                "DOS optimization source manifest incomplete: " + name)
+        for source, expected in report["sourceHashes"].items():
+            safe(source)
+            require(sha(read(source)) == expected, "DOS optimization source differs: " + source)
+        if name == "dos-video-tests.json":
+            require(report.get("schema") == 1 and
+                    all(report.get("checks", {}).get(key) is True for key in (
+                        "same_pixels_across_six_bios_modes_and_blink", "downscale_matches_original",
+                        "synchronous_skips_vram_copy")), "DOS presentation changed emulated display pixels")
+        elif name == "dos-runtime-tests.json":
+            require(report.get("component") == "dos-runtime-primitives" and
+                    set(report.get("sanitizers", [])) ==
+                    {"AddressSanitizer", "UndefinedBehaviorSanitizer", "LeakSanitizer"},
+                    "DOS runtime memory/arithmetic sanitizer coverage missing")
+        else:
+            require(report.get("component") == "dos-runtime-rv32-instructions" and
+                    report.get("baselineCommit") == PREVIOUS_COMMIT, "DOS runtime baseline differs")
+            rows = report.get("rows", [])
+            require(len(rows) == 19 and {row.get("case") for row in rows} ==
+                    {"divide", "remainder", "aligned-copy", "same-unaligned-copy",
+                     "different-alignment-copy", "aligned-fill", "backward-overlap",
+                     "pit-square-wave-sample"},
+                    "DOS target runtime comparison coverage differs")
+            require(all(row.get("beforeInstructions", 0) > 0 and row.get("afterInstructions", 0) > 0
+                        for row in rows), "DOS target instruction counts are missing")
+        result[name] = {"passed": True, "sha256": sha(raw), "sourceFilesVerified": len(report["sourceHashes"])}
+    return result
+
+
+def verify_dos_peripherals(read):
+    prefix = SKETCH + "tools/native-apps/dos/"
+    mouse_raw = read("qa/mouse-tests.json")
+    mouse = json.loads(mouse_raw)
+    require(mouse.get("passed") is True, "DOS mouse host regressions failed")
+    tests = mouse.get("tests", [])
+    require(len(tests) == 2 and all(case.get("passed") is True for case in tests) and
+            {case.get("component") for case in tests} == {
+                "DOS touchpad, physical mouse and ordered event queue",
+                "Real FreeDOS/CuteMouse serial IRQ4 and INT33"},
+            "DOS mouse frontend/guest driver coverage differs")
+    driver_test = next(case for case in tests if "INT33" in case["component"])
+    require(driver_test.get("checks", 0) >= 16 and driver_test.get("failures") == 0,
+            "DOS real mouse driver checks failed")
+    require(mouse.get("imageSha256") == sha(read(SD + "DOS/FREEDOS.IMG")) and
+            mouse.get("driversSha256") == sha(read(SD + "System/DOS/DRIVERS.IMG")),
+            "DOS mouse regression used different boot/driver images")
+    require({prefix + name for name in ("app_mouse.h", "tests/mouse_frontend.cpp",
+            "tests/mouse_host.c", "tests/run_mouse_tests.py")} <= set(mouse.get("sourceHashes", {})),
+            "DOS mouse source manifest is incomplete")
+    for source, expected in mouse["sourceHashes"].items():
+        safe(source)
+        require(sha(read(source)) == expected, "DOS mouse validation source differs: " + source)
+    audio_raw = read("qa/dos-audio-tests.json")
+    audio = json.loads(audio_raw)
+    require(audio.get("passed") is True and audio.get("sample_rate") == 22050 and
+            audio.get("core_checks", 0) >= 168226 and audio.get("opl_pcm_hash") == "91f11fc9"
+            and audio.get("audio_output_passed") is True
+            and "OPL NATIVE EQUIVALENCE PASS" in audio.get("core_stdout", ""),
+            "DOS sound core/output/equivalence regression failed")
+    require({"app_audio.h", "core/ibmpc/sound.c", "core/ibmpc/speaker.c", "core/ibmpc/pit.c",
+             "core/emu8950/emu8950.c", "tests/audio_host.c", "tests/audio_output_host.c",
+             "tests/run_audio_tests.py"} <= set(audio.get("source_sha256", {})),
+            "DOS audio source manifest is incomplete")
+    for source, expected in audio["source_sha256"].items():
+        safe(source)
+        require(sha(read(prefix + source)) == expected, "DOS sound validation source differs: " + source)
+    return {"passed": True, "mouseReportSha256": sha(mouse_raw), "audioReportSha256": sha(audio_raw),
+            "mouseSourceFilesVerified": len(mouse["sourceHashes"]),
+            "audioSourceFilesVerified": len(audio["source_sha256"])}
 
 
 def main():
@@ -338,7 +447,7 @@ def main():
     for field in ("artifactId", "factoryFiles", "embeddedResources", "nativeApplications"):
         require(type(config[field]) is int and config[field] > 0, "Invalid config count: " + field)
     require(config["nativeApplications"] == len(APPS) == 12, "Expected the 12-application candidate")
-    require(config["factoryFiles"] >= 186, "New DOS resources missing from configured Factory")
+    require(config["factoryFiles"] >= 187, "DOS driver resources missing from configured Factory")
     require(isinstance(config["workflowRun"], str) and
             re.fullmatch(r"https://github.com/Belekos/Tab5OS/actions/runs/[0-9]+", config["workflowRun"]),
             "Invalid workflow run URL")
@@ -352,10 +461,12 @@ def main():
         previous_names = inventory(previous)
         require(all(n.startswith(PREVIOUS_PREFIX) for n in previous_names), "Wrong previous package root")
         previous_sd = PREVIOUS_PREFIX + SD
+        require(json.loads(previous.read(PREVIOUS_PREFIX + "BUILD_INFO.json"))["validatedCommit"] == PREVIOUS_COMMIT,
+                "Wrong previous source commit")
         previous_factory = json.loads(previous.read(previous_sd + FACTORY + "manifest.json"))
         previous_hashes = previous_factory["files"]
         previous_rules = assignments(previous.read(previous_sd + "MicroPython/lib/tab5factory.py"))
-        require(previous_factory["version"] == VERSION and len(previous_hashes) == 180,
+        require(previous_factory["version"] == VERSION and len(previous_hashes) == PREVIOUS_FACTORY_FILES,
                 "Unexpected previous Factory manifest")
         require(previous_rules["VERSION"] == VERSION and set(previous_rules["FILES"]) == set(previous_hashes),
                 "Previous Factory helper differs from its manifest")
@@ -364,6 +475,10 @@ def main():
             require(sha(previous.read(previous_sd + name)) == digest and
                     sha(previous.read(previous_sd + FACTORY + name)) == digest,
                     "Previous delivered live/Factory bytes differ: " + name)
+        previous_dos = {name[len(previous_sd):]: previous.read(name) for name in previous_names
+                        if name.startswith(previous_sd + "DOS/")}
+        require(len(previous_dos) == 5 and "DOS/FREEDOS.IMG" in previous_dos,
+                "Previous DOS session resources are incomplete")
     require(subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=args.repo).decode().strip() == COMMIT,
             "Source checkout is not the validated commit")
     require(not subprocess.check_output(["git", "status", "--porcelain", "--untracked-files=no"], cwd=args.repo).strip(),
@@ -385,6 +500,8 @@ def main():
         dos_boot_verification = verify_dos_boot(read)
         dos_native_verification = verify_dos_native(read)
         dos_execution_verification = verify_dos_execution(read)
+        dos_optimization_verification = verify_dos_optimizations(read)
+        dos_peripheral_verification = verify_dos_peripherals(read)
         info = json.loads(read("BUILD_INFO.json"))
         require(info["validatedCommit"] == COMMIT and info["validatedTree"] == config["tree"],
                 "BUILD_INFO source identity differs")
@@ -465,6 +582,11 @@ def main():
                 require(not name.lower().endswith(".wad") and not valid_wad_header(raw[:12], len(raw)),
                         "Game/test WAD bundled: " + name)
             live = {name for name in nested if not name.startswith("Factory/")}
+            require({name for name in live if name.startswith("DOS/")} == set(previous_dos),
+                    "Default DOS mount layout changed and would hide previous prompt snapshots")
+            for name, raw in previous_dos.items():
+                require(sd.read("sdcard/" + name) == raw,
+                        "DOS boot/session base changed from the delivered candidate: " + name)
             tracked_sd = {name[len(SD):] for name in tracked if name.startswith(SD)}
             native_overlays = {"Applications/Doom.app.elf", "Applications/DOS.app.elf"}
             require(live - tracked_sd - native_overlays == LARGE, "Unexpected baseline-only SD assets")
@@ -487,7 +609,8 @@ def main():
             old_factory = json.loads(baseline.read("sdcard/" + FACTORY + "manifest.json"))
             require(set(previous_hashes) <= set(factory["files"]), "Previously delivered Factory resources removed")
             dos_resources = {"Applications/DOS.app.elf", "DOS/FREEDOS.IMG", "DOS/README.txt",
-                             "DOS/Examples/HELLO.COM", "DOS/Examples/HELLO.EXE", "DOS/Examples/DATA.TXT"}
+                             "DOS/Examples/HELLO.COM", "DOS/Examples/HELLO.EXE", "DOS/Examples/DATA.TXT",
+                             "System/DOS/DRIVERS.IMG"}
             require(dos_resources <= set(factory["files"]), "DOS Factory resources missing")
             require(not any(n.startswith("Saves/") for n in factory["files"]), "Personal saves included in Factory")
             for name, digest in factory["files"].items():
@@ -543,10 +666,13 @@ def main():
             "testWadBundled": False, "inspectorSha256": file_sha(Path(__file__)),
             "configSha256": file_sha(args.config), "previousPackageSha256": PREVIOUS_SHA,
             "previousFactoryFilesVerified": len(previous_hashes),
+            "dosSessionBasePreserved": {name: sha(raw) for name, raw in sorted(previous_dos.items())},
             "hostVerification": host_verification,
             "dosBootVerification": dos_boot_verification,
             "dosNativeVerification": dos_native_verification,
             "dosExecutionVerification": dos_execution_verification,
+            "dosOptimizationVerification": dos_optimization_verification,
+            "dosPeripheralVerification": dos_peripheral_verification,
             "limitations": ["Archive and build consistency verified; no physical Tab5 test."],
         }
         args.output.parent.mkdir(parents=True, exist_ok=True)

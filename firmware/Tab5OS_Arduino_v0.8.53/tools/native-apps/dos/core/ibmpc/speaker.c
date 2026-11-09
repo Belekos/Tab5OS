@@ -68,7 +68,8 @@ void speaker_run(void)
         if (data && span) {
             high = gate ? pit_high2(a, b) : span;
         }
-        emit(span ? (int32_t)(high * LEVEL / span) : 0);
+        /* Silence and a constant high level need no divide per sample. */
+        emit(!high ? 0 : high == span ? LEVEL : (int32_t)(high * LEVEL / span));
     }
 }
 
