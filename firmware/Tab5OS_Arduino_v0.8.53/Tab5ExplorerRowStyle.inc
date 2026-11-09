@@ -42,9 +42,10 @@ static void fileStyleRow(lv_obj_t* row,bool selected,lv_color_t textColor) {
   lv_obj_set_style_text_color(row,textColor,focus);
   if(selected)lv_obj_add_state(row,LV_STATE_CHECKED);
   else lv_obj_remove_state(row,LV_STATE_CHECKED);
-  // Icon and label remain stable child 0/1 for selection and accessibility.
-  for(uint32_t i=0;i<2&&i<lv_obj_get_child_count(row);++i)
-    lv_obj_set_style_text_color(lv_obj_get_child(row,i),textColor,0);
+  // Icon and label remain stable child 0/1. The icon owns its separate
+  // theme colour; changing selection must only refresh the filename colour.
+  if(lv_obj_get_child_count(row)>1)
+    lv_obj_set_style_text_color(lv_obj_get_child(row,1),textColor,0);
 }
 
 static lv_obj_t* fileCreateFlatRow(lv_obj_t* parent,const char* name,

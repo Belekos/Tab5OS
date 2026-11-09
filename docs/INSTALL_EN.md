@@ -11,6 +11,8 @@ Tab5OS runs on M5Stack Tab5 / ESP32-P4 with 32 MiB PSRAM and 16 MiB Flash.
 | [Complete SD package](../downloads/Tab5OS_0.8.53_SD.zip) | ELF/Python applications, fonts, languages, keyboards and Factory reference |
 | [SHA256SUMS.txt](../downloads/SHA256SUMS.txt) | Verify all three downloads |
 
+These links refer to the previously published 0.8.53 build. The DOS candidate requires the matching newly built firmware and complete SD package; the older downloads do not gain DOS support merely by copying an application. Its complete package includes 12 ELF applications, including the CI-built `DOS.app.elf`, and the DOS resources described in the [DOS guide](../firmware/DOS.md).
+
 **Initial installation replaces the entire P4 Flash, including internal settings and keys. Use the OTA firmware to update an existing installation.** Back up documents, settings and portable vault exports before installation. Keep power connected while writing. The ESP32-C6 companion retains its firmware.
 
 In PowerShell, calculate a downloaded file’s checksum with `Get-FileHash -Algorithm SHA256 .\Tab5OS_0.8.53_SD.zip` and compare it with `SHA256SUMS.txt`. On Linux, place all three files and the checksum file in one directory, then run `sha256sum -c SHA256SUMS.txt`.
@@ -57,7 +59,13 @@ The [complete SD package](../downloads/Tab5OS_0.8.53_SD.zip) includes `Factory/T
 
 **Keep your personal `/System` directory.** Normal repair preserves customized resources and valid settings; the separate **Restore modified files** action replaces them after confirmation. The [SD repair guide](../firmware/REPARATION_SD.md) describes these rules.
 
-The [11 ELF applications](../firmware/Tab5OS_Arduino_v0.8.53/sdcard/Applications/) and [Python scripts](../firmware/Tab5OS_Arduino_v0.8.53/sdcard/MicroPython/) are also directly available. Use the ZIP to prepare a card with all resources. The [Wikipedia](../firmware/WIKIPEDIA.md), [Maps](../firmware/CARTES.md) and [Applications](../firmware/APPLICATIONS.md) guides describe how to prepare archives, tiles and game data.
+The [11 tracked ELF applications](../firmware/Tab5OS_Arduino_v0.8.53/sdcard/Applications/) and [Python scripts](../firmware/Tab5OS_Arduino_v0.8.53/sdcard/MicroPython/) are also directly available. DOS is built separately by CI and supplied in the candidate's complete package; it is not a twelfth prebuilt download in that source directory. Use the matching ZIP to prepare a card with all resources. The [Wikipedia](../firmware/WIKIPEDIA.md), [Maps](../firmware/CARTES.md) and [Applications](../firmware/APPLICATIONS.md) guides describe how to prepare archives, tiles and game data.
+
+## Use the DOS candidate
+
+Install the candidate firmware and SD package together, keeping `Applications/DOS.app.elf` and the `DOS` folder from the same package. Put a compatible 16-bit DOS `.COM` or `.EXE` program on SD, select it in Explorer and choose **Actions → Open with DOS**, then **Run**. Full paths may contain spaces. Programs on USB storage must first be copied to SD. Use the DOS **Keys** panel or an optional USB keyboard for input.
+
+Windows executables, 386 software and Sound Blaster/AdLib audio are unsupported. See the [DOS guide](../firmware/DOS.md) for the included FreeDOS image, controls and remaining limits.
 
 To rebuild the firmware, follow the [build guide](BUILD.md).
 

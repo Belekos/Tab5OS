@@ -391,13 +391,13 @@ struct Tab5ToolsApp::Impl {
  bool readJson(const char* file,JsonDocument& doc){if(!tab5AtomicRecover(file))return false;errno=0;File f=tab5FS.open(file);if(!f)return errno==ENOENT;if(f.size()>32768)return false;Tab5JsonFileReader reader(f);return !deserializeJson(doc,reader);}
  bool writeJson(const char* file,JsonDocument& doc){size_t n=measureJson(doc);if(n>32768)return false;char* bytes=allocateScript(n+1);if(!bytes)return false;serializeJson(doc,bytes,n+1);bool ok=tab5AtomicWrite(file,bytes,n);freeScript(bytes);return ok;}
  static const char* roleKey(unsigned i){return tab5theme::roleKey(i);}
- void themeToneReset(){themeToneBase=themeColors[themeRole];if(themeTone)lv_slider_set_value(themeTone,0,LV_ANIM_OFF);if(themeToneValue)lv_label_set_text(themeToneValue,"0");}
+ void themeToneReset(){themeToneBase=tab5theme::visibleColor(themeColors,themeRole);if(themeTone)lv_slider_set_value(themeTone,0,LV_ANIM_OFF);if(themeToneValue)lv_label_set_text(themeToneValue,"0");}
  void themeToneChanged(){
   if(themeUpdating||!themeTone)return;const int amount=lv_slider_get_value(themeTone);themeColors[themeRole]=tab5theme::tone(themeToneBase,amount);
   char value[12];snprintf(value,sizeof(value),"%+d",amount);lv_label_set_text(themeToneValue,value);themeRefresh();
  }
- void themeRefresh(){themeUpdating=true;char hex[8];snprintf(hex,sizeof(hex),"#%06lX",static_cast<unsigned long>(themeColors[themeRole]&0xffffff));lv_textarea_set_text(themeHex,hex);lv_dropdown_set_selected(themeRoles,themeRole);for(unsigned i=0;i<3;++i)lv_slider_set_value(themeSliders[i],(themeColors[themeRole]>>(16-i*8))&255,LV_ANIM_OFF);lv_obj_set_style_bg_color(themeSwatch,lv_color_hex(themeColors[themeRole]),0);Tab5ThemePreview::update(themePreview,themeColors,Tab5ThemePreview::Count);themeUpdating=false;}
- bool themeReadHex(){const char* text=lv_textarea_get_text(themeHex);if(strlen(text)!=7||text[0]!='#'){note("Couleur : #RRGGBB");return false;}for(unsigned i=1;i<7;++i)if(!isxdigit(text[i])){note("Couleur : #RRGGBB");return false;}themeColors[themeRole]=strtoul(text+1,nullptr,16);themeToneReset();return true;}
+ void themeRefresh(){themeUpdating=true;const uint32_t visible=tab5theme::visibleColor(themeColors,themeRole);char hex[8];snprintf(hex,sizeof(hex),"#%06lX",static_cast<unsigned long>(visible));lv_textarea_set_text(themeHex,hex);lv_dropdown_set_selected(themeRoles,themeRole);for(unsigned i=0;i<3;++i)lv_slider_set_value(themeSliders[i],(visible>>(16-i*8))&255,LV_ANIM_OFF);lv_obj_set_style_bg_color(themeSwatch,lv_color_hex(visible),0);Tab5ThemePreview::update(themePreview,themeColors,Tab5ThemePreview::Count);themeUpdating=false;}
+ bool themeReadHex(bool explicitColor=false){const char* text=lv_textarea_get_text(themeHex);if(strlen(text)!=7||text[0]!='#'){note("Couleur : #RRGGBB");return false;}for(unsigned i=1;i<7;++i)if(!isxdigit(text[i])){note("Couleur : #RRGGBB");return false;}const uint32_t color=strtoul(text+1,nullptr,16);if(explicitColor||color!=tab5theme::visibleColor(themeColors,themeRole))themeColors[themeRole]=color;themeToneReset();return true;}
  void themeSelect(unsigned role){if(role>=Tab5ThemePreview::Count||themeUpdating)return;if(!themeReadHex()){themeUpdating=true;lv_dropdown_set_selected(themeRoles,themeRole);themeUpdating=false;return;}themeRole=role;themeToneReset();themeRefresh();}
  void themeChoices(){
   if(!themeLoad)return;unsigned selected=lv_dropdown_get_selected(themeLoad);String selectedId=themeDeleteId;
@@ -430,7 +430,7 @@ struct Tab5ToolsApp::Impl {
   doc["version"]=1;if(doc["themes"].isNull())doc["themes"].to<JsonArray>();auto list=doc["themes"].as<JsonArray>();JsonObject found;
   for(JsonObject item:list)if(!strcmp(item["id"]|"",id)){found=item;break;}
   if(found.isNull()){if(list.size()>=16){note("Maximum : 16 thèmes personnels");return;}found=list.add<JsonObject>();}
-   found["id"]=id;found["name"]=name;tab5theme::writePalette(themeColors,[&](const char* key,char* hex){found[key]=hex;});
+   found["id"]=id;found["name"]=name;tab5theme::writePalette(themeColors,[&](const char* key,char* hex){if(hex)found[key]=hex;else found.remove(key);});
   if(!writeJson("/System/themes.json",doc)){note("Enregistrement impossible");return;}if(hooks.themesChanged)hooks.themesChanged();if(hooks.themeApply)hooks.themeApply(id);themeChoices();themeRefresh();note("Thème enregistré");
  }
  void themeDelete(){
@@ -451,7 +451,7 @@ struct Tab5ToolsApp::Impl {
   themeLoad=dropdown("Thème actuel",0,158,410);themeChoices();
   lv_obj_add_event_cb(themeLoad,[](lv_event_t* e){static_cast<Impl*>(lv_event_get_user_data(e))->themeLoadSelected();},LV_EVENT_VALUE_CHANGED,this);
   lv_obj_add_event_cb(themeLoad,[](lv_event_t* e){static_cast<Impl*>(lv_event_get_user_data(e))->themeChoices();},LV_EVENT_READY,this);
-   String roles;for(auto* title:{"Fond","Surface","Relief","Bordure","Texte","Texte secondaire","Actif","Curseur","Sélection","Pointeur","Contour du pointeur","Interrupteur : fond inactif","Interrupteur : fond actif","Interrupteur : bouton inactif","Interrupteur : bouton actif"}){if(roles.length())roles+='\n';roles+=tr(title);}themeRoles=dropdown(roles.c_str(),426,158,380);
+   String roles;for(unsigned i=0;i<Tab5ThemePreview::Count;++i){if(roles.length())roles+='\n';roles+=tr(Tab5ThemePreview::roleName(i));}themeRoles=dropdown(roles.c_str(),426,158,380);
   lv_obj_add_event_cb(themeRoles,[](lv_event_t* e){auto* a=static_cast<Impl*>(lv_event_get_user_data(e));a->themeSelect(lv_dropdown_get_selected(a->themeRoles));},LV_EVENT_VALUE_CHANGED,this);
   themeHex=field("#000000",822,158,220);lv_textarea_set_max_length(themeHex,7);
   themeSwatch=lv_obj_create(root);Tab5ThemeLive::preserve(themeSwatch);lv_obj_set_pos(themeSwatch,1060,158);lv_obj_set_size(themeSwatch,48,48);lv_obj_remove_flag(themeSwatch,LV_OBJ_FLAG_SCROLLABLE);
@@ -673,7 +673,7 @@ struct Tab5ToolsApp::Impl {
    if(action==50)firmwareUpdates=Tab5Firmware::inspect(lv_textarea_get_text(path));
    if(action==51)firmwareUpdates=Tab5Firmware::install(lv_textarea_get_text(path));if(action==52)Tab5Firmware::cancel();if(action==53)Tab5Firmware::restart();return;
   }
-  if(tool==Tab5Tool::Theme){if(action==202){if(themeReadHex())themeRefresh();}if(action==203)themeSave();if(action==204)themeDelete();return;}
+  if(tool==Tab5Tool::Theme){if(action==202){if(themeReadHex(true))themeRefresh();}if(action==203)themeSave();if(action==204)themeDelete();return;}
   if(tool==Tab5Tool::Terminal){
    if(action==210){if(Tab5Terminal::submit(lv_textarea_get_text(input))){lv_textarea_set_text(input,"");note("Commande en cours");}else note("Terminal occupé ou mémoire insuffisante");}
    if(action==211)Tab5Terminal::stop();
@@ -814,16 +814,16 @@ struct Tab5ToolsApp::Impl {
    String title=selected?selected:"";title=title.substring(title.lastIndexOf('/')+1);label(title.c_str(),0,60,1120);button("Quitter",0,122,240,13);
    output=label("",0,204,1128);lv_obj_set_height(output,330);lv_label_set_long_mode(output,LV_LABEL_LONG_WRAP);Tab5TextInput::selectable(output);bindConsole(258,122);
   }else if(which==Tab5Tool::Executable){
-   label("Application",0,58,1128);
-   const char* associated=tab5ApplicationForFile(selected);const bool gameRom=associated!=nullptr;
+   const char* associated=tab5ApplicationForFile(selected);const bool associatedFile=associated!=nullptr;
    const char* executable=associated?associated:selected?selected:tab5ExecutableSourcePath();
+   label(!strcasecmp(executable,tab5DosApplication())?"DOS 16 bits (8086/286) : fichiers .COM et .EXE, pas Windows.":"Application",0,58,1128);
    char shown[266]{};if(!tab5LaunchDisplayPath(executable,shown,sizeof(shown)))snprintf(shown,sizeof(shown),"%s",executable);
    path=field(shown,0,94,906);lv_textarea_set_max_length(path,265);button("Choisir",922,94,206,63);
    nativeMode=dropdown("Demander au lancement\nSans fichier\nToujours ce fichier",0,160,714);
    button("Enregistrer",730,160,398,68);
    input=field("",0,224,676);lv_textarea_set_max_length(input,265);lv_textarea_set_placeholder_text(input,tr("sd:/Dossier/fichier ou usb:/Dossier/fichier"));
    nativeFile=button("Fichier",692,224,210,64);nativeFolder=button("Dossier",918,224,210,65);
-   loadNativeProfile();if(gameRom){lv_dropdown_set_selected(nativeMode,0);char document[266];if(tab5LaunchDisplayPath(selected,document,sizeof(document)))lv_textarea_set_text(input,document);nativeModeChanged();}
+   loadNativeProfile();if(associatedFile){lv_dropdown_set_selected(nativeMode,0);char document[266];if(tab5LaunchDisplayPath(selected,document,sizeof(document)))lv_textarea_set_text(input,document);nativeModeChanged();}
    lv_obj_add_event_cb(nativeMode,[](lv_event_t* e){static_cast<Impl*>(lv_event_get_user_data(e))->nativeModeChanged();},LV_EVENT_VALUE_CHANGED,this);
    nativeRun=button("Exécuter",0,288,230,60);Tab5Focus.describe(nativeRun,tr("Exécuter l’application · Ctrl+Entrée"));
    nativeStop=button("Arrêter",250,288,230,61);Tab5Focus.describe(nativeStop,tr("Demander l’arrêt · Ctrl+."));lv_obj_add_flag(nativeStop,LV_OBJ_FLAG_HIDDEN);
@@ -900,6 +900,13 @@ bool Tab5ToolsApp::launchExecutable(const char* selected,bool configure){
  if(profile.mode==Tab5LaunchMode::File&&!tab5FS.exists(profile.argument)){impl_->open(Tab5Tool::Executable,executable);impl_->note("Fichier inaccessible");return false;}
  if(impl_->hooks.runExecutable&&impl_->hooks.runExecutable(executable,profile.mode==Tab5LaunchMode::File?profile.argument:nullptr))return true;
  impl_->open(Tab5Tool::Executable,executable);impl_->note(tab5ExecutableStatus());return false;
+}
+bool Tab5ToolsApp::launchDosProgram(const char* document){
+ if(!impl_||!document)return false;char canonical[261],shown[266];
+ if(!tab5LaunchPath(document,canonical,sizeof(canonical))||!tab5LaunchDisplayPath(canonical,shown,sizeof(shown)))return false;
+ // The document is a single path argument, never a DOS or shell command line.
+ if(!launchExecutable(tab5DosApplication(),true)||!impl_->input)return false;
+ lv_textarea_set_text(impl_->input,shown);lv_dropdown_set_selected(impl_->nativeMode,unsigned(Tab5LaunchMode::Ask));impl_->nativeModeChanged();return true;
 }
 void Tab5ToolsApp::openWith(const char* document){if(!impl_||!document)return;char canonical[261];if(!tab5LaunchPath(document,canonical,sizeof(canonical)))return;String copy=canonical;impl_->open(Tab5Tool::OpenWith,copy.c_str());}
 void Tab5ToolsApp::mountStorage(lv_obj_t* parent){

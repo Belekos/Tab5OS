@@ -2,6 +2,7 @@
 #include "Tab5UsbStorage.h"
 #include "Tab5UsbPrinter.h"
 #include "WriterHid.h"
+#include "Tab5KeyboardState.h"
 #include "WriterMouse.h"
 #include <esp_heap_caps.h>
 #include <new>
@@ -34,6 +35,8 @@ struct DeviceEvent {
 QueueHandle_t reports = nullptr, devices = nullptr, mouseReports = nullptr;
 struct Interface {hid_host_device_handle_t handle=nullptr;HidMouseDescriptor mouse;bool isMouse=false,bootMouse=false,activeMouse=false;uint8_t buttons=0;HidGamepadDescriptor* pad=nullptr;bool xinput=false,helpDown=false;HidKeyboardDescriptor* keys=nullptr;bool bootKeyboard=false;HidKeys held;};
 constexpr unsigned MaxInterfaces=8;
+Tab5KeyboardState<MaxInterfaces> physicalKeys;
+portMUX_TYPE physicalKeysLock=portMUX_INITIALIZER_UNLOCKED;
 // Disconnect acknowledgements cannot be dropped when the event queue is full.
 // Each occupied slot keeps its handle until the worker has closed it.
 std::atomic<bool> detachPending[MaxInterfaces],recoverPending[MaxInterfaces];
@@ -64,6 +67,10 @@ bool acceptHelp(uint32_t now){if(helpSeen&&uint32_t(now-helpAt)<120)return false
 void publishKeyboard(Interface& device,bool disconnected=false){
   unsigned index=&device-interfaces;
   Report report{};report.slot=index;report.keys=device.held;report.disconnected=disconnected;
+  // Copy at most 32 bytes under the lock, independent of UI event delivery.
+  taskENTER_CRITICAL(&physicalKeysLock);
+  physicalKeys.update(index,report.keys.bits,report.keys.modifiers,!disconnected);
+  taskEXIT_CRITICAL(&physicalKeysLock);
   keyboardModifiers[index]=disconnected?0:report.keys.modifiers;
   keyActive[index]=!disconnected;
   uint32_t held=0;const uint8_t usages[]={79,80,82,81,29,27,42,40};
@@ -290,6 +297,12 @@ bool usbBegin() {
 }
 bool usbConnected() { return connected.load(); }
 uint8_t usbModifiers(){uint8_t held=0;for(auto& value:keyboardModifiers)held|=value.load();return held;}
+bool usbKeyboardState(bool active,uint8_t keys[32],uint8_t& modifiers){
+ taskENTER_CRITICAL(&physicalKeysLock);
+ bool connected=physicalKeys.snapshot(active,keys,modifiers);
+ taskEXIT_CRITICAL(&physicalKeysLock);
+ return connected;
+}
 uint32_t usbGamepadButtons(){uint32_t held=0;for(auto& p:pads)if(p.identity.load()){held|=p.directions.load();uint32_t raw=p.buttons.load();for(unsigned i=0;i<8;++i){unsigned button=((i<4?p.mapping.load():p.extended.load())>>((i%4)*8))&255;if(button&&button<=32&&(raw&(1u<<(button-1))))held|=1u<<(i<4?i+4:i+7);}}return held;}
 uint32_t usbGameButtons(){return gameButtons.load()|usbGamepadButtons();}
 bool usbGamepadActivity(){return padActivity.exchange(false);}

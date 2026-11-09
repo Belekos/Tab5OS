@@ -4,7 +4,9 @@ Tab5OS combines built-in tools with ELF and Python applications installed on mic
 
 ## ELF applications
 
-Download and extract the [complete SD package](../downloads/Tab5OS_0.8.53_SD.zip). On a new card, copy the **contents of the `sdcard` folder** to the microSD root. For an existing card, follow the [update procedure](../docs/INSTALL_EN.md#update-an-existing-microsd-card). Executables are also available in [sdcard/Applications](Tab5OS_Arduino_v0.8.53/sdcard/Applications/). Copy the SD resources as described in the [installation guide](../docs/INSTALL_EN.md), then open **ELF Apps** or select a file in Explorer and choose **Open with**.
+Download and extract a complete SD package matching the firmware being installed. The [published SD download](../downloads/Tab5OS_0.8.53_SD.zip) is the earlier 0.8.53 build; the DOS candidate requires its updated firmware and complete package. On a new card, copy the **contents of the `sdcard` folder** to the microSD root. For an existing card, follow the [update procedure](../docs/INSTALL_EN.md#update-an-existing-microsd-card).
+
+The repository's [sdcard/Applications](Tab5OS_Arduino_v0.8.53/sdcard/Applications/) contains 11 prebuilt ELF files. CI builds `DOS.app.elf` separately and includes it in the candidate's complete SD package, bringing that package to 12 applications. Copy the SD resources as described in the [installation guide](../docs/INSTALL_EN.md), then open **ELF Apps** or select a file in Explorer and choose **Open with**.
 
 | Application | Executable | File to open |
 | --- | --- | --- |
@@ -17,6 +19,7 @@ Download and extract the [complete SD package](../downloads/Tab5OS_0.8.53_SD.zip
 | SNES | `SNES.app.elf` | `.sfc` or `.smc` ROM |
 | Mega Drive | `MegaDrive.app.elf` | `.gen` or `.md` ROM |
 | Doom | `Doom.app.elf` | PrBoom-compatible `.wad` IWAD |
+| DOS candidate | `DOS.app.elf` | No file for FreeDOS, or a compatible 16-bit `.COM` / `.EXE` program on SD; [guide](DOS.md) |
 | Maze3D | `Maze3D.app.elf` | No file |
 | File hash | `hash_file.app.elf` | File to read; non-cryptographic 32-bit FNV-1a result in the console |
 
@@ -28,10 +31,18 @@ The launcher lets you choose a file or folder and remembers a mode for each appl
 
 | Storage | Path in the launcher | Path received by the application |
 | --- | --- | --- |
-| microSD | `sd:/Dossier/fichier.ext` | `/Dossier/fichier.ext` |
-| USB | `usb:/Dossier/fichier.ext` | `/USB/Dossier/fichier.ext` |
+| microSD | `sd:/Folder/file.ext` | `/Folder/file.ext` |
+| USB | `usb:/Folder/file.ext` | `/USB/Folder/file.ext` |
 
 Enter the path directly, even if it contains spaces. Recent items and favorites store application/file pairs in `/System/native-apps.json`.
+
+### DOS programs
+
+Install the DOS candidate's matching firmware and complete SD resources. Double-click a `.COM` or `.EXE` file in Explorer, or choose **Actions → Open with DOS**. The launcher selects `DOS.app.elf` and keeps the program's full path as one file argument, including spaces. Press **Run**. **Open with → DOS (16-bit)** is also available. Use the DOS **Keys** panel for touch input, or connect a USB keyboard; a physical keyboard is optional.
+
+To open the FreeDOS prompt without selecting a program, open DOS from **ELF Apps** and run it without a file argument.
+
+DOS programs must be on SD; copy them from USB storage first. Their canonical SD paths must be shorter than 256 UTF-8 bytes. This is a 16-bit DOS environment, not a Windows application launcher. Windows executables, 386 software and Sound Blaster/AdLib audio are unsupported. Batch files do not have an automatic Explorer association. The generic game controls below do not describe DOS keyboard input; use the [DOS guide](DOS.md) for its controls, included FreeDOS image and current limits.
 
 ### Game controls
 

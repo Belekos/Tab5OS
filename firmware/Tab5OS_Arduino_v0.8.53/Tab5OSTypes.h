@@ -65,6 +65,10 @@ struct ThemePalette {
   uint32_t switchOn=UINT32_MAX;
   uint32_t switchKnobOff=UINT32_MAX; // Legacy knobs inherit text / surface.
   uint32_t switchKnobOn=UINT32_MAX;
+  uint32_t fileIcon=UINT32_MAX; // Missing icon roles retain legacy row colours.
+  uint32_t folderIcon=UINT32_MAX;
+  uint32_t hiddenFileIcon=UINT32_MAX;
+  uint32_t hiddenFolderIcon=UINT32_MAX;
 };
 
 struct HistorySnapshot {

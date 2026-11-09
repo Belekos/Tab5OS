@@ -15,6 +15,8 @@ Third-party component notices are retained in their directories. [LICENCES-manif
 | libgit2 | GPL-2.0 with an explicit upstream linking exception; retain `COPYING`, `AUTHORS`, `UPSTREAM.json` and per-file notices in `src/tab5git` |
 | WebP/Zstandard/XZ decoders, JPEG encoder, stb | Separate licenses listed in the manifest and upstream files |
 | GB/GBC/NES/Sega8/GBA/Doom ELF applications | Multiple MIT/GPL licenses depending on the core; adapters, sources and notices remain supplied with each application |
+| DOS emulator / esp32pc and esp32emu | MIT, with pinned upstream sources and both original license files retained |
+| FreeDOS guest boot disk | Kernel, FreeCOM, KEYB and keyboard layouts keep their original GPL and library notices. Corresponding source archives and build documentation are supplied in `tools/native-apps/dos/licenses/freedos` and in the SD ZIP notices directory |
 | MegaDrive / Gwenesis | AGPL-3.0 in the core directory; a separate ELF application, without reclassification as a permissive license |
 | SNES / ndssfc / Snes9x | Mixed notices: GPL for some parts and the Snes9x **non-commercial / personal-use** restriction. This component cannot be described as entirely under a permissive open-source license |
 | Main DejaVu Sans Mono font | Bitstream Vera license and DejaVu modifications, present in the TTF metadata and reproduced in the manifest |
@@ -23,3 +25,11 @@ Third-party component notices are retained in their directories. [LICENCES-manif
 External Arduino library files remain those of the versions documented in [BIBLIOTHEQUES.md](BIBLIOTHEQUES.md). Compilation does not make them project-owned files. License texts in the sources, including those specific to individual files, remain authoritative; a table label does not replace them.
 
 Component license texts remain authoritative for their use and redistribution.
+
+The DOS guest image is assembled from the pinned official FreeDOS 1.4 packages.
+It contains no Microsoft MS-DOS binaries. `tools/native-apps/dos/prepare_freedos.py`
+reproduces the supplied FAT12 image and verifies the upstream input archives and
+extracted binaries. Keep its corresponding source archives, provenance and
+license texts with any redistributed image. In the separate SD ZIP these files
+are included under `notices/`, alongside `LICENCES-manifest.json`; the complete
+package also retains them with the emulator sources.

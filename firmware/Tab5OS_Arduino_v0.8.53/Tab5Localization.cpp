@@ -23,7 +23,7 @@ static constexpr char LANGUAGE_DIR[] = "/System/languages";
 static constexpr char UI_PREFS[] = "tab5os-ui";
 static constexpr char LANGUAGE_KEY[] = "language";
 static constexpr char LANGUAGE_PATH_KEY[] = "language_path";
-static constexpr size_t MAX_LANGUAGE_FILE = 512 * 1024;
+static constexpr size_t MAX_LANGUAGE_FILE = 1024 * 1024;
 static constexpr size_t MAX_TRANSLATIONS = 4096;
 static constexpr size_t MAX_LANGUAGES = 64;
 

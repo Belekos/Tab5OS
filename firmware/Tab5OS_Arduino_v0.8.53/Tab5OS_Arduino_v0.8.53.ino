@@ -314,14 +314,16 @@ static bool loadCustomThemes(){
   if(!tab5theme::readPalette([&](unsigned i){return item[tab5theme::roleKey(i)].as<const char*>();},c))continue;
   char* saved=customThemeNames[THEME_COUNT-5];strcpy(saved,name);
   snprintf(customThemeIds[THEME_COUNT-5],24,"%s",item["id"]|"");
-   THEMES[THEME_COUNT++]={saved,c[0],c[1],c[2],c[3],c[4],c[5],c[6],c[7],c[8],c[9],c[10],c[11],c[12],c[13],c[14]};
+   THEMES[THEME_COUNT++]={saved,c[0],c[1],c[2],c[3],c[4],c[5],c[6],c[7],c[8],c[9],c[10],c[11],c[12],c[13],c[14],c[15],c[16],c[17],c[18]};
  }
  return true;
 }
 static void copyThemePalette(const ThemePalette& p,uint32_t* colors){
  const uint32_t values[]={p.bg,p.surface,p.raised,p.border,p.text,p.muted,p.active,p.cursor,p.selected,p.pointer,p.pointerOutline,
    p.switchOff<=0xffffff?p.switchOff:p.raised,p.switchOn<=0xffffff?p.switchOn:p.active,
-   p.switchKnobOff<=0xffffff?p.switchKnobOff:p.text,p.switchKnobOn<=0xffffff?p.switchKnobOn:p.surface};
+   p.switchKnobOff<=0xffffff?p.switchKnobOff:p.text,p.switchKnobOn<=0xffffff?p.switchKnobOn:p.surface,
+   p.fileIcon,p.folderIcon,
+   p.hiddenFileIcon,p.hiddenFolderIcon};
  memcpy(colors,values,sizeof(values));
 }
 
@@ -3046,7 +3048,7 @@ static void updateFileActionState() {
   setButtonEnabled(fileGitBtn,!fileBusy&&pathStorageReady(fileGitDirectory())&&fileSelection.paths.size()<=1);
   if(Tab5GitView::scope())Tab5GitView::context(fileGitDirectory().c_str(),selected&&!selectedIsDir?selectedPath.c_str():nullptr);
   setTopActionVisible(fileActionsMenuBtn,true);
-  if(fileExecuteBtn){setLabelIfChanged(lv_obj_get_child(fileExecuteBtn,0),isFirmwareExtension(selectedPath)?LV_SYMBOL_UPLOAD:LV_SYMBOL_PLAY);Tab5Focus.describe(fileExecuteBtn,T(isShellExtension(selectedPath)?"Exécuter le script":isFirmwareExtension(selectedPath)?"Installer un firmware":isExecutableExtension(selectedPath)?"Ouvrir l'application":"Exécuter Python"));}
+  if(fileExecuteBtn){setLabelIfChanged(lv_obj_get_child(fileExecuteBtn,0),isFirmwareExtension(selectedPath)?LV_SYMBOL_UPLOAD:LV_SYMBOL_PLAY);Tab5Focus.describe(fileExecuteBtn,T(tab5DosProgramFile(selectedPath.c_str())?"Ouvrir avec DOS":isShellExtension(selectedPath)?"Exécuter le script":isFirmwareExtension(selectedPath)?"Installer un firmware":isExecutableExtension(selectedPath)?"Ouvrir l'application":"Exécuter Python"));}
   // Clipboard actions keep fixed positions even when no row is selected.
   setTopActionVisible(fileOpenWithBtn, selected && !selectedIsDir);
   setTopActionVisible(fileRenameBtn, selected);
@@ -3236,10 +3238,17 @@ static lv_color_t fileRowColor(const String& path){
 // Restyle the existing model rows, never rebuild the browser or change its
 // selection/scroll/focus. Hidden and protected paths have semantic/derived colours
 // that cannot be recovered reliably by matching old RGB values.
+static lv_color_t fileIconColor(const String& path,bool directory){
+  const auto& palette=currentTheme();const bool hidden=Tab5HiddenFiles::hidden(path.c_str());
+  const uint32_t color=hidden?(directory?palette.hiddenFolderIcon:palette.hiddenFileIcon):
+      (directory?palette.folderIcon:palette.fileIcon);
+  return color<=0xffffff?lv_color_hex(color):fileRowColor(path);
+}
 static void fileRefreshAppearance(){
   filePrepareRowStyles();
   for(auto& row:fileSelectionRows){
     fileStyleRow(row.object,row.checked,fileRowColor(row.path.c_str()));
+    if(auto* icon=lv_obj_get_child(row.object,0))lv_obj_set_style_text_color(icon,fileIconColor(row.path.c_str(),row.directory),0);
     if(row.directory&&lv_obj_get_child_count(row.object)>2){
       auto* toggle=lv_obj_get_child(row.object,2);
       lv_obj_set_style_bg_color(toggle,C_ACTIVE(),LV_STATE_PRESSED);
@@ -3336,6 +3345,7 @@ static bool fileBindRow(lv_obj_t* object,const String& path,bool directory,bool 
   if(!ctx){lv_obj_delete(object);return false;}
   path.toCharArray(ctx->path,sizeof(ctx->path));ctx->isDir=directory;ctx->right=right;ctx->depth=depth;
   fileSelectionRows.push_back({path.c_str(),directory,object,right,depth});
+  if(auto* icon=lv_obj_get_child(object,0))lv_obj_set_style_text_color(icon,fileIconColor(path,directory),0);
   lv_obj_remove_flag(object,LV_OBJ_FLAG_CLICK_FOCUSABLE);
   lv_obj_add_event_cb(object,fileEntryPressEvent,LV_EVENT_PRESSED,ctx);
   lv_obj_add_event_cb(object,fileEntryLongPressEvent,LV_EVENT_LONG_PRESSED,ctx);
@@ -9952,14 +9962,14 @@ static void createSettingsPage() {
   auto* displayThemeCaption=makeSettingsText(displayCard, "Thème", 20, 255, 110, false);
   themeDropdown=lv_dropdown_create(displayCard);
   lv_obj_set_pos(themeDropdown,142,242);
-  lv_obj_set_size(themeDropdown,cardW-238,46);
+  lv_obj_set_size(themeDropdown,cardW-292,46);
   styleSettingsDropdown(themeDropdown);
   refreshThemeChoices();
   Tab5Focus.describe(themeDropdown,T("Thème"));
   lv_obj_add_event_cb(themeDropdown,themeChoiceEvent,LV_EVENT_VALUE_CHANGED,nullptr);
   lv_obj_add_event_cb(themeDropdown,[](lv_event_t*){reloadThemeCatalogue();Tab5UiStyle::control(themeDropdown);},LV_EVENT_READY,nullptr);
-  auto* themeEdit=makeIconButton(displayCard,LV_SYMBOL_EDIT,58,44);
-  lv_obj_set_pos(themeEdit,cardW-78,242);
+  auto* themeEdit=makeButton(displayCard,"Couleurs",112,44);
+  lv_obj_set_pos(themeEdit,cardW-132,242);
   Tab5Focus.describe(themeEdit,T("Personnaliser le thème"));
   lv_obj_add_event_cb(themeEdit,[](lv_event_t*){setKeyboardVisible(false);Tab5Tools.open(Tab5Tool::Theme);},LV_EVENT_CLICKED,nullptr);
   auto* displayRadiusCaption=makeSettingsText(displayCard,"Arrondi",20,322,110,false);
@@ -10163,7 +10173,7 @@ static void createSettingsPage() {
     for(unsigned i=0;i<3;++i)L::panel(settingsSectionPanels[i]);
     L::row(displayCard,{{displayBrightnessCaption,142},{brightnessSlider,0,1},{brightnessValue,55}});
     L::row(displayCard,{{fontOptions,0,1}});
-    L::row(displayCard,{{displayThemeCaption,100},{themeDropdown,0,1},{themeEdit,48}});
+    L::row(displayCard,{{displayThemeCaption,100},{themeDropdown,0,1},{themeEdit,112}});
     L::row(displayCard,{{displayRadiusCaption,100},{radius,0,1},{radiusValue,44}});
     L::row(displayCard,{{homeOptions,0,1}});
     L::row(displayCard,{{orientationCaption,0,1},{orientationSwitch,74}});
@@ -10312,6 +10322,7 @@ static void createUi() {
       case Tab5NativeFileApp::Drawing:openImageEditor(path);break;
       case Tab5NativeFileApp::Audio:openAudioPath(target);break;
       case Tab5NativeFileApp::Video:startVideoViewerSource(target,baseNameOf(target));break;
+      case Tab5NativeFileApp::Dos:Tab5Tools.launchDosProgram(path);break;
       default:break;
     }
   };

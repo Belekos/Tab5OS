@@ -72,7 +72,7 @@ struct Parser {
      if((sym.info&15)==6||sym.section==0xfff2)return fail("TLS/common symbols unsupported");
      if(sym.section==0){
       if(!j&&!sym.name&&!sym.value&&!sym.size&&!sym.info)continue;
-      if((strcmp(name,"tab5_app_api_v1")&&strcmp(name,"tab5_app_api_v2")&&strcmp(name,"tab5_app_api_v3")&&strcmp(name,"tab5_app_api_v4")&&strcmp(name,"tab5_app_api_v5")&&strcmp(name,"tab5_app_api_v6"))||sym.value||sym.size)return fail("Only Tab5 ABI entry points may be imported");
+      if((strcmp(name,"tab5_app_api_v1")&&strcmp(name,"tab5_app_api_v2")&&strcmp(name,"tab5_app_api_v3")&&strcmp(name,"tab5_app_api_v4")&&strcmp(name,"tab5_app_api_v5")&&strcmp(name,"tab5_app_api_v6")&&strcmp(name,"tab5_app_api_v7"))||sym.value||sym.size)return fail("Only Tab5 ABI entry points may be imported");
       if(s.type==11)api=true;
      }else if(sym.section<0xff00){
       if(sym.section>=h.shnum)return fail("Invalid symbol section");

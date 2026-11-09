@@ -1,4 +1,5 @@
 #include "Tab5ThemePreview.h"
+#include "Tab5ThemeSchema.h"
 #include "Tab5UiStyle.h"
 #include "Tab5ThemeLive.h"
 #ifndef TAB5_THEME_TEST
@@ -23,7 +24,9 @@ const Zone zones[]={{881,106,28,28,SwitchKnobOn},{851,151,28,28,SwitchKnobOff},
  {756,42,295,24,Text},{756,67,295,25,Muted},{8,96,250,152,Surface},{272,99,330,48,Cursor},
  {272,160,330,44,Border},{618,102,190,32,Selected},{618,145,190,32,Surface},{846,103,210,34,SwitchOn},{846,148,210,34,SwitchOff},
  {883,190,28,30,Text},{630,198,253,14,Active},{911,198,127,14,Raised},{272,228,198,13,Active},{470,228,132,13,Raised}};
-const char* names[]={"Fond","Surface","Relief","Bordure","Texte","Texte secondaire","Actif","Curseur","Sélection","Pointeur","Contour du pointeur","Interrupteur : fond inactif","Interrupteur : fond actif","Interrupteur : bouton inactif","Interrupteur : bouton actif"};
+const char* names[]={"Fond","Surface","Relief","Bordure","Texte","Texte secondaire","Actif","Curseur","Sélection","Pointeur","Contour du pointeur","Interrupteur : fond inactif","Interrupteur : fond actif","Interrupteur : bouton inactif","Interrupteur : bouton actif","Icônes des fichiers","Icônes des dossiers","Icônes des fichiers masqués","Icônes des dossiers masqués"};
+static_assert(sizeof(names)/sizeof(names[0])==Count,"Every editable theme role needs a label");
+static_assert(Count==tab5theme::PaletteCount,"Preview and saved palette roles must match");
 void render(lv_event_t* e,Demo& d) {
  auto* obj=lv_event_get_current_target_obj(e); auto* layer=lv_event_get_layer(e);
  lv_area_t bounds;lv_obj_get_coords(obj,&bounds);const auto* font=lv_obj_get_style_text_font(obj,LV_PART_MAIN);
@@ -34,7 +37,18 @@ void render(lv_event_t* e,Demo& d) {
  const char* buttons[]={"Bouton normal","Bouton actif","Bouton sélectionné","Bouton désactivé"};
  for(unsigned i=0;i<4;++i){const lv_opa_t opacity=i==3?LV_OPA_50:LV_OPA_COVER;rect(8+i*184,42,176,42,i==0||i==3?Raised:Selected,4,opacity);text(buttons[i],14+i*184,51,164,Text,opacity);}
  text("Aperçu interactif",756,42,295);text("Couleurs du thème",756,67,295,Muted);
- rect(8,96,250,152,Surface);text("Liste",18,104,230,Muted);text("Document",18,146,230);rect(14,186,238,44,Selected);text("Sélection",20,196,226);
+ rect(8,96,250,152,Surface);text("Liste",18,104,230,Muted);
+ if(d.count>HiddenFolderIcon){
+  const char* entries[]={"Fichier","Dossier","Fichier masqué","Dossier masqué"};
+  rect(14,178,238,28,Selected);
+  for(unsigned i=0;i<4;++i){
+   const int y=130+int(i)*26;lv_draw_label_dsc_t glyph;lv_draw_label_dsc_init(&glyph);
+   glyph.text=i%2?LV_SYMBOL_DIRECTORY:LV_SYMBOL_FILE;glyph.font=&lv_font_montserrat_24;
+   glyph.color=lv_color_hex(d.colors[FileIcon+i]);
+   lv_area_t area={bounds.x1+18,bounds.y1+y,bounds.x1+45,bounds.y1+y+25};lv_draw_label(layer,&glyph,&area);
+   text(entries[i],50,y,198,i>=2?Muted:Text);
+  }
+ }else{text("Document",18,146,230);rect(14,186,238,44,Selected);text("Sélection",20,196,226);}
  rect(272,99,330,48,Surface);rect(350,105,94,34,Selected);text("Texte et curseur",280,111,312);rect(444,105,2,34,Cursor,0);
  rect(272,160,330,44,Surface);text("Premier choix",280,171,270);text(LV_SYMBOL_DOWN,571,171,24);
  rect(618,106,26,26,Selected);text(LV_SYMBOL_OK,620,106,24);text("Coché",654,106,156);
@@ -57,6 +71,7 @@ void event(lv_event_t* e) {
  unsigned role=d->selected;
  if(code==LV_EVENT_CLICKED){auto* input=lv_event_get_indev(e);if(input){lv_point_t point;lv_indev_get_point(input,&point);lv_area_t bounds;lv_obj_get_coords(obj,&bounds);int x=point.x-bounds.x1,y=point.y-bounds.y1;role=Bg;
   if(y>=6&&y<35&&x>=8&&x<1061)role=std::min(int(d->count)-1,(x-8)/(1053/int(d->count)));
+  else if(d->count>HiddenFolderIcon&&x>=14&&x<258&&y>=130&&y<234)role=FileIcon+std::min(3,(y-130)/26);
   else if(d->count>9&&x>=1060&&y>=102&&y<178)role=Pointer;
   else for(const auto& z:zones)if(x>=z.x&&x<z.x+z.w&&y>=z.y&&y<z.y+z.h){role=z.role;break;}
  }} else if(code==LV_EVENT_KEY){auto key=lv_event_get_key(e);if(key==LV_KEY_LEFT||key==LV_KEY_UP)role=(role+d->count-1)%d->count;else if(key==LV_KEY_RIGHT||key==LV_KEY_DOWN)role=(role+1)%d->count;else if(key!=LV_KEY_ENTER)return;}
@@ -68,6 +83,7 @@ void event(lv_event_t* e) {
  d->selected=role;lv_obj_invalidate(obj);lv_obj_send_event(obj,LV_EVENT_VALUE_CHANGED,&d->selected);
 }
 }
+const char* roleName(unsigned role){return role<Count?names[role]:"";}
 lv_obj_t* create(lv_obj_t* parent) {
  auto* obj=lv_obj_create(parent);Tab5ThemeLive::preserve(obj);lv_obj_remove_style_all(obj);lv_obj_remove_flag(obj,LV_OBJ_FLAG_SCROLLABLE);
  lv_obj_add_flag(obj,static_cast<lv_obj_flag_t>(LV_OBJ_FLAG_CLICKABLE|LV_OBJ_FLAG_USER_1|LV_OBJ_FLAG_USER_2));
@@ -82,6 +98,7 @@ lv_obj_t* create(lv_obj_t* parent) {
 void update(lv_obj_t* obj,const uint32_t* palette,unsigned count) {
  if(!obj||!palette||count<9)return;auto* d=static_cast<Demo*>(lv_obj_get_user_data(obj));if(!d)return;count=std::min(count,unsigned(Count));
  d->count=count;d->selected=std::min(d->selected,count-1);memcpy(d->colors,palette,count*sizeof(uint32_t));
+ for(unsigned i=FileIcon;i<count;++i)d->colors[i]=tab5theme::visibleColor(palette,i);
  for(auto* sw:d->switches){Tab5UiStyle::switchColors(sw,palette[count>SwitchOff?SwitchOff:Raised],palette[count>SwitchOn?SwitchOn:Active],palette[count>SwitchKnobOff?SwitchKnobOff:Text],palette[count>SwitchKnobOn?SwitchKnobOn:Surface]);
   lv_obj_set_style_border_color(sw,lv_color_hex(palette[Border]),0);lv_obj_set_style_border_width(sw,1,0);
   for(auto part:{LV_PART_MAIN,LV_PART_INDICATOR,LV_PART_KNOB})lv_obj_set_style_radius(sw,Tab5UiStyle::radius(),part);

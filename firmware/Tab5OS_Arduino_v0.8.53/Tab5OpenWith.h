@@ -3,10 +3,11 @@
 #include <initializer_list>
 #include <cstring>
 #include <strings.h>
+#include "Tab5FileApplications.h"
 
 // An explicit attempt chosen by the user. Ordinary file associations remain
 // unchanged; a native parser is responsible for reporting unsupported input.
-enum class Tab5NativeFileApp : uint8_t { TextEditor, Reader, ImageViewer, Drawing, Audio, Video, Count };
+enum class Tab5NativeFileApp : uint8_t { TextEditor, Reader, ImageViewer, Drawing, Audio, Video, Dos, Count };
 namespace Tab5OpenWith {
 inline const char* nativeName(Tab5NativeFileApp app){
  switch(app){
@@ -16,10 +17,12 @@ inline const char* nativeName(Tab5NativeFileApp app){
   case Tab5NativeFileApp::Drawing:return "Dessin";
   case Tab5NativeFileApp::Audio:return "Audio";
   case Tab5NativeFileApp::Video:return "Vidéo";
+  case Tab5NativeFileApp::Dos:return "DOS (16 bits)";
   default:return "";
  }
 }
 inline Tab5NativeFileApp preferred(const char* path){
+ if(tab5DosProgramFile(path))return Tab5NativeFileApp::Dos;
  const char* extension=path?strrchr(path,'.'):nullptr;
  if(!extension)return Tab5NativeFileApp::TextEditor;
  if(!strcasecmp(extension,".epub"))return Tab5NativeFileApp::Reader;

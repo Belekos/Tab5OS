@@ -154,6 +154,36 @@ struct tab5_app_api6 {
  int (*write_finish)(int handle,int commit);
 };
 extern const struct tab5_app_api6* tab5_app_api_v6(void);
+/* ABI 7: non-consuming physical keyboard state and bounded read-only directory
+ * enumeration. Existing ABI layouts and canvas text events are unchanged. */
+#define TAB5_APP_ABI_V7 7u
+#define TAB5_DIRECTORY_ENTRY_DIRECTORY 1u
+struct tab5_app_keyboard_state {
+ uint32_t size,modifiers,connected;
+ /* USB HID keyboard usage bitmap: keys[usage/8] & (1u << (usage%8)). */
+ uint8_t keys[32];
+};
+struct tab5_app_directory_entry {
+ uint32_t size,flags,file_size;
+ char name[256]; /* UTF-8 basename, including NUL; never truncated. */
+};
+struct tab5_app_api7 {
+ struct tab5_app_api6 base;
+ /* Set state.size first. Returns 1 on success, negative on error. Modifiers
+  * use USB HID bits (left Ctrl/Shift/Alt/GUI, then right Ctrl/Shift/Alt/GUI),
+  * not TAB5_MOD_*. All fields except size are zero while the canvas is hidden
+  * or inactive; disconnected keyboards release their keys immediately. */
+ int (*keyboard_state)(struct tab5_app_keyboard_state* state);
+ /* Absolute canonical path. Scope is the selected argument's parent (or the
+  * argument itself if a directory); without an argument it is /DOS. Returns
+  * a positive handle sharing the eight open_read slots. Close with base.close.
+  * No directory writes, process launches or raw disk writes are provided. */
+ int (*directory_open)(const char* path);
+ /* Set entry.size first. 1 entry, 0 end, negative error (including >1024
+  * entries or an unrepresentable name/size). Directory file_size is zero. */
+ int (*directory_next)(int handle,struct tab5_app_directory_entry* entry);
+};
+extern const struct tab5_app_api7* tab5_app_api_v7(void);
 #ifdef __cplusplus
 }
 #endif

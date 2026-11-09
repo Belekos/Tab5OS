@@ -16,6 +16,7 @@
 namespace Tab5NativeView {
 namespace {
 std::atomic<bool> ready{false};std::atomic<uint32_t> touchButtons{0},requests{0};
+std::atomic<bool> keyboardActive{false};
 uint16_t* front=nullptr;uint16_t* back=nullptr;unsigned width=0,height=0;bool dirty=false;
 static bool extendedButtons=false;
 bool canvasMode=false;Tab5AppInputQueue* input=nullptr;
@@ -32,6 +33,12 @@ uint8_t (*getVolume)()=nullptr;void (*setVolume)(uint8_t)=nullptr;
 const char* tr(const char* s){return translate?translate(s):s;}
 void queueInput(const tab5_app_input_event& event){
  xSemaphoreTake(inputLock(),portMAX_DELAY);if(input)input->push(event);xSemaphoreGive(inputLock());
+}
+void keyboardScreenEvent(lv_event_t* e){
+ if(lv_event_get_target_obj(e)!=lv_event_get_current_target_obj(e))return;
+ auto code=lv_event_get_code(e);
+ if(code==LV_EVENT_SCREEN_LOADED)keyboardActive.store(canvasMode,std::memory_order_release);
+ else if(code==LV_EVENT_SCREEN_UNLOAD_START||code==LV_EVENT_SCREEN_UNLOADED||code==LV_EVENT_DELETE)keyboardActive.store(false,std::memory_order_release);
 }
 void canvasPointer(lv_event_t* e){
  auto code=lv_event_get_code(e);tab5_app_input_event event{};event.size=sizeof(event);
@@ -126,6 +133,12 @@ int inputPoll(tab5_app_input_event* event){
  if(!event||event->size<sizeof(*event)||!ready.load(std::memory_order_acquire)||!canvasMode)return -1;
  xSemaphoreTake(inputLock(),portMAX_DELAY);bool got=input&&input->pop(*event);xSemaphoreGive(inputLock());return got?1:0;
 }
+int keyboardState(tab5_app_keyboard_state* state){
+ if(!state||state->size<sizeof(*state))return -1;
+ uint8_t modifiers=0;state->size=sizeof(*state);
+ state->connected=writing::usbKeyboardState(keyboardActive.load(std::memory_order_acquire),state->keys,modifiers)?1:0;
+ state->modifiers=modifiers;return 1;
+}
 bool present(const uint16_t* pixels,size_t count){
  if(!ready.load(std::memory_order_acquire)||!pixels||count!=width*height)return false;
  xSemaphoreTake(lock(),portMAX_DELAY);memcpy(back,pixels,count*2);dirty=true;++received;xSemaphoreGive(lock());return true;
@@ -137,6 +150,9 @@ void service(){
  if(!ready.load(std::memory_order_acquire))return;
  if(!screen){
   previous=lv_screen_active();screen=lv_obj_create(nullptr);lv_obj_set_style_bg_color(screen,lv_color_hex(0x111820),0);lv_obj_set_style_text_color(screen,lv_color_hex(0xf0f0f0),0);if(font)lv_obj_set_style_text_font(screen,font(),0);lv_obj_remove_flag(screen,LV_OBJ_FLAG_SCROLLABLE);
+  // LVGL owns visibility; publish it before screen transitions finish so the
+  // worker cannot receive keyboard input intended for another OS screen.
+  lv_obj_add_event_cb(screen,keyboardScreenEvent,LV_EVENT_ALL,nullptr);
   int sw=lv_display_get_horizontal_resolution(nullptr),sh=lv_display_get_vertical_resolution(nullptr);
   int scale=std::max(1,std::min((sw-608)/int(width),(sh-160)/int(height)));
   if(canvasMode){
@@ -196,6 +212,7 @@ void service(){
  if(statsDue){char text[64];snprintf(text,sizeof(text),"%u / %u %s",unsigned(frames*1000/(now-lastStats)),unsigned(shown*1000/(now-lastStats)),tr("images/s"));if(fpsLabel)lv_label_set_text(fpsLabel,text);shown=0;lastStats=now;}
 }
 void close(){
+ keyboardActive.store(false,std::memory_order_release);
  ready.store(false,std::memory_order_release);
  if(screen){if(lv_screen_active()==screen&&previous&&lv_obj_is_valid(previous))lv_screen_load(previous);Tab5Focus.clear();lv_obj_delete(screen);screen=picture=previous=fpsLabel=volumeSlider=volumeLabel=controls=padLabel=padConfigure=nullptr;padStep=-1;configuring=false;}
  // A decoder may keep a converted/aligned frame under this static source

@@ -1,0 +1,66 @@
+{
+  "builder_origin": "https://github.com/rlucencic/esp32pc/blob/ebfd36fa62d2a93e6eabc7a6c9853b839826127f/tools/fatmk.py",
+  "description": "Unofficial minimal FreeDOS 1.4 boot floppy for Tab5OS",
+  "extracted_release_objects_sha256": {
+    "COMMAND.COM": "077808379e896476f7f69d62e6c8989d8fc23e8ef58d1c8492db1ac106784107",
+    "FREECOM.ZIP": "2529cf15c2ee7d7030ed99a6a88df2cf5eef87b9fe10f1c0fb643c38ea6aaa8e",
+    "KERNEL.SYS": "f34a7483c575fcf2709d9a7d0bc3db81c6211c279530f9e1bf78576b9233924d",
+    "KERNEL.ZIP": "38ce3c63e399c8f18ab6230d8988a5d1a1aa9be4e109d15c6f4842b5e8fe61e6",
+    "KEYB.ZIP": "9fd172421cfd6f30bf45cd9e46e45c78e40439209104c4e81498e327904e759e",
+    "KEYB_LAY.ZIP": "c20e750bd97eb85a1210500ab7f756f38a2070359eb53791a6a5979070f30bf6",
+    "freecom-source.zip": "beef029a2268cac4dd5b729a649ea4e23f30c9cfee1788c4bbd64b4d4ddb093b",
+    "kernel-source.zip": "fda372721899e6a9cabbfa6beed259be19dafd0fe16d90b8f4da1a9397fde574",
+    "keyb-source.zip": "649d94d496c61565147774d222302199d603e44d3412dd0e0e9f5b68d73ce0de"
+  },
+  "files": {
+    "AUTOEXEC.BAT": {
+      "sha256": "d2d2b6afec3007a226d32454aa60a05cd20ef380f31e6f1ad31d4459479ab73c",
+      "size": 118
+    },
+    "COMMAND.COM": {
+      "sha256": "077808379e896476f7f69d62e6c8989d8fc23e8ef58d1c8492db1ac106784107",
+      "size": 87772
+    },
+    "CONFIG.SYS": {
+      "sha256": "f816c32276ba56cc5663f772c56fc94c3643d126b2c5c282e59eba9842f7a764",
+      "size": 87
+    },
+    "KERNEL.SYS": {
+      "sha256": "f34a7483c575fcf2709d9a7d0bc3db81c6211c279530f9e1bf78576b9233924d",
+      "size": 46485
+    },
+    "KEYB.EXE": {
+      "sha256": "1845b9a91b933042d85d8c9b129e1d61aa014b90d1371ad4fc9724aa97d391d8",
+      "size": 11819
+    },
+    "KEYBOARD.SYS": {
+      "sha256": "5cf40be4b062681f4b50446a60f0bd4b5077451ef278dea74044ef22862fb433",
+      "size": 40362
+    }
+  },
+  "image": {
+    "sha256": "8c25e36d0a72a77a8c3541ba12f4dd5f4b2dbb12c15e660cc18d7da545020688",
+    "size": 1474560
+  },
+  "inputs": {
+    "FD14-FloppyEdition.zip": {
+      "sha256": "45b1fa7c52dd996c3bfa5e352ffcd410781b952a6ad629f15a4c9ec4bbaefc5a",
+      "url": "https://download.freedos.org/1.4/FD14-FloppyEdition.zip"
+    },
+    "FD14-LiteUSB.zip": {
+      "sha256": "857dcd2ebf9d3d094320154db5fb5b830acba6fb98f981a95a0ca7ab3350338b",
+      "url": "https://download.freedos.org/1.4/FD14-LiteUSB.zip"
+    }
+  },
+  "optional_keyboard_tools": true,
+  "source_boot_image": {
+    "member": "144m/x86BOOT.img",
+    "sha256": "552f7cbb0625960c050a3e682a4d2121cc2ffdfa9dc9d592ccd49edf179333dc"
+  },
+  "versions": {
+    "freecom_package": "0.86a",
+    "kernel": "2043, KERNL86.SYS (8086)",
+    "keyb": "2.11",
+    "keyb_layouts": "3.1a"
+  }
+}

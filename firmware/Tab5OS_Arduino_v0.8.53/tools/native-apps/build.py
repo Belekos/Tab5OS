@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build a Tab5 ABI-1/2/3/4/5 app with Espressif GCC, or freestanding Clang/LLD."""
+"""Build a Tab5 ABI-1 through ABI-7 app with Espressif GCC or freestanding Clang/LLD."""
 import argparse,os,pathlib,shutil,subprocess,sys,tempfile
 p=argparse.ArgumentParser(description=__doc__)
 p.add_argument('source',type=pathlib.Path)
@@ -43,7 +43,7 @@ with tempfile.TemporaryDirectory(prefix='.tab5-build-',dir=out.parent) as tempor
   readelf=str(pathlib.Path(cc).with_name(prefix+'readelf'+('.exe' if os.name=='nt' else '')))
   result=subprocess.run([readelf,'-Ws',str(candidate)],check=True,text=True,capture_output=True)
   imports={line.split()[-1] for line in result.stdout.splitlines() if ' UND ' in line and len(line.split())>=8}
-  if not imports or not imports.issubset({'tab5_app_api_v1','tab5_app_api_v2','tab5_app_api_v3','tab5_app_api_v4','tab5_app_api_v5','tab5_app_api_v6'}):
+  if not imports or not imports.issubset({'tab5_app_api_v1','tab5_app_api_v2','tab5_app_api_v3','tab5_app_api_v4','tab5_app_api_v5','tab5_app_api_v6','tab5_app_api_v7'}):
    sys.exit('Unsupported imports: '+repr(sorted(imports))+'; use only Tab5AppApi.h callbacks.')
   strip=str(pathlib.Path(cc).with_name(prefix+'strip'+('.exe' if os.name=='nt' else '')))
   subprocess.run([strip,'--strip-unneeded',str(candidate)],check=True)

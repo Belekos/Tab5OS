@@ -22,6 +22,12 @@ A chevron appears only after a subfolder has been detected. Detection runs progr
 
 The path in the right-hand header identifies the displayed contents. Selecting a row does not replace the open folder's path with that row's path. A thin line separates the two panes.
 
+## Icon colors
+
+Open **Settings → Display → Theme → Colors**. The theme editor provides separate **File icons**, **Folder icons**, **Hidden file icons** and **Hidden folder icons** colors. Select a role in the color list, or click its example in the interactive preview, adjust its RGB or hexadecimal value, then save the theme. The colors apply to the folder tree, directory listings and search results, including selected items. Filename colors remain independent.
+
+Existing themes retain their original icon appearance until these colors are customized. Hidden items must also be enabled in **View** to appear in Explorer.
+
 ## Menus
 
 - **File**: create the types of items offered by the OS.
@@ -33,6 +39,12 @@ The path in the right-hand header identifies the displayed contents. Selecting a
 - **Magnifying glass**: search. Select SD or USB directly in the tree.
 
 Commands that modify items act on the explicit selection. With no selection, pressing Delete in Explorer does not target a document open in another application. Cancelling a deletion preserves the contents being viewed. Creation and paste destinations use the chosen context; after navigating to Parent, they follow the displayed folder.
+
+## DOS programs
+
+Double-click a `.COM` or `.EXE` file, or select **Actions → Open with DOS**. The application launcher selects `/Applications/DOS.app.elf` and keeps the selected program as its file argument. Press **Run** to start it. **Open with → DOS (16-bit)** is also available. Full paths, including spaces, are passed as a single argument.
+
+This association targets compatible 16-bit DOS programs for the emulated 8086/286. A `.EXE` extension does not make a Windows application compatible; Windows executables are unsupported. Programs must be on the SD card. Copy programs from USB to SD before launching them. Batch files are not automatically associated with DOS.
 
 ## Names and validation
 

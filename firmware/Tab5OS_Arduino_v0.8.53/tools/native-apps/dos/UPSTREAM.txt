@@ -1,0 +1,37 @@
+Tab5OS DOS native application
+============================
+
+IBM PC/AT, BIOS, video, disks, keyboard, speaker:
+https://github.com/rlucencic/esp32pc
+Commit ebfd36fa62d2a93e6eabc7a6c9853b839826127f
+MIT licence: core/ibmpc/LICENSE
+
+8086/8088/80286 CPU, floppy controller and FAT inspection:
+https://github.com/rlucencic/esp32emu
+Commit 7d6db01763bfe7980bd439b8a80e6b1f423d22cb
+MIT licence: core/LICENSE
+
+The font data in core/ibmpc/font.c reproduces the Ultimate Oldschool PC Font
+Pack by VileR (https://int10h.org/oldschool-pc-fonts/), under CC BY-SA 4.0:
+https://creativecommons.org/licenses/by-sa/4.0/
+The font data remains separately licensed and is unmodified. Its licence
+and attribution must be retained when redistributing this application.
+
+Local changes:
+- SDK ABI7 adapter; bounded allocations, directory reads, USB scan states,
+  cooperative frame loop, canvas controls and PC speaker PCM output.
+- Real FreeDOS boot and automatic COM/MZ launch using actual DOS short aliases.
+- Read-only host folders and base image; persistent bounded floppy COW sectors.
+- Strict folder count/depth/path limits and propagated file-read errors.
+- Hardware-absent x87 and optional sound-card stubs; PC speaker still emulated.
+- US/French synthetic key mapping alongside FreeDOS KEYB.
+- Portable register copy in BIOS printer code for host compiler compatibility.
+- Host boot tests and original public-domain COM/MZ examples.
+
+No Microsoft MS-DOS, proprietary BIOS or third-party games are bundled.
+The separately licensed FreeDOS kernel, FreeCOM, KEYB and keyboard layouts,
+their exact input hashes, matching source archives and original licence files
+are under licenses/freedos. prepare_freedos.py rebuilds the immutable image.
+
+The original HELLO.COM / HELLO.EXE / DATA.TXT examples and their generator
+were written for this project and are dedicated to the public domain (CC0).

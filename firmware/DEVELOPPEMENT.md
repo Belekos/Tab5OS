@@ -8,7 +8,7 @@
 | Sustained computation or pixel rendering within a controlled memory budget | C compiled to ELF with `Tab5AppApi.h` |
 | New driver or system service | Firmware changes and a full build |
 
-The SDK is not a complete Linux or Arduino SDK. An ELF can import only the entry points `tab5_app_api_v1` through `tab5_app_api_v6`. A `.bin` file is firmware, not an application.
+The SDK is not a complete Linux or Arduino SDK. An ELF can import only the entry points `tab5_app_api_v1` through `tab5_app_api_v7`. A `.bin` file is firmware, not an application.
 
 ## A first Python project
 
@@ -80,3 +80,29 @@ For a hardware test, record the version, peripherals, open application, memory b
 ## ELF ABI 6 — canvas and images
 
 `tab5_app_api_v6` retains the ABI 5 prefix. `canvas_begin` creates a canvas up to 800 × 480, without game controls. `input_poll` copies touch and keyboard events; CANCEL asks the application to cancel the current gesture after event loss or overflow, while CLOSE asks it to handle closing. `write_begin`, `write_chunk` (at most 4,096 bytes) and `write_finish` expose progressive writing restricted to `/Images/<name>.bmp` or `.t5i`, with a 16 MiB limit and a single stream. Closing the application abandons an uncommitted stream. Exact definitions are in `Tab5AppApi.h`. The current editor uses `Tab5ImageEditor.cpp` in the firmware, with LVGL and the shared C engine.
+
+## ELF ABI 7 - physical keyboard and directory reads
+
+`tab5_app_api_v7` appends services to the ABI 6 prefix. The older entry points
+keep their original version and layout. Check the returned version and size
+before accessing the new callbacks.
+
+- `keyboard_state` copies the current USB HID keyboard usage bitmap and modifier
+  bits without consuming OS input. Set the output structure's `size` first.
+  Left/right modifiers use the USB HID bit layout, not `TAB5_MOD_*`. Multiple
+  keyboards are combined; disconnect releases that device's keys. Hidden or
+  inactive canvases receive an all-released state. Snapshot polling reports held
+  keys; it does not promise to preserve a press and release between two polls.
+- `directory_open` and `directory_next` enumerate the selected argument's parent
+  directory, or the argument itself when it is a directory. With no argument the
+  scope is `/DOS`. Entries include full basenames, directory flags and file sizes.
+  Names that do not fit and directories exceeding 1,024 entries fail explicitly.
+  Handles share the eight read-file slots and must be closed with `base.close`.
+- Existing atomic saves now accept `/Saves/DOS` as well. The ABI 4 limit of 2 MiB
+  per save still applies. Saves remain available during cooperative cleanup,
+  so an application can commit its state before returning after a close request.
+  This does not provide general file writes or raw access to a storage device.
+
+A PC emulator should use physical state for key press/release events and avoid
+reinserting the same physical keys from the canvas text queue. Existing canvas
+text events and older game controls retain their previous behavior.

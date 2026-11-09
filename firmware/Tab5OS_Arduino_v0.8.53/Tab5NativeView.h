@@ -11,6 +11,7 @@ void key(const writing::KeyEvent&);
 bool begin(unsigned width,unsigned height); // application worker
 bool canvasBegin(unsigned width,unsigned height);
 int inputPoll(tab5_app_input_event* event);
+int keyboardState(tab5_app_keyboard_state* state); // application worker, no LVGL
 bool present(const uint16_t*,size_t pixels); // application worker, copies
 uint32_t buttons();
 void service(); // UI task

@@ -35,6 +35,17 @@ The [Clang scripts](build/build_clang/README.md) provide an experimental path. T
 
 ## Applications and resources
 
-The [11 ELF executables](Tab5OS_Arduino_v0.8.53/sdcard/Applications/) are supplied with their [sources and recipes](Tab5OS_Arduino_v0.8.53/tools/native-apps/). They are rebuilt separately according to their ABI and dependencies. The [Python scripts](Tab5OS_Arduino_v0.8.53/sdcard/MicroPython/) can be edited directly.
+The [11 tracked ELF executables](Tab5OS_Arduino_v0.8.53/sdcard/Applications/) are supplied with their [sources and recipes](Tab5OS_Arduino_v0.8.53/tools/native-apps/). They are rebuilt separately according to their ABI and dependencies. DOS is an additional application built from source by [validation CI](../.github/workflows/validate-firmware.yml); the candidate's complete SD package includes all 12 applications. `DOS.app.elf` is not one of the 11 tracked prebuilt files.
 
-Generated headers required by the firmware are included. The [resource utilities](build/resources/README.md) regenerate them or prepare external data. The [complete SD package](../downloads/Tab5OS_0.8.53_SD.zip) supplies applications, generated resources and the Factory reference. The [installation guide](../docs/INSTALL_EN.md) explains how to use the supplied BIN files and prepare the card.
+After preparing the Linux toolchain, build DOS from the repository root:
+
+```bash
+TAB5_BUILD_DIR="$PWD/.build-tab5os"
+python3 firmware/Tab5OS_Arduino_v0.8.53/tools/native-apps/dos/build.py \
+  --toolchain "$TAB5_BUILD_DIR/data/packages/m5stack/tools/esp-rv32/2601/bin" \
+  -o "$TAB5_BUILD_DIR/native/DOS.app.elf"
+```
+
+The [DOS guide](Tab5OS_Arduino_v0.8.53/DOS.md) describes its resources and tests. DOS requires the candidate firmware's ABI 7; copying the ELF onto an older installation is insufficient. Include the built application at `sdcard/Applications/DOS.app.elf` and the matching `sdcard/DOS` resources when assembling the complete SD package. Firmware compilation alone does not build or install this application. The [Python scripts](Tab5OS_Arduino_v0.8.53/sdcard/MicroPython/) can be edited directly.
+
+Generated headers required by the firmware are included. The [resource utilities](build/resources/README.md) regenerate them or prepare external data. A complete SD package supplies applications, generated resources and the Factory reference. The [published SD download](../downloads/Tab5OS_0.8.53_SD.zip) remains the earlier build until updated; use a package matching the candidate firmware for DOS. The [installation guide](../docs/INSTALL_EN.md) explains how to use the supplied BIN files and prepare the card.

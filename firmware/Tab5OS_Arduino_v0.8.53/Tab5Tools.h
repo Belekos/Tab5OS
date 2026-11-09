@@ -37,6 +37,7 @@ class Tab5ToolsApp {
  void openMapPrint();
  void openWith(const char* document);
  bool launchExecutable(const char* path,bool configure=false);
+ bool launchDosProgram(const char* document);
  bool openPythonApp(const char* path,const char* argument=nullptr);
  bool resumePythonApp();
  bool pythonForeground()const;

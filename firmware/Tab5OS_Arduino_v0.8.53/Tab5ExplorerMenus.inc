@@ -116,7 +116,7 @@ static bool showFileMenu(FileMenu menu,int x,int y) {
       add(FileCommand::EditImage,"Ouvrir avec Dessin","",!busy);
     }else if(selectedIsDir||selectedIsText||selectedIsAudio||selectedIsVideo)add(FileCommand::Open,"Ouvrir","Entrée",!busy);
     if(!selectedIsDir&&(selectedIsText||isEpubExtension(selectedPath)))add(FileCommand::Read,"Lire","",!busy);
-    if(!selectedIsDir&&(isPythonExtension(selectedPath)||isShellExtension(selectedPath)||isExecutableExtension(selectedPath)||isFirmwareExtension(selectedPath)))add(FileCommand::Execute,isShellExtension(selectedPath)?"Exécuter le script":isFirmwareExtension(selectedPath)?"Installer un firmware":"Ouvrir l'application","",!busy);
+    if(!selectedIsDir&&(isPythonExtension(selectedPath)||isShellExtension(selectedPath)||isExecutableExtension(selectedPath)||isFirmwareExtension(selectedPath)))add(FileCommand::Execute,tab5DosProgramFile(selectedPath.c_str())?"Ouvrir avec DOS":isShellExtension(selectedPath)?"Exécuter le script":isFirmwareExtension(selectedPath)?"Installer un firmware":"Ouvrir l'application","",!busy);
     if(!selectedIsDir)add(FileCommand::OpenWith,"Ouvrir avec…","",!busy);
   }
   if(menu==FileMenu::Context||menu==FileMenu::Edit){

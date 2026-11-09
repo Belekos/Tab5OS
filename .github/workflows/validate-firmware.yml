@@ -1,11 +1,11 @@
 name: Validate Tab5OS firmware
 on:
   push:
-    branches: [validation/themes-doom-package-20261108]
+    branches: [validation/languages-dos-themes-20261109]
 permissions:
   contents: read
 concurrency:
-  group: tab5os-firmware-validation-20261108
+  group: tab5os-firmware-validation-20261109
   cancel-in-progress: false
 jobs:
   build:
@@ -32,6 +32,18 @@ jobs:
           "$BUILD/arduino-cli" version
           python3 firmware/build/build_linux/prepare_linux.py --environment "$BUILD" 2>&1 | tee "$BUILD/qa/dependencies.log"
           python3 firmware/build/build_linux/verify_downloads.py --environment "$BUILD"
+      - name: Validate all language packs and the production loader
+        shell: bash
+        run: |
+          set -euo pipefail
+          BUILD="$RUNNER_TEMP/tab5os-build"
+          python3 firmware/Tab5OS_Arduino_v0.8.53/tools/tests/languages/run_tests.py --arduinojson "$BUILD/sketchbook/libraries/ArduinoJson" --output "$BUILD/qa/language-tests.json" 2>&1 | tee "$BUILD/qa/language-tests.log"
+      - name: Validate physical keyboard and scoped directory access
+        shell: bash
+        run: |
+          set -euo pipefail
+          BUILD="$RUNNER_TEMP/tab5os-build"
+          python3 firmware/Tab5OS_Arduino_v0.8.53/tools/tests/abi7/run_tests.py --output "$BUILD/qa/abi7-tests.json" 2>&1 | tee "$BUILD/qa/abi7-tests.log"
       - name: Validate the drawing core and relief lighting
         shell: bash
         run: |
@@ -64,6 +76,31 @@ jobs:
           "$BUILD/emulator-venv/bin/python" "$TESTS/emulate_startup.py" --elf "$BUILD/native/Doom.app.elf" --wad "$BUILD/fixtures/doom1.wad" --output "$BUILD/qa/doom-startup-report.json" --frames 120 --instruction-limit 1000000000 --timeout-seconds 180 2>&1 | tee "$BUILD/qa/doom-startup.log"
           "$BUILD/emulator-venv/bin/python" "$TESTS/emulate_startup.py" --elf "$BUILD/native/Doom.app.elf" --wad "$BUILD/fixtures/doom1.wad" --output "$BUILD/qa/doom-play-report.json" --play --frames 240 --instruction-limit 3000000000 --timeout-seconds 180 2>&1 | tee "$BUILD/qa/doom-play.log"
           python3 "$TESTS/run_startup_host.py" --wad "$BUILD/fixtures/doom1.wad" --output "$BUILD/qa/doom-startup-host.json" 2>&1 | tee "$BUILD/qa/doom-startup-host.log"
+      - name: Build and exercise the DOS application
+        shell: bash
+        run: |
+          set -euo pipefail
+          BUILD="$RUNNER_TEMP/tab5os-build"
+          SKETCH="$GITHUB_WORKSPACE/firmware/Tab5OS_Arduino_v0.8.53"
+          DOS="$SKETCH/tools/native-apps/dos"
+          TOOLCHAIN="$BUILD/data/packages/m5stack/tools/esp-rv32/2601/bin"
+          mkdir -p "$BUILD/native"
+          python3 "$DOS/tests/build_host.py" --cc gcc -o "$BUILD/native/tab5-dos-host" 2>&1 | tee "$BUILD/qa/dos-host-build.log"
+          python3 "$DOS/tests/run_folder_tests.py" --output "$BUILD/qa/dos-folder-tests.json" 2>&1 | tee "$BUILD/qa/dos-folder-tests.log"
+          python3 "$DOS/tests/run_overlay_tests.py" --output "$BUILD/qa/dos-overlay" 2>&1 | tee "$BUILD/qa/dos-overlay-tests.log"
+          cp "$BUILD/qa/dos-overlay/dos-overlay-tests.json" "$BUILD/qa/dos-overlay-tests.json"
+          python3 "$DOS/tests/test_boot.py" --host "$BUILD/native/tab5-dos-host" --image "$SKETCH/sdcard/DOS/FREEDOS.IMG" --output "$BUILD/qa/dos-boot-report.json" 2>&1 | tee "$BUILD/qa/dos-boot-tests.log"
+          python3 "$DOS/build.py" --toolchain "$TOOLCHAIN" -o "$BUILD/native/DOS.app.elf" 2>&1 | tee "$BUILD/qa/dos-build.log"
+          python3 "$SKETCH/tools/tests/native-elf/verify.py" --elf "$BUILD/native/DOS.app.elf" --expected-import tab5_app_api_v7 --extra-elf "$BUILD/native/Doom.app.elf" --catalogue "$SKETCH/sdcard/Applications" --source-root "$DOS" --source-root "$SKETCH/tools/native-apps/common" --output "$BUILD/qa/native-admission-report.json" 2>&1 | tee "$BUILD/qa/native-admission.log"
+          "$TOOLCHAIN/riscv32-esp-elf-readelf" -h -l -r -Ws "$BUILD/native/DOS.app.elf" > "$BUILD/qa/dos-elf.txt"
+          sha256sum "$BUILD/native/DOS.app.elf" > "$BUILD/qa/dos-sha256.txt"
+      - name: Execute the exact DOS ELF through the ABI7 frontend
+        shell: bash
+        run: |
+          set -euo pipefail
+          BUILD="$RUNNER_TEMP/tab5os-build"
+          SKETCH="$GITHUB_WORKSPACE/firmware/Tab5OS_Arduino_v0.8.53"
+          "$BUILD/emulator-venv/bin/python" "$SKETCH/tools/native-apps/dos/tests/emulate_app.py" --elf "$BUILD/native/DOS.app.elf" --image "$SKETCH/sdcard/DOS/FREEDOS.IMG" --output "$BUILD/qa/dos-app-report.json" --instruction-limit 15000000000 --timeout-seconds 600 2>&1 | tee "$BUILD/qa/dos-app-tests.log"
       - name: Compile ESP32-P4 firmware
         shell: bash
         run: |

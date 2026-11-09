@@ -5,7 +5,8 @@
 #include "Tab5Executable.h"
 #include "Tab5LaunchProfile.h"
 #include <freertos/idf_additions.h>
-#include "Tab5AppApi.h"
+#include "Tab5AppApi.h"
+#include "Tab5AppDirectory.h"
 #include "Tab5ImageWrite.h"
 #include "Tab5AppPanel.h"
 #include "Tab5NativeView.h"
@@ -44,11 +45,12 @@ struct Allocation {void* pointer=nullptr;size_t bytes=0;};
 struct Context {bool externalStack=false;std::atomic<bool> startReady{false};
  Tab5StorageUse storage{true};
  esp_elf_t elf{};
- tab5_app_api api{};tab5_app_api2 api2{};tab5_app_api3 api3{};tab5_app_api4 api4{};tab5_app_api5 api5{};tab5_app_api6 api6{};unsigned abi=1;
+ tab5_app_api api{};tab5_app_api2 api2{};tab5_app_api3 api3{};tab5_app_api4 api4{};tab5_app_api5 api5{};tab5_app_api6 api6{};tab5_app_api7 api7{};unsigned abi=1;
  ImageWriter imageWrite;
  bool audio=false,extended=false,panel=false;
  TaskHandle_t worker=nullptr;
- File files[TAB5_APP_MAX_FILES];
+ File files[TAB5_APP_MAX_FILES];
+ unsigned directoryEntries[TAB5_APP_MAX_FILES]{};
  Allocation allocations[32];
  size_t allocated=0;
  uint32_t lastCooperation=0;
@@ -127,12 +129,12 @@ int appOpen(const char* path){
 File* appFile(int handle){return worker()&&handle>0&&handle<=int(TAB5_APP_MAX_FILES)&&context->files[handle-1]?&context->files[handle-1]:nullptr;}
 int appRead(int handle,void* destination,size_t capacity){
  if(!cooperate())return -1;
- File* file=appFile(handle);if(!file||cancelled.load()||!destination||capacity>TAB5_APP_MAX_IO)return -1;
+ File* file=appFile(handle);if(!file||file->isDirectory()||cancelled.load()||!destination||capacity>TAB5_APP_MAX_IO)return -1;
  if(!capacity)return 0;size_t position=file->position(),length=file->size();if(position>=length)return 0;
  size_t wanted=std::min(capacity,length-position),got=file->read(static_cast<uint8_t*>(destination),wanted);
  if(got!=wanted){tab5StorageFault("Lecture application ELF",sourcePath,EIO);return -1;}return int(got);
 }
-int appSeek(int handle,uint32_t offset){if(!cooperate())return -1;File* file=appFile(handle);return file&&!cancelled.load()&&offset<=file->size()&&file->seek(offset)?0:-1;}
+int appSeek(int handle,uint32_t offset){if(!cooperate())return -1;File* file=appFile(handle);return file&&!file->isDirectory()&&!cancelled.load()&&offset<=file->size()&&file->seek(offset)?0:-1;}
 int appClose(int handle){File* file=appFile(handle);if(!file)return -1;file->close();return 0;}
 uint32_t appMillis(){return cooperate()?millis():0;}
 const tab5_app_api* appApi(){return worker()?&context->api:nullptr;}
@@ -150,7 +152,7 @@ int appSave(const char* path,const void* data,size_t bytes){
  if(!worker()||!validPath(path)||!data||!bytes||bytes>(context->abi>=4?2u*1024u*1024u:512u*1024u))return -1;
  size_t n=strlen(path);const char* ext=strrchr(path,'.');if(n<14||!ext||(strcmp(ext,".sav")&&strcmp(ext,".state")&&!(context->abi>=4&&(!strcmp(ext,".dsg")||!strcmp(ext,".cfg")))))return -1;
  bool present=false;if(!tab5AtomicProbe("/Saves",present)||(!present&&!tab5FS.mkdir("/Saves")))return -1;
- const char* folder=nullptr;const char* folders[]={"/Saves/GB","/Saves/GBC","/Saves/NES","/Saves/Sega8","/Saves/Doom","/Saves/Maze3D","/Saves/GBA","/Saves/SNES","/Saves/MegaDrive"};
+ const char* folder=nullptr;const char* folders[]={"/Saves/GB","/Saves/GBC","/Saves/NES","/Saves/Sega8","/Saves/Doom","/Saves/Maze3D","/Saves/GBA","/Saves/SNES","/Saves/MegaDrive","/Saves/DOS"};
  for(auto* candidate:folders){size_t n=strlen(candidate);if(!strncmp(path,candidate,n)&&path[n]=='/'&&!strchr(path+n+1,'/')){folder=candidate;break;}}if(!folder)return -1;
  if(!tab5AtomicProbe(folder,present)||(!present&&!tab5FS.mkdir(folder)))return -1;
  char temporary[MaxPath+8],backup[MaxPath+8];snprintf(temporary,sizeof(temporary),"%s.tmp",path);snprintf(backup,sizeof(backup),"%s.old",path);
@@ -208,7 +210,40 @@ const tab5_app_api6* appApi6(){
  api.write_finish=[](int handle,int commit)->int{if(!worker())return -1;bool stopped=cancelled.load();int result=context->imageWrite.finish(tab5FS,handle,commit&&!stopped);return commit&&stopped?-1:result;};
  return &api;
 }
-const esp_elfsym symbols[]={{"tab5_app_api_v1",reinterpret_cast<const void*>(&appApi)},{"tab5_app_api_v2",reinterpret_cast<const void*>(&appApi2)},{"tab5_app_api_v3",reinterpret_cast<const void*>(&appApi3)},{"tab5_app_api_v4",reinterpret_cast<const void*>(&appApi4)},{"tab5_app_api_v5",reinterpret_cast<const void*>(&appApi5)},{"tab5_app_api_v6",reinterpret_cast<const void*>(&appApi6)},ESP_ELFSYM_END};
+// Read-only enumeration shares the existing descriptor budget and lease.
+int appDirectoryOpen(const char* path){
+ if(!cooperate()||cancelled.load()||!Tab5AppDirectory::validPath(path))return -1;
+ char root[MaxPath+1];bool selectedDirectory=false;
+ if(context->argument[0]){
+  if(!Tab5AppDirectory::validPath(context->argument))return -1;
+  File selected=tab5FS.open(context->argument,FILE_READ);if(!selected)return -1;
+  selectedDirectory=selected.isDirectory();selected.close();
+ }
+ if(!Tab5AppDirectory::root(context->argument,selectedDirectory,root)||!Tab5AppDirectory::contains(root,path))return -1;
+ for(unsigned i=0;i<TAB5_APP_MAX_FILES;++i)if(!context->files[i]){
+  File directory=tab5FS.open(path,FILE_READ);
+  if(!directory||!directory.isDirectory()){directory.close();return -1;}
+  context->files[i]=directory;context->directoryEntries[i]=0;return int(i+1);
+ }
+ return -1;
+}
+int appDirectoryNext(int handle,tab5_app_directory_entry* entry){
+ if(!cooperate()||cancelled.load()||!entry||entry->size<sizeof(*entry))return -1;
+ File* directory=appFile(handle);if(!directory||!directory->isDirectory())return -1;
+ auto& count=context->directoryEntries[handle-1];if(count>Tab5AppDirectory::MaxEntries)return -1;
+ errno=0;File child=directory->openNextFile(FILE_READ);
+ if(!child)return errno?-1:0;
+ bool ok=count++<Tab5AppDirectory::MaxEntries&&Tab5AppDirectory::entry(child.name(),child.isDirectory(),child.size(),*entry);
+ child.close();if(!ok){count=Tab5AppDirectory::MaxEntries+1;return -1;}return 1;
+}
+const tab5_app_api7* appApi7(){
+ auto* base=appApi6();if(!base)return nullptr;
+ context->abi=7;auto& api=context->api7;api.base=*base;
+ api.base.base.base.base.base.base.version=7;api.base.base.base.base.base.base.size=sizeof(api);
+ api.keyboard_state=[](tab5_app_keyboard_state* state)->int{return cooperate()&&!cancelled.load()?Tab5NativeView::keyboardState(state):-1;};
+ api.directory_open=appDirectoryOpen;api.directory_next=appDirectoryNext;return &api;
+}
+const esp_elfsym symbols[]={{"tab5_app_api_v1",reinterpret_cast<const void*>(&appApi)},{"tab5_app_api_v2",reinterpret_cast<const void*>(&appApi2)},{"tab5_app_api_v3",reinterpret_cast<const void*>(&appApi3)},{"tab5_app_api_v4",reinterpret_cast<const void*>(&appApi4)},{"tab5_app_api_v5",reinterpret_cast<const void*>(&appApi5)},{"tab5_app_api_v6",reinterpret_cast<const void*>(&appApi6)},{"tab5_app_api_v7",reinterpret_cast<const void*>(&appApi7)},ESP_ELFSYM_END};
 void cleanup(){
  if(!context)return;
  Tab5Hardware::release(Tab5Hardware::Owner::Application);

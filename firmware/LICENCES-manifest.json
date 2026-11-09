@@ -1,6 +1,6 @@
 {
   "version": "0.8.53",
-  "generatedAt": "2026-11-06T22:21:51.399Z",
+  "generatedAt": "2026-11-09T18:13:22Z",
   "scope": "Bundled source notices and SD resources. External Arduino libraries are documented in BIBLIOTHEQUES.md and docs/BUILD.md.",
   "firstPartyLicense": "Not selected by the project owner",
   "components": [
@@ -399,6 +399,96 @@
         {
           "path": "Tab5OS_Arduino_v0.8.53/sdcard/System/ime/README.md",
           "sha256": "80d03a8a849a9777fbae7a02af5a5ec43cbb16e0b794a76acbde96f88e6daf2c"
+        }
+      ]
+    },
+    {
+      "component": "esp32pc and esp32emu DOS emulator",
+      "directory": "Tab5OS_Arduino_v0.8.53/tools/native-apps/dos",
+      "licenseLabel": "MIT; original upstream notices retained",
+      "notices": [
+        {
+          "path": "Tab5OS_Arduino_v0.8.53/tools/native-apps/dos/core/ibmpc/LICENSE",
+          "sha256": "9960bdf29c83a4ddc299b8f886cdc3b16c2b14d2a77e05d7f6d446c3dbf44afe"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53/tools/native-apps/dos/core/LICENSE",
+          "sha256": "9960bdf29c83a4ddc299b8f886cdc3b16c2b14d2a77e05d7f6d446c3dbf44afe"
+        }
+      ]
+    },
+    {
+      "component": "FreeDOS boot software and corresponding sources",
+      "directory": "Tab5OS_Arduino_v0.8.53/tools/native-apps/dos/licenses/freedos",
+      "licenseLabel": "GPL and included library notices; see the individual package licenses",
+      "notices": [
+        {
+          "path": "Tab5OS_Arduino_v0.8.53/tools/native-apps/dos/licenses/freedos/freecom-package.lsm",
+          "sha256": "0c370cb1cbbc41d775a478ce88baf2b01cca24c8a7311f4b1f4d094de2cd29d2"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53/tools/native-apps/dos/licenses/freedos/freecom-source.zip",
+          "sha256": "beef029a2268cac4dd5b729a649ea4e23f30c9cfee1788c4bbd64b4d4ddb093b"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53/tools/native-apps/dos/licenses/freedos/kernel-package.lsm",
+          "sha256": "fcf0314885a8a4d5f82ecea0a82e81cafbd017a43959ed1de5c7e14011b2351e"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53/tools/native-apps/dos/licenses/freedos/kernel-source.zip",
+          "sha256": "fda372721899e6a9cabbfa6beed259be19dafd0fe16d90b8f4da1a9397fde574"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53/tools/native-apps/dos/licenses/freedos/KEYB-HELP.txt",
+          "sha256": "e686f04115f45caa2d160b884c2b3fb774c0252ef9fc49325d9bba01fe0f66f3"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53/tools/native-apps/dos/licenses/freedos/keyb-layouts-3.1a.zip",
+          "sha256": "c20e750bd97eb85a1210500ab7f756f38a2070359eb53791a6a5979070f30bf6"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53/tools/native-apps/dos/licenses/freedos/keyb-layouts-package.lsm",
+          "sha256": "c1fb32b7fdc617ec67c3eaaccef0853cc01d1b15eac8a002c445711273734b87"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53/tools/native-apps/dos/licenses/freedos/keyb-package.lsm",
+          "sha256": "c99eeecb0e8821928ab79a7faeb3e26c8142f9c0ca5d446f4273c6f8fac76bbf"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53/tools/native-apps/dos/licenses/freedos/keyb-source.zip",
+          "sha256": "649d94d496c61565147774d222302199d603e44d3412dd0e0e9f5b68d73ce0de"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53/tools/native-apps/dos/licenses/freedos/LICENSE-freecom-suppl-library.txt",
+          "sha256": "a30edd18dd7444fb631c00951e4571fc2c2832f3859b438f3f7e15ba4ef63176"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53/tools/native-apps/dos/licenses/freedos/LICENSE-freecom-suppl.txt",
+          "sha256": "45ece956c40ccac10202a455c0841da8bf42b28412f8c992357da826bb107eae"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53/tools/native-apps/dos/licenses/freedos/LICENSE-freecom.txt",
+          "sha256": "45ece956c40ccac10202a455c0841da8bf42b28412f8c992357da826bb107eae"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53/tools/native-apps/dos/licenses/freedos/LICENSE-kernel.txt",
+          "sha256": "2ec21c4f10e9fc6bafbc619cf905424162a0b6443e482d599a6d0d7718e9ae58"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53/tools/native-apps/dos/licenses/freedos/LICENSE-keyb-layouts.txt",
+          "sha256": "edc9945e0af7d456a06bd84a4492cff4cb2d47e046dc0c8a33a1690f6f500fc1"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53/tools/native-apps/dos/licenses/freedos/LICENSE-keyb.txt",
+          "sha256": "edc9945e0af7d456a06bd84a4492cff4cb2d47e046dc0c8a33a1690f6f500fc1"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53/tools/native-apps/dos/licenses/freedos/provenance.json",
+          "sha256": "716b3bee37d5993f047f37af838acf9695e16293f096fc41413ff96112535a12"
+        },
+        {
+          "path": "Tab5OS_Arduino_v0.8.53/tools/native-apps/dos/licenses/freedos/README.md",
+          "sha256": "cb868f6d2244ab22f0fb58f69bab7af339fa5001ba293bc9cd17fb46935ae9d9"
         }
       ]
     }
