@@ -11,7 +11,7 @@ Tab5OS runs on M5Stack Tab5 / ESP32-P4 with 32 MiB PSRAM and 16 MiB Flash.
 | [Complete SD package](../downloads/Tab5OS_0.8.53_SD.zip) | ELF/Python applications, fonts, languages, keyboards and Factory reference |
 | [SHA256SUMS.txt](../downloads/SHA256SUMS.txt) | Verify all three downloads |
 
-These links refer to the previously published 0.8.53 build. The DOS candidate requires the matching newly built firmware and complete SD package; the older downloads do not gain DOS support merely by copying an application. Its complete package includes 12 ELF applications, including the CI-built `DOS.app.elf`, and the DOS resources described in the [DOS guide](../firmware/DOS.md).
+These links refer to the previously published 0.8.53 build. The DOS candidate requires the matching newly built firmware and complete SD package; the older downloads do not gain DOS support merely by copying an application. Its complete package includes 12 ELF applications, including the CI-built `DOS.app.elf`, and the DOS resources described in the [DOS guide](../firmware/Tab5OS_Arduino_v0.8.53/DOS.md).
 
 **Initial installation replaces the entire P4 Flash, including internal settings and keys. Use the OTA firmware to update an existing installation.** Back up documents, settings and portable vault exports before installation. Keep power connected while writing. The ESP32-C6 companion retains its firmware.
 
@@ -63,9 +63,11 @@ The [11 tracked ELF applications](../firmware/Tab5OS_Arduino_v0.8.53/sdcard/Appl
 
 ## Use the DOS candidate
 
-Install the candidate firmware and SD package together, keeping `Applications/DOS.app.elf` and the `DOS` folder from the same package. Put a compatible 16-bit DOS `.COM` or `.EXE` program on SD, select it in Explorer and choose **Actions → Open with DOS**, then **Run**. Full paths may contain spaces. Programs on USB storage must first be copied to SD. Use the DOS **Keys** panel or an optional USB keyboard for input.
+Install the candidate firmware and SD package together, including `Applications/DOS.app.elf`, the `DOS` folder and `System/DOS/DRIVERS.IMG` from the same package. Put a compatible 16-bit DOS `.COM` or `.EXE` program on SD, select it in Explorer and choose **Actions → Open with DOS**, then **Run**. Full paths may contain spaces. Programs on USB storage must first be copied to SD. Use the DOS **Keys** panel, a USB keyboard, a USB mouse or the touchscreen touchpad controls.
 
-Windows executables, 386 software and Sound Blaster/AdLib audio are unsupported. See the [DOS guide](../firmware/DOS.md) for the included FreeDOS image, controls and remaining limits.
+Tap **Mouse** (**Souris** in French) in the OS toolbar to capture the USB mouse; tap it on the touchscreen again to release it. **Vol-** and **Vol+** adjust sound, and tapping the percentage mutes or restores it. PC speaker, AdLib OPL2 and Sound Blaster 2.0 are supported. For Sound Blaster setup, use port `220`, IRQ `7` and DMA `1`.
+
+This application emulates a 286: Windows executables, 386/486 software and DOS/4GW remain unsupported. Hide the **Keys** panel to view **PC %** and **fps** at the bottom. These report guest timing and submitted images; physical game performance still needs testing. See the [DOS guide](../firmware/Tab5OS_Arduino_v0.8.53/DOS.md) for the FreeDOS image, current controls and remaining limits.
 
 To rebuild the firmware, follow the [build guide](BUILD.md).
 

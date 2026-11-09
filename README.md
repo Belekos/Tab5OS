@@ -25,7 +25,7 @@ Tab5OS brings writing, drawing, reading, media, maps and development tools to th
 
 The **11 tracked ELF executables** are in [Applications](firmware/Tab5OS_Arduino_v0.8.53/sdcard/Applications/). The validation build compiles DOS separately as the twelfth application for the candidate's complete SD package. DOS requires matching firmware and SD resources; it is not included among those 11 prebuilt files. Supply commercial game ROMs and Wikipedia archives separately.
 
-The DOS candidate opens compatible 16-bit `.COM` and `.EXE` programs from SD through **Explorer → Actions → Open with DOS**, then **Run**. Use its on-screen **Keys** panel or a USB keyboard. Windows programs, 386 software and Sound Blaster/AdLib audio are unsupported; see the [DOS guide](firmware/Tab5OS_Arduino_v0.8.53/DOS.md) for compatibility and storage limits.
+The DOS candidate opens compatible 16-bit `.COM` and `.EXE` programs from SD through **Explorer → Actions → Open with DOS**, then **Run**. Use its on-screen **Keys** panel, USB keyboard, USB mouse or touchpad controls. PC speaker, AdLib OPL2 and Sound Blaster 2.0 sound are supported, with volume and mute controls. Windows programs and 386/486 software remain unsupported in this 286 application; see the [DOS guide](firmware/Tab5OS_Arduino_v0.8.53/DOS.md) for controls, performance indicators and storage limits.
 
 ## Download and install 0.8.53
 

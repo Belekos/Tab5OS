@@ -5,6 +5,11 @@ FreeDOS 1.4. It is a native application on the SD card, separate from the OS.
 The complete candidate installation archive includes the application, boot
 image, examples, licences and corresponding FreeDOS source code.
 
+The SD card's `/DOS/README.txt` is retained unchanged to preserve existing DOS
+snapshots. It describes the original candidate; its statement that AdLib and
+Sound Blaster are unavailable no longer applies. This guide describes the
+current controls and capabilities.
+
 ## Start a program
 
 Open a `.COM` or `.EXE` file in Explorer, or choose **Open with > DOS**.
@@ -27,7 +32,7 @@ fails to mount with a diagnostic; choose a smaller program directory.
 ## Controls
 
 Use a USB keyboard or the **Keys** touch panel. The touch panel includes
-Escape, F1â€“F12, arrows, Tab, Backspace, Delete, Enter and sticky Ctrl/Alt.
+Escape, F1-F12, arrows, Tab, Backspace, Delete, Enter and sticky Ctrl/Alt.
 Physical key presses and releases are delivered as PC scan codes, including
 held keys. The DOS toolbar uses English labels in this version; the surrounding
 Explorer and OS controls use the selected Tab5OS language.
@@ -51,7 +56,7 @@ the read-only driver disk `B:` with `B:\CTMOUSE /S14 /R11`; its normal INT33
 services and application callbacks are available to DOS programs. Wheel and
 middle-button actions are not exposed by this two-button guest device.
 
-For games, tap the OS toolbar's **Mouse** button to capture the USB mouse. Its
+For games, tap the OS toolbar's **Mouse** button (**Souris** in French) to capture the USB mouse. Its
 status changes from **Free** to **Captured**, the desktop pointer disappears, and movement can continue
 without desktop screen-edge limits. Tap that same button on the touchscreen
 to release capture; the touchscreen remains available throughout. Leaving DOS
@@ -74,12 +79,12 @@ their identity.
 ## Sound and volume
 
 PC speaker, AdLib OPL2 music and Sound Blaster 2.0 8-bit PCM sound are available.
-For games with a sound setup program, select AdLib or Sound Blaster, with base
-port `220`, interrupt `7` and DMA channel `1`. The frontend sets
+For games with a sound setup program, select AdLib/OPL2 for music, or Sound
+Blaster 2.0 with base port `220`, interrupt `7` and DMA channel `1`. The frontend sets
 `BLASTER=A220 I7 D1 T3` before launching the program. MIDI/MT-32, CD audio and
 Sound Blaster Pro/16, ADPCM playback and recording are not provided by this application.
 
-Use **Vol -** and **Vol +** in the top bar to adjust the application volume from
+Use **Vol-** and **Vol+** in the top bar to adjust the application volume from
 0 to 100%. Tap the middle volume value to mute and tap it again to restore the
 previous level. This gain is also subject to the OS's master volume. The guest's
 sound hardware continues advancing while muted. A busy or failed host audio
@@ -114,7 +119,7 @@ unchanged screen submissions and per-pixel scaling divisions. The runtime and
 speaker timing also avoid costly general-purpose 64-bit divisions where their
 inputs fit the P4's native arithmetic.
 
-The bottom status shows **PC %**, the speed of the emulated machine relative to
+Hide the **Keys** panel to see the bottom status. It shows **PC %**, the speed of the emulated machine relative to
 its nominal timing, and **fps**, changed images submitted to the OS. PC 100%
 means the guest keeps up with its configured timing; it does not mean the P4's
 CPU is fully occupied. A stationary DOS prompt naturally has a low image rate.

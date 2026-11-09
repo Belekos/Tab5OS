@@ -6,7 +6,7 @@ permissions:
   contents: read
 concurrency:
   group: tab5os-firmware-validation-20261109
-  cancel-in-progress: false
+  cancel-in-progress: true
 jobs:
   build:
     runs-on: ubuntu-24.04
