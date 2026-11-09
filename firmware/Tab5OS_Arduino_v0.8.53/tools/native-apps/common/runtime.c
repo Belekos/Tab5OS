@@ -177,7 +177,7 @@ int __clzsi2(unsigned x){int n=32;while(x){--n;x>>=1;}return n;}
 unsigned long long __udivdi3(unsigned long long n,unsigned long long d){if(!d)abort();unsigned long long q=0,r=0;for(int i=63;i>=0;--i){unsigned top=(unsigned)(r>>63);r=(r<<1)|((n>>i)&1);if(top||r>=d){r-=d;q|=1ULL<<i;}}return q;}
 unsigned long long __umoddi3(unsigned long long a,unsigned long long b){return a-__udivdi3(a,b)*b;}
 #endif
-long long __divdi3(long long a,long long b){unsigned long long x=a<0?0ULL-(unsigned long long)a:a,y=b<0?0ULL-(unsigned long long)b:b;unsigned long long q=__udivdi3(x,y);return (a<0)^(b<0)?0ULL-q:q;}
+long long __divdi3(long long a,long long b){unsigned long long x=a<0?0ULL-(unsigned long long)a:(unsigned long long)a,y=b<0?0ULL-(unsigned long long)b:(unsigned long long)b;unsigned long long q=__udivdi3(x,y);return (a<0)^(b<0)?0ULL-q:q;}
 long long __moddi3(long long a,long long b){return a-__divdi3(a,b)*b;}
 /* DOS_DIVISION_PRIMITIVES_END */
 #endif
