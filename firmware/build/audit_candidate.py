@@ -148,15 +148,19 @@ def verify_host_reports(read):
     require(set(abi.get("sanitizers", [])) == {"AddressSanitizer", "UndefinedBehaviorSanitizer"},
             "ABI CI sanitizers missing")
     tests = abi.get("tests", [])
-    require(len(tests) == 3 and {t.get("test") for t in tests} ==
-            {"test_keyboard_directory", "test_broker", "test_native_keyboard"} and
-            all(t.get("result") == "passed" for t in tests), "ABI7 keyboard/directory tests failed")
+    require(len(tests) == 5 and {t.get("test") for t in tests} ==
+            {"test_keyboard_directory", "test_broker", "test_native_keyboard",
+             "test_native_mouse", "test_mouse_capture"} and
+            all(t.get("result") == "passed" for t in tests),
+            "ABI7 keyboard/directory/mouse/capture tests failed")
     abi_hashes = {name.replace("\\", "/"): digest for name, digest in abi.get("sourceHashes", {}).items()}
     require(len(abi_hashes) == len(abi.get("sourceHashes", {})), "Duplicate ABI source path")
     require({SKETCH + name for name in (
              "Tab5Executable.cpp", "Tab5NativeView.cpp", "WriterUsb.cpp", "Tab5AppApi.h",
-             "Tab5AppDirectory.h", "Tab5KeyboardState.h", "tools/tests/abi7/test_broker.cpp",
-             "tools/tests/abi7/test_keyboard_directory.cpp", "tools/tests/abi7/test_native_keyboard.cpp")}
+             "Tab5AppDirectory.h", "Tab5KeyboardState.h", "Tab5Mouse.cpp", "Tab5Mouse.h",
+             "WriterMouse.h", "Tab5AppInputQueue.h", "tools/tests/abi7/test_broker.cpp",
+             "tools/tests/abi7/test_keyboard_directory.cpp", "tools/tests/abi7/test_native_keyboard.cpp",
+             "tools/tests/abi7/test_native_mouse.cpp", "tools/tests/abi7/test_mouse_capture.cpp")}
             <= set(abi_hashes), "ABI production/test source manifest is incomplete")
     for name, digest in abi_hashes.items():
         safe(name)
@@ -351,7 +355,8 @@ def verify_dos_optimizations(read):
     for name, required in (
             ("dos-video-tests.json", {prefix + path for path in (
                 "presentation.h", "core/ibmpc/video.c", "tests/test_video.c",
-                "tests/test_presentation.c", "tests/run_video_tests.py")}),
+                "tests/test_presentation.c", "pacing.h", "tests/test_pacing.c",
+                "tests/run_video_tests.py")}),
             ("dos-runtime-tests.json", {runtime_source, prefix + "tests/test_runtime_primitives.c",
                                         prefix + "tests/run_runtime_tests.py"}),
             ("dos-runtime-rv32.json", {runtime_source, prefix + "core/ibmpc/pit.c",
@@ -368,7 +373,8 @@ def verify_dos_optimizations(read):
             require(report.get("schema") == 1 and
                     all(report.get("checks", {}).get(key) is True for key in (
                         "same_pixels_across_six_bios_modes_and_blink", "downscale_matches_original",
-                        "synchronous_skips_vram_copy")), "DOS presentation changed emulated display pixels")
+                        "synchronous_skips_vram_copy", "bounded_fractional_frame_pacing")),
+                    "DOS presentation or bounded frame pacing verification failed")
         elif name == "dos-runtime-tests.json":
             require(report.get("component") == "dos-runtime-primitives" and
                     set(report.get("sanitizers", [])) ==
@@ -387,6 +393,38 @@ def verify_dos_optimizations(read):
                         for row in rows), "DOS target instruction counts are missing")
         result[name] = {"passed": True, "sha256": sha(raw), "sourceFilesVerified": len(report["sourceHashes"])}
     return result
+
+
+def verify_dos_startup(read):
+    prefix = SKETCH + "tools/native-apps/dos/"
+    raw = read("qa/dos-startup-tests.json")
+    report = json.loads(raw)
+    require(report.get("passed") is True, "DOS serialized startup regression failed")
+    scenarios = report.get("scenarios", [])
+    require(len(scenarios) == 4 and all(
+                type(case.get("french")) is bool and type(case.get("mouse_driver")) is bool
+                and case.get("passed") is True for case in scenarios),
+            "DOS startup language/driver results are missing or invalid")
+    require({(case["french"], case["mouse_driver"]) for case in scenarios} ==
+            {(False, False), (False, True), (True, False), (True, True)},
+            "DOS startup must cover all four French/US and driver-present/missing combinations")
+    for case in scenarios:
+        marker = (r"STARTUP PASS french=" + str(int(case["french"])) +
+                  r" driver=" + str(int(case["mouse_driver"])) +
+                  r" frames=([0-9]+): full BLASTER value, serial driver, C: launch and adjacent file")
+        match = re.fullmatch(marker, case.get("stdout", "").strip())
+        require(match is not None and 0 < int(match.group(1)) <= 6000,
+                "DOS startup guest completion marker is missing or disagrees with its scenario")
+    required = {prefix + name for name in (
+        "app.c", "startup.h", "core/ibmpc/keyboard.c", "tests/startup_host.c",
+        "tests/build_host.py", "tests/run_startup_tests.py")}
+    hashes = report.get("sourceHashes", {})
+    require(required <= set(hashes), "DOS serialized startup source manifest is incomplete")
+    for name, digest in hashes.items():
+        safe(name)
+        require(sha(read(name)) == digest, "DOS startup validation source differs: " + name)
+    return {"passed": True, "scenarios": len(scenarios), "reportSha256": sha(raw),
+            "sourceFilesVerified": len(hashes)}
 
 
 def verify_dos_peripherals(read):
@@ -502,6 +540,7 @@ def main():
         dos_execution_verification = verify_dos_execution(read)
         dos_optimization_verification = verify_dos_optimizations(read)
         dos_peripheral_verification = verify_dos_peripherals(read)
+        dos_startup_verification = verify_dos_startup(read)
         info = json.loads(read("BUILD_INFO.json"))
         require(info["validatedCommit"] == COMMIT and info["validatedTree"] == config["tree"],
                 "BUILD_INFO source identity differs")
@@ -673,6 +712,7 @@ def main():
             "dosExecutionVerification": dos_execution_verification,
             "dosOptimizationVerification": dos_optimization_verification,
             "dosPeripheralVerification": dos_peripheral_verification,
+            "dosStartupVerification": dos_startup_verification,
             "limitations": ["Archive and build consistency verified; no physical Tab5 test."],
         }
         args.output.parent.mkdir(parents=True, exist_ok=True)
