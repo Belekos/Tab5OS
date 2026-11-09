@@ -243,6 +243,8 @@ class Application(common.Startup):
                     self.ocr_cache.clear()
                 self.ocr_cache[self.last_frame_hash] = decode(frame)
             self.last_screen = self.ocr_cache[self.last_frame_hash]
+            if "Bad command or filename" in self.last_screen or "TAB5 MOUSE DRIVER MISSING" in self.last_screen:
+                self.stop("fixture-command-failed", self.last_screen)
             for marker in MARKERS:
                 if marker in self.last_screen:
                     self.marker_frames.setdefault(marker, self.frames)

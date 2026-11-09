@@ -29,6 +29,7 @@ static char performance[40];
 int dos_french_keyboard;
 uint8_t *vga_planes(void);
 bool dos_keyboard_typing(void);
+#include "startup.h"
 extern const uint8_t pc_font_bios8[1024];
 static void message(const char *s){snprintf(notice,sizeof(notice),"%s",s);ui_dirty=1;puts(s);}
 static void rect(int x,int y,int w,int h,uint16_t color){for(int yy=y;yy<y+h&&yy<H;yy++)for(int xx=x;xx<x+w&&xx<W;xx++)if(xx>=0&&yy>=0)pixels[yy*W+xx]=color;}
@@ -185,7 +186,7 @@ int tab5_app_main(int argc,char **argv){
  disks[0].readonly=false; /* C: remains read-only; only the floppy uses COW. */
  pixels=malloc(W*H*2);line=malloc(1024*2);
  if(canvas->canvas_begin(W|TAB5_CANVAS_MOUSE_EVENTS,H)){message("Update firmware and SD together for DOS mouse support.");return -1;}pc_reset();dos_audio_start();
- unsigned startup=0;uint32_t ready_frame=0,rendered=0;struct dos_frame_pacer pacing={0};
+ struct dos_startup startup={0};uint32_t rendered=0;struct dos_frame_pacer pacing={0};
  uint32_t stats_at=base->millis(),stats_frames=pc.frames,stats_presented=0,stats_cpu=0,stats_render=0,stats_audio=0;
  render();
  while(!quit&&!base->should_stop()){
@@ -193,18 +194,16 @@ int tab5_app_main(int argc,char **argv){
   int present=ui_dirty||start-rendered>=40;pc_video_capture_next(present);
   uint32_t cpu_at=base->millis();pc_run_frame();stats_cpu+=base->millis()-cpu_at;
   if(pc_halted()){message("The guest CPU halted. This program may require a 386 or newer PC.");quit=1;break;}
-  if(!startup&&screen_contains("TAB5OS DOS READY")){startup=1;ready_frame=pc.frames;message("FreeDOS ready. C: contains the selected SD folder.");}
-  if(startup==1&&pc.frames-ready_frame>10&&!dos_keyboard_typing()){
-   pc_type(mouse_driver?"b:\\ctmouse /s14 /r11\nset blaster=a220 i7 d1 t3\n":"set blaster=a220 i7 d1 t3\n");startup=2;
-  }
-  if(startup==2&&!dos_keyboard_typing()){ready_frame=pc.frames;startup=6;}
-  if(startup==6&&pc.frames-ready_frame>10){if(base->language&&base->language[0]=='f'){change_layout();startup=4;}else startup=3;}
+  if(!startup.step&&screen_contains("TAB5OS DOS READY")){dos_startup_begin(&startup);message("FreeDOS ready. C: contains the selected SD folder.");}
+  int startup_action=dos_startup_poll(&startup,mouse_driver,base->language&&base->language[0]=='f',layout_pending>=0,program);
+  if(startup_action==1)change_layout();
+  else if(startup_action==-1)message("Cannot select drive C:. Automatic launch stopped; the DOS prompt remains available.");
+  else if(startup_action==-2)message("DOS startup did not reach a command prompt. Continue manually at the DOS prompt.");
   if(layout_pending>=0&&!dos_keyboard_typing()){
    if(!layout_wait)layout_wait=pc.frames;
-   if(keyboard_vector()!=layout_vector&&pc.frames-layout_wait>5){dos_french_keyboard=layout_pending;layout_pending=-1;message(dos_french_keyboard?"French AZERTY keyboard enabled.":"US keyboard enabled.");if(startup==4)startup=3;}
-   else if(pc.frames-layout_wait>500){layout_pending=-1;message("Keyboard driver did not switch. Use the current layout at the DOS prompt.");if(startup==4)startup=3;}
+   if(keyboard_vector()!=layout_vector&&pc.frames-layout_wait>5){dos_french_keyboard=layout_pending;layout_pending=-1;message(dos_french_keyboard?"French AZERTY keyboard enabled.":"US keyboard enabled.");}
+   else if(pc.frames-layout_wait>500){layout_pending=-1;message("Keyboard driver did not switch. Use the current layout at the DOS prompt.");}
   }
-  if(startup==3&&!dos_keyboard_typing()){if(program[0]){char command[40];snprintf(command,sizeof(command),"c:\n%s\n",program);pc_type(command);}startup=7;}
   uint32_t audio_at=base->millis();if(dos_audio_pump()<0)message("Audio unavailable: adjust volume to retry.");stats_audio+=base->millis()-audio_at;
   uint32_t now=base->millis();if(present){stats_presented+=(uint32_t)render();stats_render+=base->millis()-now;rendered=now;}
   if(now-stats_at>=2000){uint32_t elapsed=now-stats_at,frames=pc.frames-stats_frames;unsigned hz=(unsigned)pc_screen_hz();

@@ -93,6 +93,7 @@ jobs:
           python3 "$DOS/tests/run_video_tests.py" --output "$BUILD/qa/dos-video-tests.json" 2>&1 | tee "$BUILD/qa/dos-video-tests.log"
           python3 "$DOS/tests/run_audio_tests.py" --output "$BUILD/qa/dos-audio-tests.json" 2>&1 | tee "$BUILD/qa/dos-audio-tests.log"
           python3 "$DOS/tests/run_mouse_tests.py" --output "$BUILD/qa/mouse-tests.json" 2>&1 | tee "$BUILD/qa/mouse-tests.log"
+          python3 "$DOS/tests/run_startup_tests.py" --output "$BUILD/qa/dos-startup-tests.json" 2>&1 | tee "$BUILD/qa/dos-startup-tests.log"
           "$BUILD/emulator-venv/bin/python" "$DOS/tests/measure_runtime_rv32.py" --toolchain "$TOOLCHAIN" --output "$BUILD/qa/dos-runtime-rv32.json" 2>&1 | tee "$BUILD/qa/dos-runtime-rv32.log"
           python3 "$DOS/tests/test_boot.py" --host "$BUILD/native/tab5-dos-host" --image "$SKETCH/sdcard/DOS/FREEDOS.IMG" --output "$BUILD/qa/dos-boot-report.json" 2>&1 | tee "$BUILD/qa/dos-boot-tests.log"
           python3 "$DOS/build.py" --toolchain "$TOOLCHAIN" -o "$BUILD/native/DOS.app.elf" 2>&1 | tee "$BUILD/qa/dos-build.log"
