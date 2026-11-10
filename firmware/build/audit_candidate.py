@@ -148,9 +148,9 @@ def verify_host_reports(read):
     require(set(abi.get("sanitizers", [])) == {"AddressSanitizer", "UndefinedBehaviorSanitizer"},
             "ABI CI sanitizers missing")
     tests = abi.get("tests", [])
-    require(len(tests) == 5 and {t.get("test") for t in tests} ==
+    require(len(tests) == 6 and {t.get("test") for t in tests} ==
             {"test_keyboard_directory", "test_broker", "test_native_keyboard",
-             "test_native_mouse", "test_mouse_capture"} and
+             "test_native_mouse", "test_mouse_capture", "test_native_runtime"} and
             all(t.get("result") == "passed" for t in tests),
             "ABI7 keyboard/directory/mouse/capture tests failed")
     abi_hashes = {name.replace("\\", "/"): digest for name, digest in abi.get("sourceHashes", {}).items()}
@@ -160,14 +160,62 @@ def verify_host_reports(read):
              "Tab5AppDirectory.h", "Tab5KeyboardState.h", "Tab5Mouse.cpp", "Tab5Mouse.h",
              "WriterMouse.h", "Tab5AppInputQueue.h", "tools/tests/abi7/test_broker.cpp",
              "tools/tests/abi7/test_keyboard_directory.cpp", "tools/tests/abi7/test_native_keyboard.cpp",
-             "tools/tests/abi7/test_native_mouse.cpp", "tools/tests/abi7/test_mouse_capture.cpp")}
+             "tools/tests/abi7/test_native_mouse.cpp", "tools/tests/abi7/test_mouse_capture.cpp",
+             "tools/tests/abi7/test_native_runtime.cpp")}
             <= set(abi_hashes), "ABI production/test source manifest is incomplete")
     for name, digest in abi_hashes.items():
         safe(name)
         require(sha(read(name)) == digest, "ABI test source differs: " + name)
     return {"languageChecks": language["checks"], "languagePacks": len(packs), "abi7Tests": len(tests),
             "languageReportSha256": sha(read("qa/language-tests.json")),
-            "abi7ReportSha256": sha(read("qa/abi7-tests.json"))}
+            "abi7ReportSha256": sha(read("qa/abi7-tests.json")),
+            "nativeIo": verify_native_io(read)}
+
+
+def verify_native_io(read):
+    result = {}
+    for name, required in (
+            ("abi7-lvgl-mouse-tests.json", {SKETCH + path for path in (
+                "Tab5Mouse.cpp", "Tab5Mouse.h", "WriterMouse.h",
+                "tools/tests/abi7/test_mouse_capture_lvgl.cpp",
+                "tools/tests/abi7/run_mouse_capture_lvgl.py")}),
+            ("audio-driver-tests.json", {SKETCH + path for path in (
+                "Tab5AudioDriver.cpp", "Tab5AudioDriver.h",
+                "tools/tests/audio-driver/test_audio_driver.cpp",
+                "tools/tests/audio-driver/run_tests.py")})):
+        raw = read("qa/" + name)
+        report = json.loads(raw)
+        require(report.get("passed") is True, "Native I/O regression failed: " + name)
+        require(required <= set(report.get("sourceHashes", {})),
+                "Native I/O source manifest incomplete: " + name)
+        for source, digest in report["sourceHashes"].items():
+            safe(source)
+            require(sha(read(source)) == digest, "Native I/O test source differs: " + source)
+        if name == "abi7-lvgl-mouse-tests.json":
+            require(report.get("component") == "native-mouse-lvgl" and
+                    report.get("lvglVersion") == "9.6.0", "Mouse test LVGL dependency differs")
+            tests = report.get("tests", [])
+            require(len(tests) == 4 and {case.get("test") for case in tests} ==
+                    {"touch", "mouse", "held-release", "disconnect"} and
+                    all(case.get("result") == "passed" for case in tests),
+                    "Real LVGL capture/release/disconnect coverage missing")
+            guards = report.get("regressionGuards", [])
+            require(len(guards) == 2 and {case.get("test") for case in guards} == {"touch", "mouse"}
+                    and all(case.get("result") == "detected" and case.get("exitCode") == 2 for case in guards),
+                    "Mouse regression tests did not detect synchronous input re-entry")
+            require(set(report.get("sanitizers", [])) == {"AddressSanitizer", "UndefinedBehaviorSanitizer"},
+                    "Real LVGL input sanitizer coverage missing")
+            hashes = report.get("lvglSourceHashes", {})
+            require(len(hashes) > 10 and all(re.fullmatch(r"[0-9a-f]{64}", h) for h in hashes.values()),
+                    "Real LVGL source fingerprints missing")
+        else:
+            require(report.get("component") == "Common PCM driver buffering and lifetime" and
+                    report.get("checks", 0) >= 45 and
+                    set(report.get("sanitizers", [])) == {"AddressSanitizer", "UndefinedBehaviorSanitizer"},
+                    "PCM buffering/lifetime sanitizer coverage missing")
+        result[name] = {"passed": True, "sha256": sha(raw),
+                        "sourceFilesVerified": len(report["sourceHashes"])}
+    return result
 
 
 def verify_dos_boot(read):
@@ -359,6 +407,8 @@ def verify_dos_optimizations(read):
                 "tests/run_video_tests.py")}),
             ("dos-runtime-tests.json", {runtime_source, prefix + "tests/test_runtime_primitives.c",
                                         prefix + "tests/run_runtime_tests.py"}),
+            ("dos-io-tests.json", {prefix + path for path in (
+                "core/ibmpc/pc.c", "tests/test_io_dispatch.c", "tests/run_io_tests.py")}),
             ("dos-runtime-rv32.json", {runtime_source, prefix + "core/ibmpc/pit.c",
                                       prefix + "tests/measure_runtime_rv32.py"})):
         raw = read("qa/" + name)
@@ -373,13 +423,19 @@ def verify_dos_optimizations(read):
             require(report.get("schema") == 1 and
                     all(report.get("checks", {}).get(key) is True for key in (
                         "same_pixels_across_six_bios_modes_and_blink", "downscale_matches_original",
-                        "synchronous_skips_vram_copy", "bounded_fractional_frame_pacing")),
+                        "synchronous_skips_vram_copy", "bounded_fractional_frame_pacing",
+                        "staticGraphicsStable", "textBlinkAndCursor", "rasterPaletteAndMode")),
                     "DOS presentation or bounded frame pacing verification failed")
         elif name == "dos-runtime-tests.json":
             require(report.get("component") == "dos-runtime-primitives" and
                     set(report.get("sanitizers", [])) ==
                     {"AddressSanitizer", "UndefinedBehaviorSanitizer", "LeakSanitizer"},
                     "DOS runtime memory/arithmetic sanitizer coverage missing")
+        elif name == "dos-io-tests.json":
+            require(report.get("checks", 0) >= 655368 and report.get("configurations") == 8 and
+                    report.get("aliasBits") == 6 and report.get("realControllerDecoders") is True and
+                    report.get("referenceDispatchEquivalent") is True,
+                    "DOS video-port dispatch equivalence checks missing")
         else:
             require(report.get("component") == "dos-runtime-rv32-instructions" and
                     report.get("baselineCommit") == PREVIOUS_COMMIT, "DOS runtime baseline differs")
@@ -457,6 +513,27 @@ def verify_dos_peripherals(read):
             and audio.get("audio_output_passed") is True
             and "OPL NATIVE EQUIVALENCE PASS" in audio.get("core_stdout", ""),
             "DOS sound core/output/equivalence regression failed")
+    timelines = audio.get("timeline_scenarios", [])
+    expected_timelines = {(speed, jitter, 0) for speed in (56, 79, 100) for jitter in (0, 1)}
+    expected_timelines |= {(56, 2, 0), (56, 1, 4294966795)}
+    require(len(timelines) == 8 and
+            {(case.get("speed"), case.get("jitter"), case.get("origin")) for case in timelines}
+            == expected_timelines and audio.get("output_checks", 0) >= 40000 and
+            audio.get("output_sanitizers") == "address,undefined",
+            "DOS audio slow-guest, jitter and clock-wrap coverage missing")
+    require(all(case.get("missing") == 0 and case.get("rebuffers") == 0
+                for case in timelines if case["jitter"] != 2),
+            "DOS audio queue starved in steady or moderate-jitter tests")
+    require(all(0 <= case.get("max_latency_ms", -1) < 400 and
+                0 <= case.get("startup_ms", -1) < 500 for case in timelines),
+            "DOS audio queue latency is unbounded")
+    stall = audio.get("long_stall", {})
+    require(stall.get("rebuffers") == 1 and 0 <= stall.get("recovery_ms", -1) < 500,
+            "DOS audio did not recover from a long producer stall")
+    progression = audio.get("pcm_progression", {})
+    require(progression.get("played", 0) > 22050 and progression.get("changed", 0) > 22050 and
+            progression.get("positive", 0) > 0 and progression.get("negative", 0) > 0,
+            "DOS audio tests did not preserve a changing PCM signal")
     require({"app_audio.h", "core/ibmpc/sound.c", "core/ibmpc/speaker.c", "core/ibmpc/pit.c",
              "core/emu8950/emu8950.c", "tests/audio_host.c", "tests/audio_output_host.c",
              "tests/run_audio_tests.py"} <= set(audio.get("source_sha256", {})),

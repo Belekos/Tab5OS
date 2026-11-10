@@ -62,6 +62,8 @@ without desktop screen-edge limits. Tap that same button on the touchscreen
 to release capture; the touchscreen remains available throughout. Leaving DOS
 or disconnecting the mouse also releases capture. No guest keyboard shortcut
 is intercepted. Without capture, the mouse controls DOS while over its canvas.
+Capture changes take effect after the current input event has returned. This
+avoids reading LVGL's mouse input recursively from the capture button's click.
 
 The area below the DOS toolbar acts as a touchpad: slide a finger to move the
 cursor, tap for a left click, hold still for half a second for a right click,
@@ -89,6 +91,13 @@ Use **Vol-** and **Vol+** in the top bar to adjust the application volume from
 previous level. This gain is also subject to the OS's master volume. The guest's
 sound hardware continues advancing while muted. A busy or failed host audio
 output is reported; adjusting volume retries output without restarting DOS.
+
+Output stays at 22,050 Hz. A bounded sample queue and interpolation adapt the
+playback to the measured guest speed, instead of repeatedly exhausting the
+output queue when DOS runs slowly. This introduces buffering latency; pitch
+and tempo follow the slower guest. It does not make a game running at PC 56%
+run at full speed. A long loading pause can still interrupt sound, after which
+the queue is refilled. Guest sound timers and DMA continue while muted.
 
 ## Files and saved changes
 
@@ -126,9 +135,12 @@ CPU is fully occupied. A stationary DOS prompt naturally has a low image rate.
 These indicators make a physical game test more useful than an image count
 alone. The console also records guest CPU, video and audio processing time.
 
-The previous build was reported at 1–2 fps in Monkey Island on a physical Tab5.
-The new tests verify output equivalence and reduced work; they do not establish
-a new hardware frame rate or guarantee that every game is playable.
+The preceding candidate was reported at PC 56% in Monkey Island, with 5-6
+screen submissions per second and stuttering sound. This update removes a
+text-blink dependency that unnecessarily resubmitted static graphics. A lower
+fps reading on an unchanged picture is therefore expected. The new tests
+verify output equivalence and reduced work; they do not establish a new
+hardware frame rate or guarantee that every game is playable.
 
 Use 16-bit DOS COM and MZ EXE programs. Windows PE/NE/LE/LX executables are
 rejected. 386 instructions, DOS/4GW and other 386/DPMI extenders, Windows and

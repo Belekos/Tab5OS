@@ -331,6 +331,39 @@ static uint32_t copy_and_hash(uint8_t *dst, const uint8_t *src, uint32_t n, uint
     return h;
 }
 
+/* Only text rendering depends on these frame bits. Including them in a
+ * graphics signature forced a full canvas upload every eight guest frames,
+ * even when VRAM, palettes and all displayed pixels were unchanged. A frame
+ * may contain raster changes, so retain every text phase used anywhere in it.
+ */
+static uint32_t text_phase_mask(const picture_t *p)
+{
+    uint32_t mask = 0;
+    if (p->type == PC_EGA || p->type == PC_VGA) {
+        if (p->vga.gc[6] & 1) return 0;
+        if (!(p->vga.crtc[0x0A] & 0x20)) mask |= 8;
+        if (p->vga.attr[0x10] & 8) mask |= 16;
+        for (int i = 0; i < p->changes; ++i) {
+            const change_t *c = &p->change[i];
+            if (c->reg == 0x80 && c->index == 0x10 && (c->value & 8)) mask |= 16;
+        }
+        return mask;
+    }
+    uint8_t mode = p->regs.mode;
+    for (int i = -1; i < p->changes; ++i) {
+        if (i >= 0) {
+            if (p->change[i].reg != 0) continue;
+            mode = p->change[i].value;
+        }
+        bool graphics = (mode & 2) && (p->type != PC_HERCULES || (p->regs.config & 1));
+        if (!graphics) {
+            if (((p->regs.crtc[10] >> 5) & 3) != 1) mask |= 8;
+            if (mode & 0x20) mask |= 16;
+        }
+    }
+    return mask;
+}
+
 void pc_copy_picture(void)
 {
     uint32_t st = __atomic_load_n(&s_state, __ATOMIC_ACQUIRE);
@@ -362,8 +395,8 @@ void pc_copy_picture(void)
         }
         h = (h ^ (uint32_t)p->width) * 0x01000193u;
         h = (h ^ (uint32_t)p->height) * 0x01000193u;
-        /* blinking: the cursor every 8 frames, characters every 16 (text) */
-        h = (h ^ ((p->frame >> 3) & 3)) * 0x01000193u;
+        /* Cursor every 8 frames, characters every 16, only where enabled. */
+        h = (h ^ ((p->frame & text_phase_mask(p)) >> 3)) * 0x01000193u;
         p->signature = h;
     } else {
         p->valid = false;

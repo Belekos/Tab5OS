@@ -204,7 +204,7 @@ int tab5_app_main(int argc,char **argv){
    if(keyboard_vector()!=layout_vector&&pc.frames-layout_wait>5){dos_french_keyboard=layout_pending;layout_pending=-1;message(dos_french_keyboard?"French AZERTY keyboard enabled.":"US keyboard enabled.");}
    else if(pc.frames-layout_wait>500){layout_pending=-1;message("Keyboard driver did not switch. Use the current layout at the DOS prompt.");}
   }
-  uint32_t audio_at=base->millis();if(dos_audio_pump()<0)message("Audio unavailable: adjust volume to retry.");stats_audio+=base->millis()-audio_at;
+  uint32_t audio_at=base->millis();if(dos_audio_pump(audio_at)<0)message("Audio unavailable: adjust volume to retry.");stats_audio+=base->millis()-audio_at;
   uint32_t now=base->millis();if(present){stats_presented+=(uint32_t)render();stats_render+=base->millis()-now;rendered=now;}
   if(now-stats_at>=2000){uint32_t elapsed=now-stats_at,frames=pc.frames-stats_frames;unsigned hz=(unsigned)pc_screen_hz();
    unsigned speed=hz?(unsigned)((uint64_t)frames*100000u/((uint64_t)elapsed*hz)):0,fps=stats_presented*1000u/elapsed;

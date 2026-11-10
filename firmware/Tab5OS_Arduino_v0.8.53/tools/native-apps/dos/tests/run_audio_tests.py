@@ -30,6 +30,8 @@ with tempfile.TemporaryDirectory(prefix='tab5-audio-tests-') as temporary:
     output=work/('audio_output.exe' if os.name=='nt' else 'audio_output')
     run([sys.executable,str(r/'tests/build_host.py'),*(['--msvc'] if msvc else ['--cc',a.cc]),'--main',str(r/'tests/audio_host.c'),'-o',str(core)],work)
     flags=['/nologo','/std:c11','/O2','/DPC_AUDIO_HZ=22050'] if msvc else ['-std=c11','-O2','-DPC_AUDIO_HZ=22050']
+    if not msvc:
+        flags += ['-fsanitize=address,undefined','-fno-sanitize-recover=undefined','-fno-omit-frame-pointer']
     for component in ('ibmpc','x86'):
         flags += [('/I' if msvc else '-I')+str(r/'core'/component)]
     run([a.cc,*flags,str(r/'tests/audio_output_host.c'),*(['/Fe:'+str(output)] if msvc else ['-o',str(output)])],work)
@@ -38,12 +40,30 @@ with tempfile.TemporaryDirectory(prefix='tab5-audio-tests-') as temporary:
     match=re.search(r'AUDIO PASS checks=(\d+) opl_hash=([0-9a-f]+) synth_ms_per_second=([0-9.]+)',core_log)
     if not match or 'AUDIO OUTPUT PASS:' not in output_log:
         raise SystemExit('Audio test did not produce its success marker')
+    output_match=re.search(r'AUDIO OUTPUT PASS: checks=(\d+)',output_log)
+    timelines=[]
+    for line in output_log.splitlines():
+        if line.startswith('TIMELINE '):
+            timelines.append({key:int(value) for key,value in re.findall(r'(\w+)=(\d+)',line)})
+    transitions=re.search(r'TRANSITIONS missing=(\d+) gaps=(\d+) rebuffers=(\d+)',output_log)
+    stall=re.search(r'STALL recovery_ms=(\d+) missing=(\d+) rebuffers=(\d+)',output_log)
+    progression=re.search(r'PROGRESSION played=(\d+) changed=(\d+) positive=(\d+) negative=(\d+)',output_log)
+    if not output_match or len(timelines)!=8 or not transitions or not stall or not progression:
+        raise SystemExit('Audio timing test did not produce all scenario results')
     paths=['build.py','app_audio.h','core/ibmpc/pc.h','core/ibmpc/speaker.c','core/ibmpc/pit.c','core/ibmpc/sound.c',
            'core/emu8950/emu8950.c','core/emu8950/emu8950.h','core/emu8950/emuadpcm.c','tests/build_host.py',
            'tests/audio_host.c','tests/audio_output_host.c','tests/run_audio_tests.py']
     report={'passed':True,'sample_rate':22050,'core_checks':int(match[1]),'opl_pcm_hash':match[2],
             'host_synth_ms_per_emulated_second':float(match[3]),'benchmark_scope':'host only, 9 OPL2 voices; not Tab5 FPS',
             'audio_output_passed':True,'core_stdout':core_log,'audio_output_stdout':output_log,
+            'output_checks':int(output_match[1]),
+            'output_sanitizers':'address,undefined' if not msvc else 'unavailable on this host compiler',
+            'timeline_model':'two 1024-frame I2S blocks, one partial driver block; full queues block the producer',
+            'latency_scope':'max_latency_ms estimates FIFO/rate plus queued and partial output blocks after settling; excludes hardware DMA and is not measured Tab5 latency',
+            'timeline_scenarios':timelines,
+            'speed_transitions':dict(zip(('missing','gaps','rebuffers'),map(int,transitions.groups()))),
+            'long_stall':dict(zip(('recovery_ms','missing','rebuffers'),map(int,stall.groups()))),
+            'pcm_progression':dict(zip(('played','changed','positive','negative'),map(int,progression.groups()))),
             'source_sha256':{name:hashlib.sha256((r/name).read_bytes()).hexdigest() for name in paths}}
     if a.output:
         a.output.parent.mkdir(parents=True,exist_ok=True)

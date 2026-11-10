@@ -88,7 +88,7 @@ int appStop(){return !cooperate()||cancelled.load(std::memory_order_acquire)||pa
 int appSleep(uint32_t milliseconds){
  if(!worker())return 1;
  const uint32_t begin=millis();
- do {if(cancelled.load()||panelClosing())return 1;vTaskDelay(1);}while(uint32_t(millis()-begin)<milliseconds);
+ do {if(cancelled.load()||panelClosing())return 1;vTaskDelay(1);context->lastCooperation=millis();}while(uint32_t(millis()-begin)<milliseconds);
  return cancelled.load()||panelClosing()?1:0;
 }
 void* appAllocate(size_t bytes){
@@ -146,7 +146,10 @@ int appAudio(const int16_t* samples,size_t frames,uint32_t rate){
  if(!cooperate()||cancelled.load()||!samples||frames>2048||rate<8000||rate>48000)return -1;
  if(!context->audio){if(!Tab5AudioDevice.claim(Tab5AudioClient::Native,0))return -1;context->audio=true;}
  Tab5PcmSpec spec;spec.sampleRate=rate;spec.channels=2;spec.format=Tab5PcmFormat::S16;
- return Tab5AudioDevice.writePcm(Tab5AudioClient::Native,samples,frames,spec)?0:-1;
+ if(Tab5AudioDevice.writePcm(Tab5AudioClient::Native,samples,frames,spec))return 0;
+ // Failed output stays latched until the owning worker releases its lease.
+ if(Tab5AudioDevice.release(Tab5AudioClient::Native))context->audio=false;
+ return -1;
 }
 int appSave(const char* path,const void* data,size_t bytes){
  if(!worker()||!validPath(path)||!data||!bytes||bytes>(context->abi>=4?2u*1024u*1024u:512u*1024u))return -1;

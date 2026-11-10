@@ -261,7 +261,9 @@ bool Tab5AudioDriver::writePcm(Tab5AudioClient client, const void* data,
       if (_owner != client || _suspended || _outputFailed) return false;
     }
   }
-  return true;
+  // Publish an exact final block now, rather than waiting for the next call
+  // to append one more sample. Partial blocks still accumulate normally.
+  return _bufferIndex != BUFFER_SAMPLES || pushCurrentBlock();
 }
 
 void Tab5AudioDriver::stop(Tab5AudioClient client) {

@@ -66,6 +66,11 @@ static uint8_t io_in(void *ctx, uint16_t port)
     (void)ctx;
     uint8_t v;
     port &= 0x3FF;                  /* the ISA bus decodes 10 address bits */
+    /* VGA/EGA/CGA register and retrace polling never belongs to another
+     * device. Keep the monochrome 3Bxh block on the general dispatch path. */
+    if (port >= 0x3C0 && port <= 0x3DF) {
+        return video_in(port, &v) ? v : 0xFF;
+    }
     if (port < 0x100) {
         /* The motherboards decode 32-port blocks */
         bool at = pc.cfg.board == PC_AT;
@@ -111,6 +116,10 @@ static void io_out(void *ctx, uint16_t port, uint8_t v)
 {
     (void)ctx;
     port &= 0x3FF;
+    if (port >= 0x3C0 && port <= 0x3DF) {
+        video_out(port, v);
+        return;
+    }
     if (port < 0x100) {
         bool at = pc.cfg.board == PC_AT;
         switch (port & 0xE0) {

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compile the keyboard/scope helpers and actual directory broker callbacks."""
+"""Compile native ABI helpers and the actual input, storage and runtime callbacks."""
 import argparse
 import hashlib
 import json
@@ -36,6 +36,8 @@ results = []
 with tempfile.TemporaryDirectory(prefix='tab5-abi7-') as temp:
     work = Path(temp)
     (work / 'broker_callbacks.inc').write_text(''.join(map(extract, signatures)), encoding='utf-8')
+    (work / 'native_runtime.inc').write_text(''.join(map(extract,
+        ['bool cooperate(', 'int appSleep(', 'uint32_t appMillis(', 'int appAudio('])), encoding='utf-8')
     native = (FIRMWARE / 'Tab5NativeView.cpp').read_bytes().replace(b'\r', b'').decode('utf-8')
     usb = (FIRMWARE / 'WriterUsb.cpp').read_bytes().replace(b'\r', b'').decode('utf-8')
     (work / 'native_keyboard.inc').write_text(''.join(extract(s, native) for s in
@@ -46,7 +48,7 @@ with tempfile.TemporaryDirectory(prefix='tab5-abi7-') as temp:
     (work / 'mouse_service.inc').write_text('\n'.join(line for line in mouse_source.splitlines()
         if not line.startswith('#include')), encoding='utf8')
     (work / 'usb_snapshot.inc').write_text(extract('bool usbKeyboardState(', usb), encoding='utf-8')
-    for name in ['test_keyboard_directory', 'test_broker', 'test_native_keyboard', 'test_native_mouse', 'test_mouse_capture']:
+    for name in ['test_keyboard_directory', 'test_broker', 'test_native_keyboard', 'test_native_mouse', 'test_mouse_capture', 'test_native_runtime']:
         executable = work / (name + ('.exe' if os.name == 'nt' else ''))
         if msvc:
             command = [compiler, '/nologo', '/std:c++17', '/EHsc', '/W4', '/WX',
@@ -68,6 +70,7 @@ report = {'component': 'native-abi7', 'passed': True, 'compiler': compiler, 'tes
           'sanitizers': [] if msvc else ['AddressSanitizer', 'UndefinedBehaviorSanitizer'],
           'sourceHashes': {p.relative_to(REPOSITORY).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in sources},
           'limitations': ['Host tests compile production callbacks with File/storage and LVGL event doubles. A host mutex replaces the USB portMUX critical section.',
+                          'Runtime callback tests use a deterministic clock/scheduler and a stateful audio failure/ownership double.',
                           'These tests do not exercise physical USB/SD devices, ESP32 scheduling, actual LVGL screen transitions or ELF loading.']}
 if args.output:
     args.output.parent.mkdir(parents=True, exist_ok=True)

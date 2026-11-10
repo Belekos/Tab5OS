@@ -15,6 +15,8 @@ void pointerEvents(bool (*callback)(int x,int y,uint8_t buttons,int wheel));
 void relativeEvents(bool (*callback)(int x,int y,int dx,int dy,uint8_t buttons,int wheel));
 // UI task only. Capture hides the OS cursor and anchors its absolute position;
 // physical deltas still reach relativeEvents without screen-edge limits.
+// Logical state changes immediately; LVGL refresh waits for the next service()
+// outside input callbacks, so toolbar touch/mouse clicks remain safe.
 void capture(bool enabled,int anchorX=0,int anchorY=0);
 bool captured();
 // Identifies mouse-generated LVGL events without conflating touch or keyboard.

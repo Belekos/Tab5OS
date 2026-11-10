@@ -44,6 +44,14 @@ jobs:
           set -euo pipefail
           BUILD="$RUNNER_TEMP/tab5os-build"
           python3 firmware/Tab5OS_Arduino_v0.8.53/tools/tests/abi7/run_tests.py --output "$BUILD/qa/abi7-tests.json" 2>&1 | tee "$BUILD/qa/abi7-tests.log"
+      - name: Validate mouse capture against LVGL and PCM buffer ownership
+        shell: bash
+        run: |
+          set -euo pipefail
+          BUILD="$RUNNER_TEMP/tab5os-build"
+          SKETCH="$GITHUB_WORKSPACE/firmware/Tab5OS_Arduino_v0.8.53"
+          python3 "$SKETCH/tools/tests/abi7/run_mouse_capture_lvgl.py" --lvgl "$BUILD/sketchbook/libraries/lvgl" --output "$BUILD/qa/abi7-lvgl-mouse-tests.json" 2>&1 | tee "$BUILD/qa/abi7-lvgl-mouse-tests.log"
+          python3 "$SKETCH/tools/tests/audio-driver/run_tests.py" --output "$BUILD/qa/audio-driver-tests.json" 2>&1 | tee "$BUILD/qa/audio-driver-tests.log"
       - name: Validate the drawing core and relief lighting
         shell: bash
         run: |
@@ -91,6 +99,7 @@ jobs:
           cp "$BUILD/qa/dos-overlay/dos-overlay-tests.json" "$BUILD/qa/dos-overlay-tests.json"
           python3 "$DOS/tests/run_runtime_tests.py" --output "$BUILD/qa/dos-runtime-tests.json" 2>&1 | tee "$BUILD/qa/dos-runtime-tests.log"
           python3 "$DOS/tests/run_video_tests.py" --output "$BUILD/qa/dos-video-tests.json" 2>&1 | tee "$BUILD/qa/dos-video-tests.log"
+          python3 "$DOS/tests/run_io_tests.py" --output "$BUILD/qa/dos-io-tests.json" 2>&1 | tee "$BUILD/qa/dos-io-tests.log"
           python3 "$DOS/tests/run_audio_tests.py" --output "$BUILD/qa/dos-audio-tests.json" 2>&1 | tee "$BUILD/qa/dos-audio-tests.log"
           python3 "$DOS/tests/run_mouse_tests.py" --output "$BUILD/qa/mouse-tests.json" 2>&1 | tee "$BUILD/qa/mouse-tests.log"
           python3 "$DOS/tests/run_startup_tests.py" --output "$BUILD/qa/dos-startup-tests.json" 2>&1 | tee "$BUILD/qa/dos-startup-tests.log"

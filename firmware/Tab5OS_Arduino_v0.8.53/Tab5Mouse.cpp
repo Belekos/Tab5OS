@@ -10,7 +10,16 @@ const lv_point_precise_t points[]={{0,0},{0,19},{5,14},{9,21},{12,19},{8,12},{15
 void (*contextMenuHook)(lv_obj_t*,int,int)=nullptr;
 bool (*pointerEventsHook)(int,int,uint8_t,int)=nullptr;
 bool (*relativeEventsHook)(int,int,int,int,uint8_t,int)=nullptr;
-bool captureActive=false,captureSuppressButtons=false;int captureX=0,captureY=0,returnX=0,returnY=0;
+bool captureActive=false,captureSuppressButtons=false,captureRefreshPending=false;int captureX=0,captureY=0,returnX=0,returnY=0;
+void refreshCapture(){
+ if(!captureRefreshPending)return;captureRefreshPending=false;
+ // Capture can change inside a touch/mouse CLICKED callback. Reset and read
+ // only after that input dispatch has returned: nested reads corrupt LVGL's
+ // active input context and can deliver the same mouse release recursively.
+ // Reset also cancels a held/dragged OS target without synthesizing a click.
+ lv_indev_reset(input,nullptr);lv_indev_read(input);
+ if(cursor){if(captureActive||!showing)lv_obj_add_flag(cursor,LV_OBJ_FLAG_HIDDEN);else lv_obj_remove_flag(cursor,LV_OBJ_FLAG_HIDDEN);}
+}
 lv_obj_t* hover(lv_obj_t* object,const lv_point_t& point,unsigned depth=0){
  if(depth>24||lv_obj_has_flag(object,LV_OBJ_FLAG_HIDDEN))return nullptr;
  lv_area_t area;lv_obj_get_coords(object,&area);if(point.x<area.x1||point.x>area.x2||point.y<area.y1||point.y>area.y2)return nullptr;
@@ -30,8 +39,7 @@ void capture(bool enabled,int anchorX,int anchorY){
  if(enabled){returnX=x;returnY=y;captureX=anchorX;captureY=anchorY;}
  if(!enabled&&buttons)captureSuppressButtons=true;
  captureActive=enabled;x=enabled?captureX:returnX;y=enabled?captureY:returnY;fractionX=fractionY=0;
- if(input)lv_indev_read(input);
- if(cursor){if(enabled||!writing::usbMouseConnected())lv_obj_add_flag(cursor,LV_OBJ_FLAG_HIDDEN);else lv_obj_remove_flag(cursor,LV_OBJ_FLAG_HIDDEN);}
+ captureRefreshPending=true;
 }
 void begin(lv_display_t* display){
  input=lv_indev_create();if(!input)return;lv_indev_set_type(input,LV_INDEV_TYPE_POINTER);lv_indev_set_display(input,display);lv_indev_set_mode(input,LV_INDEV_MODE_EVENT);
@@ -39,21 +47,22 @@ void begin(lv_display_t* display){
 }
 bool isInput(const lv_indev_t* device){return device&&device==input;}
 bool service(){
- if(!input)return false;bool connected=writing::usbMouseConnected();
+ if(!input||lv_indev_active())return false;bool connected=writing::usbMouseConnected();
  const bool notifyDisconnect=!connected&&(showing||buttons);
  if(connected&&!cursor){cursor=lv_line_create(lv_layer_sys());lv_line_set_points(cursor,points,8);lv_obj_set_style_line_width(cursor,5,0);lv_obj_set_style_line_color(cursor,lv_color_hex(outlineColor),0);cursorInside=lv_line_create(cursor);lv_line_set_points(cursorInside,points,8);lv_obj_set_style_line_width(cursorInside,2,0);lv_obj_set_style_line_color(cursorInside,lv_color_hex(pointerColor),0);lv_obj_remove_flag(cursorInside,LV_OBJ_FLAG_CLICKABLE);lv_obj_remove_flag(cursor,LV_OBJ_FLAG_CLICKABLE);lv_indev_set_cursor(input,cursor);}
- if(cursor&&connected!=showing){if(connected&&!captureActive)lv_obj_remove_flag(cursor,LV_OBJ_FLAG_HIDDEN);else{if(!connected)buttons=0;lv_indev_read(input);lv_obj_add_flag(cursor,LV_OBJ_FLAG_HIDDEN);}showing=connected;}
+ if(connected!=showing){showing=connected;captureRefreshPending=true;}
  if(!connected){
   capture(false);
   // Old queue entries can outlive USB disconnection, including a held button
   // when the final release could not be queued. Never replay them into LVGL
   // or open a context menu after the device has gone away.
-  if(buttons){buttons=0;lv_indev_read(input);}fractionX=fractionY=0;captureSuppressButtons=false;
+  buttons=0;fractionX=fractionY=0;captureSuppressButtons=false;refreshCapture();
   if(notifyDisconnect){Tab5UiStyle::pointerLeave();if(relativeEventsHook)relativeEventsHook(x,y,0,0,0,0);if(pointerEventsHook)pointerEventsHook(x,y,0,0);}
   writing::MouseReport stale;
   for(unsigned count=0;count<32&&writing::usbMousePoll(stale);++count){}
   return false;
  }
+ refreshCapture();
  bool activity=false,hoverPending=false;writing::MouseReport report;
  auto flushHover=[&](){if(!hoverPending)return;Tab5Focus.pointerMode();lv_indev_read(input);
   Tab5UiStyle::pointer(input,x,y,0);

@@ -237,7 +237,8 @@ def verify_core(z, repo):
 
 def verify_new_reports(z, repo):
     reports = {}
-    for name in ("language-tests.json", "abi7-tests.json"):
+    for name in ("language-tests.json", "abi7-tests.json", "abi7-lvgl-mouse-tests.json",
+                 "audio-driver-tests.json"):
         raw = z.read("qa/" + name)
         report = json.loads(raw)
         require(report.get("passed") is True, "Feature validation failed: " + name)
@@ -259,7 +260,7 @@ def verify_new_reports(z, repo):
             and int.from_bytes(dos[16:18], "little") == 3, "Wrong DOS ELF target/type")
     for name in ("dos-folder-tests.json", "dos-overlay-tests.json", "dos-video-tests.json",
                  "dos-runtime-tests.json", "dos-runtime-rv32.json", "mouse-tests.json",
-                 "dos-app-report.json"):
+                 "dos-io-tests.json", "dos-app-report.json"):
         raw = z.read("qa/" + name)
         report = json.loads(raw)
         require(report.get("passed") is True, "DOS feature validation failed: " + name)
@@ -290,6 +291,10 @@ def verify_new_reports(z, repo):
             require(report.get("component") == "dos-runtime-rv32-instructions" and
                     report.get("baselineCommit") == PREVIOUS_COMMIT and report.get("rows"),
                     "DOS target runtime comparison is missing or uses another baseline")
+        elif name == "dos-io-tests.json":
+            require(report.get("referenceDispatchEquivalent") is True and
+                    report.get("checks", 0) >= 655368 and report.get("aliasCount") == 64,
+                    "DOS video-port dispatch equivalence coverage missing")
         elif name == "mouse-tests.json":
             tests = report.get("tests", [])
             require(len(tests) == 2 and all(case.get("passed") is True for case in tests),
