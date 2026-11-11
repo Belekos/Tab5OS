@@ -2,7 +2,7 @@
 
 The unmodified CWSDSTUB opens its default swap file before installing its own
 critical-error handler. This parent installs INT 24h/Fail before DOS EXEC,
-restores the previous handler afterward, and verifies the child's exit code.
+restores the previous handler afterward, and verifies normal exit with code zero.
 """
 import struct
 
@@ -47,15 +47,16 @@ def create_wrapper():
     emit("ba"); address("program_name")
     emit("b8 00 4b cd 21")
     jump("0f 82", "exec_fail")
-    emit("b4 4d cd 21 a2"); address("exit_status")
+    # AH is the termination type; AL is the return code. Require both zero.
+    emit("b4 4d cd 21 a3"); address("exit_status")
     jump("e9", "restore")
     label("exec_fail")
-    emit("c6 06"); address("exit_status"); emit("7f")
+    emit("c7 06"); address("exit_status"); emit("7f 00")
     label("restore")
     emit("8b 16"); address("old_vector")
     emit("a1"); address("old_vector", 2)
     emit("8e d8 b8 24 25 cd 21 0e 1f")
-    emit("80 3e"); address("exit_status"); emit("00")
+    emit("83 3e"); address("exit_status"); emit("00")
     jump("0f 85", "child_fail")
     output("success")
     emit("b8 00 4c cd 21")
@@ -66,7 +67,7 @@ def create_wrapper():
     label("int24")
     emit("b0 03 cf")
     label("old_vector"); emit("00 00 00 00")
-    label("exit_status"); emit("00")
+    label("exit_status"); emit("00 00")
     label("parameters")
     emit("00 00"); address("command_tail"); emit("00 00 5c 00 00 00 6c 00 00 00")
     label("command_tail"); emit("00 0d")
