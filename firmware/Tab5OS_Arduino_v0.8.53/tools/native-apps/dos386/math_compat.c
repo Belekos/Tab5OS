@@ -94,7 +94,9 @@ float nearbyintf(float x) { return dos_round_even_float(x); }
 double rint(double x) { return dos_round_even(x); }
 float rintf(float x) { return dos_round_even_float(x); }
 
-double log2(double x)
+/* Newlib may expose log2(x) as a macro; parentheses keep this definition a
+ * real function while preserving the host probe's object-like renaming. */
+double (log2)(double x)
 {
     union dos_double_bits a = {.value=x};
     const double inv_ln2 = 1.44269504088896340736;
