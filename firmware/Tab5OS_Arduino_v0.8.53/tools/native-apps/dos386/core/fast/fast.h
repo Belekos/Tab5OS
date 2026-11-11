@@ -349,10 +349,7 @@ static noinline bool fast_window(CPUI386 *cpu, uword eip, struct fast_win *w)
 #pragma push_macro("THROW0")
 #undef THROW0
 #define THROW0(ex) do { cpu->excno = (ex); goto fault; } while (0)
-/* The host sanitizer probe follows its -O1 command line: forcing -O3 on this
- * large, instrumented dispatcher makes GCC optimization excessively costly.
- * Production builds do not define FAST_HOST_SANITIZE and retain -O3. */
-#if defined(__GNUC__) && !defined(__clang__) && !defined(FAST_HOST_SANITIZE)
+#if defined(__GNUC__) && !defined(__clang__)
 __attribute__((optimize("O3", "reorder-blocks-algorithm=simple")))
 #endif
 static bool fast_exec(CPUI386 *cpu, int stepcount)

@@ -16,23 +16,22 @@ def main():
  results=[]
  for mode in (['interpreter'] if msvc else ['interpreter','fast','predecoded']):
   defs=FEATURES+([] if mode=='interpreter' else ['USE_FAST'])+(['FAST_PD','FAST_PD_SIZE=262144'] if mode=='predecoded' else [])
-  if a.sanitize:defs+=['FAST_HOST_SANITIZE']
   exe=a.output/(mode+('.exe' if msvc else ''))
   if msvc:
    compat=a.output/'compat';compat.mkdir(exist_ok=True);(compat/'unistd.h').write_text('/* Host test requires no POSIX IO. */\n')
    cmd=[a.cc,'/nologo','/O2','/std:c11','/Zc:preprocessor','/wd4244','/wd4267','/I'+str(CORE),'/I'+str(compat),'/FI'+str(HERE/'cpu_host_compat.h'),*['/D'+d for d in defs],str(HERE/'cpu_safety.c'),str(CORE/'fpu.c'),'/Fe:'+str(exe)]
   else:
-   cmd=[a.cc,'-std=gnu11','-O1' if a.sanitize else '-O2','-g','-D_GNU_SOURCE','-DI386_ALIGNED_ONLY','-I',str(CORE),*['-D'+d for d in defs],str(HERE/'cpu_safety.c'),str(CORE/'fpu.c'),'-lm','-o',str(exe)]
+   cmd=[a.cc,'-std=gnu11','-O2','-g','-D_GNU_SOURCE','-DI386_ALIGNED_ONLY','-I',str(CORE),*['-D'+d for d in defs],str(HERE/'cpu_safety.c'),str(CORE/'fpu.c'),'-lm','-o',str(exe)]
    if a.sanitize:cmd[1:1]=['-fsanitize=address,undefined','-fno-omit-frame-pointer','-fno-sanitize-recover=all']
-  config='host ASan/UBSan -O1 (including fast_exec; production RV32 remains -O3)' if a.sanitize else 'normal host optimization'
+  config='host ASan/UBSan -O2 (GCC fast_exec: -O3, simple block ordering)' if a.sanitize else 'normal host optimization'
   print('Building '+mode+': '+config,flush=True)
   build_log=a.output/(mode+'-build.log');started=time.monotonic()
   try:
-   build=subprocess.run(cmd,cwd=a.output,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,timeout=600)
+   build=subprocess.run(cmd,cwd=a.output,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,timeout=900)
   except subprocess.TimeoutExpired as exc:
    output=exc.stdout or ''
    if isinstance(output,bytes):output=output.decode(errors='replace')
-   build_log.write_text(output+'\nBuild timed out after 600 seconds.\n')
+   build_log.write_text(output+'\nBuild timed out after 900 seconds.\n')
    raise SystemExit('Build timed out: '+str(build_log))
   build_log.write_text(build.stdout)
   if build.returncode:raise SystemExit('Build failed: '+str(build_log))
