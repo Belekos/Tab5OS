@@ -1,0 +1,78 @@
+name: Validate DOS x86 application
+on:
+  push:
+    branches: [validation/dos-x86-20261111]
+permissions:
+  contents: read
+concurrency:
+  group: tab5os-dos-x86-validation
+  cancel-in-progress: true
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - name: Check out the validation commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Prepare pinned RISC-V compiler
+        shell: bash
+        run: |
+          set -euo pipefail
+          BUILD="$RUNNER_TEMP/dos-x86"
+          mkdir -p "$BUILD/qa" "$BUILD/native"
+          git rev-parse HEAD > "$BUILD/qa/validated-commit.txt"
+          curl --fail --location --retry 3 https://github.com/espressif/crosstool-NG/releases/download/esp-14.2.0_20260121/riscv32-esp-elf-14.2.0_20260121-x86_64-linux-gnu.tar.gz --output "$BUILD/compiler.tar.gz"
+          printf '%s  %s\n' 1b79617f43cf0e25b92646359d1623d8bef135050aca44586df59b6a64496d82 "$BUILD/compiler.tar.gz" | sha256sum --check
+          tar --no-same-owner -xzf "$BUILD/compiler.tar.gz" -C "$BUILD"
+          python3 -m venv "$BUILD/venv"
+          "$BUILD/venv/bin/python" -m pip install --disable-pip-version-check unicorn==2.1.4
+      - name: Validate CPU, memory boundaries, devices and frontend
+        shell: bash
+        run: |
+          set -euo pipefail
+          BUILD="$RUNNER_TEMP/dos-x86"
+          DOS="$GITHUB_WORKSPACE/firmware/Tab5OS_Arduino_v0.8.53/tools/native-apps/dos386"
+          python3 "$DOS/tests/run_cpu_tests.py" --output "$BUILD/qa/cpu" --sanitize
+          python3 "$DOS/tests/run_devices.py" --output "$BUILD/qa/devices" --sanitize
+          python3 "$DOS/tests/run_frontend_tests.py" --output "$BUILD/qa/frontend"
+      - name: Rebuild BIOS and VGA ROM from pinned source
+        shell: bash
+        run: |
+          set -euo pipefail
+          BUILD="$RUNNER_TEMP/dos-x86"
+          DOS="$GITHUB_WORKSPACE/firmware/Tab5OS_Arduino_v0.8.53/tools/native-apps/dos386"
+          python3 "$DOS/prepare_bios.py" --output "$BUILD/native/DOS386" 2>&1 | tee "$BUILD/qa/bios.log"
+          python3 "$DOS/tests/test_bios_provenance.py" 2>&1 | tee "$BUILD/qa/bios-tests.log"
+          python3 "$DOS/tests/extender/prepare.py" --output "$BUILD/extender" 2>&1 | tee "$BUILD/qa/extender.log"
+      - name: Build isolated DOS x86 application
+        shell: bash
+        run: |
+          set -euo pipefail
+          BUILD="$RUNNER_TEMP/dos-x86"
+          DOS="$GITHUB_WORKSPACE/firmware/Tab5OS_Arduino_v0.8.53/tools/native-apps/dos386"
+          TOOLCHAIN="$BUILD/riscv32-esp-elf/bin"
+          python3 "$DOS/build.py" --toolchain "$TOOLCHAIN" -o "$BUILD/native/DOS x86.app.elf" 2>&1 | tee "$BUILD/qa/build.log"
+          "$TOOLCHAIN/riscv32-esp-elf-readelf" -h -l -r -Ws "$BUILD/native/DOS x86.app.elf" > "$BUILD/qa/elf.txt"
+          sha256sum "$BUILD/native/DOS x86.app.elf" > "$BUILD/qa/elf-sha256.txt"
+      - name: Execute exact RISC-V application
+        shell: bash
+        run: |
+          set -euo pipefail
+          BUILD="$RUNNER_TEMP/dos-x86"
+          SKETCH="$GITHUB_WORKSPACE/firmware/Tab5OS_Arduino_v0.8.53"
+          "$BUILD/venv/bin/python" "$SKETCH/tools/native-apps/dos386/tests/emulate_app.py" --elf "$BUILD/native/DOS x86.app.elf" --image "$SKETCH/sdcard/DOS/FREEDOS.IMG" --bios-dir "$BUILD/native/DOS386" --extender "$BUILD/extender/TESTDPMI.EXE" --output "$BUILD/qa/dos-x86-app.json" --instruction-limit 20000000000 --timeout-seconds 900 2>&1 | tee "$BUILD/qa/execute.log"
+      - name: Retain application and validation evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: tab5os-dos-x86-${{ github.sha }}
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            ${{ runner.temp }}/dos-x86/qa/
+            ${{ runner.temp }}/dos-x86/native/

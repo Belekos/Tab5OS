@@ -1,0 +1,26 @@
+SeaBIOS and SeaVGABIOS for the Tab5OS DOS x86 application
+
+Upstream: https://github.com/coreboot/seabios
+Source commit: c2a33ad9ad1452e23b41c4ac44a3bc6be8ebc4cf
+Upstream source archive SHA-256:
+8b286a79fb85cd95437923f98c7f833edb73271ffc0440f6d532a48165294604
+
+The configuration and initial patch are from Tiny386 commit
+a080c5d347f432481710902423c93992edde52d7:
+https://github.com/hchunhui/tiny386/tree/a080c5d347f432481710902423c93992edde52d7/seabios
+That patch supplies Tiny386's floppy emulation interface and PC integration.
+The additional tab5-x87.patch advertises the application's enabled x87 FPU.
+
+SeaBIOS runtime sources are primarily LGPL-3.0-or-later; build tools and
+individual source files have their own retained notices. COPYING and
+COPYING.LESSER accompany the binaries. The complete patched source, input
+configuration, patches, build instructions and source hash manifest are in
+seabios-source.tar.gz beside bios.bin and vgabios.bin. Nothing in this package
+uses the earlier feasibility prototype's unidentified prebuilt BIOS pair.
+
+Build using the repository's prepare_bios.py on Linux with GCC, GNU binutils,
+make, git and Python 3. The builder verifies source and patch hashes, exports
+a tree without Git metadata, fixes its version string, builds twice, and
+requires both ROMs to match byte for byte. bios-provenance.json records the
+exact compiler/build metadata and output hashes. Physical hardware behavior
+is not established by reproducible compilation alone.
