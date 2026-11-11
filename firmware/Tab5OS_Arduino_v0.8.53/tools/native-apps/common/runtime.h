@@ -6,6 +6,10 @@ extern const struct tab5_app_api2* tab5_api;
 extern intptr_t tab5_escape[5];
 void tab5_runtime_capacity(size_t bytes);
 void tab5_runtime_init(const struct tab5_app_api2* api);
+#if defined(TAB5_DOS)
+/* Application arena only: total budget, available bytes and largest block. */
+void tab5_runtime_memory(size_t* capacity,size_t* available,size_t* largest);
+#endif
 uint32_t tab5_crc32(uint32_t seed,const void* data,size_t bytes);
 void tab5_save_name(char* out,const char* system,const char* ext,uint32_t crc);
 int tab5_load(int handle,void* data,size_t size);

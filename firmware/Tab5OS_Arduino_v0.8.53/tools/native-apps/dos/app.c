@@ -26,21 +26,30 @@ static struct tab5_app_keyboard_state old_keys;
 static uint8_t input_sources[256];
 static int ui_dirty=1;
 static char performance[40];
+static char stats_details[3][48];
+static int info_visible;
 int dos_french_keyboard;
 uint8_t *vga_planes(void);
 bool dos_keyboard_typing(void);
 #include "startup.h"
 extern const uint8_t pc_font_bios8[1024];
 static void message(const char *s){snprintf(notice,sizeof(notice),"%s",s);ui_dirty=1;puts(s);}
+/* DOS_UI_PRIMITIVES_BEGIN: production rendering also exercised on the host. */
 static void rect(int x,int y,int w,int h,uint16_t color){for(int yy=y;yy<y+h&&yy<H;yy++)for(int xx=x;xx<x+w&&xx<W;xx++)if(xx>=0&&yy>=0)pixels[yy*W+xx]=color;}
-static void text(int x,int y,const char *s,uint16_t color){for(;*s&&x<W;s++,x+=8){unsigned c=(unsigned char)*s;if(c>=128)c='?';for(int row=0;row<8;row++)for(int col=0;col<8;col++)if(pc_font_bios8[c*8+row]&(128>>col))rect(x+col,y+row,1,1,color);}}
+static void text_scaled(int x,int y,const char *s,uint16_t color,int scale){for(;*s&&x<W;s++,x+=8*scale){unsigned c=(unsigned char)*s;if(c>=128)c='?';for(int row=0;row<8;row++)for(int col=0;col<8;col++)if(pc_font_bios8[c*8+row]&(128>>col))rect(x+col*scale,y+row*scale,scale,scale,color);}}
+static void text(int x,int y,const char *s,uint16_t color){text_scaled(x,y,s,color,1);}
+static int text_wrap(int x,int y,const char *s,int columns,int scale,uint16_t color){
+ while(*s){char row[96];int n=0;while(s[n]&&s[n]!='\n'&&n<columns)n++;memcpy(row,s,(size_t)n);row[n]=0;text_scaled(x,y,row,color,scale);s+=n;if(*s=='\n')s++;y+=10*scale;}return y;
+}
 struct hit {int x,y,w,h;uint16_t code;char ch;int action;};
 static struct hit hits[100];static int hit_count;
-enum {ACT_NONE,ACT_SAVE,ACT_KEYS,ACT_EXIT,ACT_LAYOUT,ACT_SHIFT,ACT_CTRL,ACT_ALT,ACT_VOL_DOWN,ACT_VOL_UP,ACT_MUTE};
+enum {ACT_NONE,ACT_SAVE,ACT_KEYS,ACT_EXIT,ACT_LAYOUT,ACT_SHIFT,ACT_CTRL,ACT_ALT,ACT_VOL_DOWN,ACT_VOL_UP,ACT_MUTE,ACT_INFO};
 static void button(int x,int y,int w,int h,const char *label,int action,uint16_t code,char ch,int active){
- rect(x,y,w,h,active?0x126f:0x2945);rect(x,y,w,1,0x630c);text(x+4,y+(h-8)/2,label,0xffff);
+ int length=(int)strlen(label),scale=h>=24&&length*16+8<=w?2:1;
+ rect(x,y,w,h,active?0x126f:0x2945);rect(x,y,w,1,0x630c);text_scaled(x+(w-length*8*scale)/2,y+(h-8*scale)/2,label,0xffff,scale);
  if(hit_count<100)hits[hit_count++]=(struct hit){x,y,w,h,code,ch,action};
 }
+/* DOS_UI_PRIMITIVES_END */
 static int screen_contains(const char *word){
  if(pc.ram[0x449]!=3)return 0;size_t len=strlen(word);uint8_t *v=vga_planes();
  for(unsigned i=0;i+len<=2000;i++){size_t j=0;while(j<len&&v[(i+j)*8]==(unsigned char)word[j])j++;if(j==len)return 1;}return 0;
@@ -88,9 +97,11 @@ static void change_layout(void){
  if(dos_french_keyboard)pc_type("keyb /u\n");else pc_type("keyb fr,437,a:\\keyboard.sys\n");
  layout_pending=!dos_french_keyboard;layout_wait=0;layout_vector=keyboard_vector();message("Changing DOS keyboard layout...");
 }
+/* DOS_UI_ACTIONS_BEGIN */
 static void action(int a){ui_dirty=1;switch(a){
  case ACT_SAVE:message(dos_overlay_save()?"Save failed; changes remain in this session.":"DOS changes saved.");break;
- case ACT_KEYS:keyboard_visible=!keyboard_visible;break;
+ case ACT_KEYS:dos_pointer_cancel();keyboard_visible=!keyboard_visible;hit_count=0;break;
+ case ACT_INFO:dos_pointer_cancel();info_visible=!info_visible;hit_count=0;break;
  case ACT_EXIT:if(dos_overlay_save())message("Save failed. Session kept open; retry Save or force stop to discard.");else quit=1;break;
  case ACT_LAYOUT:change_layout();break;
  case ACT_VOL_DOWN:dos_audio_change(-10);break;case ACT_VOL_UP:dos_audio_change(10);break;case ACT_MUTE:dos_audio_mute();break;
@@ -100,8 +111,9 @@ static int pointer_control(int x,int y){
  for(int i=0;i<hit_count;i++){struct hit *h=&hits[i];if(x<h->x||y<h->y||x>=h->x+h->w||y>=h->y+h->h)continue;
   if(h->action)action(h->action);else if(h->ch){char value[2]={shift?(char)toupper(h->ch):h->ch,0};pc_type(value);}
   else if(h->code){held_touch=h->code;input_key(h->code,true,2);}return 1;
- }return 0;
+ }return info_visible;
 }
+/* DOS_UI_ACTIONS_END */
 static void input(void){
  static unsigned mouse_buttons;static int mouse_control;
  physical_keyboard();struct tab5_app_input_event e={0};e.size=sizeof(e);
@@ -110,9 +122,9 @@ static void input(void){
   if(e.type==TAB5_INPUT_POINTER_POSITION){
    if(!(e.key&1u)&&mouse_control){release_touch();mouse_control=0;}
    if((e.key&1u)&&!(mouse_buttons&1u)){release_touch();mouse_control=pointer_control(e.x,e.y);}
-   mouse_buttons=e.key;dos_pointer_mouse_position(e.x,e.y,mouse_control?0:e.key);continue;
+   mouse_buttons=e.key;if(!info_visible)dos_pointer_mouse_position(mouse_control?-1:e.x,mouse_control?-1:e.y,mouse_control?0:e.key);continue;
   }
-  if(e.type==TAB5_INPUT_POINTER_RELATIVE){dos_pointer_mouse_relative(e.x,e.y);continue;}
+  if(e.type==TAB5_INPUT_POINTER_RELATIVE){if(!info_visible)dos_pointer_mouse_relative(e.x,e.y);continue;}
   /* USB primary clicks also produce legacy canvas events for older apps.
      The richer pointer pair above is authoritative for DOS. */
   if(e.modifiers&TAB5_POINTER_MOUSE)continue;
@@ -125,33 +137,66 @@ static void input(void){
  }
  dos_pointer_tick(base->millis());
 }
+/* DOS_UI_RENDER_BEGIN */
+static void toolbar(int y,int height){
+ char volume[12];snprintf(volume,sizeof(volume),dos_audio_failed()?"ERR":"%d%%",dos_audio_volume());
+ button(4,y,92,height,"Save",ACT_SAVE,0,0,dos_overlay_dirty());button(104,y,92,height,"Keys",ACT_KEYS,0,0,keyboard_visible);
+ button(204,y,104,height,dos_french_keyboard?"FR":"US",ACT_LAYOUT,0,0,0);
+ button(316,y,56,height,"-",ACT_VOL_DOWN,0,0,0);button(380,y,72,height,volume,ACT_MUTE,0,0,!dos_audio_volume());button(460,y,56,height,"+",ACT_VOL_UP,0,0,0);
+ button(524,y,64,height,"Esc",0,1,0,0);button(596,y,64,height,"F5",0,63,0,0);button(668,y,128,height,"Info",ACT_INFO,0,0,info_visible);
+}
 static int render(void){
- static uint32_t last_signature;static int last_w,last_h,last_keyboard=-1,last_dirty=-1;
+ static uint32_t last_signature;static int last_w,last_h,last_keyboard=-1,last_dirty=-1,last_text=-1,last_info=-1;
  int w,h;uint32_t signature=pc_screen_signature();pc_screen_size(&w,&h);
- int layout=last_w!=w||last_h!=h||last_keyboard!=keyboard_visible;
+ int text_mode=strstr(video_mode_name(),"text")!=NULL;
+ int layout=last_w!=w||last_h!=h||last_keyboard!=keyboard_visible||last_text!=text_mode||last_info!=info_visible;
  int changed=layout||last_signature!=signature;
  int dirty=dos_overlay_dirty();
  if(!changed&&!ui_dirty&&dirty==last_dirty)return 0;
  if(layout)memset(pixels,0,W*H*2);
- else {rect(0,0,W,36,0);rect(0,436,W,H-436,0);}
- int available=keyboard_visible?252:400;
- if(w>0&&w<=1024&&h>0&&h<=768){int dw=w,dh=h;if(dw>800){dh=dh*800/dw;dw=800;}if(dh>available){dw=dw*available/dh;dh=available;}int x0=(800-dw)/2,y0=36+(available-dh)/2;
-  dos_pointer_viewport(x0,y0,dw,dh,w,h);
-  if(changed)dos_present_screen(pixels+y0*W+x0,W,w,h,dw,dh,line,pc_render_line_rgb565);}
- hit_count=0;button(4,3,110,28,"DOS 286",0,0,0,0);button(120,3,100,28,"Save",ACT_SAVE,0,0,dos_overlay_dirty());button(226,3,100,28,"Keys",ACT_KEYS,0,0,keyboard_visible);button(332,3,170,28,dos_french_keyboard?"Keyboard: FR":"Keyboard: US",ACT_LAYOUT,0,0,0);button(684,3,110,28,"Save & exit",ACT_EXIT,0,0,0);
+ else if(keyboard_visible)rect(0,252,W,H-252,0);
+ else if(text_mode)rect(0,400,W,H-400,0);
+ else {rect(624,0,W-624,H,0);rect(0,468,W,12,0);}
+ struct dos_viewport view=dos_display_viewport(w,h,text_mode,keyboard_visible);
+ dos_pointer_viewport(view.x,view.y,view.w,view.h,w,h);
+ if(view.w&&changed)dos_present_screen(pixels+view.y*W+view.x,W,w,h,view.w,view.h,line,pc_render_line_rgb565);
+ hit_count=0;
  char volume[12];snprintf(volume,sizeof(volume),dos_audio_failed()?"ERR":"%d%%",dos_audio_volume());
- button(508,3,48,28,"Vol-",ACT_VOL_DOWN,0,0,0);button(558,3,66,28,volume,ACT_MUTE,0,0,!dos_audio_volume());button(626,3,50,28,"Vol+",ACT_VOL_UP,0,0,0);
+ if(keyboard_visible)toolbar(256,30);
+ else if(text_mode){toolbar(408,36);text(8,450,performance,0x7bef);}
+ else {
+  button(632,4,160,38,"Keyboard",ACT_KEYS,0,0,keyboard_visible);
+  button(632,48,76,38,"Esc",0,1,0,0);button(716,48,76,38,"F5",0,63,0,0);
+  button(632,92,160,38,"Save",ACT_SAVE,0,0,dirty);button(632,136,160,38,dos_french_keyboard?"FR keys":"US keys",ACT_LAYOUT,0,0,0);
+  text_scaled(632,190,"Volume",0xbdf7,2);
+  button(632,214,64,36,volume,ACT_MUTE,0,0,!dos_audio_volume());button(704,214,40,36,"-",ACT_VOL_DOWN,0,0,0);button(752,214,40,36,"+",ACT_VOL_UP,0,0,0);
+  button(632,266,160,38,"Info",ACT_INFO,0,0,info_visible);
+  char speed[40];snprintf(speed,sizeof(speed),"%s",performance);char *fps=strchr(speed,'|');if(fps){*fps++=0;while(*fps==' ')fps++;}
+  text_scaled(632,330,speed,0x7bef,2);if(fps)text_scaled(632,354,fps,0x7bef,2);text(632,396,"4:3 picture",0xbdf7);
+ }
  if(keyboard_visible){
-  button(4,294,48,28,"Esc",0,1,0,0);for(int i=0;i<12;i++){char f[5];snprintf(f,sizeof(f),"F%d",i+1);button(56+i*45,294,43,28,f,0,(uint16_t)(i<10?59+i:87+i-10),0,0);}button(602,294,62,28,"Tab",0,15,0,0);button(670,294,124,28,"Backspace",0,14,0,0);
+  button(4,294,48,28,"Esc",0,1,0,0);for(int i=0;i<12;i++){char f[5];snprintf(f,sizeof(f),"F%d",i+1);button(i<9?56+i*42:434+(i-9)*58,294,i<9?40:56,28,f,0,(uint16_t)(i<10?59+i:87+i-10),0,0);}button(612,294,64,28,"Tab",0,15,0,0);button(680,294,112,28,"Back",0,14,0,0);
   const char *rows[]={"1234567890-=/\\",dos_french_keyboard?"azertyuiop[]":"qwertyuiop[]",dos_french_keyboard?"qsdfghjklm;:'":"asdfghjkl;:'",dos_french_keyboard?"wxcvbn,.!?":"zxcvbnm,.!?"};
   for(int y=0;y<4;y++)for(int x=0;rows[y][x];x++){char label[2]={shift?(char)toupper(rows[y][x]):rows[y][x],0};button(4+x*43,326+y*28,41,26,label,0,0,rows[y][x],0);}
-  button(610,326,88,54,"Enter",0,28,0,0);button(704,326,90,26,"Delete",0,0xe053,0,0);button(704,354,90,26,"Up",0,0xe048,0,0);
-  button(610,382,58,26,"Left",0,0xe04b,0,0);button(670,382,58,26,"Down",0,0xe050,0,0);button(730,382,64,26,"Right",0,0xe04d,0,0);
-  button(4,440,78,28,"Shift",ACT_SHIFT,0,0,shift);button(88,440,72,28,"Ctrl",ACT_CTRL,0,0,control);button(166,440,72,28,"Alt",ACT_ALT,0,0,alt);button(244,440,300,28,"Space",0,0,' ',0);button(550,440,110,28,"Home",0,0xe047,0,0);button(666,440,128,28,"End",0,0xe04f,0,0);
- }else {text(8,450,notice,0xbdf7);text(544,468,performance,0x7bef);}
+  button(610,326,88,54,"Enter",0,28,0,0);button(704,326,90,26,"Del",0,0xe053,0,0);button(704,354,90,26,"^",0,0xe048,0,0);
+  button(610,382,58,26,"<",0,0xe04b,0,0);button(670,382,58,26,"v",0,0xe050,0,0);button(730,382,64,26,">",0,0xe04d,0,0);
+  button(4,440,88,28,"Shift",ACT_SHIFT,0,0,shift);button(100,440,72,28,"Ctrl",ACT_CTRL,0,0,control);button(180,440,72,28,"Alt",ACT_ALT,0,0,alt);button(260,440,280,28,"Space",0,0,' ',0);button(548,440,110,28,"Home",0,0xe047,0,0);button(666,440,128,28,"End",0,0xe04f,0,0);
+ }
+ text(8,470,notice,0xbdf7);
+ if(info_visible){
+  rect(40,32,720,400,0x1082);rect(40,32,720,2,0x630c);hit_count=0;
+  text_scaled(64,50,"DOS performance",0xffff,2);button(624,44,112,36,"Close",ACT_INFO,0,0,0);
+  text_scaled(64,102,performance,0xffff,2);
+  int y=146;for(int i=0;i<3;i++)y=text_wrap(64,y,stats_details[i],41,2,0xbdf7)+6;
+  text(64,292,"PC % = speed of the emulated PC; 100% is real time.",0xbdf7);
+  text(64,310,"Times are measured over the period, not P4 core load.",0xbdf7);
+  text(64,328,"DOS heap = the application's 8 MiB memory budget.",0xbdf7);
+  text_wrap(64,356,notice,82,1,0xffff);
+ }
  tab5_api->video_present(pixels,W*H);
- last_w=w;last_h=h;last_keyboard=keyboard_visible;last_signature=signature;last_dirty=dirty;ui_dirty=0;return 1;
+ last_w=w;last_h=h;last_keyboard=keyboard_visible;last_text=text_mode;last_info=info_visible;last_signature=signature;last_dirty=dirty;ui_dirty=0;return 1;
 }
+/* DOS_UI_RENDER_END */
 static int executable(const char *path){
  const char *ext=strrchr(path,'.');if(!ext)return 0;
  int com=!strncasecmp(ext,".com",5),exe=!strncasecmp(ext,".exe",5);if(!com&&!exe)return 0;
@@ -206,10 +251,16 @@ int tab5_app_main(int argc,char **argv){
   }
   uint32_t audio_at=base->millis();if(dos_audio_pump()<0)message("Audio unavailable: adjust volume to retry.");stats_audio+=base->millis()-audio_at;
   uint32_t now=base->millis();if(present){stats_presented+=(uint32_t)render();stats_render+=base->millis()-now;rendered=now;}
+  now=base->millis(); /* Include the completed render in this interval. */
   if(now-stats_at>=2000){uint32_t elapsed=now-stats_at,frames=pc.frames-stats_frames;unsigned hz=(unsigned)pc_screen_hz();
    unsigned speed=hz?(unsigned)((uint64_t)frames*100000u/((uint64_t)elapsed*hz)):0,fps=stats_presented*1000u/elapsed;
    snprintf(performance,sizeof(performance),"PC %u%% | %u fps",speed,fps);ui_dirty=1;
+   snprintf(stats_details[0],sizeof(stats_details[0]),"CPU %u ms | Audio %u ms",stats_cpu,stats_audio);
+   snprintf(stats_details[1],sizeof(stats_details[1]),"Video %u ms | Period %u ms",stats_render,elapsed);
+   size_t arena,available,largest;tab5_runtime_memory(&arena,&available,&largest);
+   snprintf(stats_details[2],sizeof(stats_details[2]),"Heap free %uK | block %uK",(unsigned)(available/1024),(unsigned)(largest/1024));
    printf("DOS performance: guest=%u%%, display=%u fps, CPU=%u ms, video=%u ms, audio=%u ms / %u ms\n",speed,fps,stats_cpu,stats_render,stats_audio,elapsed);
+   printf("DOS heap: budget=%u KiB, free=%u KiB, largest=%u KiB (application arena, not system PSRAM)\n",(unsigned)(arena/1024),(unsigned)(available/1024),(unsigned)(largest/1024));
    stats_at=now;stats_frames=pc.frames;stats_presented=stats_cpu=stats_render=stats_audio=0;}
   base->sleep_ms(dos_frame_delay(&pacing,start,base->millis(),pc_screen_hz()));
  }

@@ -25,8 +25,10 @@ static void dos_pointer_viewport(int x,int y,int w,int h,int guest_w,int guest_h
  dos_pointer.guest_w=guest_w;dos_pointer.guest_h=guest_h;
 }
 static int dos_pointer_game_area(int x,int y){
- /* Letterboxing is usable touchpad space. The toolbar/keyboard are excluded. */
- return dos_pointer.w>0&&x>=0&&x<800&&y>=36&&y<dos_pointer.y+dos_pointer.h;
+ /* UI buttons may sit alongside the picture; only the displayed guest is a
+  * touchpad. An active drag still continues beyond this initial hit region. */
+ return dos_pointer.w>0&&x>=dos_pointer.x&&x<dos_pointer.x+dos_pointer.w&&
+        y>=dos_pointer.y&&y<dos_pointer.y+dos_pointer.h;
 }
 static void dos_pointer_tick(uint32_t now){
  if(dos_pointer.pulse_until&&(int32_t)(now-dos_pointer.pulse_until)>=0){dos_pointer.pulse_until=0;dos_pointer.touch=0;dos_pointer_send(0,0);}

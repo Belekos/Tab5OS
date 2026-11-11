@@ -29,6 +29,7 @@ with tempfile.TemporaryDirectory(prefix='tab5-dos-runtime-') as temporary:
     work = Path(temporary)
     (work / 'runtime_memory.inc').write_text(region('DOS_MEMORY_PRIMITIVES'), encoding='utf-8')
     (work / 'runtime_division.inc').write_text(region('DOS_DIVISION_PRIMITIVES'), encoding='utf-8')
+    (work / 'runtime_heap_stats.inc').write_text(region('DOS_HEAP_STATS'), encoding='utf-8')
     binary = work / ('runtime-tests.exe' if os.name == 'nt' else 'runtime-tests')
     if msvc:
         command = [compiler, '/nologo', '/std:c11', '/O2', '/W4', '/WX', '/wd5105',

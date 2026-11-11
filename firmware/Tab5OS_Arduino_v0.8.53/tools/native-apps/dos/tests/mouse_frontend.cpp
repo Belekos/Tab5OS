@@ -29,6 +29,13 @@ int main(){
  dos_pointer_mouse_position(300,200,1);dos_pointer_cancel();assert(motions.back().buttons==0);
  dos_pointer_touch_down(200,100,5000);dos_pointer_tick(5500);
  dos_pointer_viewport(80,36,400,250,320,200);assert(motions.back().buttons==0); // layout releases
+ dos_pointer_viewport(0,0,624,468,320,200);
+ assert(dos_pointer_touch_down(10,10,6000));dos_pointer_touch_up(6010);dos_pointer_tick(6090);
+ assert(!dos_pointer_touch_down(640,100,6100)); // sidebar is never guest input
+ assert(!dos_pointer_touch_down(600,470,6100)); // notice strip
+ dos_pointer_mouse_position(640,100,3);assert(motions.back().buttons==0);
+ dos_pointer_viewport(232,0,336,252,320,200);
+ assert(!dos_pointer_touch_down(240,260,6200)); // keyboard toolbar
  Tab5AppInputQueue q;
  for(int i=0;i<200;++i)q.pushPointer(event(TAB5_INPUT_POINTER_POSITION,i,i,0),event(TAB5_INPUT_POINTER_RELATIVE,2,-3,0));
  tab5_app_input_event e{};assert(q.pop(e)&&e.type==TAB5_INPUT_POINTER_POSITION&&e.x==199);

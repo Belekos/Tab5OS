@@ -1,7 +1,7 @@
 """Read ASCII test markers from the DOS application's rendered RGB565 canvas.
 
 The keyboard must be hidden and VGA must use 80x25 text mode: app.c places the
-unscaled 720x400 guest screen at (40, 36) in its 800x480 canvas. This checks pixels
+unscaled 720x400 guest screen at (40, 0) in its 800x480 canvas. This checks pixels
 only; it never reads guest memory. Exact glyph matches on a black background are
 required, so unknown glyphs, graphics, and visible cursor cells become '?'.
 """
@@ -12,7 +12,7 @@ import re
 
 FONT_FILE = Path(__file__).resolve().parents[1] / "core/ibmpc/font.c"
 WIDTH, HEIGHT = 800, 480
-LEFT, TOP = 40, 36
+LEFT, TOP = 40, 0
 COLUMNS, ROWS = 80, 25
 CELL_WIDTH, CELL_HEIGHT = 9, 16
 FRAME_BYTES = WIDTH * HEIGHT * 2

@@ -38,7 +38,7 @@ with tempfile.TemporaryDirectory(prefix='tab5-audio-tests-') as temporary:
     core_log=run([str(core)],work)
     output_log=run([str(output)],work)
     match=re.search(r'AUDIO PASS checks=(\d+) opl_hash=([0-9a-f]+) synth_ms_per_second=([0-9.]+)',core_log)
-    if not match or 'AUDIO OUTPUT PASS:' not in output_log:
+    if not match or 'AUDIO OUTPUT PASS:' not in output_log or 'OPL NOISE EQUIVALENCE PASS:' not in core_log:
         raise SystemExit('Audio test did not produce its success marker')
     output_match=re.search(r'AUDIO OUTPUT PASS: checks=(\d+)',output_log)
     timelines=[]
@@ -54,10 +54,11 @@ with tempfile.TemporaryDirectory(prefix='tab5-audio-tests-') as temporary:
     if not output_match or len(timelines)!=8 or set(extra)!={'TRANSITIONS','SLOW_CALLBACK','BOUNDED_WORK'} or not progression:
         raise SystemExit('Audio timing test did not produce all scenario results')
     paths=['build.py','app_audio.h','core/ibmpc/pc.h','core/ibmpc/speaker.c','core/ibmpc/pit.c','core/ibmpc/sound.c',
-           'core/emu8950/emu8950.c','core/emu8950/emu8950.h','core/emu8950/emuadpcm.c','tests/build_host.py',
+           'core/emu8950/emu8950.c','core/emu8950/emu8950.h','core/emu8950/emu8950_noise.h','core/emu8950/emuadpcm.c','tests/build_host.py',
            'tests/audio_host.c','tests/audio_output_host.c','tests/run_audio_tests.py']
     report={'passed':True,'sample_rate':22050,'core_checks':int(match[1]),'opl_pcm_hash':match[2],
             'host_synth_ms_per_emulated_second':float(match[3]),'benchmark_scope':'host only, 9 OPL2 voices; not Tab5 FPS',
+            'opl_noise_equivalence':{'all_23bit_states':8388608,'full_width_states':65536,'clocks':[14,2],'table_bytes':528},
             'audio_output_passed':True,'core_stdout':core_log,'audio_output_stdout':output_log,
             'audio_output_mode':'guest_pcm_fixed_rate',
             'output_checks':int(output_match[1]),

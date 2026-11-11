@@ -268,15 +268,15 @@ class Application(common.Startup):
                 self.mouse_steps.append(marker)
             if self.audio_probe_stage in (1, 2) and len(self.volume_taps) < self.audio_probe_stage:
                 # The center volume button toggles mute/restore.
-                self.input_events.extend(((1, 592, 14, 0, 0, b""), (3, 592, 14, 0, 0, b"")))
+                self.input_events.extend(((1, 416, 426, 0, 0, b""), (3, 416, 426, 0, 0, b"")))
                 self.volume_taps.append(self.audio_probe_stage)
                 self.audio_probe_blocks = 0
                 if self.audio_probe_stage == 1:
                     self.mute_call_count = self.calls["audio_pcm"]
             if (not self.exit_tap_sent and self.keyboard_complete
                     and all(marker in self.marker_frames for marker in MARKERS)):
-                self.input_events.append((1, 740, 14, 0, 0, b""))
-                self.input_events.append((3, 740, 14, 0, 0, b""))
+                # The native host's Quit button requests the same saved exit.
+                self.input_events.append((6, 0, 0, 0, 0, b""))
                 self.exit_tap_sent = True
             if not self.input_events:
                 return 0

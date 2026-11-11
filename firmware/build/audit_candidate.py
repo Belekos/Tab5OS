@@ -430,7 +430,7 @@ def verify_dos_optimizations(read):
     result = {}
     for name, required in (
             ("dos-video-tests.json", {prefix + path for path in (
-                "presentation.h", "core/ibmpc/video.c", "tests/test_video.c",
+                "presentation.h", "app.c", "tests/test_ui.c", "core/ibmpc/video.c", "tests/test_video.c",
                 "tests/test_presentation.c", "pacing.h", "tests/test_pacing.c",
                 "tests/run_video_tests.py")}),
             ("dos-runtime-tests.json", {runtime_source, prefix + "tests/test_runtime_primitives.c",
@@ -453,7 +453,8 @@ def verify_dos_optimizations(read):
                         "same_pixels_across_six_bios_modes_and_blink", "downscale_matches_original",
                         "synchronous_skips_vram_copy", "bounded_fractional_frame_pacing",
                         "staticGraphicsStable", "textBlinkAndCursor", "rasterPaletteAndMode",
-                        "animatedGraphicsRefresh", "palette255Refresh", "displayStartRefresh")),
+                        "animatedGraphicsRefresh", "palette255Refresh", "displayStartRefresh",
+                        "skippedCaptureStateAndRaster", "crt_aspect_and_ui_geometry")),
                     "DOS presentation or bounded frame pacing verification failed")
         elif name == "dos-runtime-tests.json":
             require(report.get("component") == "dos-runtime-primitives" and
@@ -542,6 +543,11 @@ def verify_dos_peripherals(read):
             and audio.get("audio_output_passed") is True
             and "OPL NATIVE EQUIVALENCE PASS" in audio.get("core_stdout", ""),
             "DOS sound core/output/equivalence regression failed")
+    require(audio.get("opl_noise_equivalence") == {
+                "all_23bit_states": 8388608, "full_width_states": 65536,
+                "clocks": [14, 2], "table_bytes": 528}
+            and "OPL NOISE EQUIVALENCE PASS" in audio.get("core_stdout", ""),
+            "DOS OPL noise transition equivalence coverage missing")
     timelines = audio.get("timeline_scenarios", [])
     expected_timelines = {(speed, jitter, 0) for speed in (56, 79, 100) for jitter in (0, 1)}
     expected_timelines |= {(56, 2, 0), (56, 1, 4294966795)}
@@ -572,7 +578,7 @@ def verify_dos_peripherals(read):
             progression.get("positive", 0) > 0 and progression.get("negative", 0) > 0,
             "DOS audio tests did not preserve a changing PCM signal")
     require({"app_audio.h", "core/ibmpc/sound.c", "core/ibmpc/speaker.c", "core/ibmpc/pit.c",
-             "core/emu8950/emu8950.c", "tests/audio_host.c", "tests/audio_output_host.c",
+             "core/emu8950/emu8950.c", "core/emu8950/emu8950_noise.h", "tests/audio_host.c", "tests/audio_output_host.c",
              "tests/run_audio_tests.py"} <= set(audio.get("source_sha256", {})),
             "DOS audio source manifest is incomplete")
     for source, expected in audio["source_sha256"].items():

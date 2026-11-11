@@ -4,6 +4,7 @@
  * Copyright (C) 2001-2020 Mitsutaka Okazaki
  */
 #include "emu8950.h"
+#include "emu8950_noise.h"
 #ifndef EMU8950_NATIVE_RATE_ONLY
 #include <math.h>
 #endif
@@ -650,16 +651,6 @@ static void update_ampm(OPL *opl) {
   opl->lfo_am = am_table[(opl->am_phase >> 6) % sizeof(am_table)] >> (opl->am_mode ? 0 : 2);
 }
 
-static void update_noise(OPL *opl, int cycle) {
-  int i;
-  for (i = 0; i < cycle; i++) {
-    if (opl->noise & 1) {
-      opl->noise ^= 0x800200;
-    }
-    opl->noise >>= 1;
-  }
-}
-
 static void update_short_noise(OPL *opl) {
   const uint32_t pg_hh = opl->slot[SLOT_HH].pg_out;
   const uint32_t pg_cym = opl->slot[SLOT_CYM].pg_out;
@@ -942,7 +933,7 @@ static void update_output(OPL *opl) {
       out[9] = _RO(calc_fm(opl, 6));
     }
   }
-  update_noise(opl, 14);
+  opl->noise = opl_noise_advance14(opl->noise);
 
   /* CH8 */
   if (!opl->rhythm_mode) {
@@ -957,7 +948,7 @@ static void update_output(OPL *opl) {
       out[11] = _RO(calc_slot_snare(opl));
     }
   }
-  update_noise(opl, 2);
+  opl->noise = opl_noise_advance2(opl->noise);
 
   /* CH9 */
   if (!opl->rhythm_mode) {
@@ -972,7 +963,7 @@ static void update_output(OPL *opl) {
       out[13] = _RO(calc_slot_cym(opl));
     }
   }
-  update_noise(opl, 2);
+  opl->noise = opl_noise_advance2(opl->noise);
 
   /* ADPCM */
   if (opl->adpcm != NULL && !(opl->mask & OPL_MASK_ADPCM)) {

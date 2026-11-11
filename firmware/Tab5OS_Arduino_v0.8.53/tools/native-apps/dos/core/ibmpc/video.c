@@ -80,6 +80,13 @@ void video_timing_changed(void)
 
 void video_changed(uint8_t reg, uint8_t index, uint8_t value)
 {
+    /* The synchronous presenter has already decided not to draw this frame.
+     * The card still updates its live registers; only the discarded raster
+     * history can be omitted, including its beam calculation per palette write.
+     * Asynchronous consumers may request a snapshot independently. */
+    if (pc.cfg.synchronous_video && !s_capture) {
+        return;
+    }
     int line, dot, lines, dots;
     video_beam(&line, &dot, &lines, &dots);
     if (line < s_geo.height && s_changes < VIDEO_CHANGES) {
@@ -276,6 +283,17 @@ void video_frame_end(void)
 {
     if (s_geo_dirty) {
         work_out_timing();
+    }
+    if (pc.cfg.synchronous_video && !s_capture) {
+        /* Preserve the next frame's starting state even though no consumer
+         * will use this frame's snapshot. The next captured frame must still
+         * begin with mode, page, palette and cursor changes made while hidden. */
+        s_base = adapter;
+        if (s_card->save) {
+            s_card->save(&s_base_vga);
+        }
+        s_changes = 0;
+        return;
     }
     s_now.valid = true;
     s_now.type = pc.cfg.video;

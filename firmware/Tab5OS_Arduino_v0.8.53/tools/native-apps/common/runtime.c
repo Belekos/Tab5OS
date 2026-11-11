@@ -24,6 +24,18 @@ static struct block* heap;static size_t heapCapacity;static void (*reclaim_cache
 void tab5_runtime_reclaimer(void (*callback)(void)){reclaim_cache=callback;}
 void tab5_runtime_capacity(size_t bytes){if(!heap&&bytes>=65536&&bytes<=(tab5_api&&tab5_api->base.version>=4?16u:4u)*1024u*1024u)heapCapacity=(bytes+15)&~15u;}
 void tab5_runtime_init(const struct tab5_app_api2* api){tab5_api=api;heap=NULL;heapCapacity=1024u*1024u;reclaim_cache=NULL;reclaiming=0;gameRoot[0]=gameSaves[0]=0;}
+#if defined(TAB5_DOS)
+/* DOS_HEAP_STATS_BEGIN
+ * Read the application arena on its owning thread. This is not the OS's
+ * physical PSRAM free count, and querying it never allocates the arena. */
+void tab5_runtime_memory(size_t* capacity,size_t* available,size_t* largest){
+ size_t total=0,biggest=0;
+ if(!heap)total=biggest=heapCapacity-sizeof(struct block);
+ else for(const struct block* b=heap;b;b=b->next)if(!b->used){total+=b->size;if(b->size>biggest)biggest=b->size;}
+ if(capacity)*capacity=heapCapacity;if(available)*available=total;if(largest)*largest=biggest;
+}
+/* DOS_HEAP_STATS_END */
+#endif
 void abort(void){tab5_api->base.log("Application stopped.\n",21);__builtin_longjmp(tab5_escape,1);}
 void exit(int code){(void)code;abort();}
 /* DOS_MEMORY_PRIMITIVES_BEGIN

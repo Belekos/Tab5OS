@@ -38,6 +38,11 @@ static void runtime_abort(void){longjmp(abort_target,1);}
 #undef __divdi3
 #undef __moddi3
 
+struct block {size_t size;struct block* next;int used;};
+static struct block* heap;
+static size_t heapCapacity;
+#include "runtime_heap_stats.inc"
+
 static unsigned long long checks,memory_cases,division_cases;
 static void check(int ok,const char* reason){++checks;if(!ok){fprintf(stderr,"FAILED: %s\n",reason);exit(1);}}
 static uint64_t rng=UINT64_C(0x96a47b13f24e7921);
@@ -155,8 +160,26 @@ static void test_division(void){
  else check(1,"zero remainder divisor abort");
 }
 
+static void test_heap_stats(void){
+ size_t capacity,available,largest;
+ heapCapacity=8u*1024u*1024u;heap=NULL;
+ tab5_runtime_memory(&capacity,&available,&largest);
+ check(capacity==heapCapacity&&available==heapCapacity-sizeof(struct block)&&largest==available,"unallocated heap budget excludes header");
+ check(heap==NULL,"statistics must not allocate the arena");
+ struct block blocks[4]={{2048,NULL,0},{4096,NULL,1},{1024,NULL,0},{8192,NULL,0}};
+ for(unsigned i=0;i<3;i++)blocks[i].next=&blocks[i+1];
+ heap=blocks;tab5_runtime_memory(&capacity,&available,&largest);
+ check(capacity==heapCapacity&&available==11264&&largest==8192,"fragmented free bytes and largest block exclude allocations");
+ for(unsigned i=0;i<4;i++)blocks[i].used=1;
+ tab5_runtime_memory(NULL,&available,&largest);
+ check(available==0&&largest==0,"full heap has no free block");
+ blocks[2].used=0;tab5_runtime_memory(NULL,NULL,&largest);
+ check(largest==1024,"individual statistic query");
+ tab5_runtime_memory(NULL,NULL,NULL);heap=NULL;
+}
+
 int main(void){
- test_memory();test_guards();test_division();
+ test_memory();test_guards();test_division();test_heap_stats();
  printf("%llu checks passed; %llu memory cases; %llu division cases; inaccessible guard pages; zero-divisor aborts\n",checks,memory_cases,division_cases);
  return 0;
 }

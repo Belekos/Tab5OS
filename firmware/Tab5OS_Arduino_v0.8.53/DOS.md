@@ -31,15 +31,24 @@ fails to mount with a diagnostic; choose a smaller program directory.
 
 ## Controls
 
-Use a USB keyboard or the **Keys** touch panel. The touch panel includes
+Use a USB keyboard or the **Keyboard** touch panel (**Keys** in text mode).
+The touch panel includes
 Escape, F1-F12, arrows, Tab, Backspace, Delete, Enter and sticky Ctrl/Alt.
 Physical key presses and releases are delivered as PC scan codes, including
 held keys. The DOS toolbar uses English labels in this version; the surrounding
 Explorer and OS controls use the selected Tab5OS language.
 
+Graphics use an enlarged 4:3 picture, including 320 x 200 VGA games whose
+original monitor used non-square pixels. The controls are grouped to its right;
+Escape and F5 remain directly accessible. F5 is sent to the game and only opens
+a menu when that game assigns it that function. Text mode retains its unscaled
+80-column glyphs with the controls below. Opening the touch keyboard temporarily
+reduces the picture above the keys. Use the OS's **Quit** button to save the DOS
+disk overlay and leave; there is no second quit button inside the DOS canvas.
+
 The guest starts with a US keyboard. When the OS language is French, the
 frontend loads the supplied FreeDOS French AZERTY driver. The toolbar's
-**Keyboard: US / FR** button switches layouts at the DOS prompt. Change layouts
+**US keys / FR keys** button switches layouts at the DOS prompt. Change layouts
 before starting a program. This button types the corresponding FreeDOS command;
 it cannot change a running game's keyboard driver safely.
 
@@ -65,7 +74,7 @@ is intercepted. Without capture, the mouse controls DOS while over its canvas.
 Capture changes take effect after the current input event has returned. This
 avoids reading LVGL's mouse input recursively from the capture button's click.
 
-The area below the DOS toolbar acts as a touchpad: slide a finger to move the
+The game picture acts as a touchpad: slide a finger to move the
 cursor, tap for a left click, hold still for half a second for a right click,
 or tap and hold the second touch to drag. Lifting the finger releases a held
 button. The on-screen keyboard keeps its existing key controls. Changing the
@@ -86,7 +95,7 @@ Blaster 2.0 with base port `220`, interrupt `7` and DMA channel `1`. The fronten
 `BLASTER=A220 I7 D1 T3` before launching the program. MIDI/MT-32, CD audio and
 Sound Blaster Pro/16, ADPCM playback and recording are not provided by this application.
 
-Use **Vol-** and **Vol+** in the top bar to adjust the application volume from
+Use **-** and **+** beside the volume value to adjust the application volume from
 0 to 100%. Tap the middle volume value to mute and tap it again to restore the
 previous level. This gain is also subject to the OS's master volume. The guest's
 sound hardware continues advancing while muted. A busy or failed host audio
@@ -109,7 +118,7 @@ FreeDOS boot floppy. Guest writes to `A:` use a bounded sector overlay in RAM;
 the original `/DOS/FREEDOS.IMG` is always opened read-only.
 
 **Save** commits the changed floppy sectors to `/Saves/DOS/<identity>.state`.
-**Save & exit**, and the OS's normal close request, also save before returning.
+The OS's normal close request also saves before returning.
 A snapshot is tied to the program directory, its layout and the boot image.
 The OS atomically replaces the snapshot, so a failed save retains the previous
 committed file. Forced termination or power loss can lose changes made since
@@ -137,6 +146,28 @@ CPU is fully occupied. A stationary DOS prompt naturally has a low image rate.
 These indicators make a physical game test more useful than an image count
 alone. The console also records guest CPU, video and audio processing time.
 
+The DOS application runs on P4 core 0. The OS handles the display separately;
+the second core is not simply unused. Within DOS, the x86 interpreter, image
+preparation and AdLib synthesis still execute sequentially. The application
+reserves an 8 MiB heap arena in PSRAM; the guest sees 640 KiB conventional RAM
+and 1 MiB extended RAM. The interpreter code, guest memory and 48 KiB task stack
+also use PSRAM. Memory access and cache costs may affect speed, but a low PC
+percentage does not by itself indicate insufficient memory capacity.
+
+The **Info** panel reports elapsed CPU, audio and video work times over the
+displayed interval, plus free bytes and the largest free block in the DOS heap.
+These are wall-clock durations, including scheduling delays, not utilization
+measurements for either P4 core. Heap figures describe the application's own
+8 MiB arena, not all free physical PSRAM or the guest's conventional memory.
+
+The current optimization skips raster-history calculations and snapshot work
+for frames that will not be displayed, while retaining the next frame's live
+register state. AdLib noise generation uses exact lookup transitions instead
+of repeated single-bit steps. All 8,388,608 valid noise states are checked
+against the original recurrence, and the reference PCM remains unchanged.
+A nine-voice PC benchmark measured about 24% less synthesis time; this is not
+a Tab5 speed measurement and does not predict a corresponding game FPS gain.
+
 Candidate 3b5df2d was reported at PC 56% in Monkey Island with 5-6 screen
 submissions per second. Candidate 31bc5c7 was then reported at 1 fps with
 distorted sound. This correction removes its adaptive audio path and repairs
@@ -145,6 +176,12 @@ counts changed pictures submitted to the display, so it must be considered
 alongside PC speed and visible animation. Host tests verify PCM identity,
 bounded work and changing pixels; they do not establish a new hardware frame
 rate or guarantee that every game is playable.
+
+The subsequent physical report for candidate 2b3c7c3 confirmed working radio,
+restored sound pitch and improved DOS image rate, but remaining sound gaps
+and input latency in Monkey Island. This update retains that fixed-rate audio
+path. Hardware measurements from the Info panel are needed to distinguish
+interpreter, sound and image costs; uninterrupted audio is not guaranteed.
 
 Use 16-bit DOS COM and MZ EXE programs. Windows PE/NE/LE/LX executables are
 rejected. 386 instructions, DOS/4GW and other 386/DPMI extenders, Windows and
@@ -160,6 +197,10 @@ not replace a final hardware test of timing, USB input, display and audio.
 The original `/DOS` contents and `FREEDOS.IMG` remain unchanged in this update.
 The new driver disk is outside that directory so existing disk-overlay identities
 remain valid when the program directory itself has not changed.
+
+The display/performance update after candidate 2b3c7c3 retains the same ABI7.
+If that firmware is already installed, replacing `/Applications/DOS.app.elf`
+with the new packaged file is sufficient; reflashing is not required.
 
 ## Sources and licences
 

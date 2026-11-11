@@ -5,11 +5,16 @@
 #include <time.h>
 #include "pc_internal.h"
 #include "emu8950.h"
+#include "emu8950_noise.h"
 static unsigned checks;
 #define CHECK(x) do { ++checks; if (!(x)) {fprintf(stderr,"FAIL line %d: %s\n",__LINE__,#x);return 1;} } while(0)
 static void opl(uint8_t reg,uint8_t value){sound_out(0x388,reg);sound_out(0x389,value);}
 static void dsp(uint8_t value){sound_out(0x22c,value);}
 static uint8_t in(uint16_t port){uint8_t value=0;return sound_in(port,&value)?value:0;}
+static uint32_t noise_reference(uint32_t noise,unsigned clocks) {
+    while(clocks--){if(noise&1u)noise^=0x800200u;noise>>=1;}
+    return noise;
+}
 static uint32_t reference(uint32_t r,uint64_t a,uint64_t b) {
     uint32_t half=(r+1)/2;
     uint64_t sa=a>1?a-1:0,sb=b>1?b-1:0;
@@ -17,6 +22,19 @@ static uint32_t reference(uint32_t r,uint64_t a,uint64_t b) {
     return (uint32_t)(hb-ha+(a<1?(b<1?b:1)-a:0));
 }
 int main(void) {
+    /* Every possible YM3812 noise state, including the zero state; compare
+     * the two intermediate jumps to the original one-clock recurrence. */
+    for(uint32_t noise=0;noise<(1u<<23);noise++) {
+        CHECK(opl_noise_advance14(noise)==noise_reference(noise,14));
+        CHECK(opl_noise_advance2(noise)==noise_reference(noise,2));
+    }
+    uint32_t noise_random=0x91fa003bu;
+    for(unsigned i=0;i<65536;i++) {
+        noise_random=noise_random*1664525u+1013904223u;
+        CHECK(opl_noise_advance14(noise_random)==noise_reference(noise_random,14));
+        CHECK(opl_noise_advance2(noise_random)==noise_reference(noise_random,2));
+    }
+    puts("OPL NOISE EQUIVALENCE PASS: all 8388608 23-bit states and 65536 full-width states, 14/2 clocks");
     pc_config_t cfg={0};cfg.board=PC_AT;cfg.cpu=X86_80286;cfg.cpu_hz=6000000;cfg.video=PC_VGA;
     cfg.conv_kb=640;cfg.ext_kb=1024;
     CHECK(!posix_memalign((void**)&cfg.ram,4096,PC_RAM_BYTES(cfg.ext_kb)));

@@ -85,6 +85,45 @@ static void check_phases(void){
  assert(mixed[0]!=mixed[1]&&memcmp(reference,actual,image_pixels*2));
  pc.cfg.video=PC_VGA;video_reset();bios_video_mode(0x13);capture(0,actual,1);
 }
+/* Compare the next visible frame with an always-captured run. The hidden
+ * frames change real registers/VRAM, including a mode switch and page flip;
+ * the final frame has a raster palette split which must remain visible. */
+static uint32_t skip_trace(unsigned mode,int skip,uint16_t *pixels){
+ pc.cpu.cycles=pc.cpu.clk=0;pc.frame_start=0;pc_reset();
+ bios_video_mode((int)mode);
+ for(unsigned i=0;i<262144;i++)vga_planes()[i]=(uint8_t)(i*13u+(i>>8));
+ uint32_t visible=capture(0,pixels,1);
+ for(unsigned frame=1;frame<=4;frame++){
+  pc.frames=frame*8;pc_video_capture_next(!skip||frame==4);
+  pc.cpu.cycles=video_frame_clocks()/3;pc.cpu.clk=0;
+  if(frame==2&&mode!=3)bios_video_mode(0x13);
+  if(mode==3){
+   uint8_t *vram=vga_planes();vram[0]='A';vram[1]=0x87;
+   crtc(0x0a,frame==1?0x20:0);crtc(0x0b,15);
+   crtc(0x0e,0);crtc(0x0f,frame==3?1:0);attr(0x10,frame==1?0x04:0x0c);
+  }else{
+   for(unsigned i=0;i<262144;i++)vga_planes()[i]=(uint8_t)((i/128+frame)&255);
+   crtc(0x0c,0);crtc(0x0d,frame==3?32:0);
+  }
+  video_out(0x3c8,255);video_out(0x3c9,(uint8_t)(frame*13));
+  video_out(0x3c9,(uint8_t)(frame*7));video_out(0x3c9,(uint8_t)(frame*3));
+  attr(0x12,frame==1?7:15);
+  video_frame_end();
+  if(skip&&frame<4&&pc.cfg.synchronous_video)assert(pc_screen_signature()==visible);
+ }
+ uint32_t sig=pc_screen_signature();int w,h;pc_screen_size(&w,&h);
+ assert(w>0&&w<=1024&&h>0&&h<=768);image_pixels=(size_t)w*h;
+ for(int y=0;y<h;y++)pc_render_line_rgb565(y,pixels+y*w);
+ pc.cpu.cycles=pc.frame_start=0;return sig;
+}
+static void check_skipped_capture(void){
+ const unsigned modes[]={3,4,0x0d,0x10,0x12,0x13};
+ for(unsigned i=0;i<sizeof(modes)/sizeof(modes[0]);i++){
+  uint32_t expected=skip_trace(modes[i],0,reference);size_t n=image_pixels;
+  uint32_t got=skip_trace(modes[i],1,actual);
+  assert(expected==got&&image_pixels==n&&!memcmp(reference,actual,n*2));
+ }
+}
 int main(int argc,char **argv){
  pc_config_t cfg={0};cfg.board=PC_AT;cfg.cpu=X86_80286;cfg.cpu_hz=6000000;cfg.video=PC_VGA;cfg.conv_kb=640;cfg.ext_kb=1024;cfg.synchronous_video=argc>1&&argv[1][0]=='1';
  assert(!posix_memalign((void**)&cfg.ram,4096,PC_RAM_BYTES(cfg.ext_kb)));cfg.page_table=calloc(X86_PAGES,sizeof(uintptr_t));assert(pc_init(&cfg));
@@ -100,7 +139,8 @@ int main(int argc,char **argv){
  }
  check_phases();
  check_animation();
+ check_skipped_capture();
  clock_t start=clock();for(unsigned i=0;i<3000;i++)video_frame_end();clock_t finish=clock();
  printf("{\"synchronous\":%s,\"frameChecksums\":[",cfg.synchronous_video?"true":"false");for(int i=0;i<count;i++)printf("%s%u",i?",":"",results[i]);
- printf("],\"staticGraphicsStable\":true,\"textBlinkAndCursor\":true,\"rasterPaletteAndMode\":true,\"animatedGraphicsRefresh\":true,\"palette255Refresh\":true,\"displayStartRefresh\":true,\"snapshotHostMs\":%.3f,\"snapshotIterations\":3000,\"vramCopiesPerCapturedFrame\":%u}\n",1000.0*(finish-start)/CLOCKS_PER_SEC,cfg.synchronous_video?0:1);return 0;
+ printf("],\"staticGraphicsStable\":true,\"textBlinkAndCursor\":true,\"rasterPaletteAndMode\":true,\"animatedGraphicsRefresh\":true,\"palette255Refresh\":true,\"displayStartRefresh\":true,\"skippedCaptureStateAndRaster\":true,\"snapshotHostMs\":%.3f,\"snapshotIterations\":3000,\"vramCopiesPerCapturedFrame\":%u}\n",1000.0*(finish-start)/CLOCKS_PER_SEC,cfg.synchronous_video?0:1);return 0;
 }
