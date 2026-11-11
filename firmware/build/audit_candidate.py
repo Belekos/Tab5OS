@@ -169,7 +169,35 @@ def verify_host_reports(read):
     return {"languageChecks": language["checks"], "languagePacks": len(packs), "abi7Tests": len(tests),
             "languageReportSha256": sha(read("qa/language-tests.json")),
             "abi7ReportSha256": sha(read("qa/abi7-tests.json")),
-            "nativeIo": verify_native_io(read)}
+            "nativeIo": verify_native_io(read), "radioTransport": verify_radio_transport(read)}
+
+
+def verify_radio_transport(read):
+    result = {}
+    for name, component, minimum, required in (
+        ("radio-http-body-tests.json", "radio-http-body", 45151,
+         ("Tab5RadioBodyReader.h", "tools/tests/radio-transport/run_body_tests.py",
+          "tools/tests/radio-transport/test_body.cpp")),
+        ("radio-codec-tests.json", "radio-codec-selection", 80,
+         ("Tab5RadioCodec.h", "tools/tests/radio-transport/run_codec_tests.py",
+          "tools/tests/radio-transport/test_codec.cpp")),
+        ("radio-http-source-tests.json", "radio-http-source", 23550,
+         ("Tab5Audio.cpp", "Tab5Audio.h", "Tab5RadioBodyReader.h", "Tab5RadioCodec.h",
+          "tools/tests/radio-transport/run_http_tests.py", "tools/tests/radio-transport/test_http.cpp"))):
+        raw = read("qa/" + name)
+        report = json.loads(raw)
+        require(report.get("passed") is True and report.get("component") == component and
+                report.get("checks", 0) >= minimum and
+                set(report.get("sanitizers", [])) == {"AddressSanitizer", "UndefinedBehaviorSanitizer"},
+                "Radio transport/codec coverage missing: " + name)
+        hashes = report.get("sourceHashes", {})
+        require({SKETCH + path for path in required} <= set(hashes),
+                "Radio source manifest incomplete: " + name)
+        for source, digest in hashes.items():
+            safe(source)
+            require(sha(read(source)) == digest, "Radio test source differs: " + source)
+        result[name] = {"passed": True, "sha256": sha(raw), "sourceFilesVerified": len(hashes)}
+    return result
 
 
 def verify_native_io(read):
@@ -210,7 +238,7 @@ def verify_native_io(read):
                     "Real LVGL source fingerprints missing")
         else:
             require(report.get("component") == "Common PCM driver buffering and lifetime" and
-                    report.get("checks", 0) >= 45 and
+                    report.get("checks", 0) >= 73 and
                     set(report.get("sanitizers", [])) == {"AddressSanitizer", "UndefinedBehaviorSanitizer"},
                     "PCM buffering/lifetime sanitizer coverage missing")
         result[name] = {"passed": True, "sha256": sha(raw),
@@ -424,7 +452,8 @@ def verify_dos_optimizations(read):
                     all(report.get("checks", {}).get(key) is True for key in (
                         "same_pixels_across_six_bios_modes_and_blink", "downscale_matches_original",
                         "synchronous_skips_vram_copy", "bounded_fractional_frame_pacing",
-                        "staticGraphicsStable", "textBlinkAndCursor", "rasterPaletteAndMode")),
+                        "staticGraphicsStable", "textBlinkAndCursor", "rasterPaletteAndMode",
+                        "animatedGraphicsRefresh", "palette255Refresh", "displayStartRefresh")),
                     "DOS presentation or bounded frame pacing verification failed")
         elif name == "dos-runtime-tests.json":
             require(report.get("component") == "dos-runtime-primitives" and
@@ -518,18 +547,26 @@ def verify_dos_peripherals(read):
     expected_timelines |= {(56, 2, 0), (56, 1, 4294966795)}
     require(len(timelines) == 8 and
             {(case.get("speed"), case.get("jitter"), case.get("origin")) for case in timelines}
-            == expected_timelines and audio.get("output_checks", 0) >= 40000 and
+            == expected_timelines and audio.get("output_checks", 0) >= 60000 and
+            audio.get("audio_output_mode") == "guest_pcm_fixed_rate" and
             audio.get("output_sanitizers") == "address,undefined",
             "DOS audio slow-guest, jitter and clock-wrap coverage missing")
-    require(all(case.get("missing") == 0 and case.get("rebuffers") == 0
-                for case in timelines if case["jitter"] != 2),
-            "DOS audio queue starved in steady or moderate-jitter tests")
+    require(all(case.get("generated", 0) > 0 and
+                case["generated"] == case.get("submitted") == case.get("bitexact") and
+                case.get("blocked") == 0 for case in timelines),
+            "DOS changed PCM pitch/order or blocked the normal guest producer")
     require(all(0 <= case.get("max_latency_ms", -1) < 400 and
                 0 <= case.get("startup_ms", -1) < 500 for case in timelines),
             "DOS audio queue latency is unbounded")
-    stall = audio.get("long_stall", {})
-    require(stall.get("rebuffers") == 1 and 0 <= stall.get("recovery_ms", -1) < 500,
-            "DOS audio did not recover from a long producer stall")
+    for key in ("speed_transitions", "slow_callback"):
+        case = audio.get(key, {})
+        require(case.get("generated", 0) > 0 and
+                case["generated"] == case.get("submitted") == case.get("bitexact"),
+                "DOS audio manufactured catch-up output after delayed callbacks: " + key)
+    bounded = audio.get("bounded_work", {})
+    require(bounded.get("backlog_drained") == 8192 and bounded.get("backlog_submitted") == 1024 and
+            bounded.get("max_guest_per_pump") == 1024 and bounded.get("blocked_frames", 0) > 0,
+            "DOS audio backlog or real queue-pressure coverage missing")
     progression = audio.get("pcm_progression", {})
     require(progression.get("played", 0) > 22050 and progression.get("changed", 0) > 22050 and
             progression.get("positive", 0) > 0 and progression.get("negative", 0) > 0,

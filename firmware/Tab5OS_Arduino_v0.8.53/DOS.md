@@ -92,12 +92,14 @@ previous level. This gain is also subject to the OS's master volume. The guest's
 sound hardware continues advancing while muted. A busy or failed host audio
 output is reported; adjusting volume retries output without restarting DOS.
 
-Output stays at 22,050 Hz. A bounded sample queue and interpolation adapt the
-playback to the measured guest speed, instead of repeatedly exhausting the
-output queue when DOS runs slowly. This introduces buffering latency; pitch
-and tempo follow the slower guest. It does not make a game running at PC 56%
-run at full speed. A long loading pause can still interrupt sound, after which
-the queue is refilled. Guest sound timers and DMA continue while muted.
+Guest samples are submitted at their original 22,050 Hz rate, preserving pitch.
+The adaptive interpolation introduced in candidate 31bc5c7 was removed after
+hardware reports of distorted sound and reduced responsiveness. A slow audio
+write no longer causes extra audio to be generated from elapsed wall time.
+Delayed output is bounded, and muting stops host writes after completing the
+last partial block. Guest sound timers and DMA continue advancing. A guest
+that cannot keep up can still produce gaps; this does not guarantee full-speed
+audio or game playback on the Tab5.
 
 ## Files and saved changes
 
@@ -135,12 +137,14 @@ CPU is fully occupied. A stationary DOS prompt naturally has a low image rate.
 These indicators make a physical game test more useful than an image count
 alone. The console also records guest CPU, video and audio processing time.
 
-The preceding candidate was reported at PC 56% in Monkey Island, with 5-6
-screen submissions per second and stuttering sound. This update removes a
-text-blink dependency that unnecessarily resubmitted static graphics. A lower
-fps reading on an unchanged picture is therefore expected. The new tests
-verify output equivalence and reduced work; they do not establish a new
-hardware frame rate or guarantee that every game is playable.
+Candidate 3b5df2d was reported at PC 56% in Monkey Island with 5-6 screen
+submissions per second. Candidate 31bc5c7 was then reported at 1 fps with
+distorted sound. This correction removes its adaptive audio path and repairs
+graphics change detection for the final VGA palette entry. The fps counter
+counts changed pictures submitted to the display, so it must be considered
+alongside PC speed and visible animation. Host tests verify PCM identity,
+bounded work and changing pixels; they do not establish a new hardware frame
+rate or guarantee that every game is playable.
 
 Use 16-bit DOS COM and MZ EXE programs. Windows PE/NE/LE/LX executables are
 rejected. 386 instructions, DOS/4GW and other 386/DPMI extenders, Windows and

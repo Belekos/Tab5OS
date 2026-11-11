@@ -52,6 +52,15 @@ jobs:
           SKETCH="$GITHUB_WORKSPACE/firmware/Tab5OS_Arduino_v0.8.53"
           python3 "$SKETCH/tools/tests/abi7/run_mouse_capture_lvgl.py" --lvgl "$BUILD/sketchbook/libraries/lvgl" --output "$BUILD/qa/abi7-lvgl-mouse-tests.json" 2>&1 | tee "$BUILD/qa/abi7-lvgl-mouse-tests.log"
           python3 "$SKETCH/tools/tests/audio-driver/run_tests.py" --output "$BUILD/qa/audio-driver-tests.json" 2>&1 | tee "$BUILD/qa/audio-driver-tests.log"
+      - name: Validate radio HTTP framing and codec selection
+        shell: bash
+        run: |
+          set -euo pipefail
+          BUILD="$RUNNER_TEMP/tab5os-build"
+          TESTS="$GITHUB_WORKSPACE/firmware/Tab5OS_Arduino_v0.8.53/tools/tests/radio-transport"
+          python3 "$TESTS/run_body_tests.py" --output "$BUILD/qa/radio-http-body-tests.json" 2>&1 | tee "$BUILD/qa/radio-http-body-tests.log"
+          python3 "$TESTS/run_codec_tests.py" --output "$BUILD/qa/radio-codec-tests.json" 2>&1 | tee "$BUILD/qa/radio-codec-tests.log"
+          python3 "$TESTS/run_http_tests.py" --output "$BUILD/qa/radio-http-source-tests.json" 2>&1 | tee "$BUILD/qa/radio-http-source-tests.log"
       - name: Validate the drawing core and relief lighting
         shell: bash
         run: |

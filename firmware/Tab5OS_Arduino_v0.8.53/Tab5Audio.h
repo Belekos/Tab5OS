@@ -14,6 +14,7 @@
 #include "Tab5AudioDriver.h"
 #include "Tab5AudioPriority.h"
 #include "Tab5AudioWorkerLifecycle.h"
+#include "Tab5RadioCodec.h"
 
 class Tab5BufferedRadioSource;
 class Tab5NetworkLease;
@@ -35,6 +36,7 @@ struct Tab5AudioStation {
   String name;
   String style;
   String url;
+  Tab5RadioCodec codec = Tab5RadioCodec::Unknown;
 };
 
 struct Tab5WifiNetwork {

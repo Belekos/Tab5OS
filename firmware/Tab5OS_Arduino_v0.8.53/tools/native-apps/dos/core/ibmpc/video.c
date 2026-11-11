@@ -301,6 +301,11 @@ static uint32_t hash(const uint8_t *p, uint32_t n, uint32_t h)
     for (uint32_t i = 0; i < n / 4; i++) {
         h = (h ^ w[i]) * 0x01000193u;
     }
+    /* VGA register snapshots are 831 bytes. The final three bytes are DAC
+     * colour 255, which can animate even while the framebuffer is static. */
+    for (uint32_t i = n & ~3u; i < n; i++) {
+        h = (h ^ p[i]) * 0x01000193u;
+    }
     return h;
 }
 
@@ -387,7 +392,7 @@ void pc_copy_picture(void)
             h = (h ^ r[i]) * 0x01000193u;
         }
         if (s_card->save) {
-            h = hash((const uint8_t *)&p->vga, sizeof(p->vga) & ~3u, h);
+            h = hash((const uint8_t *)&p->vga, sizeof(p->vga), h);
         }
         r = (const uint8_t *)p->change;
         for (uint32_t i = 0; i < (uint32_t)p->changes * sizeof(change_t); i++) {

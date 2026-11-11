@@ -65,7 +65,60 @@ int main() {
   CHECK(driver.claim(native) && !driver.failed());
   CHECK(driver.writePcm(native, pcm.data(), 1024, spec));
   CHECK(speaker.calls == failedCalls + 1 && driver.pushedBlocks() == 1);
+  AudioOutputTab5Speaker busyRadio(&driver);
+  const auto busyEnds = speaker.endCount;
+  CHECK(!busyRadio.begin() && driver.owner() == native);
+  CHECK(speaker.endCount == busyEnds && speaker.retained.size() == 1 && !speaker.memoryChanged);
   CHECK(driver.release(native) && !speaker.memoryChanged);
-  std::printf("AUDIO DRIVER PASS checks=%u: exact full block, partial flush, three-buffer lifetime, stop, failure and reclaim\n", checks);
+
+  // Radio decoders use the real sample-at-a-time adapter, not writePcm().
+  // A false ConsumeSample means the decoder must retry that same sample.
+  AudioOutputTab5Speaker radio(&driver);
+  CHECK(radio.SetRate(44100) && radio.SetChannels(2));
+  CHECK(driver.owner() == Tab5AudioClient::None);
+  CHECK(radio.begin() && driver.owner() == Tab5AudioClient::Audio);
+  CHECK(!driver.claim(native, 0) && driver.owner() == Tab5AudioClient::Audio);
+  const auto radioStart = speaker.submitted.size();
+  const auto radioEnds = speaker.endCount;
+  std::vector<int16_t> radioPcm;
+  unsigned retries = 0;
+  for (unsigned frame = 0; frame < 2065; ++frame) {
+    int16_t sample[2] = {static_cast<int16_t>(frame * 5), static_cast<int16_t>(-int(frame * 3))};
+    radioPcm.push_back(sample[0]); radioPcm.push_back(sample[1]);
+    if (!radio.ConsumeSample(sample)) {
+      ++retries;
+      CHECK(radio.ConsumeSample(sample));
+    }
+  }
+  radio.flush();
+  CHECK(retries == 2 && speaker.submitted.size() == radioStart + 3);
+  std::vector<int16_t> decoded;
+  for (size_t i = radioStart; i < speaker.submitted.size(); ++i) {
+    const auto& block = speaker.submitted[i];
+    CHECK(block.rate == 44100);
+    decoded.insert(decoded.end(), block.samples.begin(), block.samples.end());
+  }
+  CHECK(decoded == radioPcm && !speaker.memoryChanged);
+  CHECK(driver.outputRate() == 48000 && speaker.endCount == radioEnds);
+
+  // A source-rate change must publish old partial samples at their original
+  // rate while preserving the transport's fixed I2S clock and live buffers.
+  int16_t pair[2] = {1234, -5678};
+  CHECK(radio.ConsumeSample(pair));
+  CHECK(radio.SetRate(32000));
+  CHECK(speaker.submitted.back().length == 2 && speaker.submitted.back().rate == 44100);
+  CHECK(radio.ConsumeSample(pair));
+  radio.flush();
+  CHECK(speaker.submitted.back().length == 2 && speaker.submitted.back().rate == 32000);
+  CHECK(speaker.endCount == radioEnds && driver.outputRate() == 48000 && !speaker.memoryChanged);
+  CHECK(radio.stop() && speaker.retained.empty() && speaker.running);
+  CHECK(driver.owner() == Tab5AudioClient::Audio);
+  CHECK(radio.ConsumeSample(pair)); radio.flush();
+  CHECK(speaker.submitted.back().samples == std::vector<int16_t>({1234, -5678}));
+  CHECK(driver.release(Tab5AudioClient::Audio) && !speaker.memoryChanged);
+  CHECK(driver.claim(native) && driver.writePcm(native, pcm.data(), 1024, spec));
+  CHECK(speaker.submitted.back().rate == 22050 && driver.outputRate() == 48000);
+  CHECK(driver.release(native) && !speaker.memoryChanged);
+  std::printf("AUDIO DRIVER PASS checks=%u: exact full block, partial flush, three-buffer lifetime, stop, failure, reclaim and radio adapter\n", checks);
   return 0;
 }

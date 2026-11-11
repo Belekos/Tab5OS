@@ -11,7 +11,8 @@ with tempfile.TemporaryDirectory(prefix='tab5-dos-video-') as temporary:
   exe=out/(name+suffix);cmd=base+[str(s) for s in sources]+(['/Fe:'+str(exe)] if a.msvc else ['-lm','-o',str(exe)])
   subprocess.run(cmd,cwd=out,check=True,capture_output=True);return exe
  def run(exe,*args):
-  result=subprocess.run([str(exe),*args],capture_output=True,text=True,check=True,timeout=120)
+  result=subprocess.run([str(exe),*args],capture_output=True,text=True,timeout=120)
+  if result.returncode:raise RuntimeError(result.stdout+result.stderr)
   return json.loads(result.stdout.strip().splitlines()[-1])
  presentation=run(build('presentation',[root/'tests/test_presentation.c']))
  pacing=run(build('pacing',[root/'tests/test_pacing.c']))
@@ -21,7 +22,7 @@ with tempfile.TemporaryDirectory(prefix='tab5-dos-video-') as temporary:
  # and these deterministic VRAM patterns in BIOS modes 03/04/0D/10/12/13.
  baseline=[3043387023,3210283913,2153722205,2153722205,975084657,975084657,733485832,733485832,211425557,211425557,688705845,688705845]
  same=same and snapshot['frameChecksums']==baseline
- phase_checks={key: snapshot[key] and synchronous[key] for key in ('staticGraphicsStable','textBlinkAndCursor','rasterPaletteAndMode')}
+ phase_checks={key: snapshot[key] and synchronous[key] for key in ('staticGraphicsStable','textBlinkAndCursor','rasterPaletteAndMode','animatedGraphicsRefresh','palette255Refresh','displayStartRefresh')}
  sources += [root/'presentation.h',root/'tests/test_presentation.c',root/'pacing.h',root/'tests/test_pacing.c',root/'tests/run_video_tests.py',root/'core/ibmpc/pc.h',root/'core/ibmpc/video.h']
  report={'schema':1,'passed':same and all(phase_checks.values()) and presentation['passed'] and pacing['passed'],'presentation':presentation,'pacing':pacing,'snapshot':snapshot,'synchronous':synchronous,'checks':{**phase_checks,'same_pixels_across_six_bios_modes_and_blink':same,'downscale_matches_original':presentation['passed'],'bounded_fractional_frame_pacing':pacing['passed'],'synchronous_skips_vram_copy':synchronous['vramCopiesPerCapturedFrame']==0},'sourceHashes':{s.relative_to(repo).as_posix():hashlib.sha256(s.read_bytes()).hexdigest() for s in sources},'limitations':['Host timings and simulated scheduling costs are diagnostics, not Tab5 performance predictions. CPU interpretation, audio and physical display are not benchmarked by this test.']}
  a.output.parent.mkdir(parents=True,exist_ok=True);a.output.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8');print(json.dumps({k:v for k,v in report.items() if k!='sourceHashes'},indent=2));raise SystemExit(not report['passed'])

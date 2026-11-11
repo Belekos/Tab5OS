@@ -45,10 +45,13 @@ with tempfile.TemporaryDirectory(prefix='tab5-audio-tests-') as temporary:
     for line in output_log.splitlines():
         if line.startswith('TIMELINE '):
             timelines.append({key:int(value) for key,value in re.findall(r'(\w+)=(\d+)',line)})
-    transitions=re.search(r'TRANSITIONS missing=(\d+) gaps=(\d+) rebuffers=(\d+)',output_log)
-    stall=re.search(r'STALL recovery_ms=(\d+) missing=(\d+) rebuffers=(\d+)',output_log)
+    extra={}
+    for line in output_log.splitlines():
+        for marker in ('TRANSITIONS','SLOW_CALLBACK','BOUNDED_WORK'):
+            if line.startswith(marker+' '):
+                extra[marker]={key:int(value) for key,value in re.findall(r'(\w+)=(\d+)',line)}
     progression=re.search(r'PROGRESSION played=(\d+) changed=(\d+) positive=(\d+) negative=(\d+)',output_log)
-    if not output_match or len(timelines)!=8 or not transitions or not stall or not progression:
+    if not output_match or len(timelines)!=8 or set(extra)!={'TRANSITIONS','SLOW_CALLBACK','BOUNDED_WORK'} or not progression:
         raise SystemExit('Audio timing test did not produce all scenario results')
     paths=['build.py','app_audio.h','core/ibmpc/pc.h','core/ibmpc/speaker.c','core/ibmpc/pit.c','core/ibmpc/sound.c',
            'core/emu8950/emu8950.c','core/emu8950/emu8950.h','core/emu8950/emuadpcm.c','tests/build_host.py',
@@ -56,13 +59,17 @@ with tempfile.TemporaryDirectory(prefix='tab5-audio-tests-') as temporary:
     report={'passed':True,'sample_rate':22050,'core_checks':int(match[1]),'opl_pcm_hash':match[2],
             'host_synth_ms_per_emulated_second':float(match[3]),'benchmark_scope':'host only, 9 OPL2 voices; not Tab5 FPS',
             'audio_output_passed':True,'core_stdout':core_log,'audio_output_stdout':output_log,
+            'audio_output_mode':'guest_pcm_fixed_rate',
             'output_checks':int(output_match[1]),
             'output_sanitizers':'address,undefined' if not msvc else 'unavailable on this host compiler',
             'timeline_model':'two 1024-frame I2S blocks, one partial driver block; full queues block the producer',
-            'latency_scope':'max_latency_ms estimates FIFO/rate plus queued and partial output blocks after settling; excludes hardware DMA and is not measured Tab5 latency',
+            'latency_scope':'max_latency_ms counts queued and partial output blocks; excludes hardware DMA and is not measured Tab5 latency',
+            'limitations':['Slow guests may under-run the physical speaker. Tests report these gaps rather than changing pitch or asserting uninterrupted sound.',
+                           'No physical Tab5 CPU/FPS measurement; host callback pauses and queue blocking are deterministic simulations.'],
             'timeline_scenarios':timelines,
-            'speed_transitions':dict(zip(('missing','gaps','rebuffers'),map(int,transitions.groups()))),
-            'long_stall':dict(zip(('recovery_ms','missing','rebuffers'),map(int,stall.groups()))),
+            'speed_transitions':extra['TRANSITIONS'],
+            'slow_callback':extra['SLOW_CALLBACK'],
+            'bounded_work':extra['BOUNDED_WORK'],
             'pcm_progression':dict(zip(('played','changed','positive','negative'),map(int,progression.groups()))),
             'source_sha256':{name:hashlib.sha256((r/name).read_bytes()).hexdigest() for name in paths}}
     if a.output:

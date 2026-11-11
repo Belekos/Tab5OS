@@ -18,6 +18,33 @@ static uint32_t capture(unsigned frame,uint16_t *pixels,int settle){
 }
 static void attr(unsigned index,unsigned value){uint8_t ignored;video_in(0x3da,&ignored);video_out(0x3c0,(uint8_t)(index|0x20));video_out(0x3c0,(uint8_t)value);}
 static void crtc(unsigned index,unsigned value){video_out(0x3d4,(uint8_t)index);video_out(0x3d5,(uint8_t)value);}
+static void check_animation(void){
+ const unsigned modes[]={4,0x0d,0x10,0x12,0x13};
+ for(unsigned m=0;m<sizeof(modes)/sizeof(modes[0]);m++){
+  bios_video_mode((int)modes[m]);uint8_t *vram=vga_planes();memset(vram,0,262144);
+  uint32_t sig=capture(0,reference,1);size_t n=image_pixels;
+  /* Hold frame phase constant: actual VRAM writes must drive every update. */
+  for(unsigned step=0;step<12;step++){
+   vram[step*16]=(uint8_t)(modes[m]==0x13?step+1:0x80);
+   uint32_t next=capture(0,actual,1);
+   if(!(next!=sig&&image_pixels==n&&memcmp(reference,actual,n*2)))fprintf(stderr,"animation mode=%u step=%u old=%u new=%u pixel_difference=%d\n",modes[m],step,sig,next,memcmp(reference,actual,n*2));
+   assert(next!=sig&&image_pixels==n&&memcmp(reference,actual,n*2));
+   memcpy(reference,actual,n*2);sig=next;
+  }
+ }
+ /* Palette entry 255 occupies the final three bytes of vga_regs_t. It must
+  * invalidate a static framebuffer even without a frame-phase change. */
+ bios_video_mode(0x13);memset(vga_planes(),255,262144);
+ video_out(0x3c8,255);video_out(0x3c9,63);video_out(0x3c9,0);video_out(0x3c9,0);
+ uint32_t sig=capture(0,reference,1);size_t n=image_pixels;
+ video_out(0x3c8,255);video_out(0x3c9,0);video_out(0x3c9,63);video_out(0x3c9,0);
+ assert(capture(0,actual,1)!=sig&&memcmp(reference,actual,n*2));
+ /* Display-start changes must also refresh the image without VRAM writes. */
+ for(unsigned i=0;i<262144;i++)vga_planes()[i]=(uint8_t)((i/128)%16);
+ crtc(0x0c,0);crtc(0x0d,0);sig=capture(0,reference,1);n=image_pixels;
+ crtc(0x0d,32);
+ assert(capture(0,actual,1)!=sig&&memcmp(reference,actual,n*2));
+}
 static void check_phases(void){
  const unsigned modes[]={4,0x0d,0x10,0x12,0x13};
  for(unsigned m=0;m<sizeof(modes)/sizeof(modes[0]);m++){
@@ -72,7 +99,8 @@ int main(int argc,char **argv){
   }
  }
  check_phases();
+ check_animation();
  clock_t start=clock();for(unsigned i=0;i<3000;i++)video_frame_end();clock_t finish=clock();
  printf("{\"synchronous\":%s,\"frameChecksums\":[",cfg.synchronous_video?"true":"false");for(int i=0;i<count;i++)printf("%s%u",i?",":"",results[i]);
- printf("],\"staticGraphicsStable\":true,\"textBlinkAndCursor\":true,\"rasterPaletteAndMode\":true,\"snapshotHostMs\":%.3f,\"snapshotIterations\":3000,\"vramCopiesPerCapturedFrame\":%u}\n",1000.0*(finish-start)/CLOCKS_PER_SEC,cfg.synchronous_video?0:1);return 0;
+ printf("],\"staticGraphicsStable\":true,\"textBlinkAndCursor\":true,\"rasterPaletteAndMode\":true,\"animatedGraphicsRefresh\":true,\"palette255Refresh\":true,\"displayStartRefresh\":true,\"snapshotHostMs\":%.3f,\"snapshotIterations\":3000,\"vramCopiesPerCapturedFrame\":%u}\n",1000.0*(finish-start)/CLOCKS_PER_SEC,cfg.synchronous_video?0:1);return 0;
 }

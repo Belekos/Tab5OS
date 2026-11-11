@@ -13,6 +13,8 @@
 #include "Tab5Memory.h"
 #include "Tab5NetworkGate.h"
 #include "Tab5CooperativeClient.h"
+#include "Tab5RadioBodyReader.h"
+#include "Tab5RadioCodec.h"
 #include <atomic>
 #include <new>
 #include <optional>
@@ -270,22 +272,15 @@ class Tab5HttpAudioSource : public AudioFileSource {
       close();
       return false;
     }
-    // Le corps obtenu par getStreamPtr() est la socket HTTP brute. HTTPClient
-    // ne retire l'encapsulation "Transfer-Encoding: chunked" que dans
-    // writeToStream(), API inutilisable pour un flux radio sans fin. FIP
-    // repond en HTTP/1.1 par blocs de 4096 octets : sans cette option, chaque
-    // taille de bloc et chaque CRLF entraient dans libmad comme du MP3.
-    //
-    // HTTP/1.0 interdit cet encodage et conserve parfaitement HTTPS/TLS. Le
-    // serveur renvoie alors le meme flux audio, delimite par la fermeture de
-    // connexion, sans aucun octet de transport dans le MP3.
+    // Prefer a plain close-delimited stream, but decode valid chunked replies
+    // too. getStreamPtr() exposes their framing; it must not reach the codec.
     _http->useHTTP10(true);
     _http->setFollowRedirects(HTTPC_STRICT_FOLLOW_REDIRECTS);
     _http->setConnectTimeout(CONNECT_TIMEOUT_MS);
     _http->setTimeout(READ_TIMEOUT_MS);
     _http->setUserAgent("VLC/3.0.20 LibVLC/3.0.20");
-    static const char* headers[] = {"icy-metaint", "Transfer-Encoding"};
-    _http->collectHeaders(headers, 2);
+    static const char* headers[] = {"icy-metaint", "Transfer-Encoding", "Content-Type"};
+    _http->collectHeaders(headers, 3);
     // Request plain audio by default. If a server still inserts ICY metadata,
     // readInternal strips it according to the announced byte interval.
 #if TAB5_RADIO_REQUEST_ICY
@@ -317,11 +312,8 @@ class Tab5HttpAudioSource : public AudioFileSource {
     }
     String encoding = _http->header("Transfer-Encoding");
     encoding.toLowerCase();
-    if (encoding.indexOf("chunked") >= 0) {
-      TAB5_LOG("[radio] serveur chunked malgre HTTP/1.0 : flux refuse\n");
-      close();
-      return false;
-    }
+    _body.reset(encoding.indexOf("chunked") >= 0);
+    _codec = tab5RadioCodecHint(_http->header("Content-Type").c_str());
     _stream = _http->getStreamPtr();
     _metaInterval = _http->header("icy-metaint").toInt();
     _bytesUntilMeta = _metaInterval;
@@ -354,50 +346,52 @@ class Tab5HttpAudioSource : public AudioFileSource {
     _bytesUntilMeta = 0;
     _metadataBytesRemaining = -1;
     _position = 0;
+    _body.reset(false);
+    _codec = Tab5RadioCodec::Unknown;
     return true;
   }
 
   bool isOpen() override {
-    return _opened && _stream && (_stream->connected() || _stream->available());
+    return _opened && _stream && !_body.finished() && !_body.failed() &&
+        (_stream->connected() || _stream->available());
   }
 
   uint32_t getSize() override { return 0; }
   uint32_t getPos() override { return _position; }
+  Tab5RadioCodec codec() const { return _codec; }
 
  private:
   bool aborted() const { return !tab5NetworkEnabled() || (_abort && _abort->load()); }
 
+  uint32_t readBody(void* data, uint32_t length, bool nonBlock) {
+    const uint32_t started = millis();
+    while (!aborted() && !_body.finished() && !_body.failed()) {
+      const uint32_t got = _body.read(*_stream, data, length);
+      if (got) return got;
+      if (!_stream->connected() && !_stream->available()) {
+        _body.endInput();
+        break;
+      }
+      if (nonBlock || millis() - started >= READ_TIMEOUT_MS) break;
+      vTaskDelay(1);
+    }
+    return 0;
+  }
+
   bool skipIcyMetadata(bool nonBlock) {
     if (_metaInterval <= 0) return true;
-    const uint32_t started = millis();
     if (_metadataBytesRemaining < 0) {
-      while (!_stream->available()) {
-        if (nonBlock || aborted() || !_stream->connected() ||
-            millis() - started > READ_TIMEOUT_MS)
-          return false;
-        vTaskDelay(1);
-      }
-      const int lengthByte = _stream->read();
-      if (lengthByte < 0) return false;
+      uint8_t lengthByte;
+      if (readBody(&lengthByte, 1, nonBlock) != 1) return false;
       _metadataBytesRemaining = lengthByte * 16;
     }
     while (_metadataBytesRemaining > 0) {
-      const int available = _stream->available();
-      if (available <= 0) {
-        if (nonBlock || aborted() || !_stream->connected() ||
-            millis() - started > READ_TIMEOUT_MS)
-          return false;
-        vTaskDelay(1);
-        continue;
-      }
-      size_t chunk = static_cast<size_t>(available);
-      if (chunk > static_cast<size_t>(_metadataBytesRemaining))
-        chunk = static_cast<size_t>(_metadataBytesRemaining);
+      uint32_t chunk = static_cast<uint32_t>(_metadataBytesRemaining);
       uint8_t discard[64];
       if (chunk > sizeof(discard)) chunk = sizeof(discard);
-      const int got = _stream->read(discard, chunk);
+      const uint32_t got = readBody(discard, chunk, nonBlock);
       if (got <= 0) return false;
-      _metadataBytesRemaining -= got;
+      _metadataBytesRemaining -= static_cast<int32_t>(got);
     }
     _bytesUntilMeta = _metaInterval;
     _metadataBytesRemaining = -1;
@@ -408,29 +402,19 @@ class Tab5HttpAudioSource : public AudioFileSource {
     if (!_opened || !_stream || !data || !len) return 0;
     uint8_t* output = static_cast<uint8_t*>(data);
     uint32_t total = 0;
-    uint32_t lastProgress = millis();
     while (total < len) {
       if (aborted()) break;
       if (_metaInterval > 0 && _bytesUntilMeta == 0) {
-        if (!skipIcyMetadata(nonBlock)) break;
-      }
-      const int available = _stream->available();
-      if (available <= 0) {
-        if (total || nonBlock || !_stream->connected() ||
-            millis() - lastProgress > READ_TIMEOUT_MS) break;
-        vTaskDelay(1);
-        continue;
+        if (!skipIcyMetadata(nonBlock || total != 0)) break;
       }
       uint32_t chunk = len - total;
-      if (chunk > static_cast<uint32_t>(available)) chunk = available;
       if (_metaInterval > 0 && chunk > static_cast<uint32_t>(_bytesUntilMeta))
         chunk = _bytesUntilMeta;
-      const int got = _stream->read(output + total, chunk);
+      const uint32_t got = readBody(output + total, chunk, nonBlock || total != 0);
       if (got <= 0) break;
-      total += static_cast<uint32_t>(got);
-      _position += static_cast<uint32_t>(got);
-      if (_metaInterval > 0) _bytesUntilMeta -= got;
-      lastProgress = millis();
+      total += got;
+      _position += got;
+      if (_metaInterval > 0) _bytesUntilMeta -= static_cast<int32_t>(got);
     }
     return total;
   }
@@ -439,6 +423,8 @@ class Tab5HttpAudioSource : public AudioFileSource {
   static constexpr uint32_t READ_TIMEOUT_MS = 5000;
 
   std::optional<HTTPClient> _http;
+  Tab5RadioBodyReader _body;
+  Tab5RadioCodec _codec = Tab5RadioCodec::Unknown;
   NetworkClient* _client = nullptr;
   NetworkClient* _stream = nullptr;
   String _url;
@@ -589,6 +575,9 @@ class Tab5BufferedRadioSource final : public AudioFileSource {
       close();
       return false;
     }
+    // Probe without losing bytes: the decoder receives this prefix first.
+    _prefixSize = _ring.read(_prefix, sizeof(_prefix));
+    _prefixPosition = 0;
     TAB5_LOG("[radio] demarrage avec %u Kio d'avance (~%u s)\n",
              (unsigned)(_ring.used() / 1024),
              (unsigned)(_ring.used() / 16000));
@@ -597,11 +586,17 @@ class Tab5BufferedRadioSource final : public AudioFileSource {
 
   uint32_t read(void* data, uint32_t len) override {
     if (!data || !len) return 0;
+    const uint32_t prefix = _prefixPosition < _prefixSize ? readPrefix(data, len) : 0;
+    if (prefix == len) return prefix;
 
     // ESP8266Audio accepts a short read. Only an empty ring may wait; its
     // producer wakes the native stream-buffer receiver as soon as data arrives.
     // The bounded wait also observes commands without an extra sleeping phase.
-    size_t got = _ring.read(static_cast<uint8_t*>(data), len);
+    size_t got = _ring.read(static_cast<uint8_t*>(data) + prefix, len - prefix);
+    if (prefix) {
+      _position += static_cast<uint32_t>(got);
+      return prefix + static_cast<uint32_t>(got);
+    }
     if (!got) {
       const uint32_t started = millis();
       while (_running && !_abort && !audioCommandPending() && !got &&
@@ -621,9 +616,10 @@ class Tab5BufferedRadioSource final : public AudioFileSource {
 
   uint32_t readNonBlock(void* data, uint32_t len) override {
     if (!data || !len) return 0;
-    const size_t got = _ring.read(static_cast<uint8_t*>(data), len);
+    const uint32_t prefix = _prefixPosition < _prefixSize ? readPrefix(data, len) : 0;
+    const size_t got = _ring.read(static_cast<uint8_t*>(data) + prefix, len - prefix);
     _position += static_cast<uint32_t>(got);
-    return static_cast<uint32_t>(got);
+    return prefix + static_cast<uint32_t>(got);
   }
 
   bool seek(int32_t, int) override { return false; }
@@ -660,11 +656,12 @@ class Tab5BufferedRadioSource final : public AudioFileSource {
     heap_caps_free(_readBuffer);
     _readBuffer = nullptr;
     _position = 0;
+    _prefixPosition = _prefixSize = 0;
     return true;
   }
 
   bool isOpen() override {
-    return _opened && (_running || _ring.used() > 0);
+    return _opened && (_running || _ring.used() > 0 || _prefixPosition < _prefixSize);
   }
 
   uint32_t getSize() override { return 0; }
@@ -679,8 +676,19 @@ class Tab5BufferedRadioSource final : public AudioFileSource {
   uint32_t receivedBytes() const { return _receivedBytes.load(); }
   bool receiving() const { return _running.load(); }
   uint32_t networkStackFreeBytes() const { return _networkStackFreeBytes; }
+  Tab5RadioCodec codec(Tab5RadioCodec hint, const char* url) const {
+    return tab5RadioSelectCodec(_prefix, _prefixSize, _upstream.codec(), hint, url);
+  }
 
  private:
+  uint32_t readPrefix(void* data, uint32_t len) {
+    const size_t available = _prefixSize - _prefixPosition;
+    const size_t count = len < available ? len : available;
+    memcpy(data, _prefix + _prefixPosition, count);
+    _prefixPosition += count;
+    _position += static_cast<uint32_t>(count);
+    return static_cast<uint32_t>(count);
+  }
   static void networkTaskEntry(void* argument) {
     static_cast<Tab5BufferedRadioSource*>(argument)->networkTask();
   }
@@ -740,6 +748,8 @@ class Tab5BufferedRadioSource final : public AudioFileSource {
   static constexpr uint32_t NETWORK_TASK_STACK = 16 * 1024;
 
   Tab5HttpAudioSource _upstream;
+  uint8_t _prefix[16] = {};
+  size_t _prefixPosition = 0, _prefixSize = 0;
   Tab5PsramStream _ring;
   SemaphoreHandle_t _taskExited = nullptr;
   TaskHandle_t _task = nullptr;
@@ -1730,7 +1740,7 @@ void Tab5AudioEngine::loadStations() {
   JsonDocument document(tab5JsonAllocator());
   JsonDocument fields(tab5JsonAllocator());
   auto wanted = fields["radios"][0].to<JsonObject>();
-  for (const char* key : {"enabled", "name", "style", "age", "url"}) wanted[key] = true;
+  for (const char* key : {"enabled", "name", "style", "age", "url", "codec"}) wanted[key] = true;
   // Both {"radios":[...]} and the legacy root array are accepted. Filtering
   // root arrays separately keeps unused provenance/tags out of the PSRAM DOM.
   int first = file.peek();
@@ -1756,7 +1766,8 @@ void Tab5AudioEngine::loadStations() {
     const char* style = item["style"] | "";
     const char* url = item["url"] | "";
     if (!style[0]) style = item["age"] | "Autres";
-    if (name[0] && url[0]) _stations.push_back({String(name), String(style), String(url)});
+    if (name[0] && url[0]) _stations.push_back({String(name), String(style), String(url),
+        tab5RadioCodecHint(item["codec"] | "")});
   }
   std::stable_sort(_stations.begin(), _stations.end(),
       [](const Tab5AudioStation& a, const Tab5AudioStation& b) {
@@ -2385,10 +2396,10 @@ bool Tab5AudioEngine::startRadioNow(size_t index, uint32_t revision) {
     return false;
   }
   Tab5Resources::AdmissionReport report;
-  String lowerUrl = station.url;
-  lowerUrl.toLowerCase();
-  const size_t codecBytes = lowerUrl.indexOf(".aac") >= 0
-      ? aacWorkspaceBytes() : AudioGeneratorMP3::preAllocSize();
+  // A redirect or an opaque endpoint may advertise a different codec than
+  // its URL. Reserve the larger supported workspace before opening the stream.
+  const size_t codecBytes = std::max(aacWorkspaceBytes(),
+      static_cast<size_t>(AudioGeneratorMP3::preAllocSize()));
   const size_t availablePsram=heap_caps_get_free_size(MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
   const size_t ringBytes=Tab5Resources::radioCapacity(availablePsram,availablePsram);
   if (!ringBytes) {
@@ -2465,7 +2476,13 @@ bool Tab5AudioEngine::startRadioNow(size_t index, uint32_t revision) {
       static_cast<unsigned>(uxTaskGetStackHighWaterMark(nullptr)));
   Tab5DebugSerial.flush();
   bool decoderStarted = false;
-  if (lowerUrl.indexOf(".aac") >= 0) {
+  const Tab5RadioCodec codec = radio->codec(station.codec, station.url.c_str());
+  if (codec == Tab5RadioCodec::Unsupported) {
+    cleanupDecoder();
+    setStatus("Flux MP3/AAC indisponible — touchez pour réessayer");
+    return false;
+  }
+  if (codec == Tab5RadioCodec::Aac) {
     if (!ensureAacCodecBuffer()) { cleanupDecoder(); return false; }
     _aac = new (std::nothrow) Tab5SeekableAacGenerator(
         _aacCodecBuffer, aacWorkspaceBytes());

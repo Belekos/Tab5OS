@@ -238,7 +238,8 @@ def verify_core(z, repo):
 def verify_new_reports(z, repo):
     reports = {}
     for name in ("language-tests.json", "abi7-tests.json", "abi7-lvgl-mouse-tests.json",
-                 "audio-driver-tests.json"):
+                 "audio-driver-tests.json", "radio-http-body-tests.json",
+                 "radio-codec-tests.json", "radio-http-source-tests.json"):
         raw = z.read("qa/" + name)
         report = json.loads(raw)
         require(report.get("passed") is True, "Feature validation failed: " + name)
