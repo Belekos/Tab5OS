@@ -1,5 +1,5 @@
 """Exercise real Tiny386 interpreter/fast/predecoded cores; MSVC tests interpreter only."""
-import argparse,json,os,pathlib,subprocess
+import argparse,json,os,pathlib,subprocess,time
 
 HERE=pathlib.Path(__file__).resolve().parent
 CORE=HERE.parent/'core'
@@ -16,21 +16,39 @@ def main():
  results=[]
  for mode in (['interpreter'] if msvc else ['interpreter','fast','predecoded']):
   defs=FEATURES+([] if mode=='interpreter' else ['USE_FAST'])+(['FAST_PD','FAST_PD_SIZE=262144'] if mode=='predecoded' else [])
+  if a.sanitize:defs+=['FAST_HOST_SANITIZE']
   exe=a.output/(mode+('.exe' if msvc else ''))
   if msvc:
    compat=a.output/'compat';compat.mkdir(exist_ok=True);(compat/'unistd.h').write_text('/* Host test requires no POSIX IO. */\n')
    cmd=[a.cc,'/nologo','/O2','/std:c11','/Zc:preprocessor','/wd4244','/wd4267','/I'+str(CORE),'/I'+str(compat),'/FI'+str(HERE/'cpu_host_compat.h'),*['/D'+d for d in defs],str(HERE/'cpu_safety.c'),str(CORE/'fpu.c'),'/Fe:'+str(exe)]
   else:
-   cmd=[a.cc,'-std=gnu11','-O2','-g','-D_GNU_SOURCE','-DI386_ALIGNED_ONLY','-I',str(CORE),*['-D'+d for d in defs],str(HERE/'cpu_safety.c'),str(CORE/'fpu.c'),'-lm','-o',str(exe)]
+   cmd=[a.cc,'-std=gnu11','-O1' if a.sanitize else '-O2','-g','-D_GNU_SOURCE','-DI386_ALIGNED_ONLY','-I',str(CORE),*['-D'+d for d in defs],str(HERE/'cpu_safety.c'),str(CORE/'fpu.c'),'-lm','-o',str(exe)]
    if a.sanitize:cmd[1:1]=['-fsanitize=address,undefined','-fno-omit-frame-pointer','-fno-sanitize-recover=all']
-  build=subprocess.run(cmd,cwd=a.output,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True)
-  (a.output/(mode+'-build.log')).write_text(build.stdout)
-  if build.returncode:raise SystemExit('Build failed: '+str(a.output/(mode+'-build.log')))
+  config='host ASan/UBSan -O1 (including fast_exec; production RV32 remains -O3)' if a.sanitize else 'normal host optimization'
+  print('Building '+mode+': '+config,flush=True)
+  build_log=a.output/(mode+'-build.log');started=time.monotonic()
+  try:
+   build=subprocess.run(cmd,cwd=a.output,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,timeout=600)
+  except subprocess.TimeoutExpired as exc:
+   output=exc.stdout or ''
+   if isinstance(output,bytes):output=output.decode(errors='replace')
+   build_log.write_text(output+'\nBuild timed out after 600 seconds.\n')
+   raise SystemExit('Build timed out: '+str(build_log))
+  build_log.write_text(build.stdout)
+  if build.returncode:raise SystemExit('Build failed: '+str(build_log))
+  print('Running '+mode+' (build %.1f s)'%(time.monotonic()-started),flush=True)
   env=os.environ.copy();env['ASAN_OPTIONS']='detect_leaks=0'
-  run=subprocess.run([str(exe)],cwd=a.output,env=env,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,timeout=60)
-  (a.output/(mode+'-run.log')).write_text(run.stdout)
+  run_log=a.output/(mode+'-run.log')
+  try:
+   run=subprocess.run([str(exe)],cwd=a.output,env=env,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,timeout=60)
+  except subprocess.TimeoutExpired as exc:
+   output=exc.stdout or ''
+   if isinstance(output,bytes):output=output.decode(errors='replace')
+   run_log.write_text(output+'\nExecution timed out after 60 seconds.\n')
+   raise SystemExit('Execution timed out: '+str(run_log))
+  run_log.write_text(run.stdout)
   results.append({'mode':mode,'passed':run.returncode==0,'output':run.stdout.strip()})
-  print(mode+': '+run.stdout.strip())
+  print(mode+': '+run.stdout.strip(),flush=True)
   if run.returncode:raise SystemExit(run.returncode)
  (a.output/'cpu-tests.json').write_text(json.dumps({'passed':True,'compiler':a.cc,'sanitized':a.sanitize,'results':results},indent=2)+'\n')
 

@@ -6,11 +6,12 @@ workload, not a compatibility target or a special case in this implementation.
 
 ## Current status
 
-Source integration and local host tests are complete. The RISC-V application
-and reproducibly rebuilt ROM pair have **not yet been compiled or executed**.
-Do not present this source checkpoint as an installable or hardware-tested
-release. The validation workflow builds the exact application, then runs it
-through the ABI7 harness before any application package can be offered.
+This application is developed on the `validation/dos-x86-20261111` branch.
+An installable package requires a successful validation run for its exact
+source tree: CPU and device memory checks, reproducible ROM builds, and
+execution of the RISC-V application through the ABI7 harness. The package
+includes those reports and its source revision. Passing these checks does
+not establish real-time performance or compatibility on a physical Tab5.
 
 ## Configuration
 
@@ -40,6 +41,10 @@ not supported. DOS MZ executables containing LE/LX extender payloads are allowed
 There is no guest network interface. Features do not imply real-time speed on
 the Tab5: physical hardware measurements remain necessary.
 
+Sound Blaster support covers PCM playback. ADPCM, direct DAC playback and the
+guest mixer controls are incomplete; the application's volume/mute controls
+apply to its combined audio output.
+
 The selected SD directory becomes a read-only FAT16 C: drive. The FreeDOS A:
 image supports bounded sector changes and explicit Save/normal Quit persistence.
 Original SD images and files are never opened writable. Saved overlays use the
@@ -54,6 +59,8 @@ On Linux, with the pinned Espressif GCC toolchain:
 python3 prepare_bios.py --output /tmp/tab5-x86-bios
 python3 tests/run_cpu_tests.py --output /tmp/tab5-x86-cpu --sanitize
 python3 tests/run_devices.py --output /tmp/tab5-x86-devices --sanitize
+python3 tests/run_sound.py --output /tmp/tab5-x86-sound --sanitize
+python3 tests/run_math_tests.py --output /tmp/tab5-x86-math --sanitize
 python3 tests/run_frontend_tests.py --output /tmp/tab5-x86-ui
 python3 tests/extender/prepare.py --output /tmp/tab5-x86-extender
 python3 build.py --toolchain /path/to/riscv32-esp-elf/bin -o '/tmp/DOS x86.app.elf'
@@ -63,7 +70,8 @@ python3 tests/emulate_app.py --elf '/tmp/DOS x86.app.elf' \
 ```
 
 The host checks cover memory boundaries, paging, self-modifying code, peripheral
-IO, UI layout and audio ownership. The exact-ELF harness checks real FreeDOS,
+IO, UI layout, audio ownership, signed/unsigned PCM, continuous resampling,
+DMA bounds, DSP reset and AdLib output. The exact-ELF harness checks real FreeDOS,
 COM/MZ programs, a real CWSDPMI extender, VGA pixels, keyboard, PS/2 mouse,
 speaker/mute, immutable bases, persisted COW contents and shutdown. It does not
 replace a physical ESP32-P4 test.

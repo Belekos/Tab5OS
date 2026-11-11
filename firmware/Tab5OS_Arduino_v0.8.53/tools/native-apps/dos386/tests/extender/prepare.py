@@ -14,6 +14,7 @@ import urllib.request
 import zipfile
 
 from program import create_executable, coff_image, STUB_SHA256, SUCCESS
+from wrapper import create_wrapper, RETURN_MARKER
 
 BASE = "https://www.delorie.com/pub/djgpp/current/v2misc/"
 RELEASES = {
@@ -53,11 +54,14 @@ def prepare(output, cache=None):
     if executable[:len(stub)] != stub:
         raise AssertionError("Original extender stub was modified")
     (output / "TESTDPMI.EXE").write_bytes(executable)
+    launcher = create_wrapper()
+    (output / "DPMI.COM").write_bytes(launcher)
     (output / "testdpmi.coff").write_bytes(coff_image())
     (output / "CWSDPMI.DOC").write_bytes(documentation)
     (output / "COPYING").write_bytes(copying)
     (output / "COPYING.CWS").write_bytes(copying_cws)
     (output / "program.py").write_bytes(Path(__file__).with_name("program.py").read_bytes())
+    (output / "wrapper.py").write_bytes(Path(__file__).with_name("wrapper.py").read_bytes())
     (output / "README.md").write_bytes(Path(__file__).with_name("README.md").read_bytes())
     for name, data in releases.items():
         (output / name).write_bytes(data)
@@ -67,6 +71,8 @@ def prepare(output, cache=None):
         "officialArchiveBase": BASE, "inputArchives": RELEASES,
         "stubSha256": STUB_SHA256, "stubUnmodified": True,
         "fixtureSha256": digest(executable), "fixtureBytes": len(executable),
+        "launcher": "DPMI.COM", "launcherSha256": digest(launcher),
+        "expectedReturnMarker": RETURN_MARKER,
         "coffSha256": digest(coff_image()), "sourceArchive": "csdpmi7s.zip",
         "coverage": ["32-bit ring-3 DPMI client startup", "DPMI version query",
                      "256 KiB linear allocation", "LDT descriptor setup and release",

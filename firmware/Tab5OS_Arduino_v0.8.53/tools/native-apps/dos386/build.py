@@ -15,8 +15,10 @@ for component in ('ibmpc','x86','upd765','diskspace','emudbg'):
  args+=['--include',str(old/'core'/component)]
 sources=[r/'core/fast/fast.c']+[r/'core'/name for name in
  ('fpu.c pc.c i8259.c i8254.c ide.c vga.c vgafont.c i8042.c misc.c adlib.c fmopl.c i8257.c sb16.c pcspk.c pci.c').split()]
-sources += [r/name for name in ('machine.c platform.c storage.c overlay.c disk_format.c net_disabled.c').split()]
-sources += [old/'platform.c',old/'core/ibmpc/folder.c',old/'core/ibmpc/font.c',r.parent/'common/runtime.c']
+sources += [r/name for name in ('machine.c platform.c math_compat.c storage.c overlay.c disk_format.c net_disabled.c').split()]
+# Software double operations and transcendentals use the existing firmware
+# ABI4 callback. The toolchain's static libm/libgcc double code is not PIC.
+sources += [old/'platform.c',old/'core/ibmpc/folder.c',old/'core/ibmpc/font.c',r.parent/'common/runtime.c',r.parent/'common/math.c']
 for source in sources:args+=['--extra-source',str(source)]
 for name in names:args+=['--define',name+'=tab5_rt_'+name]
 subprocess.run(args+sys.argv[1:],check=True)

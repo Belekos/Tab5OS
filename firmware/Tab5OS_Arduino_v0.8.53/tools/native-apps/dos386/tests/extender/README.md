@@ -11,11 +11,18 @@ python prepare.py --output /scratch/dos386-extender
 ```
 
 Use `--cache /directory` to supply the two exact release archives offline.
+Run `DPMI.COM`, which launches `TESTDPMI.EXE` with a temporary DOS critical-error
+handler. This prevents a read-only C: drive from opening an interactive
+Abort/Retry/Fail prompt when the unchanged extender attempts to create its
+default swap file. The launcher restores the previous handler and prints
+`TAB5 DPMI RETURN OK` only after the child returns exit status zero.
+
 The generated program verifies the DPMI version, allocates 256 KiB, creates an
 LDT descriptor, writes and checks all 64 pages, checks a dword spanning two
 pages and the allocation's final dword, then releases both resources. It
 prints `TAB5 DPMI32 OK` only on success and exits through DOS. The integration
-harness must observe both that rendered marker and subsequent shell activity.
+harness must observe that rendered marker, the launcher's return marker and
+subsequent shell activity.
 A failure prints `TAB5 DPMI32 FAIL` and exits with status 1.
 
 The unchanged loader defaults to `C:\CWSDPMI.SWP`. Use only the test harness's
@@ -39,7 +46,7 @@ complete unmodified binary and source release archives, `CWSDPMI.DOC`,
 - COFF format: https://www.delorie.com/djgpp/doc/coff/
 - DPMI API: https://www.delorie.com/djgpp/doc/dpmi/
 
-The original `program.py` and its generated COFF client are dedicated to the
+The original `program.py`, `wrapper.py` and their generated clients are dedicated to the
 public domain under CC0-1.0. The official extender stub retains its own terms.
 Fixture generation is reproducible and records SHA-256 values; this does not
 claim that the historical third-party binary was rebuilt with a modern toolchain.

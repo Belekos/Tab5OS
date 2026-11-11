@@ -130,6 +130,8 @@ struct SB16State {
     int audio_free;
     uint8_t audio_buf[AUDIO_BUF_LEN];
     unsigned int audio_p, audio_q;
+    /* Source-frame position in units of 1/44100, retained across callbacks. */
+    uint32_t audio_phase;
     void *voice;
     int active_out;
 
@@ -884,6 +886,8 @@ static void legacy_reset (SB16State *s)
     s->fmt_signed = 0;
     s->fmt_bits = 8;
     s->fmt_stereo = 0;
+    s->fmt = AUDIO_FORMAT_U8;
+    s->time_const = -1;
     set_audio(s, AUDIO_FORMAT_U8, s->freq, 1);
     s->voice = s;
 
@@ -906,6 +910,8 @@ static void reset (SB16State *s)
     s->left_till_irq = 0;
     s->needed_bytes = 0;
     s->block_size = -1;
+    s->audio_p = s->audio_q = s->audio_phase = 0;
+    s->audio_free = 0;
     s->nzero = 0;
     s->highspeed = 0;
     s->v2x6 = 0;
@@ -1130,8 +1136,8 @@ void sb16_mixer_write_datab(void *opaque, uint32_t nport, uint32_t val)
         {
             int dma, hdma;
 
-            dma = __builtin_ctz (val & 0xf);
-            hdma = __builtin_ctz (val & 0xf0);
+            dma = (val & 0xf) ? __builtin_ctz (val & 0xf) : -1;
+            hdma = (val & 0xf0) ? __builtin_ctz (val & 0xf0) : -1;
             if (dma != s->dma || hdma != s->hdma) {
                 qemu_log_mask(LOG_GUEST_ERROR, "attempt to change DMA 8bit"
                               " %d(%d), 16bit %d(%d) (val=%#x)\n", dma, s->dma,
@@ -1181,6 +1187,8 @@ static int write_audio (SB16State *s, int nchan, int dma_pos,
 {
     IsaDma *isa_dma = nchan == s->dma ? s->isa_dma : s->isa_hdma;
 
+    if (dma_len <= 0 || dma_pos < 0 || dma_pos >= dma_len || len <= 0)
+        return 0;
     int temp, net;
     uint8_t tmpbuf[TMPBUF_LEN];
 
@@ -1212,8 +1220,9 @@ static int write_audio (SB16State *s, int nchan, int dma_pos,
         if (!to_copy)
             break;
 
-        copied = i8257_dma_read_memory(isa_dma, nchan, tmpbuf, dma_pos, to_copy);
-        if (copied < len)
+        copied = i8257_dma_read_memory(isa_dma, nchan, tmpbuf, dma_pos, (int)to_copy);
+        if (copied <= 0 || (size_t)copied > to_copy) break;
+        if ((unsigned)copied < len)
             len = copied;
         if (len) {
             unsigned int q = s->audio_q % AUDIO_BUF_LEN;
@@ -1244,6 +1253,7 @@ static int SB_read_DMA (void *opaque, int nchan, int dma_pos, int dma_len)
     SB16State *s = opaque;
     int till, copy, written, free;
 
+    if (dma_len <= 0 || dma_pos < 0 || dma_pos >= dma_len) return 0;
     if (s->block_size <= 0) {
         qemu_log_mask(LOG_GUEST_ERROR, "invalid block size=%d nchan=%d"
                       " dma_pos=%d dma_len=%d\n", s->block_size, nchan,
@@ -1305,245 +1315,62 @@ static int SB_read_DMA (void *opaque, int nchan, int dma_pos, int dma_len)
     return dma_pos;
 }
 
-static void approx_frac(int *pn, int *pd)
+/* The guest's PCM rate is independent of the size of a host audio callback.
+ * Keep an exact rational source position instead of approximating its rate
+ * and restarting its phase for every chunk. Byte reads also avoid alignment
+ * and signed-left-shift assumptions on RV32. */
+static int pcm_sample(const SB16State *s, unsigned pos)
 {
-    int limit = 8;
-    int h0 = 0, h1 = 1;
-    int k0 = 1, k1 = 0;
-
-    int r = *pn, s = *pd;
-    int a, h2, k2;
-
-    while (s != 0) {
-        a = r / s;
-        int next_s = r % s;
-        r = s;
-        s = next_s;
-
-        h2 = a * h1 + h0;
-        k2 = a * k1 + k0;
-
-        if (k2 > limit) {
-            break;
-        }
-
-        h0 = h1; h1 = h2;
-        k0 = k1; k1 = k2;
-    }
-
-    *pn = h1;
-    *pd = k1;
+    unsigned lo = s->audio_buf[pos % AUDIO_BUF_LEN];
+    if (s->fmt == AUDIO_FORMAT_U8) return ((int)lo - 128) * 256;
+    if (s->fmt == AUDIO_FORMAT_S8)
+        return (lo < 128 ? (int)lo : (int)lo - 256) * 256;
+    unsigned hi = s->audio_buf[(pos + 1) % AUDIO_BUF_LEN];
+    unsigned word = lo | hi * 256u;
+    if (s->fmt == AUDIO_FORMAT_U16) return (int)word - 32768;
+    return word < 32768 ? (int)word : (int)word - 65536;
 }
 
-static int resample_s16m(int16_t *out, int olen, int os,
-                         int16_t *in, int ip, int ilen, int itlen, int is)
+static void pcm_advance(SB16State *s, unsigned bytes_per_frame)
 {
-    approx_frac(&os, &is);
-    int uc = os;
-    int dc = is;
-    int i = 0;
-    int j = 0;
-    while (i < ilen && j + 1 < olen) {
-        dc--;
-        if (dc == 0) {
-            dc = is;
-            out[j + 1] = out[j] = in[(ip + i) % itlen];
-            j += 2;
-        }
-        uc--;
-        if (uc == 0) {
-            uc = os;
-            i++;
-        }
-    }
-    return i;
+    unsigned available = (s->audio_q - s->audio_p) / bytes_per_frame;
+    unsigned advance = s->audio_phase / 44100u;
+    if (advance > available) advance = available;
+    s->audio_p += advance * bytes_per_frame;
+    s->audio_phase -= advance * 44100u;
 }
 
-static int resample_s16s(int16_t *out, int olen, int os,
-                         int16_t *in, int ip, int ilen, int itlen, int is)
-{
-    approx_frac(&os, &is);
-    int uc = os;
-    int dc = is;
-    int i = 0;
-    int j = 0;
-    while (i + 1 < ilen && j + 1 < olen) {
-        dc--;
-        if (dc == 0) {
-            dc = is;
-            out[j] = in[(ip + i) % itlen];
-            out[j + 1] = in[(ip + i + 1) % itlen];
-            j += 2;
-        }
-        uc--;
-        if (uc == 0) {
-            uc = os;
-            i += 2;
-        }
-    }
-    return i;
-}
-
-static int resample_u16m(int16_t *out, int olen, int os,
-                         int16_t *in, int ip, int ilen, int itlen, int is)
-{
-    approx_frac(&os, &is);
-    int uc = os;
-    int dc = is;
-    int i = 0;
-    int j = 0;
-    while (i < ilen && j + 1 < olen) {
-        dc--;
-        if (dc == 0) {
-            dc = is;
-            out[j + 1] = out[j] = in[(ip + i) % itlen] - 32768;
-            j += 2;
-        }
-        uc--;
-        if (uc == 0) {
-            uc = os;
-            i++;
-        }
-    }
-    return i;
-}
-
-static int resample_u16s(int16_t *out, int olen, int os,
-                         int16_t *in, int ip, int ilen, int itlen, int is)
-{
-    approx_frac(&os, &is);
-    int uc = os;
-    int dc = is;
-    int i = 0;
-    int j = 0;
-    while (i + 1 < ilen && j + 1 < olen) {
-        dc--;
-        if (dc == 0) {
-            dc = is;
-            out[j] = in[(ip + i) % itlen] - 32768;
-            out[j + 1] = in[(ip + i + 1) % itlen] - 32768;
-            j += 2;
-        }
-        uc--;
-        if (uc == 0) {
-            uc = os;
-            i += 2;
-        }
-    }
-    return i;
-}
-
-static int resample_u8m(int16_t *out, int olen, int os,
-                        uint8_t *in, int ip, int ilen, int itlen, int is)
-{
-    approx_frac(&os, &is);
-    int uc = os;
-    int dc = is;
-    int i = 0;
-    int j = 0;
-    while (i < ilen && j + 1 < olen) {
-        dc--;
-        if (dc == 0) {
-            dc = is;
-            int8_t d = in[(ip + i) % itlen] - 128;
-            out[j] = d << 8;
-            out[j + 1] = out[j];
-            j += 2;
-        }
-        uc--;
-        if (uc == 0) {
-            uc = os;
-            i++;
-        }
-    }
-    return i;
-}
-
-static int resample_u8s(int16_t *out, int olen, int os,
-                        uint8_t *in, int ip, int ilen, int itlen, int is)
-{
-    approx_frac(&os, &is);
-    int uc = os;
-    int dc = is;
-    int i = 0;
-    int j = 0;
-    while (i + 1 < ilen && j + 1 < olen) {
-        dc--;
-        if (dc == 0) {
-            dc = is;
-            int8_t d;
-            d = in[(ip + i) % itlen] - 128;
-            out[j] = d << 8;
-            d = in[(ip + i + 1) % itlen] - 128;
-            out[j + 1] = d << 8;
-            j += 2;
-        }
-        uc--;
-        if (uc == 0) {
-            uc = os;
-            i += 2;
-        }
-    }
-    return i;
-}
-
-// XXX: There are races, but we accept them for now.
-void sb16_audio_callback (void *opaque, uint8_t *stream, int free)
+/* Same worker as DMA and DSP port writes; no concurrent buffer ownership. */
+void sb16_audio_callback(void *opaque, uint8_t *stream, int free)
 {
     SB16State *s = opaque;
-    s->audio_free = free;
-
-    unsigned int len = s->audio_q - s->audio_p;
+    if (!s || !stream || free <= 0 || (free & 3)) return;
+    /* This is only a request budget. The ring's independent free-space limit
+     * also bounds every DMA transfer. */
+    s->audio_free = free > AUDIO_BUF_LEN ? AUDIO_BUF_LEN : free;
+    unsigned len = s->audio_q - s->audio_p;
     if (len > AUDIO_BUF_LEN) {
         s->audio_p = s->audio_q;
+        s->audio_phase = 0;
         return;
     }
+    if ((!s->active_out && !len) || s->freq <= 0 || s->freq > 1000000 ||
+        s->fmt < AUDIO_FORMAT_U8 || s->fmt > AUDIO_FORMAT_S16) return;
 
-    if (!s->active_out && !len) {
-        return;
+    unsigned sample_bytes = s->fmt >= AUDIO_FORMAT_U16 ? 2u : 1u;
+    unsigned frame_bytes = sample_bytes * (s->fmt_stereo ? 2u : 1u);
+    int16_t *out = (int16_t *)stream;
+    for (unsigned frame = 0; frame < (unsigned)free / 4u; ++frame) {
+        pcm_advance(s, frame_bytes);
+        if (s->audio_phase >= 44100u || s->audio_q - s->audio_p < frame_bytes)
+            break;
+        int left = pcm_sample(s, s->audio_p);
+        int right = s->fmt_stereo ? pcm_sample(s, s->audio_p + sample_bytes) : left;
+        out[frame * 2] = (int16_t)left;
+        out[frame * 2 + 1] = (int16_t)right;
+        s->audio_phase += (unsigned)s->freq;
     }
-
-    unsigned int p = s->audio_p % AUDIO_BUF_LEN;
-
-    int i = 0;
-    switch (s->fmt) {
-    case AUDIO_FORMAT_S16:
-        if (s->fmt_stereo) {
-            i = resample_s16s((int16_t *) stream, free / 2, 44100,
-                              (int16_t *) s->audio_buf, p / 2, len / 2,
-                              AUDIO_BUF_LEN / 2, s->freq);
-        } else {
-            i = resample_s16m((int16_t *) stream, free / 2, 44100,
-                              (int16_t *) s->audio_buf, p / 2, len / 2,
-                              AUDIO_BUF_LEN / 2, s->freq);
-        }
-        s->audio_p = (s->audio_p + i * 2) & ~1;
-        break;
-    case AUDIO_FORMAT_U16:
-        if (s->fmt_stereo) {
-            i = resample_u16s((int16_t *) stream, free / 2, 44100,
-                              (int16_t *) s->audio_buf, p / 2, len / 2,
-                              AUDIO_BUF_LEN / 2, s->freq);
-        } else {
-            i = resample_u16m((int16_t *) stream, free / 2, 44100,
-                              (int16_t *) s->audio_buf, p / 2, len / 2,
-                              AUDIO_BUF_LEN / 2, s->freq);
-        }
-        s->audio_p = (s->audio_p + i * 2) & ~1;
-        break;
-    case AUDIO_FORMAT_U8:
-        if (s->fmt_stereo) {
-            i = resample_u8s((int16_t *) stream, free / 2, 44100,
-                             s->audio_buf, p, len, AUDIO_BUF_LEN, s->freq);
-        } else {
-            i = resample_u8m((int16_t *) stream, free / 2, 44100,
-                             s->audio_buf, p, len, AUDIO_BUF_LEN, s->freq);
-        }
-        s->audio_p += i;
-        break;
-    default:
-        dolog("bad format %d\n", s->fmt);
-    }
+    pcm_advance(s, frame_bytes);
 }
 
 #if 0

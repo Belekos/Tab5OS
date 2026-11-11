@@ -10,6 +10,8 @@ Tab5OS additions: ABI7 frontend, bounded read-only folder projection and floppy
 copy-on-write storage, ROM loading, cooperative scheduling, and device bridges.
 Core changes: bounded page walks and guest memory access, prefix length checks,
 DMA/MMIO bounds, VGA presentation gating, and callbacks for virtual block IO.
+Sound Blaster changes include signed PCM conversion, persistent sample-rate
+phase, safe ring-buffer access, and clearing queued audio on DSP reset.
 See tests/ for exact executable tests; upstream feature lists do not establish
 full CPU conformance. The x87 implementation uses double precision and is not
 a complete 80-bit x87 implementation. No guest network interface is provided.

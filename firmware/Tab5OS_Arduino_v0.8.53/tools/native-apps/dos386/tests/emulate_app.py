@@ -14,6 +14,7 @@ from pathlib import Path
 import struct
 import sys
 import tempfile
+import time
 import zlib
 
 from frame_text import decode, _font
@@ -41,13 +42,14 @@ DPMI_SHA256 = "cd093ceb8f22d840f01047c55b1c8e9e2793f02b9453e11da180a73feec0b1e9"
 MOUNT = "/DOS/DOS sample folder with spaces"
 MOUSE_MARKERS = ("TAB5 MOUSE READY", "TAB5 MOUSE MOVE OK", "TAB5 MOUSE LEFT OK", "TAB5 MOUSE RIGHT OK")
 MARKERS = ("TAB5OS DOS READY", "TAB5 MZ EXE OK", "TAB5 ADJACENT DATA OK", "TAB5 COM OK",
-           "TAB5 386 DOS OK", "TAB5 486 DOS OK", "TAB5 PM32 RETURN OK", "TAB5 DPMI32 OK", "TAB5 STORAGE COW OK", "TAB5 VGA13 RETURN OK",
+           "TAB5 386 DOS OK", "TAB5 486 DOS OK", "TAB5 PM32 RETURN OK", "TAB5 DPMI32 OK", "TAB5 DPMI RETURN OK",
+           "TAB5 STORAGE COW OK", "TAB5 VGA13 RETURN OK",
            *MOUSE_MARKERS, "TAB5 AUDIO READY", "TAB5 INPUT AUDIO OK")
 COMMAND_SEQUENCE = (("hello.com\r", "TAB5 COM OK"),
                     ("test386.com\r", "TAB5 386 DOS OK"),
                     ("test486.exe\r", "TAB5 486 DOS OK"),
                     ("testpm.com\r", "TAB5 PM32 RETURN OK"),
-                    ("testdpmi.exe\r", "TAB5 DPMI32 OK"),
+                    ("dpmi.com\r", "TAB5 DPMI RETURN OK"),
                     ("video.com\r", "TAB5 VGA13 RETURN OK"),
                     ("store.com\r", "TAB5 STORAGE COW OK"),
                     ("mouse.com\r", "TAB5 INPUT AUDIO OK"))
@@ -227,6 +229,10 @@ class Application(common.Startup):
             return result
         if name == "should_stop":
             return 0
+        if name == "millis":
+            # Reading a hardware clock does not create a new millisecond.
+            # Tiny386's PIT and RTC may read it many times in one run slice.
+            return self.clock_ms & common.MASK32
         if name == "sleep_ms":
             self.clock_ms += a[0]
             return 0
@@ -303,10 +309,15 @@ class Application(common.Startup):
                 view = memoryview(frame).cast("H")
                 samples = ((0, 0, 0xf800), (312, 100, 0xf800), (623, 233, 0xf800),
                            (0, 234, 0x07e0), (312, 350, 0x07e0), (623, 467, 0x07e0),
-                           (312, 468, 0))
-                self.video_pixels_verified = all(view[y * 800 + x] == color for x, y, color in samples)
+                           (624, 0, 0), (624, 467, 0), (312, 468, 0))
+                if all(view[y * 800 + x] == color for x, y, color in samples):
+                    red, green = b"\0\xf8" * 624, b"\xe0\x07" * 624
+                    self.video_pixels_verified = all(
+                        frame[y * 1600:y * 1600 + 1248] == (red if y < 234 else green)
+                        for y in range(468))
             if ("Bad command or filename" in self.last_screen or "TAB5 MOUSE DRIVER MISSING" in self.last_screen
-                    or "DOS FAIL" in self.last_screen or "TAB5 DPMI32 FAIL" in self.last_screen):
+                    or "DOS FAIL" in self.last_screen or "TAB5 DPMI32 FAIL" in self.last_screen
+                    or "TAB5 DPMI EXEC FAIL" in self.last_screen):
                 self.stop("fixture-command-failed", self.last_screen)
             for marker in MARKERS:
                 if marker in self.last_screen:
@@ -389,8 +400,55 @@ class Application(common.Startup):
             raise ValueError("DOS called an unexpected OS write/network service: " + name)
         return super().service(name, a)
 
+    def execute(self, instruction_limit, timeout_seconds):
+        """Bound execution and advance a deterministic millisecond clock.
+
+        This is a scheduling model for functional tests, not a P4 speed model.
+        The shared Doom loader remains unchanged; its read-advancing clock is
+        inappropriate for peripherals that poll the timer inside an opcode.
+        """
+        started = time.monotonic()
+        clock_started = self.clock_ms
+        budget_used = 0
+        while not self.stop_reason and budget_used < instruction_limit:
+            if time.monotonic() - started >= timeout_seconds:
+                self.stop("wall-time-limit")
+                break
+            count = min(100000, instruction_limit - budget_used)
+            try:
+                pc = self.uc.reg_read(self.registers.UC_RISCV_REG_PC)
+                self.uc.emu_start(pc, 0xffffffff, count=count)
+            except self.unicorn.UcError as error:
+                if not self.stop_reason:
+                    self.stop("emulator-error", str(error))
+            budget_used += count
+            self.clock_ms += 1
+        if not self.stop_reason:
+            self.stop("instruction-limit")
+        pc = self.uc.reg_read(self.registers.UC_RISCV_REG_PC)
+        try:
+            instruction = bytes(self.uc.mem_read(pc, 16)).hex()
+        except self.unicorn.UcError:
+            instruction = None
+        return {
+            "stopReason": self.stop_reason, "error": self.error,
+            "returnCode": self.return_code, "frameCount": self.frames,
+            "frameTarget": self.target_frames, "loader": self.loader,
+            "apiCallCounts": dict(self.calls), "fileOpenAttempts": self.open_attempts,
+            "logs": "".join(self.logs), "firstFrameHashes": self.frame_hashes,
+            "lastFrameHash": self.last_frame_hash,
+            "nonzeroFrameCount": self.nonzero_frames, "uniqueFrameCount": len(self.unique_frames),
+            "elapsedSeconds": round(time.monotonic() - started, 3),
+            "simulatedElapsedMs": self.clock_ms - clock_started,
+            "instructionBudgetUpperBound": budget_used,
+            "finalPC": hex(pc), "finalInstructionBytes": instruction,
+            "finalSP": hex(self.uc.reg_read(self.registers.UC_RISCV_REG_SP)),
+            "unicornVersion": self.unicorn.__version__,
+            "clockModel": "1 ms per 100,000 RV32 instructions plus explicit sleep; clock reads do not advance time",
+        }
+
     def run(self, instruction_limit, timeout_seconds):
-        report = super().run(instruction_limit, timeout_seconds)
+        report = self.execute(instruction_limit, timeout_seconds)
         logs = report["logs"]
         returned = report["stopReason"] == "application-returned"
         checks = {"abi7_only": self.loader["imports"] == ["tab5_app_api_v7"],
@@ -407,7 +465,7 @@ class Application(common.Startup):
                            "driver_disk_opened": "/System/DOS/DRIVERS.IMG" in self.open_attempts,
                            "mouse_motion_left_right": len(self.mouse_steps) == 3 and all(m in self.marker_frames for m in MOUSE_MARKERS),
                            "386_486_and_pm32_return": all(m in self.marker_frames for m in MARKERS[4:7]),
-                           "dpmi_extender_ring3_memory_and_return": "TAB5 DPMI32 OK" in self.marker_frames and "TAB5 VGA13 RETURN OK" in self.marker_frames,
+                           "dpmi_extender_ring3_memory_and_return": all(m in self.marker_frames for m in ("TAB5 DPMI32 OK", "TAB5 DPMI RETURN OK", "TAB5 VGA13 RETURN OK")),
                            "vga13_pixels_4_3_and_text_return": self.video_pixels_verified and "TAB5 VGA13 RETURN OK" in self.marker_frames,
                            "guest_storage_and_persisted_overlay": "TAB5 STORAGE COW OK" in self.marker_frames and self.saved_payload_verified,
                            "bios_pair_opened": all("/System/DOS386/" + name in self.open_attempts for name in ("bios.bin", "vgabios.bin")),

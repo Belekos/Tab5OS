@@ -111,15 +111,28 @@ def storage_program():
     address("bf", "buffer")
     emit("b9 08 00 f3 a6")
     fail_if(0x75)
+    # DOS may invoke INT24 for write-protected media. Return Fail explicitly
+    # instead of leaving an automated probe at Abort/Retry/Fail. Preserve the
+    # caller's original critical-error vector and the create call's flags.
+    emit("b8 24 35 cd 21")
+    address("89 1e", "old24")
+    address("8c 06", "old24_segment")
+    address("ba", "critical")
+    emit("b8 24 25 cd 21")
     address("ba", "readonly")
     emit("31 c9 b4 3c cd 21")
+    emit("9c 50 1e")
+    address("c5 16", "old24")
+    emit("b8 24 25 cd 21 1f 58 9d")
     fail_if(0x73)  # carry clear would mean C: was writable
     address("ba", "success")
     emit("b4 09 cd 21 b8 00 4c cd 21")
     labels["failed_code"] = len(code)
     address("ba", "failed")
     emit("b4 09 cd 21 b8 01 4c cd 21")
-    for label, data in (("filename", b"A:\\TAB5TEST.DAT\0"),
+    for label, data in (("old24", bytes(2)), ("old24_segment", bytes(2)),
+                        ("critical", bytes.fromhex("b0 03 cf")),
+                        ("filename", b"A:\\TAB5TEST.DAT\0"),
                         ("readonly", b"C:\\TAB5FAIL.DAT\0"),
                         ("payload", b"TAB5COW!"), ("buffer", bytes(8)),
                         ("success", b"TAB5 STORAGE COW OK\r\n$"),
@@ -154,10 +167,12 @@ def create(out):
     _module("legacy_dos_examples", LEGACY / "make_examples.py").create(out)
     mouse = _module("legacy_dos_peripherals", LEGACY / "peripheral_fixture.py")
     pm = _module("legacy_dos_protected", LEGACY / "tiny386_probe/programs.py")
+    extender = _module("dos_x86_extender_wrapper", Path(__file__).resolve().parent / "extender/wrapper.py")
     (out / "MOUSE.COM").write_bytes(mouse.create_mouse_probe())
     (out / "TEST386.COM").write_bytes(instruction_program(3, 0x100))
     (out / "TEST486.EXE").write_bytes(mz(instruction_program(4, 0)))
     (out / "TESTPM.COM").write_bytes(pm.protected_program())
+    (out / "DPMI.COM").write_bytes(extender.create_wrapper())
     (out / "STORE.COM").write_bytes(storage_program())
     (out / "VIDEO.COM").write_bytes(video_program())
     (out / "HELLO.EXE").rename(out / "Hello long name.EXE")

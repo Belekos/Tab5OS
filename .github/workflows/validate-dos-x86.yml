@@ -26,12 +26,17 @@ jobs:
           BUILD="$RUNNER_TEMP/dos-x86"
           mkdir -p "$BUILD/qa" "$BUILD/native"
           git rev-parse HEAD > "$BUILD/qa/validated-commit.txt"
+          git rev-parse 'HEAD^{tree}' > "$BUILD/qa/validated-tree.txt"
+          printf '%s\n' "$GITHUB_RUN_ID" > "$BUILD/qa/validated-run.txt"
+          printf '%s\n' "$GITHUB_RUN_ATTEMPT" > "$BUILD/qa/validated-run-attempt.txt"
           curl --fail --location --retry 3 https://github.com/espressif/crosstool-NG/releases/download/esp-14.2.0_20260121/riscv32-esp-elf-14.2.0_20260121-x86_64-linux-gnu.tar.gz --output "$BUILD/compiler.tar.gz"
           printf '%s  %s\n' 1b79617f43cf0e25b92646359d1623d8bef135050aca44586df59b6a64496d82 "$BUILD/compiler.tar.gz" | sha256sum --check
           tar --no-same-owner -xzf "$BUILD/compiler.tar.gz" -C "$BUILD"
           python3 -m venv "$BUILD/venv"
           "$BUILD/venv/bin/python" -m pip install --disable-pip-version-check unicorn==2.1.4
       - name: Validate CPU, memory boundaries, devices and frontend
+        id: host_checks
+        continue-on-error: true
         shell: bash
         run: |
           set -euo pipefail
@@ -39,6 +44,8 @@ jobs:
           DOS="$GITHUB_WORKSPACE/firmware/Tab5OS_Arduino_v0.8.53/tools/native-apps/dos386"
           python3 "$DOS/tests/run_cpu_tests.py" --output "$BUILD/qa/cpu" --sanitize
           python3 "$DOS/tests/run_devices.py" --output "$BUILD/qa/devices" --sanitize
+          python3 "$DOS/tests/run_sound.py" --output "$BUILD/qa/sound" --sanitize
+          python3 "$DOS/tests/run_math_tests.py" --output "$BUILD/qa/math" --sanitize
           python3 "$DOS/tests/run_frontend_tests.py" --output "$BUILD/qa/frontend"
       - name: Rebuild BIOS and VGA ROM from pinned source
         shell: bash
@@ -66,6 +73,12 @@ jobs:
           BUILD="$RUNNER_TEMP/dos-x86"
           SKETCH="$GITHUB_WORKSPACE/firmware/Tab5OS_Arduino_v0.8.53"
           "$BUILD/venv/bin/python" "$SKETCH/tools/native-apps/dos386/tests/emulate_app.py" --elf "$BUILD/native/DOS x86.app.elf" --image "$SKETCH/sdcard/DOS/FREEDOS.IMG" --bios-dir "$BUILD/native/DOS386" --extender "$BUILD/extender/TESTDPMI.EXE" --output "$BUILD/qa/dos-x86-app.json" --instruction-limit 20000000000 --timeout-seconds 900 2>&1 | tee "$BUILD/qa/execute.log"
+      - name: Require host validation success
+        if: always()
+        env:
+          HOST_CHECKS: ${{ steps.host_checks.outcome }}
+        shell: bash
+        run: test "$HOST_CHECKS" = success
       - name: Retain application and validation evidence
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
